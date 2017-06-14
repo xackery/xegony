@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
-fileb0x box.json
+fileb0x box.yml
 go run main.go
