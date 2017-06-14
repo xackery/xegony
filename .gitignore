@@ -1,3 +1,7 @@
+static/*
+!static/README.md
+public/template/
+
 # Binaries for programs and plugins
 *.exe
 *.dll
