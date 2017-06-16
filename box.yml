@@ -1,4 +1,4 @@
-# all folders and files are relative to the path 
+# all folders and files are relative to the path
 # where fileb0x was run at!
 
 # default: main
@@ -18,7 +18,7 @@ updater:
   # disabled by default
   enabled: true
 
-  # empty mode creates a empty b0x file with just the 
+  # empty mode creates a empty b0x file with just the
   # server and the filesystem, then you'll have to upload
   # the files later using the cmd:
   # fileb0x -update=http://server.com:port b0x.yaml
@@ -31,10 +31,10 @@ updater:
 
   # to get a username and password from a env variable
   # leave username and password blank (username: "")
-  # then set your username and password in the env vars 
+  # then set your username and password in the env vars
   # (no caps) -> fileb0x_username and fileb0x_password
   #
-  # when using env vars, set it before generating a b0x 
+  # when using env vars, set it before generating a b0x
   # so it can be applied to the updater server.
   username: "user" # username: ""
   password: "pass" # password: ""
@@ -72,7 +72,7 @@ compression:
 # ---------------
 # -- DANGEROUS --
 # ---------------
-# 
+#
 # cleans the destination folder (only b0xfiles)
 # you should use this when using the spread function
 # type: bool
@@ -92,7 +92,7 @@ unexporTed: false
 #
 # example:
 # theres 2 files in the folder assets, they're: hello.json and world.txt
-# when spread is activaTed, fileb0x will make a file: 
+# when spread is activaTed, fileb0x will make a file:
 # b0x.go or [output]'s data, assets_hello.json.go and assets_world.txt.go
 #
 #
@@ -104,8 +104,8 @@ spread: true
 custom:
 
   # type: array of strings
-  - files: 
-    - "./public/*"
+  - files:
+    - "./public/"
 
     # base is the path that will be removed from all files' path
     # type: string
