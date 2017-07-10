@@ -2,6 +2,9 @@ static/*
 !static/README.md
 public/template/
 
+#git repo
+swagger-codegen/
+
 # Binaries for programs and plugins
 *.exe
 *.dll
