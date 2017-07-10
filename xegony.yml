@@ -137,7 +137,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /character/{characterId}:
     get:
       summary: Get information about a specific character
@@ -163,7 +163,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /character/findByName:
     get:
       summary: List all characters that match search
@@ -204,7 +204,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'      
+            $ref: '#/definitions/ErrorUnexpected'      
   /npc:
     post:
       tags:
@@ -296,7 +296,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /npc/{npcId}:
     get:
       summary: Get information about a specific npc
@@ -322,7 +322,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /npc/findByName:
     get:
       summary: List all npcs that match search
@@ -363,7 +363,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /zones:
     get:
       summary: List all zones based on parameters
@@ -395,7 +395,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'          
+            $ref: '#/definitions/ErrorUnexpected'          
   /zone/{zoneId}:
     get:
       summary: Get information about a specific zone
@@ -421,7 +421,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /items:
     get:
       summary: List all items based on parameters
@@ -453,7 +453,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'          
+            $ref: '#/definitions/ErrorUnexpected'          
   /item/{itemId}:
     get:
       summary: Get information about a specific item
@@ -479,7 +479,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /quests:
     get:
       summary: List all quests based on parameters
@@ -511,7 +511,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'          
+            $ref: '#/definitions/ErrorUnexpected'          
   /quest/{questId}:
     get:
       summary: Get information about a specific quest
@@ -537,7 +537,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
   /recipes:
     get:
       summary: List all recipes based on parameters
@@ -569,7 +569,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'          
+            $ref: '#/definitions/ErrorUnexpected'          
   /recipe/{recipeId}:
     get:
       summary: Get information about a specific recipe
@@ -595,7 +595,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/ErrorUnexpected'
 # MODEL DEFINITIONS            
 definitions:
   Characters:
@@ -682,7 +682,7 @@ definitions:
         format: int64
       name:
         type: string
-  Error:
+  ErrorUnexpected:
     required:
       - code
       - message

@@ -1,9 +1,11 @@
-static/*
-!static/README.md
+go/web/static/*
+!go/web/static/README.md
 public/template/
 
 #git repo
 swagger-codegen/
+
+go/tmp/
 
 # Binaries for programs and plugins
 *.exe
