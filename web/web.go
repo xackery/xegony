@@ -49,7 +49,7 @@ func (a *Web) Index(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite()
-	site.Page = "index"
+	site.Page = "forum"
 	site.Title = "lfg.link"
 
 	content := Content{
@@ -65,11 +65,17 @@ func (a *Web) Index(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "index", "index.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "index.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
 		a.setTemplate("index", tmp)
 	}
 

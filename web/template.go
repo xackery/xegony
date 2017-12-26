@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io/ioutil"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/box"
 )
 
@@ -18,10 +19,6 @@ func (w *Web) loadStandardTemplate(oldTemplate *template.Template) (tmp *templat
 		return
 	}
 	tmp, err = w.loadTemplate(tmp, "header", "header.tpl")
-	if err != nil {
-		return
-	}
-	tmp, err = w.loadTemplate(tmp, "navmenu", "navmenu.tpl")
 	if err != nil {
 		return
 	}
@@ -55,7 +52,7 @@ func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path stri
 	if bData, err = ioutil.ReadFile("template/" + path); err != nil {
 		//fallback to opening local directory
 		if bData, err = box.ReadFile("template/" + path); err != nil {
-
+			err = errors.Wrap(err, "Could not find template "+path)
 			return
 		}
 	}

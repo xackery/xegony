@@ -11,6 +11,118 @@ produces:
   - application/xml
   - application/yaml
 paths:
+  /forum:
+    get:
+      tags: ["Forum"]
+      description: List all forum entries
+      operationId: listForum
+      parameters:
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Forum'
+    post:
+      tags: ["Forum"]
+      description: Create new forum entry
+      operationId: createForum
+      security:
+        - OauthSecurity: [admin]
+      parameters: 
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json       
+        - in: body
+          name: body
+          description: Forum
+          required: true
+          schema:
+            $ref: '#/definitions/Forum'
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Forum'
+  /forum/{forumId}/details:
+    get:
+      tags: ["Forum"]
+      description: Details about a specific forum
+      operationId: getForum
+      parameters:
+        - in: path
+          name: forumId
+          required: true
+          description: ID
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Forum'
+    put:
+      tags: ["Forum"]
+      description: Edit Forum
+      operationId: editForum
+      security:
+        - OauthSecurity: [moderator, admin]
+      parameters:
+        - in: path
+          name: forumId
+          required: true
+          description: ID
+          type: integer
+        - in: body
+          name: body
+          description: Forum
+          required: true
+          schema:
+            $ref: '#/definitions/Forum'
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Forum'    
+    delete:
+      tags: ["Forum"]
+      description: Delete forum
+      operationId: deleteForum
+      security:
+        - OauthSecurity: [admin]
+      parameters:
+        - in: path
+          name: forumId
+          required: true
+          description: ID of forum
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Forum'
   /character:
     get:
       tags: ["Character"]

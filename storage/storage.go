@@ -14,6 +14,12 @@ type Storage interface {
 	EditCharacter(characterId int64, character *model.Character) (err error)
 	ListCharacter() (characters []*model.Character, err error)
 	DeleteCharacter(characterId int64) (err error)
+	//Forum
+	GetForum(forumId int64) (forum *model.Forum, err error)
+	CreateForum(forum *model.Forum) (err error)
+	EditForum(forumId int64, forum *model.Forum) (err error)
+	ListForum() (forums []*model.Forum, err error)
+	DeleteForum(forumId int64) (err error)
 	//User
 	GetUser(userId int64) (user *model.User, err error)
 	CreateUser(user *model.User) (err error)
