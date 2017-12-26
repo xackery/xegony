@@ -108,7 +108,7 @@ func (g *ItemRepository) List() (items []*model.Item, err error) {
 }
 
 func (g *ItemRepository) ListByCharacter(characterId int64) (items []*model.Item, err error) {
-	items, err = g.stor.ListItem()
+	items, err = g.stor.ListItemByCharacter(characterId)
 	if err != nil {
 		return
 	}

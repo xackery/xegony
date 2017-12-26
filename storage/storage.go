@@ -31,6 +31,7 @@ type Storage interface {
 	CreateItem(item *model.Item) (err error)
 	EditItem(itemId int64, item *model.Item) (err error)
 	ListItem() (items []*model.Item, err error)
+	ListItemByCharacter(characterId int64) (items []*model.Item, err error)
 	DeleteItem(itemId int64) (err error)
 	//Npc
 	GetNpc(npcId int64) (npc *model.Npc, err error)

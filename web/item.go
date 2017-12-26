@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -60,7 +61,7 @@ func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
 
 	type Content struct {
 		Site      Site
-		Inventory []*model.Item
+		Inventory map[int]model.Item
 		Character *model.Character
 	}
 
@@ -73,17 +74,25 @@ func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	items, err := a.itemRepo.ListByCharacter(characterId)
+	inventory, err := a.itemRepo.ListByCharacter(characterId)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+
+	itemInventory := map[int]model.Item{}
+
+	for i, _ := range inventory {
+		itemInventory[int(inventory[i].SlotId)] = *inventory[i]
+	}
+
 	content := Content{
 		Site:      site,
-		Inventory: items,
+		Inventory: itemInventory,
 		Character: character,
 	}
 
+	fmt.Println(characterId, len(inventory))
 	tmp := a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "listitembycharacter.tpl")

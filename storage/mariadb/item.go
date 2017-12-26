@@ -39,7 +39,7 @@ func (s *Storage) CreateItem(item *model.Item) (err error) {
 }
 
 func (s *Storage) ListItem() (items []*model.Item, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM items 
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 
 		ORDER BY id DESC`, itemFields))
 	if err != nil {
 		return
@@ -56,7 +56,7 @@ func (s *Storage) ListItem() (items []*model.Item, err error) {
 }
 
 func (s *Storage) ListItemByCharacter(characterId int64) (items []*model.Item, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
 		INNER JOIN inventory ON inventory.itemid = items.id
 		WHERE inventory.charid = ? ORDER BY slotid ASC`, itemFields), characterId)
 	if err != nil {
