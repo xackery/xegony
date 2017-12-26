@@ -26,12 +26,14 @@ type Storage interface {
 	EditCharacter(characterId int64, character *model.Character) (err error)
 	ListCharacter() (characters []*model.Character, err error)
 	DeleteCharacter(characterId int64) (err error)
+	ListCharacterByRanking() (characters []*model.Character, err error)
 	//Item
 	GetItem(itemId int64) (item *model.Item, err error)
 	CreateItem(item *model.Item) (err error)
 	EditItem(itemId int64, item *model.Item) (err error)
 	ListItem() (items []*model.Item, err error)
 	ListItemByCharacter(characterId int64) (items []*model.Item, err error)
+	ListItemBySlot(slotId int64) (items []*model.Item, err error)
 	DeleteItem(itemId int64) (err error)
 	//Npc
 	GetNpc(npcId int64) (npc *model.Npc, err error)

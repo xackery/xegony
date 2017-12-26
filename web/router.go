@@ -48,6 +48,20 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"ListCharacterByRanking",
+			"GET",
+			"/character/ranking",
+			a.ListCharacterByRanking,
+		},
+
+		Route{
+			"ListCharacterByRanking",
+			"GET",
+			"/ranking",
+			a.ListCharacterByRanking,
+		},
+
+		Route{
 			"GetNpc",
 			"GET",
 			"/npc/{npcId}",
@@ -108,6 +122,20 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"GET",
 			"/item/{itemId}",
 			a.GetItem,
+		},
+
+		Route{
+			"ListItemBySlot",
+			"GET",
+			"/item/byslot",
+			a.ListItemBySlot,
+		},
+
+		Route{
+			"GetItemBySlot",
+			"GET",
+			"/item/byslot/{slotId}",
+			a.GetItemBySlot,
 		},
 
 		Route{

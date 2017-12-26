@@ -114,3 +114,25 @@ func (g *ItemRepository) ListByCharacter(characterId int64) (items []*model.Item
 	}
 	return
 }
+
+func (g *ItemRepository) ListBySlot() (items []*model.Item, err error) {
+	items = []*model.Item{
+		&model.Item{
+			Name:     "1 Hand Blunt",
+			Itemtype: 3,
+		},
+		&model.Item{
+			Name:     "2 Hand Blunt",
+			Itemtype: 4,
+		},
+	}
+	return
+}
+
+func (g *ItemRepository) GetBySlot(slotId int64) (items []*model.Item, err error) {
+	items, err = g.stor.ListItemBySlot(slotId)
+	if err != nil {
+		return
+	}
+	return
+}

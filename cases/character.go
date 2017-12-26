@@ -115,3 +115,11 @@ func (g *CharacterRepository) List() (characters []*model.Character, err error) 
 	}
 	return
 }
+
+func (g *CharacterRepository) ListByRanking() (characters []*model.Character, err error) {
+	characters, err = g.stor.ListCharacterByRanking()
+	if err != nil {
+		return
+	}
+	return
+}

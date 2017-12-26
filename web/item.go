@@ -3,6 +3,7 @@ package web
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -112,12 +113,109 @@ func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
+
+func (a *Web) ListItemBySlot(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site  Site
+		Items []*model.Item
+	}
+
+	site := a.NewSite()
+	site.Page = "item"
+	site.Title = "Item"
+	items, err := a.itemRepo.ListBySlot()
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	content := Content{
+		Site:  site,
+		Items: items,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "listitembyslot.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("item", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site  Site
+		Items []*model.Item
+	}
+
+	slotId, err := getIntVar(r, "slotId")
+	if err != nil {
+		err = errors.Wrap(err, "slotId argument is required")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	site := a.NewSite()
+	site.Page = "item"
+	site.Title = "Item"
+	items, err := a.itemRepo.GetBySlot(slotId)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	content := Content{
+		Site:  site,
+		Items: items,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "getitembyslot.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("item", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
 func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
 		Site Site
 		Item *model.Item
+	}
+
+	if strings.ToLower(getVar(r, "itemId")) == "byslot" {
+		a.ListItemBySlot(w, r)
+		return
 	}
 
 	id, err := getIntVar(r, "itemId")

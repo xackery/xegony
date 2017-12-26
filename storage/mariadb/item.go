@@ -73,6 +73,23 @@ func (s *Storage) ListItemByCharacter(characterId int64) (items []*model.Item, e
 	return
 }
 
+func (s *Storage) ListItemBySlot(slotId int64) (items []*model.Item, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 		
+		WHERE items.itemtype = ? ORDER BY damage/delay DESC`, itemFields), slotId)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		item := model.Item{}
+		if err = rows.StructScan(&item); err != nil {
+			return
+		}
+		items = append(items, &item)
+	}
+	return
+}
+
 func (s *Storage) EditItem(itemId int64, item *model.Item) (err error) {
 	item.Id = itemId
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE items SET %s WHERE id = :id`, itemSet), item)
