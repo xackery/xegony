@@ -1,5 +1,6 @@
 /box/*
-public/template/
+template/
+/www/*
 
 #git repo
 swagger-codegen/
