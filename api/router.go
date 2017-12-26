@@ -101,6 +101,76 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"CreateForum",
+			"POST",
+			"/forum",
+			a.CreateForum,
+		},
+
+		Route{
+			"DeleteForum",
+			"DELETE",
+			"/forum/{forumId}",
+			a.DeleteForum,
+		},
+
+		Route{
+			"EditForum",
+			"PUT",
+			"/forum/{forumId}",
+			a.EditForum,
+		},
+
+		Route{
+			"GetForum",
+			"GET",
+			"/forum/{forumId}",
+			a.GetForum,
+		},
+
+		Route{
+			"ListForum",
+			"GET",
+			"/forum",
+			a.ListForum,
+		},
+
+		Route{
+			"CreateTopic",
+			"POST",
+			"/topic",
+			a.CreateTopic,
+		},
+
+		Route{
+			"DeleteTopic",
+			"DELETE",
+			"/topic/{topicId}",
+			a.DeleteTopic,
+		},
+
+		Route{
+			"EditTopic",
+			"PUT",
+			"/topic/{topicId}",
+			a.EditTopic,
+		},
+
+		Route{
+			"GetTopic",
+			"GET",
+			"/topic/{topicId}",
+			a.GetTopic,
+		},
+
+		Route{
+			"ListTopic",
+			"GET",
+			"/topic",
+			a.ListTopic,
+		},
+
+		Route{
 			"PostLogin",
 			"POST",
 			"/login",

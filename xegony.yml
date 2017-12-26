@@ -11,6 +11,118 @@ produces:
   - application/xml
   - application/yaml
 paths:
+   /account:
+    get:
+      tags: ["Account"]
+      description: List all account entries
+      operationId: listAccount
+      parameters:
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Account'
+    post:
+      tags: ["Account"]
+      description: Create new account entry
+      operationId: createAccount
+      security:
+        - OauthSecurity: [admin]
+      parameters: 
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json       
+        - in: body
+          name: body
+          description: Account
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Account'
+  /account/{accountId}/details:
+    get:
+      tags: ["Account"]
+      description: Details about a specific account
+      operationId: getAccount
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Account'
+    put:
+      tags: ["Account"]
+      description: Edit Account
+      operationId: editAccount
+      security:
+        - OauthSecurity: [moderator, admin]
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID
+          type: integer
+        - in: body
+          name: body
+          description: Account
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Account'    
+    delete:
+      tags: ["Account"]
+      description: Delete account
+      operationId: deleteAccount
+      security:
+        - OauthSecurity: [admin]
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          description: ID of account
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Account'
   /forum:
     get:
       tags: ["Forum"]
@@ -123,6 +235,118 @@ paths:
           description: '200 / OK'
           schema:
             $ref: '#/definitions/Forum'
+  /topic:
+    get:
+      tags: ["Topic"]
+      description: List all topic entries
+      operationId: listTopic
+      parameters:
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Topic'
+    post:
+      tags: ["Topic"]
+      description: Create new topic entry
+      operationId: createTopic
+      security:
+        - OauthSecurity: [admin]
+      parameters: 
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json       
+        - in: body
+          name: body
+          description: Topic
+          required: true
+          schema:
+            $ref: '#/definitions/Topic'
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Topic'
+  /topic/{topicId}/details:
+    get:
+      tags: ["Topic"]
+      description: Details about a specific topic
+      operationId: getTopic
+      parameters:
+        - in: path
+          name: topicId
+          required: true
+          description: ID
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Topic'
+    put:
+      tags: ["Topic"]
+      description: Edit Topic
+      operationId: editTopic
+      security:
+        - OauthSecurity: [moderator, admin]
+      parameters:
+        - in: path
+          name: topicId
+          required: true
+          description: ID
+          type: integer
+        - in: body
+          name: body
+          description: Topic
+          required: true
+          schema:
+            $ref: '#/definitions/Topic'
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Topic'    
+    delete:
+      tags: ["Topic"]
+      description: Delete topic
+      operationId: deleteTopic
+      security:
+        - OauthSecurity: [admin]
+      parameters:
+        - in: path
+          name: topicId
+          required: true
+          description: ID of topic
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Topic'
   /character:
     get:
       tags: ["Character"]

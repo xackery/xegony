@@ -69,6 +69,11 @@ func (s *Storage) DropTables() (err error) {
 	if err != nil {
 		return
 	}
+
+	_, err = s.db.Exec(`drop table if exists topic`)
+	if err != nil {
+		return
+	}
 	_, err = s.db.Exec(`SET FOREIGN_KEY_CHECKS = 1`)
 	if err != nil {
 		return
@@ -101,14 +106,25 @@ func (s *Storage) VerifyTables() (err error) {
 	}
 
 	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS forum (
-  gameid int(11) unsigned NOT NULL,
-  id varchar(32) NOT NULL DEFAULT '',
-  owneruserid int(11) unsigned NOT NULL,
-  PRIMARY KEY (gameid,id)
+  id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  name varchar(32) NOT NULL DEFAULT '',
+  owner_id int(11) unsigned NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
 	if err != nil {
 		return
 	}
+
+	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS topic (
+  id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  body varchar(1024) NOT NULL DEFAULT '',
+  owner_id int(11) unsigned NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	if err != nil {
+		return
+	}
+
 	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS user (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   name varchar(32) NOT NULL DEFAULT '',

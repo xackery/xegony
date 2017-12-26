@@ -34,8 +34,6 @@ func initializeServer(t *testing.T) {
 	if err = s.Initialize("eqemu:eqemu@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
 		t.Fatalf("Failed to initialize: %s", err.Error())
 	}
-	s.DropTables()
-	s.VerifyTables()
 	router := mux.NewRouter().StrictSlash(true)
 	apiServer := Api{}
 	config := ""
@@ -133,7 +131,13 @@ func getAuthKey(t *testing.T) {
 }
 
 func TestRestEndpoints(t *testing.T) {
-
+	var err error
+	s := &mariadb.Storage{}
+	if err = s.Initialize("eqemu:eqemu@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
+		t.Fatalf("Failed to initialize: %s", err.Error())
+	}
+	s.DropTables()
+	s.VerifyTables()
 	initializeServer(t)
 
 	tests := []Endpoint{

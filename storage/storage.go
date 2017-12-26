@@ -26,6 +26,12 @@ type Storage interface {
 	EditForum(forumId int64, forum *model.Forum) (err error)
 	ListForum() (forums []*model.Forum, err error)
 	DeleteForum(forumId int64) (err error)
+	//Topic
+	GetTopic(topicId int64) (topic *model.Topic, err error)
+	CreateTopic(topic *model.Topic) (err error)
+	EditTopic(topicId int64, topic *model.Topic) (err error)
+	ListTopic() (topics []*model.Topic, err error)
+	DeleteTopic(topicId int64) (err error)
 	//User
 	GetUser(userId int64) (user *model.User, err error)
 	CreateUser(user *model.User) (err error)
