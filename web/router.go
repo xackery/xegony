@@ -95,6 +95,20 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/zone",
 			a.ListZone,
 		},
+
+		Route{
+			"GetItem",
+			"GET",
+			"/item/{itemId}",
+			a.GetItem,
+		},
+
+		Route{
+			"ListItem",
+			"GET",
+			"/item",
+			a.ListItem,
+		},
 	}
 
 	for _, route := range routes {

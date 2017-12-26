@@ -164,10 +164,45 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
-			"ListTopic",
+			"ListItem",
 			"GET",
-			"/topic",
-			a.ListTopic,
+			"/item",
+			a.ListItem,
+		},
+
+		Route{
+			"CreateItem",
+			"POST",
+			"/item",
+			a.CreateItem,
+		},
+
+		Route{
+			"DeleteItem",
+			"DELETE",
+			"/item/{itemId}",
+			a.DeleteItem,
+		},
+
+		Route{
+			"EditItem",
+			"PUT",
+			"/item/{itemId}",
+			a.EditItem,
+		},
+
+		Route{
+			"GetItem",
+			"GET",
+			"/item/{itemId}",
+			a.GetItem,
+		},
+
+		Route{
+			"ListItem",
+			"GET",
+			"/item",
+			a.ListItem,
 		},
 
 		Route{
