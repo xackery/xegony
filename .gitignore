@@ -2,6 +2,7 @@
 template/
 /www/*
 /docker/db/
+cover.txt
 
 #git repo
 swagger-codegen/

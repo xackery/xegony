@@ -6,13 +6,13 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-type Character struct {
-	Id        int64  `json:"id"`
-	AccountId int64  `json:"accountId" db:"account_id"`
-	Name      string `json:"name"`
+type Account struct {
+	Id     int64  `json:"id"`
+	Status int64  `json:"status"`
+	Name   string `json:"name"`
 }
 
-func (c *Character) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+func (c *Account) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := Schema{}
 	s.Type = "object"
 	s.Required = requiredFields
@@ -39,9 +39,9 @@ func (c *Character) NewSchema(requiredFields []string, optionalFields []string) 
 	return
 }
 
-func (c *Character) getSchemaProperty(field string) (prop Schema, err error) {
+func (c *Account) getSchemaProperty(field string) (prop Schema, err error) {
 	switch field {
-	case "accountId":
+	case "status":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "id":
@@ -50,7 +50,7 @@ func (c *Character) getSchemaProperty(field string) (prop Schema, err error) {
 	case "name":
 		prop.Type = "string"
 		prop.MinLength = 3
-		prop.MaxLength = 32
+		prop.MaxLength = 30
 		prop.Pattern = "^[a-zA-Z]*$"
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)

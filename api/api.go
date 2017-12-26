@@ -35,6 +35,7 @@ type LoginResponse struct {
 type Api struct {
 	characterRepo *cases.CharacterRepository
 	userRepo      *cases.UserRepository
+	accountRepo   *cases.AccountRepository
 }
 
 func (a *Api) Initialize(s storage.Storage, config string) (err error) {
@@ -48,6 +49,9 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 
 	a.userRepo = &cases.UserRepository{}
 	a.userRepo.Initialize(s)
+
+	a.accountRepo = &cases.AccountRepository{}
+	a.accountRepo.Initialize(s)
 	return
 }
 

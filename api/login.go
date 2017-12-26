@@ -16,27 +16,31 @@ type AuthClaims struct {
 	IsModerator  bool               `json:"isModerator,omitempty"`
 	OwnedLobbies map[int64][]string `json:"ownedLobbies,omitempty"`
 	UserId       int64              `json:"userId"`
+	AccountId    int64              `json:"accountId"`
 	jwt.StandardClaims
 }
 
 func (a *Api) PostLogin(w http.ResponseWriter, r *http.Request) {
 	var err error
-	type LoginRequest struct {
-		Name     string `json:"name"`
-		Password string `json:"password"`
-	}
-	loginRequest := &LoginRequest{}
 
-	err = decodeBody(r, loginRequest)
+	user := &model.User{}
+	err = decodeBody(r, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	user, err := a.userRepo.Login(loginRequest.Name, loginRequest.Password)
+	user, err = a.userRepo.Login(user.Name, user.Password)
 	if err != nil {
 		err = errors.Wrap(err, "login failed")
+		writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	account, err := a.accountRepo.Get(user.AccountId)
+	if err != nil {
+		err = errors.Wrap(err, fmt.Sprintf("account not found for %s: %d", user.Name, user.AccountId))
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -46,14 +50,17 @@ func (a *Api) PostLogin(w http.ResponseWriter, r *http.Request) {
 	claims := AuthClaims{
 		OwnedLobbies: map[int64][]string{1: []string{"asdb"}},
 		UserId:       user.Id,
+		AccountId:    account.Id,
 	}
 
-	//if user.Isadmin > 0 {
-	//	claims.IsAdmin = true
-	//}
-	//if user.Ismoderator > 0 {
-	//	claims.IsModerator = true
-	//}
+	if account.Status >= 200 {
+		claims.IsAdmin = true
+	}
+
+	if account.Status >= 100 {
+		claims.IsModerator = true
+	}
+
 	claims.StandardClaims = jwt.StandardClaims{
 		ExpiresAt: expiresAt,
 	}

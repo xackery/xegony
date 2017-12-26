@@ -35,8 +35,17 @@ func (g *CharacterRepository) Create(character *model.Character) (err error) {
 		err = fmt.Errorf("Empty character")
 		return
 	}
-	schema, err := character.NewSchema([]string{"name"}, nil)
+	schema, err := character.NewSchema([]string{"name", "accountId"}, nil)
 	if err != nil {
+		return
+	}
+	if character.AccountId < 1 {
+		vErr := &model.ErrValidation{
+			Message: "invalid",
+		}
+		vErr.Reasons = map[string]string{}
+		vErr.Reasons["accountId"] = "Account ID must be greater than 0"
+		err = vErr
 		return
 	}
 	character.Id = 0 //strip ID

@@ -10,7 +10,7 @@ import (
 
 func (s *Storage) GetUser(userId int64) (user *model.User, err error) {
 	user = &model.User{}
-	err = s.db.Get(user, "SELECT id, name FROM user WHERE id = ?", userId)
+	err = s.db.Get(user, "SELECT id, name, account_id, FROM user WHERE id = ?", userId)
 	if err != nil {
 		return
 	}
@@ -19,11 +19,10 @@ func (s *Storage) GetUser(userId int64) (user *model.User, err error) {
 
 func (s *Storage) LoginUser(username string, password string) (user *model.User, err error) {
 	user = &model.User{}
-	err = s.db.Get(user, "SELECT id, name, password, isadmin, ismoderator, email FROM user WHERE name = ?", username)
+	err = s.db.Get(user, "SELECT id, name, password, account_id, email FROM user WHERE name = ?", username)
 	if err != nil {
 		return
 	}
-
 	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		return
 	}
@@ -45,8 +44,8 @@ func (s *Storage) CreateUser(user *model.User) (err error) {
 	}
 	user.Password = string(hash)
 
-	result, err := s.db.NamedExec(`INSERT INTO user(name, password, email)
-		VALUES (:name, :password, :email)`, user)
+	result, err := s.db.NamedExec(`INSERT INTO user(name, password, email, account_id)
+		VALUES (:name, :password, :email, :account_id)`, user)
 	if err != nil {
 		if strings.Index(err.Error(), "Error 1062:") == 0 {
 			vErr := &model.ErrValidation{
@@ -80,7 +79,7 @@ func (s *Storage) CreateUser(user *model.User) (err error) {
 }
 
 func (s *Storage) ListUser() (users []*model.User, err error) {
-	rows, err := s.db.Queryx(`SELECT id, name FROM user ORDER BY id DESC`)
+	rows, err := s.db.Queryx(`SELECT id, name, account_id FROM user ORDER BY id DESC`)
 	if err != nil {
 		return
 	}
@@ -101,7 +100,7 @@ func (s *Storage) ListUser() (users []*model.User, err error) {
 
 func (s *Storage) EditUser(userId int64, user *model.User) (err error) {
 	user.Id = userId
-	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email WHERE id = :id`, user)
+	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email, account_id=:account_id WHERE id = :id`, user)
 	if err != nil {
 		return
 	}

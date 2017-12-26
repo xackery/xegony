@@ -35,7 +35,7 @@ func (g *UserRepository) Create(user *model.User) (err error) {
 		err = fmt.Errorf("Empty user")
 		return
 	}
-	schema, err := user.NewSchema([]string{"name", "password", "email"}, nil)
+	schema, err := user.NewSchema([]string{"name", "password", "email", "accountId"}, nil)
 	if err != nil {
 		return
 	}
@@ -67,7 +67,6 @@ func (g *UserRepository) Login(username string, password string) (user *model.Us
 		Name:     username,
 		Password: password,
 	}
-
 	schema, err := user.NewSchema([]string{"name", "password"}, nil)
 	if err != nil {
 		return
@@ -87,10 +86,11 @@ func (g *UserRepository) Login(username string, password string) (user *model.Us
 		err = vErr
 		return
 	}
-	user, err = g.stor.LoginUser(username, password)
+	user, err = g.stor.LoginUser(user.Name, user.Password)
 	if err != nil {
 		return
 	}
+
 	return
 }
 

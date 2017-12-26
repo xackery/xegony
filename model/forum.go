@@ -7,8 +7,8 @@ import (
 )
 
 type Forum struct {
-	Id   int64
-	Name string
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
 func (c *Forum) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

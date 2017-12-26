@@ -19,7 +19,7 @@ type Routes []Route
 func (a *Api) ApplyRoutes(router *mux.Router) {
 	rootPath := os.Getenv("API_ROOT")
 	if len(rootPath) == 0 {
-		rootPath = "/api/"
+		rootPath = "/api"
 	}
 
 	routes := Routes{
@@ -63,6 +63,48 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 			"GET",
 			"/character",
 			a.ListCharacter,
+		},
+
+		Route{
+			"CreateAccount",
+			"POST",
+			"/account",
+			a.CreateAccount,
+		},
+
+		Route{
+			"DeleteAccount",
+			"DELETE",
+			"/account/{accountId}",
+			a.DeleteAccount,
+		},
+
+		Route{
+			"EditAccount",
+			"PUT",
+			"/account/{accountId}",
+			a.EditAccount,
+		},
+
+		Route{
+			"GetAccount",
+			"GET",
+			"/account/{accountId}",
+			a.GetAccount,
+		},
+
+		Route{
+			"ListAccount",
+			"GET",
+			"/account",
+			a.ListAccount,
+		},
+
+		Route{
+			"PostLogin",
+			"POST",
+			"/login",
+			a.PostLogin,
 		},
 	}
 

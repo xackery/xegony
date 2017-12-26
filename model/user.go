@@ -7,10 +7,11 @@ import (
 )
 
 type User struct {
-	Id       int64
-	Name     string
-	Email    string
-	Password string
+	Id        int64  `json:"id"`
+	Name      string `json:"name"`
+	AccountId int64  `json:"accountId" db:"account_id"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
 }
 
 func (u *User) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
@@ -57,14 +58,9 @@ func (u *User) getSchemaProperty(field string) (prop Schema, err error) {
 		prop.Pattern = `^[a-zA-Z]\w{3,14}$`
 	case "email":
 		prop.Type = "email"
-	case "image":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 32
-	case "thumbnail":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 32
+	case "accountId":
+		prop.Type = "integer"
+		prop.Minimum = 1
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

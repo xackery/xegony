@@ -8,6 +8,12 @@ type Storage interface {
 	Initialize(config string) (err error)
 	DropTables() (err error)
 	VerifyTables() (err error)
+	//Account
+	GetAccount(accountId int64) (account *model.Account, err error)
+	CreateAccount(account *model.Account) (err error)
+	EditAccount(accountId int64, account *model.Account) (err error)
+	ListAccount() (accounts []*model.Account, err error)
+	DeleteAccount(accountId int64) (err error)
 	//Character
 	GetCharacter(characterId int64) (character *model.Character, err error)
 	CreateCharacter(character *model.Character) (err error)
