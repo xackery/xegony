@@ -28,7 +28,7 @@ func main() {
 	apiServer.ApplyRoutes(router)
 
 	webServer := web.Web{}
-	if err = webServer.Initialize(config); err != nil {
+	if err = webServer.Initialize(stor, config); err != nil {
 		log.Fatal("Failed to initialize webServer:", err.Error())
 	}
 	webServer.ApplyRoutes(router)

@@ -68,7 +68,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test","accountId":1}`,
 			responseCode: 201,
-			response:     `{"id":1,"accountId":1,"name":"Test"}`,
+			response:     `{"id":1,"accountId":1,"name":"Test","lastName":"","title":"","level":0,"class":0,"zoneId":0}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -95,7 +95,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `{"id":1,"accountId":0,"name":"Test"}`,
+			response:     `{"id":1,"accountId":0,"name":"Test","lastName":"","title":"","level":0,"class":0,"zoneId":0}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -132,7 +132,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "PUT",
 			body:         `{"id":1,"accountId":1,"name":"TestTwo","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 200,
-			response:     `{"id":1,"accountId":1,"name":"TestTwo"}`,
+			response:     `{"id":1,"accountId":1,"name":"TestTwo","lastName":"","title":"","level":0,"class":0,"zoneId":0}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -159,7 +159,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `[{"id":1,"accountId":0,"name":"TestTwo"}]`,
+			response:     `[{"id":1,"accountId":0,"name":"TestTwo","lastName":"","title":"","level":0,"class":0,"zoneId":0}]`,
 			useAuth:      false,
 		},
 		Endpoint{

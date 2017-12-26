@@ -8,7 +8,7 @@ import (
 
 func (s *Storage) GetCharacter(characterId int64) (character *model.Character, err error) {
 	character = &model.Character{}
-	err = s.db.Get(character, "SELECT id, name FROM character_data WHERE id = ?", characterId)
+	err = s.db.Get(character, "SELECT id, name, level, last_name, title, class, zone_id FROM character_data WHERE id = ?", characterId)
 	if err != nil {
 		return
 	}
@@ -21,8 +21,8 @@ func (s *Storage) CreateCharacter(character *model.Character) (err error) {
 		return
 	}
 
-	result, err := s.db.NamedExec(`INSERT INTO character_data(name, account_id)
-		VALUES (:name, :account_id)`, character)
+	result, err := s.db.NamedExec(`INSERT INTO character_data(name, level, title, last_name, class, account_id, zone_id)
+		VALUES (:name, :level, :title, :last_name, :class, :account_id, :zone_id)`, character)
 	if err != nil {
 		return
 	}
@@ -35,7 +35,7 @@ func (s *Storage) CreateCharacter(character *model.Character) (err error) {
 }
 
 func (s *Storage) ListCharacter() (characters []*model.Character, err error) {
-	rows, err := s.db.Queryx(`SELECT id, name FROM character_data ORDER BY id DESC`)
+	rows, err := s.db.Queryx(`SELECT id, name, level, last_name,  title, class, zone_id FROM character_data ORDER BY id DESC`)
 	if err != nil {
 		return
 	}
@@ -52,7 +52,7 @@ func (s *Storage) ListCharacter() (characters []*model.Character, err error) {
 
 func (s *Storage) EditCharacter(characterId int64, character *model.Character) (err error) {
 	character.Id = characterId
-	result, err := s.db.NamedExec(`UPDATE character_data SET name=:name WHERE id = :id`, character)
+	result, err := s.db.NamedExec(`UPDATE character_data SET level=:level, last_name=:last_name, title=:title, class=:class, name=:name, zone_id=:zone_id WHERE id = :id`, character)
 	if err != nil {
 		return
 	}

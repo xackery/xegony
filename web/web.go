@@ -7,11 +7,15 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
+	"strconv"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/box"
+	"github.com/xackery/xegony/cases"
+	"github.com/xackery/xegony/model"
+	"github.com/xackery/xegony/storage"
 )
 
 type Site struct {
@@ -23,19 +27,43 @@ type Site struct {
 }
 
 type Web struct {
-	templates map[string]*Template
+	templates     map[string]*Template
+	characterRepo *cases.CharacterRepository
+	userRepo      *cases.UserRepository
+	accountRepo   *cases.AccountRepository
+	forumRepo     *cases.ForumRepository
+	topicRepo     *cases.TopicRepository
 }
 
-func (a *Web) Initialize(config string) (err error) {
+func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	a.templates = map[string]*Template{}
-	return
 
+	if s == nil {
+		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
+		return
+	}
+
+	a.characterRepo = &cases.CharacterRepository{}
+	a.characterRepo.Initialize(s)
+
+	a.userRepo = &cases.UserRepository{}
+	a.userRepo.Initialize(s)
+
+	a.accountRepo = &cases.AccountRepository{}
+	a.accountRepo.Initialize(s)
+
+	a.forumRepo = &cases.ForumRepository{}
+	a.forumRepo.Initialize(s)
+
+	a.topicRepo = &cases.TopicRepository{}
+	a.topicRepo.Initialize(s)
+	return
 }
 
 func (a *Web) NewSite() (site Site) {
 	site = Site{
-		Title:       "lfg.link",
-		Description: "Looking for group",
+		Title:       "Xegony",
+		Description: "Xegony",
 	}
 	return
 }
@@ -50,17 +78,10 @@ func (a *Web) Index(w http.ResponseWriter, r *http.Request) {
 
 	site := a.NewSite()
 	site.Page = "forum"
-	site.Title = "lfg.link"
+	site.Title = "Xegony"
 
 	content := Content{
 		Site: site,
-		Host: r.Host,
-	}
-
-	if strings.Contains(r.Host, "localhost") {
-		content.Host = "localhost:8081"
-	} else {
-		content.Host = "api.lfg.link"
 	}
 
 	tmp := a.getTemplate("")
@@ -158,4 +179,19 @@ func (a *Web) writeData(w http.ResponseWriter, r *http.Request, tmp *template.Te
 		log.Println("Failed to execute template:", err.Error())
 		return
 	}
+}
+
+func getIntVar(r *http.Request, key string) (val int64, err error) {
+	vars := mux.Vars(r)
+	val, err = strconv.ParseInt(vars[key], 10, 64)
+	if err != nil {
+		err = &model.ErrInvalidArguments{}
+		return
+	}
+	return
+}
+
+func getVar(r *http.Request, key string) string {
+	vars := mux.Vars(r)
+	return vars[key]
 }

@@ -26,6 +26,19 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/",
 			a.Index,
 		},
+		Route{
+			"GetCharacter",
+			"GET",
+			"/character/{characterId}",
+			a.GetCharacter,
+		},
+
+		Route{
+			"ListCharacter",
+			"GET",
+			"/character",
+			a.ListCharacter,
+		},
 	}
 
 	for _, route := range routes {

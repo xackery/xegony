@@ -85,9 +85,15 @@ func (s *Storage) VerifyTables() (err error) {
 	if err = s.Initialize(""); err != nil {
 		return
 	}
+
 	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS character_data (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   account_id int(11) unsigned NOT NULL,
+  last_name varchar(64) NOT NULL DEFAULT '',
+  title varchar(32) NOT NULL DEFAULT '',
+  class tinyint(11) unsigned NOT NULL DEFAULT '0',
+  level int(11) unsigned NOT NULL DEFAULT '0',
+  zone_id int(11) unsigned NOT NULL DEFAULT '0',
   name varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
