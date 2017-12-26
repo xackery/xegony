@@ -17,7 +17,7 @@ func (a *Web) ListItem(w http.ResponseWriter, r *http.Request) {
 		Items []*model.Item
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 
@@ -66,7 +66,7 @@ func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
 		Character *model.Character
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 	character, err := a.characterRepo.Get(characterId)
@@ -122,7 +122,7 @@ func (a *Web) ListItemBySlot(w http.ResponseWriter, r *http.Request) {
 		Items []*model.Item
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 	items, err := a.itemRepo.ListBySlot()
@@ -171,7 +171,7 @@ func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 	items, err := a.itemRepo.GetBySlot(slotId)
@@ -231,7 +231,7 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 

@@ -16,7 +16,7 @@ func (a *Web) ListCharacter(w http.ResponseWriter, r *http.Request) {
 		Characters []*model.Character
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "character"
 	site.Title = "Character"
 
@@ -50,6 +50,51 @@ func (a *Web) ListCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func (a *Web) SearchCharacter(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site       Site
+		Characters []*model.Character
+		Search     string
+	}
+	search := getVar(r, "search")
+
+	site := a.NewSite(r)
+	site.Page = "character"
+	site.Title = "Character"
+
+	characters, err := a.characterRepo.Search(search)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	content := Content{
+		Site:       site,
+		Characters: characters,
+		Search:     search,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "searchcharacter.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("character", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
 func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -58,7 +103,7 @@ func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 		Characters []*model.Character
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "ranking"
 	site.Title = "Character"
 
@@ -75,6 +120,55 @@ func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 	tmp := a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "listcharacterbyranking.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("character", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) ListCharacterByAccount(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	accountId, err := getIntVar(r, "accountId")
+	if err != nil {
+		err = errors.Wrap(err, "accountId argument is required")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	type Content struct {
+		Site       Site
+		Characters []*model.Character
+	}
+
+	site := a.NewSite(r)
+	site.Page = "ranking"
+	site.Title = "Character"
+
+	characters, err := a.characterRepo.ListByAccount(accountId)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	content := Content{
+		Site:       site,
+		Characters: characters,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "listcharacter.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -117,7 +211,7 @@ func (a *Web) GetCharacter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "character"
 	site.Title = "Character"
 

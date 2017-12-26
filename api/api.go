@@ -36,6 +36,7 @@ type Api struct {
 	characterRepo *cases.CharacterRepository
 	userRepo      *cases.UserRepository
 	accountRepo   *cases.AccountRepository
+	bazaarRepo    *cases.BazaarRepository
 	forumRepo     *cases.ForumRepository
 	itemRepo      *cases.ItemRepository
 	topicRepo     *cases.TopicRepository
@@ -58,6 +59,9 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 
 	a.accountRepo = &cases.AccountRepository{}
 	a.accountRepo.Initialize(s)
+
+	a.bazaarRepo = &cases.BazaarRepository{}
+	a.bazaarRepo.Initialize(s)
 
 	a.factionRepo = &cases.FactionRepository{}
 	a.factionRepo.Initialize(s)

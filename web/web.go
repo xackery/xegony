@@ -12,6 +12,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
+	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/box"
 	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
@@ -23,11 +24,12 @@ type Site struct {
 	Page        string
 	Section     string
 	Description string //Description for oprop
-
+	User        *model.User
 }
 
 type Web struct {
 	templates     map[string]*Template
+	bazaarRepo    *cases.BazaarRepository
 	characterRepo *cases.CharacterRepository
 	userRepo      *cases.UserRepository
 	accountRepo   *cases.AccountRepository
@@ -37,6 +39,23 @@ type Web struct {
 	zoneRepo      *cases.ZoneRepository
 	factionRepo   *cases.FactionRepository
 	itemRepo      *cases.ItemRepository
+}
+
+func (a *Web) NewSite(r *http.Request) (site Site) {
+	site = Site{
+		Title:       "Xegony",
+		Description: "Xegony",
+	}
+	claims, err := api.GetAuthClaims(r)
+	if err != nil && err.Error() != "No token provided" {
+		//flush cookie
+		log.Println("Bad auth", err.Error())
+	}
+
+	if claims != nil {
+		site.User = claims.User
+	}
+	return
 }
 
 func (a *Web) Initialize(s storage.Storage, config string) (err error) {
@@ -55,6 +74,9 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 
 	a.accountRepo = &cases.AccountRepository{}
 	a.accountRepo.Initialize(s)
+
+	a.bazaarRepo = &cases.BazaarRepository{}
+	a.bazaarRepo.Initialize(s)
 
 	a.forumRepo = &cases.ForumRepository{}
 	a.forumRepo.Initialize(s)
@@ -76,14 +98,6 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	return
 }
 
-func (a *Web) NewSite() (site Site) {
-	site = Site{
-		Title:       "Xegony",
-		Description: "Xegony",
-	}
-	return
-}
-
 func (a *Web) Index(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -92,7 +106,7 @@ func (a *Web) Index(w http.ResponseWriter, r *http.Request) {
 		Host string
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "forum"
 	site.Title = "Xegony"
 
@@ -142,7 +156,7 @@ func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
 
 func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = fmt.Sprintf("%d", statusCode)
 	site.Title = "Error"
 

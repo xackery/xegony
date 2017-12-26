@@ -14,6 +14,12 @@ type Storage interface {
 	EditAccount(accountId int64, account *model.Account) (err error)
 	ListAccount() (accounts []*model.Account, err error)
 	DeleteAccount(accountId int64) (err error)
+	//Bazaar
+	GetBazaar(bazaarId int64) (bazaar *model.Bazaar, err error)
+	CreateBazaar(bazaar *model.Bazaar) (err error)
+	EditBazaar(bazaarId int64, bazaar *model.Bazaar) (err error)
+	ListBazaar() (bazaars []*model.Bazaar, err error)
+	DeleteBazaar(bazaarId int64) (err error)
 	//Faction
 	GetFaction(accountId int64) (account *model.Faction, err error)
 	CreateFaction(account *model.Faction) (err error)
@@ -25,6 +31,8 @@ type Storage interface {
 	CreateCharacter(character *model.Character) (err error)
 	EditCharacter(characterId int64, character *model.Character) (err error)
 	ListCharacter() (characters []*model.Character, err error)
+	ListCharacterByAccount(accountId int64) (characters []*model.Character, err error)
+	SearchCharacter(search string) (characters []*model.Character, err error)
 	DeleteCharacter(characterId int64) (err error)
 	ListCharacterByRanking() (characters []*model.Character, err error)
 	//Item

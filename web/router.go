@@ -26,6 +26,35 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/",
 			a.Index,
 		},
+
+		Route{
+			"GetDashboard",
+			"GET",
+			"/dashboard",
+			a.GetDashboard,
+		},
+
+		Route{
+			"Login",
+			"GET",
+			"/login",
+			a.GetLogin,
+		},
+
+		Route{
+			"SearchCharacter",
+			"GET",
+			"/character/search",
+			a.SearchCharacter,
+		},
+
+		Route{
+			"SearchCharacter",
+			"GET",
+			"/character/search/{search}",
+			a.SearchCharacter,
+		},
+
 		Route{
 			"GetCharacter",
 			"GET",
@@ -52,6 +81,13 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"GET",
 			"/character/ranking",
 			a.ListCharacterByRanking,
+		},
+
+		Route{
+			"ListCharacterByAccount",
+			"GET",
+			"/character/byaccount/{accountId}",
+			a.ListCharacterByAccount,
 		},
 
 		Route{

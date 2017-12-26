@@ -16,7 +16,7 @@ func (a *Web) ListNpc(w http.ResponseWriter, r *http.Request) {
 		Npcs []*model.Npc
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "npclist"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -65,7 +65,7 @@ func (a *Web) ListNpcByZone(w http.ResponseWriter, r *http.Request) {
 		Zones []*model.Zone
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "listnpcbyzone"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -114,7 +114,7 @@ func (a *Web) GetNpcByZone(w http.ResponseWriter, r *http.Request) {
 		Npcs []*model.Npc
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "listnpcbyzone"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -163,7 +163,7 @@ func (a *Web) ListNpcByFaction(w http.ResponseWriter, r *http.Request) {
 		Factions []*model.Faction
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "listnpcbyfaction"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -212,7 +212,7 @@ func (a *Web) GetNpcByFaction(w http.ResponseWriter, r *http.Request) {
 		Npcs []*model.Npc
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "listnpcbyfaction"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -278,7 +278,7 @@ func (a *Web) GetNpc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite()
+	site := a.NewSite(r)
 	site.Page = "npc"
 	site.Title = "Npc"
 

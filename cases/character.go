@@ -71,6 +71,14 @@ func (g *CharacterRepository) Create(character *model.Character) (err error) {
 	return
 }
 
+func (g *CharacterRepository) Search(search string) (characters []*model.Character, err error) {
+	characters, err = g.stor.SearchCharacter(search)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (g *CharacterRepository) Edit(characterId int64, character *model.Character) (err error) {
 	schema, err := character.NewSchema([]string{"name"}, nil)
 	if err != nil {
@@ -118,6 +126,14 @@ func (g *CharacterRepository) List() (characters []*model.Character, err error) 
 
 func (g *CharacterRepository) ListByRanking() (characters []*model.Character, err error) {
 	characters, err = g.stor.ListCharacterByRanking()
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (g *CharacterRepository) ListByAccount(accountId int64) (characters []*model.Character, err error) {
+	characters, err = g.stor.ListCharacterByAccount(accountId)
 	if err != nil {
 		return
 	}

@@ -15,7 +15,7 @@ type AuthClaims struct {
 	IsAdmin      bool               `json:"isAdmin,omitempty"`
 	IsModerator  bool               `json:"isModerator,omitempty"`
 	OwnedLobbies map[int64][]string `json:"ownedLobbies,omitempty"`
-	UserId       int64              `json:"userId"`
+	User         *model.User        `json:"user"`
 	AccountId    int64              `json:"accountId"`
 	jwt.StandardClaims
 }
@@ -49,7 +49,7 @@ func (a *Api) PostLogin(w http.ResponseWriter, r *http.Request) {
 
 	claims := AuthClaims{
 		OwnedLobbies: map[int64][]string{1: []string{"asdb"}},
-		UserId:       user.Id,
+		User:         user,
 		AccountId:    account.Id,
 	}
 
@@ -77,18 +77,20 @@ func (a *Api) PostLogin(w http.ResponseWriter, r *http.Request) {
 		User:   user,
 	}
 
+	fmt.Println("Gave token", tokenString)
+
 	writeData(w, r, loginResponse, http.StatusOK)
 }
 
 func IsLoggedIn(r *http.Request) (err error) {
-	claims, err := getAuthClaims(r)
+	claims, err := GetAuthClaims(r)
 	if err != nil {
 		err = &model.ErrPermission{
 			Message: err.Error(),
 		}
 		return
 	}
-	if claims.UserId < 1 {
+	if claims.User.Id < 1 {
 		err = &model.ErrPermission{
 			Message: "Must be registered",
 		}
@@ -98,7 +100,7 @@ func IsLoggedIn(r *http.Request) (err error) {
 }
 
 func IsAdmin(r *http.Request) (err error) {
-	claims, err := getAuthClaims(r)
+	claims, err := GetAuthClaims(r)
 	if err != nil {
 		err = &model.ErrPermission{
 			Message: err.Error(),
@@ -115,7 +117,7 @@ func IsAdmin(r *http.Request) (err error) {
 }
 
 func IsModerator(r *http.Request) (err error) {
-	claims, err := getAuthClaims(r)
+	claims, err := GetAuthClaims(r)
 	if err != nil {
 		err = &model.ErrPermission{
 			Message: err.Error(),
@@ -132,7 +134,7 @@ func IsModerator(r *http.Request) (err error) {
 }
 
 func IsUserOwner(userId int64, r *http.Request) (err error) {
-	claims, err := getAuthClaims(r)
+	claims, err := GetAuthClaims(r)
 	if err != nil {
 		err = &model.ErrPermission{
 			Message: err.Error(),
@@ -144,7 +146,7 @@ func IsUserOwner(userId int64, r *http.Request) (err error) {
 		return
 	}
 
-	if userId == claims.UserId {
+	if userId == claims.User.Id {
 		return
 	}
 
@@ -154,12 +156,26 @@ func IsUserOwner(userId int64, r *http.Request) (err error) {
 	return
 }
 
-func getAuthClaims(r *http.Request) (*AuthClaims, error) {
+func GetAuthClaims(r *http.Request) (*AuthClaims, error) {
 	tokens, ok := r.Header["Authorization"]
 	token := ""
 	if ok && len(tokens) >= 1 {
 		token = tokens[0]
 		token = strings.TrimPrefix(token, "Bearer ")
+	}
+
+	if token == "" {
+		cookie, err := r.Cookie("apiKey")
+		if err != nil {
+			if err == http.ErrNoCookie {
+				return nil, nil
+			}
+			return nil, err
+		}
+		token = cookie.String()
+		if len(token) > 7 { //strip out apiKey=
+			token = token[7:]
+		}
 	}
 
 	if token == "" {
