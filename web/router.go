@@ -41,6 +41,13 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"ListCharacter",
+			"GET",
+			"/character/{characterId}/inventory",
+			a.ListItemByCharacter,
+		},
+
+		Route{
 			"GetNpc",
 			"GET",
 			"/npc/{npcId}",

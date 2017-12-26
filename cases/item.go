@@ -106,3 +106,11 @@ func (g *ItemRepository) List() (items []*model.Item, err error) {
 	}
 	return
 }
+
+func (g *ItemRepository) ListByCharacter(characterId int64) (items []*model.Item, err error) {
+	items, err = g.stor.ListItem()
+	if err != nil {
+		return
+	}
+	return
+}

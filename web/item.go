@@ -49,6 +49,60 @@ func (a *Web) ListItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
+	var err error
+	characterId, err := getIntVar(r, "characterId")
+	if err != nil {
+		err = errors.Wrap(err, "itemId argument is required")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	type Content struct {
+		Site      Site
+		Inventory []*model.Item
+		Character *model.Character
+	}
+
+	site := a.NewSite()
+	site.Page = "item"
+	site.Title = "Item"
+	character, err := a.characterRepo.Get(characterId)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	items, err := a.itemRepo.ListByCharacter(characterId)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	content := Content{
+		Site:      site,
+		Inventory: items,
+		Character: character,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "listitembycharacter.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("item", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
 func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
