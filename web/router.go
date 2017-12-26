@@ -39,6 +39,62 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/character",
 			a.ListCharacter,
 		},
+
+		Route{
+			"GetNpc",
+			"GET",
+			"/npc/{npcId}",
+			a.GetNpc,
+		},
+
+		Route{
+			"ListNpc",
+			"GET",
+			"/npc",
+			a.ListNpc,
+		},
+
+		Route{
+			"ListNpcByZone",
+			"GET",
+			"/npc/byzone",
+			a.ListNpcByZone,
+		},
+
+		Route{
+			"GetNpcByZone",
+			"GET",
+			"/npc/byzone/{zoneId}",
+			a.GetNpcByZone,
+		},
+
+		Route{
+			"ListNpcByFaction",
+			"GET",
+			"/npc/byfaction",
+			a.ListNpcByFaction,
+		},
+
+		Route{
+			"GetNpcByFaction",
+			"GET",
+			"/npc/byfaction/{factionId}",
+			a.GetNpcByFaction,
+		},
+
+		Route{
+			"GetZone",
+			"GET",
+			"/zone/{zoneId}",
+			a.GetZone,
+		},
+
+		Route{
+			"ListZone",
+			"GET",
+			"/zone",
+			a.ListZone,
+		},
 	}
 
 	for _, route := range routes {

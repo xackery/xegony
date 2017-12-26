@@ -11,7 +11,7 @@ produces:
   - application/xml
   - application/yaml
 paths:
-   /account:
+  /account:
     get:
       tags: ["Account"]
       description: List all account entries
@@ -235,6 +235,118 @@ paths:
           description: '200 / OK'
           schema:
             $ref: '#/definitions/Forum'
+  /npc:
+    get:
+      tags: ["Npc"]
+      description: List all npc entries
+      operationId: listNpc
+      parameters:
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Npc'
+    post:
+      tags: ["Npc"]
+      description: Create new npc entry
+      operationId: createNpc
+      security:
+        - OauthSecurity: [admin]
+      parameters: 
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json       
+        - in: body
+          name: body
+          description: Npc
+          required: true
+          schema:
+            $ref: '#/definitions/Npc'
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Npc'
+  /npc/{npcId}/details:
+    get:
+      tags: ["Npc"]
+      description: Details about a specific npc
+      operationId: getNpc
+      parameters:
+        - in: path
+          name: npcId
+          required: true
+          description: ID
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Npc'
+    put:
+      tags: ["Npc"]
+      description: Edit Npc
+      operationId: editNpc
+      security:
+        - OauthSecurity: [moderator, admin]
+      parameters:
+        - in: path
+          name: npcId
+          required: true
+          description: ID
+          type: integer
+        - in: body
+          name: body
+          description: Npc
+          required: true
+          schema:
+            $ref: '#/definitions/Npc'
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Npc'    
+    delete:
+      tags: ["Npc"]
+      description: Delete npc
+      operationId: deleteNpc
+      security:
+        - OauthSecurity: [admin]
+      parameters:
+        - in: path
+          name: npcId
+          required: true
+          description: ID of npc
+          type: integer
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Npc'
   /topic:
     get:
       tags: ["Topic"]
@@ -592,6 +704,18 @@ paths:
           schema:
             $ref: '#/definitions/User'  
 definitions:
+  Account:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1234
+        description: ID
+      status:
+        type: integer
+        example: Status of account
+      name:
+        type: string
   Character:
     type: object
     properties:
@@ -610,6 +734,39 @@ definitions:
         type: string
         description: thumbnail photo
         example: /foo/bar.png
+  Forum:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1234
+        description: Unique user ID
+      name:
+        type: string
+        description: Name user is displayed as
+        example: testuser 
+  Npc:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1234
+        description: Unique user ID
+      name:
+        type: string
+        description: Name user is displayed as
+        example: testuser     
+  Topic:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1234
+        description: Unique user ID
+      name:
+        type: string
+        description: Name user is displayed as
+        example: testuser 
   User:
     type: object
     properties:

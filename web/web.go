@@ -33,6 +33,9 @@ type Web struct {
 	accountRepo   *cases.AccountRepository
 	forumRepo     *cases.ForumRepository
 	topicRepo     *cases.TopicRepository
+	npcRepo       *cases.NpcRepository
+	zoneRepo      *cases.ZoneRepository
+	factionRepo   *cases.FactionRepository
 }
 
 func (a *Web) Initialize(s storage.Storage, config string) (err error) {
@@ -57,6 +60,15 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 
 	a.topicRepo = &cases.TopicRepository{}
 	a.topicRepo.Initialize(s)
+
+	a.npcRepo = &cases.NpcRepository{}
+	a.npcRepo.Initialize(s)
+
+	a.zoneRepo = &cases.ZoneRepository{}
+	a.zoneRepo.Initialize(s)
+
+	a.factionRepo = &cases.FactionRepository{}
+	a.factionRepo.Initialize(s)
 	return
 }
 

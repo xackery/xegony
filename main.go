@@ -18,6 +18,9 @@ func main() {
 	stor := &mariadb.Storage{}
 	stor.Initialize("")
 	listen := os.Getenv("API_LISTEN")
+	if len(listen) == 0 {
+		listen = ":8080"
+	}
 
 	router := mux.NewRouter().StrictSlash(true)
 
