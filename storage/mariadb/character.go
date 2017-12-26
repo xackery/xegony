@@ -1,0 +1,84 @@
+package mariadb
+
+import (
+	"fmt"
+
+	"github.com/xackery/xegony/model"
+)
+
+func (s *Storage) GetCharacter(characterId int64) (character *model.Character, err error) {
+	character = &model.Character{}
+	err = s.db.Get(character, "SELECT * FROM character WHERE id = ?", characterId)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (s *Storage) CreateCharacter(character *model.Character) (err error) {
+	if character == nil {
+		err = fmt.Errorf("Must provide character")
+		return
+	}
+
+	result, err := s.db.NamedExec(`INSERT INTO character(name, image, thumbnail)
+		VALUES (:name, :image, :thumbnail)`, character)
+	if err != nil {
+		return
+	}
+	characterId, err := result.LastInsertId()
+	if err != nil {
+		return
+	}
+	character.Id = characterId
+	return
+}
+
+func (s *Storage) ListCharacter() (characters []*model.Character, err error) {
+	rows, err := s.db.Queryx(`SELECT id, name, image, thumbnail FROM character ORDER BY id DESC`)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		character := model.Character{}
+		if err = rows.StructScan(&character); err != nil {
+			return
+		}
+		characters = append(characters, &character)
+	}
+	return
+}
+
+func (s *Storage) EditCharacter(characterId int64, character *model.Character) (err error) {
+	character.Id = characterId
+	result, err := s.db.NamedExec(`UPDATE character SET name=:name, image=:image, thumbnail=:thumbnail WHERE id = :id`, character)
+	if err != nil {
+		return
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return
+	}
+	if affected < 1 {
+		err = &model.ErrNoContent{}
+		return
+	}
+	return
+}
+
+func (s *Storage) DeleteCharacter(characterId int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM character WHERE id = ?`, characterId)
+	if err != nil {
+		return
+	}
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return
+	}
+	if affected < 1 {
+		err = &model.ErrNoContent{}
+		return
+	}
+	return
+}

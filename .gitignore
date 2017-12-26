@@ -1,5 +1,4 @@
-go/web/static/*
-!go/web/static/README.md
+/box/*
 public/template/
 
 #git repo

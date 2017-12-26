@@ -1,710 +1,312 @@
-#https://raw.githubusercontent.com/swagger-api/swagger-codegen/master/modules/swagger-codegen/src/test/resources/2_0/petstore.yaml
-swagger: '2.0'
+swagger: "2.0"
 info:
-  title: Xegony API
-  termsOfService: 'http://github.com/xackery/xegony/'
-  description: Endpoints of the Xegony Editor for the Everquest Emulator (EQEMU)
-  version: '0.1'
-  #contact: 'shinnoir at eqemu forums'
-  license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  description: "Xegony API"
+  version: "1.0.0"
+  title: "Xegony API"
+  contact:
+    email: "rebuildeq@gmail.com"  
+host: "localhost"
 produces:
   - application/json
-host: localhost
-basePath: /
-# PATHS
+  - application/xml
+  - application/yaml
 paths:
   /character:
-    post:
-      tags:
-        - character
-      summary: Add a new character to server
-      description: ''
-      operationId: addCharacter
-      consumes:
-        - application/json
-      produces:
-        - application/json
+    get:
+      tags: ["Character"]
+      description: List all characters
+      operationId: listCharacter
       parameters:
-        - in: body
-          name: body
-          description: Character data
-          required: true
-          schema:
-            $ref: '#/definitions/Character'
-      responses:
-        '405':
-          description: Invalid input
-      security:
-        - OAuth:
-            - 'write:characters'
-    put:
-      tags:
-        - character
-      summary: Update an existing character
-      description: ''
-      operationId: updateCharacter
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: Character data
-          required: true
-          schema:
-            $ref: '#/definitions/Character'
-      responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Character not found
-        '405':
-          description: Validation exception
-      security:
-        - OAuth:
-            - 'write:characters'
-    delete:
-      tags:
-        - character
-      summary: Deletes a character
-      description: ''
-      operationId: deleteCharacter
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: body
-          in: body          
-          description: Character data
-          required: true
-          schema:
-            $ref: '#/definitions/Character'
-        - name: api_key
-          in: header
-          required: false
+        - in: query
           type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
       responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Character not found
-        '405':
-          description: Validation exception
-      security:
-        - OAuth:
-            - 'write:characters'
-  /character/findByAccountId:
-    get:
-      summary: List all characters owned by provided account
-      operationId: findCharactersByAccountId
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security: 
-        - OAuth: 
-          - 'read:characters'
-      tags: 
-        - character
-      parameters:
-        - name: limit
-          in: query
-          description: How many characters to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-        - name: accountId
-          in: query
-          required: true
-          description: The id of the account to retrieve characters based on
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: A paged array of characters
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
+        200:
+          description: '200 / OK'
           schema:
             type: array
             items:
-              $ref: '#/definitions/Characters'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /character/{characterId}:
-    get:
-      summary: Get information about a specific character
-      operationId: getCharacter
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - character
-      parameters:
-        - name: characterId
-          in: path
+              $ref: '#/definitions/Character'
+    post:
+      tags: ["Character"]
+      description: Create new character
+      operationId: createCharacter
+      security:
+        - OauthSecurity: [admin]
+      parameters: 
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json       
+        - in: body
+          name: body
+          description: Character
           required: true
-          description: The id of the character to retrieve
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: Character element          
           schema:
             $ref: '#/definitions/Character'
-        default:
-          description: Unexpected error
+      responses:
+        200:
+          description: '200 / OK'
           schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /character/findByName:
+            $ref: '#/definitions/Character'
+  /character/{characterId}/details:
     get:
-      summary: List all characters that match search
-      operationId: findCharactersByName
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security: 
-        - OAuth: 
-          - 'read:characters'
-      tags: 
-        - character
+      tags: ["Character"]
+      description: Details about a specific character
+      operationId: getCharacter
       parameters:
-        - name: limit
-          in: query
-          description: How many characters to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-        - name: name
-          in: query
+        - in: path
+          name: characterId
           required: true
-          description: The name of the character
+          description: ID
           type: integer
-          format: int32
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
       responses:
-        "200":
-          description: A paged array of characters
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
+        200:
+          description: '200 / OK'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Characters'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'      
-  /npc:
-    post:
-      tags:
-        - npc
-      summary: Add a new npc to server
-      description: ''
-      operationId: addNpc
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: Npc data
-          required: true
-          schema:
-            $ref: '#/definitions/Npc'
-      responses:
-        '405':
-          description: Invalid input
-      security:
-        - OAuth:
-            - 'write:npcs'
+            $ref: '#/definitions/Character'
     put:
-      tags:
-        - npc
-      summary: Update an existing npc
-      description: ''
-      operationId: updateNpc
-      consumes:
-        - application/json
-      produces:
-        - application/json
+      tags: ["Character"]
+      description: Edit Character
+      operationId: editCharacter
+      security:
+        - OauthSecurity: [moderator, admin]
       parameters:
+        - in: path
+          name: characterId
+          required: true
+          description: ID
+          type: integer
         - in: body
           name: body
-          description: Npc data
+          description: Character
           required: true
           schema:
-            $ref: '#/definitions/Npc'
+            $ref: '#/definitions/Character'
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
       responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Npc not found
-        '405':
-          description: Validation exception
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Character'    
+    delete:
+      tags: ["Character"]
+      description: Delete character
+      operationId: deleteCharacter
       security:
-        - OAuth:
-            - 'write:npcs'
-  /npc/findByZoneId:
-    get:
-      summary: List all npcs found in provided zoneid
-      operationId: findNpcsByZoneId
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security: 
-        - OAuth: 
-          - 'read:npcs'
-      tags: 
-        - npc
+        - OauthSecurity: [admin]
       parameters:
-        - name: limit
-          in: query
-          description: How many npcs to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-        - name: zoneId
-          in: query
+        - in: path
+          name: characterId
           required: true
-          description: The id of the zone to retrieve npcs based on
+          description: ID of character
           type: integer
-          format: int32
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
       responses:
-        "200":
-          description: A paged array of npcs
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
+        200:
+          description: '200 / OK'
+          schema:
+            $ref: '#/definitions/Character'
+  /user:
+    get:
+      tags: ["User"]
+      description: Get a list of all users
+      operationId: listUser
+      parameters:
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
+      responses:
+        200:
+          description: '200 / OK'
           schema:
             type: array
             items:
-              $ref: '#/definitions/Npcs'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /npc/{npcId}:
-    get:
-      summary: Get information about a specific npc
-      operationId: getNpc
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - npc
-      parameters:
-        - name: npcId
-          in: path
+              $ref: '#/definitions/User'
+    post:
+      tags: ["User"]
+      description: Create new user
+      operationId: createUser
+      parameters: 
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json       
+        - in: body
+          name: body
+          description: User details
           required: true
-          description: The id of the npc to retrieve
-          type: integer
-          format: int32
+          schema:
+            $ref: '#/definitions/User'
       responses:
-        "200":
-          description: Npc element          
+        200:
+          description: '200 / OK'
           schema:
-            $ref: '#/definitions/Npc'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /npc/findByName:
+            $ref: '#/definitions/User'
+  /user/{userId}/details:
     get:
-      summary: List all npcs that match search
-      operationId: findNpcsByName
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      security: 
-        - OAuth: 
-          - 'read:npcs'
-      tags: 
-        - npc
+      tags: ["User"]
+      description: Obtain details about a User
+      operationId: getUser
       parameters:
-        - name: limit
-          in: query
-          description: How many npcs to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-        - name: name
-          in: query
+        - in: path
+          name: userId
           required: true
-          description: The name of the npc
+          description: user ID
           type: integer
-          format: int32
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
       responses:
-        "200":
-          description: A paged array of npcs
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
+        200:
+          description: '200 / OK'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Npcs'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /zones:
-    get:
-      summary: List all zones based on parameters
-      operationId: listZones
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - zone
+            $ref: '#/definitions/User'
+    put:
+      tags: ["User"]
+      description: Edit user details
+      operationId: editUser
+      security:
+        - OauthSecurity: [owner, moderator, admin]
       parameters:
-        - name: limit
-          in: query
-          description: How many zones to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: A paged array of zones
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
-          schema:            
-            type: array
-            items:
-              $ref: '#/definitions/Zones'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'          
-  /zone/{zoneId}:
-    get:
-      summary: Get information about a specific zone
-      operationId: getZone
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - zone
-      parameters:
-        - name: zoneId
-          in: path
+        - in: path
+          name: userId
           required: true
-          description: The id of the zone to retrieve
+          description: user ID
           type: integer
-          format: int32
-      responses:
-        "200":
-          description: Zone element
-          schema:
-            $ref: '#/definitions/Zone'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /items:
-    get:
-      summary: List all items based on parameters
-      operationId: listItems
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - item
-      parameters:
-        - name: limit
-          in: query
-          description: How many items to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: A paged array of items
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
-          schema:            
-            type: array
-            items:
-              $ref: '#/definitions/Items'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'          
-  /item/{itemId}:
-    get:
-      summary: Get information about a specific item
-      operationId: getItem
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - item
-      parameters:
-        - name: itemId
-          in: path
+        - in: body
+          name: body
+          description: User details to edit
           required: true
-          description: The id of the item to retrieve
-          type: integer
-          format: int32
+          schema:
+            $ref: '#/definitions/User'
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
       responses:
-        "200":
-          description: Item element
+        200:
+          description: '200 / OK'
           schema:
-            $ref: '#/definitions/Item'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /quests:
-    get:
-      summary: List all quests based on parameters
-      operationId: listQuests
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - quest
+            $ref: '#/definitions/User'    
+    delete:
+      tags: ["User"]
+      description: Delete user
+      operationId: deleteUser
+      security:
+        - OauthSecurity: [admin]
       parameters:
-        - name: limit
-          in: query
-          description: How many quests to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: A paged array of quests
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Quests'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'          
-  /quest/{questId}:
-    get:
-      summary: Get information about a specific quest
-      operationId: getQuest
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - quest
-      parameters:
-        - name: questId
-          in: path
+        - in: path
+          name: userId
           required: true
-          description: The id of the quest to retrieve
+          description: ID of user
           type: integer
-          format: int32
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json
       responses:
-        "200":
-          description: Quest element
+        200:
+          description: '200 / OK'
           schema:
-            $ref: '#/definitions/Quest'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-  /recipes:
-    get:
-      summary: List all recipes based on parameters
-      operationId: listRecipes
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - recipe
-      parameters:
-        - name: limit
-          in: query
-          description: How many recipes to return at once (max 10)
-          required: false
-          type: integer
-          format: int32
-      responses:
-        "200":
-          description: A paged array of recipes
-          headers:
-            x-next:
-              type: string
-              description: A link to the next page of responses
-          schema:            
-            type: array
-            items:
-              $ref: '#/definitions/Recipes'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'          
-  /recipe/{recipeId}:
-    get:
-      summary: Get information about a specific recipe
-      operationId: getRecipe
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      tags: 
-        - recipe
-      parameters:
-        - name: recipeId
-          in: path
+            $ref: '#/definitions/User'  
+  /login:
+    post:
+      tags: ["Login"]
+      description: Log in to system
+      operationId: postLogin
+      parameters: 
+        - in: query
+          type: string
+          name: format
+          enum: [json, xml, yaml]
+          default: json       
+        - in: body
+          name: body
+          description: Login details
           required: true
-          description: The id of the recipe to retrieve
-          type: integer
-          format: int32
+          schema:
+            $ref: '#/definitions/User'
       responses:
-        "200":
-          description: Recipe element
+        200:
+          description: '200 / OK'
           schema:
-            $ref: '#/definitions/Recipe'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/ErrorUnexpected'
-# MODEL DEFINITIONS            
+            $ref: '#/definitions/User'  
 definitions:
-  Characters:
-    type: array
-    items:
-      $ref: '#/definitions/Character'
   Character:
-    required:
-      - id
-      - name
+    type: object
     properties:
       id:
         type: integer
-        format: int64
+        example: 1234
+        description: Unique game ID
       name:
         type: string
-  Npcs:
-    type: array
-    items:
-      $ref: '#/definitions/Npc'
-  Npc:
-    required:
-      - id
-      - name
+        example: Bother your neighbor
+      image:
+        type: string
+        description: large photo
+        example: /foo/bar.png
+      thumbnail:
+        type: string
+        description: thumbnail photo
+        example: /foo/bar.png
+  User:
+    type: object
     properties:
       id:
         type: integer
-        format: int64
+        example: 1234
+        description: Unique user ID
       name:
         type: string
-  Zones:
-    type: array
-    items:
-      $ref: '#/definitions/Zone'
-  Zone:
-    required:
-      - id
-      - name
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
+        description: Name user is displayed as
+        example: testuser
+      email:
         type: string
-  Items:
-    type: array
-    items:
-      $ref: '#/definitions/Item'
-  Item:
-    required:
-      - id
-      - name
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-  Quests:
-    type: array
-    items:
-      $ref: '#/definitions/Quest'
-  Quest:
-    required:
-      - id
-      - name
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-  Recipes:
-    type: array
-    items:
-      $ref: '#/definitions/Recipe'
-  Recipe:
-    required:
-      - id
-      - name
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-  ErrorUnexpected:
-    required:
-      - code
-      - message
-    properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string
-# SECURITY DEFINITIONS
+        description: Email address of user
+        example: test@here.com      
 securityDefinitions:
-  OAuth:
+  ApiKey:
+    type: apiKey
+    name: Authorization
+    in: header
+  OauthSecurity:
     type: oauth2
     flow: accessCode
-    authorizationUrl: http://localhost
-    tokenUrl: https://localhost/oauth/token
+    authorizationUrl: 'http://localhost/authorization'
+    tokenUrl: 'http://localhost/token'
     scopes:
-      'write:characters': modify character data
-      'read:characters': read character data
-      'write:npcs': modify character data
-      'read:npcs': read character data
-  api_key:
+      admin: Administrator
+      moderator: Moderator scope
+      owner: Owner scope
+  Session:
     type: apiKey
-    name: api_key
-    in: header
+    name: session
+    in: query
+externalDocs:
+  description: "Find out more about Xegony"
+  url: "github.com/xackery/xegony"
