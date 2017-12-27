@@ -9,6 +9,7 @@
 					<span class="fa arrow"/>
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "character"}}in{{end}}" aria-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}">
+					<li class="{{if eq .Site.Page "characterbyonline"}}active{{end}}"><a href="/character/byonline"> <span class="nav-label">Online</span></a></li>					
 					<li class="{{if eq .Site.Page "characterbyranking"}}active{{end}}"><a href="/character/byranking"> <span class="nav-label">Ranking</span></a></li>					
 					<li class="{{if eq .Site.Page "charactersearch"}}active{{end}}"><a href="/character/search"> <span class="nav-label">Search</span></a></li>
 				</ul>

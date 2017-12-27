@@ -16,7 +16,6 @@ type AuthClaims struct {
 	IsModerator  bool               `json:"isModerator,omitempty"`
 	OwnedLobbies map[int64][]string `json:"ownedLobbies,omitempty"`
 	User         *model.User        `json:"user"`
-	AccountId    int64              `json:"accountId"`
 	jwt.StandardClaims
 }
 
@@ -50,7 +49,6 @@ func (a *Api) PostLogin(w http.ResponseWriter, r *http.Request) {
 	claims := AuthClaims{
 		OwnedLobbies: map[int64][]string{1: []string{"asdb"}},
 		User:         user,
-		AccountId:    account.Id,
 	}
 
 	if account.Status >= 200 {

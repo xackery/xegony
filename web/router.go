@@ -91,6 +91,13 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"ListCharacterByOnline",
+			"GET",
+			"/character/byonline",
+			a.ListCharacterByOnline,
+		},
+
+		Route{
 			"ListCharacterByAccount",
 			"GET",
 			"/character/byaccount/{accountId}",
@@ -245,10 +252,38 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"SearchItem",
+			"GET",
+			"/item/search",
+			a.SearchItem,
+		},
+
+		Route{
+			"SearchItemByAccount",
+			"GET",
+			"/item/search/byaccount",
+			a.SearchItemByAccount,
+		},
+
+		Route{
 			"ListItemBySlot",
 			"GET",
 			"/item/byslot",
 			a.ListItemBySlot,
+		},
+
+		Route{
+			"ListItemByZone",
+			"GET",
+			"/item/byzone",
+			a.ListItemByZone,
+		},
+
+		Route{
+			"GetItemByZone",
+			"GET",
+			"/item/byzone/{zoneId}",
+			a.GetItemByZone,
 		},
 
 		Route{

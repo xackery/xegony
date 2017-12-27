@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/model"
 )
 
@@ -45,6 +46,100 @@ func (a *Web) ListItem(w http.ResponseWriter, r *http.Request) {
 		}
 
 		a.setTemplate("item", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) ListItemByZone(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site  Site
+		Zones []*model.Zone
+	}
+
+	site := a.NewSite(r)
+	site.Page = "item"
+	site.Title = "Item"
+
+	zones, err := a.zoneRepo.List()
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	content := Content{
+		Site:  site,
+		Zones: zones,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "item/listbyzone.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("itemlistbyzone", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) GetItemByZone(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site  Site
+		Zone  *model.Zone
+		Items []*model.Item
+	}
+
+	zoneId, err := getIntVar(r, "zoneId")
+	if err != nil {
+		err = errors.Wrap(err, "zoneId argument is required")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	site := a.NewSite(r)
+	site.Page = "item"
+	site.Title = "Item"
+
+	items, err := a.itemRepo.GetByZone(zoneId)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	zone, err := a.zoneRepo.Get(zoneId)
+	content := Content{
+		Site:  site,
+		Items: items,
+		Zone:  zone,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "item/getbyzone.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("itemlistbyzone", tmp)
 	}
 
 	a.writeData(w, r, tmp, content, http.StatusOK)
@@ -220,6 +315,11 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.ToLower(getVar(r, "itemId")) == "byzone" {
+		a.ListItemByZone(w, r)
+		return
+	}
+
 	if strings.ToLower(getVar(r, "itemId")) == "search" {
 		a.SearchItem(w, r)
 		return
@@ -261,6 +361,64 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 		}
 
 		a.setTemplate("item", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) SearchItemByAccount(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site    Site
+		Items   []*model.Item
+		Account []*model.Account
+		Search  string
+	}
+
+	claims, err := api.GetAuthClaims(r)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusUnauthorized)
+		return
+	}
+
+	search := getParam(r, "search")
+
+	var items []*model.Item
+
+	if len(search) > 0 {
+		items, err = a.itemRepo.SearchByAccount(claims.User.AccountId, search)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusBadRequest)
+			return
+		}
+	}
+
+	site := a.NewSite(r)
+	site.Page = "item"
+	site.Title = "Item"
+
+	content := Content{
+		Site:   site,
+		Items:  items,
+		Search: search,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "item/searchbyaccount.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("itemsearchbyaccount", tmp)
 	}
 
 	a.writeData(w, r, tmp, content, http.StatusOK)

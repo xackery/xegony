@@ -25,6 +25,8 @@ type Item struct {
 	Ornamentidfile      int64          `json:"ornamentidfile"`      // int(11) unsigned NOT NULL DEFAULT '0',
 	Ornament_hero_model int64          `json:"ornament_hero_model"` // int(11) NOT NULL DEFAULT '0',
 
+	Character *Character `json:"character"`
+
 	//normal items db
 	Id                  int64          `json:"id" db:"id"`
 	Name                string         `json:"name" db:"name"`
@@ -310,6 +312,98 @@ type Item struct {
 	Unk240              int64          `json:"UNK240" db:"UNK240"`
 	Unk241              int64          `json:"UNK241" db:"UNK241"`
 	Epicitem            int64          `json:"epicitem" db:"epicitem"`
+}
+
+func (c *Item) SlotName() string {
+	s := c.SlotId
+	switch {
+	case s == 0:
+		return "Charm"
+	case s == 1:
+		return "Left Ear"
+	case s == 2:
+		return "Head"
+	case s == 3:
+		return "Face"
+	case s == 4:
+		return "Right Ear"
+	case s == 5:
+		return "Neck"
+	case s == 6:
+		return "Shoulder"
+	case s == 7:
+		return "Arms"
+	case s == 8:
+		return "Back"
+	case s == 9:
+		return "Left Bracer"
+	case s == 10:
+		return "Right Bracer"
+	case s == 11:
+		return "Range"
+	case s == 12:
+		return "Hands"
+	case s == 13:
+		return "Primary"
+	case s == 14:
+		return "Secondary"
+	case s == 15:
+		return "Left Ring"
+	case s == 16:
+		return "Right Ring"
+	case s == 17:
+		return "Chest"
+	case s == 18:
+		return "Legs"
+	case s == 19:
+		return "Feet"
+	case s == 20:
+		return "Waist"
+	case s == 21:
+		return "Ammo"
+	case s == 22:
+		return "TopLeft Inventory"
+	case s <= 271 && s >= 262:
+		return "TopLeft Bag"
+	case s == 23:
+		return "TopRight Inventory"
+	case s <= 281 && s >= 272:
+		return "TopRight Bag"
+	case s == 24:
+		return "TopLeft, One Down Inventory"
+	case s <= 291 && s >= 282:
+		return "TopLeft, One Down Bag"
+	case s == 25:
+		return "TopRight, One Down Inventory"
+	case s <= 301 && s >= 292:
+		return "TopRight, One Down Bag"
+	case s == 26:
+		return "BottomLeft, Two Up Inventory"
+	case s <= 311 && s >= 302:
+		return "BottomLeft, Two Up Bag"
+	case s == 27:
+		return "BottomRight, Two Up Inventory"
+	case s <= 321 && s >= 312:
+		return "BottomRight, Two Up Bag"
+	case s == 28:
+		return "BottomLeft Inventory"
+	case s <= 331 && s >= 322:
+		return "BottomLeft Bag"
+	case s == 29:
+		return "BottomRight Inventory"
+	case s <= 341 && s >= 332:
+		return "BottomRight Bag"
+	case s == 30:
+		return "Cursor"
+	case s >= 2000 && s <= 2271:
+		return "Bank"
+	case s >= 400 && s <= 404:
+		return "Tribute"
+	case s >= 2500 && s <= 2551:
+		return "Shared Bank"
+	default:
+		return fmt.Sprintf("Unknown (%d)", c.SlotId)
+	}
 }
 
 func (c *Item) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

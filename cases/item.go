@@ -38,6 +38,14 @@ func (g *ItemRepository) Search(search string) (items []*model.Item, err error) 
 	return
 }
 
+func (g *ItemRepository) SearchByAccount(accountId int64, search string) (items []*model.Item, err error) {
+	items, err = g.stor.SearchItemByAccount(accountId, search)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (g *ItemRepository) Create(item *model.Item) (err error) {
 	if item == nil {
 		err = fmt.Errorf("Empty item")
@@ -139,6 +147,14 @@ func (g *ItemRepository) ListBySlot() (items []*model.Item, err error) {
 
 func (g *ItemRepository) GetBySlot(slotId int64) (items []*model.Item, err error) {
 	items, err = g.stor.ListItemBySlot(slotId)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (g *ItemRepository) GetByZone(zoneId int64) (items []*model.Item, err error) {
+	items, err = g.stor.ListItemByZone(zoneId)
 	if err != nil {
 		return
 	}

@@ -38,9 +38,10 @@ type Storage interface {
 	EditCharacter(characterId int64, character *model.Character) (err error)
 	ListCharacter() (characters []*model.Character, err error)
 	ListCharacterByAccount(accountId int64) (characters []*model.Character, err error)
+	ListCharacterByOnline() (characters []*model.Character, err error)
+	ListCharacterByRanking() (characters []*model.Character, err error)
 	SearchCharacter(search string) (characters []*model.Character, err error)
 	DeleteCharacter(characterId int64) (err error)
-	ListCharacterByRanking() (characters []*model.Character, err error)
 	//Item
 	GetItem(itemId int64) (item *model.Item, err error)
 	CreateItem(item *model.Item) (err error)
@@ -48,8 +49,10 @@ type Storage interface {
 	ListItem() (items []*model.Item, err error)
 	ListItemByCharacter(characterId int64) (items []*model.Item, err error)
 	ListItemBySlot(slotId int64) (items []*model.Item, err error)
+	ListItemByZone(zoneId int64) (items []*model.Item, err error)
 	DeleteItem(itemId int64) (err error)
 	SearchItem(search string) (items []*model.Item, err error)
+	SearchItemByAccount(accountId int64, search string) (items []*model.Item, err error)
 	//Npc
 	GetNpc(npcId int64) (npc *model.Npc, err error)
 	CreateNpc(npc *model.Npc) (err error)

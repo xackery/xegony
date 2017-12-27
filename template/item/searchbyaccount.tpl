@@ -12,7 +12,7 @@
 
             <div class="hpanel">
                 <div class="panel-body">
-                    <form method="GET" action="/item/search">
+                    <form method="GET" action="/item/search/byaccount">
                         <div class="text-muted small pull-right text-right">            
                         </div>
                         <div class="form-inline">
@@ -28,7 +28,7 @@
             <div class="hpanel forum-box">
 
             <div class="panel-heading">
-                <span class="f">Search results for '{{.Search}}'</span>
+                <span class="f">Inventory Search results for '{{.Search}}' across your characters</span>
             </div>
 
 
@@ -39,14 +39,17 @@
 
                             <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Item Name</th>
+                                <th>Character</th>
+                                <th>Location</th>
                             </tr>
                             </thead>
                             <tbody>
                             {{range $key, $value := .Items}}
-                            <tr>
-                                
+                            <tr>                                
                                 <td><a href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
+                                <td><a href="/character/{{$value.Character.Id}}">{{$value.Character.Name}}</a></td>
+                                <td>{{$value.SlotName}}</td>
                             </tr>
                             {{end}}                
                             </tbody>

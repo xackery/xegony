@@ -132,6 +132,14 @@ func (g *CharacterRepository) ListByRanking() (characters []*model.Character, er
 	return
 }
 
+func (g *CharacterRepository) ListByOnline() (characters []*model.Character, err error) {
+	characters, err = g.stor.ListCharacterByOnline()
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (g *CharacterRepository) ListByAccount(accountId int64) (characters []*model.Character, err error) {
 	characters, err = g.stor.ListCharacterByAccount(accountId)
 	if err != nil {

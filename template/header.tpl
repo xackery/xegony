@@ -106,6 +106,7 @@
                     </a>
                     <ul class="dropdown-menu hdropdown flipInX">                        
                         <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/item/search/byaccount">Inventory Search</a></li>
                         <li><a href="/logout">Logout</a></li>
                     </ul>
                 </li>

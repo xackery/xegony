@@ -141,6 +141,48 @@ func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func (a *Web) ListCharacterByOnline(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site       Site
+		Characters []*model.Character
+	}
+
+	site := a.NewSite(r)
+	site.Page = "ranking"
+	site.Title = "Character"
+
+	characters, err := a.characterRepo.ListByOnline()
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	content := Content{
+		Site:       site,
+		Characters: characters,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "character/listbyonline.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("character", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
 func (a *Web) ListCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -199,6 +241,11 @@ func (a *Web) GetCharacter(w http.ResponseWriter, r *http.Request) {
 	}
 	if (strings.ToLower(getVar(r, "characterId"))) == "byranking" {
 		a.ListCharacterByRanking(w, r)
+		return
+	}
+
+	if (strings.ToLower(getVar(r, "characterId"))) == "byonline" {
+		a.ListCharacterByOnline(w, r)
 		return
 	}
 

@@ -6,34 +6,49 @@
 <!-- Main Wrapper -->
 <div id="wrapper">
 
-<div class="normalheader small-header">
-    <div class="hpanel">
-        <div class="panel-body">           
-
-            <div id="hbreadcrumb" class="pull-right m-t-lg">
-                <ol class="hbreadcrumb breadcrumb">
-                    <li><a href="index.html">Dashboard</a></li>
-                    <li>
-                        <span>Tables</span>
-                    </li>
-                    <li class="active">
-                        <span>Tables design</span>
-                    </li>
-                </ol>
-            </div>
-            <h2 class="font-light m-b-xs">
-                {{.Character.Name}}
-            </h2>
-            <small>Examples of various designs of tables.</small>
-        </div>
-    </div>
-</div>
-
 <div class="content">
 
 
-<div class="row">   
-    <div class="col-md-offset-3 col-md-5">
+<div class="row">
+    <div class="col-md-6">
+        <div class="hpanel forum-box">
+
+            <div class="panel-heading">
+                <span class="f">{{.Character.Name}}</span>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12 statistics-border">
+                <div class="item-stats col-md-6" style="padding: 0px 5px">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Player Information</div>
+                        <div class="panel-body">Name: Shin <br>
+                            Level: 70<br>
+                            Race: 6<br>
+                            Class: Bard<br>
+                            Deity: 207<br>
+                            Zone: 158<br>
+                            X: 1,122.55<br>
+                            Y: 592.26<br>
+                            Z: 63.13<br>
+                        Heading: 129.63</div>
+                    </div>
+                </div>
+                <div class="item-stats col-md-6" style="padding: 0px 5px">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Main Statistics</div>
+                        <div class="panel-body">Health: 2,681<br>
+                        Mana: 2,062<br>                          Endurance: 2,100<br></div>
+                    </div>
+                </div>                
+            </div>
+            </div>
+            <div class="panel-footer">
+                Table - 6 rows
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#inventory" data-toggle="tab" aria-expanded="true"><i class="glyphicon glyphicon-th"></i> Inventory</a></li>
             <li class=""><a href="#bank" data-toggle="tab" aria-expanded="false"><i class="glyphicon glyphicon-piggy-bank"></i> Bank</a></li>

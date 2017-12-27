@@ -56,7 +56,6 @@ func (s *Storage) ListItem() (items []*model.Item, err error) {
 }
 
 func (s *Storage) SearchItem(search string) (items []*model.Item, err error) {
-
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 
 		WHERE name like ? ORDER BY id DESC`, itemFields), "%"+search+"%")
 	if err != nil {
@@ -69,6 +68,36 @@ func (s *Storage) SearchItem(search string) (items []*model.Item, err error) {
 			return
 		}
 		items = append(items, &item)
+	}
+	return
+}
+
+func (s *Storage) SearchItemByAccount(accountId int64, search string) (items []*model.Item, err error) {
+	type Result struct {
+		*model.Item
+		CharId   int64  `db:"char_id"`
+		CharName string `db:"char_name"`
+	}
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT character_data.id char_id, character_data.name char_name, items.id, slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
+		INNER JOIN inventory ON inventory.itemid = items.id
+		INNER JOIN character_data ON character_data.id = inventory.charid
+		WHERE items.name like ? AND character_data.account_id = ? ORDER BY id DESC`, itemFields), "%"+search+"%", accountId)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		result := &Result{}
+
+		if err = rows.StructScan(&result); err != nil {
+			return
+		}
+		item := result.Item
+		item.Character = &model.Character{
+			Name: result.CharName,
+			Id:   result.CharId,
+		}
+		items = append(items, item)
 	}
 	return
 }
@@ -94,6 +123,26 @@ func (s *Storage) ListItemByCharacter(characterId int64) (items []*model.Item, e
 func (s *Storage) ListItemBySlot(slotId int64) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 		
 		WHERE items.itemtype = ? ORDER BY damage/delay DESC`, itemFields), slotId)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		item := model.Item{}
+		if err = rows.StructScan(&item); err != nil {
+			return
+		}
+		items = append(items, &item)
+	}
+	return
+}
+
+func (s *Storage) ListItemByZone(zoneId int64) (items []*model.Item, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, %s FROM items 		
+		INNER JOIN lootdrop_entries le ON le.item_id = items.id
+		INNER JOIN loottable_entries lt ON lt.lootdrop_id = le.lootdrop_id
+		INNER JOIN npc_types nt ON nt.loottable_id = lt.loottable_id
+		WHERE nt.id > (?*1000-1) AND nt.id < (?*2000) ORDER BY damage/delay DESC`, itemFields), zoneId, zoneId)
 	if err != nil {
 		return
 	}
