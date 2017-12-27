@@ -22,17 +22,28 @@
                     <thead>
                     <tr>
                         <th>Name</th>
-                        <th>CharacterID</th>
-                        <th>ZoneID</th>                        
+                        <th>Level</th>
+                        <th>AA</th>
+                        <th>HP</th>
+                        <th>Mana</th>
+                        <th>AC</th>
+                        <th>ATK</th>
+                        <th>HP+</th>
+                        <th>Mana+</th>
                     </tr>
                     </thead>
                     <tbody>
                     {{range $key, $value := .Characters}}
-                    <tr>
-                        
+                    <tr>                        
                         <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
-                        <td>{{$value.Id}}</td>
-                        <td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneId}}</a></td>         
+                        <th>{{$value.Level}}</th>
+                        <th>{{$value.AA}}</th>
+                        <th>{{$value.TotalHP}}</th>
+                        <th>{{$value.TotalMana}}</th>
+                        <th>{{$value.AC}}</th>
+                        <th>{{$value.ATK}}</th>
+                        <th>{{$value.HPRegen}}</th>
+                        <th>{{$value.ManaRegen}}</th>
                     </tr>
                     {{end}}                
                     </tbody>

@@ -49,10 +49,8 @@
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "item"}}in{{end}}" aria-expanded="{{if eq .Site.Section "item"}}true{{else}}false{{end}}">
 					<li class="{{if eq .Site.Page "itemsearch"}}active{{end}}"><a href="/item/search"> <span class="nav-label">Search</span></a></li>
-					<li class="{{if eq .Site.Page "itemlookup"}}active{{end}}"><a href="/item/lookup"> <span class="nav-label">Lookup</span></a></li>
 					<li class="{{if eq .Site.Page "itembyslot"}}active{{end}}"><a href="/item/byslot"> <span class="nav-label">By Slot</span></a></li>
-					<li class="{{if eq .Site.Page "itembyzone"}}active{{end}}"><a href="/item/byzone"> <span class="nav-label">By Zone</span></a></li>
-					<li class="{{if eq .Site.Page "itembyloregroup"}}active{{end}}"><a href="/item/byloregroup"> <span class="nav-label">By Loregroup</span></a></li>					
+					<li class="{{if eq .Site.Page "itembyzone"}}active{{end}}"><a href="/item/byzone"> <span class="nav-label">By Zone</span></a></li>					
 					<li class="{{if eq .Site.Page "itemlist"}}active{{end}}"><a href="/item"> <span class="nav-label">List</span></a></li>
 				</ul>
 			</li>

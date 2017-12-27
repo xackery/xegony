@@ -18,8 +18,8 @@ func (a *Web) ListTopic(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "topic"
-	site.Title = "Topic"
+	site.Page = "forum"
+	site.Title = "Forum"
 
 	if strings.ToLower(getVar(r, "forumId")) == "create" {
 		a.CreateForum(w, r)
@@ -91,8 +91,8 @@ func (a *Web) GetTopic(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "topic"
-	site.Title = "Topic"
+	site.Page = "forum"
+	site.Title = "Forum"
 
 	content := Content{
 		Site:  site,

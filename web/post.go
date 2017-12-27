@@ -19,8 +19,8 @@ func (a *Web) ListPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "post"
-	site.Title = "Post"
+	site.Page = "forum"
+	site.Title = "Forum"
 
 	forumId, err := getIntVar(r, "topicId")
 	if err != nil {
@@ -121,8 +121,8 @@ func (a *Web) GetPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "post"
-	site.Title = "Post"
+	site.Page = "forum"
+	site.Title = "Forum"
 
 	content := Content{
 		Site:  site,
