@@ -27,9 +27,8 @@
                     <tbody>
                     {{range $key, $value := .Items}}
                     <tr>     
-                        
-                    <td><span class="slot-sm"><span title="{{$value.Name}}" class="item icon-{{$value.Icon}}-sm"></span></span></td>                   
-                        <td><a href="/item/byslot/{{$value.Itemtype}}">{{$value.Name}}</a></td>                       
+                    <td><i class="ra {{$value.ItemtypeIcon}}"></i></td>
+                        <td><a href="/item/byslot/{{$value.Itemtype}}">{{$value.Name}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>

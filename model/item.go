@@ -316,6 +316,380 @@ type Item struct {
 	Epicitem            int64          `json:"epicitem" db:"epicitem"`
 }
 
+func (c *Item) SizeName() string {
+	return "TINY"
+}
+
+func (c *Item) SlotList() string {
+	return "EAR"
+}
+
+func (c *Item) ClassList() string {
+	return "ALL"
+}
+
+func (c *Item) RaceList() string {
+	return "ALL"
+}
+
+func (c *Item) ItemtypeName() string {
+	switch c.Itemtype {
+	case 0:
+		return "1 Hand Slash"
+	case 1:
+		return "2 Hand Slash"
+	case 2:
+		return "Piercing"
+	case 3:
+		return "1 Hand Blunt"
+	case 4:
+		return "2 Hand Blunt"
+	case 5:
+		return "Archery"
+	case 6:
+		return "Unused (6)"
+	case 7:
+		return "Throwing"
+	case 8:
+		return "Shield"
+	case 9:
+		return "Unused"
+	case 10:
+		return "Armor"
+	case 11:
+		return "Tradeskills"
+	case 12:
+		return "Lock Picking"
+	case 13:
+		return "Unused (13)"
+	case 14:
+		return "Food"
+	case 15:
+		return "Drink"
+	case 16:
+		return "Light Source"
+	case 17:
+		return "Common Inventory Item"
+	case 18:
+		return "Bind Wound"
+	case 19:
+		return "Thrown Casting Items (Explosive potions etc)"
+	case 20:
+		return "Spells / Song Sheets"
+	case 21:
+		return "Potions"
+	case 22:
+		return "Fletched Arrows?..."
+	case 23:
+		return "Wind Instruments"
+	case 24:
+		return "Stringed Instruments"
+	case 25:
+		return "Brass Instruments"
+	case 26:
+		return "Drum Instruments"
+	case 27:
+		return "Ammo (In most cases, Arrows)"
+	case 28:
+		return "Unused"
+	case 29:
+		return "Jewlery Items (As far as I can tell)"
+	case 30:
+		return "Unused"
+	case 31:
+		return "Usually Readable Notes and Scrolls *i beleive this to display [This note is Rolle Up/Unrolled]*"
+	case 32:
+		return "Usually Readable Books *i beleive this to display [This Book is Closed/Open]*"
+	case 33:
+		return "Keys"
+	case 34:
+		return "Odd Items (Not sure what they are for)"
+	case 35:
+		return "2H Pierce"
+	case 36:
+		return "Fishing Poles"
+	case 37:
+		return "Fishing Bait"
+	case 38:
+		return "Alcoholic Beverages"
+	case 39:
+		return "More Keys"
+	case 40:
+		return "Compasses"
+	case 41:
+		return "Unused"
+	case 42:
+		return "Poisens"
+	case 43:
+		return "Unused"
+	case 44:
+		return "Unused"
+	case 45:
+		return "H2H (Hand to Hand)"
+	case 46:
+		return "Unused"
+	case 47:
+		return "Unused"
+	case 48:
+		return "Unused"
+	case 49:
+		return "Unused"
+	case 50:
+		return "Unused"
+	case 51:
+		return "Unused"
+	case 52:
+		return "Charms"
+	case 53:
+		return "Dyes"
+	case 54:
+		return "Augments"
+	case 55:
+		return "Augment Solvents"
+	case 56:
+		return "Augment Distillers"
+	case 58:
+		return "Fellowship Banner Materials"
+	case 60:
+		return "Cultural Armor Manuals"
+	case 63:
+		return "Currency"
+	}
+	return "Unknown"
+}
+
+func (c *Item) ItemtypeIcon() string {
+	switch c.Itemtype {
+	case 0:
+		return "ra-crossed-swords"
+	case 1:
+		return "ra-croc-sword"
+	case 2:
+		return "ra-plain-dagger"
+	case 3:
+		return "ra-flat-hammer"
+	case 4:
+		return "ra-gavel"
+	case 5:
+		return "ra-crossbow"
+	case 6:
+		return "ra-help"
+	case 7:
+		return "ra-hammer-drop"
+	case 8:
+		return "ra-fire-shield"
+	case 9:
+		return "ra-help"
+	case 10:
+		return "ra-vest"
+	case 11:
+		return "ra-archery-target" //Involves Tradeskills (Not sure how)
+	case 12:
+		return "ra-key"
+	case 13:
+		return "ra-help"
+	case 14:
+		return "ra-apple"
+	case 15:
+		return "ra-brandy-bottle"
+	case 16:
+		return "ra-light-bulb"
+	case 17:
+		return "ra-shovel"
+	case 18:
+		return "ra-health"
+	case 19:
+		return "ra-bottled-bolt"
+	case 20:
+		return "ra-scroll-unfurled"
+	case 21:
+		return "ra-flask"
+	case 22:
+		return "ra-arrow-flights"
+	case 23:
+		return "ra-ocarina"
+	case 24:
+		return "ra-ocarina"
+	case 25:
+		return "ra-ocarina"
+	case 26:
+		return "ra-ocarina"
+	case 27:
+		return "ra-broadhead-arrow"
+	case 28:
+		return "ra-help"
+	case 29:
+		return "ra-explosion"
+	case 30:
+		return "ra-help"
+	case 31:
+		return "ra-book" //Usually Readable Notes and Scrolls *i beleive this to display [This note is Rolle Up/Unrolled]*"
+	case 32:
+		return "ra-book" //Usually Readable Books *i beleive this to display [This Book is Closed/Open]*"
+	case 33:
+		return "ra-key"
+	case 34:
+		return "ra-vail" //Odd Items (Not sure what they are for)"
+	case 35:
+		return "ra-relic-blade" //2hp
+	case 36:
+		return "ra-fish"
+	case 37:
+		return "ra-venomous-snake"
+	case 38:
+		return "ra-beer"
+	case 39:
+		return "ra-key"
+	case 40:
+		return "ra-compass"
+	case 41:
+		return "ra-help"
+	case 42:
+		return "ra-bottle-vapors"
+	case 43:
+		return "ra-help"
+	case 44:
+		return "ra-help"
+	case 45:
+		return "ra-hand"
+	case 46:
+		return "ra-help"
+	case 47:
+		return "ra-help"
+	case 48:
+		return "ra-help"
+	case 49:
+		return "ra-help"
+	case 50:
+		return "ra-help"
+	case 51:
+		return "ra-help"
+	case 52:
+		return "ra-sapphire"
+	case 53:
+		return "ra-round-bottome-flask"
+	case 54:
+		return "ra-bubbling-potion"
+	case 55:
+		return "ra-corked-tube"
+	case 56:
+		return "ra-corked-tube"
+	case 58:
+		return "ra-castle-flag"
+	case 60:
+		return "ra-book"
+	case 63:
+		return "ra-sapphire"
+	}
+	return "ra-help"
+}
+
+func (c *Item) SlotsFirstName() string {
+	switch {
+	case c.Slots&8192 == 8192:
+		if c.Slots > 8192 {
+			return "Primary+"
+		}
+		return "Primary"
+	case c.Slots&16384 == 16384:
+		if c.Slots > 16384 {
+			return "Secondary+"
+		}
+		return "Secondary"
+	case c.Slots&2048 == 2048:
+		if c.Slots > 2048 {
+			return "Range+"
+		}
+		return "Range"
+	case c.Slots&1 == 1:
+		if c.Slots > 1 {
+			return "Charm+"
+		}
+		return "Charm"
+	case c.Slots&4 == 4:
+		if c.Slots > 4 {
+			return "Head+"
+		}
+		return "Head"
+	case c.Slots&8 == 8:
+		if c.Slots > 8 {
+			return "Face+"
+		}
+		return "Face"
+	case c.Slots&18 == 18:
+		if c.Slots > 18 {
+			return "Ears+"
+		}
+		return "Ears"
+	case c.Slots&32 == 32:
+		if c.Slots > 32 {
+			return "Neck+"
+		}
+		return "Neck"
+	case c.Slots&64 == 64:
+		if c.Slots > 64 {
+			return "Shoulder+"
+		}
+		return "Shoulder"
+	case c.Slots&128 == 128:
+		if c.Slots > 128 {
+			return "Arms+"
+		}
+		return "Arms"
+	case c.Slots&256 == 256:
+		if c.Slots > 256 {
+			return "Back+"
+		}
+		return "Back"
+	case c.Slots&1536 == 1536:
+		if c.Slots > 1536 {
+			return "Bracers+"
+		}
+		return "Bracers"
+	case c.Slots&4096 == 4096:
+		if c.Slots > 4096 {
+			return "Hands+"
+		}
+		return "Hands"
+	case c.Slots&98304 == 98304:
+		if c.Slots > 98304 {
+			return "Rings+"
+		}
+		return "Rings"
+	case c.Slots&131072 == 131072:
+		if c.Slots > 131072 {
+			return "Chest+"
+		}
+		return "Chest"
+	case c.Slots&262144 == 262144:
+		if c.Slots > 262144 {
+			return "Legs+"
+		}
+		return "Legs"
+	case c.Slots&524288 == 524288:
+		if c.Slots > 524288 {
+			return "Feet+"
+		}
+		return "Feet"
+	case c.Slots&1048576 == 1048576:
+		if c.Slots > 1048576 {
+			return "Waist+"
+		}
+		return "Waist"
+	case c.Slots&2097152 == 2097152:
+		if c.Slots > 2097152 {
+			return "Ammo+"
+		}
+		return "Ammo"
+	case c.Slots&4194304 == 4194304:
+		if c.Slots > 4194304 {
+			return "Powersource+"
+		}
+		return "Powersource"
+	}
+	return "None"
+}
+
 /*
 
 func (c *Character) RaceIcon() string {

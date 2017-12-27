@@ -27,7 +27,7 @@
                     <tbody>
                     {{range $key, $value := .Zones}}
                     <tr>
-                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a>{{if $value.GetMinStatusName}}<span class="label label-warning pull-right">{{$value.GetMinStatusName}}</span>{{end}}</td>
                         <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ExpansionName}}</a></td>
                     </tr>
                     {{end}}                

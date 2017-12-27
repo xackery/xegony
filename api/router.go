@@ -199,6 +199,13 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"GetItemTooltip",
+			"GET",
+			"/item/{itemId}/tooltip",
+			a.GetItemTooltip,
+		},
+
+		Route{
 			"ListItem",
 			"GET",
 			"/item",

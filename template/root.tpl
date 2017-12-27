@@ -25,10 +25,11 @@
     <link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
     <link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/helper.css" />
     <link rel="stylesheet" href="/fonts/rpg/css/rpg-awesome.min.css" />
-    <link rel="stylesheet" href="/styles/style.css">
+    
     <link rel="stylesheet" href="/styles/builds.css" />
     <link rel="stylesheet" href="/styles/inventory.css" />
     <link rel="stylesheet" href="/styles/icons.css" />
+    <link rel="stylesheet" href="/styles/style.css">
 
     <script src="/vendor/jquery/dist/jquery.min.js"></script>
     <script src="/vendor/jquery-ui/jquery-ui.min.js"></script>

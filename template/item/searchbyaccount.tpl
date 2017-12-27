@@ -43,6 +43,8 @@
                                 <th>Item Name</th>
                                 <th>Character</th>
                                 <th>Location</th>
+                                <th>Slot</th>
+                                <th>Category</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,6 +54,8 @@
                                 <td><a href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
                                 <td><a href="/character/{{$value.Character.Id}}">{{$value.Character.Name}}</a></td>
                                 <td>{{$value.SlotName}}</td>
+                                <td>{{$value.SlotsFirstName}}</td>
+                                <td><i class="ra {{$value.ItemtypeIcon}}"></i> {{$value.ItemtypeName}}</td>
                             </tr>
                             {{end}}                
                             </tbody>

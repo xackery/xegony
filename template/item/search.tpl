@@ -41,13 +41,17 @@
                             <tr>
                                 <th width="20px"><i class="ra ra-sword"></i></th>
                                 <th>Name</th>
+                                <th>Slot</th>
+                                <th>Category</th>
                             </tr>
                             </thead>
                             <tbody>
                             {{range $key, $value := .Items}}
                             <tr>
-                                <td><span class="slot-sm"><span title="{{$value.Name}}" class="item icon-{{$value.Icon}}-sm"></span></span></td>
+                                <td><span title="{{$value.Name}}" class="item icon-{{$value.Icon}}-sm"></span></td>
                                 <td><a href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
+                                <td>{{$value.SlotsFirstName}}</td>
+                                <td><i class="ra {{$value.ItemtypeIcon}}"></i> {{$value.ItemtypeName}}</td>
                             </tr>
                             {{end}}                
                             </tbody>

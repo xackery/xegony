@@ -38,7 +38,8 @@
                     <tr>
                         <th width="20px"><i class="ra ra-sword"></i></th>
                         <th>Name</th>
-                        <th>CharacterID</th>                   
+                        <th>Slot</th>
+                        <th>Category</th>           
                     </tr>
                     </thead>
                     <tbody>
@@ -46,7 +47,8 @@
                     <tr>
                         <td><span class="slot-sm"><span title="{{$value.Name}}" class="item icon-{{$value.Icon}}-sm"></span></span></td>
                         <td><a href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>
-                        <td>{{$value.Id}}</td>
+                        <td>{{$value.SlotsFirstName}}</td>
+                        <td>{{$value.ItemtypeName}}</td>
                     </tr>
                     {{end}}                
                     </tbody>

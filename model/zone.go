@@ -91,6 +91,16 @@ type Zone struct {
 	Skylock           int64          `json:"skylock" db:"skylock"`                       //skylock` tinyint(4) NOT NULL DEFAULT '0',
 }
 
+func (c *Zone) GetMinStatusName() string {
+	switch {
+	case c.MinStatus >= 200:
+		return "Admin"
+	case c.MinStatus >= 100:
+		return "Guide"
+	}
+	return ""
+}
+
 func (c *Zone) ExpansionId() int64 {
 	switch c.ExpansionBit() {
 	case 0:
