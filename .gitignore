@@ -1,5 +1,6 @@
 /box/*
-template/
+/template/swag-web
+
 /docker/db/
 cover.txt
 
