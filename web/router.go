@@ -245,6 +245,13 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"ListZoneByHotzone",
+			"GET",
+			"/zone/byhotzone",
+			a.ListZoneByHotzone,
+		},
+
+		Route{
 			"GetItem",
 			"GET",
 			"/item/{itemId}",

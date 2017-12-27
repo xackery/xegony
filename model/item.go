@@ -10,20 +10,20 @@ import (
 
 type Item struct {
 	//inventory added details
-	SlotId              int64          `json:"slotid" db:"slotid"`
-	Charges             sql.NullInt64  `json:"charges" db:"charges"`
-	InvColor            int64          `json:"invColor" db:"invcolor"`
-	Augslot1            int64          `json:"augslot1" db:"augslot1"`
-	Augslot2            int64          `json:"augslot2"`            // mediumint(7) unsigned NOT NULL DEFAULT '0',
-	Augslot3            int64          `json:"augslot3"`            // mediumint(7) unsigned NOT NULL DEFAULT '0',
-	Augslot4            int64          `json:"augslot4"`            // mediumint(7) unsigned NOT NULL DEFAULT '0',
-	Augslot5            int64          `json:"augslot5"`            // mediumint(7) unsigned DEFAULT '0',
-	Augslot6            int64          `json:"augslot6"`            // mediumint(7) NOT NULL DEFAULT '0',
-	Instnodrop          int64          `json:"instnodrop"`          // tinyint(1) unsigned NOT NULL DEFAULT '0',
-	Custom_data         sql.NullString `json:"custom_data"`         // text,
-	Ornamenticon        int64          `json:"ornamenticon"`        // int(11) unsigned NOT NULL DEFAULT '0',
-	Ornamentidfile      int64          `json:"ornamentidfile"`      // int(11) unsigned NOT NULL DEFAULT '0',
-	Ornament_hero_model int64          `json:"ornament_hero_model"` // int(11) NOT NULL DEFAULT '0',
+	SlotId            int64          `json:"slotid" db:"slotid"`
+	Charges           sql.NullInt64  `json:"charges" db:"charges"`
+	InvColor          int64          `json:"invColor" db:"invcolor"`
+	Augslot1          int64          `json:"augslot1" db:"augslot1"`
+	Augslot2          int64          `json:"augslot2"`            // mediumint(7) unsigned NOT NULL DEFAULT '0',
+	Augslot3          int64          `json:"augslot3"`            // mediumint(7) unsigned NOT NULL DEFAULT '0',
+	Augslot4          int64          `json:"augslot4"`            // mediumint(7) unsigned NOT NULL DEFAULT '0',
+	Augslot5          int64          `json:"augslot5"`            // mediumint(7) unsigned DEFAULT '0',
+	Augslot6          int64          `json:"augslot6"`            // mediumint(7) NOT NULL DEFAULT '0',
+	Instnodrop        int64          `json:"instnodrop"`          // tinyint(1) unsigned NOT NULL DEFAULT '0',
+	CustomData        sql.NullString `json:"custom_data"`         // text,
+	Ornamenticon      int64          `json:"ornamenticon"`        // int(11) unsigned NOT NULL DEFAULT '0',
+	OrnamentIdFile    int64          `json:"ornamentidfile"`      // int(11) unsigned NOT NULL DEFAULT '0',
+	OrnamentHeroModel int64          `json:"ornament_hero_model"` // int(11) NOT NULL DEFAULT '0',
 
 	Character *Character `json:"character"`
 

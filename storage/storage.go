@@ -85,6 +85,7 @@ type Storage interface {
 	CreateZone(zone *model.Zone) (err error)
 	EditZone(zoneId int64, zone *model.Zone) (err error)
 	ListZone() (zones []*model.Zone, err error)
+	ListZoneByHotzone() (zones []*model.Zone, err error)
 	DeleteZone(zoneId int64) (err error)
 	//Task
 	GetTask(taskId int64) (task *model.Task, err error)

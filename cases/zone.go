@@ -115,3 +115,11 @@ func (g *ZoneRepository) List() (zones []*model.Zone, err error) {
 	}
 	return
 }
+
+func (g *ZoneRepository) ListByHotzone() (zones []*model.Zone, err error) {
+	zones, err = g.stor.ListZoneByHotzone()
+	if err != nil {
+		return
+	}
+	return
+}
