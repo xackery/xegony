@@ -6,14 +6,14 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-type Forum struct {
-	Id          int64  `json:"id"`
-	Name        string `json:"name"`
-	OwnerId     int64  `json:"ownerId" db:"owner_id"`
-	Description string `json:"description"`
+type Post struct {
+	Id      int64  `json:"id"`
+	Body    string `json:"body"`
+	TopicId int64  `json:"topicId" db:"topic_id"`
+	OwnerId int64  `json:"ownerId" db:"owner_id"`
 }
 
-func (c *Forum) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+func (c *Post) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := Schema{}
 	s.Type = "object"
 	s.Required = requiredFields
@@ -40,22 +40,16 @@ func (c *Forum) NewSchema(requiredFields []string, optionalFields []string) (sch
 	return
 }
 
-func (c *Forum) getSchemaProperty(field string) (prop Schema, err error) {
+func (c *Post) getSchemaProperty(field string) (prop Schema, err error) {
 	switch field {
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "ownerId":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "name":
+	case "body":
 		prop.Type = "string"
 		prop.MinLength = 3
-		prop.MaxLength = 32
+		prop.MaxLength = 1024
 		prop.Pattern = "^[a-zA-Z' ]*$"
-	case "description":
-		prop.Type = "string"
-		prop.MaxLength = 128
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

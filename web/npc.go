@@ -152,12 +152,6 @@ func (a *Web) GetNpcByZone(w http.ResponseWriter, r *http.Request) {
 func (a *Web) ListNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	var err error
 
-	_, err = getIntVar(r, "factionId")
-	if err == nil {
-		a.GetNpcByFaction(w, r)
-		return
-	}
-
 	type Content struct {
 		Site     Site
 		Factions []*model.Faction
@@ -208,8 +202,9 @@ func (a *Web) GetNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Content struct {
-		Site Site
-		Npcs []*model.Npc
+		Site    Site
+		Npcs    []*model.Npc
+		Faction *model.Faction
 	}
 
 	site := a.NewSite(r)
@@ -222,9 +217,16 @@ func (a *Web) GetNpcByFaction(w http.ResponseWriter, r *http.Request) {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+
+	faction, err := a.factionRepo.Get(factionId)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
 	content := Content{
-		Site: site,
-		Npcs: npcs,
+		Site:    site,
+		Npcs:    npcs,
+		Faction: faction,
 	}
 
 	tmp := a.getTemplate("")

@@ -57,11 +57,17 @@ type Storage interface {
 	EditForum(forumId int64, forum *model.Forum) (err error)
 	ListForum() (forums []*model.Forum, err error)
 	DeleteForum(forumId int64) (err error)
+	//Post
+	GetPost(postId int64) (post *model.Post, err error)
+	CreatePost(post *model.Post) (err error)
+	EditPost(postId int64, post *model.Post) (err error)
+	ListPost(topicId int64) (posts []*model.Post, err error)
+	DeletePost(postId int64) (err error)
 	//Topic
 	GetTopic(topicId int64) (topic *model.Topic, err error)
 	CreateTopic(topic *model.Topic) (err error)
 	EditTopic(topicId int64, topic *model.Topic) (err error)
-	ListTopic() (topics []*model.Topic, err error)
+	ListTopic(forumId int64) (topics []*model.Topic, err error)
 	DeleteTopic(topicId int64) (err error)
 	//Zone
 	GetZone(zoneId int64) (zone *model.Zone, err error)

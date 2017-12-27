@@ -8,15 +8,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) GetPost(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "topicId")
+	id, err := getIntVar(r, "postId")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "postId argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	topic, err := a.topicRepo.Get(id)
+	post, err := a.postRepo.Get(id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			writeData(w, r, "", http.StatusOK)
@@ -26,34 +26,34 @@ func (a *Api) GetTopic(w http.ResponseWriter, r *http.Request) {
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	writeData(w, r, topic, http.StatusOK)
+	writeData(w, r, post, http.StatusOK)
 	return
 }
 
-func (a *Api) CreateTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) CreatePost(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
 		return
 	}
 
-	topic := &model.Topic{}
-	err = decodeBody(r, topic)
+	post := &model.Post{}
+	err = decodeBody(r, post)
 	if err != nil {
 		writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.topicRepo.Create(topic)
+	err = a.postRepo.Create(post)
 	if err != nil {
 		writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 
-	writeData(w, r, topic, http.StatusCreated)
+	writeData(w, r, post, http.StatusCreated)
 	return
 }
 
-func (a *Api) DeleteTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) DeletePost(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -61,14 +61,14 @@ func (a *Api) DeleteTopic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "topicId")
+	id, err := getIntVar(r, "postId")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "postId argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.topicRepo.Delete(id)
+	err = a.postRepo.Delete(id)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -84,7 +84,7 @@ func (a *Api) DeleteTopic(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) EditPost(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -92,43 +92,43 @@ func (a *Api) EditTopic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "topicId")
+	id, err := getIntVar(r, "postId")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "postId argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	topic := &model.Topic{}
-	err = decodeBody(r, topic)
+	post := &model.Post{}
+	err = decodeBody(r, post)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	err = a.topicRepo.Edit(id, topic)
+	err = a.postRepo.Edit(id, post)
 	if err != nil {
 		writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	writeData(w, r, topic, http.StatusOK)
+	writeData(w, r, post, http.StatusOK)
 	return
 }
 
-func (a *Api) ListTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) ListPost(w http.ResponseWriter, r *http.Request) {
 	forumId, err := getIntVar(r, "forumId")
 	if err != nil {
 		err = errors.Wrap(err, "forumId argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	topics, err := a.topicRepo.List(forumId)
+	posts, err := a.postRepo.List(forumId)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	writeData(w, r, topics, http.StatusOK)
+	writeData(w, r, posts, http.StatusOK)
 	return
 }

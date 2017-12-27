@@ -8,11 +8,11 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-type TopicRepository struct {
+type PostRepository struct {
 	stor storage.Storage
 }
 
-func (g *TopicRepository) Initialize(stor storage.Storage) (err error) {
+func (g *PostRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
@@ -21,26 +21,26 @@ func (g *TopicRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *TopicRepository) Get(topicId int64) (topic *model.Topic, err error) {
-	if topicId == 0 {
-		err = fmt.Errorf("Invalid Topic ID")
+func (g *PostRepository) Get(postId int64) (post *model.Post, err error) {
+	if postId == 0 {
+		err = fmt.Errorf("Invalid Post ID")
 		return
 	}
-	topic, err = g.stor.GetTopic(topicId)
+	post, err = g.stor.GetPost(postId)
 	return
 }
 
-func (g *TopicRepository) Create(topic *model.Topic) (err error) {
-	if topic == nil {
-		err = fmt.Errorf("Empty topic")
+func (g *PostRepository) Create(post *model.Post) (err error) {
+	if post == nil {
+		err = fmt.Errorf("Empty post")
 		return
 	}
-	schema, err := topic.NewSchema([]string{"body"}, nil)
+	schema, err := post.NewSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
-	topic.Id = 0 //strip ID
-	result, err := schema.Validate(gojsonschema.NewGoLoader(topic))
+	post.Id = 0 //strip ID
+	result, err := schema.Validate(gojsonschema.NewGoLoader(post))
 	if err != nil {
 		return
 	}
@@ -55,20 +55,20 @@ func (g *TopicRepository) Create(topic *model.Topic) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateTopic(topic)
+	err = g.stor.CreatePost(post)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TopicRepository) Edit(topicId int64, topic *model.Topic) (err error) {
-	schema, err := topic.NewSchema([]string{"body"}, nil)
+func (g *PostRepository) Edit(postId int64, post *model.Post) (err error) {
+	schema, err := post.NewSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
 
-	result, err := schema.Validate(gojsonschema.NewGoLoader(topic))
+	result, err := schema.Validate(gojsonschema.NewGoLoader(post))
 	if err != nil {
 		return
 	}
@@ -84,23 +84,23 @@ func (g *TopicRepository) Edit(topicId int64, topic *model.Topic) (err error) {
 		return
 	}
 
-	err = g.stor.EditTopic(topicId, topic)
+	err = g.stor.EditPost(postId, post)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TopicRepository) Delete(topicId int64) (err error) {
-	err = g.stor.DeleteTopic(topicId)
+func (g *PostRepository) Delete(postId int64) (err error) {
+	err = g.stor.DeletePost(postId)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TopicRepository) List(forumId int64) (topics []*model.Topic, err error) {
-	topics, err = g.stor.ListTopic(forumId)
+func (g *PostRepository) List(topicId int64) (posts []*model.Post, err error) {
+	posts, err = g.stor.ListPost(topicId)
 	if err != nil {
 		return
 	}

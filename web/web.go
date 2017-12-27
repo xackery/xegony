@@ -28,17 +28,18 @@ type Site struct {
 }
 
 type Web struct {
-	templates     map[string]*Template
+	accountRepo   *cases.AccountRepository
 	bazaarRepo    *cases.BazaarRepository
 	characterRepo *cases.CharacterRepository
-	userRepo      *cases.UserRepository
-	accountRepo   *cases.AccountRepository
-	forumRepo     *cases.ForumRepository
-	topicRepo     *cases.TopicRepository
-	npcRepo       *cases.NpcRepository
-	zoneRepo      *cases.ZoneRepository
 	factionRepo   *cases.FactionRepository
+	forumRepo     *cases.ForumRepository
 	itemRepo      *cases.ItemRepository
+	npcRepo       *cases.NpcRepository
+	postRepo      *cases.PostRepository
+	templates     map[string]*Template
+	topicRepo     *cases.TopicRepository
+	userRepo      *cases.UserRepository
+	zoneRepo      *cases.ZoneRepository
 }
 
 func (a *Web) NewSite(r *http.Request) (site Site) {
@@ -66,35 +67,28 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 		return
 	}
 
-	a.characterRepo = &cases.CharacterRepository{}
-	a.characterRepo.Initialize(s)
-
-	a.userRepo = &cases.UserRepository{}
-	a.userRepo.Initialize(s)
-
 	a.accountRepo = &cases.AccountRepository{}
 	a.accountRepo.Initialize(s)
-
 	a.bazaarRepo = &cases.BazaarRepository{}
 	a.bazaarRepo.Initialize(s)
-
-	a.forumRepo = &cases.ForumRepository{}
-	a.forumRepo.Initialize(s)
-
-	a.itemRepo = &cases.ItemRepository{}
-	a.itemRepo.Initialize(s)
-
-	a.topicRepo = &cases.TopicRepository{}
-	a.topicRepo.Initialize(s)
-
-	a.npcRepo = &cases.NpcRepository{}
-	a.npcRepo.Initialize(s)
-
-	a.zoneRepo = &cases.ZoneRepository{}
-	a.zoneRepo.Initialize(s)
-
+	a.characterRepo = &cases.CharacterRepository{}
+	a.characterRepo.Initialize(s)
 	a.factionRepo = &cases.FactionRepository{}
 	a.factionRepo.Initialize(s)
+	a.forumRepo = &cases.ForumRepository{}
+	a.forumRepo.Initialize(s)
+	a.itemRepo = &cases.ItemRepository{}
+	a.itemRepo.Initialize(s)
+	a.npcRepo = &cases.NpcRepository{}
+	a.npcRepo.Initialize(s)
+	a.postRepo = &cases.PostRepository{}
+	a.postRepo.Initialize(s)
+	a.topicRepo = &cases.TopicRepository{}
+	a.topicRepo.Initialize(s)
+	a.userRepo = &cases.UserRepository{}
+	a.userRepo.Initialize(s)
+	a.zoneRepo = &cases.ZoneRepository{}
+	a.zoneRepo.Initialize(s)
 	return
 }
 
@@ -164,6 +158,14 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 
 	var tErr error
 	switch statusCode {
+	case http.StatusBadRequest:
+		if tmp == nil {
+			tmp, tErr = a.loadTemplate(nil, "400", "400.tpl")
+			if tErr != nil {
+				err = errors.Wrap(err, tErr.Error())
+			}
+		}
+		site.Title = "400 - Bad Request"
 	case http.StatusNotFound: //404
 		if tmp == nil {
 			tmp, tErr = a.loadTemplate(nil, "404", "404.tpl")

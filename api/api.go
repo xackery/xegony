@@ -33,16 +33,17 @@ type LoginResponse struct {
 }
 
 type Api struct {
-	characterRepo *cases.CharacterRepository
-	userRepo      *cases.UserRepository
 	accountRepo   *cases.AccountRepository
 	bazaarRepo    *cases.BazaarRepository
+	characterRepo *cases.CharacterRepository
+	factionRepo   *cases.FactionRepository
 	forumRepo     *cases.ForumRepository
 	itemRepo      *cases.ItemRepository
-	topicRepo     *cases.TopicRepository
 	npcRepo       *cases.NpcRepository
+	postRepo      *cases.PostRepository
+	topicRepo     *cases.TopicRepository
+	userRepo      *cases.UserRepository
 	zoneRepo      *cases.ZoneRepository
-	factionRepo   *cases.FactionRepository
 }
 
 func (a *Api) Initialize(s storage.Storage, config string) (err error) {
@@ -51,33 +52,26 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 		return
 	}
 
-	a.characterRepo = &cases.CharacterRepository{}
-	a.characterRepo.Initialize(s)
-
-	a.userRepo = &cases.UserRepository{}
-	a.userRepo.Initialize(s)
-
 	a.accountRepo = &cases.AccountRepository{}
 	a.accountRepo.Initialize(s)
-
 	a.bazaarRepo = &cases.BazaarRepository{}
 	a.bazaarRepo.Initialize(s)
-
+	a.characterRepo = &cases.CharacterRepository{}
+	a.characterRepo.Initialize(s)
 	a.factionRepo = &cases.FactionRepository{}
 	a.factionRepo.Initialize(s)
-
 	a.forumRepo = &cases.ForumRepository{}
 	a.forumRepo.Initialize(s)
-
 	a.itemRepo = &cases.ItemRepository{}
 	a.itemRepo.Initialize(s)
-
-	a.topicRepo = &cases.TopicRepository{}
-	a.topicRepo.Initialize(s)
-
 	a.npcRepo = &cases.NpcRepository{}
 	a.npcRepo.Initialize(s)
-
+	a.postRepo = &cases.PostRepository{}
+	a.postRepo.Initialize(s)
+	a.topicRepo = &cases.TopicRepository{}
+	a.topicRepo.Initialize(s)
+	a.userRepo = &cases.UserRepository{}
+	a.userRepo.Initialize(s)
 	a.zoneRepo = &cases.ZoneRepository{}
 	a.zoneRepo.Initialize(s)
 	return

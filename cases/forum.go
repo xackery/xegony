@@ -63,7 +63,7 @@ func (g *ForumRepository) Create(forum *model.Forum) (err error) {
 }
 
 func (g *ForumRepository) Edit(forumId int64, forum *model.Forum) (err error) {
-	schema, err := forum.NewSchema([]string{"name"}, nil)
+	schema, err := forum.NewSchema([]string{"name"}, []string{"description"})
 	if err != nil {
 		return
 	}

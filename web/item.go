@@ -160,8 +160,9 @@ func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
-		Items []*model.Item
+		Site   Site
+		Items  []*model.Item
+		SlotId int64
 	}
 
 	slotId, err := getIntVar(r, "slotId")
@@ -181,8 +182,9 @@ func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
 	}
 
 	content := Content{
-		Site:  site,
-		Items: items,
+		Site:   site,
+		Items:  items,
+		SlotId: slotId,
 	}
 
 	tmp := a.getTemplate("")

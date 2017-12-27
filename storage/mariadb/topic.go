@@ -8,7 +8,7 @@ import (
 
 func (s *Storage) GetTopic(topicId int64) (topic *model.Topic, err error) {
 	topic = &model.Topic{}
-	err = s.db.Get(topic, "SELECT id, body FROM topic WHERE id = ?", topicId)
+	err = s.db.Get(topic, "SELECT id, title, forum_id FROM topic WHERE id = ?", topicId)
 	if err != nil {
 		return
 	}
@@ -21,8 +21,8 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 		return
 	}
 
-	result, err := s.db.NamedExec(`INSERT INTO topic(body)
-		VALUES (:body)`, topic)
+	result, err := s.db.NamedExec(`INSERT INTO topic(title)
+		VALUES (:title)`, topic)
 	if err != nil {
 		return
 	}
@@ -34,8 +34,8 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 	return
 }
 
-func (s *Storage) ListTopic() (topics []*model.Topic, err error) {
-	rows, err := s.db.Queryx(`SELECT id, body FROM topic ORDER BY id DESC`)
+func (s *Storage) ListTopic(forumId int64) (topics []*model.Topic, err error) {
+	rows, err := s.db.Queryx(`SELECT id, title, forum_id FROM topic WHERE forum_id = ? ORDER BY id DESC`, forumId)
 	if err != nil {
 		return
 	}
@@ -52,7 +52,7 @@ func (s *Storage) ListTopic() (topics []*model.Topic, err error) {
 
 func (s *Storage) EditTopic(topicId int64, topic *model.Topic) (err error) {
 	topic.Id = topicId
-	result, err := s.db.NamedExec(`UPDATE topic SET body=:body WHERE id = :id`, topic)
+	result, err := s.db.NamedExec(`UPDATE topic SET title=:title, forum_id=:forum_id WHERE id = :id`, topic)
 	if err != nil {
 		return
 	}

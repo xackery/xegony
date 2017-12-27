@@ -24,7 +24,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"Index",
 			"GET",
 			"/",
-			a.Index,
+			a.ListForum,
 		},
 
 		Route{
@@ -137,6 +137,48 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"GET",
 			"/npc/byfaction/{factionId}",
 			a.GetNpcByFaction,
+		},
+
+		Route{
+			"ListTopic",
+			"GET",
+			"/forum/{forumId}",
+			a.ListTopic,
+		},
+
+		Route{
+			"GetTopic",
+			"GET",
+			"/topic/{topicId}/details",
+			a.GetTopic,
+		},
+
+		Route{
+			"ListPost",
+			"GET",
+			"/topic/{topicId}",
+			a.ListPost,
+		},
+
+		Route{
+			"GetPost",
+			"GET",
+			"/post/{postId}",
+			a.GetPost,
+		},
+
+		Route{
+			"ListForum",
+			"GET",
+			"/forum",
+			a.ListForum,
+		},
+
+		Route{
+			"GetForum",
+			"GET",
+			"/forum/{forumId}/details",
+			a.GetForum,
 		},
 
 		Route{
