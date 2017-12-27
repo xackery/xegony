@@ -51,7 +51,7 @@ func (a *Web) ListTopic(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listtopic.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "topic/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -101,7 +101,7 @@ func (a *Web) GetTopic(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "gettopic.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "topic/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

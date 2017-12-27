@@ -33,7 +33,7 @@ func (a *Web) ListNpc(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listnpc.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "npc/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -82,7 +82,7 @@ func (a *Web) ListNpcByZone(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listnpcbyzone.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "npc/listbyzone.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -131,7 +131,7 @@ func (a *Web) GetNpcByZone(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getnpcbyzone.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "npc/getbyzone.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -174,7 +174,7 @@ func (a *Web) ListNpcByFaction(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listnpcbyfaction.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "npc/listbyfaction.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -231,7 +231,7 @@ func (a *Web) GetNpcByFaction(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getnpcbyfaction.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "npc/getbyfaction.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -291,7 +291,7 @@ func (a *Web) GetNpc(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getnpc.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "npc/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

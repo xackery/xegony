@@ -31,7 +31,7 @@ func (a *Web) ListZone(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listzone.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "zone/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -81,7 +81,7 @@ func (a *Web) GetZone(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getzone.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "zone/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

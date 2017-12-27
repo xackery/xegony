@@ -33,7 +33,7 @@ func (a *Web) ListItem(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listitem.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "item/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -96,7 +96,7 @@ func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(characterId, len(inventory))
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listitembycharacter.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "item/listbycharacter.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -138,7 +138,7 @@ func (a *Web) ListItemBySlot(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listitembyslot.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "item/listbyslot.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -189,7 +189,7 @@ func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getitembyslot.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "item/getbyslot.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -244,7 +244,7 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getitem.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "item/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

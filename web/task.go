@@ -32,7 +32,7 @@ func (a *Web) ListTask(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listtask.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "task/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -82,7 +82,7 @@ func (a *Web) GetTask(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "gettask.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "task/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -122,7 +122,7 @@ func (a *Web) CreateTask(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "createtask.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "task/create.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

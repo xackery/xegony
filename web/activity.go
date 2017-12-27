@@ -51,7 +51,7 @@ func (a *Web) ListActivity(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listactivity.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "activity/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -117,7 +117,7 @@ func (a *Web) GetActivity(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getactivity.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "activity/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

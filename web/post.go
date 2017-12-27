@@ -62,7 +62,7 @@ func (a *Web) ListPost(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listpost.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "post/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -133,7 +133,7 @@ func (a *Web) GetPost(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getpost.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "post/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

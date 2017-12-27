@@ -32,7 +32,7 @@ func (a *Web) ListCharacter(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listcharacter.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "character/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -77,7 +77,7 @@ func (a *Web) SearchCharacter(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "searchcharacter.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "character/search.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -119,7 +119,7 @@ func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listcharacterbyranking.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "character/listbyranking.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -168,7 +168,7 @@ func (a *Web) ListCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listcharacter.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "character/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -222,7 +222,7 @@ func (a *Web) GetCharacter(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getcharacter.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "character/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

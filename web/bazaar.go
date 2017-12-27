@@ -31,7 +31,7 @@ func (a *Web) ListBazaar(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listbazaar.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "bazaar/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -81,7 +81,7 @@ func (a *Web) GetBazaar(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getbazaar.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "bazaar/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return

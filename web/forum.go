@@ -33,7 +33,7 @@ func (a *Web) ListForum(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "listforum.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "forum/list.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -87,7 +87,7 @@ func (a *Web) GetForum(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "getforum.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "forum/get.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
@@ -127,7 +127,7 @@ func (a *Web) CreateForum(w http.ResponseWriter, r *http.Request) {
 
 	tmp := a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "createforum.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "forum/create.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
