@@ -1,0 +1,434 @@
+
+@media (min-width:1920px) {
+  .container{
+    width: 1890px
+  }
+
+  
+  .destroy-border {
+    padding: 30px 5px 30px 35px;
+  }
+
+}
+
+@media (min-width:1440px) {
+  .bank-slots {
+    padding: 0px;
+    min-width: 80px;
+  }
+  .destroy-border {
+    padding: 20px;
+  }
+
+}
+
+
+.bank-border {
+  padding: 0px 5px 5px 0px;
+}
+
+.statistics-border {
+  padding: 0px 5px 5px 0px;
+}
+
+
+.equipment-border {
+  padding: 10px 0px 10px 15px;
+  min-width: 207.5px;  
+}
+.container {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.list-group-item {
+  min-height: 60px;
+}
+
+/* All draggable items should inerhit this */
+.item {
+  width: 40px;
+  height: 40px;
+  float: left;
+}
+
+/* For display only items */
+.item-display {
+  width: 40px;
+  height: 40px;
+}
+
+.item-stack-border {
+  position: absolute;
+  left: 25px;
+  top: 25px;
+  width: 5px;
+  height: 5px;
+}
+
+.item-stack-count {
+  font-size: 12px;
+}
+
+.slotarea {
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+}
+.slot {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.slot-spacer {
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+
+.slot0 {
+  background: url('/images/slots/slot_0.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.slot1 {
+  background: url('/images/slots/slot_1.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.slot2 {
+  background: url('/images/slots/slot_2.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot3 {
+  background: url('/images/slots/slot_3.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot4 {
+  background: url('/images/slots/slot_4.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot5 {
+  background: url('/images/slots/slot_5.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot6 {
+  background: url('/images/slots/slot_6.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot7 {
+  background: url('/images/slots/slot_7.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot8 {
+  background: url('/images/slots/slot_8.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot9 {
+  background: url('/images/slots/slot_9.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot10 {
+  background: url('/images/slots/slot_10.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot11 {
+  background: url('/images/slots/slot_11.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot12 {
+  background: url('/images/slots/slot_12.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot13 {
+  background: url('/images/slots/slot_13.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot14 {
+  background: url('/images/slots/slot_14.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot15 {
+  background: url('/images/slots/slot_15.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot16 {
+  background: url('/images/slots/slot_16.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot17 {
+  background: url('/images/slots/slot_17.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot18 {
+  background: url('/images/slots/slot_18.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot19 {
+  background: url('/images/slots/slot_19.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot20 {
+  background: url('/images/slots/slot_20.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot21 {
+  background: url('/images/slots/slot_21.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot22 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot23 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot24 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot25 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot26 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot27 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot28 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+.slot29 {
+  background: url('/images/slots/slot_.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+
+
+.slot9999 {
+  background: url('/images/slots/slot_9999.gif');
+  width: 40px;
+  height: 40px;
+  float: left;
+  padding-left: 0px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.item-bags {
+	max-width: 107.5px;
+  min-width: 107.5px;
+}
+
+.char-monogram {
+	position: absolute;
+	left: 60px;
+	top: 93px;
+	width: 80px;
+	height: 160px;
+}
+
+
+
+/*
+.findloc0 {
+  top: 86px;
+  left: 0px;
+}
+.findloc1 {
+  top: 129px;
+  left: 0px;
+}
+.findloc2 {
+  top: 172px;
+  left: 0;
+}
+.findloc3 {
+  top: 215px;
+  left: 0px;
+}
+.findloc4 {
+  top: 258px;
+  left: 0;
+}
+.findloc5 {
+  top: 301px;
+  left: 0px;
+}
+.findloc6 {
+  top: 345px;
+  left: 0;
+}
+.findloc7 {
+  top: 388px;
+  left: 0px;
+}
+.findloc8 {
+  top: 431px;
+  left: 0;
+}*/
