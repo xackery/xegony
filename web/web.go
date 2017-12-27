@@ -158,6 +158,14 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 
 	var tErr error
 	switch statusCode {
+	case http.StatusUnauthorized:
+		if tmp == nil {
+			tmp, tErr = a.loadTemplate(nil, "401", "401.tpl")
+			if tErr != nil {
+				err = errors.Wrap(err, tErr.Error())
+			}
+		}
+		site.Title = "401 - Unauthorized"
 	case http.StatusBadRequest:
 		if tmp == nil {
 			tmp, tErr = a.loadTemplate(nil, "400", "400.tpl")

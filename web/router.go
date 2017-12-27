@@ -182,6 +182,13 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"CreateForum",
+			"GET",
+			"/forum/create",
+			a.CreateForum,
+		},
+
+		Route{
 			"GetZone",
 			"GET",
 			"/zone/{zoneId}",

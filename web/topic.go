@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -19,6 +20,11 @@ func (a *Web) ListTopic(w http.ResponseWriter, r *http.Request) {
 	site := a.NewSite(r)
 	site.Page = "topic"
 	site.Title = "Topic"
+
+	if strings.ToLower(getVar(r, "forumId")) == "create" {
+		a.CreateForum(w, r)
+		return
+	}
 
 	forumId, err := getIntVar(r, "forumId")
 	if err != nil {

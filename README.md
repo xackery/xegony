@@ -1,4 +1,3 @@
-# Xegony
+# Project Xegony
 
-## Installation
-- `go get -u github.com/UnnoTed/fileb0x`
+The ultimate Everquest editor and website

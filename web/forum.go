@@ -2,8 +2,10 @@ package web
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/pkg/errors"
+	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/model"
 )
 
@@ -61,6 +63,11 @@ func (a *Web) GetForum(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forum"
 	site.Title = "Forum"
 
+	if strings.ToLower(getVar(r, "forumId")) == "create" {
+		a.CreateForum(w, r)
+		return
+	}
+
 	forumId, err := getIntVar(r, "forumId")
 	if err != nil {
 		err = errors.Wrap(err, "forumId argument is required")
@@ -81,6 +88,46 @@ func (a *Web) GetForum(w http.ResponseWriter, r *http.Request) {
 	tmp := a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "getforum.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("forum", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) CreateForum(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site Site
+	}
+
+	site := a.NewSite(r)
+	site.Page = "forum"
+	site.Title = "Forum"
+
+	if err = api.IsAdmin(r); err != nil {
+		a.writeError(w, r, err, http.StatusUnauthorized)
+		return
+	}
+
+	content := Content{
+		Site: site,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "createforum.tpl")
 		if err != nil {
 			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
