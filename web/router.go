@@ -154,6 +154,20 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"ListActivity",
+			"GET",
+			"/task/{taskId}",
+			a.ListActivity,
+		},
+
+		Route{
+			"GetActivity",
+			"GET",
+			"/task/{taskId}/activity/{activityId}",
+			a.GetActivity,
+		},
+
+		Route{
 			"ListPost",
 			"GET",
 			"/topic/{topicId}",
@@ -186,6 +200,20 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"GET",
 			"/forum/create",
 			a.CreateForum,
+		},
+
+		Route{
+			"GetTask",
+			"GET",
+			"/task/{taskId}/details",
+			a.GetTask,
+		},
+
+		Route{
+			"ListTask",
+			"GET",
+			"/task",
+			a.ListTask,
 		},
 
 		Route{

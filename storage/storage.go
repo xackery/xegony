@@ -14,6 +14,12 @@ type Storage interface {
 	EditAccount(accountId int64, account *model.Account) (err error)
 	ListAccount() (accounts []*model.Account, err error)
 	DeleteAccount(accountId int64) (err error)
+	//Activity
+	GetActivity(taskId int64, activityId int64) (activity *model.Activity, err error)
+	CreateActivity(activity *model.Activity) (err error)
+	EditActivity(activityId int64, activity *model.Activity) (err error)
+	ListActivity(taskId int64) (activitys []*model.Activity, err error)
+	DeleteActivity(activityId int64) (err error)
 	//Bazaar
 	GetBazaar(bazaarId int64) (bazaar *model.Bazaar, err error)
 	CreateBazaar(bazaar *model.Bazaar) (err error)
@@ -75,6 +81,12 @@ type Storage interface {
 	EditZone(zoneId int64, zone *model.Zone) (err error)
 	ListZone() (zones []*model.Zone, err error)
 	DeleteZone(zoneId int64) (err error)
+	//Task
+	GetTask(taskId int64) (task *model.Task, err error)
+	CreateTask(task *model.Task) (err error)
+	EditTask(taskId int64, task *model.Task) (err error)
+	ListTask() (tasks []*model.Task, err error)
+	DeleteTask(taskId int64) (err error)
 	//User
 	GetUser(userId int64) (user *model.User, err error)
 	CreateUser(user *model.User) (err error)

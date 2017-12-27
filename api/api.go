@@ -34,6 +34,7 @@ type LoginResponse struct {
 
 type Api struct {
 	accountRepo   *cases.AccountRepository
+	activityRepo  *cases.ActivityRepository
 	bazaarRepo    *cases.BazaarRepository
 	characterRepo *cases.CharacterRepository
 	factionRepo   *cases.FactionRepository
@@ -41,6 +42,7 @@ type Api struct {
 	itemRepo      *cases.ItemRepository
 	npcRepo       *cases.NpcRepository
 	postRepo      *cases.PostRepository
+	taskRepo      *cases.TaskRepository
 	topicRepo     *cases.TopicRepository
 	userRepo      *cases.UserRepository
 	zoneRepo      *cases.ZoneRepository
@@ -54,6 +56,8 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 
 	a.accountRepo = &cases.AccountRepository{}
 	a.accountRepo.Initialize(s)
+	a.activityRepo = &cases.ActivityRepository{}
+	a.activityRepo.Initialize(s)
 	a.bazaarRepo = &cases.BazaarRepository{}
 	a.bazaarRepo.Initialize(s)
 	a.characterRepo = &cases.CharacterRepository{}
@@ -68,6 +72,8 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 	a.npcRepo.Initialize(s)
 	a.postRepo = &cases.PostRepository{}
 	a.postRepo.Initialize(s)
+	a.taskRepo = &cases.TaskRepository{}
+	a.taskRepo.Initialize(s)
 	a.topicRepo = &cases.TopicRepository{}
 	a.topicRepo.Initialize(s)
 	a.userRepo = &cases.UserRepository{}
