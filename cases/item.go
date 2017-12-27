@@ -30,6 +30,14 @@ func (g *ItemRepository) Get(itemId int64) (item *model.Item, err error) {
 	return
 }
 
+func (g *ItemRepository) Search(search string) (items []*model.Item, err error) {
+	items, err = g.stor.SearchItem(search)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (g *ItemRepository) Create(item *model.Item) (err error) {
 	if item == nil {
 		err = fmt.Errorf("Empty item")

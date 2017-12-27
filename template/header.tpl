@@ -9,18 +9,14 @@
     </div>
     <div id="logo" class="light-version">
         <span>
-            <img class="img-fluid" src="/images/logo.png" alt="RebuildEQ" style="width: 20px"/>Xegony
+            <img class="img-fluid" src="/images/logo.png" alt="RebuildEQ" style="width: 20px"/>{{.Site.Name}}
         </span>
     </div>
     <nav role="navigation">
         <div class="small-logo">
-            <span class="text-primary">Xegony</span>
+            <span class="text-primary">{{.Site.Name}}</span>
         </div>
-        <form role="search" class="navbar-form-custom" method="post" action="#">
-            <div class="form-group">
-                <input type="text" placeholder="Search something special" class="form-control" name="search">
-            </div>
-        </form>
+        
         <div class="mobile-menu">
             <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
                 <i class="fa fa-chevron-down"></i>
@@ -39,13 +35,20 @@
                 </ul>
             </div>
         </div>
+        
         <div class="navbar-right">
             <ul class="nav navbar-nav no-borders">
+                {{if .Site.User}}
+                <li class="dropdown">
+                    <a href="/dashboard">
+                        <i class="pe-7s-graph2"></i>
+                    </a>
+                </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                         <i class="pe-7s-speaker"></i>
                     </a>
-                    <ul class="dropdown-menu hdropdown notification animated flipInX">
+                    <ul class="dropdown-menu hdropdown notification flipInX">
                         <li>
                             <a>
                                 <span class="label label-success">NEW</span> It is a long established.
@@ -64,64 +67,13 @@
                         <li class="summary"><a href="#">See all notifications</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                        <i class="pe-7s-keypad"></i>
-                    </a>
-
-                    <div class="dropdown-menu hdropdown bigmenu animated flipInX">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <a href="projects.html">
-                                        <i class="pe pe-7s-portfolio text-info"></i>
-                                        <h5>Projects</h5>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="mailbox.html">
-                                        <i class="pe pe-7s-mail text-warning"></i>
-                                        <h5>Email</h5>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="contacts.html">
-                                        <i class="pe pe-7s-users text-success"></i>
-                                        <h5>Contacts</h5>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="forum.html">
-                                        <i class="pe pe-7s-comment text-info"></i>
-                                        <h5>Forum</h5>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="analytics.html">
-                                        <i class="pe pe-7s-graph1 text-danger"></i>
-                                        <h5>Analytics</h5>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="file_manager.html">
-                                        <i class="pe pe-7s-box1 text-success"></i>
-                                        <h5>Files</h5>
-                                    </a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </li>
+                
                 <li class="dropdown">
                     <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown">
                         <i class="pe-7s-mail"></i>
                         <span class="label label-success">4</span>
                     </a>
-                    <ul class="dropdown-menu hdropdown animated flipInX">
+                    <ul class="dropdown-menu hdropdown flipInX">
                         <div class="title">
                             You have 4 new messages
                         </div>
@@ -148,17 +100,25 @@
                         <li class="summary"><a href="#">See All Messages</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#" id="sidebar" class="right-sidebar-toggle">
-                        <i class="pe-7s-upload pe-7s-news-paper"></i>
-                    </a>
-                </li>
                 <li class="dropdown">
-                    <a href="login.html">
-                        <i class="pe-7s-upload pe-rotate-90"></i>
+                    <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown">
+                        <i class="pe-7s-user"></i>
+                    </a>
+                    <ul class="dropdown-menu hdropdown flipInX">                        
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </li>
+       
+                {{else}}
+                <li>
+                    <a href="/login">
+                        <i class="pe-7s-key"></i>
                     </a>
                 </li>
+                {{end}}
             </ul>
+
         </div>
     </nav>
 </div>

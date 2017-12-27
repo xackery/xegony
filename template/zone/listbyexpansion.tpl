@@ -9,27 +9,20 @@
 <div class="content">
 
 <div class="row">
+    {{range $key, $zones := .Zones}}
     <div class="col-lg-12">
         <div class="hpanel forum-box">
             <div class="panel-heading">
-                <span class="f">Zone List</span>
+                <span class="f">{{$key}}</span>
             </div>
 
             <div class="panel-body">
                 <div class="table-responsive">
                 <table cellpadding="1" cellspacing="1" class="table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>   
-                        <th>Expansion</th>         
-                    </tr>
-                    </thead>
                     <tbody>
-                    {{range $key, $value := .Zones}}
-                    <tr>
-                        
+                    {{range $key, $value := $zones}}
+                    <tr>                        
                         <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
-                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ExpansionName}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>
@@ -37,11 +30,9 @@
                 </div>
 
             </div>
-            <div class="panel-footer">
-                Table - 6 rows
-            </div>
         </div>
     </div>
+    {{end}}
 </div>
     <!-- Footer-->
     <footer class="footer">

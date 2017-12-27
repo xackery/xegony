@@ -51,6 +51,55 @@ func (a *Web) ListNpc(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func (a *Web) SearchNpc(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site   Site
+		Npcs   []*model.Npc
+		Search string
+	}
+
+	search := getParam(r, "search")
+
+	site := a.NewSite(r)
+	site.Page = "npc"
+	site.Title = "Npc"
+	var npcs []*model.Npc
+
+	if len(search) > 0 {
+		npcs, err = a.npcRepo.Search(search)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusBadRequest)
+			return
+		}
+	}
+	content := Content{
+		Site:   site,
+		Npcs:   npcs,
+		Search: search,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "npc/search.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("npcsearch", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
 func (a *Web) ListNpcByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -257,6 +306,10 @@ func (a *Web) GetNpc(w http.ResponseWriter, r *http.Request) {
 		Npc  *model.Npc
 	}
 
+	if strings.ToLower(getVar(r, "npcId")) == "search" {
+		a.SearchNpc(w, r)
+		return
+	}
 	if strings.ToLower(getVar(r, "npcId")) == "byzone" {
 		a.ListNpcByZone(w, r)
 		return

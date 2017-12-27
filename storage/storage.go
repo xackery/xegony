@@ -49,6 +49,7 @@ type Storage interface {
 	ListItemByCharacter(characterId int64) (items []*model.Item, err error)
 	ListItemBySlot(slotId int64) (items []*model.Item, err error)
 	DeleteItem(itemId int64) (err error)
+	SearchItem(search string) (items []*model.Item, err error)
 	//Npc
 	GetNpc(npcId int64) (npc *model.Npc, err error)
 	CreateNpc(npc *model.Npc) (err error)
@@ -57,6 +58,7 @@ type Storage interface {
 	ListNpcByZone(zoneId int64) (npcs []*model.Npc, err error)
 	ListNpcByFaction(factionId int64) (npcs []*model.Npc, err error)
 	DeleteNpc(npcId int64) (err error)
+	SearchNpc(search string) (npcs []*model.Npc, err error)
 	//Forum
 	GetForum(forumId int64) (forum *model.Forum, err error)
 	CreateForum(forum *model.Forum) (err error)

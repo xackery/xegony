@@ -55,6 +55,24 @@ func (s *Storage) ListItem() (items []*model.Item, err error) {
 	return
 }
 
+func (s *Storage) SearchItem(search string) (items []*model.Item, err error) {
+
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 
+		WHERE name like ? ORDER BY id DESC`, itemFields), "%"+search+"%")
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		item := model.Item{}
+		if err = rows.StructScan(&item); err != nil {
+			return
+		}
+		items = append(items, &item)
+	}
+	return
+}
+
 func (s *Storage) ListItemByCharacter(characterId int64) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
 		INNER JOIN inventory ON inventory.itemid = items.id

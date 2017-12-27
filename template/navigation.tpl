@@ -1,38 +1,7 @@
 <!-- Navigation -->
 <aside id="menu">
 	<div id="navigation">		
-		<ul class="nav" id="side-menu">
-
-			{{if .Site.User}}
-			<div class="profile-picture">
-	            
-	            <div class="stats-label text-color">
-	             <a href="/dashboard">   <span class="font-extra-bold font-uppercase">{{.Site.User.Name}}</span></a>
-
-	                <div class="dropdown">
-	                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-	                        <small class="text-muted">Details <b class="caret"></b></small>
-	                    </a>
-	                    <ul class="dropdown-menu  m-t-xs">
-	                        <li><a href="/character/byaccount/{{.Site.User.AccountId}}">Characters</a></li>
-	                        <li><a href="profile.html">Profile</a></li>
-	                        <li><a href="analytics.html">Analytics</a></li>
-	                        <li class="divider"></li>
-	                        <li><a href="login.html">Logout</a></li>
-	                    </ul>
-	                </div>
-
-	                <div id="expLine" class="small-chart m-t-sm"></div>
-	                <div>
-	                    <h4 class="font-extra-bold m-b-xs">
-	                        1,123,123,123
-	                    </h4>
-	                    <small class="text-muted">Experience last 24 hours</small>
-	                </div>
-	            </div>
-	        </div>
-	        {{end}}
-
+		<ul class="nav" id="side-menu">			
 			<li class="{{if eq .Site.Page "forum"}}active{{end}}"><a href="/"> <span class="nav-label">Forum</span></a></li>
 			<li class="{{if eq .Site.Section "character"}}active{{end}}">
 				<a href="#" aira-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}"> 
@@ -64,8 +33,7 @@
 					<span class="nav-label">Zone</span>
 					<span class="fa arrow"/>
 				</a>
-				<ul class="nav nav-second-level collapse {{if eq .Site.Section "zone"}}in{{end}}" aria-expanded="{{if eq .Site.Section "zone"}}true{{else}}false{{end}}">
-					<li class="{{if eq .Site.Page "zonebytype"}}active{{end}}"><a href="/zone/bytype"> <span class="nav-label">By Type</span></a></li>
+				<ul class="nav nav-second-level collapse {{if eq .Site.Section "zone"}}in{{end}}" aria-expanded="{{if eq .Site.Section "zone"}}true{{else}}false{{end}}">					
 					<li class="{{if eq .Site.Page "zonebyexpansion"}}active{{end}}"><a href="/zone/byexpansion"> <span class="nav-label">By Expansion</span></a></li>
 					<li class="{{if eq .Site.Page "zonelevels"}}active{{end}}"><a href="/zone/levels"> <span class="nav-label">Levels</span></a></li>
 					<li class="{{if eq .Site.Page "zonehotzone"}}active{{end}}"><a href="/zone/hotzone"> <span class="nav-label">Hot Zone</span></a></li>
@@ -86,7 +54,23 @@
 					<li class="{{if eq .Site.Page "itembyloregroup"}}active{{end}}"><a href="/item/byloregroup"> <span class="nav-label">By Loregroup</span></a></li>					
 					<li class="{{if eq .Site.Page "itemlist"}}active{{end}}"><a href="/item"> <span class="nav-label">List</span></a></li>
 				</ul>
-			</li>			
+			</li>
+			{{if .Site.User}}
+			<div class="profile-picture">
+	            
+	            <div class="stats-label text-color">
+	             <a href="/dashboard">   <span class="font-extra-bold font-uppercase">{{.Site.User.Name}}</span></a>
+
+	                <div id="expLine" class="small-chart m-t-sm"></div>
+	                <div>
+	                    <h4 class="font-extra-bold m-b-xs">
+	                        1,123,123,123
+	                    </h4>
+	                    <small class="text-muted">Experience last 24 hours</small>
+	                </div>
+	            </div>
+	        </div>
+	        {{end}}
 		</ul>
 	</div>
 </aside>

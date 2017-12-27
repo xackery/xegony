@@ -220,6 +220,11 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if strings.ToLower(getVar(r, "itemId")) == "search" {
+		a.SearchItem(w, r)
+		return
+	}
+
 	id, err := getIntVar(r, "itemId")
 	if err != nil {
 		err = errors.Wrap(err, "itemId argument is required")
@@ -256,6 +261,57 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 		}
 
 		a.setTemplate("item", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) SearchItem(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site   Site
+		Items  []*model.Item
+		Search string
+	}
+
+	search := getParam(r, "search")
+
+	var items []*model.Item
+
+	if len(search) > 0 {
+		items, err = a.itemRepo.Search(search)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusBadRequest)
+			return
+		}
+	}
+
+	site := a.NewSite(r)
+	site.Page = "item"
+	site.Title = "Item"
+
+	content := Content{
+		Site:   site,
+		Items:  items,
+		Search: search,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "item/search.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("itemsearch", tmp)
 	}
 
 	a.writeData(w, r, tmp, content, http.StatusOK)

@@ -55,10 +55,12 @@ func (a *Api) PostLogin(w http.ResponseWriter, r *http.Request) {
 
 	if account.Status >= 200 {
 		claims.IsAdmin = true
+		user.IsAdmin = true
 	}
 
 	if account.Status >= 100 {
 		claims.IsModerator = true
+		user.IsAdmin = true
 	}
 
 	claims.StandardClaims = jwt.StandardClaims{

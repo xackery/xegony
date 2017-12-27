@@ -58,16 +58,20 @@ func (a *Web) SearchCharacter(w http.ResponseWriter, r *http.Request) {
 		Characters []*model.Character
 		Search     string
 	}
-	search := getVar(r, "search")
+
+	search := getParam(r, "search")
 
 	site := a.NewSite(r)
 	site.Page = "character"
 	site.Title = "Character"
+	var characters []*model.Character
 
-	characters, err := a.characterRepo.Search(search)
-	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+	if len(search) > 0 {
+		characters, err = a.characterRepo.Search(search)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusBadRequest)
+			return
+		}
 	}
 	content := Content{
 		Site:       site,

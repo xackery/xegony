@@ -20,6 +20,13 @@ type Npc struct {
 	LootTableId int64          `json:"lootTableId" db:"loottable_id"`
 }
 
+func (c *Npc) ZoneId() int64 {
+	if c.Id > 1000 {
+		return c.Id / 1000
+	}
+	return 0
+}
+
 func (c *Npc) CleanName() string {
 	var re = regexp.MustCompile(`[^0-9A-Za-z_]+`)
 	cleanName := strings.Replace(c.Name, " ", "_", -1)

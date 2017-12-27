@@ -12,7 +12,7 @@
 
             <div class="hpanel">
                 <div class="panel-body">
-                    <form method="GET" action="/character/search">
+                    <form method="GET" action="/item/search">
                         <div class="text-muted small pull-right text-right">            
                         </div>
                         <div class="form-inline">
@@ -33,24 +33,23 @@
 
 
                 <div class="panel-body">
-                    {{if .Characters}}
+                    {{if .Items}}
                     <div class="table-responsive">
                     <table cellpadding="1" cellspacing="1" class="table">
 
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>CharacterID</th>
-                                <th>ZoneID</th>                        
+                                <th>CharacterID</th>  
+                                <th>ZoneID</th>  
                             </tr>
                             </thead>
                             <tbody>
-                            {{range $key, $value := .Characters}}
+                            {{range $key, $value := .Items}}
                             <tr>
                                 
-                                <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
+                                <td><a href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
                                 <td>{{$value.Id}}</td>
-                                <td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneId}}</a></td>         
                             </tr>
                             {{end}}                
                             </tbody>

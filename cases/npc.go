@@ -2,6 +2,7 @@ package cases
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
@@ -65,6 +66,15 @@ func (g *NpcRepository) Create(npc *model.Npc) (err error) {
 		return
 	}
 	err = g.stor.CreateNpc(npc)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (g *NpcRepository) Search(search string) (npcs []*model.Npc, err error) {
+	sanitySearch := strings.Replace(search, " ", "_", -1)
+	npcs, err = g.stor.SearchNpc(sanitySearch)
 	if err != nil {
 		return
 	}

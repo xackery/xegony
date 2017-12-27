@@ -7,11 +7,13 @@ import (
 )
 
 type User struct {
-	Id        int64  `json:"id"`
-	Name      string `json:"name"`
-	AccountId int64  `json:"accountId" db:"account_id"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
+	Id          int64  `json:"id"`
+	Name        string `json:"name"`
+	AccountId   int64  `json:"accountId" db:"account_id"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	IsAdmin     bool   `json:"isAdmin"`
+	IsModerator bool   `json:"isModerator"`
 }
 
 func (u *User) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

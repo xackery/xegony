@@ -121,3 +121,19 @@ func (s *Storage) DeleteNpc(npcId int64) (err error) {
 	}
 	return
 }
+
+func (s *Storage) SearchNpc(search string) (npcs []*model.Npc, err error) {
+	rows, err := s.db.Queryx(`SELECT id, name, level, lastname, hp, class, loottable_id FROM npc_types WHERE name like ? ORDER BY id DESC`, "%"+search+"%")
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		npc := model.Npc{}
+		if err = rows.StructScan(&npc); err != nil {
+			return
+		}
+		npcs = append(npcs, &npc)
+	}
+	return
+}

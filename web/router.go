@@ -42,6 +42,13 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"Logout",
+			"GET",
+			"/logout",
+			a.GetLogout,
+		},
+
+		Route{
 			"SearchCharacter",
 			"GET",
 			"/character/search",

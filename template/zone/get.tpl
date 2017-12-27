@@ -4,41 +4,22 @@
 
 <!-- Main Wrapper -->
 <div id="wrapper">
-
-<div class="normalheader small-header">
-    <div class="hpanel">
-        <div class="panel-body">           
-
-            <div id="hbreadcrumb" class="pull-right m-t-lg">
-                <ol class="hbreadcrumb breadcrumb">
-                    <li><a href="/index.html">Dashboard</a></li>
-                    <li>
-                        <span>App views</span>
-                    </li>
-                    <li class="active">
-                        <span>Profile </span>
-                    </li>
-                </ol>
-            </div>
-            <h2 class="font-light m-b-xs">
-                Profile
-            </h2>
-            <small>Show user data in clear profile design</small>
-        </div>
-    </div>
-</div>
-
 <div class="content">
 
 <div class="row">
-    <div class="col-lg-4">
-        <div class="hpanel">
-            <div class="panel-body">
-                <img alt="logo" class="img-circle m-b m-t-md" src="/images/profile.jpg">
+    <div class="col-lg-6">
+        <div class="hpanel forum-box">
+            <div class="panel-heading">
+                <span class="f"><a href="/zone">Zone</a> > {{.Zone.LongName}}</span>
+            </div>
+
+            <div class="panel-body">                
                 <h3>{{.Zone.LongName}}</h3>
                 <div class="text-muted font-bold m-b-xs"></div>
                 <p>
-                    {{.Zone.ZoneIdNumber}}
+                    <b>Short name:</b> {{.Zone.ShortName}}<br/>
+                    <b>Id Number:</b> {{.Zone.ZoneIdNumber}}<br/>
+                    <b>Expansion:</b> {{.Zone.ExpansionName}}<br/>
                 </p>
                 <div class="progress m-t-xs full progress-small">
                     <div style="width: 65%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="65" role="progressbar" class=" progress-bar progress-bar-success">
@@ -60,7 +41,7 @@
 
         </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div id="row">
             <div class="hpanel">
                 <div class="panel-heading hbuilt">

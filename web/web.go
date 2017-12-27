@@ -21,6 +21,7 @@ import (
 
 type Site struct {
 	Title       string //Title of site
+	Name        string
 	Page        string
 	Section     string
 	Description string //Description for oprop
@@ -46,6 +47,7 @@ type Web struct {
 
 func (a *Web) NewSite(r *http.Request) (site Site) {
 	site = Site{
+		Name:        "Xegony",
 		Title:       "Xegony",
 		Description: "Xegony",
 	}
@@ -240,4 +242,19 @@ func getIntVar(r *http.Request, key string) (val int64, err error) {
 func getVar(r *http.Request, key string) string {
 	vars := mux.Vars(r)
 	return vars[key]
+}
+
+func getParam(r *http.Request, key string) string {
+	val := getVar(r, key)
+	if val != "" {
+		return val
+	}
+	vals := r.URL.Query()
+	keyTypes, ok := vals[key]
+	if ok {
+		if len(keyTypes) > 0 {
+			return keyTypes[0]
+		}
+	}
+	return ""
 }

@@ -29,12 +29,14 @@
 
     <div class="panel-heading">
         <span class="f">Forum</span>
-        <span class="pull-right"><div class="btn-group">
-                    <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" aria-expanded="false"><i class="fa fa-wrench"></i> <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="/forum/create">Create Forum</a></li>
-                    </ul>
-                </div></span>
+        {{if .Site.User}} {{if .Site.User.IsAdmin}}
+            <span class="pull-right"><div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" aria-expanded="false"><i class="fa fa-wrench"></i> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="/forum/create">Create Forum</a></li>
+                </ul>
+            </div></span>
+        {{end}}{{end}}
     </div>
 
     {{range $key, $value := .Forums}}
