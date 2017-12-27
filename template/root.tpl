@@ -24,6 +24,7 @@
     <!-- App styles -->
     <link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
     <link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/helper.css" />
+    <link rel="stylesheet" href="/fonts/rpg/css/rpg-awesome.min.css" />
     <link rel="stylesheet" href="/styles/style.css">
     <link rel="stylesheet" href="/styles/builds.css" />
     <link rel="stylesheet" href="/styles/inventory.css" />
@@ -48,7 +49,6 @@
 <script src="/vendor/iCheck/icheck.min.js"></script>
 <!-- App scripts -->
 <script src="/scripts/homer.js"></script>
-<script src="/js/skillManager.js"></script>
 
 <script>
 

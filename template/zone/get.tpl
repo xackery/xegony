@@ -17,7 +17,7 @@
                 <h3>{{.Zone.LongName}}</h3>
                 <div class="text-muted font-bold m-b-xs"></div>
                 <p>
-                    <b>Short name:</b> {{.Zone.ShortName}}<br/>
+                    <b>Short name:</b> {{.Zone.ShortName.String}}<br/>
                     <b>Id Number:</b> {{.Zone.ZoneIdNumber}}<br/>
                     <b>Expansion:</b> {{.Zone.ExpansionName}}<br/>
                 </p>

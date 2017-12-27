@@ -110,6 +110,58 @@ type Character struct {
 	ELastInvsnapshot      int64   `json:"eLastInvsnapshot" db:"e_last_invsnapshot"`           //`e_last_invsnapshot` int(11) unsigned NOT NULL DEFAULT '0',
 }
 
+func (c *Character) RaceIcon() string {
+	switch c.Race {
+	case 1:
+		return "ra-player" //human
+	case 2:
+		return "ra-fox" //barbarian
+	case 4:
+		return "ra-book" //erudite
+	case 8:
+		return "ra-leaf" //woodelf
+	case 16:
+		return "ra-tesla" //helf
+	case 32:
+		return "ra-bleeding-eye" //delf
+	case 64:
+		return "ra-aware" //halfelf
+	case 128:
+		return "ra-beer" //dwarf
+	case 256:
+		return "ra-bird-mask" //troll
+	case 512:
+		return "ra-muscle-fat" //ogre
+	case 1024:
+		return "ra-footprint" //halfling
+	case 2048:
+		return "ra-gears" //gnome
+	case 4096:
+		return "ra-gecko" //iksar
+	case 8192:
+		return "ra-lion" //vahshir
+	case 16384:
+		return "ra-water-drop" //froglok
+	case 32768:
+		return "ra-wyvern" //drakkin
+	}
+
+	return "ra-help"
+}
+
+func (c *Character) ClassIcon() string {
+	switch c.Class {
+	case 1:
+		return ""
+		//necro ra-bone-bite
+		//wiz ra-fire
+		//rng ra-archer
+		//war ra-shield
+		//clr ra-ankh
+		//thief ra-hood
+	}
+	return "ra-help"
+}
 func (c *Character) AA() int64 {
 	return 0
 }

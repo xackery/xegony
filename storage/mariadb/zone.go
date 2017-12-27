@@ -41,7 +41,7 @@ func (s *Storage) CreateZone(zone *model.Zone) (err error) {
 }
 
 func (s *Storage) ListZone() (zones []*model.Zone, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT zone.id, %s FROM zone ORDER BY long_name DESC`, zoneFields))
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT zone.id, %s FROM zone ORDER BY long_name ASC`, zoneFields))
 	if err != nil {
 		return
 	}

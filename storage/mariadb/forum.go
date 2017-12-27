@@ -8,7 +8,7 @@ import (
 
 func (s *Storage) GetForum(forumId int64) (forum *model.Forum, err error) {
 	forum = &model.Forum{}
-	err = s.db.Get(forum, "SELECT id, owner_id, description, name FROM forum WHERE id = ?", forumId)
+	err = s.db.Get(forum, "SELECT id, owner_id, description, icon, name FROM forum WHERE id = ?", forumId)
 	if err != nil {
 		return
 	}
@@ -22,8 +22,8 @@ func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 		return
 	}
 
-	result, err := s.db.NamedExec(`INSERT INTO forum(name, description, owner_id)
-		VALUES (:name, :description, :owner_id)`, forum)
+	result, err := s.db.NamedExec(`INSERT INTO forum(name, icon,  description, owner_id)
+		VALUES (:name, :icon,  :description, :owner_id)`, forum)
 	if err != nil {
 		return
 	}
@@ -36,7 +36,7 @@ func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 }
 
 func (s *Storage) ListForum() (forums []*model.Forum, err error) {
-	rows, err := s.db.Queryx(`SELECT id, description, name, owner_id FROM forum ORDER BY id DESC`)
+	rows, err := s.db.Queryx(`SELECT id, icon,  description, name, owner_id FROM forum ORDER BY id DESC`)
 	if err != nil {
 		return
 	}
@@ -53,7 +53,7 @@ func (s *Storage) ListForum() (forums []*model.Forum, err error) {
 
 func (s *Storage) EditForum(forumId int64, forum *model.Forum) (err error) {
 	forum.Id = forumId
-	result, err := s.db.NamedExec(`UPDATE forum SET name=:name, description=:description WHERE id = :id`, forum)
+	result, err := s.db.NamedExec(`UPDATE forum SET icon=:icon, name=:name, description=:description WHERE id = :id`, forum)
 	if err != nil {
 		return
 	}

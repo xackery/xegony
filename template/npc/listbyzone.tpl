@@ -20,14 +20,16 @@
                 <table cellpadding="1" cellspacing="1" class="table">
                     <thead>
                     <tr>
-                        <th>Name</th>            
+                        <th>Name</th>   
+                        <th>Expansion</th>         
                     </tr>
                     </thead>
                     <tbody>
                     {{range $key, $value := .Zones}}
                     <tr>
                         
-                        <td><a href="/npc/byzone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ExpansionName}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>

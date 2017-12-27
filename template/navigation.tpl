@@ -2,10 +2,10 @@
 <aside id="menu">
 	<div id="navigation">		
 		<ul class="nav" id="side-menu">			
-			<li class="{{if eq .Site.Page "forum"}}active{{end}}"><a href="/"> <span class="nav-label">Forum</span></a></li>
+			<li class="{{if eq .Site.Page "forum"}}active{{end}}"><a href="/"> <span class="nav-label"><i class="ra ra-coffee-mug"></i> Forum</span></a></li>
 			<li class="{{if eq .Site.Section "character"}}active{{end}}">
 				<a href="#" aira-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}"> 
-					<span class="nav-label">Character</span>
+					<span class="nav-label"><i class="ra ra-monster-skull"></i> Character</span>
 					<span class="fa arrow"/>
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "character"}}in{{end}}" aria-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}">
@@ -17,7 +17,7 @@
 
 			<li class="{{if eq .Site.Section "npc"}}active{{end}}">
 				<a href="#" aira-expanded="{{if eq .Site.Section "npc"}}true{{else}}false{{end}}"> 
-					<span class="nav-label">Bestiary</span>
+					<span class="nav-label"><i class="ra ra-octopus"></i> Bestiary</span>
 					<span class="fa arrow"/>
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "npc"}}in{{end}}" aria-expanded="{{if eq .Site.Section "npc"}}true{{else}}false{{end}}">
@@ -31,7 +31,7 @@
 
 			<li class="{{if eq .Site.Section "zone"}}active{{end}}">
 				<a href="#" aira-expanded="{{if eq .Site.Section "zone"}}true{{else}}false{{end}}"> 
-					<span class="nav-label">Zone</span>
+					<span class="nav-label"><i class="ra ra-palm-tree"></i> Zone</span>
 					<span class="fa arrow"/>
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "zone"}}in{{end}}" aria-expanded="{{if eq .Site.Section "zone"}}true{{else}}false{{end}}">					
@@ -44,7 +44,7 @@
 
 			<li class="{{if eq .Site.Section "item"}}active{{end}}">
 				<a href="#" aira-expanded="{{if eq .Site.Section "item"}}true{{else}}false{{end}}"> 
-					<span class="nav-label">Item</span>
+					<span class="nav-label"><i class="ra ra-bowie-knife"></i> Item</span>
 					<span class="fa arrow"/>
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "item"}}in{{end}}" aria-expanded="{{if eq .Site.Section "item"}}true{{else}}false{{end}}">
