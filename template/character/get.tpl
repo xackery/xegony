@@ -26,7 +26,7 @@
                 <h3><a href="/profile.html">{{.Character.Title}} {{.Character.Name}} {{.Character.LastName}}</a></h3>
                 <div class="text-muted font-bold m-b-xs">{{.Character.ZoneId}}</div>
                 <p>
-                   Level {{.Character.Level}} {{.Character.ClassName}}
+                   Level {{.Character.Level}} <i class="ra {{.Character.RaceIcon}}"></i> {{.Character.RaceName}} <i class="ra {{.Character.ClassIcon}}"></i> {{.Character.ClassName}} 
                 </p>
                 <div class="progress m-t-xs full progress-small">
                     <div style="width: 65%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="65" role="progressbar" class=" progress-bar progress-bar-success">

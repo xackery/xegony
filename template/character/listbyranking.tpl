@@ -21,6 +21,8 @@
                 <table cellpadding="1" cellspacing="1" class="table">
                     <thead>
                     <tr>
+                        <th width="10px">R</th>
+                        <th width="10px">C</th>
                         <th>Name</th>
                         <th>Level</th>
                         <th>AA</th>
@@ -34,8 +36,11 @@
                     </thead>
                     <tbody>
                     {{range $key, $value := .Characters}}
-                    <tr>                        
-                        <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
+                    <tr>
+                        <td><i class="ra {{$value.RaceIcon}}"></i></td>                        
+                        <td><i class="ra {{$value.ClassIcon}}"></i></td>
+                        
+                        <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>                        
                         <th>{{$value.Level}}</th>
                         <th>{{$value.AA}}</th>
                         <th>{{$value.TotalHP}}</th>

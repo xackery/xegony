@@ -35,17 +35,18 @@
                 <div class="panel-body">
                     {{if .Items}}
                     <div class="table-responsive">
-                    <table cellpadding="1" cellspacing="1" class="table">
+                    <table cellpadding="1" cellspacing="1" class="table table-striped">
 
                             <thead>
                             <tr>
+                                <th width="20px"><i class="ra ra-sword"></i></th>
                                 <th>Name</th>
                             </tr>
                             </thead>
                             <tbody>
                             {{range $key, $value := .Items}}
                             <tr>
-                                
+                                <td><span class="slot-sm"><span title="{{$value.Name}}" class="item icon-{{$value.Icon}}-sm"></span></span></td>
                                 <td><a href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
                             </tr>
                             {{end}}                

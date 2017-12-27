@@ -17,21 +17,24 @@
 			</div>
 
 			<div class="panel-body">
-				<div class="table-responsive">
-				<table cellpadding="1" cellspacing="1" class="table">
+				<div class="table-responsive" class="tooltip-info">
+				<table cellpadding="1" cellspacing="1" class="table  table-striped">
 					<thead>
 					<tr>
-						<th>Name</th>
-						<th>CharacterID</th>
-						<th>ZoneID</th>                        
+						<th width="10px">R</th>
+						<th width="10px">C</th>
+						<th>Name</th>	
+						<th>Level</th>					
+						<th>ZoneID</th>
 					</tr>
 					</thead>
 					<tbody>
 					{{range $key, $value := .Characters}}
 					<tr>
-						
+						<td><i class="ra {{$value.RaceIcon}}" data-toggle="tooltip" data-placement="top" title="{{$value.RaceName}}"></i></td>
+						<td><i class="ra {{$value.ClassIcon}}" data-toggle="tooltip" data-placement="top" title="{{$value.ClassName}}"></i></td>						
 						<td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
-						<td>{{$value.Id}}</td>
+						<td>{{$value.Level}}</td>
 						<td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneId}}</a></td>         
 					</tr>
 					{{end}}                
@@ -46,12 +49,7 @@
 		</div>
 	</div>
 </div>
-	<!-- Footer-->
-	<footer class="footer">
-		<span class="pull-right">
-			Example text
-		</span>
-		Company 2015-2020
-	</footer>
-
 </div>
+<script>
+	$('.tooltip-info').tooltip({selector: "[data-toggle=tooltip]"});
+	</script>

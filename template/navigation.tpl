@@ -44,7 +44,7 @@
 
 			<li class="{{if eq .Site.Section "item"}}active{{end}}">
 				<a href="#" aira-expanded="{{if eq .Site.Section "item"}}true{{else}}false{{end}}"> 
-					<span class="nav-label"><i class="ra ra-bowie-knife"></i> Item</span>
+					<span class="nav-label"><i class="ra ra-sword"></i> Item</span>
 					<span class="fa arrow"/>
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "item"}}in{{end}}" aria-expanded="{{if eq .Site.Section "item"}}true{{else}}false{{end}}">

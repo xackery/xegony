@@ -16,7 +16,7 @@
             </div>
 
             <div class="panel-body">                
-                <span class="slot1 slotdrop"><span alt="{{.Item.Name}}" class="img-circle m-b m-t-md item icon-{{.Item.Icon}}"></span></span><br>
+                <span class="slot slotdrop"><span alt="{{.Item.Name}}" class="item icon-{{.Item.Icon}}"></span></span><br>
                 <h3>{{.Item.Name}}</h3>
                 <div class="text-muted font-bold m-b-xs text-right">{{.Item.Id}}</div>
             </div>

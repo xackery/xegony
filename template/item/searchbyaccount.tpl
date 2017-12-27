@@ -39,6 +39,7 @@
 
                             <thead>
                             <tr>
+                                <th><i class="ra ra-sword"></i></th>
                                 <th>Item Name</th>
                                 <th>Character</th>
                                 <th>Location</th>
@@ -46,7 +47,8 @@
                             </thead>
                             <tbody>
                             {{range $key, $value := .Items}}
-                            <tr>                                
+                            <tr>                               
+                            <td><span class="slot-sm"><span title="{{$value.Name}}" class="item icon-{{$value.Icon}}-sm"></span></span></td> 
                                 <td><a href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
                                 <td><a href="/character/{{$value.Character.Id}}">{{$value.Character.Name}}</a></td>
                                 <td>{{$value.SlotName}}</td>

@@ -84,6 +84,7 @@
                     <table cellpadding="1" cellspacing="1" class="table">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Name</th>
                             <th>Charges</th>
                             <th>Chance</th>

@@ -39,17 +39,19 @@
 
                             <thead>
                             <tr>
+                                <th width="10px">R</th>
+                                <th width="10px">C</th>
                                 <th>Name</th>
-                                <th>CharacterID</th>
                                 <th>ZoneID</th>                        
                             </tr>
                             </thead>
                             <tbody>
                             {{range $key, $value := .Characters}}
                             <tr>
-                                
+                                <td><i class="ra {{$value.RaceIcon}}"></i></td>
+                                <td><i class="ra {{$value.ClassIcon}}"></i></td                                
                                 <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
-                                <td>{{$value.Id}}</td>
+                                
                                 <td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneId}}</a></td>         
                             </tr>
                             {{end}}                

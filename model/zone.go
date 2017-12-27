@@ -123,21 +123,471 @@ func (c *Zone) ExpansionId() int64 {
 		return 13
 	case 8192:
 		return 14
+	case 16384:
+		return 15 // - seeds of destruction
+	case 32768: //underfoot
+		return 16
+	case 65536: //house of thule
+		return 17
+	case 131072: //veil of alaris
+		return 18
+	case 262144: //rain of fear
+		return 19
+	case 524288: //call of the forsaken
+		return 20
+	case 1048576: //the darkened sea
+		return 21
+	case 2097152: //the broken mirror
+		return 22
+	case 4194304: //empires of kunark
+		return 23
+	case 8388608: //ring of scale
+		return 24
 	default:
 		return -1
 	}
 	return -1
 }
 
+/*
+
+"abysmal"
+"acrylia"
+"airplane"
+"akanon"
+"akheva"
+"anguish"
+"apprentice"
+"arcstone"
+"arena"
+"arena2"
+"arttest"
+"ashengate"
+"atiiki"
+"aviak"
+"barindu"
+"barren"
+"barter"
+"bazaar"
+"befallen"
+"befallenb"
+"beholder"
+"bertoxtemple"
+"blackburrow"
+"blacksail"
+"bloodfields"
+"bloodmoon"
+"bothunder"
+"broodlands"
+"buriedsea"
+"burningwood"
+"butcher"
+"cabeast"
+"cabwest"
+"cauldron"
+"causeway"
+"cazicthule"
+"chambersa"
+"chambersb"
+"chambersc"
+"chambersd"
+"chamberse"
+"chambersf"
+"charasis"
+"chardok"
+"chardokb"
+"citymist"
+"clz"
+"cobaltscar"
+"codecay"
+"commonlands"
+"commons"
+"corathus"
+"corathusa"
+"corathusb"
+"crescent"
+"crushbone"
+"cryptofshade"
+"crystal"
+"crystallos"
+"cshome"
+"dalnir"
+"dawnshroud"
+"deadbone"
+"delvea"
+"delveb"
+"devastationa"
+"devastation"
+"direwind"
+"discord"
+"discordtower"
+"drachnidhive"
+"drachnidhivea"
+"drachnidhiveb"
+"drachnidhivec"
+"dragonscale"
+"dragonscaleb"
+"dranik"
+"dranikcatacombsa"
+"dranikcatacombsb"
+"dranikcatacombsc"
+"dranikhollowsa"
+"dranikhollowsb"
+"dranikhollowsc"
+"draniksewersa"
+"draniksewersb"
+"draniksewersc"
+"draniksscar"
+"dreadlands"
+"dreadspire"
+"droga"
+"dulak"
+"eastkarana"
+"eastkorlach"
+"eastkorlacha"
+"eastwastes"
+"echo"
+"ecommons"
+"elddar"
+"elddara"
+"emeraldjungle"
+"erudnext"
+"erudnint"
+"erudsxing"
+"erudsxing2"
+"everfrost"
+"fearplane"
+"feerrott"
+"felwithea"
+"felwitheb"
+"ferubi"
+"fhalls"
+"fieldofbone"
+"firiona"
+"freeportacademy"
+"freeportarena"
+"freeportcityhall"
+"freeporteast"
+"freeporthall"
+"freeportmilitia"
+"freeportsewers"
+"freeporttemple"
+"freeporttheater"
+"freeportwest"
+"freporte"
+"freportn"
+"freportw"
+"frontiermtns"
+"frostcrypt"
+"frozenshadow"
+"fungusgrove"
+"gfaydark"
+"greatdivide"
+"griegsend"
+"grimling"
+"grobb"
+"growthplane"
+"guardian"
+"guildhall"
+"guildlobby"
+"guka"
+"gukb"
+"gukbottom"
+"gukc"
+"gukd"
+"guke"
+"gukf"
+"gukg"
+"gukh"
+"guktop"
+"gunthak"
+"gyrospireb"
+"gyrospirez"
+"halas"
+"harbingers"
+"hateplane"
+"hateplaneb"
+"hatesfury"
+"highkeep"
+"highpass"
+"highpasshold"
+"highpasskeep"
+"hillsofshade"
+"hohonora"
+"hohonorb"
+"hole"
+"hollowshade"
+"iceclad"
+"icefall"
+"ikkinz"
+"illsalin"
+"illsalina"
+"illsalinb"
+"illsalinc"
+"inktuta"
+"innothule"
+"innothuleb"
+"jaggedpine"
+"jardelshook"
+"kael"
+"kaesora"
+"kaladima"
+"kaladimb"
+"karnor"
+"katta"
+"kattacastrum"
+"kedge"
+"kerraridge"
+"kithforest"
+"kithicor"
+"kodtaz"
+"korascian"
+"kurn"
+"lakeofillomen"
+"lakerathe"
+"lavastorm"
+"letalis"
+"lfaydark"
+"load"
+"load2"
+"lopingplains"
+"maiden"
+"maidensgrave"
+"mansion"
+"mechanotus"
+"mesa"
+"mira"
+"mirb"
+"mirc"
+"mird"
+"mire"
+"mirf"
+"mirg"
+"mirh"
+"miri"
+"mirj"
+"mischiefplane"
+"mistmoore"
+"misty"
+"mistythicket"
+"mmca"
+"mmcb"
+"mmcc"
+"mmcd"
+"mmce"
+"mmcf"
+"mmcg"
+"mmch"
+"mmci"
+"mmcj"
+"monkeyrock"
+"moors"
+"mseru"
+"nadox"
+"najena"
+"natimbi"
+"necropolis"
+"nedaria"
+"nektropos"
+"nektulos"
+"nektulosa"
+"neriaka"
+"neriakb"
+"neriakc"
+"neriakd"
+"netherbian"
+"nexus"
+"nightmareb"
+"northkarana"
+"northro"
+"nro"
+"nurga"
+"oasis"
+"oceangreenhills"
+"oceangreenvillage"
+"oceanoftears"
+"oggok"
+"oldblackburrow"
+"oldbloodfield"
+"oldcommons"
+"olddranik"
+"oldfieldofbone"
+"oldhighpass"
+"oldkaesoraa"
+"oldkaesorab"
+"oldkithicor"
+"oldkurn"
+"oot"
+"overthere"
+"paineel"
+"paludal"
+"paw"
+"permafrost"
+"poair"
+"podisease"
+"poeartha"
+"poearthb"
+"pofire"
+"poinnovation"
+"pojustice"
+"poknowledge"
+"ponightmare"
+"postorms"
+"potactics"
+"potimea"
+"potimeb"
+"potorment"
+"potranquility"
+"povalor"
+"powar"
+"powater"
+"precipiceofwar"
+"provinggrounds"
+"qcat"
+"qey2hh1"
+"qeynos"
+"qeynos2"
+"qeytoqrg"
+"qinimi"
+"qrg"
+"qvic"
+"qvicb"
+"rage"
+"ragea"
+"rathechamber"
+"rathemtn"
+"redfeather"
+"relic"
+"riftseekers"
+"rivervale"
+"riwwi"
+"roost"
+"ruja"
+"rujb"
+"rujc"
+"rujd"
+"ruje"
+"rujf"
+"rujg"
+"rujh"
+"ruji"
+"rujj"
+"runnyeye"
+"scarlet"
+"sebilis"
+"shadeweaver"
+"shadowhaven"
+"shadowrest"
+"shadowspine"
+"sharvahl"
+"shipmvm"
+"shipmvp"
+"shipmvu"
+"shippvu"
+"shipuvu"
+"shipworkshop"
+"silyssar"
+"sirens"
+"skyfire"
+"skylance"
+"skyshrine"
+"sleeper"
+"sncrematory"
+"snlair"
+"snplant"
+"snpool"
+"soldunga"
+"soldungb"
+"soldungc"
+"solrotower"
+"soltemple"
+"solteris"
+"southkarana"
+"southro"
+"sro"
+"sseru"
+"ssratemple"
+"steamfactory"
+"steamfont"
+"steamfontmts"
+"steppes"
+"stillmoona"
+"stillmoonb"
+"stonebrunt"
+"stonehive"
+"suncrest"
+"sunderock"
+"swampofnohope"
+"tacvi"
+"taka"
+"takb"
+"takc"
+"takd"
+"take"
+"takf"
+"takg"
+"takh"
+"taki"
+"takishruins"
+"takishruinsa"
+"takj"
+"templeveeshan"
+"tenebrous"
+"thalassius"
+"theater"
+"theatera"
+"thedeep"
+"thegrey"
+"thenest"
+"thevoida"
+"thevoidb"
+"thevoidc"
+"thevoidd"
+"thevoide"
+"thevoidf"
+"thevoidg"
+"thundercrest"
+"thurgadina"
+"thurgadinb"
+"timorous"
+"tipt"
+"torgiran"
+"toskirakk"
+"tox"
+"toxxulia"
+"trakanon"
+"tutorial"
+"tutoriala"
+"tutorialb"
+"twilight"
+"txevu"
+"umbral"
+"unrest"
+"uqua"
+"valdeholm"
+"veeshan"
+"veksar"
+"velketor"
+"vergalid"
+"vexthal"
+*/
+
 func (c *Zone) ExpansionBit() int64 {
 	switch c.ShortName.String {
-	case "airplane", "akanon":
+	case "xorbb",
+		"weddingchapeldark",
+		"weddingchapel",
+		"nektulos",
+		"warrens":
 		return 0 // - classic
-	case "overthere":
+	case "overthere",
+		"warslikswood":
 		return 1 // - ruins of kunark
-	case "thurgadina":
+	case "thurgadina",
+		"westwastes",
+		"wakening":
 		return 2 // - scars of velious
-	case "acrylia", "akheva":
+	case "acrylia", "akheva", "bazaar":
 		return 4 // - shadows of luclin
 	case "poknowledge":
 		return 8 // - planes of power
@@ -145,22 +595,89 @@ func (c *Zone) ExpansionBit() int64 {
 		return 16 // - legacy of ykesha
 	case "mira":
 		return 32 // - lost dungeons of norrath
-	case "wallofslaughter":
+	case "wallofslaughter", "yxtta", "vxed":
 		return 64 // - gates of discord
 	case "abysmal", "anguish":
 		return 128 // - omens of war
 	case "stillmoona":
 		return 256 // - dragons of norrath
-	case "asd":
+	case
+		"westkorlach",
+		"westkorlacha",
+		"westkorlachb",
+		"westkorlachc":
 		return 512 // - depths of darkhallow
 	case "asdf":
 		return 1024 // - prophecy of ro
 	case "asdfg":
 		return 2048 // - serpent's spine
-	case "gsdg":
-		return 4096 // - the burried sea
+	case "zhisza":
+		return 4096 // - the buried sea
 	case "hdshd":
 		return 8192 // - secrets of faydwer
+	case "fdo":
+		return 16384 // - seeds of destruction
+	case "shiningcity",
+		"lichencreep",
+		"fungalforest",
+		"brellstemple",
+		"dragoncrypt",
+		"brellsrest",
+		"coolingchamber",
+		"pellucid",
+		"arthicrex",
+		"foundation",
+		"underquarry",
+		"brellsarena",
+		"stonesnake",
+		"convorteum":
+		return 32768 //underfoot
+	case "thulelibrary",
+		"morellcastle",
+		"alkabormare",
+		"fallen",
+		"feerrott2",
+		"housegarden",
+		"miragulmare",
+		"somnium",
+		"thuledream",
+		"thulehouse1",
+		"thulehouse2",
+		"well",
+		"neighborhood":
+		return 65536 //house of thule
+	case "westsepulcher",
+		"eastsepulcher",
+		"sepulcher",
+		"cityofbronze",
+		"windsong",
+		"argath",
+		"arelis",
+		"sarithcity",
+		"rubak",
+		"beastdomain",
+		"resplendent",
+		"pillarsalra":
+		return 131072 //veil of alaris
+	case "shardslanding",
+		"kaelshard",
+		"grelleth",
+		"eviltree",
+		"eastwastesshard",
+		"crystalshard",
+		"chapterhouse",
+		"breedinggrounds":
+		return 262144 //rain of fear
+	case "1222":
+		return 524288 //call of the forsaken
+	case "fff":
+		return 1048576 //the darkened sea
+	case "sdff":
+		return 2097152 //the broken mirror
+	case "111":
+		return 4194304 //empires of kunark
+	case "asdssf":
+		return 8388608 //ring of scale
 	default:
 		return -1
 	}

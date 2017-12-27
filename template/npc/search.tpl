@@ -46,8 +46,7 @@
                             </thead>
                             <tbody>
                             {{range $key, $value := .Npcs}}
-                            <tr>
-                                
+                            <tr>                                
                                 <td><a href="/npc/{{$value.Id}}">{{$value.CleanName}}</a></td>
                                 <td>{{$value.Id}}</td>
                                 <td>{{$value.ZoneId}}</td>

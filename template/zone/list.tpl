@@ -19,7 +19,7 @@
                 <div class="table-responsive">
                 <table cellpadding="1" cellspacing="1" class="table">
                     <thead>
-                    <tr>
+                    <tr>                        
                         <th>Name</th>   
                         <th>Expansion</th>         
                     </tr>
@@ -27,7 +27,6 @@
                     <tbody>
                     {{range $key, $value := .Zones}}
                     <tr>
-                        
                         <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
                         <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ExpansionName}}</a></td>
                     </tr>
