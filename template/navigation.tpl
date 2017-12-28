@@ -3,11 +3,13 @@
 	<div id="navigation">		
 		<ul class="nav" id="side-menu">			
 			<li class="{{if eq .Site.Page "forum"}}active{{end}}"><a href="/"> <span class="nav-label"><i class="ra ra-coffee-mug"></i> Forum</span></a></li>
+
+			
 			<li class="{{if eq .Site.Section "character"}}active{{end}}">
 				<a href="#" aira-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}"> 
 					<span class="nav-label"><i class="ra ra-monster-skull"></i> Character</span>
 					<span class="fa arrow"/>
-				</a>
+				</a>				
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "character"}}in{{end}}" aria-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}">
 					<li class="{{if eq .Site.Page "characterbyonline"}}active{{end}}"><a href="/character/byonline"> <span class="nav-label">Online</span></a></li>					
 					<li class="{{if eq .Site.Page "characterbyranking"}}active{{end}}"><a href="/character/byranking"> <span class="nav-label">Ranking</span></a></li>					

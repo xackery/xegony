@@ -4,6 +4,10 @@ body.light-skin .hpanel .panel-body {
 	 border: 1px solid #eaeaea;
 }
 
+.ra-tiny {
+	font-size: 20px;
+}
+
 .eqitem {	
 	font-family: Arial;
     font-size: 12px;

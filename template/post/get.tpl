@@ -5,36 +5,7 @@
 
 
 <!-- Main Wrapper -->
-<div id="wrapper">
-
-    <div class="normalheader ">
-        <div class="hpanel">
-            <div class="panel-body">
-                <a class="small-header-action" href="forum_details.html">
-                    <div class="clip-header">
-                        <i class="fa fa-arrow-up"></i>
-                    </div>
-                </a>
-
-                <div id="hbreadcrumb" class="pull-right m-t-lg">
-                    <ol class="hbreadcrumb breadcrumb">
-                        <li><a href="index.html">Dashboard</a></li>
-                        <li>
-                            <span>App views</span>
-                        </li>
-                        <li class="active">
-                            <span>Topic</span>
-                        </li>
-                    </ol>
-                </div>
-                <h2 class="font-light m-b-xs">
-                    Topic
-                </h2>
-                <small>Topic for forum page.</small>
-            </div>
-        </div>
-    </div>
-
+<div id="wrapper">    
 <div class="content">
 
 
@@ -70,5 +41,9 @@
             {{.Post.Body}}
         </div>
     </div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>

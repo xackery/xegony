@@ -21,8 +21,8 @@
                 <table cellpadding="1" cellspacing="1" class="table">
                     <thead>
                     <tr>
-                        <th width="10px">R</th>
-                        <th width="10px">C</th>
+                        <th width="10px"><i class="ra ra-double-team" title="Race"></i></th>
+                        <th width="10px"><i class="ra ra-pawn" title="Class"></i></th>
                         <th>Name</th>
                         <th>ZoneID</th>                        
                     </tr>

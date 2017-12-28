@@ -63,8 +63,9 @@ func (a *Web) SearchNpc(w http.ResponseWriter, r *http.Request) {
 	search := getParam(r, "search")
 
 	site := a.NewSite(r)
-	site.Page = "npc"
+	site.Page = "npcsearch"
 	site.Title = "Npc"
+	site.Section = "npc"
 	var npcs []*model.Npc
 
 	if len(search) > 0 {

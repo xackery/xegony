@@ -21,16 +21,13 @@
 					<thead>
 					<tr>
 						<th>Name</th>
-						<th>Slot</th>
-						<th>Category</th>          
 					</tr>
 					</thead>
 					<tbody>
 					{{range $key, $value := .Zones}}
 					<tr>
 						<td><a href="/item/byzone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
-						<td>{{$value.SlotsFirstName}}</td>
-						<td><i class="ra {{$value.ItemtypeIcon}}"></i> {{$value.ItemtypeName}}</td>
+						
 					</tr>
 					{{end}}                
 					</tbody>

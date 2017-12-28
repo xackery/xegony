@@ -55,7 +55,7 @@
                                 <td><a href="/character/{{$value.Character.Id}}">{{$value.Character.Name}}</a></td>
                                 <td>{{$value.SlotName}}</td>
                                 <td>{{$value.SlotsFirstName}}</td>
-                                <td><i class="ra {{$value.ItemtypeIcon}}"></i> {{$value.ItemtypeName}}</td>
+                                <td><i title="{{$value.ItemtypeName}}" class="ra {{$value.ItemtypeIcon}}"></i></td>
                             </tr>
                             {{end}}                
                             </tbody>

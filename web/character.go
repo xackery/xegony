@@ -17,8 +17,9 @@ func (a *Web) ListCharacter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "character"
+	site.Page = "charactersearch"
 	site.Title = "Character"
+	site.Section = "character"
 
 	characters, err := a.characterRepo.List()
 	if err != nil {
@@ -62,8 +63,9 @@ func (a *Web) SearchCharacter(w http.ResponseWriter, r *http.Request) {
 	search := getParam(r, "search")
 
 	site := a.NewSite(r)
-	site.Page = "character"
+	site.Page = "charactersearch"
 	site.Title = "Character"
+	site.Section = "character"
 	var characters []*model.Character
 
 	if len(search) > 0 {
@@ -108,8 +110,9 @@ func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "ranking"
+	site.Page = "characterbyranking"
 	site.Title = "Character"
+	site.Section = "character"
 
 	characters, err := a.characterRepo.ListByRanking()
 	if err != nil {
@@ -150,8 +153,9 @@ func (a *Web) ListCharacterByOnline(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "ranking"
+	site.Page = "characterbyonline"
 	site.Title = "Character"
+	site.Section = "character"
 
 	characters, err := a.characterRepo.ListByOnline()
 	if err != nil {
@@ -199,8 +203,9 @@ func (a *Web) ListCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "ranking"
+	site.Page = "charactersearch"
 	site.Title = "Character"
+	site.Section = "character"
 
 	characters, err := a.characterRepo.ListByAccount(accountId)
 	if err != nil {
@@ -263,8 +268,9 @@ func (a *Web) GetCharacter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	site := a.NewSite(r)
-	site.Page = "character"
+	site.Page = "charactersearch"
 	site.Title = "Character"
+	site.Section = "character"
 
 	content := Content{
 		Site:      site,
