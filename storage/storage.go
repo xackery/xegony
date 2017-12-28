@@ -20,6 +20,12 @@ type Storage interface {
 	EditActivity(activityId int64, activity *model.Activity) (err error)
 	ListActivity(taskId int64) (activitys []*model.Activity, err error)
 	DeleteActivity(activityId int64) (err error)
+	//Base
+	GetBase(level int64, class int64) (base *model.Base, err error)
+	CreateBase(base *model.Base) (err error)
+	ListBase() (bases []*model.Base, err error)
+	EditBase(level int64, class int64, base *model.Base) (err error)
+	DeleteBase(level int64, class int64) (err error)
 	//Bazaar
 	GetBazaar(bazaarId int64) (bazaar *model.Bazaar, err error)
 	CreateBazaar(bazaar *model.Bazaar) (err error)

@@ -7,6 +7,10 @@ import (
 )
 
 type Character struct {
+	//Used by ranking system
+	Base      *Base
+	Inventory []*Item
+
 	Id                    int64   `json:"id" db:"id"`                                         //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	AccountId             int64   `json:"accountId" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
 	Name                  string  `json:"name" db:"name"`                                     //`name` varchar(64) NOT NULL DEFAULT '',
@@ -190,8 +194,69 @@ func (c *Character) AA() int64 {
 }
 
 func (c *Character) TotalHP() int64 {
-	hp := c.CurHp
+	var nd float64
+	nd = 10000
+
+	max_hp := c.BaseHP() + c.ItemBonusHP()
+
+	//The AA desc clearly says it only applies to base hp..
+	//but the actual effect sent on live causes the client
+	//to apply it to (basehp + itemhp).. I will oblige to the client's whims over
+	//the aa description
+	nd += float64(c.AABonusMaxHP())              //Natural Durability, Physical Enhancement, Planar Durability
+	max_hp = int64(float64(max_hp) * nd / 10000) //this is to fix the HP-above-495k issue
+	//not needed for unbuffed?
+	//max_hp += c.SpellBonusHP + AABonusHP
+	max_hp += c.GroupLeadershipBonusHP() //GroupLeadershipAAHealthEnhancement();
+	//max_hp += max_hp * ((spellbonuses.MaxHPChange + itembonuses.MaxHPChange) / 10000.0f);
+
+	return max_hp
+}
+
+func (c *Character) ItemBonusHP() int64 {
+	var hp int64
+	for _, item := range c.Inventory {
+		if item.SlotId >= 0 && item.SlotId < 21 { //charm to one less than ammo
+			hp += item.Hp
+		}
+		if item.SlotId == 22 { //powersource
+			hp += item.Hp
+		}
+		//todo: tribute
+	}
 	return hp
+}
+
+func (c *Character) AABonusMaxHP() int64 {
+	return 0
+}
+
+func (c *Character) GroupLeadershipBonusHP() int64 {
+	return 0
+}
+
+//CalcBaseHP on source
+func (c *Character) BaseHP() int64 {
+	var base_hp int64
+	stats := c.Sta
+
+	if stats > 255 {
+		stats = (stats - 255) / 2
+		stats += 255
+	}
+	base_hp = 5
+
+	if c.Base != nil {
+		base_hp += int64(c.Base.Hp) + (int64(c.Base.HpFac) * stats)
+		base_hp += (c.HeroicSTA() * 10)
+	}
+
+	return base_hp
+}
+
+//GetHeroicSta on source
+func (c *Character) HeroicSTA() int64 {
+	return 0
 }
 
 func (c *Character) TotalMana() int64 {

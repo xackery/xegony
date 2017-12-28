@@ -57,8 +57,9 @@ func (s *Storage) ListCharacter() (characters []*model.Character, err error) {
 }
 
 func (s *Storage) ListCharacterByRanking() (characters []*model.Character, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT character_data.id, %s FROM character_data INNER JOIN
-		account ON account.id = character_data.account_id WHERE account.status < 100 ORDER BY cur_hp DESC`, characterFields))
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT character_data.id, %s FROM character_data 
+		INNER JOIN account ON account.id = character_data.account_id 
+		WHERE account.status < 100 ORDER BY cur_hp DESC LIMIT 10`, characterFields))
 	if err != nil {
 		return
 	}
@@ -68,6 +69,13 @@ func (s *Storage) ListCharacterByRanking() (characters []*model.Character, err e
 		if err = rows.StructScan(&character); err != nil {
 			return
 		}
+
+		character.Base, err = s.GetBase(character.Level, character.Class)
+		if err != nil {
+			return
+		}
+
+		character.Inventory, err = s.ListItemByCharacter(character.Id)
 		characters = append(characters, &character)
 	}
 	return
