@@ -56,6 +56,9 @@
 
     $(function () {
 
+        $("[title]").tooltip();
+        
+
         $('#fixed-navbar').click(function(){
             if($('body').hasClass('fixed-navbar')) {
                 $('body').removeClass('fixed-navbar');

@@ -37,10 +37,9 @@
                     <tbody>
                     {{range $key, $value := .Characters}}
                     <tr>
-                        <td><i class="ra {{$value.RaceIcon}}"></i></td>                        
-                        <td><i class="ra {{$value.ClassIcon}}"></i></td>
-                        
-                        <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>                        
+                        <td><i title="{{$value.RaceName}}" class="ra {{$value.RaceIcon}}"></i></td>                        
+                        <td><i title="{{$value.ClassName}}" class="ra {{$value.ClassIcon}}"></i></td>                        
+                        <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
                         <th>{{$value.Level}}</th>
                         <th>{{$value.AA}}</th>
                         <th>{{$value.TotalHP}}</th>
@@ -62,12 +61,4 @@
         </div>
     </div>
 </div>
-    <!-- Footer-->
-    <footer class="footer">
-        <span class="pull-right">
-            Example text
-        </span>
-        Company 2015-2020
-    </footer>
-
 </div>

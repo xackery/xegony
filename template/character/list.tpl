@@ -31,8 +31,8 @@
 					<tbody>
 					{{range $key, $value := .Characters}}
 					<tr>
-						<td><i class="ra {{$value.RaceIcon}}" data-toggle="tooltip" data-placement="top" title="{{$value.RaceName}}"></i></td>
-						<td><i class="ra {{$value.ClassIcon}}" data-toggle="tooltip" data-placement="top" title="{{$value.ClassName}}"></i></td>						
+						<td>><i title="{{$value.RaceName}}" class="ra {{$value.RaceIcon}}""></i></td>
+						<td><i class="ra {{$value.ClassIcon}}" title="{{$value.ClassName}}"></i></td>						
 						<td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
 						<td>{{$value.Level}}</td>
 						<td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneId}}</a></td>         
@@ -50,6 +50,3 @@
 	</div>
 </div>
 </div>
-<script>
-	$('.tooltip-info').tooltip({selector: "[data-toggle=tooltip]"});
-	</script>

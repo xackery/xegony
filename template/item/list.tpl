@@ -45,7 +45,7 @@
                     <tbody>
                     {{range $key, $value := .Items}}
                     <tr>
-                        <td><span title="{{$value.Name}}" class="item icon-{{$value.Icon}}-sm"></span></td>
+                        <td><span class="item icon-{{$value.Icon}}-sm"></span></td>
                         <td><a href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>
                         <td>{{$value.SlotsFirstName}}</td>
                         <td><i class="ra {{$value.ItemtypeIcon}}"></i> {{$value.ItemtypeName}}</td>
@@ -62,13 +62,5 @@
         </div>
     </div>
 </div>
-    <!-- Footer-->
-    <footer class="footer">
-        <span class="pull-right">
-            Example text
-        </span>
-        Company 2015-2020
-    </footer>
-
 </div>
 
