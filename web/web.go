@@ -26,6 +26,9 @@ type Site struct {
 	Section     string
 	Description string //Description for oprop
 	User        *model.User
+	PageNumber  int64
+	PageSize    int64
+	ResultCount int64
 }
 
 type Web struct {
@@ -45,12 +48,52 @@ type Web struct {
 	zoneRepo      *cases.ZoneRepository
 }
 
+func (s Site) PageList() template.HTML {
+	page := `<div class="btn-group pull-right">`
+	curPage := s.PageNumber
+	var curElement int64
+	if s.PageNumber > 0 {
+		page += fmt.Sprintf("\n"+`<button type="button" class="btn btn-default"><a href="/item?pageNumber=%d"><i class="fa fa-chevron-left"></i></a></button>`, s.PageNumber-1)
+	}
+
+	curElement = (s.PageNumber - 6) * s.PageSize
+	curPage -= 6
+	numCount := 0
+
+	for curElement <= s.ResultCount {
+		if curPage < 0 {
+			curPage++
+			curElement += s.PageSize
+			continue
+		}
+		curPage++
+		if curPage == s.PageNumber {
+			page += fmt.Sprintf("\n"+` <button class="btn btn-default active"><a href="/item/?pageNumber=%d">%d</a></button>`, curPage, curPage)
+		} else {
+			page += fmt.Sprintf("\n"+` <button class="btn btn-default"><a href="/item/?pageNumber=%d">%d</a></button>`, curPage, curPage)
+		}
+		curElement += s.PageSize
+		numCount++
+		if numCount >= 10 {
+			break
+		}
+	}
+	if s.PageNumber*s.PageSize < s.ResultCount {
+		page += fmt.Sprintf("\n"+`<button type="button" class="btn btn-default"><a href="/item?pageNumber=%d"><i class="fa fa-chevron-right"></a></i></button>`, s.PageNumber+1)
+	}
+	page += "\n</div>"
+	return template.HTML(page)
+}
+
 func (a *Web) NewSite(r *http.Request) (site Site) {
 	site = Site{
 		Name:        "Xegony",
 		Title:       "Xegony",
 		Description: "Xegony",
+		PageSize:    getIntParam(r, "pageSize"),
+		PageNumber:  getIntParam(r, "pageNumber"),
 	}
+
 	claims, err := api.GetAuthClaims(r)
 	if err != nil && err.Error() != "No token provided" {
 		//flush cookie
@@ -237,6 +280,19 @@ func getIntVar(r *http.Request, key string) (val int64, err error) {
 		return
 	}
 	return
+}
+
+func getIntParam(r *http.Request, key string) int64 {
+	var val int64
+	vals := r.URL.Query()
+	keyTypes, ok := vals[key]
+	if ok {
+		if len(keyTypes) > 0 {
+			val, _ = strconv.ParseInt(keyTypes[0], 10, 64)
+			return val
+		}
+	}
+	return 0
 }
 
 func getVar(r *http.Request, key string) string {

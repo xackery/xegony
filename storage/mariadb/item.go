@@ -38,9 +38,9 @@ func (s *Storage) CreateItem(item *model.Item) (err error) {
 	return
 }
 
-func (s *Storage) ListItem() (items []*model.Item, err error) {
+func (s *Storage) ListItem(pageSize int64, pageNumber int64) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 
-		ORDER BY id DESC`, itemFields))
+		ORDER BY id ASC LIMIT %d OFFSET %d`, itemFields, pageSize, pageSize*pageNumber))
 	if err != nil {
 		return
 	}
@@ -51,6 +51,14 @@ func (s *Storage) ListItem() (items []*model.Item, err error) {
 			return
 		}
 		items = append(items, &item)
+	}
+	return
+}
+
+func (s *Storage) ListItemCount() (count int64, err error) {
+	err = s.db.Get(&count, `SELECT count(id) FROM items`)
+	if err != nil {
+		return
 	}
 	return
 }

@@ -30,11 +30,18 @@
 	<link rel="stylesheet" href="/styles/inventory.css" />
 	<link rel="stylesheet" href="/styles/icons.css" />
 	<link rel="stylesheet" href="/styles/style.css" />
+	
 	<link rel="stylesheet" href="/vendor/summernote/dist/summernote.css" />
-	<link rel="stylesheet" href="vendor/summernote/dist/summernote-bs3.css" />
+	<link rel="stylesheet" href="/vendor/summernote/dist/summernote-bs3.css" />
+	
+	<link rel="stylesheet" href="/vendor/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
 	<script src="/vendor/jquery/dist/jquery.min.js"></script>
 	<script src="/vendor/jquery-ui/jquery-ui.min.js"></script>
+
+	<script src="/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
+	<script src="/vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
 </head>
 <body class="fixed-navbar sidebar-scroll">
 	{{ template "body" .}}

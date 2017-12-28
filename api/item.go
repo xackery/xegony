@@ -211,7 +211,10 @@ func (a *Api) EditItem(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Api) ListItem(w http.ResponseWriter, r *http.Request) {
-	items, err := a.itemRepo.List()
+	pageSize := getIntParam(r, "pageSize")
+	pageNumber := getIntParam(r, "pageNumber")
+
+	items, err := a.itemRepo.List(pageSize, pageNumber)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		writeError(w, r, err, http.StatusInternalServerError)

@@ -190,6 +190,19 @@ func decodeBody(r *http.Request, data interface{}) (err error) {
 	return
 }
 
+func getIntParam(r *http.Request, key string) int64 {
+	var val int64
+	vals := r.URL.Query()
+	keyTypes, ok := vals[key]
+	if ok {
+		if len(keyTypes) > 0 {
+			val, _ = strconv.ParseInt(keyTypes[0], 10, 64)
+			return val
+		}
+	}
+	return 0
+}
+
 func getIntVar(r *http.Request, key string) (val int64, err error) {
 	vars := mux.Vars(r)
 	val, err = strconv.ParseInt(vars[key], 10, 64)

@@ -22,7 +22,15 @@ func (a *Web) ListItem(w http.ResponseWriter, r *http.Request) {
 	site.Page = "item"
 	site.Title = "Item"
 
-	items, err := a.itemRepo.List()
+	pageSize := getIntParam(r, "pageSize")
+	pageNumber := getIntParam(r, "pageNumber")
+
+	items, err := a.itemRepo.List(pageSize, pageNumber)
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	site.ResultCount, err = a.itemRepo.ListCount()
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return

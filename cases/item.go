@@ -115,8 +115,25 @@ func (g *ItemRepository) Delete(itemId int64) (err error) {
 	return
 }
 
-func (g *ItemRepository) List() (items []*model.Item, err error) {
-	items, err = g.stor.ListItem()
+func (g *ItemRepository) List(pageSize int64, pageNumber int64) (items []*model.Item, err error) {
+	if pageSize < 1 {
+		pageSize = 25
+	}
+
+	if pageNumber < 0 {
+		pageNumber = 0
+	}
+
+	items, err = g.stor.ListItem(pageSize, pageNumber)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (g *ItemRepository) ListCount() (count int64, err error) {
+
+	count, err = g.stor.ListItemCount()
 	if err != nil {
 		return
 	}
