@@ -56,6 +56,17 @@
 					<li class="{{if eq .Site.Page "itemlist"}}active{{end}}"><a href="/item"> <span class="nav-label">List</span></a></li>
 				</ul>
 			</li>
+
+			<li class="{{if eq .Site.Section "task"}}active{{end}}">
+				<a href="#" aira-expanded="{{if eq .Site.Section "task"}}true{{else}}false{{end}}"> 
+					<span class="nav-label"><i class="ra ra-wooden-sign"></i> Task</span>
+					<span class="fa arrow"/>
+				</a>
+				<ul class="nav nav-second-level collapse {{if eq .Site.Section "task"}}in{{end}}" aria-expanded="{{if eq .Site.Section "task"}}true{{else}}false{{end}}">
+					<li class="{{if eq .Site.Page "tasklist"}}active{{end}}"><a href="/task"> <span class="nav-label">List</span></a></li>
+					<li class="{{if eq .Site.Page "tasksearch"}}active{{end}}"><a href="/task/search"> <span class="nav-label">Search</span></a></li>					
+				</ul>
+			</li>
 			{{if .Site.User}}
 			<div class="profile-picture">
 	            

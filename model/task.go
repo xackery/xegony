@@ -22,6 +22,42 @@ type Task struct {
 	Repeatable   int64  `json:"repeatable" db:"repeatable"`     //`repeatable` tinyint(1) unsigned NOT NULL DEFAULT '1',
 }
 
+func (c *Task) CashRewardName() string {
+	return CashName(c.Cashreward)
+}
+
+func (c *Task) RewardName() string {
+	switch c.Rewardmethod {
+	case 0:
+		return c.Reward
+	case 1:
+		return fmt.Sprintf("GoalList %d", c.Rewardid)
+	case 2:
+		return "Perl"
+	}
+	return "Unknown"
+}
+
+func (c *Task) RewardMethodName() string {
+	switch c.Rewardmethod {
+	case 0:
+		return "Item"
+	case 1:
+		return "Items"
+	case 2:
+		return "Perl"
+	}
+	return "Unknown"
+}
+
+func (c *Task) RepeatableName() string {
+	switch c.Repeatable {
+	case 0:
+		return "No"
+	}
+	return "Yes"
+}
+
 func (c *Task) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := Schema{}
 	s.Type = "object"

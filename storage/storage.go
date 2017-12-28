@@ -32,6 +32,12 @@ type Storage interface {
 	EditFaction(accountId int64, account *model.Faction) (err error)
 	ListFaction() (accounts []*model.Faction, err error)
 	DeleteFaction(accountId int64) (err error)
+	//Goal
+	GetGoal(listId int64, entryId int64) (goal *model.Goal, err error)
+	CreateGoal(goal *model.Goal) (err error)
+	ListGoal() (goals []*model.Goal, err error)
+	EditGoal(listId int64, goal *model.Goal) (err error)
+	DeleteGoal(listId int64, entryId int64) (err error)
 	//Character
 	GetCharacter(characterId int64) (character *model.Character, err error)
 	CreateCharacter(character *model.Character) (err error)

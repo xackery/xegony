@@ -160,7 +160,7 @@ func (c *Zone) ExpansionId() int64 {
 }
 
 /*
-
+//https://articles.eqresource.com/zonelist.php
 "abysmal"
 "acrylia"
 "airplane"

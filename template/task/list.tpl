@@ -21,8 +21,11 @@
 					<thead>
 					<tr>
 						<th>ID</th>
-						<th>Name</th>
-						<th>Description</th>
+						<th>Title</th>
+						<th>Type</th>
+						<th>Reward</th>
+						<th>Cash</th>
+						<th>Xp</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -30,7 +33,10 @@
 					<tr>
 						<td><a href="/task/{{$value.Id}}">{{$value.Id}}</a></td>
 						<td><a href="/task/{{$value.Id}}">{{$value.Title}}</a></td>
-						<td><a href="/task/{{$value.Id}}">{{$value.Description}}</a></td>
+						<td>{{$value.RewardMethodName}}</a></td>
+						<td>{{$value.RewardName}}</td>
+						<td>{{$value.CashRewardName}}</td>
+						<td>{{if gt $value.Xpreward 0}}{{$value.Xpreward}}xp{{end}}</td>
 					</tr>
 					{{end}}                
 					</tbody>
