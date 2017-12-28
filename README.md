@@ -3,6 +3,8 @@
 This project is not yet ready for release.
 
 Feature List
+* Stand alone executable you run to host website. Runs on all operating systems.
+* Customizable templates and UI, config settings, etc
 * Magelo-like Clone
 * Allakhazam-like Clone
 * PEQ/EOC-like Clone
