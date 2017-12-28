@@ -10,6 +10,7 @@ Feature List
 * PEQ/EOC-like Clone
 * Account-bound login system, register from in game, tie yourself to your characters
 * Account-bound linking system, if you own multiple characters, link them to a master login.
+* Player-facing features such as return home, change character name, change race/gender (can be disabled by admin)
 * Ranking system, showing best of X stat for players, best XP gain, best money gain, etc..
 * Experience, Gold tracking and reporting system, to give insight on how you are doing.
 * Forums
