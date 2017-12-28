@@ -321,15 +321,195 @@ func (c *Item) SizeName() string {
 }
 
 func (c *Item) SlotList() string {
-	return "EAR"
+	slots := ""
+	if c.Slots&1 == 1 {
+		slots += "CHARM "
+	}
+	if c.Slots&4 == 4 {
+		slots += "HEAD "
+	}
+	if c.Slots&8 == 8 {
+		slots += "FACE "
+	}
+	if c.Slots&18 == 18 {
+		slots += "EARS "
+	}
+	if c.Slots&32 == 32 {
+		slots += "NECK "
+	}
+	if c.Slots&64 == 64 {
+		slots += "SHOULDER "
+	}
+	if c.Slots&128 == 128 {
+		slots += "ARMS "
+	}
+	if c.Slots&256 == 256 {
+		slots += "BACK "
+	}
+	if c.Slots&1536 == 1536 {
+		slots += "BRACERS "
+	}
+	if c.Slots&2048 == 2048 {
+		slots += "RANGE "
+	}
+	if c.Slots&4096 == 4096 {
+		slots += "HANDS "
+	}
+	if c.Slots&8192 == 8192 {
+		slots += "PRIMARY "
+	}
+	if c.Slots&16384 == 16384 {
+		slots += "SECONDARY "
+	}
+	if c.Slots&98304 == 98304 {
+		slots += "RINGS "
+	}
+	if c.Slots&131072 == 131072 {
+		slots += "CHEST "
+	}
+	if c.Slots&262144 == 262144 {
+		slots += "LEGS "
+	}
+	if c.Slots&524288 == 524288 {
+		slots += "FEET "
+	}
+	if c.Slots&1048576 == 1048576 {
+		slots += "WAIST "
+	}
+	if c.Slots&2097152 == 2097152 {
+		slots += "AMMO "
+	}
+	if c.Slots&4194304 == 4194304 {
+		slots += "POWERSOURCE "
+	}
+	if len(slots) > 0 {
+		slots = slots[0 : len(slots)-1]
+	}
+	return slots
 }
 
 func (c *Item) ClassList() string {
-	return "ALL"
+	classes := ""
+	if c.Classes == 65535 {
+		return "ALL"
+	}
+	if c.Classes&1 == 1 {
+		classes += "WAR "
+	}
+	if c.Classes&2 == 2 {
+		classes += "CLR "
+	}
+	if c.Classes&4 == 4 {
+		classes += "PAL "
+	}
+	if c.Classes&8 == 8 {
+		classes += "RNG "
+	}
+	if c.Classes&16 == 16 {
+		classes += "SHM "
+	}
+	if c.Classes&32 == 32 {
+		classes += "DRU "
+	}
+	if c.Classes&64 == 64 {
+		classes += "MNK "
+	}
+	if c.Classes&128 == 128 {
+		classes += "BRD "
+	}
+	if c.Classes&256 == 256 {
+		classes += "ROG "
+	}
+	if c.Classes&512 == 512 {
+		classes += "SHD "
+	}
+	if c.Classes&1024 == 1024 {
+		classes += "NEC "
+	}
+	if c.Classes&2048 == 2048 {
+		classes += "WIZ "
+	}
+	if c.Classes&4096 == 4096 {
+		classes += "MAG "
+	}
+	if c.Classes&8192 == 8192 {
+		classes += "ENC "
+	}
+	if c.Classes&16384 == 16384 {
+		classes += "BST "
+	}
+	if c.Classes&32768 == 32768 {
+		classes += "BER "
+	}
+	if len(classes) > 0 {
+		classes = classes[0 : len(classes)-1]
+	}
+	if len(classes) == 0 {
+		classes = "NONE"
+	}
+	return classes
 }
 
 func (c *Item) RaceList() string {
-	return "ALL"
+	races := ""
+	if c.Races == 65535 {
+		return "ALL"
+	}
+	if c.Races&1 == 1 {
+		races += "HUM "
+	}
+	if c.Races&2 == 2 {
+		races += "BAR "
+	}
+	if c.Races&4 == 4 {
+		races += "ERU "
+	}
+	if c.Races&8 == 8 {
+		races += "WEF "
+	}
+	if c.Races&16 == 16 {
+		races += "HEF "
+	}
+	if c.Races&32 == 32 {
+		races += "DEF "
+	}
+	if c.Races&64 == 64 {
+		races += "HLF "
+	}
+	if c.Races&128 == 128 {
+		races += "DWF "
+	}
+	if c.Races&256 == 256 {
+		races += "TRL "
+	}
+	if c.Races&512 == 512 {
+		races += "OGR "
+	}
+	if c.Races&1024 == 1024 {
+		races += "HLF "
+	}
+	if c.Races&2048 == 2048 {
+		races += "GNM "
+	}
+	if c.Races&4096 == 4096 {
+		races += "IKS "
+	}
+	if c.Races&8192 == 8192 {
+		races += "VAH "
+	}
+	if c.Races&16384 == 16384 {
+		races += "FRO "
+	}
+	if c.Races&32768 == 32768 {
+		races += "DRA "
+	}
+	if len(races) > 0 {
+		races = races[0 : len(races)-1]
+	}
+	if len(races) == 0 {
+		races = "NONE"
+	}
+	return races
 }
 
 func (c *Item) ItemtypeName() string {

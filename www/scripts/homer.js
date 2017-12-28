@@ -100,20 +100,7 @@ $(document).ready(function () {
         fixWrapperHeight();
     });
 
-    // Sparkline bar chart data and options used under Profile image on left navigation panel
-    $("#sparkline1").sparkline([5, 6, 7, 2, 0, 4, 2, 4, 5, 7, 2, 4, 12, 11, 4], {
-        type: 'bar',
-        barWidth: 7,
-        height: '30px',
-        barColor: '#62cb31',
-        negBarColor: '#53ac2a'
-    });
-
-    // Initialize tooltips
-    $('.tooltip-demo').tooltip({
-        selector: "[data-toggle=tooltip]"
-    });
-
+    
     // Initialize popover
     $("[data-toggle=popover]").popover();
 

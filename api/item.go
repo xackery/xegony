@@ -34,7 +34,8 @@ func (a *Api) GetItem(w http.ResponseWriter, r *http.Request) {
 
 const tooltipTemplate = `
 <div class="eqitem">
-    <h1>{{.Item.Name}}</h1>
+	
+    <span class="slot"><span class="item icon-{{.Item.Icon}}"></span></span><br>{{.Item.Name}}<br>
     {{if .Item.Magic}}Magic{{end}}{{if .Item.Notransfer}}No Trade{{end}}<br>
     Class: {{.Item.ClassList}}<br>
     Race: {{.Item.RaceList}}<br>
@@ -42,8 +43,8 @@ const tooltipTemplate = `
     <br>
     <table cellpadding="0" cellspacing="0" border="0">
     <tbody>
-        <tr><td colspan="2">Size:<span style="float:right; padding-left:8px; white-space:nowrap">{{.Item.SizeName}}</span></td><td style="padding-right:8px;"></td><td style="padding-right:4px" nowrap="">HP:</td><td align="right">{{.Item.Hp}}</td><td class="hvalue" style="padding-right:8px;"></td></tr>
-        <tr><td style="padding-right:4px" nowrap="">Weight:</td><td align="right">{{.Item.Weight}}</td><td class="hvalue" style="padding-right:8px;"></td><td style="padding-right:4px" nowrap="">Mana:</td><td align="right">{{.Item.Mana}}</td><td class="hvalue" style="padding-right:8px;"></td></tr>
+        <tr><td colspan="2">Size:<span style="float:right; padding-left:8px; white-space:nowrap">{{.Item.SizeName}}</span></td><td style="padding-right:8px;"></td>{{if .Item.Hp}}<td style="padding-right:4px" nowrap="">HP:</td><td align="right">{{.Item.Hp}}</td>{{end}}<td class="hvalue" style="padding-right:8px;"></td></tr>
+        <tr><td style="padding-right:4px" nowrap="">Weight:</td><td align="right">{{.Item.Weight}}</td><td class="hvalue" style="padding-right:8px;"></td>{{if .Item.Mana}}<td style="padding-right:4px" nowrap="">Mana:</td><td align="right">{{.Item.Mana}}</td>{{end}}<td class="hvalue" style="padding-right:8px;"></td></tr>
         <tr>{{if .Item.Reclevel}}<td style="padding-right:4px" nowrap="">Rec Level:</td><td align="right">{{.Item.Reclevel}}</td>{{end}}<td class="hvalue" style="padding-right:8px;"></td>{{if .Item.Endur}}<td style="padding-right:4px" nowrap="">Endur:</td><td align="right">{{.Item.Endur}}</td>{{end}}<td class="hvalue" style="padding-right:8px;"></td></tr>
         <tr>{{if .Item.Reqlevel}}<td style="padding-right:4px" nowrap="">Req Level:</td><td align="right">{{.Item.Reqlevel}}</td>{{end}}<td class="hvalue" style="padding-right:8px;"></td></tr>
         <tr><td style="height:4px;font-size:1px">&nbsp;</td></tr>
@@ -66,6 +67,7 @@ const tooltipTemplate = `
         Effect: <a rel="eq:spell:9616" href="/spell/9616" target="_blank">Sharpshooting VII</a> (Worn)<br>
         Focus Effect: <a rel="eq:spell:42971" href="/spell/42971" target="_blank">Detrimental Duration 26 L110</a><br>
     </div>*/}}
+
 </div>`
 
 func (a *Api) GetItemTooltip(w http.ResponseWriter, r *http.Request) {
@@ -78,9 +80,9 @@ func (a *Api) GetItemTooltip(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type ItemTooltip struct {
-		Name string
-		Id   int64
-		Data string
+		Name    string `json:"name"`
+		Id      int64  `json:"id"`
+		Content string `json:"content"`
 	}
 	item, err := a.itemRepo.Get(id)
 	if err != nil {
@@ -113,9 +115,9 @@ func (a *Api) GetItemTooltip(w http.ResponseWriter, r *http.Request) {
 	}
 
 	itemTooltip := &ItemTooltip{
-		Name: item.Name,
-		Id:   item.Id,
-		Data: tpl.String(),
+		Name:    item.Name,
+		Id:      item.Id,
+		Content: tpl.String(),
 	}
 
 	writeData(w, r, itemTooltip, http.StatusOK)

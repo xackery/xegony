@@ -46,7 +46,7 @@
                     {{range $key, $value := .Items}}
                     <tr>
                         <td><span class="slot-sm"><span class="item icon-{{$value.Icon}}-sm"></span></span></td>
-                        <td><a href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>
+                        <td><a item={{$value.Id}} href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>
                         <td>{{$value.SlotsFirstName}}</td>
                         <td>{{$value.ItemtypeName}}</td>
                     </tr>
