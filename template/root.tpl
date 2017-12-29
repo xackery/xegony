@@ -24,7 +24,7 @@
 	<!-- App styles -->
 	<link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
 	<link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/helper.css" />
-	<link rel="stylesheet" href="/fonts/rpg/css/rpg-awesome.min.css" />
+	<link rel="stylesheet" href="/fonts/xegony/css/xegony-awesome.min.css" />
 	
 	<link rel="stylesheet" href="/styles/builds.css" />
 	<link rel="stylesheet" href="/styles/inventory.css" />

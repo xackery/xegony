@@ -115,79 +115,11 @@ type Character struct {
 }
 
 func (c *Character) RaceIcon() string {
-	switch c.Race {
-	case 1:
-		return "ra-player" //human
-	case 2:
-		return "ra-fox" //barbarian
-	case 3:
-		return "ra-book" //erudite
-	case 4:
-		return "ra-pine-tree" //woodelf
-	case 5:
-		return "ra-tesla" //helf
-	case 6:
-		return "ra-bleeding-eye" //delf
-	case 7:
-		return "ra-aware" //halfelf
-	case 8:
-		return "ra-beer" //dwarf
-	case 9:
-		return "ra-bird-mask" //troll
-	case 10:
-		return "ra-muscle-fat" //ogre
-	case 11:
-		return "ra-footprint" //halfling
-	case 12:
-		return "ra-gears" //gnome
-	case 128:
-		return "ra-gecko" //iksar
-	case 130:
-		return "ra-lion" //vahshir
-	case 26: //may be wrong
-		return "ra-water-drop" //froglok
-	case 522:
-		return "ra-wyvern" //drakkin
-	}
-	return "ra-help"
+	return RaceIcon(c.Race)
 }
 
 func (c *Character) ClassIcon() string {
-	switch c.Class {
-	case 1:
-		return "ra-shield" //warrior
-	case 2:
-		return "ra-ankh" //cleric
-	case 3:
-		return "ra-fireball-sword" //paladin
-	case 4:
-		return "ra-arrow-cluster" //ranger
-	case 5:
-		return "ra-bat-sword" //shd
-	case 6:
-		return "ra-leaf" //druid
-	case 7:
-		return "ra-hand-emblem" //Monk
-	case 8:
-		return "ra-ocarina" //Bard
-	case 9:
-		return "ra-hood" //rogue
-	case 10:
-		return "ra-incense" //shaman
-	case 11:
-		return "ra-skull" //necro
-	case 12:
-		return "ra-fire" //wiz
-	case 13:
-		return "ra-burning-book" //magician
-	case 14:
-		return "ra-crystal-ball" //enchanter
-	case 15:
-		return "ra-pawprint" //beastlord
-	case 16:
-		return "ra-axe" //ber
-	}
-	return "ra-help"
+	return ClassIcon(c.Class)
 }
 func (c *Character) AA() int64 {
 	return 0

@@ -73,7 +73,7 @@
         </div>
         <div class="media-body">
             <h5>Nam fermentum tellus</h5>
-            Vivamus luctus diam et magna bibendum, quis tristique urna cursus. In dignissim tellus eu metus pharetra vulputate. Proin eu tempus tortor, vitae bibendum est. Nam placerat hendrerit rhoncus. Ut finibus, orci ut euismod gravida, felis elit lobortis purus, eget bibendum tortor sapien sit amet turpis. Integer porttitor ligula ac felis imperdiet volutpat. Praesent sit amet libero id eros convallis fringilla tempus vitae est.
+            Vivamus luctus diam et magna bibendum, quis tristique urna cursus. In dignissim tellus eu metus pharetxa vulputate. Proin eu tempus tortor, vitae bibendum est. Nam placerat hendrerit rhoncus. Ut finibus, orci ut euismod gravida, felis elit lobortis purus, eget bibendum tortor sapien sit amet turpis. Integer porttitor ligula ac felis imperdiet volutpat. Praesent sit amet libero id eros convallis fringilla tempus vitae est.
             <br/>
             <br/>
             Sed venenatis dui non blandit semper. Proin sed ullamcorper arcu, et ullamcorper mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam vitae efficitur urna. Integer vitae mi commodo, porttitor nulla vitae, sollicitudin eros.
@@ -136,7 +136,7 @@
             Proin eu tempus tortor, vitae bibendum est. Nam placerat hendrerit rhoncus. Ut finibus, orci ut euismod gravida, felis elit lobortis purus, eget bibendum tortor sapien sit amet turpis. Integer porttitor ligula ac felis imperdiet volutpat. Praesent sit amet libero id eros convallis fringilla tempus vitae est.
             <br/>
             <br/>
-            Quisque gravida maximus rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget felis dictum, aliquam nunc vitae, pharetra dolor. Aenean sapien erat, molestie sit amet faucibus non, pharetra a dui. Aenean ut venenatis dolor, et volutpat odio. Nam ultrices gravida ligula sed porta.
+            Quisque gravida maximus rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget felis dictum, aliquam nunc vitae, pharetxa dolor. Aenean sapien erat, molestie sit amet faucibus non, pharetxa a dui. Aenean ut venenatis dolor, et volutpat odio. Nam ultrices gravida ligula sed porta.
             <br/>
             <br/>
             <i>
@@ -170,7 +170,7 @@
                         <small class="text-muted">14.04.2015</small>
                         <div class="social-content">
                             Many desktop publishing packages and web page editors.Morbi imperdiet sem non dignissim vulputate.
-                            Cras maximus porttitor dui sed placerat. Integer eleifend pulvinar arcu at mattis. Ut porta tellus id enim volutpat, non pharetra elit vestibulum.
+                            Cras maximus porttitor dui sed placerat. Integer eleifend pulvinar arcu at mattis. Ut porta tellus id enim volutpat, non pharetxa elit vestibulum.
                         </div>
                     </div>
                 </div>
@@ -214,7 +214,7 @@
         </div>
         <div class="media-body">
             <h5>Nam fermentum tellus</h5>
-            Vivamus luctus diam et magna bibendum, quis tristique urna cursus. In dignissim tellus eu metus pharetra vulputate. Proin eu tempus tortor, vitae bibendum est. Nam placerat hendrerit rhoncus. Ut finibus, orci ut euismod gravida, felis elit lobortis purus, eget bibendum tortor sapien sit amet turpis. Integer porttitor ligula ac felis imperdiet volutpat. Praesent sit amet libero id eros convallis fringilla tempus vitae est.
+            Vivamus luctus diam et magna bibendum, quis tristique urna cursus. In dignissim tellus eu metus pharetxa vulputate. Proin eu tempus tortor, vitae bibendum est. Nam placerat hendrerit rhoncus. Ut finibus, orci ut euismod gravida, felis elit lobortis purus, eget bibendum tortor sapien sit amet turpis. Integer porttitor ligula ac felis imperdiet volutpat. Praesent sit amet libero id eros convallis fringilla tempus vitae est.
             <br/>
             <br/>
             Sed venenatis dui non blandit semper. Proin sed ullamcorper arcu, et ullamcorper mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam vitae efficitur urna. Integer vitae mi commodo, porttitor nulla vitae, sollicitudin eros.
@@ -285,7 +285,7 @@
             Proin eu tempus tortor, vitae bibendum est. Nam placerat hendrerit rhoncus. Ut finibus, orci ut euismod gravida, felis elit lobortis purus, eget bibendum tortor sapien sit amet turpis. Integer porttitor ligula ac felis imperdiet volutpat. Praesent sit amet libero id eros convallis fringilla tempus vitae est.
             <br/>
             <br/>
-            Quisque gravida maximus rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget felis dictum, aliquam nunc vitae, pharetra dolor. Aenean sapien erat, molestie sit amet faucibus non, pharetra a dui. Aenean ut venenatis dolor, et volutpat odio. Nam ultrices gravida ligula sed porta.
+            Quisque gravida maximus rhoncus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget felis dictum, aliquam nunc vitae, pharetxa dolor. Aenean sapien erat, molestie sit amet faucibus non, pharetxa a dui. Aenean ut venenatis dolor, et volutpat odio. Nam ultrices gravida ligula sed porta.
             <br/>
             <br/>
             <i>
@@ -319,7 +319,7 @@
                         <small class="text-muted">14.04.2015</small>
                         <div class="social-content">
                             Many desktop publishing packages and web page editors.Morbi imperdiet sem non dignissim vulputate.
-                            Cras maximus porttitor dui sed placerat. Integer eleifend pulvinar arcu at mattis. Ut porta tellus id enim volutpat, non pharetra elit vestibulum.
+                            Cras maximus porttitor dui sed placerat. Integer eleifend pulvinar arcu at mattis. Ut porta tellus id enim volutpat, non pharetxa elit vestibulum.
                         </div>
                     </div>
                 </div>

@@ -39,17 +39,19 @@
 
                             <thead>
                             <tr>
+                                <th width="10px"><i title="race" class="xa xa-bear"></i></th>
                                 <th>Name</th>
-                                <th>CharacterID</th>  
-                                <th>ZoneID</th>  
+                                <th>Level</th>
+                                <th>Zone</th>  
                             </tr>
                             </thead>
                             <tbody>
                             {{range $key, $value := .Npcs}}
-                            <tr>                                
+                            <tr>            
+                                <td><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}"></i></td>
                                 <td><a href="/npc/{{$value.Id}}">{{$value.CleanName}}</a></td>
-                                <td>{{$value.Id}}</td>
-                                <td>{{$value.ZoneId}}</td>
+                                <td>{{$value.Level}}</td>
+                                <td>{{$value.ZoneName}}</td>
                             </tr>
                             {{end}}                
                             </tbody>

@@ -107,3 +107,11 @@ func (g *NpcLootRepository) List(npcId int64) (npcLoots []*model.NpcLoot, err er
 	}
 	return
 }
+
+func (g *NpcLootRepository) ListByZone(zoneId int64) (npcLoots []*model.NpcLoot, err error) {
+	npcLoots, err = g.stor.ListNpcLootByZone(zoneId)
+	if err != nil {
+		return
+	}
+	return
+}

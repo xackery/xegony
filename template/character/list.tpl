@@ -21,8 +21,8 @@
 				<table cellpadding="1" cellspacing="1" class="table  table-striped">
 					<thead>
 					<tr>
-						<th width="10px"><i class="ra ra-double-team" title="Race"></i></th>
-                        <th width="10px"><i class="ra ra-pawn" title="Class"></i></th>
+						<th width="10px"><i class="xa xa-double-team" title="Race"></i></th>
+                        <th width="10px"><i class="xa xa-pawn" title="Class"></i></th>
 						<th>Name</th>	
 						<th>Level</th>					
 						<th>ZoneID</th>
@@ -31,8 +31,8 @@
 					<tbody>
 					{{range $key, $value := .Characters}}
 					<tr>
-						<td>><i title="{{$value.RaceName}}" class="ra {{$value.RaceIcon}}""></i></td>
-						<td><i class="ra {{$value.ClassIcon}}" title="{{$value.ClassName}}"></i></td>						
+						<td>><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}""></i></td>
+						<td><i class="xa {{$value.ClassIcon}}" title="{{$value.ClassName}}"></i></td>						
 						<td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
 						<td>{{$value.Level}}</td>
 						<td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneId}}</a></td>         

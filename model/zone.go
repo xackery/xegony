@@ -14,7 +14,7 @@ type Zone struct {
 	LongName          string         `json:"longName" db:"long_name"`                    //long_name` text NOT NULL,
 	MapFileName       sql.NullString `json:"mapFileName" db:"map_file_name"`             //map_file_name` varchar(100) DEFAULT NULL,
 	SafeX             float64        `json:"safeX" db:"safe_x"`                          //safe_x` float NOT NULL DEFAULT '0',
-	SafeT             float64        `json:"safeY" db:"safe_y"`                          //safe_y` float NOT NULL DEFAULT '0',
+	SafeY             float64        `json:"safeY" db:"safe_y"`                          //safe_y` float NOT NULL DEFAULT '0',
 	SafeZ             float64        `json:"safeZ" db:"safe_z"`                          //safe_z` float NOT NULL DEFAULT '0',
 	GraveyardId       float64        `json:"graveyardId" db:"graveyard_id"`              //graveyard_id` float NOT NULL DEFAULT '0',
 	MinLevel          int64          `json:"minLevel" db:"min_level"`                    //min_level` tinyint(3) unsigned NOT NULL DEFAULT '0',

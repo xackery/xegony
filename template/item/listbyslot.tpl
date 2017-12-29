@@ -20,15 +20,17 @@
                 <table cellpadding="1" cellspacing="1" class="table">
                     <thead>
                     <tr>
-                        <th width="20px"><i class="ra ra-sword"></i></th>
+                        <th width="20px"><i class="xa xa-sword"></i></th>
                         <th>Name</th>
+                        <th width="20px"><i title="Category" class="xa xa-anvil"></i></th>
                     </tr>
                     </thead>
                     <tbody>
                     {{range $key, $value := .Items}}
                     <tr>     
-                    <td><i class="ra {{$value.ItemtypeIcon}}"></i></td>
-                        <td><a href="/item/byslot/{{$value.Itemtype}}">{{$value.Name}}</a></td>
+                    <td><i class="xa {{$value.ItemtypeIcon}}"></i></td>
+                    <td><a href="/item/byslot/{{$value.Itemtype}}">{{$value.Name}}</a></td>
+                    <td><i title="{{$value.ItemtypeName}}" class="xa {{$value.ItemtypeIcon}}"></i></td>
                     </tr>
                     {{end}}                
                     </tbody>

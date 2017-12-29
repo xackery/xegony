@@ -106,9 +106,9 @@ func (a *Web) GetItemByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
-		Zone  *model.Zone
-		Items []*model.Item
+		Site     Site
+		Zone     *model.Zone
+		NpcLoots []*model.NpcLoot
 	}
 
 	zoneId, err := getIntVar(r, "zoneId")
@@ -122,16 +122,16 @@ func (a *Web) GetItemByZone(w http.ResponseWriter, r *http.Request) {
 	site.Page = "item"
 	site.Title = "Item"
 
-	items, err := a.itemRepo.GetByZone(zoneId)
+	npcLoots, err := a.npcLootRepo.ListByZone(zoneId)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 	zone, err := a.zoneRepo.Get(zoneId)
 	content := Content{
-		Site:  site,
-		Items: items,
-		Zone:  zone,
+		Site:     site,
+		NpcLoots: npcLoots,
+		Zone:     zone,
 	}
 
 	tmp := a.getTemplate("")

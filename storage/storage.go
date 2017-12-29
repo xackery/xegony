@@ -80,6 +80,7 @@ type Storage interface {
 	GetNpcLoot(npcId int64, itemId int64) (npcLoot *model.NpcLoot, err error)
 	CreateNpcLoot(npcLoot *model.NpcLoot) (err error)
 	ListNpcLoot(npcId int64) (npcLoots []*model.NpcLoot, err error)
+	ListNpcLootByZone(zoneId int64) (npcLoots []*model.NpcLoot, err error)
 	EditNpcLoot(npcId int64, itemId int64, npcLoot *model.NpcLoot) (err error)
 	DeleteNpcLoot(npcId int64, itemId int64) (err error)
 	TruncateNpcLoot() (err error)

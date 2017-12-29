@@ -86,77 +86,44 @@ func (s *Storage) VerifyTables() (err error) {
 		return
 	}
 
-	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS character_data (
-  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  account_id int(11) unsigned NOT NULL,
-  last_name varchar(64) NOT NULL DEFAULT '',
-  title varchar(32) NOT NULL DEFAULT '',
-  class tinyint(11) unsigned NOT NULL DEFAULT '0',
-  level int(11) unsigned NOT NULL DEFAULT '0',
-  zone_id int(11) unsigned NOT NULL DEFAULT '0',
-  name varchar(32) NOT NULL DEFAULT '',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	err = s.CreateTableBazaar()
 	if err != nil {
 		return
 	}
 
-	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS account (
-  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  name varchar(32) NOT NULL DEFAULT '',
-  status int(5) NOT NULL DEFAULT '0',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	err = s.CreateTableForum()
 	if err != nil {
 		return
 	}
 
-	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS forum (
-  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  name varchar(32) NOT NULL DEFAULT '',
-  owner_id int(11) unsigned NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	err = s.CreateTableNpcLoot()
 	if err != nil {
 		return
 	}
 
-	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS topic (
-  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  body varchar(1024) NOT NULL DEFAULT '',
-  owner_id int(11) unsigned NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	err = s.CreateTablePost()
 	if err != nil {
 		return
 	}
 
-	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS user (
-  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  name varchar(32) NOT NULL DEFAULT '',
-  account_id int(11) unsigned NOT NULL,
-  email varchar(64) NOT NULL DEFAULT '',
-  password varchar(64) NOT NULL DEFAULT '',
-  PRIMARY KEY (id),
-  UNIQUE KEY name (name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	err = s.CreateTableTopic()
 	if err != nil {
 		return
 	}
+	/*
+	   	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id)
+	   VALUES
+	   	(1, 'Test', '', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC', 1);`)
+	   	if err != nil {
+	   		return
+	   	}
 
-	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id)
-VALUES
-	(1, 'Test', '', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC', 1);`)
-	if err != nil {
-		return
-	}
-
-	_, err = s.db.Exec(`INSERT INTO account (id, name, status)
-VALUES
-	(1, 'Shin', 200);`)
-	if err != nil {
-		return
-	}
-
+	   	_, err = s.db.Exec(`INSERT INTO account (id, name, status)
+	   VALUES
+	   	(1, 'Shin', 200);`)
+	   	if err != nil {
+	   		return
+	   	}
+	*/
 	return
 }

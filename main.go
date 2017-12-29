@@ -43,6 +43,10 @@ func main() {
 	}
 	webServer.ApplyRoutes(router)
 
+	err = stor.VerifyTables()
+	if err != nil {
+		log.Fatal("Failed to verify tables: ", err.Error())
+	}
 	//go runBot(botServer)
 
 	err = http.ListenAndServe(listen, router)

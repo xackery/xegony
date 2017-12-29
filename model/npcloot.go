@@ -7,9 +7,15 @@ import (
 )
 
 type NpcLoot struct {
-	NpcId  int64 `json:"npcId" db:"npc_id"`
-	ItemId int64 `json:"itemId" db:"item_id"`
+	NpcId   int64  `json:"npcId" db:"npc_id"`
+	ItemId  int64  `json:"itemId" db:"item_id"`
+	NpcName string `json:"npcName" db:"npc_name"`
 	*Item
+	*Npc
+}
+
+func (c *NpcLoot) NpcCleanName() string {
+	return CleanName(c.NpcName)
 }
 
 func (c *NpcLoot) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

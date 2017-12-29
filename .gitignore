@@ -1,7 +1,10 @@
 /box/*
 /template/swag-web
+/xa/css
+/xa/node_modules/
+/font/
 
-/docker/db/
+/docker/*
 cover.txt
 
 #git repo

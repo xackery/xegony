@@ -26,8 +26,7 @@
 					<tbody>
 					{{range $key, $value := .Zones}}
 					<tr>
-						<td><a href="/item/byzone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
-						
+						<td><a href="/item/byzone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>							
 					</tr>
 					{{end}}                
 					</tbody>

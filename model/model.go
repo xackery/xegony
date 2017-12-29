@@ -1039,6 +1039,44 @@ func ZoneName(zoneId int64) string {
 	return "unknown"
 }
 
+func ClassIcon(class int64) string {
+	switch class {
+	case 1:
+		return "xa-shield" //warrior
+	case 2:
+		return "xa-ankh" //cleric
+	case 3:
+		return "xa-fireball-sword" //paladin
+	case 4:
+		return "xa-arrow-cluster" //ranger
+	case 5:
+		return "xa-bat-sword" //shd
+	case 6:
+		return "xa-leaf" //druid
+	case 7:
+		return "xa-hand-emblem" //Monk
+	case 8:
+		return "xa-ocarina" //Bard
+	case 9:
+		return "xa-hood" //rogue
+	case 10:
+		return "xa-incense" //shaman
+	case 11:
+		return "xa-skull" //necro
+	case 12:
+		return "xa-fire" //wiz
+	case 13:
+		return "xa-burning-book" //magician
+	case 14:
+		return "xa-crystal-ball" //enchanter
+	case 15:
+		return "xa-pawprint" //beastlord
+	case 16:
+		return "xa-axe" //ber
+	}
+	return "xa-help"
+}
+
 func ClassName(class int64) string {
 
 	switch class {
@@ -1134,6 +1172,1453 @@ func ClassName(class int64) string {
 		return "Mercenary Merchant"
 	}
 	return fmt.Sprintf("Unknown (%d)", class)
+}
+
+func RaceIcon(race int64) string {
+	switch race {
+	case 1:
+		return "xa-player" //human
+	case 2:
+		return "xa-fox" //barbarian
+	case 3:
+		return "xa-book" //erudite
+	case 4:
+		return "xa-pine-tree" //woodelf
+	case 5:
+		return "xa-tesla" //helf
+	case 6:
+		return "xa-bleeding-eye" //delf
+	case 7:
+		return "xa-aware" //halfelf
+	case 8:
+		return "xa-beer" //dwarf
+	case 9:
+		return "xa-bird-mask" //troll
+	case 10:
+		return "xa-muscle-fat" //ogre
+	case 11:
+		return "xa-footprint" //halfling
+	case 12:
+		return "xa-gears" //gnome
+	case 13:
+		return "xa-octopus" //"Aviak"
+	case 14:
+		return "xa-octopus" //"Werewolf"
+	case 15:
+		return "xa-octopus" //"Brownie"
+	case 16:
+		return "xa-octopus" //"Centaur"
+	case 17:
+		return "xa-octopus" //"Golem"
+	case 18:
+		return "xa-octopus" //"Giant"
+	case 19:
+		return "xa-octopus" //"Trakanon"
+	case 20:
+		return "xa-octopus" //"Venril Sathir"
+	case 21:
+		return "xa-octopus" //"Evil Eye"
+	case 22:
+		return "xa-octopus" //"Beetle"
+	case 23:
+		return "xa-octopus" //"Kerran"
+	case 24:
+		return "xa-octopus" //"Fish"
+	case 25:
+		return "xa-octopus" //"Fairy"
+	case 26: //may be wrong
+		return "xa-water-drop" //froglok
+	case 27:
+		return "xa-octopus" //"Froglok"
+	case 28:
+		return "xa-octopus" //"Fungusman"
+	case 29:
+		return "xa-octopus" //"Gargoyle"
+	case 30:
+		return "xa-octopus" //"Gasbag"
+	case 31:
+		return "xa-octopus" //"Gelatinous Cube"
+	case 32:
+		return "xa-octopus" //"Ghost"
+	case 33:
+		return "xa-octopus" //"Ghoul"
+	case 34:
+		return "xa-octopus" //"Bat"
+	case 35:
+		return "xa-octopus" //"Eel"
+	case 36:
+		return "xa-octopus" //"Rat"
+	case 37:
+		return "xa-octopus" //"Snake"
+	case 38:
+		return "xa-octopus" //"Spider"
+	case 39:
+		return "xa-octopus" //"Gnoll"
+	case 40:
+		return "xa-octopus" //"Goblin"
+	case 41:
+		return "xa-octopus" //"Gorilla"
+	case 42:
+		return "xa-octopus" //"Wolf"
+	case 43:
+		return "xa-octopus" //"Bear"
+	case 44:
+		return "xa-octopus" //"Guard"
+	case 45:
+		return "xa-octopus" //"Demi Lich"
+	case 46:
+		return "xa-octopus" //"Imp"
+	case 47:
+		return "xa-octopus" //"Griffin"
+	case 48:
+		return "xa-octopus" //"Kobold"
+	case 49:
+		return "xa-wyvern" //"Dragon"
+	case 50:
+		return "xa-octopus" //"Lion"
+	case 51:
+		return "xa-octopus" //"Lizard Man"
+	case 52:
+		return "xa-octopus" //"Mimic"
+	case 53:
+		return "xa-octopus" //"Minotaur"
+	case 54:
+		return "xa-octopus" //"Orc"
+	case 55:
+		return "xa-octopus" //"Beggar"
+	case 56:
+		return "xa-octopus" //"Pixie"
+	case 57:
+		return "xa-octopus" //"Drachnid"
+	case 58:
+		return "xa-octopus" //"Solusek Ro"
+	case 59:
+		return "xa-octopus" //"Goblin"
+	case 60:
+		return "xa-octopus" //"Skeleton"
+	case 61:
+		return "xa-octopus" //"Shark"
+	case 62:
+		return "xa-octopus" //"Tunare"
+	case 63:
+		return "xa-octopus" //"Tiger"
+	case 64:
+		return "xa-octopus" //"Treant"
+	case 65:
+		return "xa-octopus" //"Vampire"
+	case 66:
+		return "xa-octopus" //"Rallos Zek"
+	case 67:
+		return "xa-octopus" //"Human"
+	case 68:
+		return "xa-octopus" //"Tentacle Terror"
+	case 69:
+		return "xa-octopus" //"Will-O-Wisp"
+	case 70:
+		return "xa-octopus" //"Zombie"
+	case 71:
+		return "xa-octopus" //"Human"
+	case 72:
+		return "xa-octopus" //"Ship"
+	case 73:
+		return "xa-octopus" //"Launch"
+	case 74:
+		return "xa-octopus" //"Piranha"
+	case 75:
+		return "xa-octopus" //"Elemental"
+	case 76:
+		return "xa-octopus" //"Puma"
+	case 77:
+		return "xa-octopus" //"Dark Elf"
+	case 78:
+		return "xa-octopus" //"Erudite"
+	case 79:
+		return "xa-octopus" //"Bixie"
+	case 80:
+		return "xa-octopus" //"Reanimated Hand"
+	case 81:
+		return "xa-octopus" //"Halfling"
+	case 82:
+		return "xa-octopus" //"Scarecrow"
+	case 83:
+		return "xa-octopus" //"Skunk"
+	case 84:
+		return "xa-octopus" //"Snake Elemental"
+	case 85:
+		return "xa-octopus" //"Spectre"
+	case 86:
+		return "xa-octopus" //"Sphinx"
+	case 87:
+		return "xa-octopus" //"Armadillo"
+	case 88:
+		return "xa-octopus" //"Clockwork Gnome"
+	case 89:
+		return "xa-octopus" //"Drake"
+	case 90:
+		return "xa-octopus" //"Barbarian"
+	case 91:
+		return "xa-octopus" //"Alligator"
+	case 92:
+		return "xa-octopus" //"Troll"
+	case 93:
+		return "xa-octopus" //"Ogre"
+	case 94:
+		return "xa-octopus" //"Dwarf"
+	case 95:
+		return "xa-octopus" //"Cazic Thule"
+	case 96:
+		return "xa-octopus" //"Cockatrice"
+	case 97:
+		return "xa-octopus" //"Daisy Man"
+	case 98:
+		return "xa-octopus" //"Vampire"
+	case 99:
+		return "xa-octopus" //"Amygdalan"
+	case 100:
+		return "xa-octopus" //"Dervish"
+	case 101:
+		return "xa-octopus" //"Efreeti"
+	case 102:
+		return "xa-octopus" //"Tadpole"
+	case 103:
+		return "xa-octopus" //"Kedge"
+	case 104:
+		return "xa-octopus" //"Leech"
+	case 105:
+		return "xa-octopus" //"Swordfish"
+	case 106:
+		return "xa-octopus" //"Guard"
+	case 107:
+		return "xa-octopus" //"Mammoth"
+	case 108:
+		return "xa-octopus" //"Eye"
+	case 109:
+		return "xa-octopus" //"Wasp"
+	case 110:
+		return "xa-octopus" //"Mermaid"
+	case 111:
+		return "xa-octopus" //"Harpy"
+	case 112:
+		return "xa-octopus" //"Guard"
+	case 113:
+		return "xa-octopus" //"Drixie"
+	case 114:
+		return "xa-octopus" //"Ghost Ship"
+	case 115:
+		return "xa-octopus" //"Clam"
+	case 116:
+		return "xa-octopus" //"Seahorse"
+	case 117:
+		return "xa-octopus" //"Ghost"
+	case 118:
+		return "xa-octopus" //"Ghost"
+	case 119:
+		return "xa-octopus" //"Sabertooth"
+	case 120:
+		return "xa-octopus" //"Wolf"
+	case 121:
+		return "xa-octopus" //"Gorgon"
+	case 122:
+		return "xa-wyvern" //"Dragon"
+	case 123:
+		return "xa-octopus" //"Innoruuk"
+	case 124:
+		return "xa-octopus" //"Unicorn"
+	case 125:
+		return "xa-octopus" //"Pegasus"
+	case 126:
+		return "xa-octopus" //"Djinn"
+	case 127:
+		return "xa-octopus" //"Invisible Man"
+	case 128:
+		return "xa-gecko" //iksar
+	case 129:
+		return "xa-octopus" //"Scorpion"
+	case 130:
+		return "xa-lion" //vahshir
+	case 131:
+		return "xa-octopus" //"Sarnak"
+	case 132:
+		return "xa-octopus" //"Draglock"
+	case 133:
+		return "xa-octopus" //"Drolvarg"
+	case 134:
+		return "xa-octopus" //"Mosquito"
+	case 135:
+		return "xa-octopus" //"Rhinoceros"
+	case 136:
+		return "xa-octopus" //"Xalgoz"
+	case 137:
+		return "xa-octopus" //"Goblin"
+	case 138:
+		return "xa-octopus" //"Yeti"
+	case 139:
+		return "xa-octopus" //"Iksar"
+	case 140:
+		return "xa-octopus" //"Giant"
+	case 141:
+		return "xa-octopus" //"Boat"
+	case 142:
+		return "xa-octopus" //"Object"
+	case 143:
+		return "xa-octopus" //"Tree"
+	case 144:
+		return "xa-octopus" //"Burynai"
+	case 145:
+		return "xa-octopus" //"Goo"
+	case 146:
+		return "xa-octopus" //"Sarnak Spirit"
+	case 147:
+		return "xa-octopus" //"Iksar Spirit"
+	case 148:
+		return "xa-octopus" //"Fish"
+	case 149:
+		return "xa-octopus" //"Scorpion"
+	case 150:
+		return "xa-octopus" //"Erollisi"
+	case 151:
+		return "xa-octopus" //"Tribunal"
+	case 152:
+		return "xa-octopus" //"Bertoxxulous"
+	case 153:
+		return "xa-octopus" //"Bristlebane"
+	case 154:
+		return "xa-octopus" //"Fay Drake"
+	case 155:
+		return "xa-octopus" //"Undead Sarnak"
+	case 156:
+		return "xa-octopus" //"Ratman"
+	case 157:
+		return "xa-octopus" //"Wyvern"
+	case 158:
+		return "xa-octopus" //"Wurm"
+	case 159:
+		return "xa-octopus" //"Devourer"
+	case 160:
+		return "xa-octopus" //"Iksar Golem"
+	case 161:
+		return "xa-octopus" //"Undead Iksar"
+	case 162:
+		return "xa-octopus" //"ManEating Plant"
+	case 163:
+		return "xa-octopus" //"Raptor"
+	case 164:
+		return "xa-octopus" //"Sarnak Golem"
+	case 165:
+		return "xa-wyvern" //"Dragon"
+	case 166:
+		return "xa-octopus" //"Animated Hand"
+	case 167:
+		return "xa-octopus" //"Succulent"
+	case 168:
+		return "xa-octopus" //"Holgresh"
+	case 169:
+		return "xa-octopus" //"Brontotherium"
+	case 170:
+		return "xa-octopus" //"Snow Dervish"
+	case 171:
+		return "xa-octopus" //"Dire Wolf"
+	case 172:
+		return "xa-octopus" //"Manticore"
+	case 173:
+		return "xa-octopus" //"Totem"
+	case 174:
+		return "xa-octopus" //"Ice Spectre"
+	case 175:
+		return "xa-octopus" //"Enchanted Armor"
+	case 176:
+		return "xa-octopus" //"Snow Rabbit"
+	case 177:
+		return "xa-octopus" //"Walrus"
+	case 178:
+		return "xa-octopus" //"Geonid"
+	case 181:
+		return "xa-octopus" //"Yakkar"
+	case 182:
+		return "xa-octopus" //"Faun"
+	case 183:
+		return "xa-octopus" //"Coldain"
+	case 184:
+		return "xa-wyvern" //"Dragon"
+	case 185:
+		return "xa-octopus" //"Hag"
+	case 186:
+		return "xa-octopus" //"Hippogriff"
+	case 187:
+		return "xa-octopus" //"Siren"
+	case 188:
+		return "xa-octopus" //"Giant"
+	case 189:
+		return "xa-octopus" //"Giant"
+	case 190:
+		return "xa-octopus" //"Othmir"
+	case 191:
+		return "xa-octopus" //"Ulthork"
+	case 192:
+		return "xa-wyvern" //"Dragon"
+	case 193:
+		return "xa-octopus" //"Abhorrent"
+	case 194:
+		return "xa-octopus" //"Sea Turtle"
+	case 195:
+		return "xa-wyvern" //"Dragon"
+	case 196:
+		return "xa-wyvern" //"Dragon"
+	case 197:
+		return "xa-octopus" //"Ronnie Test"
+	case 198:
+		return "xa-wyvern" //"Dragon"
+	case 199:
+		return "xa-octopus" //"Shik'Nar"
+	case 200:
+		return "xa-octopus" //"Rockhopper"
+	case 201:
+		return "xa-octopus" //"Underbulk"
+	case 202:
+		return "xa-octopus" //"Grimling"
+	case 203:
+		return "xa-octopus" //"Worm"
+	case 204:
+		return "xa-octopus" //"Evan Test"
+	case 205:
+		return "xa-octopus" //"Shadel"
+	case 206:
+		return "xa-octopus" //"Owlbear"
+	case 207:
+		return "xa-octopus" //"Rhino Beetle"
+	case 208:
+		return "xa-octopus" //"Vampire"
+	case 209:
+		return "xa-octopus" //"Earth Elemental"
+	case 210:
+		return "xa-octopus" //"Air Elemental"
+	case 211:
+		return "xa-octopus" //"Water Elemental"
+	case 212:
+		return "xa-octopus" //"Fire Elemental"
+	case 213:
+		return "xa-octopus" //"Wetfang Minnow"
+	case 214:
+		return "xa-octopus" //"Thought Horror"
+	case 215:
+		return "xa-octopus" //"Tegi"
+	case 216:
+		return "xa-octopus" //"Horse"
+	case 217:
+		return "xa-octopus" //"Shissar"
+	case 218:
+		return "xa-octopus" //"Fungal Fiend"
+	case 219:
+		return "xa-octopus" //"Vampire"
+	case 220:
+		return "xa-octopus" //"Stonegrabber"
+	case 221:
+		return "xa-octopus" //"Scarlet Cheetah"
+	case 222:
+		return "xa-octopus" //"Zelniak"
+	case 223:
+		return "xa-octopus" //"Lightcrawler"
+	case 224:
+		return "xa-octopus" //"Shade"
+	case 225:
+		return "xa-octopus" //"Sunflower"
+	case 226:
+		return "xa-octopus" //"Sun Revenant"
+	case 227:
+		return "xa-octopus" //"Shrieker"
+	case 228:
+		return "xa-octopus" //"Galorian"
+	case 229:
+		return "xa-octopus" //"Netherbian"
+	case 230:
+		return "xa-octopus" //"Akheva"
+	case 231:
+		return "xa-octopus" //"Grieg Veneficus"
+	case 232:
+		return "xa-octopus" //"Sonic Wolf"
+	case 233:
+		return "xa-octopus" //"Ground Shaker"
+	case 234:
+		return "xa-octopus" //"Vah Shir Skeleton"
+	case 235:
+		return "xa-octopus" //"Wretch"
+	case 236:
+		return "xa-octopus" //"Seru"
+	case 237:
+		return "xa-octopus" //"Recuso"
+	case 238:
+		return "xa-octopus" //"Vah Shir"
+	case 239:
+		return "xa-octopus" //"Guard"
+	case 240:
+		return "xa-octopus" //"Teleport Man"
+	case 241:
+		return "xa-octopus" //"Werewolf"
+	case 242:
+		return "xa-octopus" //"Nymph"
+	case 243:
+		return "xa-octopus" //"Dryad"
+	case 244:
+		return "xa-octopus" //"Treant"
+	case 245:
+		return "xa-octopus" //"Fly"
+	case 246:
+		return "xa-octopus" //"Tarew Marr"
+	case 247:
+		return "xa-octopus" //"Solusek Ro"
+	case 248:
+		return "xa-octopus" //"Clockwork Golem"
+	case 249:
+		return "xa-octopus" //"Clockwork Brain"
+	case 250:
+		return "xa-octopus" //"Banshee"
+	case 251:
+		return "xa-octopus" //"Guard of Justice"
+	case 252:
+		return "xa-octopus" //"Mini POM"
+	case 253:
+		return "xa-octopus" //"Diseased Fiend"
+	case 254:
+		return "xa-octopus" //"Solusek Ro Guard"
+	case 255:
+		return "xa-octopus" //"Bertoxxulous"
+	case 256:
+		return "xa-octopus" //"The Tribunal"
+	case 257:
+		return "xa-octopus" //"Terris Thule"
+	case 258:
+		return "xa-octopus" //"Vegerog"
+	case 259:
+		return "xa-octopus" //"Crocodile"
+	case 260:
+		return "xa-octopus" //"Bat"
+	case 261:
+		return "xa-octopus" //"Hraquis"
+	case 262:
+		return "xa-octopus" //"Tranquilion"
+	case 263:
+		return "xa-octopus" //"Tin Soldier"
+	case 264:
+		return "xa-octopus" //"Nightmare Wraith"
+	case 265:
+		return "xa-octopus" //"Malarian"
+	case 266:
+		return "xa-octopus" //"Knight of Pestilence"
+	case 267:
+		return "xa-octopus" //"Lepertoloth"
+	case 268:
+		return "xa-octopus" //"Bubonian"
+	case 269:
+		return "xa-octopus" //"Bubonian Underling"
+	case 270:
+		return "xa-octopus" //"Pusling"
+	case 271:
+		return "xa-octopus" //"Water Mephit"
+	case 272:
+		return "xa-octopus" //"Stormrider"
+	case 273:
+		return "xa-octopus" //"Junk Beast"
+	case 274:
+		return "xa-octopus" //"Broken Clockwork"
+	case 275:
+		return "xa-octopus" //"Giant Clockwork"
+	case 276:
+		return "xa-octopus" //"Clockwork Beetle"
+	case 277:
+		return "xa-octopus" //"Nightmare Goblin"
+	case 278:
+		return "xa-octopus" //"Karana"
+	case 279:
+		return "xa-octopus" //"Blood Raven"
+	case 280:
+		return "xa-octopus" //"Nightmare Gargoyle"
+	case 281:
+		return "xa-octopus" //"Mouth of Insanity"
+	case 282:
+		return "xa-octopus" //"Skeletal Horse"
+	case 283:
+		return "xa-octopus" //"Saryrn"
+	case 284:
+		return "xa-octopus" //"Fennin Ro"
+	case 285:
+		return "xa-octopus" //"Tormentor"
+	case 286:
+		return "xa-octopus" //"Soul Devourer"
+	case 287:
+		return "xa-octopus" //"Nightmare"
+	case 288:
+		return "xa-octopus" //"Rallos Zek"
+	case 289:
+		return "xa-octopus" //"Vallon Zek"
+	case 290:
+		return "xa-octopus" //"Tallon Zek"
+	case 291:
+		return "xa-octopus" //"Air Mephit"
+	case 292:
+		return "xa-octopus" //"Earth Mephit"
+	case 293:
+		return "xa-octopus" //"Fire Mephit"
+	case 294:
+		return "xa-octopus" //"Nightmare Mephit"
+	case 295:
+		return "xa-octopus" //"Zebuxoruk"
+	case 296:
+		return "xa-octopus" //"Mithaniel Marr"
+	case 297:
+		return "xa-octopus" //"Undead Knight"
+	case 298:
+		return "xa-octopus" //"The Rathe"
+	case 299:
+		return "xa-octopus" //"Xegony"
+	case 300:
+		return "xa-octopus" //"Fiend"
+	case 301:
+		return "xa-octopus" //"Test Object"
+	case 302:
+		return "xa-octopus" //"Crab"
+	case 303:
+		return "xa-octopus" //"Phoenix"
+	case 304:
+		return "xa-wyvern" //"Dragon"
+	case 305:
+		return "xa-octopus" //"Bear"
+	case 306:
+		return "xa-octopus" //"Giant"
+	case 307:
+		return "xa-octopus" //"Giant"
+	case 308:
+		return "xa-octopus" //"Giant"
+	case 309:
+		return "xa-octopus" //"Giant"
+	case 310:
+		return "xa-octopus" //"Giant"
+	case 311:
+		return "xa-octopus" //"Giant"
+	case 312:
+		return "xa-octopus" //"Giant"
+	case 313:
+		return "xa-octopus" //"War Wraith"
+	case 314:
+		return "xa-octopus" //"Wrulon"
+	case 315:
+		return "xa-octopus" //"Kraken"
+	case 316:
+		return "xa-octopus" //"Poison Frog"
+	case 317:
+		return "xa-octopus" //"Nilborien"
+	case 318:
+		return "xa-octopus" //"Valorian"
+	case 319:
+		return "xa-octopus" //"War Boar"
+	case 320:
+		return "xa-octopus" //"Efreeti"
+	case 321:
+		return "xa-octopus" //"War Boar"
+	case 322:
+		return "xa-octopus" //"Valorian"
+	case 323:
+		return "xa-octopus" //"Animated Armor"
+	case 324:
+		return "xa-octopus" //"Undead Footman"
+	case 325:
+		return "xa-octopus" //"Rallos Zek Minion"
+	case 326:
+		return "xa-octopus" //"Arachnid"
+	case 327:
+		return "xa-octopus" //"Crystal Spider"
+	case 328:
+		return "xa-octopus" //"Zebuxoruk's Cage"
+	case 329:
+		return "xa-octopus" //"Bastion of Thunder Portal"
+	case 330:
+		return "xa-octopus" //"Froglok"
+	case 331:
+		return "xa-octopus" //"Troll"
+	case 332:
+		return "xa-octopus" //"Troll"
+	case 333:
+		return "xa-octopus" //"Troll"
+	case 334:
+		return "xa-octopus" //"Ghost"
+	case 335:
+		return "xa-octopus" //"Pirate"
+	case 336:
+		return "xa-octopus" //"Pirate"
+	case 337:
+		return "xa-octopus" //"Pirate"
+	case 338:
+		return "xa-octopus" //"Pirate"
+	case 339:
+		return "xa-octopus" //"Pirate"
+	case 340:
+		return "xa-octopus" //"Pirate"
+	case 341:
+		return "xa-octopus" //"Pirate"
+	case 342:
+		return "xa-octopus" //"Pirate"
+	case 343:
+		return "xa-octopus" //"Frog"
+	case 344:
+		return "xa-octopus" //"Troll Zombie"
+	case 345:
+		return "xa-octopus" //"Luggald"
+	case 346:
+		return "xa-octopus" //"Luggald"
+	case 347:
+		return "xa-octopus" //"Luggalds"
+	case 348:
+		return "xa-octopus" //"Drogmore"
+	case 349:
+		return "xa-octopus" //"Froglok Skeleton"
+	case 350:
+		return "xa-octopus" //"Undead Froglok"
+	case 351:
+		return "xa-octopus" //"Knight of Hate"
+	case 352:
+		return "xa-octopus" //"Arcanist of Hate"
+	case 353:
+		return "xa-octopus" //"Veksar"
+	case 354:
+		return "xa-octopus" //"Veksar"
+	case 355:
+		return "xa-octopus" //"Veksar"
+	case 356:
+		return "xa-octopus" //"Chokidai"
+	case 357:
+		return "xa-octopus" //"Undead Chokidai"
+	case 358:
+		return "xa-octopus" //"Undead Veksar"
+	case 359:
+		return "xa-octopus" //"Vampire"
+	case 360:
+		return "xa-octopus" //"Vampire"
+	case 361:
+		return "xa-octopus" //"Rujarkian Orc"
+	case 362:
+		return "xa-octopus" //"Bone Golem"
+	case 363:
+		return "xa-octopus" //"Synarcana"
+	case 364:
+		return "xa-octopus" //"Sand Elf"
+	case 365:
+		return "xa-octopus" //"Vampire"
+	case 366:
+		return "xa-octopus" //"Rujarkian Orc"
+	case 367:
+		return "xa-octopus" //"Skeleton"
+	case 368:
+		return "xa-octopus" //"Mummy"
+	case 369:
+		return "xa-octopus" //"Goblin"
+	case 370:
+		return "xa-octopus" //"Insect"
+	case 371:
+		return "xa-octopus" //"Froglok Ghost"
+	case 372:
+		return "xa-octopus" //"Dervish"
+	case 373:
+		return "xa-octopus" //"Shade"
+	case 374:
+		return "xa-octopus" //"Golem"
+	case 375:
+		return "xa-octopus" //"Evil Eye"
+	case 376:
+		return "xa-octopus" //"Box"
+	case 377:
+		return "xa-octopus" //"Barrel"
+	case 378:
+		return "xa-octopus" //"Chest"
+	case 379:
+		return "xa-octopus" //"Vase"
+	case 380:
+		return "xa-octopus" //"Table"
+	case 381:
+		return "xa-octopus" //"Weapon Rack"
+	case 382:
+		return "xa-octopus" //"Coffin"
+	case 383:
+		return "xa-octopus" //"Bones"
+	case 384:
+		return "xa-octopus" //"Jokester"
+	case 385:
+		return "xa-octopus" //"Nihil"
+	case 386:
+		return "xa-octopus" //"Trusik"
+	case 387:
+		return "xa-octopus" //"Stone Worker"
+	case 388:
+		return "xa-octopus" //"Hynid"
+	case 389:
+		return "xa-octopus" //"Turepta"
+	case 390:
+		return "xa-octopus" //"Cragbeast"
+	case 391:
+		return "xa-octopus" //"Stonemite"
+	case 392:
+		return "xa-octopus" //"Ukun"
+	case 393:
+		return "xa-octopus" //"Ixt"
+	case 394:
+		return "xa-octopus" //"Ikaav"
+	case 395:
+		return "xa-octopus" //"Aneuk"
+	case 396:
+		return "xa-octopus" //"Kyv"
+	case 397:
+		return "xa-octopus" //"Noc"
+	case 398:
+		return "xa-octopus" //"Ra`tuk"
+	case 399:
+		return "xa-octopus" //"Taneth"
+	case 400:
+		return "xa-octopus" //"Huvul"
+	case 401:
+		return "xa-octopus" //"Mutna"
+	case 402:
+		return "xa-octopus" //"Mastruq"
+	case 403:
+		return "xa-octopus" //"Taelosian"
+	case 404:
+		return "xa-octopus" //"Discord Ship"
+	case 405:
+		return "xa-octopus" //"Stone Worker"
+	case 406:
+		return "xa-octopus" //"Mata Muram"
+	case 407:
+		return "xa-octopus" //"Lightning Warrior"
+	case 408:
+		return "xa-octopus" //"Succubus"
+	case 409:
+		return "xa-octopus" //"Bazu"
+	case 410:
+		return "xa-octopus" //"Feran"
+	case 411:
+		return "xa-octopus" //"Pyrilen"
+	case 412:
+		return "xa-octopus" //"Chimera"
+	case 413:
+		return "xa-octopus" //"Dragorn"
+	case 414:
+		return "xa-octopus" //"Murkglider"
+	case 415:
+		return "xa-octopus" //"Rat"
+	case 416:
+		return "xa-octopus" //"Bat"
+	case 417:
+		return "xa-octopus" //"Gelidran"
+	case 418:
+		return "xa-octopus" //"Discordling"
+	case 419:
+		return "xa-octopus" //"Girplan"
+	case 420:
+		return "xa-octopus" //"Minotaur"
+	case 421:
+		return "xa-octopus" //"Dragorn Box"
+	case 422:
+		return "xa-octopus" //"Runed Orb"
+	case 423:
+		return "xa-wyvern" //"Dragon Bones"
+	case 424:
+		return "xa-octopus" //"Muramite Armor Pile"
+	case 425:
+		return "xa-octopus" //"Crystal Shard"
+	case 426:
+		return "xa-octopus" //"Portal"
+	case 427:
+		return "xa-octopus" //"Coin Purse"
+	case 428:
+		return "xa-octopus" //"Rock Pile"
+	case 429:
+		return "xa-octopus" //"Murkglider Egg Sack"
+	case 430:
+		return "xa-octopus" //"Drake"
+	case 431:
+		return "xa-octopus" //"Dervish"
+	case 432:
+		return "xa-octopus" //"Drake"
+	case 433:
+		return "xa-octopus" //"Goblin"
+	case 434:
+		return "xa-octopus" //"Kirin"
+	case 435:
+		return "xa-wyvern" //"Dragon"
+	case 436:
+		return "xa-octopus" //"Basilisk"
+	case 437:
+		return "xa-wyvern" //"Dragon"
+	case 438:
+		return "xa-wyvern" //"Dragon"
+	case 439:
+		return "xa-octopus" //"Puma"
+	case 440:
+		return "xa-octopus" //"Spider"
+	case 441:
+		return "xa-octopus" //"Spider Queen"
+	case 442:
+		return "xa-octopus" //"Animated Statue"
+	case 445:
+		return "xa-egg" //"Dragon Egg"
+	case 446:
+		return "xa-wyvern" //"Dragon Statue"
+	case 447:
+		return "xa-octopus" //"Lava Rock"
+	case 448:
+		return "xa-octopus" //"Animated Statue"
+	case 449:
+		return "xa-octopus" //"Spider Egg Sack"
+	case 450:
+		return "xa-octopus" //"Lava Spider"
+	case 451:
+		return "xa-octopus" //"Lava Spider Queen"
+	case 452:
+		return "xa-wyvern" //"Dragon"
+	case 453:
+		return "xa-octopus" //"Giant"
+	case 454:
+		return "xa-octopus" //"Werewolf"
+	case 455:
+		return "xa-octopus" //"Kobold"
+	case 456:
+		return "xa-octopus" //"Sporali"
+	case 457:
+		return "xa-octopus" //"Gnomework"
+	case 458:
+		return "xa-octopus" //"Orc"
+	case 459:
+		return "xa-octopus" //"Corathus"
+	case 460:
+		return "xa-octopus" //"Coral"
+	case 461:
+		return "xa-octopus" //"Drachnid"
+	case 462:
+		return "xa-octopus" //"Drachnid Cocoon"
+	case 463:
+		return "xa-octopus" //"Fungus Patch"
+	case 464:
+		return "xa-octopus" //"Gargoyle"
+	case 465:
+		return "xa-octopus" //"Witheran"
+	case 466:
+		return "xa-octopus" //"Dark Lord"
+	case 467:
+		return "xa-octopus" //"Shiliskin"
+	case 468:
+		return "xa-octopus" //"Snake"
+	case 469:
+		return "xa-octopus" //"Evil Eye"
+	case 470:
+		return "xa-octopus" //"Minotaur"
+	case 471:
+		return "xa-octopus" //"Zombie"
+	case 472:
+		return "xa-octopus" //"Clockwork Boar"
+	case 473:
+		return "xa-octopus" //"Fairy"
+	case 474:
+		return "xa-octopus" //"Witheran"
+	case 475:
+		return "xa-octopus" //"Air Elemental"
+	case 476:
+		return "xa-octopus" //"Earth Elemental"
+	case 477:
+		return "xa-octopus" //"Fire Elemental"
+	case 478:
+		return "xa-octopus" //"Water Elemental"
+	case 479:
+		return "xa-octopus" //"Alligator"
+	case 480:
+		return "xa-octopus" //"Bear"
+	case 481:
+		return "xa-octopus" //"Scaled Wolf"
+	case 482:
+		return "xa-octopus" //"Wolf"
+	case 483:
+		return "xa-octopus" //"Spirit Wolf"
+	case 484:
+		return "xa-octopus" //"Skeleton"
+	case 485:
+		return "xa-octopus" //"Spectre"
+	case 486:
+		return "xa-octopus" //"Bolvirk"
+	case 487:
+		return "xa-octopus" //"Banshee"
+	case 488:
+		return "xa-octopus" //"Banshee"
+	case 489:
+		return "xa-octopus" //"Elddar"
+	case 490:
+		return "xa-octopus" //"Forest Giant"
+	case 491:
+		return "xa-octopus" //"Bone Golem"
+	case 492:
+		return "xa-octopus" //"Horse"
+	case 493:
+		return "xa-octopus" //"Pegasus"
+	case 494:
+		return "xa-octopus" //"Shambling Mound"
+	case 495:
+		return "xa-octopus" //"Scrykin"
+	case 496:
+		return "xa-octopus" //"Treant"
+	case 497:
+		return "xa-octopus" //"Vampire"
+	case 498:
+		return "xa-octopus" //"Ayonae Ro"
+	case 499:
+		return "xa-octopus" //"Sullon Zek"
+	case 500:
+		return "xa-octopus" //"Banner"
+	case 501:
+		return "xa-octopus" //"Flag"
+	case 502:
+		return "xa-octopus" //"Rowboat"
+	case 503:
+		return "xa-octopus" //"Bear Trap"
+	case 504:
+		return "xa-octopus" //"Clockwork Bomb"
+	case 505:
+		return "xa-octopus" //"Dynamite Keg"
+	case 506:
+		return "xa-octopus" //"Pressure Plate"
+	case 507:
+		return "xa-octopus" //"Puffer Spore"
+	case 508:
+		return "xa-octopus" //"Stone Ring"
+	case 509:
+		return "xa-octopus" //"Root Tentacle"
+	case 510:
+		return "xa-octopus" //"Runic Symbol"
+	case 511:
+		return "xa-octopus" //"Saltpetter Bomb"
+	case 512:
+		return "xa-octopus" //"Floating Skull"
+	case 513:
+		return "xa-octopus" //"Spike Trap"
+	case 514:
+		return "xa-octopus" //"Totem"
+	case 515:
+		return "xa-octopus" //"Web"
+	case 516:
+		return "xa-octopus" //"Wicker Basket"
+	case 517:
+		return "xa-octopus" //"Nightmare/Unicorn"
+	case 518:
+		return "xa-octopus" //"Horse"
+	case 519:
+		return "xa-octopus" //"Nightmare/Unicorn"
+	case 520:
+		return "xa-octopus" //"Bixie"
+	case 521:
+		return "xa-octopus" //"Centaur"
+	case 522:
+		return "xa-wyvern" //drakkin
+	case 523:
+		return "xa-octopus" //"Giant"
+	case 524:
+		return "xa-octopus" //"Gnoll"
+	case 525:
+		return "xa-octopus" //"Griffin"
+	case 526:
+		return "xa-octopus" //"Giant Shade"
+	case 527:
+		return "xa-octopus" //"Harpy"
+	case 528:
+		return "xa-octopus" //"Mammoth"
+	case 529:
+		return "xa-octopus" //"Satyr"
+	case 530:
+		return "xa-wyvern" //"Dragon"
+	case 531:
+		return "xa-wyvern" //"Dragon"
+	case 532:
+		return "xa-octopus" //"Dyn'Leth"
+	case 533:
+		return "xa-octopus" //"Boat"
+	case 534:
+		return "xa-octopus" //"Weapon Rack"
+	case 535:
+		return "xa-octopus" //"Armor Rack"
+	case 536:
+		return "xa-octopus" //"Honey Pot"
+	case 537:
+		return "xa-octopus" //"Jum Jum Bucket"
+	case 538:
+		return "xa-octopus" //"Toolbox"
+	case 539:
+		return "xa-octopus" //"Stone Jug"
+	case 540:
+		return "xa-octopus" //"Small Plant"
+	case 541:
+		return "xa-octopus" //"Medium Plant"
+	case 542:
+		return "xa-octopus" //"Tall Plant"
+	case 543:
+		return "xa-octopus" //"Wine Cask"
+	case 544:
+		return "xa-octopus" //"Elven Boat"
+	case 545:
+		return "xa-octopus" //"Gnomish Boat"
+	case 546:
+		return "xa-octopus" //"Barrel Barge Ship"
+	case 547:
+		return "xa-octopus" //"Goo"
+	case 548:
+		return "xa-octopus" //"Goo"
+	case 549:
+		return "xa-octopus" //"Goo"
+	case 550:
+		return "xa-octopus" //"Merchant Ship"
+	case 551:
+		return "xa-octopus" //"Pirate Ship"
+	case 552:
+		return "xa-octopus" //"Ghost Ship"
+	case 553:
+		return "xa-octopus" //"Banner"
+	case 554:
+		return "xa-octopus" //"Banner"
+	case 555:
+		return "xa-octopus" //"Banner"
+	case 556:
+		return "xa-octopus" //"Banner"
+	case 557:
+		return "xa-octopus" //"Banner"
+	case 558:
+		return "xa-octopus" //"Aviak"
+	case 559:
+		return "xa-octopus" //"Beetle"
+	case 560:
+		return "xa-octopus" //"Gorilla"
+	case 561:
+		return "xa-octopus" //"Kedge"
+	case 562:
+		return "xa-octopus" //"Kerran"
+	case 563:
+		return "xa-octopus" //"Shissar"
+	case 564:
+		return "xa-octopus" //"Siren"
+	case 565:
+		return "xa-octopus" //"Sphinx"
+	case 566:
+		return "xa-octopus" //"Human"
+	case 567:
+		return "xa-octopus" //"Campfire"
+	case 568:
+		return "xa-octopus" //"Brownie"
+	case 569:
+		return "xa-wyvern" //"Dragon"
+	case 570:
+		return "xa-octopus" //"Exoskeleton"
+	case 571:
+		return "xa-octopus" //"Ghoul"
+	case 572:
+		return "xa-octopus" //"Clockwork Guardian"
+	case 573:
+		return "xa-octopus" //"Mantrap"
+	case 574:
+		return "xa-octopus" //"Minotaur"
+	case 575:
+		return "xa-octopus" //"Scarecrow"
+	case 576:
+		return "xa-octopus" //"Shade"
+	case 577:
+		return "xa-octopus" //"Rotocopter"
+	case 578:
+		return "xa-octopus" //"Tentacle Terror"
+	case 579:
+		return "xa-octopus" //"Wereorc"
+	case 580:
+		return "xa-octopus" //"Worg"
+	case 581:
+		return "xa-octopus" //"Wyvern"
+	case 582:
+		return "xa-octopus" //"Chimera"
+	case 583:
+		return "xa-octopus" //"Kirin"
+	case 584:
+		return "xa-octopus" //"Puma"
+	case 585:
+		return "xa-octopus" //"Boulder"
+	case 586:
+		return "xa-octopus" //"Banner"
+	case 587:
+		return "xa-octopus" //"Elven Ghost"
+	case 588:
+		return "xa-octopus" //"Human Ghost"
+	case 589:
+		return "xa-octopus" //"Chest"
+	case 590:
+		return "xa-octopus" //"Chest"
+	case 591:
+		return "xa-octopus" //"Crystal"
+	case 592:
+		return "xa-octopus" //"Coffin"
+	case 593:
+		return "xa-octopus" //"Guardian CPU"
+	case 594:
+		return "xa-octopus" //"Worg"
+	case 595:
+		return "xa-octopus" //"Mansion"
+	case 596:
+		return "xa-octopus" //"Floating Island"
+	case 597:
+		return "xa-octopus" //"Cragslither"
+	case 598:
+		return "xa-octopus" //"Wrulon"
+	case 599:
+		return "xa-octopus" //"Spell Particle 1"
+	case 600:
+		return "xa-octopus" //"Invisible Man of Zomm"
+	case 601:
+		return "xa-octopus" //"Robocopter of Zomm"
+	case 602:
+		return "xa-octopus" //"Burynai"
+	case 603:
+		return "xa-octopus" //"Frog"
+	case 604:
+		return "xa-octopus" //"Dracolich"
+	case 605:
+		return "xa-octopus" //"Iksar Ghost"
+	case 606:
+		return "xa-octopus" //"Iksar Skeleton"
+	case 607:
+		return "xa-octopus" //"Mephit"
+	case 608:
+		return "xa-octopus" //"Muddite"
+	case 609:
+		return "xa-octopus" //"Raptor"
+	case 610:
+		return "xa-octopus" //"Sarnak"
+	case 611:
+		return "xa-octopus" //"Scorpion"
+	case 612:
+		return "xa-octopus" //"Tsetsian"
+	case 613:
+		return "xa-octopus" //"Wurm"
+	case 614:
+		return "xa-octopus" //"Nekhon"
+	case 615:
+		return "xa-octopus" //"Hydra Crystal"
+	case 616:
+		return "xa-octopus" //"Crystal Sphere"
+	case 617:
+		return "xa-octopus" //"Gnoll"
+	case 618:
+		return "xa-octopus" //"Sokokar"
+	case 619:
+		return "xa-octopus" //"Stone Pylon"
+	case 620:
+		return "xa-octopus" //"Demon Vulture"
+	case 621:
+		return "xa-octopus" //"Wagon"
+	case 622:
+		return "xa-octopus" //"God of Discord"
+	case 623:
+		return "xa-octopus" //"Feran Mount"
+	case 624:
+		return "xa-octopus" //"Ogre NPC Male"
+	case 625:
+		return "xa-octopus" //"Sokokar Mount"
+	case 626:
+		return "xa-octopus" //"Giant"
+	case 627:
+		return "xa-octopus" //"Sokokar"
+	case 628:
+		return "xa-octopus" //"10th Anniversary Banner"
+	case 629:
+		return "xa-octopus" //"10th Anniversary Cake"
+	case 630:
+		return "xa-octopus" //"Wine Cask"
+	case 631:
+		return "xa-octopus" //"Hydra Mount"
+	case 632:
+		return "xa-octopus" //"Hydra NPC"
+	case 633:
+		return "xa-octopus" //"Wedding Flowers"
+	case 634:
+		return "xa-octopus" //"Wedding Arbor"
+	case 635:
+		return "xa-octopus" //"Wedding Altar"
+	case 636:
+		return "xa-octopus" //"Powder Keg"
+	case 637:
+		return "xa-octopus" //"Apexus"
+	case 638:
+		return "xa-octopus" //"Bellikos"
+	case 639:
+		return "xa-octopus" //"Brell's First Creation"
+	case 640:
+		return "xa-octopus" //"Brell"
+	case 641:
+		return "xa-octopus" //"Crystalskin Ambuloid"
+	case 642:
+		return "xa-octopus" //"Cliknar Queen"
+	case 643:
+		return "xa-octopus" //"Cliknar Soldier"
+	case 644:
+		return "xa-octopus" //"Cliknar Worker"
+	case 645:
+		return "xa-octopus" //"Coldain"
+	case 646:
+		return "xa-octopus" //"Coldain"
+	case 647:
+		return "xa-octopus" //"Crystalskin Sessiloid"
+	case 648:
+		return "xa-octopus" //"Genari"
+	case 649:
+		return "xa-octopus" //"Gigyn"
+	case 650:
+		return "xa-octopus" //"Greken Young Adult"
+	case 651:
+		return "xa-octopus" //"Greken Young"
+	case 652:
+		return "xa-octopus" //"Cliknar Mount"
+	case 653:
+		return "xa-octopus" //"Telmira"
+	case 654:
+		return "xa-octopus" //"Spider Mount"
+	case 655:
+		return "xa-octopus" //"Bear Mount"
+	case 656:
+		return "xa-octopus" //"Rat Mount Mystery Race"
+	case 657:
+		return "xa-octopus" //"Sessiloid Mount"
+	case 658:
+		return "xa-octopus" //"Morell Thule"
+	case 659:
+		return "xa-octopus" //"Marionette"
+	case 660:
+		return "xa-octopus" //"Book Dervish"
+	case 661:
+		return "xa-octopus" //"Topiary Lion"
+	case 662:
+		return "xa-octopus" //"Rotdog"
+	case 663:
+		return "xa-octopus" //"Amygdalan"
+	case 664:
+		return "xa-octopus" //"Sandman"
+	case 665:
+		return "xa-octopus" //"Grandfather Clock"
+	case 666:
+		return "xa-octopus" //"Gingerbread Man"
+	case 667:
+		return "xa-octopus" //"Royal Guard"
+	case 668:
+		return "xa-octopus" //"Rabbit"
+	case 669:
+		return "xa-octopus" //"Blind Dreamer"
+	case 670:
+		return "xa-octopus" //"Cazic Thule"
+	case 671:
+		return "xa-octopus" //"Topiary Lion Mount"
+	case 672:
+		return "xa-octopus" //"Rot Dog Mount"
+	case 673:
+		return "xa-octopus" //"Goral Mount"
+	case 674:
+		return "xa-octopus" //"Selyrah Mount"
+	case 675:
+		return "xa-octopus" //"Sclera Mount"
+	case 676:
+		return "xa-octopus" //"Braxi Mount"
+	case 677:
+		return "xa-octopus" //"Kangon Mount"
+	case 678:
+		return "xa-octopus" //"Erudite"
+	case 679:
+		return "xa-octopus" //"Wurm Mount"
+	case 680:
+		return "xa-octopus" //"Raptor Mount"
+	case 681:
+		return "xa-octopus" //"Invisible Man"
+	case 682:
+		return "xa-octopus" //"Whirligig"
+	case 683:
+		return "xa-octopus" //"Gnomish Balloon"
+	case 684:
+		return "xa-octopus" //"Gnomish Rocket Pack"
+	case 685:
+		return "xa-octopus" //"Gnomish Hovering Transport"
+	case 686:
+		return "xa-octopus" //"Selyrah"
+	case 687:
+		return "xa-octopus" //"Goral"
+	case 688:
+		return "xa-octopus" //"Braxi"
+	case 689:
+		return "xa-octopus" //"Kangon"
+	case 690:
+		return "xa-octopus" //"Invisible Man"
+	case 691:
+		return "xa-octopus" //"Floating Tower"
+	case 692:
+		return "xa-octopus" //"Explosive Cart"
+	case 693:
+		return "xa-octopus" //"Blimp Ship"
+	case 694:
+		return "xa-octopus" //"Tumbleweed"
+	case 695:
+		return "xa-octopus" //"Alaran"
+	case 696:
+		return "xa-octopus" //"Swinetor"
+	case 697:
+		return "xa-octopus" //"Triumvirate"
+	case 698:
+		return "xa-octopus" //"Hadal"
+	case 699:
+		return "xa-octopus" //"Hovering Platform"
+	case 700:
+		return "xa-octopus" //"Parasitic Scavenger"
+	case 701:
+		return "xa-octopus" //"Grendlaen"
+	case 702:
+		return "xa-octopus" //"Ship in a Bottle"
+	case 703:
+		return "xa-octopus" //"Alaran Sentry Stone"
+	case 704:
+		return "xa-octopus" //"Dervish"
+	case 705:
+		return "xa-octopus" //"Regeneration Pool"
+	case 706:
+		return "xa-octopus" //"Teleportation Stand"
+	case 707:
+		return "xa-octopus" //"Relic Case"
+	case 708:
+		return "xa-octopus" //"Alaran Ghost"
+	case 709:
+		return "xa-octopus" //"Skystrider"
+	case 710:
+		return "xa-octopus" //"Water Spout"
+	case 711:
+		return "xa-octopus" //"Aviak Pull Along"
+	case 712:
+		return "xa-octopus" //"Gelatinous Cube"
+	case 713:
+		return "xa-octopus" //"Cat"
+	case 714:
+		return "xa-octopus" //"Elk Head"
+	case 715:
+		return "xa-octopus" //"Holgresh"
+	case 716:
+		return "xa-octopus" //"Beetle"
+	case 717:
+		return "xa-octopus" //"Vine Maw"
+	case 718:
+		return "xa-octopus" //"Ratman"
+	case 719:
+		return "xa-octopus" //"Fallen Knight"
+	case 720:
+		return "xa-octopus" //"Flying Carpet"
+	case 721:
+		return "xa-octopus" //"Carrier Hand"
+	case 722:
+		return "xa-octopus" //"Akheva"
+	case 723:
+		return "xa-octopus" //"Servant of Shadow"
+	case 724:
+		return "xa-octopus" //"Luclin"
+	}
+
+	return "xa-help"
 }
 
 func RaceName(race int64) string {

@@ -12,6 +12,18 @@ const (
 	npcLootBinds  = `:npc_id, :item_id`
 )
 
+func (s *Storage) CreateTableNpcLoot() (err error) {
+	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS npc_loot_cache (
+  npc_id int(11) unsigned NOT NULL,
+  item_id int(10) unsigned NOT NULL,
+  UNIQUE KEY item_id (item_id,npc_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (s *Storage) GetNpcLoot(npcId int64, itemId int64) (npcLoot *model.NpcLoot, err error) {
 	npcLoot = &model.NpcLoot{}
 	err = s.db.Get(npcLoot, fmt.Sprintf(`SELECT %s, %s FROM npc_loot_cache
@@ -41,6 +53,28 @@ func (s *Storage) ListNpcLoot(npcId int64) (npcLoots []*model.NpcLoot, err error
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s, %s FROM npc_loot_cache
 	INNER JOIN items ON items.id = npc_loot_cache.item_id 
 	WHERE npc_loot_cache.npc_id = ?`, npcLootFields, itemFields), npcId)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		npcLoot := model.NpcLoot{}
+		if err = rows.StructScan(&npcLoot); err != nil {
+			return
+		}
+		npcLoots = append(npcLoots, &npcLoot)
+	}
+	return
+}
+
+func (s *Storage) ListNpcLootByZone(zoneId int64) (npcLoots []*model.NpcLoot, err error) {
+	upperId := (zoneId * 1000) + 1000 - 1
+	lowerId := (zoneId * 1000) - 1
+
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.name npc_name, %s, %s, %s FROM npc_loot_cache
+	INNER JOIN items ON items.id = npc_loot_cache.item_id 
+	INNER JOIN npc_types ON npc_types.id = npc_loot_cache.npc_id
+	WHERE npc_loot_cache.npc_id < ? AND npc_loot_cache.npc_id > ? GROUP BY npc_loot_cache.item_id ORDER BY npc_loot_cache.npc_id ASC`, npcFields, npcLootFields, itemFields), upperId, lowerId)
 	if err != nil {
 		return
 	}

@@ -18,10 +18,10 @@
                 <table id="items" data-paging="true" data-sorting="false" data-filtering="false" cellpadding="1" cellspacing="1" class="table">
                     <thead>
                     <tr>
-                        <th width="20px"><i class="ra ra-sword"></i></th>
+                        <th width="20px"><i class="xa xa-sword"></i></th>
                         <th>Name</th>
                         <th>Slot</th>
-                        <th>Category</th>               
+                        <th width="20px"><i title="Category" class="xa xa-anvil"></i></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -30,7 +30,7 @@
                         <td><span class="item icon-{{$value.Icon}}-sm"></span></td>
                         <td><a item={{$value.Id}} href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
                         <td>{{$value.SlotsFirstName}}</td>
-                        <td><i class="ra {{$value.ItemtypeIcon}}"></i> {{$value.ItemtypeName}}</td>
+                        <td><i title="{{$value.ItemtypeName}}" class="xa {{$value.ItemtypeIcon}}"></i></td>
                     </tr>
                     {{end}}                
                     </tbody>

@@ -58,7 +58,7 @@ func (s *Storage) ListZone() (zones []*model.Zone, err error) {
 
 func (s *Storage) ListZoneByHotzone() (zones []*model.Zone, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT zone.id, %s FROM zone 
-		ORDER BY hotzone DESC`, zoneFields))
+		WHERE hotzone = 1 ORDER BY zone_exp_multiplier DESC`, zoneFields))
 	if err != nil {
 		return
 	}

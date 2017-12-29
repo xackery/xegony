@@ -26,7 +26,7 @@
                     <tbody>
                     {{range $key, $value := .Factions}}
                     <tr>                        
-                        <td><a href="/npc/byfaction/{{$value.Id}}">{{$value.Name}}</a></td>
+                        <td><a href="/npc/byfaction/{{$value.Id}}">{{$value.CleanName}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>

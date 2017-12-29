@@ -3,6 +3,8 @@ package model
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/xeipuuv/gojsonschema"
 )
@@ -128,6 +130,281 @@ func (c *Npc) ZoneId() int64 {
 
 func (c *Npc) ZoneName() string {
 	return ZoneName(c.ZoneId())
+}
+
+func (c *Npc) ClassIcon() string {
+	return ClassIcon(c.Class)
+}
+func (c *Npc) RaceIcon() string {
+	return RaceIcon(c.Race)
+}
+
+func (c *Npc) SpecialAbilitiesList() map[string]string {
+	abilities := make(map[string]string)
+	rawAbils := strings.Split(c.SpecialAbilities.String, ",")
+	for _, abil := range rawAbils {
+		breakdown := strings.Split(abil, ",")
+		key := ""
+		description := ""
+		var val int64
+		if len(breakdown) < 1 {
+			continue
+		}
+		fmt.Println(breakdown[0], "foo")
+		switch breakdown[0] { //based on http://wiki.eqemulator.org/p?NPC_Special_Attacks
+		case "1": //Summon
+			key = "Summons"
+			if len(breakdown) == 1 {
+				description += fmt.Sprintf("you to them at lvl 41, 90%% or less HP, 6s cooldown, ")
+			}
+			if len(breakdown) > 1 {
+				//level enabled at
+				description += fmt.Sprintf("you to them at lvl %s, ", breakdown[1])
+			}
+			if len(breakdown) > 2 {
+				description += fmt.Sprintf("to you at lvl %s, ", breakdown[2])
+			}
+			if len(breakdown) > 3 {
+				val, _ = strconv.ParseInt(breakdown[3], 10, 64)
+				if val != 0 {
+					description += fmt.Sprintf("%ds cooldown, ", val/1000)
+				} else {
+					description += fmt.Sprintf("360s cooldown, ")
+				}
+			}
+			if len(breakdown) > 4 {
+				description += fmt.Sprintf("at %s%% or less HP, ", breakdown[4])
+			}
+		case "2": //Enrage
+			key = "Enrages"
+			if len(breakdown) > 1 {
+				val, _ = strconv.ParseInt(breakdown[1], 10, 64)
+				if val == 0 {
+					//todo: get default Rule NPC:StartEnrageValue
+				} else {
+					description += fmt.Sprintf("when hp is less than %d%, ", val)
+				}
+			} else {
+				description += fmt.Sprintf("when hp is less than [defaultenrage]%, ")
+			}
+
+			if len(breakdown) > 2 {
+				val, _ = strconv.ParseInt(breakdown[2], 10, 64)
+				if val != 0 {
+					description += fmt.Sprintf("enrages for %ds, ", val/1000)
+				}
+			} else {
+				description += fmt.Sprintf("enrages for 10s, ")
+			}
+
+			if len(breakdown) > 3 {
+				val, _ = strconv.ParseInt(breakdown[2], 10, 64)
+				if val != 0 {
+					description += fmt.Sprintf("%ds cooldown, ", val/1000)
+				} else {
+					description += fmt.Sprintf("360s cooldown, ")
+				}
+			} else {
+				description += fmt.Sprintf("360s cooldown, ")
+			}
+		case "3": //Rampage
+			key = "Rampages"
+			if len(breakdown) == 1 {
+				description += "20%% chance, [[maxramptargets]], 100%% normal damage, "
+			}
+			if len(breakdown) > 1 { //% chance
+				description += fmt.Sprintf("%s%% chance, ", breakdown[1])
+			}
+			if len(breakdown) > 2 { //target count
+				description += fmt.Sprintf("%s ramp targets, ", breakdown[2])
+			}
+			if len(breakdown) > 3 { //noraml damage
+				description += fmt.Sprintf("%s%% normal damage, ", breakdown[3])
+			}
+			if len(breakdown) > 4 { //flat dmg bonus
+				description += fmt.Sprintf("%s bonus damage, ", breakdown[4])
+			}
+			if len(breakdown) > 5 { //ignore % armor
+				description += fmt.Sprintf("%s%% ignored armor, ", breakdown[5])
+			}
+			if len(breakdown) > 6 { //ignore armor
+				description += fmt.Sprintf("%s ignored armor, ", breakdown[6])
+			}
+			if len(breakdown) > 7 { //crit
+				description += fmt.Sprintf("%s%% natural crit, ", breakdown[7])
+			}
+			if len(breakdown) > 8 { //crit bonus
+				description += fmt.Sprintf("%s%% crit bonus, ", breakdown[8])
+			}
+		case "4": //Rampage
+			key = "AE Rampages"
+			if len(breakdown) == 1 {
+				description += "20%% chance, all within range, 100%% normal damage, "
+			}
+			if len(breakdown) > 1 { //% chance
+				description += fmt.Sprintf("%s%% chance, ", breakdown[1])
+			}
+			if len(breakdown) > 2 { //target count
+				description += fmt.Sprintf("%s ramp targets, ", breakdown[2])
+			}
+			if len(breakdown) > 3 { //noraml damage
+				description += fmt.Sprintf("%s%% normal damage, ", breakdown[3])
+			}
+			if len(breakdown) > 4 { //flat dmg bonus
+				description += fmt.Sprintf("%s bonus damage, ", breakdown[4])
+			}
+			if len(breakdown) > 5 { //ignore % armor
+				description += fmt.Sprintf("%s%% ignored armor, ", breakdown[5])
+			}
+			if len(breakdown) > 6 { //ignore armor
+				description += fmt.Sprintf("%s ignored armor, ", breakdown[6])
+			}
+			if len(breakdown) > 7 { //crit
+				description += fmt.Sprintf("%s%% natural crit, ", breakdown[7])
+			}
+			if len(breakdown) > 8 { //crit bonus
+				description += fmt.Sprintf("%s%% crit bonus, ", breakdown[8])
+			}
+		case "5": //Flurry
+			key = "Flurries"
+			description = "Attacks you multiple times, "
+		//todo
+		case "6": //Triple Attack
+			key = "Triple Attacks"
+			description = "Attacks 3 times, "
+		case "7": //Quad Attack
+			key = "Quad Attacks"
+			description = "Attack 4 times, "
+		case "8": //Dual Wield
+			key = "Dual Wields"
+			description = "Attacks with both hands, "
+		case "9": //Bane Attack
+			key = "Bane Attacks"
+			description = "Uses bane attacks, "
+		case "10": //Magical Attack
+			key = "Magical Attacks"
+			description = "Uses magical attacks, "
+		case "11": //Ranged Attack
+			key = "Ranged Attacks"
+			description = "Uses ranged attacks, "
+		//todo: add ranged details
+		case "12": //Unslwoable
+			key = "Unslowable"
+			description = "Immune to slow, "
+		case "13": //Unmezzable
+			key = "Unmezzable"
+			description = "Immune to mez, "
+		case "14": //Uncharmable
+			key = "Uncharmable"
+			description = "Immune to Charm, "
+		case "15": //unstunable
+			key = "Unstunable"
+			description = "Immune to Stun, "
+		case "16": //Unsnarable
+			key = "Unsnarable"
+			description = "Immune to Snare, "
+		case "17": //Unfearable
+			key = "Unfearable"
+			description = "Immune to Fear, "
+		case "18": //Immune to Dispell
+			key = "Undispellable"
+			description = "Immune to Dispell, "
+		case "19": //Immune to Melee
+			key = "Melee Invulnerable"
+			description = "Immune to all damage, "
+		case "20": //Immune to Magic
+			key = "Magic Invulnerable"
+			description = "Immune to magic, "
+		case "21": //Unfleeable
+			key = "Does not flee"
+			description = "Immune to fleeing, "
+		case "22": //immune to bane
+			key = "Non-bane immune"
+			description = "Immune to non-bane attacks, "
+		case "23": //immune to non-magical
+			key = "Non-magic immune"
+			description = "Immune to non-magic attacks, "
+		case "24": //never aggro
+			key = "Non-KOS"
+			description = "Never aggros, "
+		case "25": //immune target
+			key = "Immune Target"
+			description = "Immune to Targetting, "
+		case "26": //immune from casting fro range
+			key = "Immune Ranged"
+			description = "Immune from casting from range, "
+		case "27": //immune fd
+			key = "Immune Feign Death"
+			description = "Ignores Feign Death, "
+		case "28": //immune taunt
+			key = "Immune Taunt"
+			description = "Ignores Taunt, "
+		case "29": //tunnel vision
+			key = "Tunnel Vision"
+			description = "Vision is focused, "
+		//aggromod tunnelvision todo
+		case "30": //non-assist
+			key = "Non-assist"
+			description = "Does not assist allies, "
+		case "31": //pacify-immune
+			key = "Pacify-immune"
+			description = "Ignores pacify, "
+		case "32": //leash
+			key = "Leashed"
+			description = "Leash to aggro range, full heal, memwipe, "
+		//todo add param
+		case "33": //leash to aggro range
+			key = "Leashed To Aggro"
+			description = "Leashed to aggro range, "
+		case "34":
+			key = "Destructable"
+			description = "Destructable Object"
+		case "35":
+			key = "Immune Client"
+			description = "Immune to Client Attacks"
+		case "36":
+			key = "Flees"
+			description = "Flees"
+		case "37":
+			key = "Flee Percent"
+			description = "Flees at percent"
+			//todo percent to flee
+		case "38":
+			key = "Allow Beneficial"
+			description = "Allow Beneficial"
+		case "39":
+			key = "Disable melee"
+			description = "Does not melee"
+		case "40":
+			key = "Chance Distance"
+			description = "Chances to a distance"
+			//todo: chance distance
+		case "41":
+			key = "Allow to Tank"
+			description = "Allow NPC to tank instead of client"
+		case "42":
+			key = "Ignore Root"
+			description = "Ignores root rules"
+		case "43":
+			key = "Innate Resist Diff"
+			description = "Gives innate resist"
+		//todo: add more
+		case "44":
+			key = "Counter Avoid Damage"
+			description = "Avoid Damage"
+			//todo: add more
+		}
+
+		if len(key) < 1 {
+			continue
+		}
+		if len(description) > 2 {
+			description = description[0 : len(description)-2]
+		}
+		abilities[key] = description
+	}
+	fmt.Println(abilities)
+	return abilities
 }
 
 func (c *Npc) Experience() int64 {

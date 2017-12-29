@@ -12,6 +12,10 @@ type Faction struct {
 	Name string `json:"name"`
 }
 
+func (c *Faction) CleanName() string {
+	return CleanName(c.Name)
+}
+
 func (c *Faction) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := Schema{}
 	s.Type = "object"

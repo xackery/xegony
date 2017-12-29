@@ -39,7 +39,7 @@
 
                             <thead>
                             <tr>
-                                <th><i class="ra ra-sword"></i></th>
+                                <th><i class="xa xa-sword"></i></th>
                                 <th>Item Name</th>
                                 <th>Character</th>
                                 <th>Location</th>
@@ -55,7 +55,7 @@
                                 <td><a href="/character/{{$value.Character.Id}}">{{$value.Character.Name}}</a></td>
                                 <td>{{$value.SlotName}}</td>
                                 <td>{{$value.SlotsFirstName}}</td>
-                                <td><i title="{{$value.ItemtypeName}}" class="ra {{$value.ItemtypeIcon}}"></i></td>
+                                <td><i title="{{$value.ItemtypeName}}" class="xa {{$value.ItemtypeIcon}}"></i></td>
                             </tr>
                             {{end}}                
                             </tbody>

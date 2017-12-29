@@ -6,6 +6,23 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (s *Storage) CreateTableForum() (err error) {
+	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS forum (
+  id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  name varchar(32) NOT NULL DEFAULT '',
+  owner_id int(11) unsigned NOT NULL,
+  description varchar(128) NOT NULL DEFAULT '',
+  last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  icon varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (s *Storage) GetForum(forumId int64) (forum *model.Forum, err error) {
 	forum = &model.Forum{}
 	err = s.db.Get(forum, "SELECT id, owner_id, description, icon, name FROM forum WHERE id = ?", forumId)

@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="hpanel forum-box">
             <div class="panel-heading">
-                <span class="f">Zone List</span>
+                <span class="f">Hot Zones List</span>
             </div>
 
             <div class="panel-body">
@@ -21,8 +21,7 @@
                     <thead>
                     <tr>
                         <th>Name</th>   
-                        <th>Hotzone</th>
-                        <th>ZEM</th>
+                        <th><span title="Zone Experience Multiplier">ZEM</span></th>
                         <th>Expansion</th>         
                     </tr>
                     </thead>
@@ -30,7 +29,6 @@
                     {{range $key, $value := .Zones}}
                     <tr>
                         <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
-                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.Hotzone}}</a></td>
                         <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ZoneExpMultiplier}}</a></td>
                         <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ExpansionName}}</a></td>
                     </tr>

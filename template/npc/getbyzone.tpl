@@ -36,15 +36,17 @@
                 <table cellpadding="1" cellspacing="1" class="table">
                     <thead>
                     <tr>
+                         <th><i title="race" class="xa xa-bear"></i></th>
                         <th>Name</th>
-                        <th>CharacterID</th>                   
+                        <th>CharacterID</th>                  
                     </tr>
                     </thead>
                     <tbody>
                     {{range $key, $value := .Npcs}}
                     <tr>
                         
-                        <td><a href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>
+                        <td><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}"></i></td>
+                        <td><a href="/npc/{{$value.Id}}">{{$value.CleanName}}</a></td>
                         <td>{{$value.Id}}</td>
                     </tr>
                     {{end}}                

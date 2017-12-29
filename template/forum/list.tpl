@@ -46,7 +46,7 @@
             <div class="col-md-10 forum-heading">
                 <a href="/forum/{{$value.Id}}">
                     <h4>
-                        <i class="ra {{if $value.Icon}}{{$value.Icon}}{{else}}ra-coffee-mug{{end}}"></i> {{$value.Name}}
+                        <i class="xa {{if $value.Icon}}{{$value.Icon}}{{else}}ra-coffee-mug{{end}}"></i> {{$value.Name}}
                     </h4>
                 </a>
                 <a href="/forum/{{$value.Id}}"><div class="desc">{{$value.Description}}</div></a>

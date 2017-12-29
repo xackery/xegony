@@ -58,8 +58,8 @@ func (s *Storage) ListNpc() (npcs []*model.Npc, err error) {
 
 func (s *Storage) ListNpcByZone(zoneId int64) (npcs []*model.Npc, err error) {
 
-	upperId := zoneId + 1000 - 1
-	lowerId := zoneId - 1
+	upperId := (zoneId * 1000) + 1000 - 1
+	lowerId := (zoneId * 1000) - 1
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
 	WHERE npc_types.id < ? AND npc_types.id > ?`, npcFields), upperId, lowerId)
 	if err != nil {
