@@ -1,0 +1,14 @@
+/* FONT PATH
+ * -------------------------- */
+
+@font-face {
+  font-family: "XegonyAwesome";
+  src: url("#{$xa-font-path}/xegonyawesome-webfont.eot");
+  src: url("#{$xa-font-path}/xegonyawesome-webfont.eot") format("embedded-opentype"),
+    url("#{$xa-font-path}/xegonyawesome-webfont.woff") format("woff"),
+    url("#{$xa-font-path}/xegonyawesome-webfont.ttf") format("truetype"),
+    url("#{$xa-font-path}/xegonyawesome-webfont.svg") format("svg");
+  //src: url("#{$xa-font-path}/xegonyawesome.otf") format("opentype"); // used when developing fonts
+  font-weight: normal;
+  font-style: normal;
+}

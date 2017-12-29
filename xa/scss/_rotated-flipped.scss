@@ -1,0 +1,20 @@
+// Rotated & Flipped Icons
+// -------------------------
+
+.#{$xa-css-prefix}-rotate-90 { @include xa-icon-rotate(90deg, 1);  }
+.#{$xa-css-prefix}-rotate-180 { @include xa-icon-rotate(180deg, 2); }
+.#{$xa-css-prefix}-rotate-270 { @include xa-icon-rotate(270deg, 3); }
+
+.#{$xa-css-prefix}-flip-horizontal { @include xa-icon-flip(-1, 1, 0); }
+.#{$xa-css-prefix}-flip-vertical { @include xa-icon-flip(1, -1, 2); }
+
+// Hook for IE8-9
+// -------------------------
+
+:root .#{$xa-css-prefix}-rotate-90,
+:root .#{$xa-css-prefix}-rotate-180,
+:root .#{$xa-css-prefix}-rotate-270,
+:root .#{$xa-css-prefix}-flip-horizontal,
+:root .#{$xa-css-prefix}-flip-vertical {
+  filter: none;
+}
