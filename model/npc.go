@@ -3,8 +3,6 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	"regexp"
-	"strings"
 
 	"github.com/xeipuuv/gojsonschema"
 )
@@ -132,13 +130,28 @@ func (c *Npc) ZoneName() string {
 	return ZoneName(c.ZoneId())
 }
 
+func (c *Npc) Experience() int64 {
+	xp := c.Level * c.Level * 75 * 35 / 10 //EXP_FORMULA
+
+	totalMod := float64(1.0)
+	zemMod := float64(1.0)
+
+	expMultiplier := RuleR("Character:ExpMultiplier")
+	if expMultiplier >= 0 {
+		totalMod *= expMultiplier
+	}
+
+	if false { //if(zone->IsHotzone())
+		totalMod += RuleR("Zone:HotZoneBonus")
+	}
+
+	xp = int64(float64(xp) * totalMod * zemMod)
+
+	return xp
+}
+
 func (c *Npc) CleanName() string {
-	var re = regexp.MustCompile(`[^0-9A-Za-z_]+`)
-	cleanName := strings.Replace(c.Name, " ", "_", -1)
-	cleanName = strings.Replace(cleanName, "#", "", -1)
-	cleanName = strings.TrimSpace(re.ReplaceAllString(cleanName, ""))
-	cleanName = strings.Replace(cleanName, "_", " ", -1)
-	return cleanName
+	return CleanName(c.Name)
 }
 
 func (c *Npc) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

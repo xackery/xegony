@@ -41,7 +41,7 @@ func (s *Storage) CreateNpc(npc *model.Npc) (err error) {
 }
 
 func (s *Storage) ListNpc() (npcs []*model.Npc, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types ORDER BY id DESC`, npcFields))
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types ORDER BY id ASC`, npcFields))
 	if err != nil {
 		return
 	}

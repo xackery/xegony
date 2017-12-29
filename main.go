@@ -43,11 +43,15 @@ func main() {
 	}
 	webServer.ApplyRoutes(router)
 
-	//err = botServer.CreateNpcDropsCache()
-	//if err != nil {
-	//	log.Fatal("Failed botserver:", err.Error())
-	//}
+	//go runBot(botServer)
 
 	err = http.ListenAndServe(listen, router)
 	log.Println(err)
+}
+
+func runBot(botServer bot.Bot) {
+	err := botServer.CreateNpcDropsCache()
+	if err != nil {
+		log.Fatal("Failed botserver:", err.Error())
+	}
 }

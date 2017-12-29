@@ -2,6 +2,13 @@ package model
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
+	"strings"
+)
+
+var (
+	isRulesLoaded bool
 )
 
 func CashName(money int64) string {
@@ -34,6 +41,34 @@ func CashName(money int64) string {
 	}
 
 	return amount
+}
+
+func CleanName(name string) string {
+	var re = regexp.MustCompile(`[^0-9A-Za-z_]+`)
+	cleanName := strings.Replace(name, " ", "_", -1)
+	cleanName = strings.Replace(cleanName, "#", "", -1)
+	cleanName = strings.TrimSpace(re.ReplaceAllString(cleanName, ""))
+	cleanName = strings.Replace(cleanName, "_", " ", -1)
+	return cleanName
+}
+
+func RuleR(rule string) float64 {
+	val := Rule(rule)
+	fVal, err := strconv.ParseFloat(val, 64)
+	if err != nil {
+		fmt.Println("Rule", rule, "was attempted to be parsed as float (RuleR) but failed")
+	}
+	return fVal
+}
+
+func Rule(rule string) string {
+	switch rule {
+	case "Character:ExpMultiplier":
+		return "2.0000000000000"
+	case "Zone:HotZoneBonus":
+		return "0.5000000000000"
+	}
+	return ""
 }
 
 func ZoneName(zoneId int64) string {
@@ -1098,7 +1133,7 @@ func ClassName(class int64) string {
 	case 71:
 		return "Mercenary Merchant"
 	}
-	return "Unknown"
+	return fmt.Sprintf("Unknown (%d)", class)
 }
 
 func RaceName(race int64) string {
@@ -2545,5 +2580,5 @@ func RaceName(race int64) string {
 		return "Luclin"
 	}
 
-	return "Unknown"
+	return fmt.Sprintf("Unknown (%d)", race)
 }

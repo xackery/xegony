@@ -30,10 +30,12 @@
                 <table class="table table-striped">
                     <tbody>
                     <tr><td>Spawns In</td><td>{{.Npc.ZoneName}}</td></tr>
+                    <tr><td>Level</td><td>{{.Npc.Level}}</td></tr>
                     <tr><td>HP</td><td>{{comma .Npc.Hp}}</td></tr>
                     <tr><td>Class</td><td>{{.Npc.ClassName}}</td></tr>
                     <tr><td>Race</td><td>{{.Npc.RaceName}}</td></tr>
                     <tr><td>Damage</td><td>{{.Npc.Mindmg}}-{{.Npc.Maxdmg}}</td></tr>
+                    <tr><td>Experience</td><td>{{comma .Npc.Experience}}</td></tr>
                     </tbody>
                 </table>
             </div>
