@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io/ioutil"
 
+	"github.com/dustin/go-humanize"
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/box"
 )
@@ -57,10 +58,18 @@ func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path stri
 		}
 	}
 
+	funcMap := template.FuncMap{
+		"comma": Comma,
+	}
+
 	if oldTemplate == nil {
-		tmp, err = template.New(key).Parse(string(bData))
+		tmp, err = template.New(key).Funcs(funcMap).Parse(string(bData))
 	} else {
-		tmp, err = oldTemplate.New(key).Parse(string(bData))
+		tmp, err = oldTemplate.New(key).Funcs(funcMap).Parse(string(bData))
 	}
 	return
+}
+
+func Comma(v int64) string {
+	return humanize.Comma(v)
 }

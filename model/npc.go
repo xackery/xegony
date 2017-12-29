@@ -128,6 +128,10 @@ func (c *Npc) ZoneId() int64 {
 	return 0
 }
 
+func (c *Npc) ZoneName() string {
+	return ZoneName(c.ZoneId())
+}
+
 func (c *Npc) CleanName() string {
 	var re = regexp.MustCompile(`[^0-9A-Za-z_]+`)
 	cleanName := strings.Replace(c.Name, " ", "_", -1)

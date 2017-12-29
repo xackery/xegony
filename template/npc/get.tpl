@@ -27,40 +27,20 @@
                 </div>
             </div>           
             <div class="panel-body">
-                <dl>
-                    <dt>Description lists</dt>
-                    <dd>A description list is perfect for defining terms.</dd>
-                    <dt>Euismod</dt>
-                    <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
-                    <dd>Donec id elit non mi porta gravida at eget metus.</dd>
-                    <dt>Malesuada porta</dt>
-                    <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
-                </dl>
+                <table class="table table-striped">
+                    <tbody>
+                    <tr><td>Spawns In</td><td>{{.Npc.ZoneName}}</td></tr>
+                    <tr><td>HP</td><td>{{comma .Npc.Hp}}</td></tr>
+                    <tr><td>Class</td><td>{{.Npc.ClassName}}</td></tr>
+                    <tr><td>Race</td><td>{{.Npc.RaceName}}</td></tr>
+                    <tr><td>Damage</td><td>{{.Npc.Mindmg}}-{{.Npc.Maxdmg}}</td></tr>
+                    </tbody>
+                </table>
             </div>
 
         </div>
     </div>
     <div class="col-lg-8">
-        <div id="row">
-            <div class="hpanel">
-                <div class="panel-heading hbuilt">
-                    Spawns In
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive">
-                    <table cellpadding="1" cellspacing="1" class="table">
-                        <thead>
-                        <tr>
-                            <th>ZoneID</th>
-                        </tr>
-                        </thead>
-                        <tbody>                        
-                        </tbody>
-                    </table>
-                    </div>
-
-                </div>
-            </div>
             <div class="hpanel">
                 <div class="panel-heading hbuilt">
                    Drops
