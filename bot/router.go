@@ -29,6 +29,12 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 			"/",
 			a.Index,
 		},
+		Route{
+			"Index",
+			"GET",
+			"/npcloot",
+			a.NpcLootStatus,
+		},
 	}
 
 	for _, route := range routes {

@@ -103,9 +103,11 @@ func (a *Api) Index(w http.ResponseWriter, r *http.Request) {
 	type Content struct {
 		Message string `json:"message"`
 	}
+
 	content := Content{
 		Message: "Please refer to documentation for more details",
 	}
+
 	writeData(w, r, content, http.StatusOK)
 }
 

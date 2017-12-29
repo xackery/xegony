@@ -29,16 +29,11 @@ func (s *Storage) CreateNpcLoot(npcLoot *model.NpcLoot) (err error) {
 		return
 	}
 
-	result, err := s.db.NamedExec(fmt.Sprintf(`INSERT INTO npcLoot(%s)
+	_, err = s.db.NamedExec(fmt.Sprintf(`INSERT INTO npc_loot_cache(%s)
 		VALUES (%s)`, npcLootFields, npcLootBinds), npcLoot)
 	if err != nil {
 		return
 	}
-	npcLootId, err := result.LastInsertId()
-	if err != nil {
-		return
-	}
-	npcLoot.Id = npcLootId
 	return
 }
 
@@ -73,6 +68,14 @@ func (s *Storage) EditNpcLoot(npcId int64, itemId int64, npcLoot *model.NpcLoot)
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		return
+	}
+	return
+}
+
+func (s *Storage) TruncateNpcLoot() (err error) {
+	_, err = s.db.Exec(`TRUNCATE npc_loot_cache`)
+	if err != nil {
 		return
 	}
 	return

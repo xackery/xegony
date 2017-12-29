@@ -35,6 +35,7 @@ type Bot struct {
 	lootTableRepo      *cases.LootTableRepository
 	lootTableEntryRepo *cases.LootTableEntryRepository
 	npcRepo            *cases.NpcRepository
+	npcLootRepo        *cases.NpcLootRepository
 	postRepo           *cases.PostRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
@@ -74,6 +75,8 @@ func (a *Bot) Initialize(s storage.Storage, config string) (err error) {
 	a.lootTableEntryRepo.Initialize(s)
 	a.npcRepo = &cases.NpcRepository{}
 	a.npcRepo.Initialize(s)
+	a.npcLootRepo = &cases.NpcLootRepository{}
+	a.npcLootRepo.Initialize(s)
 	a.postRepo = &cases.PostRepository{}
 	a.postRepo.Initialize(s)
 	a.taskRepo = &cases.TaskRepository{}
@@ -95,6 +98,7 @@ func (a *Bot) Index(w http.ResponseWriter, r *http.Request) {
 	content := Content{
 		Message: "Please refer to documentation for more details",
 	}
+
 	writeData(w, r, content, http.StatusOK)
 }
 

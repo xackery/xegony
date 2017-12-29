@@ -44,10 +44,6 @@
         <div id="row">
             <div class="hpanel">
                 <div class="panel-heading hbuilt">
-                    <div class="panel-tools">
-                        <a class="showhide"><i class="fa fa-chevron-up"></i></a>
-                        <a class="closebox"><i class="fa fa-times"></i></a>
-                    </div>
                     Spawns In
                 </div>
                 <div class="panel-body">
@@ -55,15 +51,10 @@
                     <table cellpadding="1" cellspacing="1" class="table">
                         <thead>
                         <tr>
-                            <th>ZoneID</th>                        
+                            <th>ZoneID</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {{range $key, $value := .Npc.SpawnsIn}}
-                        <tr>
-                            <td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneShortName}}</a></td>         
-                        </tr>
-                        {{end}}
+                        <tbody>                        
                         </tbody>
                     </table>
                     </div>
@@ -72,35 +63,39 @@
             </div>
             <div class="hpanel">
                 <div class="panel-heading hbuilt">
-                    <div class="panel-tools">
-                        <a class="showhide"><i class="fa fa-chevron-up"></i></a>
-                        <a class="closebox"><i class="fa fa-times"></i></a>
-                    </div>
                    Drops
                 </div>
                 <div class="panel-body">
+                    {{if .Items}}
                     <div class="table-responsive">
-                    <table cellpadding="1" cellspacing="1" class="table">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Charges</th>
-                            <th>Chance</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {{range $key, $value := .Npc.Drops.LootDrops}}
-                        <tr>
-                            <td class="text-left"><a href="/item/{{$value.ItemId}}"><span class="item icon-{{$value.ItemIcon}}"></span></a>
-                            <a href="/item/{{$value.ItemId}}">{{$value.ItemName}}</a></td>
-                            <td><a href="/item/{{$value.ItemId}}">{{$value.ItemCharges}}</a></td>
-                            <td><a href="/item/{{$value.ItemId}}">{{$value.Chance}}</a></td>
-                        </tr>
-                        {{end}}
-                        </tbody>
+                    <table cellpadding="1" cellspacing="1" class="table table-striped">
+
+                            <thead>
+                            <tr>
+                                <th width="20px"><i class="ra ra-sword"></i></th>
+                                <th>Name</th>
+                                <th>Slot</th>
+                                <th><i title="Category" class="ra ra-vest"></i></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{range $key, $value := .Items}}
+                            <tr>
+                                <td><span class="item icon-{{$value.Icon}}-sm"></span></td>
+                                <td><a item={{$value.ItemId}} href="/item/{{$value.ItemId}}">{{$value.Name}}</a></td>
+                                <td><span title="{{$value.SlotList}}">{{$value.SlotsFirstName}}</span></td>
+                                <td><i title="{{$value.ItemtypeName}}" class="ra {{$value.ItemtypeIcon}}"></i></td>
+                            </tr>
+                            {{end}}                
+                            </tbody>
+                        
                     </table>
                     </div>
-
+                    {{else}}
+                    {{if .Search}}
+                    No results for {{.Search}} were found
+                    {{end}}
+                    {{end}}                    
                 </div>
             </div>
         </div>

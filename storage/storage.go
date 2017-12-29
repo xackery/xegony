@@ -82,6 +82,7 @@ type Storage interface {
 	ListNpcLoot(npcId int64) (npcLoots []*model.NpcLoot, err error)
 	EditNpcLoot(npcId int64, itemId int64, npcLoot *model.NpcLoot) (err error)
 	DeleteNpcLoot(npcId int64, itemId int64) (err error)
+	TruncateNpcLoot() (err error)
 	//Forum
 	GetForum(forumId int64) (forum *model.Forum, err error)
 	CreateForum(forum *model.Forum) (err error)
