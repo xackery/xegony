@@ -182,6 +182,34 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"GetLootTable",
+			"GET",
+			"/loottable/{lootTableId}",
+			a.GetLootTable,
+		},
+
+		Route{
+			"ListLootTable",
+			"GET",
+			"/loottable",
+			a.ListLootTable,
+		},
+
+		Route{
+			"GetLootDropEntry",
+			"GET",
+			"/lootdrop/{lootDropId}/{itemId}",
+			a.GetLootDropEntry,
+		},
+
+		Route{
+			"ListLootDropEntry",
+			"GET",
+			"/lootdrop/{lootDropId}",
+			a.ListLootDropEntry,
+		},
+
+		Route{
 			"ListPost",
 			"GET",
 			"/topic/{topicId}",

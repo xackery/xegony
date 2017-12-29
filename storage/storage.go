@@ -73,6 +73,7 @@ type Storage interface {
 	ListNpc() (npcs []*model.Npc, err error)
 	ListNpcByZone(zoneId int64) (npcs []*model.Npc, err error)
 	ListNpcByFaction(factionId int64) (npcs []*model.Npc, err error)
+	ListNpcByLootTable(lootTableId int64) (npcs []*model.Npc, err error)
 	DeleteNpc(npcId int64) (err error)
 	SearchNpc(search string) (npcs []*model.Npc, err error)
 	//Forum
@@ -81,6 +82,30 @@ type Storage interface {
 	EditForum(forumId int64, forum *model.Forum) (err error)
 	ListForum() (forums []*model.Forum, err error)
 	DeleteForum(forumId int64) (err error)
+	//LootDrop
+	GetLootDrop(lootDropId int64) (lootDrop *model.LootDrop, err error)
+	CreateLootDrop(lootDrop *model.LootDrop) (err error)
+	ListLootDrop() (lootDrops []*model.LootDrop, err error)
+	EditLootDrop(lootDropId int64, lootDrop *model.LootDrop) (err error)
+	DeleteLootDrop(lootDropId int64) (err error)
+	//LootDropEntry
+	GetLootDropEntry(lootDropId int64, itemId int64) (lootDropEntry *model.LootDropEntry, err error)
+	CreateLootDropEntry(lootDropEntry *model.LootDropEntry) (err error)
+	ListLootDropEntry(lootDropId int64) (lootDropEntrys []*model.LootDropEntry, err error)
+	EditLootDropEntry(lootDropId int64, itemId int64, lootDropEntry *model.LootDropEntry) (err error)
+	DeleteLootDropEntry(lootDropId int64, itemId int64) (err error)
+	//LootTable
+	GetLootTable(lootDropId int64) (lootDrop *model.LootTable, err error)
+	CreateLootTable(lootDrop *model.LootTable) (err error)
+	ListLootTable() (lootDrops []*model.LootTable, err error)
+	EditLootTable(lootDropId int64, lootDrop *model.LootTable) (err error)
+	DeleteLootTable(lootDropId int64) (err error)
+	//LootTableEntry
+	GetLootTableEntry(lootTableId int64, lootDropId int64) (lootTableEntry *model.LootTableEntry, err error)
+	CreateLootTableEntry(lootTableEntry *model.LootTableEntry) (err error)
+	ListLootTableEntry(lootTableId int64) (lootTableEntrys []*model.LootTableEntry, err error)
+	EditLootTableEntry(lootTableId int64, lootDropId int64, lootTableEntry *model.LootTableEntry) (err error)
+	DeleteLootTableEntry(lootTableId int64, lootDropId int64) (err error)
 	//Post
 	GetPost(postId int64) (post *model.Post, err error)
 	CreatePost(post *model.Post) (err error)

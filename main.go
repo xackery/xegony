@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/xackery/xegony/api"
+	"github.com/xackery/xegony/bot"
 	"github.com/xackery/xegony/storage/mariadb"
 	"github.com/xackery/xegony/web"
 )
@@ -23,6 +24,12 @@ func main() {
 	}
 
 	router := mux.NewRouter().StrictSlash(true)
+
+	botServer := bot.Bot{}
+	if err = botServer.Initialize(stor, config); err != nil {
+		log.Fatal("Failed to initialize botServer:", err.Error())
+	}
+	botServer.ApplyRoutes(router)
 
 	apiServer := api.Api{}
 	if err = apiServer.Initialize(stor, config); err != nil {

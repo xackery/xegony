@@ -32,20 +32,24 @@ type Site struct {
 }
 
 type Web struct {
-	accountRepo   *cases.AccountRepository
-	activityRepo  *cases.ActivityRepository
-	bazaarRepo    *cases.BazaarRepository
-	characterRepo *cases.CharacterRepository
-	factionRepo   *cases.FactionRepository
-	forumRepo     *cases.ForumRepository
-	itemRepo      *cases.ItemRepository
-	npcRepo       *cases.NpcRepository
-	postRepo      *cases.PostRepository
-	taskRepo      *cases.TaskRepository
-	templates     map[string]*Template
-	topicRepo     *cases.TopicRepository
-	userRepo      *cases.UserRepository
-	zoneRepo      *cases.ZoneRepository
+	accountRepo        *cases.AccountRepository
+	activityRepo       *cases.ActivityRepository
+	bazaarRepo         *cases.BazaarRepository
+	characterRepo      *cases.CharacterRepository
+	factionRepo        *cases.FactionRepository
+	forumRepo          *cases.ForumRepository
+	itemRepo           *cases.ItemRepository
+	lootDropRepo       *cases.LootDropRepository
+	lootDropEntryRepo  *cases.LootDropEntryRepository
+	lootTableRepo      *cases.LootTableRepository
+	lootTableEntryRepo *cases.LootTableEntryRepository
+	npcRepo            *cases.NpcRepository
+	postRepo           *cases.PostRepository
+	taskRepo           *cases.TaskRepository
+	templates          map[string]*Template
+	topicRepo          *cases.TopicRepository
+	userRepo           *cases.UserRepository
+	zoneRepo           *cases.ZoneRepository
 }
 
 func (s Site) PageList() template.HTML {
@@ -128,6 +132,14 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	a.forumRepo.Initialize(s)
 	a.itemRepo = &cases.ItemRepository{}
 	a.itemRepo.Initialize(s)
+	a.lootDropRepo = &cases.LootDropRepository{}
+	a.lootDropRepo.Initialize(s)
+	a.lootDropEntryRepo = &cases.LootDropEntryRepository{}
+	a.lootDropEntryRepo.Initialize(s)
+	a.lootTableRepo = &cases.LootTableRepository{}
+	a.lootTableRepo.Initialize(s)
+	a.lootTableEntryRepo = &cases.LootTableEntryRepository{}
+	a.lootTableEntryRepo.Initialize(s)
 	a.npcRepo = &cases.NpcRepository{}
 	a.npcRepo.Initialize(s)
 	a.postRepo = &cases.PostRepository{}

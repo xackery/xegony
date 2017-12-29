@@ -89,6 +89,23 @@ func (s *Storage) ListNpcByFaction(factionId int64) (npcs []*model.Npc, err erro
 	return
 }
 
+func (s *Storage) ListNpcByLootTable(lootTableId int64) (npcs []*model.Npc, err error) {
+	rows, err := s.db.Queryx(`SELECT n.id, n.name, n.level, n.lastname, n.hp, n.class, n.loottable_id FROM npc_types n
+		WHERE loottable_id = ?`, lootTableId)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		npc := model.Npc{}
+		if err = rows.StructScan(&npc); err != nil {
+			return
+		}
+		npcs = append(npcs, &npc)
+	}
+	return
+}
+
 func (s *Storage) EditNpc(npcId int64, npc *model.Npc) (err error) {
 	npc.Id = npcId
 	result, err := s.db.NamedExec(`UPDATE npc_types SET level=:level, lastname=:lastname, hp=:hp, class=:class, name=:name, loottable_id=:loottable_id WHERE id = :id`, npc)
