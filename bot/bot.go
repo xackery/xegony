@@ -22,7 +22,24 @@ const (
 )
 
 type Bot struct {
-	npcRepo *cases.NpcRepository
+	accountRepo        *cases.AccountRepository
+	activityRepo       *cases.ActivityRepository
+	bazaarRepo         *cases.BazaarRepository
+	characterRepo      *cases.CharacterRepository
+	factionRepo        *cases.FactionRepository
+	forumRepo          *cases.ForumRepository
+	itemRepo           *cases.ItemRepository
+	goalRepo           *cases.GoalRepository
+	lootDropRepo       *cases.LootDropRepository
+	lootDropEntryRepo  *cases.LootDropEntryRepository
+	lootTableRepo      *cases.LootTableRepository
+	lootTableEntryRepo *cases.LootTableEntryRepository
+	npcRepo            *cases.NpcRepository
+	postRepo           *cases.PostRepository
+	taskRepo           *cases.TaskRepository
+	topicRepo          *cases.TopicRepository
+	userRepo           *cases.UserRepository
+	zoneRepo           *cases.ZoneRepository
 }
 
 func (a *Bot) Initialize(s storage.Storage, config string) (err error) {
@@ -30,8 +47,43 @@ func (a *Bot) Initialize(s storage.Storage, config string) (err error) {
 		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
 		return
 	}
+
+	a.accountRepo = &cases.AccountRepository{}
+	a.accountRepo.Initialize(s)
+	a.activityRepo = &cases.ActivityRepository{}
+	a.activityRepo.Initialize(s)
+	a.bazaarRepo = &cases.BazaarRepository{}
+	a.bazaarRepo.Initialize(s)
+	a.characterRepo = &cases.CharacterRepository{}
+	a.characterRepo.Initialize(s)
+	a.factionRepo = &cases.FactionRepository{}
+	a.factionRepo.Initialize(s)
+	a.forumRepo = &cases.ForumRepository{}
+	a.forumRepo.Initialize(s)
+	a.goalRepo = &cases.GoalRepository{}
+	a.goalRepo.Initialize(s)
+	a.itemRepo = &cases.ItemRepository{}
+	a.itemRepo.Initialize(s)
+	a.lootDropRepo = &cases.LootDropRepository{}
+	a.lootDropRepo.Initialize(s)
+	a.lootDropEntryRepo = &cases.LootDropEntryRepository{}
+	a.lootDropEntryRepo.Initialize(s)
+	a.lootTableRepo = &cases.LootTableRepository{}
+	a.lootTableRepo.Initialize(s)
+	a.lootTableEntryRepo = &cases.LootTableEntryRepository{}
+	a.lootTableEntryRepo.Initialize(s)
 	a.npcRepo = &cases.NpcRepository{}
 	a.npcRepo.Initialize(s)
+	a.postRepo = &cases.PostRepository{}
+	a.postRepo.Initialize(s)
+	a.taskRepo = &cases.TaskRepository{}
+	a.taskRepo.Initialize(s)
+	a.topicRepo = &cases.TopicRepository{}
+	a.topicRepo.Initialize(s)
+	a.userRepo = &cases.UserRepository{}
+	a.userRepo.Initialize(s)
+	a.zoneRepo = &cases.ZoneRepository{}
+	a.zoneRepo.Initialize(s)
 	return
 }
 

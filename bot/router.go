@@ -42,6 +42,5 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 			Name(route.Name).
 			Handler(handler)
 	}
-
 	return
 }

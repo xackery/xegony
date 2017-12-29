@@ -40,15 +40,7 @@ func (g *NpcRepository) Create(npc *model.Npc) (err error) {
 	if err != nil {
 		return
 	}
-	if npc.AccountId < 1 {
-		vErr := &model.ErrValidation{
-			Message: "invalid",
-		}
-		vErr.Reasons = map[string]string{}
-		vErr.Reasons["accountId"] = "Account ID must be greater than 0"
-		err = vErr
-		return
-	}
+
 	npc.Id = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(npc))
 	if err != nil {

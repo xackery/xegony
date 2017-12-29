@@ -14,7 +14,7 @@ const (
 
 func (s *Storage) GetLootDrop(lootDropId int64) (lootDrop *model.LootDrop, err error) {
 	lootDrop = &model.LootDrop{}
-	err = s.db.Get(lootDrop, fmt.Sprintf("SELECT loottable.id, %s FROM lootdrop WHERE id = ?", lootDropFields), lootDropId)
+	err = s.db.Get(lootDrop, fmt.Sprintf("SELECT lootdrop.id, %s FROM lootdrop WHERE id = ?", lootDropFields), lootDropId)
 	if err != nil {
 		return
 	}
@@ -32,7 +32,7 @@ func (s *Storage) CreateLootDrop(lootDrop *model.LootDrop) (err error) {
 		return
 	}
 
-	result, err := s.db.NamedExec(fmt.Sprintf(`INSERT INTO loottable(%s)
+	result, err := s.db.NamedExec(fmt.Sprintf(`INSERT INTO lootdrop(%s)
 		VALUES (%s)`, lootDropFields, lootDropBinds), lootDrop)
 	if err != nil {
 		return
@@ -46,7 +46,7 @@ func (s *Storage) CreateLootDrop(lootDrop *model.LootDrop) (err error) {
 }
 
 func (s *Storage) ListLootDrop() (lootDrops []*model.LootDrop, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT loottable.id, %s FROM loottable LIMIT 50`, lootDropFields))
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT lootdrop.id, %s FROM lootdrop LIMIT 50`, lootDropFields))
 	if err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (s *Storage) ListLootDrop() (lootDrops []*model.LootDrop, err error) {
 
 func (s *Storage) EditLootDrop(lootDropId int64, lootDrop *model.LootDrop) (err error) {
 	lootDrop.Id = lootDropId
-	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE loottable SET %s WHERE id = :id`, lootDropSets), lootDrop)
+	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE lootdrop SET %s WHERE id = :id`, lootDropSets), lootDrop)
 	if err != nil {
 		return
 	}
@@ -79,7 +79,7 @@ func (s *Storage) EditLootDrop(lootDropId int64, lootDrop *model.LootDrop) (err 
 }
 
 func (s *Storage) DeleteLootDrop(lootDropId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM loottable WHERE id = ?`, lootDropId)
+	result, err := s.db.Exec(`DELETE FROM lootdrop WHERE id = ?`, lootDropId)
 	if err != nil {
 		return
 	}
