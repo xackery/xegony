@@ -8,7 +8,7 @@ func TestForumEndpoints(t *testing.T) {
 	initializeServer(t)
 
 	tests := []Endpoint{
-		Endpoint{
+		{
 			name:         "CreateForumInvalidNameReq",
 			path:         "/api/forum",
 			method:       "POST",
@@ -17,7 +17,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"String length must be greater than or equal to 3","fields":{"name":"String length must be greater than or equal to 3"}}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateForumFailDecode",
 			path:         "/api/forum",
 			method:       "POST",
@@ -26,7 +26,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"Failed to decode body"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateForumMinNameFail",
 			path:         "/api/forum",
 			method:       "POST",
@@ -35,7 +35,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateForumMaxNameFail",
 			path:         "/api/forum",
 			method:       "POST",
@@ -44,7 +44,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"String length must be less than or equal to 32","fields":{"name":"String length must be less than or equal to 32"}}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateForumBadCharFail",
 			path:         "/api/forum",
 			method:       "POST",
@@ -53,7 +53,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"Does not match pattern '^[a-zA-Z' ]*$'","fields":{"name":"Does not match pattern '^[a-zA-Z' ]*$'"}}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateForumNotAdmin",
 			path:         "/api/forum",
 			method:       "POST",
@@ -62,7 +62,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "CreateForum",
 			path:         "/api/forum",
 			method:       "POST",
@@ -71,7 +71,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"id":1,"name":"Test","ownerId":1,"description":"","icon":""}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateForumTwo",
 			path:         "/api/forum",
 			method:       "POST",
@@ -80,7 +80,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"id":2,"name":"Test Again","ownerId":1,"description":"","icon":""}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "GetForumInvalidForumId",
 			path:         "/api/forum/invalid",
 			method:       "GET",
@@ -89,7 +89,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"forumId argument is required: Invalid arguments provided"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "GetForumNoResults",
 			path:         "/api/forum/2",
 			method:       "GET",
@@ -98,7 +98,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "GetForum",
 			path:         "/api/forum/1",
 			method:       "GET",
@@ -107,7 +107,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"id":1,"name":"Test","ownerId":1,"description":"","icon":""}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "NoTokenEditForum",
 			path:         "/api/forum/invalid",
 			method:       "PUT",
@@ -116,7 +116,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"Moderator access required"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "InvalidEditForum",
 			path:         "/api/forum/invalid",
 			method:       "PUT",
@@ -125,7 +125,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"forumId argument is required: Invalid arguments provided"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "RequestFailEditForum",
 			path:         "/api/forum/4",
 			method:       "PUT",
@@ -135,7 +135,7 @@ func TestForumEndpoints(t *testing.T) {
 			useAuth:      true,
 		},
 
-		Endpoint{
+		{
 			name:         "EditForum",
 			path:         "/api/forum/2",
 			method:       "PUT",
@@ -144,7 +144,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"id":2,"name":"TestTwo","ownerId":1,"description":"","icon":""}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "NoContentEditForum",
 			path:         "/api/forum/2",
 			method:       "PUT",
@@ -153,7 +153,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "EditForumInvalid",
 			path:         "/api/forum/1",
 			method:       "PUT",
@@ -162,7 +162,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"Request error: Failed to decode body"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "ListForum",
 			path:         "/api/forum",
 			method:       "GET",
@@ -171,7 +171,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `[{"id":2,"name":"TestTwo","ownerId":1,"description":"","icon":""},{"id":1,"name":"Test","ownerId":1,"description":"","icon":""}]`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "InvalidIdDeleteForum",
 			path:         "/api/forum/{invalid}",
 			method:       "DELETE",
@@ -180,7 +180,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"forumId argument is required: Invalid arguments provided"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "RequestFailDeleteForum",
 			path:         "/api/forum/3",
 			method:       "DELETE",
@@ -189,7 +189,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "DeleteForumNotLoggedIn",
 			path:         "/api/forum/1",
 			method:       "DELETE",
@@ -198,7 +198,7 @@ func TestForumEndpoints(t *testing.T) {
 			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "DeleteForum",
 			path:         "/api/forum/1",
 			method:       "DELETE",

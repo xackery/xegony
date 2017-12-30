@@ -8,7 +8,7 @@ func TestAccountEndpoints(t *testing.T) {
 	initializeServer(t)
 
 	tests := []Endpoint{
-		Endpoint{
+		{
 			name:         "CreateAccountInvalidNameReq",
 			path:         "/api/account",
 			method:       "POST",
@@ -17,7 +17,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"String length must be greater than or equal to 3","fields":{"name":"String length must be greater than or equal to 3"}}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateAccountFailDecode",
 			path:         "/api/account",
 			method:       "POST",
@@ -26,7 +26,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"Failed to decode body"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateAccountMinNameFail",
 			path:         "/api/account",
 			method:       "POST",
@@ -35,7 +35,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateAccountMaxNameFail",
 			path:         "/api/account",
 			method:       "POST",
@@ -44,7 +44,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"String length must be less than or equal to 30","fields":{"name":"String length must be less than or equal to 30"}}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateAccountBadCharFail",
 			path:         "/api/account",
 			method:       "POST",
@@ -53,7 +53,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"Does not match pattern '^[a-zA-Z]*$'","fields":{"name":"Does not match pattern '^[a-zA-Z]*$'"}}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "CreateAccountNotAdmin",
 			path:         "/api/account",
 			method:       "POST",
@@ -62,7 +62,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "CreateAccount",
 			path:         "/api/account",
 			method:       "POST",
@@ -71,7 +71,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"id":82152,"name":"Test","charname":"","sharedplat":0,"password":"","status":10,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "GetAccountInvalidAccountId",
 			path:         "/api/account/invalid",
 			method:       "GET",
@@ -80,7 +80,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"accountId argument is required: Invalid arguments provided"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "GetAccountNoResults",
 			path:         "/api/account/2",
 			method:       "GET",
@@ -89,7 +89,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "GetAccount",
 			path:         "/api/account/1",
 			method:       "GET",
@@ -98,7 +98,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"id":1,"name":"Shin","charname":"","sharedplat":0,"password":"","status":200,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "NoTokenEditAccount",
 			path:         "/api/account/invalid",
 			method:       "PUT",
@@ -107,7 +107,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"Moderator access required"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "InvalidEditAccount",
 			path:         "/api/account/invalid",
 			method:       "PUT",
@@ -116,7 +116,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"accountId argument is required: Invalid arguments provided"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "RequestFailEditAccount",
 			path:         "/api/account/4",
 			method:       "PUT",
@@ -126,7 +126,7 @@ func TestAccountEndpoints(t *testing.T) {
 			useAuth:      true,
 		},
 
-		Endpoint{
+		{
 			name:         "EditAccount",
 			path:         "/api/account/2",
 			method:       "PUT",
@@ -135,7 +135,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "NoContentEditAccount",
 			path:         "/api/account/2",
 			method:       "PUT",
@@ -144,7 +144,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "EditAccountInvalid",
 			path:         "/api/account/1",
 			method:       "PUT",
@@ -153,7 +153,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"Request error: Failed to decode body"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "ListAccount",
 			path:         "/api/account",
 			method:       "GET",
@@ -162,7 +162,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `[{"id":82152,"name":"Test","charname":"","sharedplat":0,"password":"","status":10,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""},{"id":1,"name":"Shin","charname":"","sharedplat":0,"password":"","status":200,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}]`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "InvalidIdDeleteAccount",
 			path:         "/api/account/{invalid}",
 			method:       "DELETE",
@@ -171,7 +171,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"accountId argument is required: Invalid arguments provided"}`,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "RequestFailDeleteAccount",
 			path:         "/api/account/3",
 			method:       "DELETE",
@@ -180,7 +180,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     ``,
 			useAuth:      true,
 		},
-		Endpoint{
+		{
 			name:         "DeleteAccountNotLoggedIn",
 			path:         "/api/account/1",
 			method:       "DELETE",
@@ -189,7 +189,7 @@ func TestAccountEndpoints(t *testing.T) {
 			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
-		Endpoint{
+		{
 			name:         "DeleteAccount",
 			path:         "/api/account/1",
 			method:       "DELETE",

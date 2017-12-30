@@ -17,11 +17,15 @@ import (
 )
 
 const (
+	//JSON Defines an encoding type
 	JSON = "json"
-	XML  = "xml"
+	//XML Defines an encoding type
+	XML = "xml"
+	//YAML Defines an encoding type
 	YAML = "yaml"
 )
 
+//Bot wraps all routing endpoints
 type Bot struct {
 	accountRepo        *cases.AccountRepository
 	activityRepo       *cases.ActivityRepository
@@ -44,6 +48,9 @@ type Bot struct {
 	zoneRepo           *cases.ZoneRepository
 }
 
+// Initialize initializes an API endpoint with the implemented storage.
+// config can be empty, it will initialize based on environment variables
+// or by default values.
 func (a *Bot) Initialize(s storage.Storage, config string) (err error) {
 	if s == nil {
 		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
@@ -91,7 +98,8 @@ func (a *Bot) Initialize(s storage.Storage, config string) (err error) {
 	return
 }
 
-func (a *Bot) Index(w http.ResponseWriter, r *http.Request) {
+// Index handles the root endpoint of /api/
+func (a *Bot) index(w http.ResponseWriter, r *http.Request) {
 	log.Println("index")
 	type Content struct {
 		Message string `json:"message"`
@@ -103,6 +111,7 @@ func (a *Bot) Index(w http.ResponseWriter, r *http.Request) {
 	writeData(w, r, content, http.StatusOK)
 }
 
+// writeData is the final step of all http responses. All routes should end here.
 func writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
 	var err error
 	if w == nil || r == nil {

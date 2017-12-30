@@ -8,7 +8,7 @@ import (
 
 type Bazaar struct {
 	Id     int64  `json:"id"`
-	ItemId int64  `json:"itemId db:"itemid"`
+	ItemId int64  `json:"itemId" db:"itemid"`
 	Name   string `json:"name"`
 }
 

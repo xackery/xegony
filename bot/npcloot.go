@@ -9,7 +9,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Bot) NpcLootStatus(w http.ResponseWriter, r *http.Request) {
+func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request) {
 	type Content struct {
 		Message string
 	}
@@ -20,6 +20,7 @@ func (a *Bot) NpcLootStatus(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// CreateNpcDropsCache is a shortcut function to prepare cache
 func (a *Bot) CreateNpcDropsCache() (err error) {
 	start := time.Now()
 	err = a.npcLootRepo.Truncate()

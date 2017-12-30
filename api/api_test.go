@@ -149,7 +149,7 @@ func TestRestEndpoints(t *testing.T) {
 	initializeServer(t)
 
 	tests := []Endpoint{
-		Endpoint{
+		{
 			name:         "GetIndex",
 			path:         "/api/",
 			method:       "GET",
