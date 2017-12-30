@@ -182,10 +182,10 @@ func (c *Npc) SpecialAbilitiesList() map[string]string {
 				if val == 0 {
 					//todo: get default Rule NPC:StartEnrageValue
 				} else {
-					description += fmt.Sprintf("when hp is less than %d%, ", val)
+					description += fmt.Sprintf("when hp is less than %d%%, ", val)
 				}
 			} else {
-				description += fmt.Sprintf("when hp is less than [defaultenrage]%, ")
+				description += fmt.Sprintf("when hp is less than [defaultenrage]%%, ")
 			}
 
 			if len(breakdown) > 2 {
