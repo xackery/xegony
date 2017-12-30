@@ -160,7 +160,7 @@ func writeData(w http.ResponseWriter, r *http.Request, content interface{}, stat
 	w.Write(data)
 }
 
-// writeError gracefully handles errors ocurred during the routing.
+// writeError gracefully handles errors occurred during the routing.
 // Calling this will call writeData, so you can safely return once it is called.
 func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 	type Content struct {

@@ -115,63 +115,55 @@ func (s *Storage) VerifyTables() (err error) {
 		return
 	}
 
-	err = s.createTableAccount()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for Account")
-	}
-	err = s.createTableBazaar()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for Bazaar")
-	}
-	err = s.createTableCharacter()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for Character")
-	}
-	err = s.createTableForum()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for Forum")
-	}
-	err = s.createTableNpcLoot()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for NpcLoot")
-	}
-	err = s.createTablePost()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for Post")
-	}
-	err = s.createTableTopic()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for Topic")
-	}
-	err = s.createTableUser()
-	if err != nil && !isExistErr(err) {
-		return
-	}
-	if err == nil {
-		fmt.Println("Created table for User")
+	type TableCheck struct {
+		Func func() (err error)
+		Name string
 	}
 
+	tables := []TableCheck{
+		{
+			Func: s.createTableAccount,
+			Name: "Account",
+		},
+		{
+			Func: s.createTableBazaar,
+			Name: "Bazaar",
+		},
+		{
+			Func: s.createTableCharacter,
+			Name: "Character",
+		},
+		{
+			Func: s.createTableForum,
+			Name: "Forum",
+		},
+		{
+			Func: s.createTableNpcLoot,
+			Name: "NpcLoot",
+		},
+		{
+			Func: s.createTablePost,
+			Name: "Post",
+		},
+		{
+			Func: s.createTableTopic,
+			Name: "Topic",
+		},
+		{
+			Func: s.createTableUser,
+			Name: "User",
+		},
+	}
+
+	for _, table := range tables {
+		err = table.Func()
+		if err != nil && !isExistErr(err) {
+			return
+		}
+		if err == nil {
+			fmt.Println("Created table for", table.Name)
+		}
+	}
 	err = nil
 	return
 }
