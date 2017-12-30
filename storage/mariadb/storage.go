@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
 )
@@ -116,36 +116,45 @@ func (s *Storage) VerifyTables() (err error) {
 	}
 
 	err = s.createTableAccount()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	err = s.createTableBazaar()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	err = s.createTableCharacter()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	err = s.createTableForum()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	err = s.createTableNpcLoot()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	err = s.createTablePost()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	err = s.createTableTopic()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	err = s.createTableUser()
-	if err != nil {
+	if err != nil && !isExistErr(err) {
 		return
 	}
 	return
+}
+
+func isExistErr(err error) bool {
+	if driverErr, ok := err.(*mysql.MySQLError); ok {
+		if driverErr.Number == 1050 {
+			return true
+		}
+	}
+	return false
 }

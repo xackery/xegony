@@ -102,57 +102,62 @@ func (c *Zone) GetMinStatusName() string {
 }
 
 func (c *Zone) ExpansionId() int64 {
+
+	if c.Expansion > 0 {
+		return c.Expansion
+	}
+
 	switch c.ExpansionBit() {
 	case 0:
-		return 0
-	case 1:
 		return 1
-	case 2:
+	case 1:
 		return 2
-	case 4:
+	case 2:
 		return 3
-	case 8:
+	case 4:
 		return 4
-	case 16:
+	case 8:
 		return 5
-	case 32:
+	case 16:
 		return 6
-	case 64:
+	case 32:
 		return 7
-	case 127:
+	case 64:
 		return 8
-	case 256:
+	case 127:
 		return 9
-	case 512:
+	case 256:
 		return 10
-	case 1024:
+	case 512:
 		return 11
-	case 2048:
+	case 1024:
 		return 12
-	case 4096:
+	case 2048:
 		return 13
-	case 8192:
+	case 4096:
 		return 14
+	case 8192:
+		return 15
 	case 16384:
-		return 15 // - seeds of destruction
+		return 16 // - seeds of destruction
 	case 32768: //underfoot
-		return 16
-	case 65536: //house of thule
 		return 17
-	case 131072: //veil of alaris
+	case 65536: //house of thule
 		return 18
-	case 262144: //rain of fear
+	case 131072: //veil of alaris
 		return 19
-	case 524288: //call of the forsaken
+	case 262144: //rain of fear
 		return 20
-	case 1048576: //the darkened sea
+	case 524288: //call of the forsaken
 		return 21
-	case 2097152: //the broken mirror
+	case 1048576: //the darkened sea
 		return 22
-	case 4194304: //empires of kunark
+	case 2097152: //the broken mirror
 		return 23
-	case 8388608: //ring of scale
+	case 4194304: //empires of kunark
 		return 24
+	case 8388608: //ring of scale
+		return 25
 	default:
 		return -1
 	}
@@ -583,6 +588,7 @@ func (c *Zone) ExpansionId() int64 {
 */
 
 func (c *Zone) ExpansionBit() int64 {
+
 	switch c.ShortName.String {
 	case "xorbb",
 		"weddingchapeldark",
@@ -698,36 +704,56 @@ func (c *Zone) ExpansionName() string {
 	switch c.ExpansionId() {
 	case -1:
 		return "Unknown"
-	case 0:
-		return "Classic"
 	case 1:
-		return "Ruins of Kunark"
+		return "Classic"
 	case 2:
-		return "Scars of Velious"
+		return "Ruins of Kunark"
 	case 3:
-		return "Shadows of Luclin"
+		return "Scars of Velious"
 	case 4:
-		return "Planes of Power"
+		return "Shadows of Luclin"
 	case 5:
-		return "Legacy of Ykesha"
+		return "Planes of Power"
 	case 6:
-		return "Lost Dungeons of Norrath"
+		return "Legacy of Ykesha"
 	case 7:
-		return "Gates of Discord"
+		return "Lost Dungeons of Norrath"
 	case 8:
-		return "Omens of War"
+		return "Gates of Discord"
 	case 9:
-		return "Dragons of Norrath"
+		return "Omens of War"
 	case 10:
-		return "Depths of Darkhallow"
+		return "Dragons of Norrath"
 	case 11:
-		return "Prophecy of Ro"
+		return "Depths of Darkhallow"
 	case 12:
-		return "Serpent's Spine"
+		return "Prophecy of Ro"
 	case 13:
-		return "The Buried Sea"
+		return "Serpent's Spine"
 	case 14:
+		return "The Buried Sea"
+	case 15:
 		return "Secrets of Faydwer"
+	case 16:
+		return "Seeds of Destruction"
+	case 17:
+		return "Underfoot"
+	case 18:
+		return "House of Thule"
+	case 19:
+		return "Veil of Alaris"
+	case 20:
+		return "Rain of Fear"
+	case 21:
+		return "Call of the Forsaken"
+	case 22:
+		return "The Darkened Sea"
+	case 23:
+		return "The Broken Mirror"
+	case 24:
+		return "Empires of Kunark"
+	case 25:
+		return "Ring of Scale"
 	}
 	return "Unknown"
 }
