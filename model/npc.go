@@ -329,7 +329,7 @@ func (c *Npc) SpecialAbilitiesList() map[string]string {
 			description = "Never aggros, "
 		case "25": //immune target
 			key = "Immune Target"
-			description = "Immune to Targetting, "
+			description = "Immune to Targeting, "
 		case "26": //immune from casting fro range
 			key = "Immune Ranged"
 			description = "Immune from casting from range, "

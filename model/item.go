@@ -577,9 +577,9 @@ func (c *Item) ItemtypeName() string {
 	case 30:
 		return "Unused"
 	case 31:
-		return "Usually Readable Notes and Scrolls *i beleive this to display [This note is Rolle Up/Unrolled]*"
+		return "Usually Readable Notes and Scrolls"
 	case 32:
-		return "Usually Readable Books *i beleive this to display [This Book is Closed/Open]*"
+		return "Usually Readable Books"
 	case 33:
 		return "Keys"
 	case 34:
@@ -703,9 +703,9 @@ func (c *Item) ItemtypeIcon() string {
 	case 30:
 		return "xa-help"
 	case 31:
-		return "xa-book" //Usually Readable Notes and Scrolls *i beleive this to display [This note is Rolle Up/Unrolled]*"
+		return "xa-book" //Usually Readable Notes and Scrolls"
 	case 32:
-		return "xa-book" //Usually Readable Books *i beleive this to display [This Book is Closed/Open]*"
+		return "xa-book" //Usually Readable Books"
 	case 33:
 		return "xa-key"
 	case 34:

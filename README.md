@@ -1,9 +1,11 @@
 # Xegony Project
 
 [![GoDoc](https://godoc.org/github.com/xackery/xegony?status.svg)](https://godoc.org/github.com/xackery/xegony) [![Go report](http://goreportcard.com/badge/xackery/xegony)](http://goreportcard.com/report/xackery/xegony) [![Build Status](https://travis-ci.org/Xackery/xegony.svg)](https://travis-ci.org/Xackery/xegony.svg?branch=master)
-This project is not yet ready for release.
 
-Feature List
+* ~This project is not yet ready for release.~
+* Swagger Documentation can be found by running the service and accessing http://127.0.0.1:8080/docs
+
+## Feature List
 * Stand alone executable you run to host website. Runs on all operating systems.
 * Customizable templates and UI, config settings, etc
 * Magelo-like Clone
