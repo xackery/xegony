@@ -6,10 +6,10 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) CreateTablePost() (err error) {
+func (s *Storage) createTablePost() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS post (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  body text NOT NULL DEFAULT '',
+  body text NOT NULL,
   owner_id int(11) unsigned NOT NULL,
   topic_id int(11) unsigned NOT NULL,
   last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

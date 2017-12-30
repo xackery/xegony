@@ -9,7 +9,7 @@ for path in $(find .); do
     if [[ "${path}" == *".git"* ]]; then
         continue
     fi
-    echo "Processing ${path}"
+    #echo "Processing ${path}"
     files=$(ls ${path}/*.go 2> /dev/null | wc -l)
     #echo $files
     if [ $files != 0 ]; then

@@ -59,7 +59,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -68,7 +68,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test"}`,
 			responseCode: 201,
-			response:     `{"id":1,"name":"Test","ownerId":1}`,
+			response:     `{"id":1,"name":"Test","ownerId":1,"description":"","icon":""}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -77,7 +77,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test Again"}`,
 			responseCode: 201,
-			response:     `{"id":2,"name":"Test Again","ownerId":1}`,
+			response:     `{"id":2,"name":"Test Again","ownerId":1,"description":"","icon":""}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -104,7 +104,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `{"id":1,"name":"Test","ownerId":1}`,
+			response:     `{"id":1,"name":"Test","ownerId":1,"description":"","icon":""}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -113,7 +113,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "PUT",
 			body:         `{"id":1,"name":"Test2","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Moderator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -141,7 +141,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "PUT",
 			body:         `{"id":1,"ownerId":1,"name":"TestTwo"}`,
 			responseCode: 200,
-			response:     `{"id":2,"name":"TestTwo","ownerId":1}`,
+			response:     `{"id":2,"name":"TestTwo","ownerId":1,"description":"","icon":""}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -168,7 +168,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `[{"id":2,"name":"TestTwo","ownerId":1},{"id":1,"name":"Test","ownerId":1}]`,
+			response:     `[{"id":2,"name":"TestTwo","ownerId":1,"description":"","icon":""},{"id":1,"name":"Test","ownerId":1,"description":"","icon":""}]`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -195,7 +195,7 @@ func TestForumEndpoints(t *testing.T) {
 			method:       "DELETE",
 			body:         "",
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{

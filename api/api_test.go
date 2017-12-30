@@ -31,8 +31,18 @@ func initializeServer(t *testing.T) {
 	var err error
 
 	s := &mariadb.Storage{}
-	if err = s.Initialize("eqemu:eqemu@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
+	if err = s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
 		t.Fatalf("Failed to initialize: %s", err.Error())
+	}
+	if err = s.DropTables(); err != nil {
+		t.Fatalf("Failed to drop tables: %s", err.Error())
+	}
+
+	if err = s.VerifyTables(); err != nil {
+		t.Fatalf("Failed to verify tables: %s", err.Error())
+	}
+	if err = s.InsertTestData(); err != nil {
+		t.Fatalf("Failed to insert test data: %s", err.Error())
 	}
 	router := mux.NewRouter().StrictSlash(true)
 	apiServer := Api{}
@@ -133,11 +143,9 @@ func getAuthKey(t *testing.T) {
 func TestRestEndpoints(t *testing.T) {
 	var err error
 	s := &mariadb.Storage{}
-	if err = s.Initialize("eqemu:eqemu@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
+	if err = s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
 		t.Fatalf("Failed to initialize: %s", err.Error())
 	}
-	s.DropTables()
-	s.VerifyTables()
 	initializeServer(t)
 
 	tests := []Endpoint{

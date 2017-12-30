@@ -8,6 +8,7 @@ type Storage interface {
 	Initialize(config string) (err error)
 	DropTables() (err error)
 	VerifyTables() (err error)
+	InsertTestData() (err error)
 	//Account
 	GetAccount(accountId int64) (account *model.Account, err error)
 	CreateAccount(account *model.Account) (err error)

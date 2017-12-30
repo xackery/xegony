@@ -82,3 +82,34 @@ func (s *Storage) DeleteAccount(accountId int64) (err error) {
 	}
 	return
 }
+
+func (s *Storage) createTableAccount() (err error) {
+	_, err = s.db.Exec(`
+CREATE TABLE account (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(30) NOT NULL DEFAULT '',
+  charname varchar(64) NOT NULL DEFAULT '',
+  sharedplat int(11) unsigned NOT NULL DEFAULT '0',
+  password varchar(50) NOT NULL DEFAULT '',
+  status int(5) NOT NULL DEFAULT '0',
+  lsaccount_id int(11) unsigned DEFAULT NULL,
+  gmspeed tinyint(3) unsigned NOT NULL DEFAULT '0',
+  revoked tinyint(3) unsigned NOT NULL DEFAULT '0',
+  karma int(5) unsigned NOT NULL DEFAULT '0',
+  minilogin_ip varchar(32) NOT NULL DEFAULT '',
+  hideme tinyint(4) NOT NULL DEFAULT '0',
+  rulesflag tinyint(1) unsigned NOT NULL DEFAULT '0',
+  suspendeduntil datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  time_creation int(10) unsigned NOT NULL DEFAULT '0',
+  expansion tinyint(4) NOT NULL DEFAULT '0',
+  ban_reason text,
+  suspend_reason text,
+  PRIMARY KEY (id),
+  UNIQUE KEY name (name),
+  UNIQUE KEY lsaccount_id (lsaccount_id)
+) ENGINE=MyISAM AUTO_INCREMENT=82152 DEFAULT CHARSET=latin1;`)
+	if err != nil {
+		return
+	}
+	return
+}

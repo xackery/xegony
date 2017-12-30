@@ -16,7 +16,7 @@ fmt: true
 # without having to restart it
 updater:
   # disabled by default
-  enabled: true
+  enabled: false
 
   # empty mode creates a empty b0x file with just the
   # server and the filesystem, then you'll have to upload
@@ -106,7 +106,10 @@ custom:
   # type: array of strings
   - files:
     - "./boxsrc/"
-
+    exclude:
+      - "/.DS_Store"
+      - "/template/.DS_Store"
+      - "/www/.DS_Store"
     # base is the path that will be removed from all files' path
     # type: string
     base: "boxsrc"

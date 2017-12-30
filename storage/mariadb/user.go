@@ -8,7 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *Storage) CreateTableUser() (err error) {
+func (s *Storage) createTableUser() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS user (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   name varchar(32) NOT NULL DEFAULT '',

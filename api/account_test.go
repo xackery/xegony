@@ -59,7 +59,7 @@ func TestAccountEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -68,7 +68,7 @@ func TestAccountEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test","status":10}`,
 			responseCode: 201,
-			response:     `{"id":2,"status":10,"name":"Test"}`,
+			response:     `{"id":82152,"name":"Test","charname":"","sharedplat":0,"password":"","status":10,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -95,7 +95,7 @@ func TestAccountEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `{"id":1,"status":200,"name":"Shin"}`,
+			response:     `{"id":1,"name":"Shin","charname":"","sharedplat":0,"password":"","status":200,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -104,7 +104,7 @@ func TestAccountEndpoints(t *testing.T) {
 			method:       "PUT",
 			body:         `{"id":1,"name":"Test2","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Moderator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -131,8 +131,8 @@ func TestAccountEndpoints(t *testing.T) {
 			path:         "/api/account/2",
 			method:       "PUT",
 			body:         `{"id":1,"accountId":1,"name":"TestTwo","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
-			responseCode: 200,
-			response:     `{"id":2,"status":0,"name":"TestTwo"}`,
+			responseCode: 304,
+			response:     ``,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -159,7 +159,7 @@ func TestAccountEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `[{"id":2,"status":0,"name":"TestTwo"},{"id":1,"status":200,"name":"Shin"}]`,
+			response:     `[{"id":82152,"name":"Test","charname":"","sharedplat":0,"password":"","status":10,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""},{"id":1,"name":"Shin","charname":"","sharedplat":0,"password":"","status":200,"lsaccountId":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}]`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -186,7 +186,7 @@ func TestAccountEndpoints(t *testing.T) {
 			method:       "DELETE",
 			body:         "",
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{

@@ -129,6 +129,13 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
+			"ListForum",
+			"GET",
+			"/forum",
+			a.ListForum,
+		},
+
+		Route{
 			"ListFaction",
 			"GET",
 			"/faction",
@@ -161,13 +168,6 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 			"GET",
 			"/faction/{factionId}",
 			a.GetFaction,
-		},
-
-		Route{
-			"ListFaction",
-			"GET",
-			"/forum",
-			a.ListFaction,
 		},
 
 		Route{

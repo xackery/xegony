@@ -100,10 +100,22 @@ func IsLoggedIn(r *http.Request) (err error) {
 }
 
 func IsAdmin(r *http.Request) (err error) {
+	if r == nil {
+		err = &model.ErrPermission{
+			Message: "Administrator access required",
+		}
+		return
+	}
 	claims, err := GetAuthClaims(r)
 	if err != nil {
 		err = &model.ErrPermission{
 			Message: err.Error(),
+		}
+		return
+	}
+	if claims == nil {
+		err = &model.ErrPermission{
+			Message: "Administrator access required",
 		}
 		return
 	}
@@ -117,10 +129,22 @@ func IsAdmin(r *http.Request) (err error) {
 }
 
 func IsModerator(r *http.Request) (err error) {
+	if r == nil {
+		err = &model.ErrPermission{
+			Message: "Moderator access required",
+		}
+		return
+	}
 	claims, err := GetAuthClaims(r)
 	if err != nil {
 		err = &model.ErrPermission{
 			Message: err.Error(),
+		}
+		return
+	}
+	if claims == nil {
+		err = &model.ErrPermission{
+			Message: "Moderator access required",
 		}
 		return
 	}
@@ -134,6 +158,12 @@ func IsModerator(r *http.Request) (err error) {
 }
 
 func IsUserOwner(userId int64, r *http.Request) (err error) {
+	if r == nil {
+		err = &model.ErrPermission{
+			Message: "Owner access required",
+		}
+		return
+	}
 	claims, err := GetAuthClaims(r)
 	if err != nil {
 		err = &model.ErrPermission{

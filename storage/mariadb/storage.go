@@ -6,6 +6,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
 )
 
 type Storage struct {
@@ -45,6 +46,23 @@ func (s *Storage) Initialize(config string) (err error) {
 	return
 }
 
+func (s *Storage) InsertTestData() (err error) {
+	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id)
+	   VALUES
+	   	(1, 'Test', '', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC', 1);`)
+	if err != nil {
+		return
+	}
+
+	_, err = s.db.Exec(`INSERT INTO account (id, name, status)
+	   VALUES
+	   	(1, 'Shin', 200);`)
+	if err != nil {
+		return
+	}
+	return
+}
+
 func (s *Storage) DropTables() (err error) {
 	s.Initialize("")
 
@@ -56,23 +74,34 @@ func (s *Storage) DropTables() (err error) {
 	if err != nil {
 		return
 	}
-	_, err = s.db.Exec(`drop table if exists account`)
-	if err != nil {
-		return
+	tables := []string{
+		"account",
+		"activity",
+		"base",
+		"bazaar",
+		"character_data",
+		"faction",
+		"forum",
+		"goal",
+		"item",
+		"lootdrop",
+		"lootdropentry",
+		"loottable",
+		"loottablentry",
+		"npc",
+		"npcloot",
+		"post",
+		"task",
+		"topic",
+		"user",
+		"zone",
 	}
-	_, err = s.db.Exec(`drop table if exists user`)
-	if err != nil {
-		return
-	}
-
-	_, err = s.db.Exec(`drop table if exists forum`)
-	if err != nil {
-		return
-	}
-
-	_, err = s.db.Exec(`drop table if exists topic`)
-	if err != nil {
-		return
+	for _, table := range tables {
+		_, err = s.db.Exec(fmt.Sprintf(`DROP TABLE IF EXISTS %s`, table))
+		if err != nil {
+			errors.Wrap(err, fmt.Sprintf("Failed to delete %s", table))
+			return
+		}
 	}
 	_, err = s.db.Exec(`SET FOREIGN_KEY_CHECKS = 1`)
 	if err != nil {
@@ -86,44 +115,37 @@ func (s *Storage) VerifyTables() (err error) {
 		return
 	}
 
-	err = s.CreateTableBazaar()
+	err = s.createTableAccount()
 	if err != nil {
 		return
 	}
-	err = s.CreateTableForum()
+	err = s.createTableBazaar()
 	if err != nil {
 		return
 	}
-	err = s.CreateTableNpcLoot()
+	err = s.createTableCharacter()
 	if err != nil {
 		return
 	}
-	err = s.CreateTablePost()
+	err = s.createTableForum()
 	if err != nil {
 		return
 	}
-	err = s.CreateTableTopic()
+	err = s.createTableNpcLoot()
 	if err != nil {
 		return
 	}
-	err = s.CreateTableUser()
+	err = s.createTablePost()
 	if err != nil {
 		return
 	}
-	/*
-	   	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id)
-	   VALUES
-	   	(1, 'Test', '', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC', 1);`)
-	   	if err != nil {
-	   		return
-	   	}
-
-	   	_, err = s.db.Exec(`INSERT INTO account (id, name, status)
-	   VALUES
-	   	(1, 'Shin', 200);`)
-	   	if err != nil {
-	   		return
-	   	}
-	*/
+	err = s.createTableTopic()
+	if err != nil {
+		return
+	}
+	err = s.createTableUser()
+	if err != nil {
+		return
+	}
 	return
 }

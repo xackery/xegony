@@ -6,7 +6,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) CreateTableTopic() (err error) {
+func (s *Storage) createTableTopic() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS topic (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   title varchar(32) NOT NULL DEFAULT '',

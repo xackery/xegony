@@ -59,7 +59,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -68,7 +68,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "POST",
 			body:         `{"name":"Test","accountId":1}`,
 			responseCode: 201,
-			response:     `{"id":1,"accountId":1,"name":"Test","lastName":"","title":"","level":0,"class":0,"zoneId":0}`,
+			response:     `{"Base":null,"Inventory":null,"id":1,"accountId":1,"name":"Test","lastName":"","title":"","suffix":"","zoneId":0,"zoneInstance":0,"y":0,"x":0,"z":0,"heading":0,"gender":0,"race":0,"class":0,"level":0,"deity":0,"birthday":0,"lastLogin":0,"timePlayed":0,"level2":0,"anon":0,"gm":0,"face":0,"hairColor":0,"hairStyle":0,"beard":0,"beardColor":0,"eyeColor1":0,"eyeColor2":0,"drakkinHeritage":0,"drakkinTattoo":0,"drakkinDetails":0,"abilityTimeSeconds":0,"abilityNumber":0,"abilityTimeMinutes":0,"abilityTimeHours":0,"exp":0,"aaPointsSpent":0,"aaExp":0,"aaPoints":0,"groupLeadershipExp":0,"raidLeadershipExp":0,"groupLeadershipPoints":0,"raidLeadershipPoints":0,"points":0,"curHp":0,"mana":0,"endurance":0,"intoxication":0,"str":0,"sta":0,"cha":0,"dex":0,"int":0,"agi":0,"wis":0,"zoneChangeCount":0,"toxicity":0,"hungerLevel":0,"thirstLevel":0,"abilityUp":0,"ldonPointsGuk":0,"ldonPointsMir":0,"ldonPointsMmc":0,"ldonPointsRuj":0,"ldonPointsTak":0,"ldonPointsAvailable":0,"tributeTimeRemaining":0,"careerTributePoints":0,"tributePoints":0,"tributeActive":0,"pvpStatus":0,"pvpKills":0,"pvpDeaths":0,"pvpCurrentPoints":0,"pvpCareerPoints":0,"pvpBestKillStreak":0,"pvpWorstDeathStreak":0,"pvpCurrentKillStreak":0,"pvp2":0,"pvpType":0,"showHelm":0,"groupAutoConsent":0,"raidAutoConsent":0,"guildAutoConsent":0,"leadershipExpOn":0,"RestTimer":0,"airRemaining":0,"autosplitEnabled":0,"lfp":0,"lfg":0,"mailkey":"","xtargets":0,"firstlogon":0,"eAaEffects":0,"ePercentToAa":0,"eExpendedAaSpent":0,"aaPointsSpentOld":0,"aaPointsOld":0,"eLastInvsnapshot":0}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -95,7 +95,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `{"id":1,"accountId":0,"name":"Test","lastName":"","title":"","level":0,"class":0,"zoneId":0}`,
+			response:     `{"Base":null,"Inventory":null,"id":1,"accountId":1,"name":"Test","lastName":"","title":"","suffix":"","zoneId":0,"zoneInstance":0,"y":0,"x":0,"z":0,"heading":0,"gender":0,"race":0,"class":0,"level":0,"deity":0,"birthday":0,"lastLogin":0,"timePlayed":0,"level2":0,"anon":0,"gm":0,"face":0,"hairColor":0,"hairStyle":0,"beard":0,"beardColor":0,"eyeColor1":0,"eyeColor2":0,"drakkinHeritage":0,"drakkinTattoo":0,"drakkinDetails":0,"abilityTimeSeconds":0,"abilityNumber":0,"abilityTimeMinutes":0,"abilityTimeHours":0,"exp":0,"aaPointsSpent":0,"aaExp":0,"aaPoints":0,"groupLeadershipExp":0,"raidLeadershipExp":0,"groupLeadershipPoints":0,"raidLeadershipPoints":0,"points":0,"curHp":0,"mana":0,"endurance":0,"intoxication":0,"str":0,"sta":0,"cha":0,"dex":0,"int":0,"agi":0,"wis":0,"zoneChangeCount":0,"toxicity":0,"hungerLevel":0,"thirstLevel":0,"abilityUp":0,"ldonPointsGuk":0,"ldonPointsMir":0,"ldonPointsMmc":0,"ldonPointsRuj":0,"ldonPointsTak":0,"ldonPointsAvailable":0,"tributeTimeRemaining":0,"careerTributePoints":0,"tributePoints":0,"tributeActive":0,"pvpStatus":0,"pvpKills":0,"pvpDeaths":0,"pvpCurrentPoints":0,"pvpCareerPoints":0,"pvpBestKillStreak":0,"pvpWorstDeathStreak":0,"pvpCurrentKillStreak":0,"pvp2":0,"pvpType":0,"showHelm":0,"groupAutoConsent":0,"raidAutoConsent":0,"guildAutoConsent":0,"leadershipExpOn":0,"RestTimer":0,"airRemaining":0,"autosplitEnabled":0,"lfp":0,"lfg":0,"mailkey":"","xtargets":0,"firstlogon":0,"eAaEffects":0,"ePercentToAa":0,"eExpendedAaSpent":0,"aaPointsSpentOld":0,"aaPointsOld":0,"eLastInvsnapshot":0}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -104,7 +104,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "PUT",
 			body:         `{"id":1,"name":"Test2","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Moderator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -132,16 +132,18 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "PUT",
 			body:         `{"id":1,"accountId":1,"name":"TestTwo","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
 			responseCode: 200,
-			response:     `{"id":1,"accountId":1,"name":"TestTwo","lastName":"","title":"","level":0,"class":0,"zoneId":0}`,
+			response:     `{"Base":null,"Inventory":null,"id":1,"accountId":1,"name":"TestTwo","lastName":"","title":"","suffix":"","zoneId":0,"zoneInstance":0,"y":0,"x":0,"z":0,"heading":0,"gender":0,"race":0,"class":0,"level":0,"deity":0,"birthday":0,"lastLogin":0,"timePlayed":0,"level2":0,"anon":0,"gm":0,"face":0,"hairColor":0,"hairStyle":0,"beard":0,"beardColor":0,"eyeColor1":0,"eyeColor2":0,"drakkinHeritage":0,"drakkinTattoo":0,"drakkinDetails":0,"abilityTimeSeconds":0,"abilityNumber":0,"abilityTimeMinutes":0,"abilityTimeHours":0,"exp":0,"aaPointsSpent":0,"aaExp":0,"aaPoints":0,"groupLeadershipExp":0,"raidLeadershipExp":0,"groupLeadershipPoints":0,"raidLeadershipPoints":0,"points":0,"curHp":0,"mana":0,"endurance":0,"intoxication":0,"str":0,"sta":0,"cha":0,"dex":0,"int":0,"agi":0,"wis":0,"zoneChangeCount":0,"toxicity":0,"hungerLevel":0,"thirstLevel":0,"abilityUp":0,"ldonPointsGuk":0,"ldonPointsMir":0,"ldonPointsMmc":0,"ldonPointsRuj":0,"ldonPointsTak":0,"ldonPointsAvailable":0,"tributeTimeRemaining":0,"careerTributePoints":0,"tributePoints":0,"tributeActive":0,"pvpStatus":0,"pvpKills":0,"pvpDeaths":0,"pvpCurrentPoints":0,"pvpCareerPoints":0,"pvpBestKillStreak":0,"pvpWorstDeathStreak":0,"pvpCurrentKillStreak":0,"pvp2":0,"pvpType":0,"showHelm":0,"groupAutoConsent":0,"raidAutoConsent":0,"guildAutoConsent":0,"leadershipExpOn":0,"RestTimer":0,"airRemaining":0,"autosplitEnabled":0,"lfp":0,"lfg":0,"mailkey":"","xtargets":0,"firstlogon":0,"eAaEffects":0,"ePercentToAa":0,"eExpendedAaSpent":0,"aaPointsSpentOld":0,"aaPointsOld":0,"eLastInvsnapshot":0}`,
 			useAuth:      true,
 		},
+
+		//This should be a 304 / no content response
 		Endpoint{
 			name:         "NoContentEditCharacter",
 			path:         "/api/character/1",
 			method:       "PUT",
 			body:         `{"id":1,"name":"TestTwo","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,
-			responseCode: 304,
-			response:     ``,
+			responseCode: 200,
+			response:     `{"Base":null,"Inventory":null,"id":1,"accountId":0,"name":"TestTwo","lastName":"","title":"","suffix":"","zoneId":0,"zoneInstance":0,"y":0,"x":0,"z":0,"heading":0,"gender":0,"race":0,"class":0,"level":0,"deity":0,"birthday":0,"lastLogin":0,"timePlayed":0,"level2":0,"anon":0,"gm":0,"face":0,"hairColor":0,"hairStyle":0,"beard":0,"beardColor":0,"eyeColor1":0,"eyeColor2":0,"drakkinHeritage":0,"drakkinTattoo":0,"drakkinDetails":0,"abilityTimeSeconds":0,"abilityNumber":0,"abilityTimeMinutes":0,"abilityTimeHours":0,"exp":0,"aaPointsSpent":0,"aaExp":0,"aaPoints":0,"groupLeadershipExp":0,"raidLeadershipExp":0,"groupLeadershipPoints":0,"raidLeadershipPoints":0,"points":0,"curHp":0,"mana":0,"endurance":0,"intoxication":0,"str":0,"sta":0,"cha":0,"dex":0,"int":0,"agi":0,"wis":0,"zoneChangeCount":0,"toxicity":0,"hungerLevel":0,"thirstLevel":0,"abilityUp":0,"ldonPointsGuk":0,"ldonPointsMir":0,"ldonPointsMmc":0,"ldonPointsRuj":0,"ldonPointsTak":0,"ldonPointsAvailable":0,"tributeTimeRemaining":0,"careerTributePoints":0,"tributePoints":0,"tributeActive":0,"pvpStatus":0,"pvpKills":0,"pvpDeaths":0,"pvpCurrentPoints":0,"pvpCareerPoints":0,"pvpBestKillStreak":0,"pvpWorstDeathStreak":0,"pvpCurrentKillStreak":0,"pvp2":0,"pvpType":0,"showHelm":0,"groupAutoConsent":0,"raidAutoConsent":0,"guildAutoConsent":0,"leadershipExpOn":0,"RestTimer":0,"airRemaining":0,"autosplitEnabled":0,"lfp":0,"lfg":0,"mailkey":"","xtargets":0,"firstlogon":0,"eAaEffects":0,"ePercentToAa":0,"eExpendedAaSpent":0,"aaPointsSpentOld":0,"aaPointsOld":0,"eLastInvsnapshot":0}`,
 			useAuth:      true,
 		},
 		Endpoint{
@@ -159,7 +161,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "GET",
 			body:         "",
 			responseCode: 200,
-			response:     `[{"id":1,"accountId":0,"name":"TestTwo","lastName":"","title":"","level":0,"class":0,"zoneId":0}]`,
+			response:     `[{"Base":null,"Inventory":null,"id":1,"accountId":0,"name":"TestTwo","lastName":"","title":"","suffix":"","zoneId":0,"zoneInstance":0,"y":0,"x":0,"z":0,"heading":0,"gender":0,"race":0,"class":0,"level":0,"deity":0,"birthday":0,"lastLogin":0,"timePlayed":0,"level2":0,"anon":0,"gm":0,"face":0,"hairColor":0,"hairStyle":0,"beard":0,"beardColor":0,"eyeColor1":0,"eyeColor2":0,"drakkinHeritage":0,"drakkinTattoo":0,"drakkinDetails":0,"abilityTimeSeconds":0,"abilityNumber":0,"abilityTimeMinutes":0,"abilityTimeHours":0,"exp":0,"aaPointsSpent":0,"aaExp":0,"aaPoints":0,"groupLeadershipExp":0,"raidLeadershipExp":0,"groupLeadershipPoints":0,"raidLeadershipPoints":0,"points":0,"curHp":0,"mana":0,"endurance":0,"intoxication":0,"str":0,"sta":0,"cha":0,"dex":0,"int":0,"agi":0,"wis":0,"zoneChangeCount":0,"toxicity":0,"hungerLevel":0,"thirstLevel":0,"abilityUp":0,"ldonPointsGuk":0,"ldonPointsMir":0,"ldonPointsMmc":0,"ldonPointsRuj":0,"ldonPointsTak":0,"ldonPointsAvailable":0,"tributeTimeRemaining":0,"careerTributePoints":0,"tributePoints":0,"tributeActive":0,"pvpStatus":0,"pvpKills":0,"pvpDeaths":0,"pvpCurrentPoints":0,"pvpCareerPoints":0,"pvpBestKillStreak":0,"pvpWorstDeathStreak":0,"pvpCurrentKillStreak":0,"pvp2":0,"pvpType":0,"showHelm":0,"groupAutoConsent":0,"raidAutoConsent":0,"guildAutoConsent":0,"leadershipExpOn":0,"RestTimer":0,"airRemaining":0,"autosplitEnabled":0,"lfp":0,"lfg":0,"mailkey":"","xtargets":0,"firstlogon":0,"eAaEffects":0,"ePercentToAa":0,"eExpendedAaSpent":0,"aaPointsSpentOld":0,"aaPointsOld":0,"eLastInvsnapshot":0}]`,
 			useAuth:      false,
 		},
 		Endpoint{
@@ -186,7 +188,7 @@ func TestCharacterEndpoints(t *testing.T) {
 			method:       "DELETE",
 			body:         "",
 			responseCode: 401,
-			response:     `{"message":"No Token Provided"}`,
+			response:     `{"message":"Administrator access required"}`,
 			useAuth:      false,
 		},
 		Endpoint{

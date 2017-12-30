@@ -12,7 +12,7 @@ const (
 	npcLootBinds  = `:npc_id, :item_id`
 )
 
-func (s *Storage) CreateTableNpcLoot() (err error) {
+func (s *Storage) createTableNpcLoot() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE IF NOT EXISTS npc_loot_cache (
   npc_id int(11) unsigned NOT NULL,
   item_id int(10) unsigned NOT NULL,

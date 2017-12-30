@@ -6,7 +6,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) CreateTableForum() (err error) {
+func (s *Storage) createTableForum() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS forum (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   name varchar(32) NOT NULL DEFAULT '',
@@ -16,7 +16,7 @@ func (s *Storage) CreateTableForum() (err error) {
   create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   icon varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;`)
 	if err != nil {
 		return
 	}
