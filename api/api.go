@@ -54,6 +54,9 @@ type Api struct {
 	zoneRepo           *cases.ZoneRepository
 }
 
+// Initialize initializes an API endpoint with the implemented storage.
+// config can be empty, it will initialize based on environment variables
+// or by default values.
 func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 	if s == nil {
 		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
@@ -99,6 +102,7 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 	return
 }
 
+// Index handles the root endpoint of /api/
 func (a *Api) Index(w http.ResponseWriter, r *http.Request) {
 	log.Println("index")
 	type Content struct {
@@ -112,6 +116,7 @@ func (a *Api) Index(w http.ResponseWriter, r *http.Request) {
 	writeData(w, r, content, http.StatusOK)
 }
 
+// writeData is the final step of all http responses. All routes should end here.
 func writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
 	var err error
 	if w == nil || r == nil {
@@ -155,6 +160,8 @@ func writeData(w http.ResponseWriter, r *http.Request, content interface{}, stat
 	w.Write(data)
 }
 
+// writeError gracefully handles errors occured during the routing.
+// Calling this will call writeData, so you can safely return once it is called.
 func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 	type Content struct {
 		Message string            `json:"message"`
@@ -195,6 +202,7 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 	return
 }
 
+// decodeBody is used to convert raw json body content into a specified struct
 func decodeBody(r *http.Request, data interface{}) (err error) {
 	decoder := json.NewDecoder(r.Body)
 	err = decoder.Decode(data)
@@ -205,6 +213,7 @@ func decodeBody(r *http.Request, data interface{}) (err error) {
 	return
 }
 
+// getIntParam parses query parameters based on key and returns as an int64
 func getIntParam(r *http.Request, key string) int64 {
 	var val int64
 	vals := r.URL.Query()
@@ -218,6 +227,7 @@ func getIntParam(r *http.Request, key string) int64 {
 	return 0
 }
 
+// getIntVar parses a variable from the routing pattern and returns it as an int64
 func getIntVar(r *http.Request, key string) (val int64, err error) {
 	vars := mux.Vars(r)
 	val, err = strconv.ParseInt(vars[key], 10, 64)
@@ -228,6 +238,7 @@ func getIntVar(r *http.Request, key string) (val int64, err error) {
 	return
 }
 
+// getVar  returns with a variable inside the request based on a routing pattern assigned variable
 func getVar(r *http.Request, key string) string {
 	vars := mux.Vars(r)
 	return vars[key]
