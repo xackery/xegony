@@ -1,0 +1,40 @@
+get:
+  tags: ["Character"]
+  description: List all characters
+  operationId: listCharacter
+  parameters:
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Character'
+post:
+  tags: ["Character"]
+  description: Create new character
+  operationId: createCharacter
+  security:
+    - OauthSecurity: [admin]
+  parameters: 
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json       
+    - in: body
+      name: body
+      description: Character
+      required: true
+      schema:
+        $ref: '#/definitions/Character'
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Character'

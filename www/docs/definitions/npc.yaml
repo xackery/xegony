@@ -1,0 +1,219 @@
+properties:
+  id:
+    type: integer          
+  name:
+    type: string         
+  lastname:
+    type: string
+  level:
+    type: integer          
+  race:
+    type: integer          
+  class:
+    type: integer          
+  bodytype:
+    type: integer          
+  hp:
+    type: integer          
+  mana:
+    type: integer          
+  gender:
+    type: integer          
+  texture:
+    type: integer          
+  helmtexture:
+    type: integer          
+  herosforgemodel:
+    type: integer          
+  size:
+    type: float64        
+  hpRegenRate:
+    type: integer          
+  manaRegenRate:
+    type: integer          
+  loottableId:
+    type: integer          
+  merchantId:
+    type: integer          
+  altCurrencyId:
+    type: integer          
+  npcSpellsId:
+    type: integer          
+  npcSpellsEffectsId:
+    type: integer          
+  npcFactionId:
+    type: integer          
+  adventureTemplateId:
+    type: integer          
+  trapTemplate:
+    type: integer
+  mindmg:
+    type: integer          
+  maxdmg:
+    type: integer          
+  attackCount:
+    type: integer          
+  npcspecialattks:
+    type: string         
+  specialAbilities:
+    type: string
+  aggroradius:
+    type: integer          
+  assistradius:
+    type: integer          
+  face:
+    type: integer          
+  luclinHairstyle:
+    type: integer          
+  luclinHaircolor:
+    type: integer          
+  luclinEyecolor:
+    type: integer          
+  luclinEyecolor2:
+    type: integer          
+  luclinBeardcolor:
+    type: integer          
+  luclinBeard:
+    type: integer          
+  drakkinHeritage:
+    type: integer          
+  drakkinTattoo:
+    type: integer          
+  drakkinDetails:
+    type: integer          
+  armortintId:
+    type: integer          
+  armortintRed:
+    type: integer          
+  armortintGreen:
+    type: integer          
+  armortintBlue:
+    type: integer          
+  dMeleeTexture1:
+    type: integer          
+  dMeleeTexture2:
+    type: integer          
+  ammoIdfile:
+    type: string         
+  primMeleeType:
+    type: integer          
+  secMeleeType:
+    type: integer          
+  rangedType:
+    type: integer          
+  runspeed:
+    type: float64        
+  MR:
+    type: integer          
+  CR:
+    type: integer          
+  DR:
+    type: integer          
+  FR:
+    type: integer          
+  PR:
+    type: integer          
+  Corrup:
+    type: integer          
+  PhR:
+    type: integer          
+  seeInvis:
+    type: integer          
+  seeInvisUndead:
+    type: integer          
+  qglobal:
+    type: integer          
+  AC:
+    type: integer          
+  npcAggro:
+    type: integer          
+  spawnLimit:
+    type: integer          
+  attackSpeed:
+    type: float64        
+  attackDelay:
+    type: integer          
+  findable:
+    type: integer          
+  STR:
+    type: integer          
+  STA:
+    type: integer          
+  DEX:
+    type: integer          
+  AGI:
+    type: integer          
+  INT:
+    type: integer          
+  WIS:
+    type: integer          
+  CHA:
+    type: integer          
+  seeHide:
+    type: integer          
+  seeImprovedHide:
+    type: integer          
+  trackable:
+    type: integer          
+  isbot:
+    type: integer          
+  exclude:
+    type: integer          
+  ATK:
+    type: integer          
+  Accuracy:
+    type: integer          
+  Avoidance:
+    type: integer          
+  slowMitigation:
+    type: integer          
+  version:
+    type: integer          
+  maxlevel:
+    type: integer          
+  scalerate:
+    type: integer          
+  privateCorpse:
+    type: integer          
+  uniqueSpawnByName:
+    type: integer          
+  underwater:
+    type: integer          
+  isquest:
+    type: integer          
+  emoteid:
+    type: integer          
+  spellscale:
+    type: float64        
+  healscale:
+    type: float64        
+  noTargetHotkey:
+    type: integer          
+  raidTarget:
+    type: integer          
+  armtexture:
+    type: integer          
+  bracertexture:
+    type: integer          
+  handtexture:
+    type: integer          
+  legtexture:
+    type: integer          
+  feettexture:
+    type: integer          
+  light:
+    type: integer          
+  walkspeed:
+    type: integer          
+  peqid:
+    type: integer          
+  unique:
+    type: integer          
+  fixed:
+    type: integer          
+  ignoreDespawn:
+    type: integer          
+  showName:
+    type: integer          
+  untargetable:
+    type: integer          

@@ -1,0 +1,19 @@
+ properties:
+  lootdropId:
+    type: integer
+  itemId:
+    type: integer
+  itemCharges:
+    type: integer
+  equipItem:
+    type: integer
+  chance:
+    type: float
+  disabledChance:
+    type: float
+  minlevel:
+    type: integer
+  maxlevel:
+    type: integer
+  multiplier:
+    type: integer

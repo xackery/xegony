@@ -1,0 +1,70 @@
+get:
+  tags: ["LootDropEntry"]
+  description: Details about a specific lootDropEntry
+  operationId: getLootDropEntry
+  parameters:
+    - in: path
+      name: lootDropEntryId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/LootDropEntry'
+put:
+  tags: ["LootDropEntry"]
+  description: Edit LootDropEntry
+  operationId: editLootDropEntry
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: lootDropEntryId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: LootDropEntry
+      required: true
+      schema:
+        $ref: '#/definitions/LootDropEntry'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/LootDropEntry'    
+delete:
+  tags: ["LootDropEntry"]
+  description: Delete lootDropEntry
+  operationId: deleteLootDropEntry
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: lootDropEntryId
+      required: true
+      description: ID of lootDropEntry
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/LootDropEntry'

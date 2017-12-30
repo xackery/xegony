@@ -1,0 +1,15 @@
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+  accountId:
+    type: integer
+  email:
+    type: string
+  password:
+    type: string
+  isAdmin:
+    type: boolean
+  isModerator:
+    type: boolean

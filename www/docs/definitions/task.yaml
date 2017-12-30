@@ -1,0 +1,27 @@
+properties:
+  id:
+    type: integer
+  duration:
+    type: integer
+  title:
+    type: string
+  description:
+    type: string
+  reward:
+    type: string
+  rewardid:
+    type: integer
+  cashreward:
+    type: integer
+  xpreward:
+    type: integer
+  rewardmethod:
+    type: integer
+  startzone:
+    type: integer
+  minlevel:
+    type: integer
+  maxlevel:
+    type: integer
+  repeatable:
+    type: integer

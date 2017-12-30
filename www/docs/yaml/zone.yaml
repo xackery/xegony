@@ -1,0 +1,40 @@
+get:
+  tags: ["Zone"]
+  description: List all Zone entries
+  operationId: listZone
+  parameters:
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Zone'
+post:
+  tags: ["Zone"]
+  description: Create new Zone entry
+  operationId: createZone
+  security:
+    - OauthSecurity: [admin]
+  parameters: 
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json       
+    - in: body
+      name: body
+      description: Zone
+      required: true
+      schema:
+        $ref: '#/definitions/Zone'
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Zone'

@@ -1,0 +1,70 @@
+get:
+  tags: ["Goal"]
+  description: Details about a specific goal
+  operationId: getGoal
+  parameters:
+    - in: path
+      name: goalId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Goal'
+put:
+  tags: ["Goal"]
+  description: Edit Goal
+  operationId: editGoal
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: goalId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: Goal
+      required: true
+      schema:
+        $ref: '#/definitions/Goal'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Goal'    
+delete:
+  tags: ["Goal"]
+  description: Delete goal
+  operationId: deleteGoal
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: goalId
+      required: true
+      description: ID of goal
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Goal'

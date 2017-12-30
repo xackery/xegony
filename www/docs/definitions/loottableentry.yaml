@@ -1,0 +1,13 @@
+properties:
+  loottableId:
+    type: integer
+  lootdropId:
+    type: integer
+  multiplier:
+    type: integer
+  droplimit:
+    type: integer
+  mindrop:
+    type: integer
+  probability:
+    type: float

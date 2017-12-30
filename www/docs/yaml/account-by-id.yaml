@@ -1,0 +1,70 @@
+get:
+  tags: ["Account"]
+  description: Details about a specific account
+  operationId: getAccount
+  parameters:
+    - in: path
+      name: accountId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Account'
+put:
+  tags: ["Account"]
+  description: Edit Account
+  operationId: editAccount
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: accountId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: Account
+      required: true
+      schema:
+        $ref: '#/definitions/Account'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Account'    
+delete:
+  tags: ["Account"]
+  description: Delete account
+  operationId: deleteAccount
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: accountId
+      required: true
+      description: ID of account
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Account'

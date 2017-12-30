@@ -1,0 +1,70 @@
+get:
+  tags: ["Npc"]
+  description: Details about a specific npc
+  operationId: getNpc
+  parameters:
+    - in: path
+      name: npcId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Npc'
+put:
+  tags: ["Npc"]
+  description: Edit Npc
+  operationId: editNpc
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: npcId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: Npc
+      required: true
+      schema:
+        $ref: '#/definitions/Npc'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Npc'    
+delete:
+  tags: ["Npc"]
+  description: Delete npc
+  operationId: deleteNpc
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: npcId
+      required: true
+      description: ID of npc
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Npc'

@@ -1,0 +1,9 @@
+properties:
+  id:
+    type: integer
+  body:
+    type: string
+  topicId:
+    type: integer
+  ownerId:
+    type: integer

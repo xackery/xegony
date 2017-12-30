@@ -1,0 +1,40 @@
+get:
+  tags: ["Account"]
+  description: List all account entries
+  operationId: listAccount
+  parameters:
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Account'
+post:
+  tags: ["Account"]
+  description: Create new account entry
+  operationId: createAccount
+  security:
+    - OauthSecurity: [admin]
+  parameters: 
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json       
+    - in: body
+      name: body
+      description: Account
+      required: true
+      schema:
+        $ref: '#/definitions/Account'
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Account'

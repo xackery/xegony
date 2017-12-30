@@ -1,0 +1,13 @@
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+  mincash:
+    type: integer
+  maxcash:
+    type: integer
+  avgcoin:
+    type: integer
+  done:
+    type: integer

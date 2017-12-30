@@ -1,0 +1,163 @@
+properties:
+  shortName:
+    type: string
+  id:
+    type: integer          
+  fileName:
+    type: string
+  longName:
+    type: string         
+  mapFileName:
+    type: string
+  safeX:
+    type: float        
+  safeY:
+    type: float        
+  safeZ:
+    type: float        
+  graveyardId:
+    type: float        
+  minLevel:
+    type: integer          
+  minStatus:
+    type: integer          
+  zoneidnumber:
+    type: integer          
+  version:
+    type: integer          
+  timezone:
+    type: integer          
+  maxclients:
+    type: integer          
+  ruleset:
+    type: integer          
+  note:
+    type: string
+  underworld:
+    type: float        
+  minclip:
+    type: float        
+  maxclip:
+    type: float        
+  fogMinclip:
+    type: float        
+  fogMaxclip:
+    type: float        
+  fogBlue:
+    type: integer          
+  fogRed:
+    type: integer          
+  fogGreen:
+    type: integer          
+  sky:
+    type: integer          
+  ztype:
+    type: integer          
+  zoneExpMultiplier:
+    type: float        
+  walkspeed:
+    type: float        
+  timeType:
+    type: integer          
+  fogRed1:
+    type: integer          
+  fogGreen1:
+    type: integer          
+  fogBlue1:
+    type: integer          
+  fogMinclip1:
+    type: float        
+  fogMaxclip1:
+    type: float        
+  fogRed2:
+    type: integer          
+  fogGreen2:
+    type: integer          
+  fogBlue2:
+    type: integer          
+  fogMinclip2:
+    type: float        
+  fogMaxclip2:
+    type: float        
+  fogRed3:
+    type: integer          
+  fogGreen3:
+    type: integer          
+  fogBlue3:
+    type: integer          
+  fogMinclip3:
+    type: float        
+  fogMaxclip3:
+    type: float        
+  fogRed4:
+    type: integer          
+  fogGreen4:
+    type: integer          
+  fogBlue4:
+    type: integer          
+  fogMinclip4:
+    type: float        
+  fogMaxclip4:
+    type: float        
+  fogDensity:
+    type: float        
+  flagNeeded:
+    type: string         
+  canbind:
+    type: integer          
+  cancombat:
+    type: integer          
+  canlevitate:
+    type: integer          
+  castoutdoor:
+    type: integer          
+  hotzone:
+    type: integer          
+  insttype:
+    type: integer          
+  shutdowndelay:
+    type: integer          
+  peqzone:
+    type: integer          
+  expansion:
+    type: integer          
+  suspendbuffs:
+    type: integer          
+  rainChance1:
+    type: integer          
+  rainChance2:
+    type: integer          
+  rainChance3:
+    type: integer          
+  rainChance4:
+    type: integer          
+  rainDuration1:
+    type: integer          
+  rainDuration2:
+    type: integer          
+  rainDuration3:
+    type: integer          
+  rainDuration4:
+    type: integer          
+  snowChance1:
+    type: integer          
+  snowChance2:
+    type: integer          
+  snowChance3:
+    type: integer          
+  snowChance4:
+    type: integer          
+  snowDuration1:
+    type: integer          
+  snowDuration2:
+    type: integer          
+  snowDuration3:
+    type: integer          
+  snowDuration4:
+    type: integer          
+  gravity:
+    type: float        
+  type:
+    type: integer          
+  skylock:
+    type: integer          

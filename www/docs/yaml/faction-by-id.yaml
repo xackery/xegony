@@ -1,0 +1,70 @@
+get:
+  tags: ["Faction"]
+  description: Details about a specific faction
+  operationId: getFaction
+  parameters:
+    - in: path
+      name: factionId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Faction'
+put:
+  tags: ["Faction"]
+  description: Edit Faction
+  operationId: editFaction
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: factionId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: Faction
+      required: true
+      schema:
+        $ref: '#/definitions/Faction'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Faction'    
+delete:
+  tags: ["Faction"]
+  description: Delete faction
+  operationId: deleteFaction
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: factionId
+      required: true
+      description: ID of faction
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Faction'

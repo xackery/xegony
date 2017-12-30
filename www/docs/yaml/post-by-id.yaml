@@ -1,0 +1,70 @@
+get:
+  tags: ["Post"]
+  description: Details about a specific post
+  operationId: getPost
+  parameters:
+    - in: path
+      name: postId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Post'
+put:
+  tags: ["Post"]
+  description: Edit Post
+  operationId: editPost
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: postId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: Post
+      required: true
+      schema:
+        $ref: '#/definitions/Post'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Post'    
+delete:
+  tags: ["Post"]
+  description: Delete post
+  operationId: deletePost
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: postId
+      required: true
+      description: ID of post
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Post'

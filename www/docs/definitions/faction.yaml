@@ -1,0 +1,7 @@
+properties:
+  id:
+    type: integer
+  base:
+    type: integer
+  name:
+    type: string

@@ -1,0 +1,40 @@
+get:
+  tags: ["Task"]
+  description: List all Task entries
+  operationId: listTask
+  parameters:
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Task'
+post:
+  tags: ["Task"]
+  description: Create new Task entry
+  operationId: createTask
+  security:
+    - OauthSecurity: [admin]
+  parameters: 
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json       
+    - in: body
+      name: body
+      description: Task
+      required: true
+      schema:
+        $ref: '#/definitions/Task'
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Task'

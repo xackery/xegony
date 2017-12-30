@@ -1,0 +1,21 @@
+properties:
+  level:
+    type: integer
+  class:
+    type: integer
+  hp:
+    type: float
+  mana:
+    type: float
+  end:
+    type: float
+  unk1:
+    type: float
+  unk2:
+    type: float
+  hpFac:
+    type: float
+  manaFac:
+    type: float
+  endFac:
+    type: float

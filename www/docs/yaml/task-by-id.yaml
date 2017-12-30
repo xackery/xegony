@@ -1,0 +1,70 @@
+get:
+  tags: ["Task"]
+  description: Details about a specific task
+  operationId: getTask
+  parameters:
+    - in: path
+      name: taskId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Task'
+put:
+  tags: ["Task"]
+  description: Edit Task
+  operationId: editTask
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: taskId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: Task
+      required: true
+      schema:
+        $ref: '#/definitions/Task'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Task'    
+delete:
+  tags: ["Task"]
+  description: Delete task
+  operationId: deleteTask
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: taskId
+      required: true
+      description: ID of task
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Task'

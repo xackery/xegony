@@ -1,0 +1,70 @@
+get:
+  tags: ["Topic"]
+  description: Details about a specific topic
+  operationId: getTopic
+  parameters:
+    - in: path
+      name: topicId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Topic'
+put:
+  tags: ["Topic"]
+  description: Edit Topic
+  operationId: editTopic
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: topicId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: Topic
+      required: true
+      schema:
+        $ref: '#/definitions/Topic'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Topic'    
+delete:
+  tags: ["Topic"]
+  description: Delete topic
+  operationId: deleteTopic
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: topicId
+      required: true
+      description: ID of topic
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Topic'

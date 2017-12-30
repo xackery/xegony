@@ -1,0 +1,203 @@
+properties:
+  id:
+    type: integer
+  accountId:
+    type: integer
+  name:
+    type: string
+  lastName:
+    type: string
+  title:
+    type: string
+  suffix:
+    type: string
+  zoneId:
+    type: integer
+  zoneInstance:
+    type: integer
+  y:
+    type: float
+  x:
+    type: float
+  z:
+    type: float
+  heading:
+    type: float
+  gender:
+    type: integer
+  race:
+    type: integer
+  class:
+    type: integer
+  level:
+    type: integer
+  deity:
+    type: integer
+  birthday:
+    type: integer
+  lastLogin:
+    type: integer
+  timePlayed:
+    type: integer
+  level2:
+    type: integer
+  anon:
+    type: integer
+  gm:
+    type: integer
+  face:
+    type: integer
+  hairColor:
+    type: integer
+  hairStyle:
+    type: integer
+  beard:
+    type: integer
+  beardColor:
+    type: integer
+  eyeColor1:
+    type: integer
+  eyeColor2:
+    type: integer
+  drakkinHeritage:
+    type: integer
+  drakkinTattoo:
+    type: integer
+  drakkinDetails:
+    type: integer
+  abilityTimeSeconds:
+    type: integer
+  abilityNumber:
+    type: integer
+  abilityTimeMinutes:
+    type: integer
+  abilityTimeHours:
+    type: integer
+  exp:
+    type: integer
+  aaPointsSpent:
+    type: integer
+  aaExp:
+    type: integer
+  aaPoints:
+    type: integer
+  groupLeadershipExp:
+    type: integer
+  raidLeadershipExp:
+    type: integer
+  groupLeadershipPoints:
+    type: integer
+  raidLeadershipPoints:
+    type: integer
+  points:
+    type: integer
+  curHp:
+    type: integer
+  mana:
+    type: integer
+  endurance:
+    type: integer
+  intoxication:
+    type: integer
+  str:
+    type: integer
+  sta:
+    type: integer
+  cha:
+    type: integer
+  dex:
+    type: integer
+  int:
+    type: integer
+  agi:
+    type: integer
+  wis:
+    type: integer
+  zoneChangeCount:
+    type: integer
+  toxicity:
+    type: integer
+  hungerLevel:
+    type: integer
+  thirstLevel:
+    type: integer
+  abilityUp:
+    type: integer
+  ldonPointsGuk:
+    type: integer
+  ldonPointsMir:
+    type: integer
+  ldonPointsMmc:
+    type: integer
+  ldonPointsRuj:
+    type: integer
+  ldonPointsTak:
+    type: integer
+  ldonPointsAvailable:
+    type: integer
+  tributeTimeRemaining:
+    type: integer
+  careerTributePoints:
+    type: integer
+  tributePoints:
+    type: integer
+  tributeActive:
+    type: integer
+  pvpStatus:
+    type: integer
+  pvpKills:
+    type: integer
+  pvpDeaths:
+    type: integer
+  pvpCurrentPoints:
+    type: integer
+  pvpCareerPoints:
+    type: integer
+  pvpBestKillStreak:
+    type: integer
+  pvpWorstDeathStreak:
+    type: integer
+  pvpCurrentKillStreak:
+    type: integer
+  pvp2:
+    type: integer
+  pvpType:
+    type: integer
+  showHelm:
+    type: integer
+  groupAutoConsent:
+    type: integer
+  raidAutoConsent:
+    type: integer
+  guildAutoConsent:
+    type: integer
+  leadershipExpOn:
+    type: integer
+  RestTimer:
+    type: integer
+  airRemaining:
+    type: integer
+  autosplitEnabled:
+    type: integer
+  lfp:
+    type: integer
+  lfg:
+    type: integer
+  mailkey:
+    type: string
+  xtargets:
+    type: integer
+  firstlogon:
+    type: integer
+  eAaEffects:
+    type: integer
+  ePercentToAa:
+    type: integer
+  eExpendedAaSpent:
+    type: integer
+  aaPointsSpentOld:
+    type: integer
+  aaPointsOld:
+    type: integer
+  eLastInvsnapshot:
+    type: integer

@@ -1,0 +1,7 @@
+properties:
+  npcId:
+    type: integer
+  itemId:
+    type: integer
+  npcName:
+    type: string

@@ -1,0 +1,70 @@
+get:
+  tags: ["User"]
+  description: Details about a specific user
+  operationId: getUser
+  parameters:
+    - in: path
+      name: userId
+      required: true
+      description: ID
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/User'
+put:
+  tags: ["User"]
+  description: Edit User
+  operationId: editUser
+  security:
+    - OauthSecurity: [moderator, admin]
+  parameters:
+    - in: path
+      name: userId
+      required: true
+      description: ID
+      type: integer
+    - in: body
+      name: body
+      description: User
+      required: true
+      schema:
+        $ref: '#/definitions/User'
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/User'    
+delete:
+  tags: ["User"]
+  description: Delete user
+  operationId: deleteUser
+  security:
+    - OauthSecurity: [admin]
+  parameters:
+    - in: path
+      name: userId
+      required: true
+      description: ID of user
+      type: integer
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/User'

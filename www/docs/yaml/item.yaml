@@ -1,0 +1,40 @@
+get:
+  tags: ["Item"]
+  description: List all Item entries
+  operationId: listItem
+  parameters:
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Item'
+post:
+  tags: ["Item"]
+  description: Create new Item entry
+  operationId: createItem
+  security:
+    - OauthSecurity: [admin]
+  parameters: 
+    - in: query
+      type: string
+      name: format
+      enum: [json, xml, yaml]
+      default: json       
+    - in: body
+      name: body
+      description: Item
+      required: true
+      schema:
+        $ref: '#/definitions/Item'
+  responses:
+    200:
+      description: '200 / OK'
+      schema:
+        $ref: '#/definitions/Item'
