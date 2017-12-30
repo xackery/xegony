@@ -1,5 +1,7 @@
 # Xegony Project
 
+[![GoDoc](https://godoc.org/github.com/xackery/xegony?status.svg)](https://godoc.org/github.com/xackery/xegony)
+
 This project is not yet ready for release.
 
 Feature List
