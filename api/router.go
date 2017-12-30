@@ -129,10 +129,45 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		},
 
 		Route{
-			"ListForum",
+			"ListFaction",
+			"GET",
+			"/faction",
+			a.ListFaction,
+		},
+
+		Route{
+			"CreateFaction",
+			"POST",
+			"/faction",
+			a.CreateFaction,
+		},
+
+		Route{
+			"DeleteFaction",
+			"DELETE",
+			"/faction/{factionId}",
+			a.DeleteFaction,
+		},
+
+		Route{
+			"EditFaction",
+			"PUT",
+			"/faction/{factionId}",
+			a.EditFaction,
+		},
+
+		Route{
+			"GetFaction",
+			"GET",
+			"/faction/{factionId}",
+			a.GetFaction,
+		},
+
+		Route{
+			"ListFaction",
 			"GET",
 			"/forum",
-			a.ListForum,
+			a.ListFaction,
 		},
 
 		Route{

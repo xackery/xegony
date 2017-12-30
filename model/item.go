@@ -22,7 +22,7 @@ type Item struct {
 	Augslot5          int64  `json:"augslot5" db:"augslot5"`                     //`augslot5` mediumint(7) unsigned DEFAULT '0',
 	Augslot6          int64  `json:"augslot6" db:"augslot6"`                     //`augslot6` mediumint(7) NOT NULL DEFAULT '0',
 	Instnodrop        int64  `json:"instnodrop" db:"instnodrop"`                 //`instnodrop` tinyint(1) unsigned NOT NULL DEFAULT '0',
-	CustomData        string `json:"custom_data" db:"custom_data"`               //`custom_data` text,
+	CustomData        string `json:"customData" db:"custom_data"`                //`custom_data` text,
 	Ornamenticon      int64  `json:"ornamenticon" db:"ornamenticon"`             //`ornamenticon` int(11) unsigned NOT NULL DEFAULT '0',
 	Ornamentidfile    int64  `json:"ornamentidfile" db:"ornamentidfile"`         //`ornamentidfile` int(11) unsigned NOT NULL DEFAULT '0',
 	OrnamentHeroModel int64  `json:"ornamentHeroModel" db:"ornament_hero_model"` //`ornament_hero_model` int(11) NOT NULL DEFAULT '0',
@@ -255,19 +255,19 @@ type Item struct {
 	Focusname           string         `json:"focusname" db:"focusname"`                     //
 	Scrollname          string         `json:"scrollname" db:"scrollname"`                   //
 	Dsmitigation        int64          `json:"dsmitigation" db:"dsmitigation"`               //
-	Heroic_str          int64          `json:"heroic_str" db:"heroic_str"`                   //
-	Heroic_int          int64          `json:"heroic_int" db:"heroic_int"`                   //
-	Heroic_wis          int64          `json:"heroic_wis" db:"heroic_wis"`                   //
-	Heroic_agi          int64          `json:"heroic_agi" db:"heroic_agi"`                   //
-	Heroic_dex          int64          `json:"heroic_dex" db:"heroic_dex"`                   //
-	Heroic_sta          int64          `json:"heroic_sta" db:"heroic_sta"`                   //
-	Heroic_cha          int64          `json:"heroic_cha" db:"heroic_cha"`                   //
-	Heroic_pr           int64          `json:"heroic_pr" db:"heroic_pr"`                     //
-	Heroic_dr           int64          `json:"heroic_dr" db:"heroic_dr"`                     //
-	Heroic_fr           int64          `json:"heroic_fr" db:"heroic_fr"`                     //
-	Heroic_cr           int64          `json:"heroic_cr" db:"heroic_cr"`                     //
-	Heroic_mr           int64          `json:"heroic_mr" db:"heroic_mr"`                     //
-	Heroic_svcorrup     int64          `json:"heroic_svcorrup" db:"heroic_svcorrup"`         //
+	Heroic_str          int64          `json:"heroicStr" db:"heroic_str"`                    //
+	Heroic_int          int64          `json:"heroicInt" db:"heroic_int"`                    //
+	Heroic_wis          int64          `json:"heroicWis" db:"heroic_wis"`                    //
+	Heroic_agi          int64          `json:"heroicAgi" db:"heroic_agi"`                    //
+	Heroic_dex          int64          `json:"heroicDex" db:"heroic_dex"`                    //
+	Heroic_sta          int64          `json:"heroicSta" db:"heroic_sta"`                    //
+	Heroic_cha          int64          `json:"heroicCha" db:"heroic_cha"`                    //
+	Heroic_pr           int64          `json:"heroicPr" db:"heroic_pr"`                      //
+	Heroic_dr           int64          `json:"heroicDr" db:"heroic_dr"`                      //
+	Heroic_fr           int64          `json:"heroicFr" db:"heroic_fr"`                      //
+	Heroic_cr           int64          `json:"heroicCr" db:"heroic_cr"`                      //
+	Heroic_mr           int64          `json:"heroicMr" db:"heroic_mr"`                      //
+	Heroic_svcorrup     int64          `json:"heroicSvcorrup" db:"heroic_svcorrup"`          //
 	Healamt             int64          `json:"healamt" db:"healamt"`                         //
 	Spelldmg            int64          `json:"spelldmg" db:"spelldmg"`                       //
 	Clairvoyance        int64          `json:"clairvoyance" db:"clairvoyance"`               //
