@@ -114,6 +114,10 @@ type Character struct {
 	ELastInvsnapshot      int64   `json:"eLastInvsnapshot" db:"e_last_invsnapshot"`           //`e_last_invsnapshot` int(11) unsigned NOT NULL DEFAULT '0',
 }
 
+func (c *Character) ZoneName() string {
+	return ZoneName(c.ZoneId)
+}
+
 func (c *Character) RaceIcon() string {
 	return RaceIcon(c.Race)
 }

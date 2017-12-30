@@ -90,23 +90,23 @@ func (s *Storage) VerifyTables() (err error) {
 	if err != nil {
 		return
 	}
-
 	err = s.CreateTableForum()
 	if err != nil {
 		return
 	}
-
 	err = s.CreateTableNpcLoot()
 	if err != nil {
 		return
 	}
-
 	err = s.CreateTablePost()
 	if err != nil {
 		return
 	}
-
 	err = s.CreateTableTopic()
+	if err != nil {
+		return
+	}
+	err = s.CreateTableUser()
 	if err != nil {
 		return
 	}
