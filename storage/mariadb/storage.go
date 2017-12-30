@@ -119,34 +119,60 @@ func (s *Storage) VerifyTables() (err error) {
 	if err != nil && !isExistErr(err) {
 		return
 	}
+	if err == nil {
+		fmt.Println("Created table for Account")
+	}
 	err = s.createTableBazaar()
 	if err != nil && !isExistErr(err) {
 		return
+	}
+	if err == nil {
+		fmt.Println("Created table for Bazaar")
 	}
 	err = s.createTableCharacter()
 	if err != nil && !isExistErr(err) {
 		return
 	}
+	if err == nil {
+		fmt.Println("Created table for Character")
+	}
 	err = s.createTableForum()
 	if err != nil && !isExistErr(err) {
 		return
+	}
+	if err == nil {
+		fmt.Println("Created table for Forum")
 	}
 	err = s.createTableNpcLoot()
 	if err != nil && !isExistErr(err) {
 		return
 	}
+	if err == nil {
+		fmt.Println("Created table for NpcLoot")
+	}
 	err = s.createTablePost()
 	if err != nil && !isExistErr(err) {
 		return
+	}
+	if err == nil {
+		fmt.Println("Created table for Post")
 	}
 	err = s.createTableTopic()
 	if err != nil && !isExistErr(err) {
 		return
 	}
+	if err == nil {
+		fmt.Println("Created table for Topic")
+	}
 	err = s.createTableUser()
 	if err != nil && !isExistErr(err) {
 		return
 	}
+	if err == nil {
+		fmt.Println("Created table for User")
+	}
+
+	err = nil
 	return
 }
 

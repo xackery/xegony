@@ -6,23 +6,6 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) createTablePost() (err error) {
-	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS post (
-  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  body text NOT NULL,
-  owner_id int(11) unsigned NOT NULL,
-  topic_id int(11) unsigned NOT NULL,
-  last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  icon varchar(32) NOT NULL DEFAULT '',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
-	if err != nil {
-		return
-	}
-	return
-}
-
 func (s *Storage) GetPost(postId int64) (post *model.Post, err error) {
 	post = &model.Post{}
 	err = s.db.Get(post, "SELECT id, body, topic_id FROM post WHERE id = ?", postId)
@@ -95,6 +78,23 @@ func (s *Storage) DeletePost(postId int64) (err error) {
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		return
+	}
+	return
+}
+
+func (s *Storage) createTablePost() (err error) {
+	_, err = s.db.Exec(`CREATE TABLE post (
+  id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  body text NOT NULL,
+  owner_id int(11) unsigned NOT NULL,
+  topic_id int(11) unsigned NOT NULL,
+  last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  icon varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
+	if err != nil {
 		return
 	}
 	return

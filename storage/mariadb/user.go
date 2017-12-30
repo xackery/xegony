@@ -8,24 +8,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *Storage) createTableUser() (err error) {
-	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS user (
-  id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  name varchar(32) NOT NULL DEFAULT '',
-  account_id int(11) unsigned NOT NULL,
-  email varchar(32) NOT NULL DEFAULT '',
-  password varchar(64) NOT NULL DEFAULT '',
-  last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  icon varchar(32) NOT NULL DEFAULT '',
-  PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
-	if err != nil {
-		return
-	}
-	return
-}
-
 func (s *Storage) GetUser(userId int64) (user *model.User, err error) {
 	user = &model.User{}
 	err = s.db.Get(user, "SELECT id, name, account_id, FROM user WHERE id = ?", userId)
@@ -144,6 +126,24 @@ func (s *Storage) DeleteUser(userId int64) (err error) {
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		return
+	}
+	return
+}
+
+func (s *Storage) createTableUser() (err error) {
+	_, err = s.db.Exec(`CREATE TABLE user (
+  id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  name varchar(32) NOT NULL DEFAULT '',
+  account_id int(11) unsigned NOT NULL,
+  email varchar(32) NOT NULL DEFAULT '',
+  password varchar(64) NOT NULL DEFAULT '',
+  last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  icon varchar(32) NOT NULL DEFAULT '',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
+	if err != nil {
 		return
 	}
 	return

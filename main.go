@@ -18,6 +18,12 @@ func main() {
 	config := ""
 	stor := &mariadb.Storage{}
 	stor.Initialize("")
+
+	err = stor.VerifyTables()
+	if err != nil {
+		log.Fatal("Failed to verify tables: ", err.Error())
+	}
+
 	listen := os.Getenv("API_LISTEN")
 	if len(listen) == 0 {
 		listen = ":8080"
@@ -30,7 +36,6 @@ func main() {
 		log.Fatal("Failed to initialize botServer:", err.Error())
 	}
 	botServer.ApplyRoutes(router)
-	log.Println("Started botserver")
 
 	apiServer := api.Api{}
 	if err = apiServer.Initialize(stor, config); err != nil {
@@ -38,20 +43,11 @@ func main() {
 	}
 	apiServer.ApplyRoutes(router)
 
-	log.Println("Started apiserver")
-
 	webServer := web.Web{}
 	if err = webServer.Initialize(stor, config); err != nil {
 		log.Fatal("Failed to initialize webServer:", err.Error())
 	}
 	webServer.ApplyRoutes(router)
-
-	log.Println("Started webserver")
-
-	err = stor.VerifyTables()
-	if err != nil {
-		log.Fatal("Failed to verify tables: ", err.Error())
-	}
 
 	//go runBot(botServer)
 	log.Println("Listening on", listen)
