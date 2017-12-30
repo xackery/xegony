@@ -1,0 +1,11 @@
+language: go
+go: master
+install:
+  - go get -t .
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS eqemu_test;'
+addons:
+  mariadb: '10.2'
+
