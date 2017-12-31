@@ -122,6 +122,12 @@ type Storage interface {
 	EditPost(postID int64, post *model.Post) (err error)
 	ListPost(topicID int64) (posts []*model.Post, err error)
 	DeletePost(postID int64) (err error)
+	//Spawn
+	GetSpawn(spawnID int64) (spawn *model.Spawn, err error)
+	CreateSpawn(spawn *model.Spawn) (err error)
+	ListSpawn() (spawns []*model.Spawn, err error)
+	EditSpawn(spawnID int64, spawn *model.Spawn) (err error)
+	DeleteSpawn(spawnID int64) (err error)
 	//Topic
 	GetTopic(topicID int64) (topic *model.Topic, err error)
 	CreateTopic(topic *model.Topic) (err error)

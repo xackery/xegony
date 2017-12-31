@@ -47,6 +47,7 @@ type Web struct {
 	npcRepo            *cases.NpcRepository
 	npcLootRepo        *cases.NpcLootRepository
 	postRepo           *cases.PostRepository
+	spawnRepo          *cases.SpawnRepository
 	taskRepo           *cases.TaskRepository
 	templates          map[string]*Template
 	topicRepo          *cases.TopicRepository
@@ -150,6 +151,8 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	a.npcLootRepo.Initialize(s)
 	a.postRepo = &cases.PostRepository{}
 	a.postRepo.Initialize(s)
+	a.spawnRepo = &cases.SpawnRepository{}
+	a.spawnRepo.Initialize(s)
 	a.taskRepo = &cases.TaskRepository{}
 	a.taskRepo.Initialize(s)
 	a.topicRepo = &cases.TopicRepository{}

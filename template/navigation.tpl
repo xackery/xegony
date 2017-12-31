@@ -77,6 +77,16 @@
 					<li class="{{if eq .Site.Page "loottablelist"}}active{{end}}"><a href="/loottable"> <span class="nav-label">Table List</span></a></li>
 				</ul>
 			</li>
+
+			<li class="{{if eq .Site.Section "spawn"}}active{{end}}">
+				<a href="#" aira-expanded="{{if eq .Site.Section "spawn"}}true{{else}}false{{end}}"> 
+					<span class="nav-label"><i class="xa xa-maggot"></i> Spawn</span>
+					<span class="fa arrow"/>
+				</a>
+				<ul class="nav nav-second-level collapse {{if eq .Site.Section "spawn"}}in{{end}}" aria-expanded="{{if eq .Site.Section "loottable"}}true{{else}}false{{end}}">					
+					<li class="{{if eq .Site.Page "spawnlist"}}active{{end}}"><a href="/spawn"> <span class="nav-label">List</span></a></li>
+				</ul>
+			</li>
 			{{if .Site.User}}
 			<div class="profile-picture">
 	            

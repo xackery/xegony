@@ -47,6 +47,7 @@ type Api struct {
 	lootTableEntryRepo *cases.LootTableEntryRepository
 	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
+	spawnRepo          *cases.SpawnRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
@@ -90,6 +91,8 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 	a.npcRepo.Initialize(s)
 	a.postRepo = &cases.PostRepository{}
 	a.postRepo.Initialize(s)
+	a.spawnRepo = &cases.SpawnRepository{}
+	a.spawnRepo.Initialize(s)
 	a.taskRepo = &cases.TaskRepository{}
 	a.taskRepo.Initialize(s)
 	a.topicRepo = &cases.TopicRepository{}

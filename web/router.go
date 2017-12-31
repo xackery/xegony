@@ -11,7 +11,7 @@ import (
 func (a *Web) ApplyRoutes(router *mux.Router) {
 	rootPath := os.Getenv("WEB_ROOT")
 	if len(rootPath) == 0 {
-		rootPath = "/"
+		rootPath = ""
 	}
 
 	type Route struct {
@@ -224,7 +224,18 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/post/{postID}",
 			a.getPost,
 		},
-
+		{
+			"ListSpawn",
+			"GET",
+			"/spawn",
+			a.listSpawn,
+		},
+		{
+			"GetSpawn",
+			"GET",
+			"/spawn/{spawnID}",
+			a.getSpawn,
+		},
 		{
 			"ListForum",
 			"GET",
@@ -349,5 +360,6 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			Name(route.Name).
 			Handler(handler)
 	}
+	router.NotFoundHandler = http.HandlerFunc(a.notFound)
 	return
 }
