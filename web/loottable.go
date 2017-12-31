@@ -7,15 +7,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListLootTable(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listLootTable(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site       Site
+		Site       site
 		LootTables []*model.LootTable
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "lootTable"
 	site.Title = "LootTable"
 	site.Section = "lootTable"
@@ -50,11 +50,11 @@ func (a *Web) ListLootTable(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetLootTable(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getLootTable(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site      Site
+		Site      site
 		LootTable *model.LootTable
 	}
 
@@ -71,7 +71,7 @@ func (a *Web) GetLootTable(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "lootTable"
 	site.Title = "LootTable"
 	site.Section = "lootTable"

@@ -5,11 +5,11 @@ import (
 	"time"
 )
 
-func (a *Web) GetLogout(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getLogout(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 		Host string
 	}
 
@@ -20,7 +20,7 @@ func (a *Web) GetLogout(w http.ResponseWriter, r *http.Request) {
 		Expires: time.Now().Add(-10 * time.Minute),
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "logout"
 
 	content := Content{

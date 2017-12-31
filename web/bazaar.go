@@ -7,15 +7,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site    Site
+		Site    site
 		Bazaars []*model.Bazaar
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "bazaar"
 	site.Title = "Bazaar"
 
@@ -49,11 +49,11 @@ func (a *Web) ListBazaar(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getBazaar(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site   Site
+		Site   site
 		Bazaar *model.Bazaar
 	}
 
@@ -70,7 +70,7 @@ func (a *Web) GetBazaar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "bazaar"
 	site.Title = "Bazaar"
 

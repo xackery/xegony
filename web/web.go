@@ -19,7 +19,7 @@ import (
 	"github.com/xackery/xegony/storage"
 )
 
-type Site struct {
+type site struct {
 	Title       string //Title of site
 	Name        string
 	Page        string
@@ -31,6 +31,7 @@ type Site struct {
 	ResultCount int64
 }
 
+//Web struct wraps all webServer related methods
 type Web struct {
 	accountRepo        *cases.AccountRepository
 	activityRepo       *cases.ActivityRepository
@@ -53,7 +54,8 @@ type Web struct {
 	zoneRepo           *cases.ZoneRepository
 }
 
-func (s Site) PageList() template.HTML {
+//PageList allows a site to create pagination on bottom
+func (s site) PageList() template.HTML {
 	page := `<div class="btn-group pull-right">`
 	curPage := s.PageNumber
 	var curElement int64
@@ -90,8 +92,8 @@ func (s Site) PageList() template.HTML {
 	return template.HTML(page)
 }
 
-func (a *Web) NewSite(r *http.Request) (site Site) {
-	site = Site{
+func (a *Web) newSite(r *http.Request) (data site) {
+	data = site{
 		Name:        "Xegony",
 		Title:       "Xegony",
 		Description: "Xegony",
@@ -106,11 +108,12 @@ func (a *Web) NewSite(r *http.Request) (site Site) {
 	}
 
 	if claims != nil {
-		site.User = claims.User
+		data.User = claims.User
 	}
 	return
 }
 
+//Initialize creates a new web instance
 func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	a.templates = map[string]*Template{}
 
@@ -158,15 +161,15 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	return
 }
 
-func (a *Web) Index(w http.ResponseWriter, r *http.Request) {
+func (a *Web) index(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 		Host string
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "forum"
 	site.Title = "Xegony"
 
@@ -216,7 +219,12 @@ func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
 
 func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 
-	site := a.NewSite(r)
+	type Content struct {
+		Site    site
+		Message string
+		URL     string
+	}
+	site := a.newSite(r)
 	site.Page = fmt.Sprintf("%d", statusCode)
 	site.Title = "Error"
 
@@ -258,18 +266,12 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 		site.Title = "500 - Internal Server Error"
 	}
 
-	type Content struct {
-		Site    Site
-		Message string
-		Url     string
-	}
-
 	content := Content{
 		Site:    site,
 		Message: err.Error(),
 	}
 	if r != nil {
-		content.Url = r.URL.String()
+		content.URL = r.URL.String()
 	}
 	a.writeData(w, r, tmp, content, statusCode)
 }

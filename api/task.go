@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetTask(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getTask(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "taskId")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) GetTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateTask(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createTask(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) CreateTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteTask(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteTask(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) DeleteTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditTask(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editTask(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) EditTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListTask(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listTask(w http.ResponseWriter, r *http.Request) {
 	tasks, err := a.taskRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

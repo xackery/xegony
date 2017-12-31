@@ -8,15 +8,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListZone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Zones []*model.Zone
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "zone"
 	site.Title = "Zone"
 	site.Section = "zone"
@@ -51,15 +51,15 @@ func (a *Web) ListZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListZoneByHotzone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Zones []*model.Zone
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "zone"
 	site.Title = "Zone"
 	site.Section = "zone"
@@ -94,21 +94,21 @@ func (a *Web) ListZoneByHotzone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetZone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 		Zone *model.Zone
 	}
 
 	if strings.ToLower(getVar(r, "zoneId")) == "byexpansion" {
-		a.ListZoneByExpansion(w, r)
+		a.listZoneByExpansion(w, r)
 		return
 	}
 
 	if strings.ToLower(getVar(r, "zoneId")) == "byhotzone" {
-		a.ListZoneByHotzone(w, r)
+		a.listZoneByHotzone(w, r)
 		return
 	}
 
@@ -125,7 +125,7 @@ func (a *Web) GetZone(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "zone"
 	site.Title = "Zone"
 	site.Section = "zone"
@@ -155,15 +155,15 @@ func (a *Web) GetZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListZoneByExpansion(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listZoneByExpansion(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Zones map[string][]*model.Zone
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "zone"
 	site.Title = "Zone"
 	site.Section = "zone"

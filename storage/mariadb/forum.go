@@ -6,9 +6,9 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) GetForum(forumId int64) (forum *model.Forum, err error) {
+func (s *Storage) GetForum(forumID int64) (forum *model.Forum, err error) {
 	forum = &model.Forum{}
-	err = s.db.Get(forum, "SELECT id, owner_id, description, icon, name FROM forum WHERE id = ?", forumId)
+	err = s.db.Get(forum, "SELECT id, owner_id, description, icon, name FROM forum WHERE id = ?", forumID)
 	if err != nil {
 		return
 	}
@@ -27,11 +27,11 @@ func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 	if err != nil {
 		return
 	}
-	forumId, err := result.LastInsertId()
+	forumID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	forum.Id = forumId
+	forum.Id = forumID
 	return
 }
 
@@ -51,8 +51,8 @@ func (s *Storage) ListForum() (forums []*model.Forum, err error) {
 	return
 }
 
-func (s *Storage) EditForum(forumId int64, forum *model.Forum) (err error) {
-	forum.Id = forumId
+func (s *Storage) EditForum(forumID int64, forum *model.Forum) (err error) {
+	forum.Id = forumID
 	result, err := s.db.NamedExec(`UPDATE forum SET icon=:icon, name=:name, description=:description WHERE id = :id`, forum)
 	if err != nil {
 		return
@@ -68,8 +68,8 @@ func (s *Storage) EditForum(forumId int64, forum *model.Forum) (err error) {
 	return
 }
 
-func (s *Storage) DeleteForum(forumId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM forum WHERE id = ?`, forumId)
+func (s *Storage) DeleteForum(forumID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM forum WHERE id = ?`, forumID)
 	if err != nil {
 		return
 	}

@@ -34,8 +34,8 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 	return
 }
 
-func (s *Storage) ListTopic(forumId int64) (topics []*model.Topic, err error) {
-	rows, err := s.db.Queryx(`SELECT id, title, icon, forum_id FROM topic WHERE forum_id = ? ORDER BY id DESC`, forumId)
+func (s *Storage) ListTopic(forumID int64) (topics []*model.Topic, err error) {
+	rows, err := s.db.Queryx(`SELECT id, title, icon, forum_id FROM topic WHERE forum_id = ? ORDER BY id DESC`, forumID)
 	if err != nil {
 		return
 	}

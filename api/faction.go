@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetFaction(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getFaction(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "factionId")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) GetFaction(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateFaction(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createFaction(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) CreateFaction(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteFaction(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteFaction(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) DeleteFaction(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditFaction(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editFaction(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) EditFaction(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListFaction(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listFaction(w http.ResponseWriter, r *http.Request) {
 	factions, err := a.factionRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

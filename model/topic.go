@@ -9,7 +9,7 @@ import (
 type Topic struct {
 	Id      int64  `json:"id"`
 	Title   string `json:"title"`
-	ForumId int64  `json:"forumId" db:"forum_id"`
+	ForumID int64  `json:"forumID" db:"forum_id"`
 	Icon    string `json:"icon"`
 }
 

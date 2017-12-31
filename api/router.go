@@ -27,238 +27,238 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 			"Index",
 			"GET",
 			"/",
-			a.Index,
+			a.index,
 		},
 
 		Route{
 			"CreateCharacter",
 			"POST",
 			"/character",
-			a.CreateCharacter,
+			a.createCharacter,
 		},
 
 		Route{
 			"DeleteCharacter",
 			"DELETE",
 			"/character/{characterId}",
-			a.DeleteCharacter,
+			a.deleteCharacter,
 		},
 
 		Route{
 			"EditCharacter",
 			"PUT",
 			"/character/{characterId}",
-			a.EditCharacter,
+			a.editCharacter,
 		},
 
 		Route{
 			"GetCharacter",
 			"GET",
 			"/character/{characterId}",
-			a.GetCharacter,
+			a.getCharacter,
 		},
 
 		Route{
 			"ListCharacter",
 			"GET",
 			"/character",
-			a.ListCharacter,
+			a.listCharacter,
 		},
 
 		Route{
 			"CreateAccount",
 			"POST",
 			"/account",
-			a.CreateAccount,
+			a.createAccount,
 		},
 
 		Route{
 			"DeleteAccount",
 			"DELETE",
 			"/account/{accountId}",
-			a.DeleteAccount,
+			a.deleteAccount,
 		},
 
 		Route{
 			"EditAccount",
 			"PUT",
 			"/account/{accountId}",
-			a.EditAccount,
+			a.editAccount,
 		},
 
 		Route{
 			"GetAccount",
 			"GET",
 			"/account/{accountId}",
-			a.GetAccount,
+			a.getAccount,
 		},
 
 		Route{
 			"ListAccount",
 			"GET",
 			"/account",
-			a.ListAccount,
+			a.listAccount,
 		},
 
 		Route{
 			"CreateForum",
 			"POST",
 			"/forum",
-			a.CreateForum,
+			a.createForum,
 		},
 
 		Route{
 			"DeleteForum",
 			"DELETE",
-			"/forum/{forumId}",
-			a.DeleteForum,
+			"/forum/{forumID}",
+			a.deleteForum,
 		},
 
 		Route{
 			"EditForum",
 			"PUT",
-			"/forum/{forumId}",
-			a.EditForum,
+			"/forum/{forumID}",
+			a.editForum,
 		},
 
 		Route{
 			"GetForum",
 			"GET",
-			"/forum/{forumId}",
-			a.GetForum,
+			"/forum/{forumID}",
+			a.getForum,
 		},
 
 		Route{
 			"ListForum",
 			"GET",
 			"/forum",
-			a.ListForum,
+			a.listForum,
 		},
 
 		Route{
 			"ListFaction",
 			"GET",
 			"/faction",
-			a.ListFaction,
+			a.listFaction,
 		},
 
 		Route{
 			"CreateFaction",
 			"POST",
 			"/faction",
-			a.CreateFaction,
+			a.createFaction,
 		},
 
 		Route{
 			"DeleteFaction",
 			"DELETE",
 			"/faction/{factionId}",
-			a.DeleteFaction,
+			a.deleteFaction,
 		},
 
 		Route{
 			"EditFaction",
 			"PUT",
 			"/faction/{factionId}",
-			a.EditFaction,
+			a.editFaction,
 		},
 
 		Route{
 			"GetFaction",
 			"GET",
 			"/faction/{factionId}",
-			a.GetFaction,
+			a.getFaction,
 		},
 
 		Route{
 			"CreateTopic",
 			"POST",
 			"/topic",
-			a.CreateTopic,
+			a.createTopic,
 		},
 
 		Route{
 			"DeleteTopic",
 			"DELETE",
 			"/topic/{topicId}",
-			a.DeleteTopic,
+			a.deleteTopic,
 		},
 
 		Route{
 			"EditTopic",
 			"PUT",
 			"/topic/{topicId}",
-			a.EditTopic,
+			a.editTopic,
 		},
 
 		Route{
 			"GetTopic",
 			"GET",
 			"/topic/{topicId}",
-			a.GetTopic,
+			a.getTopic,
 		},
 
 		Route{
 			"ListItem",
 			"GET",
 			"/item",
-			a.ListItem,
+			a.listItem,
 		},
 
 		Route{
 			"CreateItem",
 			"POST",
 			"/item",
-			a.CreateItem,
+			a.createItem,
 		},
 
 		Route{
 			"DeleteItem",
 			"DELETE",
 			"/item/{itemId}",
-			a.DeleteItem,
+			a.deleteItem,
 		},
 
 		Route{
 			"EditItem",
 			"PUT",
 			"/item/{itemId}",
-			a.EditItem,
+			a.editItem,
 		},
 
 		Route{
 			"GetItem",
 			"GET",
 			"/item/{itemId}",
-			a.GetItem,
+			a.getItem,
 		},
 
 		Route{
 			"GetItemTooltip",
 			"GET",
 			"/item/{itemId}/tooltip",
-			a.GetItemTooltip,
+			a.getItemTooltip,
 		},
 
 		Route{
 			"ListItem",
 			"GET",
 			"/item",
-			a.ListItem,
+			a.listItem,
 		},
 
 		Route{
 			"PostLogin",
 			"POST",
 			"/login",
-			a.PostLogin,
+			a.postLogin,
 		},
 	}
 
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc
-		handler = Logger(handler, route.Name)
+		handler = logger(handler, route.Name)
 
 		router.
 			Methods(route.Method).

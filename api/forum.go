@@ -8,11 +8,11 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetForum(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getForum(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "forumId")
+	id, err := getIntVar(r, "forumID")
 	if err != nil {
-		err = errors.Wrap(err, "forumId argument is required")
+		err = errors.Wrap(err, "forumID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -30,7 +30,7 @@ func (a *Api) GetForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateForum(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createForum(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -61,7 +61,7 @@ func (a *Api) CreateForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteForum(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteForum(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -69,9 +69,9 @@ func (a *Api) DeleteForum(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "forumId")
+	id, err := getIntVar(r, "forumID")
 	if err != nil {
-		err = errors.Wrap(err, "forumId argument is required")
+		err = errors.Wrap(err, "forumID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,7 +92,7 @@ func (a *Api) DeleteForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditForum(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editForum(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -100,9 +100,9 @@ func (a *Api) EditForum(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "forumId")
+	id, err := getIntVar(r, "forumID")
 	if err != nil {
-		err = errors.Wrap(err, "forumId argument is required")
+		err = errors.Wrap(err, "forumID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -124,7 +124,7 @@ func (a *Api) EditForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListForum(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listForum(w http.ResponseWriter, r *http.Request) {
 	forums, err := a.forumRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

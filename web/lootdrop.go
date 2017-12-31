@@ -7,15 +7,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListLootDrop(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listLootDrop(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site      Site
+		Site      site
 		LootDrops []*model.LootDrop
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "lootDrop"
 	site.Title = "LootDrop"
 	site.Section = "lootDrop"
@@ -50,11 +50,11 @@ func (a *Web) ListLootDrop(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetLootDrop(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getLootDrop(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site     Site
+		Site     site
 		LootDrop *model.LootDrop
 	}
 
@@ -71,7 +71,7 @@ func (a *Web) GetLootDrop(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "lootDrop"
 	site.Title = "LootDrop"
 	site.Section = "lootDrop"

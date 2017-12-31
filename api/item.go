@@ -10,7 +10,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetItem(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getItem(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "itemId")
 	if err != nil {
@@ -70,7 +70,7 @@ const tooltipTemplate = `
 
 </div>`
 
-func (a *Api) GetItemTooltip(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "itemId")
 	if err != nil {
@@ -124,7 +124,7 @@ func (a *Api) GetItemTooltip(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateItem(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -147,7 +147,7 @@ func (a *Api) CreateItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteItem(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -178,7 +178,7 @@ func (a *Api) DeleteItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditItem(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -210,7 +210,7 @@ func (a *Api) EditItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListItem(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listItem(w http.ResponseWriter, r *http.Request) {
 	pageSize := getIntParam(r, "pageSize")
 	pageNumber := getIntParam(r, "pageNumber")
 

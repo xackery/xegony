@@ -8,15 +8,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site       Site
+		Site       site
 		Characters []*model.Character
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "charactersearch"
 	site.Title = "Character"
 	site.Section = "character"
@@ -51,18 +51,18 @@ func (a *Web) ListCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) SearchCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Web) searchCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site       Site
+		Site       site
 		Characters []*model.Character
 		Search     string
 	}
 
 	search := getParam(r, "search")
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "charactersearch"
 	site.Title = "Character"
 	site.Section = "character"
@@ -101,15 +101,15 @@ func (a *Web) SearchCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site       Site
+		Site       site
 		Characters []*model.Character
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "characterbyranking"
 	site.Title = "Character"
 	site.Section = "character"
@@ -144,15 +144,15 @@ func (a *Web) ListCharacterByRanking(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListCharacterByOnline(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listCharacterByOnline(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site       Site
+		Site       site
 		Characters []*model.Character
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "characterbyonline"
 	site.Title = "Character"
 	site.Section = "character"
@@ -187,7 +187,7 @@ func (a *Web) ListCharacterByOnline(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListCharacterByAccount(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	accountId, err := getIntVar(r, "accountId")
@@ -198,11 +198,11 @@ func (a *Web) ListCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Content struct {
-		Site       Site
+		Site       site
 		Characters []*model.Character
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "charactersearch"
 	site.Title = "Character"
 	site.Section = "character"
@@ -237,20 +237,20 @@ func (a *Web) ListCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site      Site
+		Site      site
 		Character *model.Character
 	}
 	if (strings.ToLower(getVar(r, "characterId"))) == "byranking" {
-		a.ListCharacterByRanking(w, r)
+		a.listCharacterByRanking(w, r)
 		return
 	}
 
 	if (strings.ToLower(getVar(r, "characterId"))) == "byonline" {
-		a.ListCharacterByOnline(w, r)
+		a.listCharacterByOnline(w, r)
 		return
 	}
 
@@ -267,7 +267,7 @@ func (a *Web) GetCharacter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "charactersearch"
 	site.Title = "Character"
 	site.Section = "character"

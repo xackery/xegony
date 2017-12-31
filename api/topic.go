@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getTopic(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "topicId")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) GetTopic(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createTopic(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) CreateTopic(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteTopic(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) DeleteTopic(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditTopic(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editTopic(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,14 +116,14 @@ func (a *Api) EditTopic(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListTopic(w http.ResponseWriter, r *http.Request) {
-	forumId, err := getIntVar(r, "forumId")
+func (a *Api) listTopic(w http.ResponseWriter, r *http.Request) {
+	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
-		err = errors.Wrap(err, "forumId argument is required")
+		err = errors.Wrap(err, "forumID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	topics, err := a.topicRepo.List(forumId)
+	topics, err := a.topicRepo.List(forumID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		writeError(w, r, err, http.StatusInternalServerError)

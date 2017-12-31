@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getCharacter(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "characterId")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) GetCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) CreateCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) DeleteCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) EditCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listCharacter(w http.ResponseWriter, r *http.Request) {
 	characters, err := a.characterRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

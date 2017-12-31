@@ -10,15 +10,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListItem(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Items []*model.Item
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 
@@ -60,15 +60,15 @@ func (a *Web) ListItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListItemByZone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listItemByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Zones []*model.Zone
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 
@@ -102,11 +102,11 @@ func (a *Web) ListItemByZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetItemByZone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site     Site
+		Site     site
 		Zone     *model.Zone
 		NpcLoots []*model.NpcLoot
 	}
@@ -118,7 +118,7 @@ func (a *Web) GetItemByZone(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 
@@ -154,7 +154,7 @@ func (a *Web) GetItemByZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 	characterId, err := getIntVar(r, "characterId")
 	if err != nil {
@@ -164,12 +164,12 @@ func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Content struct {
-		Site      Site
+		Site      site
 		Inventory map[int]model.Item
 		Character *model.Character
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 	character, err := a.characterRepo.Get(characterId)
@@ -217,15 +217,15 @@ func (a *Web) ListItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListItemBySlot(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listItemBySlot(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Items []*model.Item
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 	items, err := a.itemRepo.ListBySlot()
@@ -259,11 +259,11 @@ func (a *Web) ListItemBySlot(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site   Site
+		Site   site
 		Items  []*model.Item
 		SlotId int64
 	}
@@ -275,7 +275,7 @@ func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 	items, err := a.itemRepo.GetBySlot(slotId)
@@ -310,26 +310,26 @@ func (a *Web) GetItemBySlot(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 		Item *model.Item
 	}
 
 	if strings.ToLower(getVar(r, "itemId")) == "byslot" {
-		a.ListItemBySlot(w, r)
+		a.listItemBySlot(w, r)
 		return
 	}
 
 	if strings.ToLower(getVar(r, "itemId")) == "byzone" {
-		a.ListItemByZone(w, r)
+		a.listItemByZone(w, r)
 		return
 	}
 
 	if strings.ToLower(getVar(r, "itemId")) == "search" {
-		a.SearchItem(w, r)
+		a.searchItem(w, r)
 		return
 	}
 
@@ -346,7 +346,7 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 
@@ -375,11 +375,11 @@ func (a *Web) GetItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) SearchItemByAccount(w http.ResponseWriter, r *http.Request) {
+func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site    Site
+		Site    site
 		Items   []*model.Item
 		Account []*model.Account
 		Search  string
@@ -403,7 +403,7 @@ func (a *Web) SearchItemByAccount(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 
@@ -433,11 +433,11 @@ func (a *Web) SearchItemByAccount(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) SearchItem(w http.ResponseWriter, r *http.Request) {
+func (a *Web) searchItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site   Site
+		Site   site
 		Items  []*model.Item
 		Search string
 	}
@@ -454,7 +454,7 @@ func (a *Web) SearchItem(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 

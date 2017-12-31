@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetLootTable(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getLootTable(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "lootTableId")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) GetLootTable(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateLootTable(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createLootTable(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) CreateLootTable(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteLootTable(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteLootTable(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) DeleteLootTable(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditLootTable(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editLootTable(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) EditLootTable(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListLootTable(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listLootTable(w http.ResponseWriter, r *http.Request) {
 	lootTables, err := a.lootTableRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

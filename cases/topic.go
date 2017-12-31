@@ -99,8 +99,8 @@ func (g *TopicRepository) Delete(topicId int64) (err error) {
 	return
 }
 
-func (g *TopicRepository) List(forumId int64) (topics []*model.Topic, err error) {
-	topics, err = g.stor.ListTopic(forumId)
+func (g *TopicRepository) List(forumID int64) (topics []*model.Topic, err error) {
+	topics, err = g.stor.ListTopic(forumID)
 	if err != nil {
 		return
 	}

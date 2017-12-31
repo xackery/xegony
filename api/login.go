@@ -19,7 +19,7 @@ type AuthClaims struct {
 	jwt.StandardClaims
 }
 
-func (a *Api) PostLogin(w http.ResponseWriter, r *http.Request) {
+func (a *Api) postLogin(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	user := &model.User{}

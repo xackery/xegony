@@ -3,7 +3,7 @@ properties:
     type: integer
   title:
     type: string
-  forumId:
+  forumID:
     type: integer
   icon:
     type: string

@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetGoal(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getGoal(w http.ResponseWriter, r *http.Request) {
 
 	listId, err := getIntVar(r, "listId")
 	if err != nil {
@@ -37,7 +37,7 @@ func (a *Api) GetGoal(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateGoal(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createGoal(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -60,7 +60,7 @@ func (a *Api) CreateGoal(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteGoal(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteGoal(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -98,7 +98,7 @@ func (a *Api) DeleteGoal(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditGoal(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editGoal(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -130,7 +130,7 @@ func (a *Api) EditGoal(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListGoal(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listGoal(w http.ResponseWriter, r *http.Request) {
 	goals, err := a.goalRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

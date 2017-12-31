@@ -8,15 +8,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListTask(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listTask(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Tasks []*model.Task
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "task"
 	site.Title = "Task"
 
@@ -50,11 +50,11 @@ func (a *Web) ListTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetTask(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getTask(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 		Task *model.Task
 	}
 
@@ -71,7 +71,7 @@ func (a *Web) GetTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "task"
 	site.Title = "Task"
 
@@ -100,14 +100,14 @@ func (a *Web) GetTask(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) CreateTask(w http.ResponseWriter, r *http.Request) {
+func (a *Web) createTask(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "task"
 	site.Title = "Task"
 

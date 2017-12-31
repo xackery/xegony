@@ -87,11 +87,11 @@ type Storage interface {
 	DeleteNpcLoot(npcId int64, itemId int64) (err error)
 	TruncateNpcLoot() (err error)
 	//Forum
-	GetForum(forumId int64) (forum *model.Forum, err error)
+	GetForum(forumID int64) (forum *model.Forum, err error)
 	CreateForum(forum *model.Forum) (err error)
-	EditForum(forumId int64, forum *model.Forum) (err error)
+	EditForum(forumID int64, forum *model.Forum) (err error)
 	ListForum() (forums []*model.Forum, err error)
-	DeleteForum(forumId int64) (err error)
+	DeleteForum(forumID int64) (err error)
 	//LootDrop
 	GetLootDrop(lootDropId int64) (lootDrop *model.LootDrop, err error)
 	CreateLootDrop(lootDrop *model.LootDrop) (err error)
@@ -126,7 +126,7 @@ type Storage interface {
 	GetTopic(topicId int64) (topic *model.Topic, err error)
 	CreateTopic(topic *model.Topic) (err error)
 	EditTopic(topicId int64, topic *model.Topic) (err error)
-	ListTopic(forumId int64) (topics []*model.Topic, err error)
+	ListTopic(forumID int64) (topics []*model.Topic, err error)
 	DeleteTopic(topicId int64) (err error)
 	//Zone
 	GetZone(zoneId int64) (zone *model.Zone, err error)

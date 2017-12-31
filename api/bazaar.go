@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) GetBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *Api) getBazaar(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "bazaarId")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) GetBazaar(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) CreateBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *Api) createBazaar(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) CreateBazaar(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) DeleteBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *Api) deleteBazaar(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) DeleteBazaar(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) EditBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *Api) editBazaar(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) EditBazaar(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) ListBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *Api) listBazaar(w http.ResponseWriter, r *http.Request) {
 	bazaars, err := a.bazaarRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

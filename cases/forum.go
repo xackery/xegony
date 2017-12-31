@@ -21,12 +21,12 @@ func (g *ForumRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *ForumRepository) Get(forumId int64) (forum *model.Forum, err error) {
-	if forumId == 0 {
+func (g *ForumRepository) Get(forumID int64) (forum *model.Forum, err error) {
+	if forumID == 0 {
 		err = fmt.Errorf("Invalid Forum ID")
 		return
 	}
-	forum, err = g.stor.GetForum(forumId)
+	forum, err = g.stor.GetForum(forumID)
 	return
 }
 
@@ -62,7 +62,7 @@ func (g *ForumRepository) Create(forum *model.Forum) (err error) {
 	return
 }
 
-func (g *ForumRepository) Edit(forumId int64, forum *model.Forum) (err error) {
+func (g *ForumRepository) Edit(forumID int64, forum *model.Forum) (err error) {
 	schema, err := forum.NewSchema([]string{"name"}, []string{"description"})
 	if err != nil {
 		return
@@ -84,15 +84,15 @@ func (g *ForumRepository) Edit(forumId int64, forum *model.Forum) (err error) {
 		return
 	}
 
-	err = g.stor.EditForum(forumId, forum)
+	err = g.stor.EditForum(forumID, forum)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ForumRepository) Delete(forumId int64) (err error) {
-	err = g.stor.DeleteForum(forumId)
+func (g *ForumRepository) Delete(forumID int64) (err error) {
+	err = g.stor.DeleteForum(forumID)
 	if err != nil {
 		return
 	}

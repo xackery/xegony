@@ -24,322 +24,322 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"Index",
 			"GET",
 			"/",
-			a.ListForum,
+			a.listForum,
 		},
 
 		Route{
 			"GetDashboard",
 			"GET",
 			"/dashboard",
-			a.GetDashboard,
+			a.getDashboard,
 		},
 
 		Route{
 			"Login",
 			"GET",
 			"/login",
-			a.GetLogin,
+			a.getLogin,
 		},
 
 		Route{
 			"Logout",
 			"GET",
 			"/logout",
-			a.GetLogout,
+			a.getLogout,
 		},
 
 		Route{
 			"SearchCharacter",
 			"GET",
 			"/character/search",
-			a.SearchCharacter,
+			a.searchCharacter,
 		},
 
 		Route{
 			"SearchCharacter",
 			"GET",
 			"/character/search/{search}",
-			a.SearchCharacter,
+			a.searchCharacter,
 		},
 
 		Route{
 			"GetCharacter",
 			"GET",
 			"/character/{characterId}",
-			a.GetCharacter,
+			a.getCharacter,
 		},
 
 		Route{
 			"ListCharacter",
 			"GET",
 			"/character",
-			a.ListCharacter,
+			a.listCharacter,
 		},
 
 		Route{
 			"ListCharacter",
 			"GET",
 			"/character/{characterId}/inventory",
-			a.ListItemByCharacter,
+			a.listItemByCharacter,
 		},
 
 		Route{
 			"ListCharacterByRanking",
 			"GET",
 			"/character/ranking",
-			a.ListCharacterByRanking,
+			a.listCharacterByRanking,
 		},
 
 		Route{
 			"ListCharacterByOnline",
 			"GET",
 			"/character/byonline",
-			a.ListCharacterByOnline,
+			a.listCharacterByOnline,
 		},
 
 		Route{
 			"ListCharacterByAccount",
 			"GET",
 			"/character/byaccount/{accountId}",
-			a.ListCharacterByAccount,
+			a.listCharacterByAccount,
 		},
 
 		Route{
 			"ListCharacterByRanking",
 			"GET",
 			"/ranking",
-			a.ListCharacterByRanking,
+			a.listCharacterByRanking,
 		},
 
 		Route{
 			"GetNpc",
 			"GET",
 			"/npc/{npcId}",
-			a.GetNpc,
+			a.getNpc,
 		},
 
 		Route{
 			"ListNpc",
 			"GET",
 			"/npc",
-			a.ListNpc,
+			a.listNpc,
 		},
 
 		Route{
 			"ListNpcByZone",
 			"GET",
 			"/npc/byzone",
-			a.ListNpcByZone,
+			a.listNpcByZone,
 		},
 
 		Route{
 			"GetNpcByZone",
 			"GET",
 			"/npc/byzone/{zoneId}",
-			a.GetNpcByZone,
+			a.getNpcByZone,
 		},
 
 		Route{
 			"ListNpcByFaction",
 			"GET",
 			"/npc/byfaction",
-			a.ListNpcByFaction,
+			a.listNpcByFaction,
 		},
 
 		Route{
 			"GetNpcByFaction",
 			"GET",
 			"/npc/byfaction/{factionId}",
-			a.GetNpcByFaction,
+			a.getNpcByFaction,
 		},
 
 		Route{
 			"ListTopic",
 			"GET",
-			"/forum/{forumId}",
-			a.ListTopic,
+			"/forum/{forumID}",
+			a.listTopic,
 		},
 
 		Route{
 			"GetTopic",
 			"GET",
 			"/topic/{topicId}/details",
-			a.GetTopic,
+			a.getTopic,
 		},
 
 		Route{
 			"ListActivity",
 			"GET",
 			"/task/{taskId}",
-			a.ListActivity,
+			a.listActivity,
 		},
 
 		Route{
 			"GetActivity",
 			"GET",
 			"/task/{taskId}/activity/{activityId}",
-			a.GetActivity,
+			a.getActivity,
 		},
 
 		Route{
 			"GetLootTable",
 			"GET",
 			"/loottable/{lootTableId}",
-			a.GetLootTable,
+			a.getLootTable,
 		},
 
 		Route{
 			"ListLootTable",
 			"GET",
 			"/loottable",
-			a.ListLootTable,
+			a.listLootTable,
 		},
 
 		Route{
 			"GetLootDropEntry",
 			"GET",
 			"/lootdrop/{lootDropId}/{itemId}",
-			a.GetLootDropEntry,
+			a.getLootDropEntry,
 		},
 
 		Route{
 			"ListLootDropEntry",
 			"GET",
 			"/lootdrop/{lootDropId}",
-			a.ListLootDropEntry,
+			a.listLootDropEntry,
 		},
 
 		Route{
 			"ListPost",
 			"GET",
 			"/topic/{topicId}",
-			a.ListPost,
+			a.listPost,
 		},
 
 		Route{
 			"GetPost",
 			"GET",
 			"/post/{postId}",
-			a.GetPost,
+			a.getPost,
 		},
 
 		Route{
 			"ListForum",
 			"GET",
 			"/forum",
-			a.ListForum,
+			a.listForum,
 		},
 
 		Route{
 			"GetForum",
 			"GET",
-			"/forum/{forumId}/details",
-			a.GetForum,
+			"/forum/{forumID}/details",
+			a.getForum,
 		},
 
 		Route{
 			"CreateForum",
 			"GET",
 			"/forum/create",
-			a.CreateForum,
+			a.createForum,
 		},
 
 		Route{
 			"GetTask",
 			"GET",
 			"/task/{taskId}/details",
-			a.GetTask,
+			a.getTask,
 		},
 
 		Route{
 			"ListTask",
 			"GET",
 			"/task",
-			a.ListTask,
+			a.listTask,
 		},
 
 		Route{
 			"GetZone",
 			"GET",
 			"/zone/{zoneId}",
-			a.GetZone,
+			a.getZone,
 		},
 
 		Route{
 			"ListZone",
 			"GET",
 			"/zone",
-			a.ListZone,
+			a.listZone,
 		},
 
 		Route{
 			"ListZoneByHotzone",
 			"GET",
 			"/zone/byhotzone",
-			a.ListZoneByHotzone,
+			a.listZoneByHotzone,
 		},
 
 		Route{
 			"GetItem",
 			"GET",
 			"/item/{itemId}",
-			a.GetItem,
+			a.getItem,
 		},
 
 		Route{
 			"SearchItem",
 			"GET",
 			"/item/search",
-			a.SearchItem,
+			a.searchItem,
 		},
 
 		Route{
 			"SearchItemByAccount",
 			"GET",
 			"/item/search/byaccount",
-			a.SearchItemByAccount,
+			a.searchItemByAccount,
 		},
 
 		Route{
 			"ListItemBySlot",
 			"GET",
 			"/item/byslot",
-			a.ListItemBySlot,
+			a.listItemBySlot,
 		},
 
 		Route{
 			"ListItemByZone",
 			"GET",
 			"/item/byzone",
-			a.ListItemByZone,
+			a.listItemByZone,
 		},
 
 		Route{
 			"GetItemByZone",
 			"GET",
 			"/item/byzone/{zoneId}",
-			a.GetItemByZone,
+			a.getItemByZone,
 		},
 
 		Route{
 			"GetItemBySlot",
 			"GET",
 			"/item/byslot/{slotId}",
-			a.GetItemBySlot,
+			a.getItemBySlot,
 		},
 
 		Route{
 			"ListItem",
 			"GET",
 			"/item",
-			a.ListItem,
+			a.listItem,
 		},
 	}
 
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc
-		handler = Logger(handler, route.Name)
+		handler = logger(handler, route.Name)
 
 		router.
 			Methods(route.Method).

@@ -8,28 +8,28 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListPost(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listPost(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Posts []*model.Post
 		Topic *model.Topic
 		Forum *model.Forum
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "forum"
 	site.Title = "Forum"
 
-	forumId, err := getIntVar(r, "topicId")
+	forumID, err := getIntVar(r, "topicId")
 	if err != nil {
 		err = errors.Wrap(err, "topicId argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	posts, err := a.postRepo.List(forumId)
+	posts, err := a.postRepo.List(forumID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -46,7 +46,7 @@ func (a *Web) ListPost(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		forum, err = a.forumRepo.Get(topic.ForumId)
+		forum, err = a.forumRepo.Get(topic.ForumID)
 		if err != nil {
 			err = errors.Wrap(err, "Failed to get forum id")
 			a.writeError(w, r, err, http.StatusBadRequest)
@@ -80,11 +80,11 @@ func (a *Web) ListPost(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetPost(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getPost(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Post  *model.Post
 		Topic *model.Topic
 		Forum *model.Forum
@@ -113,14 +113,14 @@ func (a *Web) GetPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	forum, err = a.forumRepo.Get(topic.ForumId)
+	forum, err = a.forumRepo.Get(topic.ForumID)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get forum id")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "forum"
 	site.Title = "Forum"
 

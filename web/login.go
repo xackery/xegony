@@ -4,15 +4,15 @@ import (
 	"net/http"
 )
 
-func (a *Web) GetLogin(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getLogin(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 		Host string
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "login"
 
 	content := Content{

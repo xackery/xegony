@@ -8,15 +8,15 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) ListNpc(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site Site
+		Site site
 		Npcs []*model.Npc
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "npclist"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -51,18 +51,18 @@ func (a *Web) ListNpc(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) SearchNpc(w http.ResponseWriter, r *http.Request) {
+func (a *Web) searchNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site   Site
+		Site   site
 		Npcs   []*model.Npc
 		Search string
 	}
 
 	search := getParam(r, "search")
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "npcsearch"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -101,21 +101,21 @@ func (a *Web) SearchNpc(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListNpcByZone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listNpcByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	_, err = getIntVar(r, "zoneId")
 	if err == nil {
-		a.GetNpcByZone(w, r)
+		a.getNpcByZone(w, r)
 		return
 	}
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Zones []*model.Zone
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "listnpcbyzone"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -150,7 +150,7 @@ func (a *Web) ListNpcByZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetNpcByZone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getNpcByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 	zoneId, err := getIntVar(r, "zoneId")
 	if err != nil {
@@ -160,11 +160,11 @@ func (a *Web) GetNpcByZone(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Content struct {
-		Site Site
+		Site site
 		Npcs []*model.Npc
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "listnpcbyzone"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -199,15 +199,15 @@ func (a *Web) GetNpcByZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) ListNpcByFaction(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site     Site
+		Site     site
 		Factions []*model.Faction
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "listnpcbyfaction"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -242,7 +242,7 @@ func (a *Web) ListNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetNpcByFaction(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	var err error
 	factionId, err := getIntVar(r, "factionId")
 	if err != nil {
@@ -252,12 +252,12 @@ func (a *Web) GetNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type Content struct {
-		Site    Site
+		Site    site
 		Npcs    []*model.Npc
 		Faction *model.Faction
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "listnpcbyfaction"
 	site.Title = "Npc"
 	site.Section = "npc"
@@ -299,26 +299,26 @@ func (a *Web) GetNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) GetNpc(w http.ResponseWriter, r *http.Request) {
+func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  Site
+		Site  site
 		Npc   *model.Npc
 		Items []*model.NpcLoot
 	}
 
 	if strings.ToLower(getVar(r, "npcId")) == "search" {
-		a.SearchNpc(w, r)
+		a.searchNpc(w, r)
 		return
 	}
 	if strings.ToLower(getVar(r, "npcId")) == "byzone" {
-		a.ListNpcByZone(w, r)
+		a.listNpcByZone(w, r)
 		return
 	}
 
 	if strings.ToLower(getVar(r, "npcId")) == "byfaction" {
-		a.ListNpcByFaction(w, r)
+		a.listNpcByFaction(w, r)
 		return
 	}
 
@@ -342,7 +342,7 @@ func (a *Web) GetNpc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	site := a.NewSite(r)
+	site := a.newSite(r)
 	site.Page = "npc"
 	site.Title = "Npc"
 

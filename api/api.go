@@ -103,7 +103,7 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 }
 
 // Index handles the root endpoint of /api/
-func (a *Api) Index(w http.ResponseWriter, r *http.Request) {
+func (a *Api) index(w http.ResponseWriter, r *http.Request) {
 	log.Println("index")
 	type Content struct {
 		Message string `json:"message"`
