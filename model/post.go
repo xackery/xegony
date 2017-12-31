@@ -9,7 +9,7 @@ import (
 type Post struct {
 	Id      int64  `json:"id"`
 	Body    string `json:"body"`
-	TopicId int64  `json:"topicId" db:"topic_id"`
+	TopicId int64  `json:"topicID" db:"topic_id"`
 	OwnerId int64  `json:"ownerId" db:"owner_id"`
 }
 

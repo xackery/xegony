@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getLootTable(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "lootTableId")
+	id, err := getIntVar(r, "lootTableID")
 	if err != nil {
-		err = errors.Wrap(err, "lootTableId argument is required")
+		err = errors.Wrap(err, "lootTableID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteLootTable(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "lootTableId")
+	id, err := getIntVar(r, "lootTableID")
 	if err != nil {
-		err = errors.Wrap(err, "lootTableId argument is required")
+		err = errors.Wrap(err, "lootTableID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editLootTable(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "lootTableId")
+	id, err := getIntVar(r, "lootTableID")
 	if err != nil {
-		err = errors.Wrap(err, "lootTableId argument is required")
+		err = errors.Wrap(err, "lootTableID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

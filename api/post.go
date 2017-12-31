@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getPost(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "postId")
+	id, err := getIntVar(r, "postID")
 	if err != nil {
-		err = errors.Wrap(err, "postId argument is required")
+		err = errors.Wrap(err, "postID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deletePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "postId")
+	id, err := getIntVar(r, "postID")
 	if err != nil {
-		err = errors.Wrap(err, "postId argument is required")
+		err = errors.Wrap(err, "postID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "postId")
+	id, err := getIntVar(r, "postID")
 	if err != nil {
-		err = errors.Wrap(err, "postId argument is required")
+		err = errors.Wrap(err, "postID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

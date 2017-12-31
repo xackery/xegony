@@ -7,8 +7,8 @@ import (
 )
 
 type Goal struct {
-	ListId  int64 `json:"listId" db:"listid"`
-	EntryId int64 `json:"entryId" db:"entry"`
+	ListId  int64 `json:"listID" db:"listid"`
+	EntryId int64 `json:"entryID" db:"entry"`
 }
 
 func (c *Goal) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

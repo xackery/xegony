@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getNpc(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "npcId")
+	id, err := getIntVar(r, "npcID")
 	if err != nil {
-		err = errors.Wrap(err, "npcId argument is required")
+		err = errors.Wrap(err, "npcID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteNpc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "npcId")
+	id, err := getIntVar(r, "npcID")
 	if err != nil {
-		err = errors.Wrap(err, "npcId argument is required")
+		err = errors.Wrap(err, "npcID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editNpc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "npcId")
+	id, err := getIntVar(r, "npcID")
 	if err != nil {
-		err = errors.Wrap(err, "npcId argument is required")
+		err = errors.Wrap(err, "npcID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

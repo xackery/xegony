@@ -21,12 +21,12 @@ func (g *LootTableRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *LootTableRepository) Get(lootTableId int64) (lootTable *model.LootTable, err error) {
-	if lootTableId == 0 {
+func (g *LootTableRepository) Get(lootTableID int64) (lootTable *model.LootTable, err error) {
+	if lootTableID == 0 {
 		err = fmt.Errorf("Invalid LootTable ID")
 		return
 	}
-	lootTable, err = g.stor.GetLootTable(lootTableId)
+	lootTable, err = g.stor.GetLootTable(lootTableID)
 	return
 }
 
@@ -63,7 +63,7 @@ func (g *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
 	return
 }
 
-func (g *LootTableRepository) Edit(lootTableId int64, lootTable *model.LootTable) (err error) {
+func (g *LootTableRepository) Edit(lootTableID int64, lootTable *model.LootTable) (err error) {
 	schema, err := lootTable.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -85,15 +85,15 @@ func (g *LootTableRepository) Edit(lootTableId int64, lootTable *model.LootTable
 		return
 	}
 
-	err = g.stor.EditLootTable(lootTableId, lootTable)
+	err = g.stor.EditLootTable(lootTableID, lootTable)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableRepository) Delete(lootTableId int64) (err error) {
-	err = g.stor.DeleteLootTable(lootTableId)
+func (g *LootTableRepository) Delete(lootTableID int64) (err error) {
+	err = g.stor.DeleteLootTable(lootTableID)
 	if err != nil {
 		return
 	}

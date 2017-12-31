@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getLootDrop(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "lootDropId")
+	id, err := getIntVar(r, "lootDropID")
 	if err != nil {
-		err = errors.Wrap(err, "lootDropId argument is required")
+		err = errors.Wrap(err, "lootDropID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteLootDrop(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "lootDropId")
+	id, err := getIntVar(r, "lootDropID")
 	if err != nil {
-		err = errors.Wrap(err, "lootDropId argument is required")
+		err = errors.Wrap(err, "lootDropID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editLootDrop(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "lootDropId")
+	id, err := getIntVar(r, "lootDropID")
 	if err != nil {
-		err = errors.Wrap(err, "lootDropId argument is required")
+		err = errors.Wrap(err, "lootDropID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

@@ -3,7 +3,7 @@ properties:
     type: integer
   name:
     type: string
-  accountId:
+  accountID:
     type: integer
   email:
     type: string

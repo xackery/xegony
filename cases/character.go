@@ -21,12 +21,12 @@ func (g *CharacterRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *CharacterRepository) Get(characterId int64) (character *model.Character, err error) {
-	if characterId == 0 {
+func (g *CharacterRepository) Get(characterID int64) (character *model.Character, err error) {
+	if characterID == 0 {
 		err = fmt.Errorf("Invalid Character ID")
 		return
 	}
-	character, err = g.stor.GetCharacter(characterId)
+	character, err = g.stor.GetCharacter(characterID)
 	return
 }
 
@@ -35,7 +35,7 @@ func (g *CharacterRepository) Create(character *model.Character) (err error) {
 		err = fmt.Errorf("Empty character")
 		return
 	}
-	schema, err := character.NewSchema([]string{"name", "accountId"}, nil)
+	schema, err := character.NewSchema([]string{"name", "accountID"}, nil)
 	if err != nil {
 		return
 	}
@@ -44,7 +44,7 @@ func (g *CharacterRepository) Create(character *model.Character) (err error) {
 			Message: "invalid",
 		}
 		vErr.Reasons = map[string]string{}
-		vErr.Reasons["accountId"] = "Account ID must be greater than 0"
+		vErr.Reasons["accountID"] = "Account ID must be greater than 0"
 		err = vErr
 		return
 	}
@@ -79,7 +79,7 @@ func (g *CharacterRepository) Search(search string) (characters []*model.Charact
 	return
 }
 
-func (g *CharacterRepository) Edit(characterId int64, character *model.Character) (err error) {
+func (g *CharacterRepository) Edit(characterID int64, character *model.Character) (err error) {
 	schema, err := character.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -101,15 +101,15 @@ func (g *CharacterRepository) Edit(characterId int64, character *model.Character
 		return
 	}
 
-	err = g.stor.EditCharacter(characterId, character)
+	err = g.stor.EditCharacter(characterID, character)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) Delete(characterId int64) (err error) {
-	err = g.stor.DeleteCharacter(characterId)
+func (g *CharacterRepository) Delete(characterID int64) (err error) {
+	err = g.stor.DeleteCharacter(characterID)
 	if err != nil {
 		return
 	}
@@ -140,8 +140,8 @@ func (g *CharacterRepository) ListByOnline() (characters []*model.Character, err
 	return
 }
 
-func (g *CharacterRepository) ListByAccount(accountId int64) (characters []*model.Character, err error) {
-	characters, err = g.stor.ListCharacterByAccount(accountId)
+func (g *CharacterRepository) ListByAccount(accountID int64) (characters []*model.Character, err error) {
+	characters, err = g.stor.ListCharacterByAccount(accountID)
 	if err != nil {
 		return
 	}

@@ -1,5 +1,5 @@
 properties:
-  listId:
+  listID:
     type: integer
-  entryId:
+  entryID:
     type: integer

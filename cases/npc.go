@@ -22,12 +22,12 @@ func (g *NpcRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *NpcRepository) Get(npcId int64) (npc *model.Npc, err error) {
-	if npcId == 0 {
+func (g *NpcRepository) Get(npcID int64) (npc *model.Npc, err error) {
+	if npcID == 0 {
 		err = fmt.Errorf("Invalid Npc ID")
 		return
 	}
-	npc, err = g.stor.GetNpc(npcId)
+	npc, err = g.stor.GetNpc(npcID)
 	return
 }
 
@@ -36,7 +36,7 @@ func (g *NpcRepository) Create(npc *model.Npc) (err error) {
 		err = fmt.Errorf("Empty npc")
 		return
 	}
-	schema, err := npc.NewSchema([]string{"name", "accountId"}, nil)
+	schema, err := npc.NewSchema([]string{"name", "accountID"}, nil)
 	if err != nil {
 		return
 	}
@@ -73,7 +73,7 @@ func (g *NpcRepository) Search(search string) (npcs []*model.Npc, err error) {
 	return
 }
 
-func (g *NpcRepository) Edit(npcId int64, npc *model.Npc) (err error) {
+func (g *NpcRepository) Edit(npcID int64, npc *model.Npc) (err error) {
 	schema, err := npc.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -95,15 +95,15 @@ func (g *NpcRepository) Edit(npcId int64, npc *model.Npc) (err error) {
 		return
 	}
 
-	err = g.stor.EditNpc(npcId, npc)
+	err = g.stor.EditNpc(npcID, npc)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) Delete(npcId int64) (err error) {
-	err = g.stor.DeleteNpc(npcId)
+func (g *NpcRepository) Delete(npcID int64) (err error) {
+	err = g.stor.DeleteNpc(npcID)
 	if err != nil {
 		return
 	}
@@ -118,16 +118,16 @@ func (g *NpcRepository) List() (npcs []*model.Npc, err error) {
 	return
 }
 
-func (g *NpcRepository) ListByZone(zoneId int64) (npcs []*model.Npc, err error) {
-	npcs, err = g.stor.ListNpcByZone(zoneId)
+func (g *NpcRepository) ListByZone(zoneID int64) (npcs []*model.Npc, err error) {
+	npcs, err = g.stor.ListNpcByZone(zoneID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) ListByFaction(factionId int64) (npcs []*model.Npc, err error) {
-	npcs, err = g.stor.ListNpcByFaction(factionId)
+func (g *NpcRepository) ListByFaction(factionID int64) (npcs []*model.Npc, err error) {
+	npcs, err = g.stor.ListNpcByFaction(factionID)
 	if err != nil {
 		return
 	}

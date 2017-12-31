@@ -21,16 +21,16 @@ func (g *GoalRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *GoalRepository) Get(listId int64, entryId int64) (goal *model.Goal, err error) {
-	if listId == 0 {
+func (g *GoalRepository) Get(listID int64, entryID int64) (goal *model.Goal, err error) {
+	if listID == 0 {
 		err = fmt.Errorf("Invalid List ID")
 		return
 	}
-	if entryId == 0 {
+	if entryID == 0 {
 		err = fmt.Errorf("Invalid Entry ID")
 		return
 	}
-	goal, err = g.stor.GetGoal(listId, entryId)
+	goal, err = g.stor.GetGoal(listID, entryID)
 	return
 }
 
@@ -65,7 +65,7 @@ func (g *GoalRepository) Create(goal *model.Goal) (err error) {
 	return
 }
 
-func (g *GoalRepository) Edit(listId int64, goal *model.Goal) (err error) {
+func (g *GoalRepository) Edit(listID int64, goal *model.Goal) (err error) {
 	schema, err := goal.NewSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -87,15 +87,15 @@ func (g *GoalRepository) Edit(listId int64, goal *model.Goal) (err error) {
 		return
 	}
 
-	err = g.stor.EditGoal(listId, goal)
+	err = g.stor.EditGoal(listID, goal)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *GoalRepository) Delete(listId int64, entryId int64) (err error) {
-	err = g.stor.DeleteGoal(listId, entryId)
+func (g *GoalRepository) Delete(listID int64, entryID int64) (err error) {
+	err = g.stor.DeleteGoal(listID, entryID)
 	if err != nil {
 		return
 	}

@@ -13,11 +13,11 @@ produces:
 paths:
   /account:
     $ref: 'account.yaml'
-  /account/{accountId}:
+  /account/{accountID}:
     $ref: 'account-by-id.yaml'    
   /activity:
     $ref: 'activity.yaml'
-  /activity/{activityId}:
+  /activity/{activityID}:
     $ref: 'activity-by-id.yaml'
   /base:
     $ref: 'base.yaml'
@@ -29,65 +29,65 @@ paths:
     $ref: 'bazaar-by-id.yaml'
   /character:
     $ref: 'character.yaml'    
-  /character/{characterId}:
+  /character/{characterID}:
     $ref: 'character-by-id.yaml'  
   /faction:
     $ref: 'faction.yaml'    
-  /faction/{factionId}:
+  /faction/{factionID}:
     $ref: 'faction-by-id.yaml'
   /goal:
     $ref: 'goal.yaml'    
-  /goal/{goalId}:
+  /goal/{goalID}:
     $ref: 'goal-by-id.yaml'  
   /item:
     $ref: 'item.yaml'    
-  /item/{itemId}:
+  /item/{itemID}:
     $ref: 'item-by-id.yaml'  
   /login:
     $ref: 'login.yaml'    
   /lootdrop:
     $ref: 'lootdrop.yaml'    
-  /lootdrop/{lootDropId}:
+  /lootdrop/{lootDropID}:
     $ref: 'lootdrop-by-id.yaml'  
   /lootdropentry:
     $ref: 'lootdropentry.yaml'    
-  /lootdropentry/{lootDropEntryId}:
+  /lootdropentry/{lootDropEntryID}:
     $ref: 'lootdropentry-by-id.yaml'  
   /loottable:
     $ref: 'loottable.yaml'    
-  /loottable/{lootTableId}:
+  /loottable/{lootTableID}:
     $ref: 'loottable-by-id.yaml' 
   /loottableentry:
     $ref: 'loottableentry.yaml'    
-  /loottableentry/{lootTableEntryId}:
+  /loottableentry/{lootTableEntryID}:
     $ref: 'loottableentry-by-id.yaml' 
   /npc:
     $ref: 'npc.yaml'    
-  /npc/{npcId}:
+  /npc/{npcID}:
     $ref: 'npc-by-id.yaml' 
   /npcloot:
     $ref: 'npcloot.yaml'    
-  /npcloot/{npcLootId}:
+  /npcloot/{npcLootID}:
     $ref: 'npcloot-by-id.yaml' 
   /post:
     $ref: 'post.yaml'    
-  /post/{postId}:
+  /post/{postID}:
     $ref: 'post-by-id.yaml' 
   /task:
     $ref: 'task.yaml'    
-  /task/{taskId}:
+  /task/{taskID}:
     $ref: 'task-by-id.yaml' 
   /topic:
     $ref: 'topic.yaml'    
-  /topic/{topicId}:
+  /topic/{topicID}:
     $ref: 'topic-by-id.yaml' 
   /user:
     $ref: 'user.yaml'    
-  /user/{userId}:
+  /user/{userID}:
     $ref: 'user-by-id.yaml' 
   /zone:
     $ref: 'zone.yaml'    
-  /zone/{zoneId}:
+  /zone/{zoneID}:
     $ref: 'zone-by-id.yaml' 
 definitions:
   Account:

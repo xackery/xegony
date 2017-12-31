@@ -22,9 +22,9 @@ func (a *Web) listPost(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forum"
 	site.Title = "Forum"
 
-	forumID, err := getIntVar(r, "topicId")
+	forumID, err := getIntVar(r, "topicID")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "topicID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -90,9 +90,9 @@ func (a *Web) getPost(w http.ResponseWriter, r *http.Request) {
 		Forum *model.Forum
 	}
 
-	id, err := getIntVar(r, "postId")
+	id, err := getIntVar(r, "postID")
 	if err != nil {
-		err = errors.Wrap(err, "postId argument is required")
+		err = errors.Wrap(err, "postID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

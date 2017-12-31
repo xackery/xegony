@@ -48,7 +48,7 @@ func (c *Base) NewSchema(requiredFields []string, optionalFields []string) (sche
 
 func (c *Base) getSchemaProperty(field string) (prop Schema, err error) {
 	switch field {
-	case "itemId":
+	case "itemID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "id":

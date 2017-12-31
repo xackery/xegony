@@ -21,12 +21,12 @@ func (g *ZoneRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *ZoneRepository) Get(zoneId int64) (zone *model.Zone, err error) {
-	if zoneId == 0 {
+func (g *ZoneRepository) Get(zoneID int64) (zone *model.Zone, err error) {
+	if zoneID == 0 {
 		err = fmt.Errorf("Invalid Zone ID")
 		return
 	}
-	zone, err = g.stor.GetZone(zoneId)
+	zone, err = g.stor.GetZone(zoneID)
 	return
 }
 
@@ -44,7 +44,7 @@ func (g *ZoneRepository) Create(zone *model.Zone) (err error) {
 			Message: "invalid",
 		}
 		vErr.Reasons = map[string]string{}
-		vErr.Reasons["accountId"] = "Account ID must be greater than 0"
+		vErr.Reasons["accountID"] = "Account ID must be greater than 0"
 		err = vErr
 		return
 	}
@@ -71,7 +71,7 @@ func (g *ZoneRepository) Create(zone *model.Zone) (err error) {
 	return
 }
 
-func (g *ZoneRepository) Edit(zoneId int64, zone *model.Zone) (err error) {
+func (g *ZoneRepository) Edit(zoneID int64, zone *model.Zone) (err error) {
 	schema, err := g.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -93,15 +93,15 @@ func (g *ZoneRepository) Edit(zoneId int64, zone *model.Zone) (err error) {
 		return
 	}
 
-	err = g.stor.EditZone(zoneId, zone)
+	err = g.stor.EditZone(zoneID, zone)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ZoneRepository) Delete(zoneId int64) (err error) {
-	err = g.stor.DeleteZone(zoneId)
+func (g *ZoneRepository) Delete(zoneID int64) (err error) {
+	err = g.stor.DeleteZone(zoneID)
 	if err != nil {
 		return
 	}

@@ -12,9 +12,9 @@ const (
 	activitySets   = `taskid=:taskid, activityid=:activityid, step=:step, activitytype=:activitytype, text1=:text1, text2=:text2, text3=:text3, goalid=:goalid, goalmethod=:goalmethod, goalcount=:goalcount, delivertonpc=:delivertonpc, zoneid=:zoneid, optional=:optional`
 )
 
-func (s *Storage) GetActivity(taskId int64, activityId int64) (activity *model.Activity, err error) {
+func (s *Storage) GetActivity(taskID int64, activityID int64) (activity *model.Activity, err error) {
 	activity = &model.Activity{}
-	err = s.db.Get(activity, fmt.Sprintf("SELECT %s FROM activities WHERE activityid = ? AND taskid = ?", activityFields), activityId, taskId)
+	err = s.db.Get(activity, fmt.Sprintf("SELECT %s FROM activities WHERE activityid = ? AND taskid = ?", activityFields), activityID, taskID)
 	if err != nil {
 		return
 	}
@@ -32,16 +32,16 @@ func (s *Storage) CreateActivity(activity *model.Activity) (err error) {
 	if err != nil {
 		return
 	}
-	activityId, err := result.LastInsertId()
+	activityID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	activity.Activityid = activityId
+	activity.Activityid = activityID
 	return
 }
 
-func (s *Storage) ListActivity(taskId int64) (activitys []*model.Activity, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM activities WHERE taskid = ? ORDER BY activityid DESC`, activityFields), taskId)
+func (s *Storage) ListActivity(taskID int64) (activitys []*model.Activity, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM activities WHERE taskid = ? ORDER BY activityid DESC`, activityFields), taskID)
 	if err != nil {
 		return
 	}
@@ -56,8 +56,8 @@ func (s *Storage) ListActivity(taskId int64) (activitys []*model.Activity, err e
 	return
 }
 
-func (s *Storage) EditActivity(activityId int64, activity *model.Activity) (err error) {
-	activity.Activityid = activityId
+func (s *Storage) EditActivity(activityID int64, activity *model.Activity) (err error) {
+	activity.Activityid = activityID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE activities SET %s WHERE id = :id`, activitySets), activity)
 	if err != nil {
 		return
@@ -73,8 +73,8 @@ func (s *Storage) EditActivity(activityId int64, activity *model.Activity) (err 
 	return
 }
 
-func (s *Storage) DeleteActivity(activityId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM activities WHERE activityid = ?`, activityId)
+func (s *Storage) DeleteActivity(activityID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM activities WHERE activityid = ?`, activityID)
 	if err != nil {
 		return
 	}

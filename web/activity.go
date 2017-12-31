@@ -21,24 +21,24 @@ func (a *Web) listActivity(w http.ResponseWriter, r *http.Request) {
 	site.Page = "activity"
 	site.Title = "Activity"
 
-	if strings.ToLower(getVar(r, "taskId")) == "create" {
+	if strings.ToLower(getVar(r, "taskID")) == "create" {
 		a.createTask(w, r)
 		return
 	}
 
-	taskId, err := getIntVar(r, "taskId")
+	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	activitys, err := a.activityRepo.List(taskId)
+	activitys, err := a.activityRepo.List(taskID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	task, err := a.taskRepo.Get(taskId)
+	task, err := a.taskRepo.Get(taskID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -78,27 +78,27 @@ func (a *Web) getActivity(w http.ResponseWriter, r *http.Request) {
 		Task     *model.Task
 	}
 
-	activityId, err := getIntVar(r, "activityId")
+	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
-		err = errors.Wrap(err, "activityId argument is required")
+		err = errors.Wrap(err, "activityID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	taskId, err := getIntVar(r, "taskId")
+	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	activity, err := a.activityRepo.Get(taskId, activityId)
+	activity, err := a.activityRepo.Get(taskID, activityID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	task, err := a.taskRepo.Get(taskId)
+	task, err := a.taskRepo.Get(taskID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		a.writeError(w, r, err, http.StatusBadRequest)

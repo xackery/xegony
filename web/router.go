@@ -65,7 +65,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetCharacter",
 			"GET",
-			"/character/{characterId}",
+			"/character/{characterID}",
 			a.getCharacter,
 		},
 
@@ -79,7 +79,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"ListCharacter",
 			"GET",
-			"/character/{characterId}/inventory",
+			"/character/{characterID}/inventory",
 			a.listItemByCharacter,
 		},
 
@@ -100,7 +100,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"ListCharacterByAccount",
 			"GET",
-			"/character/byaccount/{accountId}",
+			"/character/byaccount/{accountID}",
 			a.listCharacterByAccount,
 		},
 
@@ -114,7 +114,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetNpc",
 			"GET",
-			"/npc/{npcId}",
+			"/npc/{npcID}",
 			a.getNpc,
 		},
 
@@ -135,7 +135,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetNpcByZone",
 			"GET",
-			"/npc/byzone/{zoneId}",
+			"/npc/byzone/{zoneID}",
 			a.getNpcByZone,
 		},
 
@@ -149,7 +149,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetNpcByFaction",
 			"GET",
-			"/npc/byfaction/{factionId}",
+			"/npc/byfaction/{factionID}",
 			a.getNpcByFaction,
 		},
 
@@ -163,28 +163,28 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetTopic",
 			"GET",
-			"/topic/{topicId}/details",
+			"/topic/{topicID}/details",
 			a.getTopic,
 		},
 
 		Route{
 			"ListActivity",
 			"GET",
-			"/task/{taskId}",
+			"/task/{taskID}",
 			a.listActivity,
 		},
 
 		Route{
 			"GetActivity",
 			"GET",
-			"/task/{taskId}/activity/{activityId}",
+			"/task/{taskID}/activity/{activityID}",
 			a.getActivity,
 		},
 
 		Route{
 			"GetLootTable",
 			"GET",
-			"/loottable/{lootTableId}",
+			"/loottable/{lootTableID}",
 			a.getLootTable,
 		},
 
@@ -198,28 +198,28 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetLootDropEntry",
 			"GET",
-			"/lootdrop/{lootDropId}/{itemId}",
+			"/lootdrop/{lootDropID}/{itemID}",
 			a.getLootDropEntry,
 		},
 
 		Route{
 			"ListLootDropEntry",
 			"GET",
-			"/lootdrop/{lootDropId}",
+			"/lootdrop/{lootDropID}",
 			a.listLootDropEntry,
 		},
 
 		Route{
 			"ListPost",
 			"GET",
-			"/topic/{topicId}",
+			"/topic/{topicID}",
 			a.listPost,
 		},
 
 		Route{
 			"GetPost",
 			"GET",
-			"/post/{postId}",
+			"/post/{postID}",
 			a.getPost,
 		},
 
@@ -247,7 +247,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetTask",
 			"GET",
-			"/task/{taskId}/details",
+			"/task/{taskID}/details",
 			a.getTask,
 		},
 
@@ -261,7 +261,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetZone",
 			"GET",
-			"/zone/{zoneId}",
+			"/zone/{zoneID}",
 			a.getZone,
 		},
 
@@ -282,7 +282,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetItem",
 			"GET",
-			"/item/{itemId}",
+			"/item/{itemID}",
 			a.getItem,
 		},
 
@@ -317,14 +317,14 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		Route{
 			"GetItemByZone",
 			"GET",
-			"/item/byzone/{zoneId}",
+			"/item/byzone/{zoneID}",
 			a.getItemByZone,
 		},
 
 		Route{
 			"GetItemBySlot",
 			"GET",
-			"/item/byslot/{slotId}",
+			"/item/byslot/{slotID}",
 			a.getItemBySlot,
 		},
 

@@ -15,7 +15,7 @@ type Account struct {
 	Sharedplat     int64         `json:"sharedplat" db:"sharedplat"`         //`sharedplat` int(11) unsigned NOT NULL DEFAULT '0',
 	Password       string        `json:"password" db:"password"`             //`password` varchar(50) NOT NULL DEFAULT '',
 	Status         int64         `json:"status" db:"status"`                 //`status` int(5) NOT NULL DEFAULT '0',
-	LsaccountId    sql.NullInt64 `json:"lsaccountId" db:"lsaccount_id"`      //`lsaccount_id` int(11) unsigned DEFAULT NULL,
+	LsaccountID    sql.NullInt64 `json:"lsaccountID" db:"lsaccount_id"`      //`lsaccount_id` int(11) unsigned DEFAULT NULL,
 	Gmspeed        int64         `json:"gmspeed" db:"gmspeed"`               //`gmspeed` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	Revoked        int64         `json:"revoked" db:"revoked"`               //`revoked` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	Karma          int64         `json:"karma" db:"karma"`                   //`karma` int(5) unsigned NOT NULL DEFAULT '0',

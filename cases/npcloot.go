@@ -21,8 +21,8 @@ func (g *NpcLootRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *NpcLootRepository) Get(npcId int64, itemId int64) (npcLoot *model.NpcLoot, err error) {
-	npcLoot, err = g.stor.GetNpcLoot(npcId, itemId)
+func (g *NpcLootRepository) Get(npcID int64, itemID int64) (npcLoot *model.NpcLoot, err error) {
+	npcLoot, err = g.stor.GetNpcLoot(npcID, itemID)
 	return
 }
 
@@ -63,7 +63,7 @@ func (g *NpcLootRepository) Create(npcLoot *model.NpcLoot) (err error) {
 	return
 }
 
-func (g *NpcLootRepository) Edit(npcId int64, itemId int64, npcLoot *model.NpcLoot) (err error) {
+func (g *NpcLootRepository) Edit(npcID int64, itemID int64, npcLoot *model.NpcLoot) (err error) {
 	schema, err := npcLoot.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -85,31 +85,31 @@ func (g *NpcLootRepository) Edit(npcId int64, itemId int64, npcLoot *model.NpcLo
 		return
 	}
 
-	err = g.stor.EditNpcLoot(npcId, itemId, npcLoot)
+	err = g.stor.EditNpcLoot(npcID, itemID, npcLoot)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcLootRepository) Delete(npcId int64, itemId int64) (err error) {
-	err = g.stor.DeleteNpcLoot(npcId, itemId)
+func (g *NpcLootRepository) Delete(npcID int64, itemID int64) (err error) {
+	err = g.stor.DeleteNpcLoot(npcID, itemID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcLootRepository) List(npcId int64) (npcLoots []*model.NpcLoot, err error) {
-	npcLoots, err = g.stor.ListNpcLoot(npcId)
+func (g *NpcLootRepository) List(npcID int64) (npcLoots []*model.NpcLoot, err error) {
+	npcLoots, err = g.stor.ListNpcLoot(npcID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcLootRepository) ListByZone(zoneId int64) (npcLoots []*model.NpcLoot, err error) {
-	npcLoots, err = g.stor.ListNpcLootByZone(zoneId)
+func (g *NpcLootRepository) ListByZone(zoneID int64) (npcLoots []*model.NpcLoot, err error) {
+	npcLoots, err = g.stor.ListNpcLootByZone(zoneID)
 	if err != nil {
 		return
 	}

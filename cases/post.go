@@ -21,12 +21,12 @@ func (g *PostRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *PostRepository) Get(postId int64) (post *model.Post, err error) {
-	if postId == 0 {
+func (g *PostRepository) Get(postID int64) (post *model.Post, err error) {
+	if postID == 0 {
 		err = fmt.Errorf("Invalid Post ID")
 		return
 	}
-	post, err = g.stor.GetPost(postId)
+	post, err = g.stor.GetPost(postID)
 	return
 }
 
@@ -62,7 +62,7 @@ func (g *PostRepository) Create(post *model.Post) (err error) {
 	return
 }
 
-func (g *PostRepository) Edit(postId int64, post *model.Post) (err error) {
+func (g *PostRepository) Edit(postID int64, post *model.Post) (err error) {
 	schema, err := post.NewSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -84,23 +84,23 @@ func (g *PostRepository) Edit(postId int64, post *model.Post) (err error) {
 		return
 	}
 
-	err = g.stor.EditPost(postId, post)
+	err = g.stor.EditPost(postID, post)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *PostRepository) Delete(postId int64) (err error) {
-	err = g.stor.DeletePost(postId)
+func (g *PostRepository) Delete(postID int64) (err error) {
+	err = g.stor.DeletePost(postID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *PostRepository) List(topicId int64) (posts []*model.Post, err error) {
-	posts, err = g.stor.ListPost(topicId)
+func (g *PostRepository) List(topicID int64) (posts []*model.Post, err error) {
+	posts, err = g.stor.ListPost(topicID)
 	if err != nil {
 		return
 	}

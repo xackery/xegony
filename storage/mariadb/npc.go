@@ -12,9 +12,9 @@ const (
 	npcBinds  = ` :name, :lastname, :level, :race, :class, :bodytype, :hp, :mana, :gender, :texture, :helmtexture, :herosforgemodel, :size, :hp_regen_rate, :mana_regen_rate, :loottable_id, :merchant_id, :alt_currency_id, :npc_spells_id, :npc_spells_effects_id, :npc_faction_id, :adventure_template_id, :trap_template, :mindmg, :maxdmg, :attack_count, :npcspecialattks, :special_abilities, :aggroradius, :assistradius, :face, :luclin_hairstyle, :luclin_haircolor, :luclin_eyecolor, :luclin_eyecolor2, :luclin_beardcolor, :luclin_beard, :drakkin_heritage, :drakkin_tattoo, :drakkin_details, :armortint_id, :armortint_red, :armortint_green, :armortint_blue, :d_melee_texture1, :d_melee_texture2, :ammo_idfile, :prim_melee_type, :sec_melee_type, :ranged_type, :runspeed, :MR, :CR, :DR, :FR, :PR, :Corrup, :PhR, :see_invis, :see_invis_undead, :qglobal, :AC, :npc_aggro, :spawn_limit, :attack_speed, :attack_delay, :findable, :STR, :STA, :DEX, :AGI, :_INT, :WIS, :CHA, :see_hide, :see_improved_hide, :trackable, :isbot, :exclude, :ATK, :Accuracy, :Avoidance, :slow_mitigation, :version, :maxlevel, :scalerate, :private_corpse, :unique_spawn_by_name, :underwater, :isquest, :emoteid, :spellscale, :healscale, :no_target_hotkey, :raid_target, :armtexture, :bracertexture, :handtexture, :legtexture, :feettexture, :light, :walkspeed, :peqid, :unique_, :fixed, :ignore_despawn, :show_name, :untargetable`
 )
 
-func (s *Storage) GetNpc(npcId int64) (npc *model.Npc, err error) {
+func (s *Storage) GetNpc(npcID int64) (npc *model.Npc, err error) {
 	npc = &model.Npc{}
-	err = s.db.Get(npc, fmt.Sprintf("SELECT npc_types.id, %s FROM npc_types WHERE id = ?", npcFields), npcId)
+	err = s.db.Get(npc, fmt.Sprintf("SELECT npc_types.id, %s FROM npc_types WHERE id = ?", npcFields), npcID)
 	if err != nil {
 		return
 	}
@@ -32,11 +32,11 @@ func (s *Storage) CreateNpc(npc *model.Npc) (err error) {
 	if err != nil {
 		return
 	}
-	npcId, err := result.LastInsertId()
+	npcID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	npc.Id = npcId
+	npc.Id = npcID
 	return
 }
 
@@ -56,10 +56,10 @@ func (s *Storage) ListNpc() (npcs []*model.Npc, err error) {
 	return
 }
 
-func (s *Storage) ListNpcByZone(zoneId int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByZone(zoneID int64) (npcs []*model.Npc, err error) {
 
-	upperId := (zoneId * 1000) + 1000 - 1
-	lowerId := (zoneId * 1000) - 1
+	upperId := (zoneID * 1000) + 1000 - 1
+	lowerId := (zoneID * 1000) - 1
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
 	WHERE npc_types.id < ? AND npc_types.id > ?`, npcFields), upperId, lowerId)
 	if err != nil {
@@ -76,11 +76,11 @@ func (s *Storage) ListNpcByZone(zoneId int64) (npcs []*model.Npc, err error) {
 	return
 }
 
-func (s *Storage) ListNpcByFaction(factionId int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByFaction(factionID int64) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types	
 	INNER JOIN npc_faction ON npc_faction.id = npc_types.npc_faction_id
 	INNER JOIN faction_list on faction_list.id = npc_faction.primaryfaction
-	WHERE faction_list.id = ?`, npcFields), factionId)
+	WHERE faction_list.id = ?`, npcFields), factionID)
 	if err != nil {
 		return
 	}
@@ -95,9 +95,9 @@ func (s *Storage) ListNpcByFaction(factionId int64) (npcs []*model.Npc, err erro
 	return
 }
 
-func (s *Storage) ListNpcByLootTable(lootTableId int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
-		WHERE loottable_id = ?`, npcFields), lootTableId)
+		WHERE loottable_id = ?`, npcFields), lootTableID)
 	if err != nil {
 		return
 	}
@@ -112,8 +112,8 @@ func (s *Storage) ListNpcByLootTable(lootTableId int64) (npcs []*model.Npc, err 
 	return
 }
 
-func (s *Storage) EditNpc(npcId int64, npc *model.Npc) (err error) {
-	npc.Id = npcId
+func (s *Storage) EditNpc(npcID int64, npc *model.Npc) (err error) {
+	npc.Id = npcID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE npc_types SET %s WHERE id = :id`, npcSets), npc)
 	if err != nil {
 		return
@@ -129,8 +129,8 @@ func (s *Storage) EditNpc(npcId int64, npc *model.Npc) (err error) {
 	return
 }
 
-func (s *Storage) DeleteNpc(npcId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM npc_types WHERE id = ?`, npcId)
+func (s *Storage) DeleteNpc(npcID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM npc_types WHERE id = ?`, npcID)
 	if err != nil {
 		return
 	}

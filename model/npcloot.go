@@ -7,8 +7,8 @@ import (
 )
 
 type NpcLoot struct {
-	NpcId   int64  `json:"npcId" db:"npc_id"`
-	ItemId  int64  `json:"itemId" db:"item_id"`
+	NpcId   int64  `json:"npcID" db:"npc_id"`
+	ItemId  int64  `json:"itemID" db:"item_id"`
 	NpcName string `json:"npcName" db:"npc_name"`
 	*Item
 	*Npc
@@ -47,13 +47,13 @@ func (c *NpcLoot) NewSchema(requiredFields []string, optionalFields []string) (s
 
 func (c *NpcLoot) getSchemaProperty(field string) (prop Schema, err error) {
 	switch field {
-	case "accountId":
+	case "accountID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "zoneId":
+	case "zoneID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "name":

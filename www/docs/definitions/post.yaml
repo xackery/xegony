@@ -3,7 +3,7 @@ properties:
     type: integer
   body:
     type: string
-  topicId:
+  topicID:
     type: integer
   ownerId:
     type: integer

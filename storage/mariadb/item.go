@@ -12,9 +12,9 @@ const (
 	itemBinds  = `:name, :aagi, :ac, :accuracy, :acha, :adex, :aint, :artifactflag, :asta, :astr, :attack, :augrestrict, :augslot1type, :augslot1visible, :augslot2type, :augslot2visible, :augslot3type, :augslot3visible, :augslot4type, :augslot4visible, :augslot5type, :augslot5visible, :augslot6type, :augslot6visible, :augtype, :avoidance, :awis, :bagsize, :bagslots, :bagtype, :bagwr, :banedmgamt, :banedmgraceamt, :banedmgbody, :banedmgrace, :bardtype, :bardvalue, :book, :casttime, :casttime_, :charmfile, :charmfileid, :classes, :color, :combateffects, :extradmgskill, :extradmgamt, :price, :cr, :damage, :damageshield, :deity, :delay, :augdistiller, :dotshielding, :dr, :clicktype, :clicklevel2, :elemdmgtype, :elemdmgamt, :endur, :factionamt1, :factionamt2, :factionamt3, :factionamt4, :factionmod1, :factionmod2, :factionmod3, :factionmod4, :filename, :focuseffect, :fr, :fvnodrop, :haste, :clicklevel, :hp, :regen, :icon, :idfile, :itemclass, :itemtype, :ldonprice, :ldontheme, :ldonsold, :light, :lore, :loregroup, :magic, :mana, :manaregen, :enduranceregen, :material, :herosforgemodel, :maxcharges, :mr, :nodrop, :norent, :pendingloreflag, :pr, :procrate, :races, :range, :reclevel, :recskill, :reqlevel, :sellrate, :shielding, :size, :skillmodtype, :skillmodvalue, :slots, :clickeffect, :spellshield, :strikethrough, :stunresist, :summonedflag, :tradeskills, :favor, :weight, :UNK012, :UNK013, :benefitflag, :UNK054, :UNK059, :booktype, :recastdelay, :recasttype, :guildfavor, :UNK123, :UNK124, :attuneable, :nopet, :updated, :comment, :UNK127, :pointtype, :potionbelt, :potionbeltslots, :stacksize, :notransfer, :stackable, :UNK134, :UNK137, :proceffect, :proctype, :proclevel2, :proclevel, :UNK142, :worneffect, :worntype, :wornlevel2, :wornlevel, :UNK147, :focustype, :focuslevel2, :focuslevel, :UNK152, :scrolleffect, :scrolltype, :scrolllevel2, :scrolllevel, :UNK157, :serialized, :verified, :serialization, :source, :UNK033, :lorefile, :UNK014, :svcorruption, :skillmodmax, :UNK060, :augslot1unk2, :augslot2unk2, :augslot3unk2, :augslot4unk2, :augslot5unk2, :augslot6unk2, :UNK120, :UNK121, :questitemflag, :UNK132, :clickunk5, :clickunk6, :clickunk7, :procunk1, :procunk2, :procunk3, :procunk4, :procunk6, :procunk7, :wornunk1, :wornunk2, :wornunk3, :wornunk4, :wornunk5, :wornunk6, :wornunk7, :focusunk1, :focusunk2, :focusunk3, :focusunk4, :focusunk5, :focusunk6, :focusunk7, :scrollunk1, :scrollunk2, :scrollunk3, :scrollunk4, :scrollunk5, :scrollunk6, :scrollunk7, :UNK193, :purity, :evoitem, :evoid, :evolvinglevel, :evomax, :clickname, :procname, :wornname, :focusname, :scrollname, :dsmitigation, :heroic_str, :heroic_int, :heroic_wis, :heroic_agi, :heroic_dex, :heroic_sta, :heroic_cha, :heroic_pr, :heroic_dr, :heroic_fr, :heroic_cr, :heroic_mr, :heroic_svcorrup, :healamt, :spelldmg, :clairvoyance, :backstabdmg, :created, :elitematerial, :ldonsellbackrate, :scriptfileid, :expendablearrow, :powersourcecapacity, :bardeffect, :bardeffecttype, :bardlevel2, :bardlevel, :bardunk1, :bardunk2, :bardunk3, :bardunk4, :bardunk5, :bardname, :bardunk7, :UNK214, :UNK219, :UNK220, :UNK221, :heirloom, :UNK223, :UNK224, :UNK225, :UNK226, :UNK227, :UNK228, :UNK229, :UNK230, :UNK231, :UNK232, :UNK233, :UNK234, :placeable, :UNK236, :UNK237, :UNK238, :UNK239, :UNK240, :UNK241, :epicitem`
 )
 
-func (s *Storage) GetItem(itemId int64) (item *model.Item, err error) {
+func (s *Storage) GetItem(itemID int64) (item *model.Item, err error) {
 	item = &model.Item{}
-	err = s.db.Get(item, fmt.Sprintf("SELECT id, %s FROM items WHERE id = ?", itemFields), itemId)
+	err = s.db.Get(item, fmt.Sprintf("SELECT id, %s FROM items WHERE id = ?", itemFields), itemID)
 	if err != nil {
 		return
 	}
@@ -32,11 +32,11 @@ func (s *Storage) CreateItem(item *model.Item) (err error) {
 	if err != nil {
 		return
 	}
-	itemId, err := result.LastInsertId()
+	itemID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	item.Id = itemId
+	item.Id = itemID
 	return
 }
 
@@ -82,7 +82,7 @@ func (s *Storage) SearchItem(search string) (items []*model.Item, err error) {
 	return
 }
 
-func (s *Storage) SearchItemByAccount(accountId int64, search string) (items []*model.Item, err error) {
+func (s *Storage) SearchItemByAccount(accountID int64, search string) (items []*model.Item, err error) {
 	type Result struct {
 		*model.Item
 		CharId   int64  `db:"char_id"`
@@ -91,7 +91,7 @@ func (s *Storage) SearchItemByAccount(accountId int64, search string) (items []*
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT character_data.id char_id, character_data.name char_name, items.id, slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
 		INNER JOIN inventory ON inventory.itemid = items.id
 		INNER JOIN character_data ON character_data.id = inventory.charid
-		WHERE items.name like ? AND character_data.account_id = ? ORDER BY id DESC`, itemFields), "%"+search+"%", accountId)
+		WHERE items.name like ? AND character_data.account_id = ? ORDER BY id DESC`, itemFields), "%"+search+"%", accountID)
 	if err != nil {
 		return
 	}
@@ -112,10 +112,10 @@ func (s *Storage) SearchItemByAccount(accountId int64, search string) (items []*
 	return
 }
 
-func (s *Storage) ListItemByCharacter(characterId int64) (items []*model.Item, err error) {
+func (s *Storage) ListItemByCharacter(characterID int64) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
 		INNER JOIN inventory ON inventory.itemid = items.id
-		WHERE inventory.charid = ? ORDER BY slotid ASC`, itemFields), characterId)
+		WHERE inventory.charid = ? ORDER BY slotid ASC`, itemFields), characterID)
 	if err != nil {
 		return
 	}
@@ -130,9 +130,9 @@ func (s *Storage) ListItemByCharacter(characterId int64) (items []*model.Item, e
 	return
 }
 
-func (s *Storage) ListItemBySlot(slotId int64) (items []*model.Item, err error) {
+func (s *Storage) ListItemBySlot(slotID int64) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 		
-		WHERE items.itemtype = ? ORDER BY damage/delay DESC`, itemFields), slotId)
+		WHERE items.itemtype = ? ORDER BY damage/delay DESC`, itemFields), slotID)
 	if err != nil {
 		return
 	}
@@ -147,12 +147,12 @@ func (s *Storage) ListItemBySlot(slotId int64) (items []*model.Item, err error) 
 	return
 }
 
-func (s *Storage) ListItemByZone(zoneId int64) (items []*model.Item, err error) {
+func (s *Storage) ListItemByZone(zoneID int64) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, %s FROM items 		
 		INNER JOIN lootdrop_entries le ON le.item_id = items.id
 		INNER JOIN loottable_entries lt ON lt.lootdrop_id = le.lootdrop_id
 		INNER JOIN npc_types nt ON nt.loottable_id = lt.loottable_id
-		WHERE nt.id > (?*1000-1) AND nt.id < (?*2000) ORDER BY damage/delay DESC`, itemFields), zoneId, zoneId)
+		WHERE nt.id > (?*1000-1) AND nt.id < (?*2000) ORDER BY damage/delay DESC`, itemFields), zoneID, zoneID)
 	if err != nil {
 		return
 	}
@@ -167,8 +167,8 @@ func (s *Storage) ListItemByZone(zoneId int64) (items []*model.Item, err error) 
 	return
 }
 
-func (s *Storage) EditItem(itemId int64, item *model.Item) (err error) {
-	item.Id = itemId
+func (s *Storage) EditItem(itemID int64, item *model.Item) (err error) {
+	item.Id = itemID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE items SET %s WHERE id = :id`, itemSets), item)
 	if err != nil {
 		return
@@ -184,8 +184,8 @@ func (s *Storage) EditItem(itemId int64, item *model.Item) (err error) {
 	return
 }
 
-func (s *Storage) DeleteItem(itemId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM items WHERE id = ?`, itemId)
+func (s *Storage) DeleteItem(itemID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM items WHERE id = ?`, itemID)
 	if err != nil {
 		return
 	}

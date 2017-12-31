@@ -6,9 +6,9 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) GetPost(postId int64) (post *model.Post, err error) {
+func (s *Storage) GetPost(postID int64) (post *model.Post, err error) {
 	post = &model.Post{}
-	err = s.db.Get(post, "SELECT id, body, topic_id FROM post WHERE id = ?", postId)
+	err = s.db.Get(post, "SELECT id, body, topic_id FROM post WHERE id = ?", postID)
 	if err != nil {
 		return
 	}
@@ -26,16 +26,16 @@ func (s *Storage) CreatePost(post *model.Post) (err error) {
 	if err != nil {
 		return
 	}
-	postId, err := result.LastInsertId()
+	postID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	post.Id = postId
+	post.Id = postID
 	return
 }
 
-func (s *Storage) ListPost(topicId int64) (posts []*model.Post, err error) {
-	rows, err := s.db.Queryx(`SELECT id, body, topic_id FROM post WHERE topic_id = ? ORDER BY id DESC`, topicId)
+func (s *Storage) ListPost(topicID int64) (posts []*model.Post, err error) {
+	rows, err := s.db.Queryx(`SELECT id, body, topic_id FROM post WHERE topic_id = ? ORDER BY id DESC`, topicID)
 	if err != nil {
 		return
 	}
@@ -50,8 +50,8 @@ func (s *Storage) ListPost(topicId int64) (posts []*model.Post, err error) {
 	return
 }
 
-func (s *Storage) EditPost(postId int64, post *model.Post) (err error) {
-	post.Id = postId
+func (s *Storage) EditPost(postID int64, post *model.Post) (err error) {
+	post.Id = postID
 	result, err := s.db.NamedExec(`UPDATE post SET body=:body, topic_id=:topic_id WHERE id = :id`, post)
 	if err != nil {
 		return
@@ -67,8 +67,8 @@ func (s *Storage) EditPost(postId int64, post *model.Post) (err error) {
 	return
 }
 
-func (s *Storage) DeletePost(postId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM post WHERE id = ?`, postId)
+func (s *Storage) DeletePost(postID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM post WHERE id = ?`, postID)
 	if err != nil {
 		return
 	}

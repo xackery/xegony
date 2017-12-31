@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getTopic(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "topicId")
+	id, err := getIntVar(r, "topicID")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "topicID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteTopic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "topicId")
+	id, err := getIntVar(r, "topicID")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "topicID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editTopic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "topicId")
+	id, err := getIntVar(r, "topicID")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "topicID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

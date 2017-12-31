@@ -157,7 +157,7 @@ func IsModerator(r *http.Request) (err error) {
 	return
 }
 
-func IsUserOwner(userId int64, r *http.Request) (err error) {
+func IsUserOwner(userID int64, r *http.Request) (err error) {
 	if r == nil {
 		err = &model.ErrPermission{
 			Message: "Owner access required",
@@ -176,7 +176,7 @@ func IsUserOwner(userId int64, r *http.Request) (err error) {
 		return
 	}
 
-	if userId == claims.User.Id {
+	if userID == claims.User.Id {
 		return
 	}
 

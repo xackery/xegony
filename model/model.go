@@ -72,8 +72,8 @@ func Rule(rule string) string {
 	return ""
 }
 
-func ZoneName(zoneId int64) string {
-	switch zoneId {
+func ZoneName(zoneID int64) string {
+	switch zoneID {
 	case 1:
 		return "qeynos"
 	case 2:

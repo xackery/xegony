@@ -8,7 +8,7 @@ import (
 
 type Bazaar struct {
 	Id     int64  `json:"id"`
-	ItemId int64  `json:"itemId" db:"itemid"`
+	ItemId int64  `json:"itemID" db:"itemid"`
 	Name   string `json:"name"`
 }
 
@@ -41,7 +41,7 @@ func (c *Bazaar) NewSchema(requiredFields []string, optionalFields []string) (sc
 
 func (c *Bazaar) getSchemaProperty(field string) (prop Schema, err error) {
 	switch field {
-	case "itemId":
+	case "itemID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "id":

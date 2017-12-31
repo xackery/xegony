@@ -6,9 +6,9 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) GetAccount(accountId int64) (account *model.Account, err error) {
+func (s *Storage) GetAccount(accountID int64) (account *model.Account, err error) {
 	account = &model.Account{}
-	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE id = ?", accountId)
+	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE id = ?", accountID)
 	if err != nil {
 		return
 	}
@@ -26,11 +26,11 @@ func (s *Storage) CreateAccount(account *model.Account) (err error) {
 	if err != nil {
 		return
 	}
-	accountId, err := result.LastInsertId()
+	accountID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	account.Id = accountId
+	account.Id = accountID
 	return
 }
 
@@ -50,8 +50,8 @@ func (s *Storage) ListAccount() (accounts []*model.Account, err error) {
 	return
 }
 
-func (s *Storage) EditAccount(accountId int64, account *model.Account) (err error) {
-	account.Id = accountId
+func (s *Storage) EditAccount(accountID int64, account *model.Account) (err error) {
+	account.Id = accountID
 	result, err := s.db.NamedExec(`UPDATE account SET name=:name, status=:status WHERE id = :id`, account)
 	if err != nil {
 		return
@@ -67,8 +67,8 @@ func (s *Storage) EditAccount(accountId int64, account *model.Account) (err erro
 	return
 }
 
-func (s *Storage) DeleteAccount(accountId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM account WHERE id = ?`, accountId)
+func (s *Storage) DeleteAccount(accountID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM account WHERE id = ?`, accountID)
 	if err != nil {
 		return
 	}

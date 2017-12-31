@@ -40,21 +40,21 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		Route{
 			"DeleteCharacter",
 			"DELETE",
-			"/character/{characterId}",
+			"/character/{characterID}",
 			a.deleteCharacter,
 		},
 
 		Route{
 			"EditCharacter",
 			"PUT",
-			"/character/{characterId}",
+			"/character/{characterID}",
 			a.editCharacter,
 		},
 
 		Route{
 			"GetCharacter",
 			"GET",
-			"/character/{characterId}",
+			"/character/{characterID}",
 			a.getCharacter,
 		},
 
@@ -75,21 +75,21 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		Route{
 			"DeleteAccount",
 			"DELETE",
-			"/account/{accountId}",
+			"/account/{accountID}",
 			a.deleteAccount,
 		},
 
 		Route{
 			"EditAccount",
 			"PUT",
-			"/account/{accountId}",
+			"/account/{accountID}",
 			a.editAccount,
 		},
 
 		Route{
 			"GetAccount",
 			"GET",
-			"/account/{accountId}",
+			"/account/{accountID}",
 			a.getAccount,
 		},
 
@@ -152,21 +152,21 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		Route{
 			"DeleteFaction",
 			"DELETE",
-			"/faction/{factionId}",
+			"/faction/{factionID}",
 			a.deleteFaction,
 		},
 
 		Route{
 			"EditFaction",
 			"PUT",
-			"/faction/{factionId}",
+			"/faction/{factionID}",
 			a.editFaction,
 		},
 
 		Route{
 			"GetFaction",
 			"GET",
-			"/faction/{factionId}",
+			"/faction/{factionID}",
 			a.getFaction,
 		},
 
@@ -180,21 +180,21 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		Route{
 			"DeleteTopic",
 			"DELETE",
-			"/topic/{topicId}",
+			"/topic/{topicID}",
 			a.deleteTopic,
 		},
 
 		Route{
 			"EditTopic",
 			"PUT",
-			"/topic/{topicId}",
+			"/topic/{topicID}",
 			a.editTopic,
 		},
 
 		Route{
 			"GetTopic",
 			"GET",
-			"/topic/{topicId}",
+			"/topic/{topicID}",
 			a.getTopic,
 		},
 
@@ -215,28 +215,28 @@ func (a *Api) ApplyRoutes(router *mux.Router) {
 		Route{
 			"DeleteItem",
 			"DELETE",
-			"/item/{itemId}",
+			"/item/{itemID}",
 			a.deleteItem,
 		},
 
 		Route{
 			"EditItem",
 			"PUT",
-			"/item/{itemId}",
+			"/item/{itemID}",
 			a.editItem,
 		},
 
 		Route{
 			"GetItem",
 			"GET",
-			"/item/{itemId}",
+			"/item/{itemID}",
 			a.getItem,
 		},
 
 		Route{
 			"GetItemTooltip",
 			"GET",
-			"/item/{itemId}/tooltip",
+			"/item/{itemID}/tooltip",
 			a.getItemTooltip,
 		},
 

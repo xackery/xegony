@@ -21,9 +21,9 @@ func (g *LootDropEntryRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *LootDropEntryRepository) Get(lootDropId int64, itemId int64) (lootDropEntry *model.LootDropEntry, err error) {
+func (g *LootDropEntryRepository) Get(lootDropID int64, itemID int64) (lootDropEntry *model.LootDropEntry, err error) {
 
-	lootDropEntry, err = g.stor.GetLootDropEntry(lootDropId, itemId)
+	lootDropEntry, err = g.stor.GetLootDropEntry(lootDropID, itemID)
 	return
 }
 
@@ -59,7 +59,7 @@ func (g *LootDropEntryRepository) Create(lootDropEntry *model.LootDropEntry) (er
 	return
 }
 
-func (g *LootDropEntryRepository) Edit(lootDropId int64, itemId int64, lootDropEntry *model.LootDropEntry) (err error) {
+func (g *LootDropEntryRepository) Edit(lootDropID int64, itemID int64, lootDropEntry *model.LootDropEntry) (err error) {
 	schema, err := lootDropEntry.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -81,23 +81,23 @@ func (g *LootDropEntryRepository) Edit(lootDropId int64, itemId int64, lootDropE
 		return
 	}
 
-	err = g.stor.EditLootDropEntry(lootDropId, itemId, lootDropEntry)
+	err = g.stor.EditLootDropEntry(lootDropID, itemID, lootDropEntry)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootDropEntryRepository) Delete(lootDropId int64, itemId int64) (err error) {
-	err = g.stor.DeleteLootDropEntry(lootDropId, itemId)
+func (g *LootDropEntryRepository) Delete(lootDropID int64, itemID int64) (err error) {
+	err = g.stor.DeleteLootDropEntry(lootDropID, itemID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootDropEntryRepository) List(lootDropId int64) (lootDropEntrys []*model.LootDropEntry, err error) {
-	lootDropEntrys, err = g.stor.ListLootDropEntry(lootDropId)
+func (g *LootDropEntryRepository) List(lootDropID int64) (lootDropEntrys []*model.LootDropEntry, err error) {
+	lootDropEntrys, err = g.stor.ListLootDropEntry(lootDropID)
 	if err != nil {
 		return
 	}

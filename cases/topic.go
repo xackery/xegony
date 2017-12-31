@@ -21,12 +21,12 @@ func (g *TopicRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *TopicRepository) Get(topicId int64) (topic *model.Topic, err error) {
-	if topicId == 0 {
+func (g *TopicRepository) Get(topicID int64) (topic *model.Topic, err error) {
+	if topicID == 0 {
 		err = fmt.Errorf("Invalid Topic ID")
 		return
 	}
-	topic, err = g.stor.GetTopic(topicId)
+	topic, err = g.stor.GetTopic(topicID)
 	return
 }
 
@@ -62,7 +62,7 @@ func (g *TopicRepository) Create(topic *model.Topic) (err error) {
 	return
 }
 
-func (g *TopicRepository) Edit(topicId int64, topic *model.Topic) (err error) {
+func (g *TopicRepository) Edit(topicID int64, topic *model.Topic) (err error) {
 	schema, err := topic.NewSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -84,15 +84,15 @@ func (g *TopicRepository) Edit(topicId int64, topic *model.Topic) (err error) {
 		return
 	}
 
-	err = g.stor.EditTopic(topicId, topic)
+	err = g.stor.EditTopic(topicID, topic)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TopicRepository) Delete(topicId int64) (err error) {
-	err = g.stor.DeleteTopic(topicId)
+func (g *TopicRepository) Delete(topicID int64) (err error) {
+	err = g.stor.DeleteTopic(topicID)
 	if err != nil {
 		return
 	}

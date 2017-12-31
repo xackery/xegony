@@ -60,7 +60,7 @@ func (c *LootTable) getSchemaProperty(field string) (prop Schema, err error) {
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "lootTableId":
+	case "lootTableID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "name":

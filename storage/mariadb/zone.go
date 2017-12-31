@@ -12,9 +12,9 @@ const (
 	zoneBinds  = `:short_name, :file_name, :long_name, :map_file_name, :safe_x, :safe_y, :safe_z, :graveyard_id, :min_level, :min_status, :zoneidnumber, :version, :timezone, :maxclients, :ruleset, :note, :underworld, :minclip, :maxclip, :fog_minclip, :fog_maxclip, :fog_blue, :fog_red, :fog_green, :sky, :ztype, :zone_exp_multiplier, :walkspeed, :time_type, :fog_red1, :fog_green1, :fog_blue1, :fog_minclip1, :fog_maxclip1, :fog_red2, :fog_green2, :fog_blue2, :fog_minclip2, :fog_maxclip2, :fog_red3, :fog_green3, :fog_blue3, :fog_minclip3, :fog_maxclip3, :fog_red4, :fog_green4, :fog_blue4, :fog_minclip4, :fog_maxclip4, :fog_density, :flag_needed, :canbind, :cancombat, :canlevitate, :castoutdoor, :hotzone, :insttype, :shutdowndelay, :peqzone, :expansion, :suspendbuffs, :rain_chance1, :rain_chance2, :rain_chance3, :rain_chance4, :rain_duration1, :rain_duration2, :rain_duration3, :rain_duration4, :snow_chance1, :snow_chance2, :snow_chance3, :snow_chance4, :snow_duration1, :snow_duration2, :snow_duration3, :snow_duration4, :gravity, :type, :skylock`
 )
 
-func (s *Storage) GetZone(zoneId int64) (zone *model.Zone, err error) {
+func (s *Storage) GetZone(zoneID int64) (zone *model.Zone, err error) {
 	zone = &model.Zone{}
-	err = s.db.Get(zone, fmt.Sprintf("SELECT zone.id, %s FROM zone WHERE zoneidnumber = ?", zoneFields), zoneId)
+	err = s.db.Get(zone, fmt.Sprintf("SELECT zone.id, %s FROM zone WHERE zoneidnumber = ?", zoneFields), zoneID)
 	if err != nil {
 		return
 	}
@@ -32,11 +32,11 @@ func (s *Storage) CreateZone(zone *model.Zone) (err error) {
 	if err != nil {
 		return
 	}
-	zoneId, err := result.LastInsertId()
+	zoneID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	zone.Id = zoneId
+	zone.Id = zoneID
 	return
 }
 
@@ -73,8 +73,8 @@ func (s *Storage) ListZoneByHotzone() (zones []*model.Zone, err error) {
 	return
 }
 
-func (s *Storage) EditZone(zoneId int64, zone *model.Zone) (err error) {
-	zone.ZoneIdNumber = zoneId
+func (s *Storage) EditZone(zoneID int64, zone *model.Zone) (err error) {
+	zone.ZoneIdNumber = zoneID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE zone SET %s WHERE zoneidnumber = :zoneidnumber`, zoneSets), zone)
 	if err != nil {
 		return
@@ -90,8 +90,8 @@ func (s *Storage) EditZone(zoneId int64, zone *model.Zone) (err error) {
 	return
 }
 
-func (s *Storage) DeleteZone(zoneId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM zone WHERE zoneidnumber = ?`, zoneId)
+func (s *Storage) DeleteZone(zoneID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM zone WHERE zoneidnumber = ?`, zoneID)
 	if err != nil {
 		return
 	}

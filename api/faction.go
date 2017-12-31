@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getFaction(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "factionId")
+	id, err := getIntVar(r, "factionID")
 	if err != nil {
-		err = errors.Wrap(err, "factionId argument is required")
+		err = errors.Wrap(err, "factionID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteFaction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "factionId")
+	id, err := getIntVar(r, "factionID")
 	if err != nil {
-		err = errors.Wrap(err, "factionId argument is required")
+		err = errors.Wrap(err, "factionID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editFaction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "factionId")
+	id, err := getIntVar(r, "factionID")
 	if err != nil {
-		err = errors.Wrap(err, "factionId argument is required")
+		err = errors.Wrap(err, "factionID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

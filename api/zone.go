@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getZone(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "zoneId")
+	id, err := getIntVar(r, "zoneID")
 	if err != nil {
-		err = errors.Wrap(err, "zoneId argument is required")
+		err = errors.Wrap(err, "zoneID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteZone(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "zoneId")
+	id, err := getIntVar(r, "zoneID")
 	if err != nil {
-		err = errors.Wrap(err, "zoneId argument is required")
+		err = errors.Wrap(err, "zoneID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editZone(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "zoneId")
+	id, err := getIntVar(r, "zoneID")
 	if err != nil {
-		err = errors.Wrap(err, "zoneId argument is required")
+		err = errors.Wrap(err, "zoneID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

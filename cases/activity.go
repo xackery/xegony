@@ -21,16 +21,16 @@ func (g *ActivityRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *ActivityRepository) Get(taskId int64, activityId int64) (activity *model.Activity, err error) {
-	if activityId == 0 {
+func (g *ActivityRepository) Get(taskID int64, activityID int64) (activity *model.Activity, err error) {
+	if activityID == 0 {
 		err = fmt.Errorf("Invalid Activity ID")
 		return
 	}
-	if taskId == 0 {
+	if taskID == 0 {
 		err = fmt.Errorf("Invalid Task ID")
 		return
 	}
-	activity, err = g.stor.GetActivity(taskId, activityId)
+	activity, err = g.stor.GetActivity(taskID, activityID)
 	return
 }
 
@@ -65,7 +65,7 @@ func (g *ActivityRepository) Create(activity *model.Activity) (err error) {
 	return
 }
 
-func (g *ActivityRepository) Edit(activityId int64, activity *model.Activity) (err error) {
+func (g *ActivityRepository) Edit(activityID int64, activity *model.Activity) (err error) {
 	schema, err := activity.NewSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -87,23 +87,23 @@ func (g *ActivityRepository) Edit(activityId int64, activity *model.Activity) (e
 		return
 	}
 
-	err = g.stor.EditActivity(activityId, activity)
+	err = g.stor.EditActivity(activityID, activity)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ActivityRepository) Delete(activityId int64) (err error) {
-	err = g.stor.DeleteActivity(activityId)
+func (g *ActivityRepository) Delete(activityID int64) (err error) {
+	err = g.stor.DeleteActivity(activityID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ActivityRepository) List(taskId int64) (activitys []*model.Activity, err error) {
-	activitys, err = g.stor.ListActivity(taskId)
+func (g *ActivityRepository) List(taskID int64) (activitys []*model.Activity, err error) {
+	activitys, err = g.stor.ListActivity(taskID)
 	if err != nil {
 		return
 	}

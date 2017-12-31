@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getAccount(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "accountId")
+	id, err := getIntVar(r, "accountID")
 	if err != nil {
-		err = errors.Wrap(err, "accountId argument is required")
+		err = errors.Wrap(err, "accountID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "accountId")
+	id, err := getIntVar(r, "accountID")
 	if err != nil {
-		err = errors.Wrap(err, "accountId argument is required")
+		err = errors.Wrap(err, "accountID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editAccount(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "accountId")
+	id, err := getIntVar(r, "accountID")
 	if err != nil {
-		err = errors.Wrap(err, "accountId argument is required")
+		err = errors.Wrap(err, "accountID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

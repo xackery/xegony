@@ -9,7 +9,7 @@ import (
 type User struct {
 	Id          int64  `json:"id"`
 	Name        string `json:"name"`
-	AccountId   int64  `json:"accountId" db:"account_id"`
+	AccountId   int64  `json:"accountID" db:"account_id"`
 	Email       string `json:"email"`
 	Password    string `json:"password"`
 	IsAdmin     bool   `json:"isAdmin"`
@@ -60,7 +60,7 @@ func (u *User) getSchemaProperty(field string) (prop Schema, err error) {
 		prop.Pattern = `^[a-zA-Z]\w{3,14}$`
 	case "email":
 		prop.Type = "email"
-	case "accountId":
+	case "accountID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	default:

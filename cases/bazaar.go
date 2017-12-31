@@ -21,12 +21,12 @@ func (g *BazaarRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *BazaarRepository) Get(bazaarId int64) (bazaar *model.Bazaar, err error) {
-	if bazaarId == 0 {
+func (g *BazaarRepository) Get(bazaarID int64) (bazaar *model.Bazaar, err error) {
+	if bazaarID == 0 {
 		err = fmt.Errorf("Invalid Bazaar ID")
 		return
 	}
-	bazaar, err = g.stor.GetBazaar(bazaarId)
+	bazaar, err = g.stor.GetBazaar(bazaarID)
 	return
 }
 
@@ -62,7 +62,7 @@ func (g *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
 	return
 }
 
-func (g *BazaarRepository) Edit(bazaarId int64, bazaar *model.Bazaar) (err error) {
+func (g *BazaarRepository) Edit(bazaarID int64, bazaar *model.Bazaar) (err error) {
 	schema, err := bazaar.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -84,15 +84,15 @@ func (g *BazaarRepository) Edit(bazaarId int64, bazaar *model.Bazaar) (err error
 		return
 	}
 
-	err = g.stor.EditBazaar(bazaarId, bazaar)
+	err = g.stor.EditBazaar(bazaarID, bazaar)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *BazaarRepository) Delete(bazaarId int64) (err error) {
-	err = g.stor.DeleteBazaar(bazaarId)
+func (g *BazaarRepository) Delete(bazaarID int64) (err error) {
+	err = g.stor.DeleteBazaar(bazaarID)
 	if err != nil {
 		return
 	}

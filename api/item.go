@@ -12,9 +12,9 @@ import (
 
 func (a *Api) getItem(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "itemId")
+	id, err := getIntVar(r, "itemID")
 	if err != nil {
-		err = errors.Wrap(err, "itemId argument is required")
+		err = errors.Wrap(err, "itemID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -72,9 +72,9 @@ const tooltipTemplate = `
 
 func (a *Api) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "itemId")
+	id, err := getIntVar(r, "itemID")
 	if err != nil {
-		err = errors.Wrap(err, "itemId argument is required")
+		err = errors.Wrap(err, "itemID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -155,9 +155,9 @@ func (a *Api) deleteItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "itemId")
+	id, err := getIntVar(r, "itemID")
 	if err != nil {
-		err = errors.Wrap(err, "itemId argument is required")
+		err = errors.Wrap(err, "itemID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -186,9 +186,9 @@ func (a *Api) editItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "itemId")
+	id, err := getIntVar(r, "itemID")
 	if err != nil {
-		err = errors.Wrap(err, "itemId argument is required")
+		err = errors.Wrap(err, "itemID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

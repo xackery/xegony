@@ -8,7 +8,7 @@ import (
 
 type LootDropEntry struct {
 	LootdropId     int64   `json:"lootdropId" db:"lootdrop_id"`         //`lootdrop_id` int(11) unsigned NOT NULL DEFAULT '0',
-	ItemId         int64   `json:"itemId" db:"item_id"`                 //`item_id` int(11) NOT NULL DEFAULT '0',
+	ItemId         int64   `json:"itemID" db:"item_id"`                 //`item_id` int(11) NOT NULL DEFAULT '0',
 	ItemCharges    int64   `json:"itemCharges" db:"item_charges"`       //`item_charges` smallint(2) unsigned NOT NULL DEFAULT '1',
 	EquipItem      int64   `json:"equipItem" db:"equip_item"`           //`equip_item` tinyint(2) unsigned NOT NULL DEFAULT '0',
 	Chance         float64 `json:"chance" db:"chance"`                  //`chance` float NOT NULL DEFAULT '1',
@@ -50,7 +50,7 @@ func (c *LootDropEntry) getSchemaProperty(field string) (prop Schema, err error)
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "lootDropId":
+	case "lootDropID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "name":

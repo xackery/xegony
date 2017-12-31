@@ -21,12 +21,12 @@ func (g *FactionRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *FactionRepository) Get(factionId int64) (faction *model.Faction, err error) {
-	if factionId == 0 {
+func (g *FactionRepository) Get(factionID int64) (faction *model.Faction, err error) {
+	if factionID == 0 {
 		err = fmt.Errorf("Invalid Faction ID")
 		return
 	}
-	faction, err = g.stor.GetFaction(factionId)
+	faction, err = g.stor.GetFaction(factionID)
 	return
 }
 
@@ -62,7 +62,7 @@ func (g *FactionRepository) Create(faction *model.Faction) (err error) {
 	return
 }
 
-func (g *FactionRepository) Edit(factionId int64, faction *model.Faction) (err error) {
+func (g *FactionRepository) Edit(factionID int64, faction *model.Faction) (err error) {
 	schema, err := faction.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -84,15 +84,15 @@ func (g *FactionRepository) Edit(factionId int64, faction *model.Faction) (err e
 		return
 	}
 
-	err = g.stor.EditFaction(factionId, faction)
+	err = g.stor.EditFaction(factionID, faction)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *FactionRepository) Delete(factionId int64) (err error) {
-	err = g.stor.DeleteFaction(factionId)
+func (g *FactionRepository) Delete(factionID int64) (err error) {
+	err = g.stor.DeleteFaction(factionID)
 	if err != nil {
 		return
 	}

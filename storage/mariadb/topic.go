@@ -6,9 +6,9 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) GetTopic(topicId int64) (topic *model.Topic, err error) {
+func (s *Storage) GetTopic(topicID int64) (topic *model.Topic, err error) {
 	topic = &model.Topic{}
-	err = s.db.Get(topic, "SELECT id, icon, title, forum_id FROM topic WHERE id = ?", topicId)
+	err = s.db.Get(topic, "SELECT id, icon, title, forum_id FROM topic WHERE id = ?", topicID)
 	if err != nil {
 		return
 	}
@@ -26,11 +26,11 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 	if err != nil {
 		return
 	}
-	topicId, err := result.LastInsertId()
+	topicID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	topic.Id = topicId
+	topic.Id = topicID
 	return
 }
 
@@ -50,8 +50,8 @@ func (s *Storage) ListTopic(forumID int64) (topics []*model.Topic, err error) {
 	return
 }
 
-func (s *Storage) EditTopic(topicId int64, topic *model.Topic) (err error) {
-	topic.Id = topicId
+func (s *Storage) EditTopic(topicID int64, topic *model.Topic) (err error) {
+	topic.Id = topicID
 	result, err := s.db.NamedExec(`UPDATE topic SET icon=:icon, title=:title, forum_id=:forum_id WHERE id = :id`, topic)
 	if err != nil {
 		return
@@ -67,8 +67,8 @@ func (s *Storage) EditTopic(topicId int64, topic *model.Topic) (err error) {
 	return
 }
 
-func (s *Storage) DeleteTopic(topicId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM topic WHERE id = ?`, topicId)
+func (s *Storage) DeleteTopic(topicID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM topic WHERE id = ?`, topicID)
 	if err != nil {
 		return
 	}

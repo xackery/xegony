@@ -21,12 +21,12 @@ func (g *TaskRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *TaskRepository) Get(taskId int64) (task *model.Task, err error) {
-	if taskId == 0 {
+func (g *TaskRepository) Get(taskID int64) (task *model.Task, err error) {
+	if taskID == 0 {
 		err = fmt.Errorf("Invalid Task ID")
 		return
 	}
-	task, err = g.stor.GetTask(taskId)
+	task, err = g.stor.GetTask(taskID)
 	return
 }
 
@@ -62,7 +62,7 @@ func (g *TaskRepository) Create(task *model.Task) (err error) {
 	return
 }
 
-func (g *TaskRepository) Edit(taskId int64, task *model.Task) (err error) {
+func (g *TaskRepository) Edit(taskID int64, task *model.Task) (err error) {
 	schema, err := task.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -84,15 +84,15 @@ func (g *TaskRepository) Edit(taskId int64, task *model.Task) (err error) {
 		return
 	}
 
-	err = g.stor.EditTask(taskId, task)
+	err = g.stor.EditTask(taskID, task)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TaskRepository) Delete(taskId int64) (err error) {
-	err = g.stor.DeleteTask(taskId)
+func (g *TaskRepository) Delete(taskID int64) (err error) {
+	err = g.stor.DeleteTask(taskID)
 	if err != nil {
 		return
 	}

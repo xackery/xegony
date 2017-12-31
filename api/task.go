@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getTask(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "taskId")
+	id, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "taskId")
+	id, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "taskId")
+	id, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

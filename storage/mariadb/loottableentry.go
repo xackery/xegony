@@ -12,9 +12,9 @@ const (
 	lootTableEntryBinds  = `:loottable_id, :lootdrop_id, :multiplier, :droplimit, :mindrop, :probability`
 )
 
-func (s *Storage) GetLootTableEntry(lootTableId int64, lootDropId int64) (lootTableEntry *model.LootTableEntry, err error) {
+func (s *Storage) GetLootTableEntry(lootTableID int64, lootDropID int64) (lootTableEntry *model.LootTableEntry, err error) {
 	lootTableEntry = &model.LootTableEntry{}
-	err = s.db.Get(lootTableEntry, fmt.Sprintf("SELECT %s FROM loottable_entries WHERE loottable_id = ? AND lootdrop_id = ?", lootTableEntryFields), lootTableId, lootDropId)
+	err = s.db.Get(lootTableEntry, fmt.Sprintf("SELECT %s FROM loottable_entries WHERE loottable_id = ? AND lootdrop_id = ?", lootTableEntryFields), lootTableID, lootDropID)
 	if err != nil {
 		return
 	}
@@ -36,8 +36,8 @@ func (s *Storage) CreateLootTableEntry(lootTableEntry *model.LootTableEntry) (er
 	return
 }
 
-func (s *Storage) ListLootTableEntry(lootTableId int64) (lootTableEntrys []*model.LootTableEntry, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM loottable_entries WHERE loottable_id = ?`, lootTableEntryFields), lootTableId)
+func (s *Storage) ListLootTableEntry(lootTableID int64) (lootTableEntrys []*model.LootTableEntry, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM loottable_entries WHERE loottable_id = ?`, lootTableEntryFields), lootTableID)
 	if err != nil {
 		return
 	}
@@ -52,7 +52,7 @@ func (s *Storage) ListLootTableEntry(lootTableId int64) (lootTableEntrys []*mode
 	return
 }
 
-func (s *Storage) EditLootTableEntry(lootTableId int64, lootDropId int64, lootTableEntry *model.LootTableEntry) (err error) {
+func (s *Storage) EditLootTableEntry(lootTableID int64, lootDropID int64, lootTableEntry *model.LootTableEntry) (err error) {
 
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE loottable_entries SET %s WHERE loottable_id = :loottable_id AND lootdrop_id = :lootdrop_id`, lootTableEntrySets), lootTableEntry)
 	if err != nil {
@@ -69,8 +69,8 @@ func (s *Storage) EditLootTableEntry(lootTableId int64, lootDropId int64, lootTa
 	return
 }
 
-func (s *Storage) DeleteLootTableEntry(lootTableId int64, lootDropId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM loottable_entries WHERE loottable_id = ?  and lootdrop_id = ?`, lootTableId, lootDropId)
+func (s *Storage) DeleteLootTableEntry(lootTableID int64, lootDropID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM loottable_entries WHERE loottable_id = ?  and lootdrop_id = ?`, lootTableID, lootDropID)
 	if err != nil {
 		return
 	}

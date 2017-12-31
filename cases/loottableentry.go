@@ -21,9 +21,9 @@ func (g *LootTableEntryRepository) Initialize(stor storage.Storage) (err error) 
 	return
 }
 
-func (g *LootTableEntryRepository) Get(lootTableId int64, lootDropId int64) (lootTableEntry *model.LootTableEntry, err error) {
+func (g *LootTableEntryRepository) Get(lootTableID int64, lootDropID int64) (lootTableEntry *model.LootTableEntry, err error) {
 
-	lootTableEntry, err = g.stor.GetLootTableEntry(lootTableId, lootDropId)
+	lootTableEntry, err = g.stor.GetLootTableEntry(lootTableID, lootDropID)
 	return
 }
 
@@ -59,7 +59,7 @@ func (g *LootTableEntryRepository) Create(lootTableEntry *model.LootTableEntry) 
 	return
 }
 
-func (g *LootTableEntryRepository) Edit(lootTableId int64, lootDropId int64, lootTableEntry *model.LootTableEntry) (err error) {
+func (g *LootTableEntryRepository) Edit(lootTableID int64, lootDropID int64, lootTableEntry *model.LootTableEntry) (err error) {
 	schema, err := lootTableEntry.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -81,23 +81,23 @@ func (g *LootTableEntryRepository) Edit(lootTableId int64, lootDropId int64, loo
 		return
 	}
 
-	err = g.stor.EditLootTableEntry(lootTableId, lootDropId, lootTableEntry)
+	err = g.stor.EditLootTableEntry(lootTableID, lootDropID, lootTableEntry)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableEntryRepository) Delete(lootTableId int64, lootDropId int64) (err error) {
-	err = g.stor.DeleteLootTableEntry(lootTableId, lootDropId)
+func (g *LootTableEntryRepository) Delete(lootTableID int64, lootDropID int64) (err error) {
+	err = g.stor.DeleteLootTableEntry(lootTableID, lootDropID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableEntryRepository) List(lootTableId int64) (lootTableEntrys []*model.LootTableEntry, err error) {
-	lootTableEntrys, err = g.stor.ListLootTableEntry(lootTableId)
+func (g *LootTableEntryRepository) List(lootTableID int64) (lootTableEntrys []*model.LootTableEntry, err error) {
+	lootTableEntrys, err = g.stor.ListLootTableEntry(lootTableID)
 	if err != nil {
 		return
 	}

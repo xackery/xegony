@@ -6,9 +6,9 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) GetGoal(listId int64, entryId int64) (goal *model.Goal, err error) {
+func (s *Storage) GetGoal(listID int64, entryID int64) (goal *model.Goal, err error) {
 	goal = &model.Goal{}
-	err = s.db.Get(goal, "SELECT listid, entry FROM goallists WHERE listid = ? AND entry = ?", listId, entryId)
+	err = s.db.Get(goal, "SELECT listid, entry FROM goallists WHERE listid = ? AND entry = ?", listID, entryID)
 	if err != nil {
 		return
 	}
@@ -53,8 +53,8 @@ func (s *Storage) ListGoal() (goals []*model.Goal, err error) {
 	return
 }
 
-func (s *Storage) EditGoal(listId int64, goal *model.Goal) (err error) {
-	goal.ListId = listId
+func (s *Storage) EditGoal(listID int64, goal *model.Goal) (err error) {
+	goal.ListId = listID
 	result, err := s.db.NamedExec(`UPDATE goallists SET listid=:listid, entry=:entry WHERE listid = :listid`, goal)
 	if err != nil {
 		return
@@ -70,8 +70,8 @@ func (s *Storage) EditGoal(listId int64, goal *model.Goal) (err error) {
 	return
 }
 
-func (s *Storage) DeleteGoal(listId int64, entryId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM goallists WHERE listid = ? and entry = ?`, listId, entryId)
+func (s *Storage) DeleteGoal(listID int64, entryID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM goallists WHERE listid = ? and entry = ?`, listID, entryID)
 	if err != nil {
 		return
 	}

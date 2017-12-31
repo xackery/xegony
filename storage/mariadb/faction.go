@@ -6,9 +6,9 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (s *Storage) GetFaction(factionId int64) (faction *model.Faction, err error) {
+func (s *Storage) GetFaction(factionID int64) (faction *model.Faction, err error) {
 	faction = &model.Faction{}
-	err = s.db.Get(faction, "SELECT id, name, base FROM faction_list WHERE id = ?", factionId)
+	err = s.db.Get(faction, "SELECT id, name, base FROM faction_list WHERE id = ?", factionID)
 	if err != nil {
 		return
 	}
@@ -26,11 +26,11 @@ func (s *Storage) CreateFaction(faction *model.Faction) (err error) {
 	if err != nil {
 		return
 	}
-	factionId, err := result.LastInsertId()
+	factionID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	faction.Id = factionId
+	faction.Id = factionID
 	return
 }
 
@@ -50,8 +50,8 @@ func (s *Storage) ListFaction() (factions []*model.Faction, err error) {
 	return
 }
 
-func (s *Storage) EditFaction(factionId int64, faction *model.Faction) (err error) {
-	faction.Id = factionId
+func (s *Storage) EditFaction(factionID int64, faction *model.Faction) (err error) {
+	faction.Id = factionID
 	result, err := s.db.NamedExec(`UPDATE faction_list SET name=:name, base=:base WHERE id = :id`, faction)
 	if err != nil {
 		return
@@ -67,8 +67,8 @@ func (s *Storage) EditFaction(factionId int64, faction *model.Faction) (err erro
 	return
 }
 
-func (s *Storage) DeleteFaction(factionId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM faction_list WHERE id = ?`, factionId)
+func (s *Storage) DeleteFaction(factionID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM faction_list WHERE id = ?`, factionID)
 	if err != nil {
 		return
 	}

@@ -20,14 +20,14 @@ func (a *Web) listLootTableEntry(w http.ResponseWriter, r *http.Request) {
 	site.Title = "LootTableEntry"
 	site.Section = "lootTableEntry"
 
-	lootTableId, err := getIntVar(r, "lootTableId")
+	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
-		err = errors.Wrap(err, "lootTableId argument is required")
+		err = errors.Wrap(err, "lootTableID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	lootTableEntrys, err := a.lootTableEntryRepo.List(lootTableId)
+	lootTableEntrys, err := a.lootTableEntryRepo.List(lootTableID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -65,21 +65,21 @@ func (a *Web) getLootTableEntry(w http.ResponseWriter, r *http.Request) {
 		LootTableEntry *model.LootTableEntry
 	}
 
-	lootTableId, err := getIntVar(r, "lootTableId")
+	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
-		err = errors.Wrap(err, "lootTableId argument is required")
+		err = errors.Wrap(err, "lootTableID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	lootDropId, err := getIntVar(r, "lootDropId")
+	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
-		err = errors.Wrap(err, "lootDropId argument is required")
+		err = errors.Wrap(err, "lootDropID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	lootTableEntry, err := a.lootTableEntryRepo.Get(lootTableId, lootDropId)
+	lootTableEntry, err := a.lootTableEntryRepo.Get(lootTableID, lootDropID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		a.writeError(w, r, err, http.StatusBadRequest)

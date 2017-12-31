@@ -11,7 +11,7 @@ properties:
     type: string
   status:
     type: integer
-  lsaccountId:
+  lsaccountID:
     type: integer
   gmspeed:
     type: integer

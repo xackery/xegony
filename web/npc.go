@@ -104,7 +104,7 @@ func (a *Web) searchNpc(w http.ResponseWriter, r *http.Request) {
 func (a *Web) listNpcByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
-	_, err = getIntVar(r, "zoneId")
+	_, err = getIntVar(r, "zoneID")
 	if err == nil {
 		a.getNpcByZone(w, r)
 		return
@@ -152,9 +152,9 @@ func (a *Web) listNpcByZone(w http.ResponseWriter, r *http.Request) {
 
 func (a *Web) getNpcByZone(w http.ResponseWriter, r *http.Request) {
 	var err error
-	zoneId, err := getIntVar(r, "zoneId")
+	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
-		err = errors.Wrap(err, "zoneId argument is required")
+		err = errors.Wrap(err, "zoneID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -169,7 +169,7 @@ func (a *Web) getNpcByZone(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Npc"
 	site.Section = "npc"
 
-	npcs, err := a.npcRepo.ListByZone(zoneId)
+	npcs, err := a.npcRepo.ListByZone(zoneID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -244,9 +244,9 @@ func (a *Web) listNpcByFaction(w http.ResponseWriter, r *http.Request) {
 
 func (a *Web) getNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	var err error
-	factionId, err := getIntVar(r, "factionId")
+	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
-		err = errors.Wrap(err, "factionId argument is required")
+		err = errors.Wrap(err, "factionID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -262,13 +262,13 @@ func (a *Web) getNpcByFaction(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Npc"
 	site.Section = "npc"
 
-	npcs, err := a.npcRepo.ListByFaction(factionId)
+	npcs, err := a.npcRepo.ListByFaction(factionID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	faction, err := a.factionRepo.Get(factionId)
+	faction, err := a.factionRepo.Get(factionID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -308,34 +308,34 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 		Items []*model.NpcLoot
 	}
 
-	if strings.ToLower(getVar(r, "npcId")) == "search" {
+	if strings.ToLower(getVar(r, "npcID")) == "search" {
 		a.searchNpc(w, r)
 		return
 	}
-	if strings.ToLower(getVar(r, "npcId")) == "byzone" {
+	if strings.ToLower(getVar(r, "npcID")) == "byzone" {
 		a.listNpcByZone(w, r)
 		return
 	}
 
-	if strings.ToLower(getVar(r, "npcId")) == "byfaction" {
+	if strings.ToLower(getVar(r, "npcID")) == "byfaction" {
 		a.listNpcByFaction(w, r)
 		return
 	}
 
-	npcId, err := getIntVar(r, "npcId")
+	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
-		err = errors.Wrap(err, "npcId argument is required")
+		err = errors.Wrap(err, "npcID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	npc, err := a.npcRepo.Get(npcId)
+	npc, err := a.npcRepo.Get(npcID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error on npc")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	items, err := a.npcLootRepo.List(npcId)
+	items, err := a.npcLootRepo.List(npcID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error on items")
 		a.writeError(w, r, err, http.StatusBadRequest)

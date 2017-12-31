@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getCharacter(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "characterId")
+	id, err := getIntVar(r, "characterID")
 	if err != nil {
-		err = errors.Wrap(err, "characterId argument is required")
+		err = errors.Wrap(err, "characterID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteCharacter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "characterId")
+	id, err := getIntVar(r, "characterID")
 	if err != nil {
-		err = errors.Wrap(err, "characterId argument is required")
+		err = errors.Wrap(err, "characterID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editCharacter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "characterId")
+	id, err := getIntVar(r, "characterID")
 	if err != nil {
-		err = errors.Wrap(err, "characterId argument is required")
+		err = errors.Wrap(err, "characterID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

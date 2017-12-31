@@ -12,12 +12,12 @@ type Character struct {
 	Inventory []*Item
 
 	Id                    int64   `json:"id" db:"id"`                                         //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	AccountId             int64   `json:"accountId" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
+	AccountId             int64   `json:"accountID" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
 	Name                  string  `json:"name" db:"name"`                                     //`name` varchar(64) NOT NULL DEFAULT '',
 	LastName              string  `json:"lastName" db:"last_name"`                            //`last_name` varchar(64) NOT NULL DEFAULT '',
 	Title                 string  `json:"title" db:"title"`                                   //`title` varchar(32) NOT NULL DEFAULT '',
 	Suffix                string  `json:"suffix" db:"suffix"`                                 //`suffix` varchar(32) NOT NULL DEFAULT '',
-	ZoneId                int64   `json:"zoneId" db:"zone_id"`                                //`zone_id` int(11) unsigned NOT NULL DEFAULT '0',
+	ZoneId                int64   `json:"zoneID" db:"zone_id"`                                //`zone_id` int(11) unsigned NOT NULL DEFAULT '0',
 	ZoneInstance          int64   `json:"zoneInstance" db:"zone_instance"`                    //`zone_instance` int(11) unsigned NOT NULL DEFAULT '0',
 	Y                     float64 `json:"y" db:"y"`                                           //`y` float NOT NULL DEFAULT '0',
 	X                     float64 `json:"x" db:"x"`                                           //`x` float NOT NULL DEFAULT '0',
@@ -152,10 +152,10 @@ func (c *Character) TotalHP() int64 {
 func (c *Character) ItemBonusHP() int64 {
 	var hp int64
 	for _, item := range c.Inventory {
-		if item.SlotId >= 0 && item.SlotId < 21 { //charm to one less than ammo
+		if item.SlotID >= 0 && item.SlotID < 21 { //charm to one less than ammo
 			hp += item.Hp
 		}
-		if item.SlotId == 22 { //powersource
+		if item.SlotID == 22 { //powersource
 			hp += item.Hp
 		}
 		//todo: tribute
@@ -247,13 +247,13 @@ func (c *Character) NewSchema(requiredFields []string, optionalFields []string) 
 
 func (c *Character) getSchemaProperty(field string) (prop Schema, err error) {
 	switch field {
-	case "accountId":
+	case "accountID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "zoneId":
+	case "zoneID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "name":

@@ -21,12 +21,12 @@ func (g *ItemRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *ItemRepository) Get(itemId int64) (item *model.Item, err error) {
-	if itemId == 0 {
+func (g *ItemRepository) Get(itemID int64) (item *model.Item, err error) {
+	if itemID == 0 {
 		err = fmt.Errorf("Invalid Item ID")
 		return
 	}
-	item, err = g.stor.GetItem(itemId)
+	item, err = g.stor.GetItem(itemID)
 	return
 }
 
@@ -38,8 +38,8 @@ func (g *ItemRepository) Search(search string) (items []*model.Item, err error) 
 	return
 }
 
-func (g *ItemRepository) SearchByAccount(accountId int64, search string) (items []*model.Item, err error) {
-	items, err = g.stor.SearchItemByAccount(accountId, search)
+func (g *ItemRepository) SearchByAccount(accountID int64, search string) (items []*model.Item, err error) {
+	items, err = g.stor.SearchItemByAccount(accountID, search)
 	if err != nil {
 		return
 	}
@@ -78,7 +78,7 @@ func (g *ItemRepository) Create(item *model.Item) (err error) {
 	return
 }
 
-func (g *ItemRepository) Edit(itemId int64, item *model.Item) (err error) {
+func (g *ItemRepository) Edit(itemID int64, item *model.Item) (err error) {
 	schema, err := item.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -100,15 +100,15 @@ func (g *ItemRepository) Edit(itemId int64, item *model.Item) (err error) {
 		return
 	}
 
-	err = g.stor.EditItem(itemId, item)
+	err = g.stor.EditItem(itemID, item)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) Delete(itemId int64) (err error) {
-	err = g.stor.DeleteItem(itemId)
+func (g *ItemRepository) Delete(itemID int64) (err error) {
+	err = g.stor.DeleteItem(itemID)
 	if err != nil {
 		return
 	}
@@ -140,8 +140,8 @@ func (g *ItemRepository) ListCount() (count int64, err error) {
 	return
 }
 
-func (g *ItemRepository) ListByCharacter(characterId int64) (items []*model.Item, err error) {
-	items, err = g.stor.ListItemByCharacter(characterId)
+func (g *ItemRepository) ListByCharacter(characterID int64) (items []*model.Item, err error) {
+	items, err = g.stor.ListItemByCharacter(characterID)
 	if err != nil {
 		return
 	}
@@ -395,16 +395,16 @@ func (g *ItemRepository) ListBySlot() (items []*model.Item, err error) {
 	return
 }
 
-func (g *ItemRepository) GetBySlot(slotId int64) (items []*model.Item, err error) {
-	items, err = g.stor.ListItemBySlot(slotId)
+func (g *ItemRepository) GetBySlot(slotID int64) (items []*model.Item, err error) {
+	items, err = g.stor.ListItemBySlot(slotID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) GetByZone(zoneId int64) (items []*model.Item, err error) {
-	items, err = g.stor.ListItemByZone(zoneId)
+func (g *ItemRepository) GetByZone(zoneID int64) (items []*model.Item, err error) {
+	items, err = g.stor.ListItemByZone(zoneID)
 	if err != nil {
 		return
 	}

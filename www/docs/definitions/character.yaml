@@ -1,7 +1,7 @@
 properties:
   id:
     type: integer
-  accountId:
+  accountID:
     type: integer
   name:
     type: string
@@ -11,7 +11,7 @@ properties:
     type: string
   suffix:
     type: string
-  zoneId:
+  zoneID:
     type: integer
   zoneInstance:
     type: integer

@@ -21,12 +21,12 @@ func (g *UserRepository) Initialize(stor storage.Storage) (err error) {
 	return
 }
 
-func (g *UserRepository) Get(userId int64) (user *model.User, err error) {
-	if userId == 0 {
+func (g *UserRepository) Get(userID int64) (user *model.User, err error) {
+	if userID == 0 {
 		err = fmt.Errorf("Invalid User ID")
 		return
 	}
-	user, err = g.stor.GetUser(userId)
+	user, err = g.stor.GetUser(userID)
 	return
 }
 
@@ -35,7 +35,7 @@ func (g *UserRepository) Create(user *model.User) (err error) {
 		err = fmt.Errorf("Empty user")
 		return
 	}
-	schema, err := user.NewSchema([]string{"name", "password", "email", "accountId"}, nil)
+	schema, err := user.NewSchema([]string{"name", "password", "email", "accountID"}, nil)
 	if err != nil {
 		return
 	}
@@ -94,7 +94,7 @@ func (g *UserRepository) Login(username string, password string) (user *model.Us
 	return
 }
 
-func (g *UserRepository) Edit(userId int64, user *model.User) (err error) {
+func (g *UserRepository) Edit(userID int64, user *model.User) (err error) {
 	schema, err := user.NewSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -116,15 +116,15 @@ func (g *UserRepository) Edit(userId int64, user *model.User) (err error) {
 		return
 	}
 
-	err = g.stor.EditUser(userId, user)
+	err = g.stor.EditUser(userID, user)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *UserRepository) Delete(userId int64) (err error) {
-	err = g.stor.DeleteUser(userId)
+func (g *UserRepository) Delete(userID int64) (err error) {
+	err = g.stor.DeleteUser(userID)
 	if err != nil {
 		return
 	}

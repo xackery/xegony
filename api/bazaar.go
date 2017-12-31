@@ -10,9 +10,9 @@ import (
 
 func (a *Api) getBazaar(w http.ResponseWriter, r *http.Request) {
 
-	id, err := getIntVar(r, "bazaarId")
+	id, err := getIntVar(r, "bazaarID")
 	if err != nil {
-		err = errors.Wrap(err, "bazaarId argument is required")
+		err = errors.Wrap(err, "bazaarID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -61,9 +61,9 @@ func (a *Api) deleteBazaar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "bazaarId")
+	id, err := getIntVar(r, "bazaarID")
 	if err != nil {
-		err = errors.Wrap(err, "bazaarId argument is required")
+		err = errors.Wrap(err, "bazaarID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -92,9 +92,9 @@ func (a *Api) editBazaar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "bazaarId")
+	id, err := getIntVar(r, "bazaarID")
 	if err != nil {
-		err = errors.Wrap(err, "bazaarId argument is required")
+		err = errors.Wrap(err, "bazaarID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

@@ -10,20 +10,20 @@ import (
 
 func (a *Api) getGoal(w http.ResponseWriter, r *http.Request) {
 
-	listId, err := getIntVar(r, "listId")
+	listID, err := getIntVar(r, "listID")
 	if err != nil {
-		err = errors.Wrap(err, "listId argument is required")
+		err = errors.Wrap(err, "listID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	entryId, err := getIntVar(r, "entryId")
+	entryID, err := getIntVar(r, "entryID")
 	if err != nil {
-		err = errors.Wrap(err, "entryId argument is required")
+		err = errors.Wrap(err, "entryID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	goal, err := a.goalRepo.Get(listId, entryId)
+	goal, err := a.goalRepo.Get(listID, entryID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			writeData(w, r, "", http.StatusOK)
@@ -68,21 +68,21 @@ func (a *Api) deleteGoal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	listId, err := getIntVar(r, "listId")
+	listID, err := getIntVar(r, "listID")
 	if err != nil {
-		err = errors.Wrap(err, "listId argument is required")
+		err = errors.Wrap(err, "listID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	entryId, err := getIntVar(r, "entryId")
+	entryID, err := getIntVar(r, "entryID")
 	if err != nil {
-		err = errors.Wrap(err, "entryId argument is required")
+		err = errors.Wrap(err, "entryID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.goalRepo.Delete(listId, entryId)
+	err = a.goalRepo.Delete(listID, entryID)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -106,9 +106,9 @@ func (a *Api) editGoal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	listId, err := getIntVar(r, "listId")
+	listID, err := getIntVar(r, "listID")
 	if err != nil {
-		err = errors.Wrap(err, "listId argument is required")
+		err = errors.Wrap(err, "listID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -121,7 +121,7 @@ func (a *Api) editGoal(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = a.goalRepo.Edit(listId, goal)
+	err = a.goalRepo.Edit(listID, goal)
 	if err != nil {
 		writeError(w, r, err, http.StatusInternalServerError)
 		return

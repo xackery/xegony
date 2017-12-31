@@ -8,9 +8,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *Storage) GetUser(userId int64) (user *model.User, err error) {
+func (s *Storage) GetUser(userID int64) (user *model.User, err error) {
 	user = &model.User{}
-	err = s.db.Get(user, "SELECT id, name, account_id, FROM user WHERE id = ?", userId)
+	err = s.db.Get(user, "SELECT id, name, account_id, FROM user WHERE id = ?", userID)
 	if err != nil {
 		return
 	}
@@ -68,11 +68,11 @@ func (s *Storage) CreateUser(user *model.User) (err error) {
 		}
 		return
 	}
-	userId, err := result.LastInsertId()
+	userID, err := result.LastInsertId()
 	if err != nil {
 		return
 	}
-	user.Id = userId
+	user.Id = userID
 	//don't expose password
 	user.Password = ""
 	return
@@ -98,8 +98,8 @@ func (s *Storage) ListUser() (users []*model.User, err error) {
 	return
 }
 
-func (s *Storage) EditUser(userId int64, user *model.User) (err error) {
-	user.Id = userId
+func (s *Storage) EditUser(userID int64, user *model.User) (err error) {
+	user.Id = userID
 	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email, account_id=:account_id WHERE id = :id`, user)
 	if err != nil {
 		return
@@ -115,8 +115,8 @@ func (s *Storage) EditUser(userId int64, user *model.User) (err error) {
 	return
 }
 
-func (s *Storage) DeleteUser(userId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM user WHERE id = ?`, userId)
+func (s *Storage) DeleteUser(userID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM user WHERE id = ?`, userID)
 	if err != nil {
 		return
 	}

@@ -1,7 +1,7 @@
 properties:
-  npcId:
+  npcID:
     type: integer
-  itemId:
+  itemID:
     type: integer
   npcName:
     type: string

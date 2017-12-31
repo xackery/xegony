@@ -190,9 +190,9 @@ func (a *Web) listCharacterByOnline(w http.ResponseWriter, r *http.Request) {
 func (a *Web) listCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
-	accountId, err := getIntVar(r, "accountId")
+	accountID, err := getIntVar(r, "accountID")
 	if err != nil {
-		err = errors.Wrap(err, "accountId argument is required")
+		err = errors.Wrap(err, "accountID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -207,7 +207,7 @@ func (a *Web) listCharacterByAccount(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Character"
 	site.Section = "character"
 
-	characters, err := a.characterRepo.ListByAccount(accountId)
+	characters, err := a.characterRepo.ListByAccount(accountID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -244,19 +244,19 @@ func (a *Web) getCharacter(w http.ResponseWriter, r *http.Request) {
 		Site      site
 		Character *model.Character
 	}
-	if (strings.ToLower(getVar(r, "characterId"))) == "byranking" {
+	if (strings.ToLower(getVar(r, "characterID"))) == "byranking" {
 		a.listCharacterByRanking(w, r)
 		return
 	}
 
-	if (strings.ToLower(getVar(r, "characterId"))) == "byonline" {
+	if (strings.ToLower(getVar(r, "characterID"))) == "byonline" {
 		a.listCharacterByOnline(w, r)
 		return
 	}
 
-	id, err := getIntVar(r, "characterId")
+	id, err := getIntVar(r, "characterID")
 	if err != nil {
-		err = errors.Wrap(err, "characterId argument is required")
+		err = errors.Wrap(err, "characterID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

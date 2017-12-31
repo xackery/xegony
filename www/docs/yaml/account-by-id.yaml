@@ -4,7 +4,7 @@ get:
   operationId: getAccount
   parameters:
     - in: path
-      name: accountId
+      name: accountID
       required: true
       description: ID
       type: integer
@@ -26,7 +26,7 @@ put:
     - OauthSecurity: [moderator, admin]
   parameters:
     - in: path
-      name: accountId
+      name: accountID
       required: true
       description: ID
       type: integer
@@ -54,7 +54,7 @@ delete:
     - OauthSecurity: [admin]
   parameters:
     - in: path
-      name: accountId
+      name: accountID
       required: true
       description: ID of account
       type: integer

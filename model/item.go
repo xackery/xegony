@@ -11,7 +11,7 @@ import (
 type Item struct {
 	//inventory added details
 	CharId            int64  `json:"charid" db:"charid"`                         //`charid` int(11) unsigned NOT NULL DEFAULT '0',
-	SlotId            int64  `json:"slotid" db:"slotid"`                         //`slotid` mediumint(7) unsigned NOT NULL DEFAULT '0',
+	SlotID            int64  `json:"slotid" db:"slotid"`                         //`slotid` mediumint(7) unsigned NOT NULL DEFAULT '0',
 	ItemId            int64  `json:"itemid" db:"itemid"`                         //`itemid` int(11) unsigned DEFAULT '0',
 	Charges           int64  `json:"charges" db:"charges"`                       //`charges` smallint(3) unsigned DEFAULT '0',
 	InvColor          int64  `json:"invcolor" db:"invcolor"`                     //`color` int(11) unsigned NOT NULL DEFAULT '0',
@@ -871,7 +871,7 @@ func (c *Item) SlotsFirstName() string {
 }
 
 func (c *Item) SlotName() string {
-	s := c.SlotId
+	s := c.SlotID
 	switch {
 	case s == 0:
 		return "Charm"
@@ -958,7 +958,7 @@ func (c *Item) SlotName() string {
 	case s >= 2500 && s <= 2551:
 		return "Shared Bank"
 	default:
-		return fmt.Sprintf("Unknown (%d)", c.SlotId)
+		return fmt.Sprintf("Unknown (%d)", c.SlotID)
 	}
 }
 
@@ -994,7 +994,7 @@ func (c *Item) getSchemaProperty(field string) (prop Schema, err error) {
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "zoneId":
+	case "zoneID":
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "name":

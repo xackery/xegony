@@ -102,19 +102,19 @@ func (a *Web) getZone(w http.ResponseWriter, r *http.Request) {
 		Zone *model.Zone
 	}
 
-	if strings.ToLower(getVar(r, "zoneId")) == "byexpansion" {
+	if strings.ToLower(getVar(r, "zoneID")) == "byexpansion" {
 		a.listZoneByExpansion(w, r)
 		return
 	}
 
-	if strings.ToLower(getVar(r, "zoneId")) == "byhotzone" {
+	if strings.ToLower(getVar(r, "zoneID")) == "byhotzone" {
 		a.listZoneByHotzone(w, r)
 		return
 	}
 
-	id, err := getIntVar(r, "zoneId")
+	id, err := getIntVar(r, "zoneID")
 	if err != nil {
-		err = errors.Wrap(err, "zoneId argument is required")
+		err = errors.Wrap(err, "zoneID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

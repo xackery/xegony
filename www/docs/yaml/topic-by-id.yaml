@@ -4,7 +4,7 @@ get:
   operationId: getTopic
   parameters:
     - in: path
-      name: topicId
+      name: topicID
       required: true
       description: ID
       type: integer
@@ -26,7 +26,7 @@ put:
     - OauthSecurity: [moderator, admin]
   parameters:
     - in: path
-      name: topicId
+      name: topicID
       required: true
       description: ID
       type: integer
@@ -54,7 +54,7 @@ delete:
     - OauthSecurity: [admin]
   parameters:
     - in: path
-      name: topicId
+      name: topicID
       required: true
       description: ID of topic
       type: integer

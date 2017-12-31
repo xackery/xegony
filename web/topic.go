@@ -77,9 +77,9 @@ func (a *Web) getTopic(w http.ResponseWriter, r *http.Request) {
 		Topic *model.Topic
 	}
 
-	id, err := getIntVar(r, "topicId")
+	id, err := getIntVar(r, "topicID")
 	if err != nil {
-		err = errors.Wrap(err, "topicId argument is required")
+		err = errors.Wrap(err, "topicID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

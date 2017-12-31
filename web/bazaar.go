@@ -57,9 +57,9 @@ func (a *Web) getBazaar(w http.ResponseWriter, r *http.Request) {
 		Bazaar *model.Bazaar
 	}
 
-	id, err := getIntVar(r, "bazaarId")
+	id, err := getIntVar(r, "bazaarID")
 	if err != nil {
-		err = errors.Wrap(err, "bazaarId argument is required")
+		err = errors.Wrap(err, "bazaarID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

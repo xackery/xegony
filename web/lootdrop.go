@@ -58,9 +58,9 @@ func (a *Web) getLootDrop(w http.ResponseWriter, r *http.Request) {
 		LootDrop *model.LootDrop
 	}
 
-	id, err := getIntVar(r, "lootDropId")
+	id, err := getIntVar(r, "lootDropID")
 	if err != nil {
-		err = errors.Wrap(err, "lootDropId argument is required")
+		err = errors.Wrap(err, "lootDropID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

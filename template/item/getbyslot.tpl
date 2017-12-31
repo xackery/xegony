@@ -12,7 +12,7 @@
     <div class="col-lg-12">
         <div class="hpanel forum-box">
             <div class="panel-heading">
-                <span class="f"><a href="/item/byslot">Item By Slot</a> > {{.SlotId}}</span>
+                <span class="f"><a href="/item/byslot">Item By Slot</a> > {{.SlotID}}</span>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">

@@ -10,20 +10,20 @@ import (
 
 func (a *Api) getActivity(w http.ResponseWriter, r *http.Request) {
 
-	activityId, err := getIntVar(r, "activityId")
+	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
-		err = errors.Wrap(err, "activityId argument is required")
+		err = errors.Wrap(err, "activityID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	taskId, err := getIntVar(r, "taskId")
+	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	activity, err := a.activityRepo.Get(taskId, activityId)
+	activity, err := a.activityRepo.Get(taskID, activityID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			writeData(w, r, "", http.StatusOK)
@@ -68,9 +68,9 @@ func (a *Api) deleteActivity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "activityId")
+	id, err := getIntVar(r, "activityID")
 	if err != nil {
-		err = errors.Wrap(err, "activityId argument is required")
+		err = errors.Wrap(err, "activityID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -99,9 +99,9 @@ func (a *Api) editActivity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "activityId")
+	id, err := getIntVar(r, "activityID")
 	if err != nil {
-		err = errors.Wrap(err, "activityId argument is required")
+		err = errors.Wrap(err, "activityID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -124,13 +124,13 @@ func (a *Api) editActivity(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Api) listActivity(w http.ResponseWriter, r *http.Request) {
-	taskId, err := getIntVar(r, "taskId")
+	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	activitys, err := a.activityRepo.List(taskId)
+	activitys, err := a.activityRepo.List(taskID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		writeError(w, r, err, http.StatusInternalServerError)

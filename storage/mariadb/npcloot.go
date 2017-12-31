@@ -12,11 +12,11 @@ const (
 	npcLootBinds  = `:npc_id, :item_id`
 )
 
-func (s *Storage) GetNpcLoot(npcId int64, itemId int64) (npcLoot *model.NpcLoot, err error) {
+func (s *Storage) GetNpcLoot(npcID int64, itemID int64) (npcLoot *model.NpcLoot, err error) {
 	npcLoot = &model.NpcLoot{}
 	err = s.db.Get(npcLoot, fmt.Sprintf(`SELECT %s, %s FROM npc_loot_cache
 	INNER JOIN items ON items.id = npc_loot_cache.item_id 
-	WHERE npc_loot_cache.npc_id = ? AND npc_loot_cache.item_id = ?`, npcLootFields, itemFields), npcId, itemId)
+	WHERE npc_loot_cache.npc_id = ? AND npc_loot_cache.item_id = ?`, npcLootFields, itemFields), npcID, itemID)
 	if err != nil {
 		return
 	}
@@ -37,10 +37,10 @@ func (s *Storage) CreateNpcLoot(npcLoot *model.NpcLoot) (err error) {
 	return
 }
 
-func (s *Storage) ListNpcLoot(npcId int64) (npcLoots []*model.NpcLoot, err error) {
+func (s *Storage) ListNpcLoot(npcID int64) (npcLoots []*model.NpcLoot, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s, %s FROM npc_loot_cache
 	INNER JOIN items ON items.id = npc_loot_cache.item_id 
-	WHERE npc_loot_cache.npc_id = ?`, npcLootFields, itemFields), npcId)
+	WHERE npc_loot_cache.npc_id = ?`, npcLootFields, itemFields), npcID)
 	if err != nil {
 		return
 	}
@@ -55,9 +55,9 @@ func (s *Storage) ListNpcLoot(npcId int64) (npcLoots []*model.NpcLoot, err error
 	return
 }
 
-func (s *Storage) ListNpcLootByZone(zoneId int64) (npcLoots []*model.NpcLoot, err error) {
-	upperId := (zoneId * 1000) + 1000 - 1
-	lowerId := (zoneId * 1000) - 1
+func (s *Storage) ListNpcLootByZone(zoneID int64) (npcLoots []*model.NpcLoot, err error) {
+	upperId := (zoneID * 1000) + 1000 - 1
+	lowerId := (zoneID * 1000) - 1
 
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.name npc_name, %s, %s, %s FROM npc_loot_cache
 	INNER JOIN items ON items.id = npc_loot_cache.item_id 
@@ -77,9 +77,9 @@ func (s *Storage) ListNpcLootByZone(zoneId int64) (npcLoots []*model.NpcLoot, er
 	return
 }
 
-func (s *Storage) EditNpcLoot(npcId int64, itemId int64, npcLoot *model.NpcLoot) (err error) {
-	npcLoot.NpcId = npcId
-	npcLoot.ItemId = itemId
+func (s *Storage) EditNpcLoot(npcID int64, itemID int64, npcLoot *model.NpcLoot) (err error) {
+	npcLoot.NpcId = npcID
+	npcLoot.ItemId = itemID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE npc_loot_cache SET %s WHERE npc_id = :npc_id, item_id = :item_id`, npcLootSets), npcLoot)
 	if err != nil {
 		return
@@ -103,8 +103,8 @@ func (s *Storage) TruncateNpcLoot() (err error) {
 	return
 }
 
-func (s *Storage) DeleteNpcLoot(npcId int64, itemId int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM npc_loot_cache WHERE npc_id = ? AND item_id = ?`, npcId, itemId)
+func (s *Storage) DeleteNpcLoot(npcID int64, itemID int64) (err error) {
+	result, err := s.db.Exec(`DELETE FROM npc_loot_cache WHERE npc_id = ? AND item_id = ?`, npcID, itemID)
 	if err != nil {
 		return
 	}

@@ -111,9 +111,9 @@ func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request) {
 		NpcLoots []*model.NpcLoot
 	}
 
-	zoneId, err := getIntVar(r, "zoneId")
+	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
-		err = errors.Wrap(err, "zoneId argument is required")
+		err = errors.Wrap(err, "zoneID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -122,12 +122,12 @@ func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request) {
 	site.Page = "item"
 	site.Title = "Item"
 
-	npcLoots, err := a.npcLootRepo.ListByZone(zoneId)
+	npcLoots, err := a.npcLootRepo.ListByZone(zoneID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	zone, err := a.zoneRepo.Get(zoneId)
+	zone, err := a.zoneRepo.Get(zoneID)
 	content := Content{
 		Site:     site,
 		NpcLoots: npcLoots,
@@ -156,9 +156,9 @@ func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request) {
 
 func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
-	characterId, err := getIntVar(r, "characterId")
+	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
-		err = errors.Wrap(err, "itemId argument is required")
+		err = errors.Wrap(err, "itemID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -172,13 +172,13 @@ func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
-	character, err := a.characterRepo.Get(characterId)
+	character, err := a.characterRepo.Get(characterID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	inventory, err := a.itemRepo.ListByCharacter(characterId)
+	inventory, err := a.itemRepo.ListByCharacter(characterID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -187,7 +187,7 @@ func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	itemInventory := map[int]model.Item{}
 
 	for i, _ := range inventory {
-		itemInventory[int(inventory[i].SlotId)] = *inventory[i]
+		itemInventory[int(inventory[i].SlotID)] = *inventory[i]
 	}
 
 	content := Content{
@@ -196,7 +196,7 @@ func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 		Character: character,
 	}
 
-	fmt.Println(characterId, len(inventory))
+	fmt.Println(characterID, len(inventory))
 	tmp := a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/listbycharacter.tpl")
@@ -265,12 +265,12 @@ func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request) {
 	type Content struct {
 		Site   site
 		Items  []*model.Item
-		SlotId int64
+		SlotID int64
 	}
 
-	slotId, err := getIntVar(r, "slotId")
+	slotID, err := getIntVar(r, "slotID")
 	if err != nil {
-		err = errors.Wrap(err, "slotId argument is required")
+		err = errors.Wrap(err, "slotID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -278,7 +278,7 @@ func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request) {
 	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
-	items, err := a.itemRepo.GetBySlot(slotId)
+	items, err := a.itemRepo.GetBySlot(slotID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -287,7 +287,7 @@ func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request) {
 	content := Content{
 		Site:   site,
 		Items:  items,
-		SlotId: slotId,
+		SlotID: slotID,
 	}
 
 	tmp := a.getTemplate("")
@@ -318,24 +318,24 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 		Item *model.Item
 	}
 
-	if strings.ToLower(getVar(r, "itemId")) == "byslot" {
+	if strings.ToLower(getVar(r, "itemID")) == "byslot" {
 		a.listItemBySlot(w, r)
 		return
 	}
 
-	if strings.ToLower(getVar(r, "itemId")) == "byzone" {
+	if strings.ToLower(getVar(r, "itemID")) == "byzone" {
 		a.listItemByZone(w, r)
 		return
 	}
 
-	if strings.ToLower(getVar(r, "itemId")) == "search" {
+	if strings.ToLower(getVar(r, "itemID")) == "search" {
 		a.searchItem(w, r)
 		return
 	}
 
-	id, err := getIntVar(r, "itemId")
+	id, err := getIntVar(r, "itemID")
 	if err != nil {
-		err = errors.Wrap(err, "itemId argument is required")
+		err = errors.Wrap(err, "itemID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

@@ -58,9 +58,9 @@ func (a *Web) getTask(w http.ResponseWriter, r *http.Request) {
 		Task *model.Task
 	}
 
-	id, err := getIntVar(r, "taskId")
+	id, err := getIntVar(r, "taskID")
 	if err != nil {
-		err = errors.Wrap(err, "taskId argument is required")
+		err = errors.Wrap(err, "taskID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
