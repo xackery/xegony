@@ -28,8 +28,8 @@
                     {{range $key, $value := .Zones}}
                     <tr>
                         
-                        <td><a href="/npc/byzone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
-                        <td><a href="/npc/byzone/{{$value.ZoneIdNumber}}">{{$value.ExpansionName}}</a></td>
+                        <td><a href="/npc/byzone/{{$value.ZoneIDNumber}}">{{$value.LongName}}</a></td>
+                        <td><a href="/npc/byzone/{{$value.ZoneIDNumber}}">{{$value.ExpansionName}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>

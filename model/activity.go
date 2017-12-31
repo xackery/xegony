@@ -6,6 +6,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Activity is used by Tasks to break down which activities are involved in a provided task
 type Activity struct {
 	Taskid       int64  `json:"taskid" db:"taskid"`             //`taskid` int(11) unsigned NOT NULL DEFAULT '0',
 	Activityid   int64  `json:"activityid" db:"activityid"`     //`activityid` int(11) unsigned NOT NULL DEFAULT '0',

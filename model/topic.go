@@ -6,6 +6,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Topic is the entries inside forum, grouping posts
 type Topic struct {
 	Id      int64  `json:"id"`
 	Title   string `json:"title"`

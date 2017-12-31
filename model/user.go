@@ -6,10 +6,11 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//User is a login authentication created by Xegony, binding an account ID
 type User struct {
 	Id          int64  `json:"id"`
 	Name        string `json:"name"`
-	AccountId   int64  `json:"accountID" db:"account_id"`
+	AccountID   int64  `json:"accountID" db:"account_id"`
 	Email       string `json:"email"`
 	Password    string `json:"password"`
 	IsAdmin     bool   `json:"isAdmin"`

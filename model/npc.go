@@ -9,6 +9,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Npc represents Non player characters in everquest
 type Npc struct {
 	Id                  int64          `json:"id" db:"id"`                                     //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name                string         `json:"name" db:"name"`                                 //`name` text NOT NULL,

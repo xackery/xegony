@@ -8,6 +8,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Item represents items inside everquest
 type Item struct {
 	//inventory added details
 	CharId            int64  `json:"charid" db:"charid"`                         //`charid` int(11) unsigned NOT NULL DEFAULT '0',

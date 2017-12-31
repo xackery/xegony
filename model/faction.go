@@ -6,6 +6,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Faction represents everquest factions
 type Faction struct {
 	Id   int64  `json:"id"`
 	Base int64  `json:"base"`

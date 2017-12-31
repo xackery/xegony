@@ -36,7 +36,7 @@ func (s *Storage) CreateZone(zone *model.Zone) (err error) {
 	if err != nil {
 		return
 	}
-	zone.Id = zoneID
+	zone.ID = zoneID
 	return
 }
 
@@ -74,7 +74,7 @@ func (s *Storage) ListZoneByHotzone() (zones []*model.Zone, err error) {
 }
 
 func (s *Storage) EditZone(zoneID int64, zone *model.Zone) (err error) {
-	zone.ZoneIdNumber = zoneID
+	zone.ZoneIDNumber = zoneID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE zone SET %s WHERE zoneidnumber = :zoneidnumber`, zoneSets), zone)
 	if err != nil {
 		return

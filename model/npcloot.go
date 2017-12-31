@@ -6,6 +6,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//NpcLoot is a cache table used to speed up lookup of items for NPCs
 type NpcLoot struct {
 	NpcId   int64  `json:"npcID" db:"npc_id"`
 	ItemId  int64  `json:"itemID" db:"item_id"`

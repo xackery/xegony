@@ -4,44 +4,55 @@ import (
 	"github.com/pkg/errors"
 )
 
+//ErrNoContent means no content should be displayed
 type ErrNoContent struct {
 }
 
+//Error wraps the error message to satisfy the error type interface
 func (e *ErrNoContent) Error() string {
 	return "No content provided"
 }
 
+//ErrDecodeBody is a failure to decode a request body
 type ErrDecodeBody struct {
 }
 
+//Error wraps the error message to satisfy the error type interface
 func (e *ErrDecodeBody) Error() string {
 	return "Failed to decode body"
 }
 
+//ErrInvalidArguments means arguments being passed in a request were invalid
 type ErrInvalidArguments struct {
 }
 
+//Error wraps the error message to satisfy the error type interface
 func (e *ErrInvalidArguments) Error() string {
 	return "Invalid arguments provided"
 }
 
+//ErrValidation has many errors represented as Key/Value pairs of Field:Description inside REasons
 type ErrValidation struct {
 	Message string
 	Reasons map[string]string
 }
 
+//Error wraps the error message to satisfy the error type interface
 func (e *ErrValidation) Error() string {
 	return e.Message
 }
 
+//StackTracer is an interface for stack trace error handling
 type StackTracer interface {
 	StackTrace() errors.StackTrace
 }
 
+//ErrPermission is a permission denied generic error
 type ErrPermission struct {
 	Message string
 }
 
+//Error wraps the error message to satisfy the error type interface
 func (e *ErrPermission) Error() string {
 	return e.Message
 }

@@ -28,9 +28,9 @@
                     <tbody>
                     {{range $key, $value := .Zones}}
                     <tr>
-                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.LongName}}</a></td>
-                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ZoneExpMultiplier}}</a></td>
-                        <td><a href="/zone/{{$value.ZoneIdNumber}}">{{$value.ExpansionName}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneIDNumber}}">{{$value.LongName}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneIDNumber}}">{{$value.ZoneExpMultiplier}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneIDNumber}}">{{$value.ExpansionName}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>

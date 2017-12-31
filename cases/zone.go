@@ -39,7 +39,7 @@ func (g *ZoneRepository) Create(zone *model.Zone) (err error) {
 	if err != nil {
 		return
 	}
-	if zone.ZoneIdNumber < 1 {
+	if zone.ZoneIDNumber < 1 {
 		vErr := &model.ErrValidation{
 			Message: "invalid",
 		}
@@ -48,7 +48,7 @@ func (g *ZoneRepository) Create(zone *model.Zone) (err error) {
 		err = vErr
 		return
 	}
-	zone.Id = 0 //strip ID
+	zone.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(zone))
 	if err != nil {
 		return

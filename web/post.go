@@ -39,9 +39,9 @@ func (a *Web) listPost(w http.ResponseWriter, r *http.Request) {
 	var forum *model.Forum
 
 	if len(posts) > 0 {
-		topic, err = a.topicRepo.Get(posts[0].TopicId)
+		topic, err = a.topicRepo.Get(posts[0].TopicID)
 		if err != nil {
-			err = errors.Wrap(err, fmt.Sprintf("Failed to get topic id: %d", posts[0].TopicId))
+			err = errors.Wrap(err, fmt.Sprintf("Failed to get topic id: %d", posts[0].TopicID))
 			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
@@ -106,7 +106,7 @@ func (a *Web) getPost(w http.ResponseWriter, r *http.Request) {
 	var topic *model.Topic
 	var forum *model.Forum
 
-	topic, err = a.topicRepo.Get(post.TopicId)
+	topic, err = a.topicRepo.Get(post.TopicID)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get topic id")
 		a.writeError(w, r, err, http.StatusBadRequest)

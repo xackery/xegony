@@ -5,6 +5,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+//Storage is a generic interface of all storage types
 type Storage interface {
 	Initialize(config string) (err error)
 	DropTables() (err error)

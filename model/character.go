@@ -6,13 +6,14 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Character holds data about players inside Everquest, it primarily uses character_data table
 type Character struct {
 	//Used by ranking system
 	Base      *Base
 	Inventory []*Item
 
 	Id                    int64   `json:"id" db:"id"`                                         //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	AccountId             int64   `json:"accountID" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
+	AccountID             int64   `json:"accountID" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
 	Name                  string  `json:"name" db:"name"`                                     //`name` varchar(64) NOT NULL DEFAULT '',
 	LastName              string  `json:"lastName" db:"last_name"`                            //`last_name` varchar(64) NOT NULL DEFAULT '',
 	Title                 string  `json:"title" db:"title"`                                   //`title` varchar(32) NOT NULL DEFAULT '',

@@ -6,6 +6,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Lootdropentry groups together items that npcs drop
 type LootDropEntry struct {
 	LootdropId     int64   `json:"lootdropId" db:"lootdrop_id"`         //`lootdrop_id` int(11) unsigned NOT NULL DEFAULT '0',
 	ItemId         int64   `json:"itemID" db:"item_id"`                 //`item_id` int(11) NOT NULL DEFAULT '0',

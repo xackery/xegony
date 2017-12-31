@@ -186,7 +186,7 @@ func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 
 	itemInventory := map[int]model.Item{}
 
-	for i, _ := range inventory {
+	for i := range inventory {
 		itemInventory[int(inventory[i].SlotID)] = *inventory[i]
 	}
 
@@ -396,7 +396,7 @@ func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request) {
 	var items []*model.Item
 
 	if len(search) > 0 {
-		items, err = a.itemRepo.SearchByAccount(claims.User.AccountId, search)
+		items, err = a.itemRepo.SearchByAccount(claims.User.AccountID, search)
 		if err != nil {
 			a.writeError(w, r, err, http.StatusBadRequest)
 			return

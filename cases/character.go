@@ -39,7 +39,7 @@ func (g *CharacterRepository) Create(character *model.Character) (err error) {
 	if err != nil {
 		return
 	}
-	if character.AccountId < 1 {
+	if character.AccountID < 1 {
 		vErr := &model.ErrValidation{
 			Message: "invalid",
 		}

@@ -6,11 +6,12 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Post are topic entries for forums
 type Post struct {
 	Id      int64  `json:"id"`
 	Body    string `json:"body"`
-	TopicId int64  `json:"topicID" db:"topic_id"`
-	OwnerId int64  `json:"ownerId" db:"owner_id"`
+	TopicID int64  `json:"topicID" db:"topic_id"`
+	OwnerID int64  `json:"ownerId" db:"owner_id"`
 }
 
 func (c *Post) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

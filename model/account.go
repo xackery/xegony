@@ -8,6 +8,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Account holds together characters inside Everquest's design
 type Account struct {
 	Id             int64         `json:"id" db:"id"`                         //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name           string        `json:"name" db:"name"`                     //`name` varchar(30) NOT NULL DEFAULT '',

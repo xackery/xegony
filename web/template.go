@@ -9,6 +9,7 @@ import (
 	"github.com/xackery/xegony/box"
 )
 
+//Template wraps template objects
 type Template struct {
 	template *template.Template
 }
@@ -70,6 +71,7 @@ func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path stri
 	return
 }
 
+//Comma will take an integer and put commas, e.g. 1234 => 1,234
 func Comma(v int64) string {
 	return humanize.Comma(v)
 }

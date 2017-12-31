@@ -2,7 +2,7 @@ package model
 
 import ()
 
-//http://json-schema.org/latest/json-schema-validation.html#anchor111
+//Schema represents http://json-schema.org/latest/json-schema-validation.html#anchor111
 type Schema struct {
 	//Schema      string   `json:"$schema,omitempty"`
 	Type              string            `json:"string,omitempty"` //integer, string, object

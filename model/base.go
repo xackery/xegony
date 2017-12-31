@@ -6,6 +6,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//Base is an everquest base data table representation
 type Base struct {
 	Level   int64   `json:"level" db:"level"`      //`level` int(10) unsigned NOT NULL,
 	Class   int64   `json:"class" db:"class"`      //`class` int(10) unsigned NOT NULL,

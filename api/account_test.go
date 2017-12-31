@@ -72,7 +72,7 @@ func TestAccountEndpoints(t *testing.T) {
 			useAuth:      true,
 		},
 		{
-			name:         "GetAccountInvalidAccountId",
+			name:         "GetAccountInvalidAccountID",
 			path:         "/api/account/invalid",
 			method:       "GET",
 			body:         "",

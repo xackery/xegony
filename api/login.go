@@ -37,9 +37,9 @@ func (a *Api) postLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	account, err := a.accountRepo.Get(user.AccountId)
+	account, err := a.accountRepo.Get(user.AccountID)
 	if err != nil {
-		err = errors.Wrap(err, fmt.Sprintf("account not found for %s: %d", user.Name, user.AccountId))
+		err = errors.Wrap(err, fmt.Sprintf("account not found for %s: %d", user.Name, user.AccountID))
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
