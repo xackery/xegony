@@ -57,7 +57,8 @@ func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
 
 func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
-		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID`, spawn2Fields, spawnGroupFields))
+		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID
+		GROUP BY spawn2.spawngroupID`, spawn2Fields, spawnGroupFields))
 	if err != nil {
 		return
 	}

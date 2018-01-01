@@ -233,8 +233,20 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		{
 			"GetSpawn",
 			"GET",
-			"/spawn/{spawnID}",
+			"/spawn/{spawnID}/details",
 			a.getSpawn,
+		},
+		{
+			"ListSpawnEntry",
+			"GET",
+			"/spawn/{spawnGroupID}",
+			a.listSpawnEntry,
+		},
+		{
+			"GetSpawnEntry",
+			"GET",
+			"/spawn/{spawnGroupID}/{npcID}",
+			a.getSpawnEntry,
 		},
 		{
 			"ListForum",

@@ -48,6 +48,7 @@ type Api struct {
 	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
 	spawnRepo          *cases.SpawnRepository
+	spawnEntryRepo     *cases.SpawnEntryRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
@@ -93,6 +94,8 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 	a.postRepo.Initialize(s)
 	a.spawnRepo = &cases.SpawnRepository{}
 	a.spawnRepo.Initialize(s)
+	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
+	a.spawnEntryRepo.Initialize(s)
 	a.taskRepo = &cases.TaskRepository{}
 	a.taskRepo.Initialize(s)
 	a.topicRepo = &cases.TopicRepository{}

@@ -25,6 +25,7 @@ func (a *Web) listSpawn(w http.ResponseWriter, r *http.Request) {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+
 	content := Content{
 		Site:   site,
 		Spawns: spawns,
