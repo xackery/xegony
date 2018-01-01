@@ -8,31 +8,35 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//LootTableEntryRepository handles LootTableEntryRepository cases and is a gateway to storage
 type LootTableEntryRepository struct {
 	stor storage.Storage
 }
 
-func (g *LootTableEntryRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *LootTableEntryRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *LootTableEntryRepository) Get(lootTableID int64, lootDropID int64) (lootTableEntry *model.LootTableEntry, err error) {
+//Get handles logic
+func (c *LootTableEntryRepository) Get(lootTableID int64, lootDropID int64) (lootTableEntry *model.LootTableEntry, err error) {
 
-	lootTableEntry, err = g.stor.GetLootTableEntry(lootTableID, lootDropID)
+	lootTableEntry, err = c.stor.GetLootTableEntry(lootTableID, lootDropID)
 	return
 }
 
-func (g *LootTableEntryRepository) Create(lootTableEntry *model.LootTableEntry) (err error) {
+//Create handles logic
+func (c *LootTableEntryRepository) Create(lootTableEntry *model.LootTableEntry) (err error) {
 	if lootTableEntry == nil {
 		err = fmt.Errorf("Empty lootTableEntry")
 		return
 	}
-	schema, err := g.newSchema([]string{"shortName"}, nil)
+	schema, err := c.newSchema([]string{"shortName"}, nil)
 	if err != nil {
 		return
 	}
@@ -52,15 +56,16 @@ func (g *LootTableEntryRepository) Create(lootTableEntry *model.LootTableEntry) 
 		err = vErr
 		return
 	}
-	err = g.stor.CreateLootTableEntry(lootTableEntry)
+	err = c.stor.CreateLootTableEntry(lootTableEntry)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableEntryRepository) Edit(lootTableID int64, lootDropID int64, lootTableEntry *model.LootTableEntry) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *LootTableEntryRepository) Edit(lootTableID int64, lootDropID int64, lootTableEntry *model.LootTableEntry) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -81,23 +86,25 @@ func (g *LootTableEntryRepository) Edit(lootTableID int64, lootDropID int64, loo
 		return
 	}
 
-	err = g.stor.EditLootTableEntry(lootTableID, lootDropID, lootTableEntry)
+	err = c.stor.EditLootTableEntry(lootTableID, lootDropID, lootTableEntry)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableEntryRepository) Delete(lootTableID int64, lootDropID int64) (err error) {
-	err = g.stor.DeleteLootTableEntry(lootTableID, lootDropID)
+//Delete handles logic
+func (c *LootTableEntryRepository) Delete(lootTableID int64, lootDropID int64) (err error) {
+	err = c.stor.DeleteLootTableEntry(lootTableID, lootDropID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableEntryRepository) List(lootTableID int64) (lootTableEntrys []*model.LootTableEntry, err error) {
-	lootTableEntrys, err = g.stor.ListLootTableEntry(lootTableID)
+//List handles logic
+func (c *LootTableEntryRepository) List(lootTableID int64) (lootTableEntrys []*model.LootTableEntry, err error) {
+	lootTableEntrys, err = c.stor.ListLootTableEntry(lootTableID)
 	if err != nil {
 		return
 	}

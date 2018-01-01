@@ -8,7 +8,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-//UserRepository handles cases
+//UserRepository handles UserRepository cases and is a gateway to storage
 type UserRepository struct {
 	stor storage.Storage
 }

@@ -201,6 +201,6 @@ func TestAccountEndpoints(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		doHttpTest(test, t)
+		doHTTPTest(test, t)
 	}
 }

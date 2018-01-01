@@ -37,7 +37,7 @@ func main() {
 	}
 	botServer.ApplyRoutes(router)
 
-	apiServer := api.Api{}
+	apiServer := api.API{}
 	if err = apiServer.Initialize(stor, config); err != nil {
 		log.Fatal("Failed to initialize apiServer:", err.Error())
 	}

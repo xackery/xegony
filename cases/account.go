@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//AccountRepository handles AccountRepository cases and is a gateway to storage
 type AccountRepository struct {
 	stor storage.Storage
 }
 
-func (g *AccountRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *AccountRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *AccountRepository) Get(accountID int64) (account *model.Account, err error) {
+//Get handles logic
+func (c *AccountRepository) Get(accountID int64) (account *model.Account, err error) {
 	if accountID == 0 {
 		err = fmt.Errorf("Invalid Account ID")
 		return
 	}
-	account, err = g.stor.GetAccount(accountID)
+	account, err = c.stor.GetAccount(accountID)
 	return
 }
 
-func (g *AccountRepository) Create(account *model.Account) (err error) {
+//Create handles logic
+func (c *AccountRepository) Create(account *model.Account) (err error) {
 	if account == nil {
 		err = fmt.Errorf("Empty account")
 		return
 	}
-	schema, err := g.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -55,15 +59,16 @@ func (g *AccountRepository) Create(account *model.Account) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateAccount(account)
+	err = c.stor.CreateAccount(account)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *AccountRepository) Edit(accountID int64, account *model.Account) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *AccountRepository) Edit(accountID int64, account *model.Account) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -84,23 +89,25 @@ func (g *AccountRepository) Edit(accountID int64, account *model.Account) (err e
 		return
 	}
 
-	err = g.stor.EditAccount(accountID, account)
+	err = c.stor.EditAccount(accountID, account)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *AccountRepository) Delete(accountID int64) (err error) {
-	err = g.stor.DeleteAccount(accountID)
+//Delete handles logic
+func (c *AccountRepository) Delete(accountID int64) (err error) {
+	err = c.stor.DeleteAccount(accountID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *AccountRepository) List() (accounts []*model.Account, err error) {
-	accounts, err = g.stor.ListAccount()
+//List handles logic
+func (c *AccountRepository) List() (accounts []*model.Account, err error) {
+	accounts, err = c.stor.ListAccount()
 	if err != nil {
 		return
 	}

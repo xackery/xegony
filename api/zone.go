@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getZone(w http.ResponseWriter, r *http.Request) {
+func (a *API) getZone(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "zoneID")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) getZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createZone(w http.ResponseWriter, r *http.Request) {
+func (a *API) createZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) createZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deleteZone(w http.ResponseWriter, r *http.Request) {
+func (a *API) deleteZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) deleteZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editZone(w http.ResponseWriter, r *http.Request) {
+func (a *API) editZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) editZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listZone(w http.ResponseWriter, r *http.Request) {
+func (a *API) listZone(w http.ResponseWriter, r *http.Request) {
 	zones, err := a.zoneRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

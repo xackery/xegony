@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//ForumRepository handles ForumRepository cases and is a gateway to storage
 type ForumRepository struct {
 	stor storage.Storage
 }
 
-func (g *ForumRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *ForumRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *ForumRepository) Get(forumID int64) (forum *model.Forum, err error) {
+//Get handles logic
+func (c *ForumRepository) Get(forumID int64) (forum *model.Forum, err error) {
 	if forumID == 0 {
 		err = fmt.Errorf("Invalid Forum ID")
 		return
 	}
-	forum, err = g.stor.GetForum(forumID)
+	forum, err = c.stor.GetForum(forumID)
 	return
 }
 
-func (g *ForumRepository) Create(forum *model.Forum) (err error) {
+//Create handles logic
+func (c *ForumRepository) Create(forum *model.Forum) (err error) {
 	if forum == nil {
 		err = fmt.Errorf("Empty forum")
 		return
 	}
-	schema, err := g.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -55,15 +59,16 @@ func (g *ForumRepository) Create(forum *model.Forum) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateForum(forum)
+	err = c.stor.CreateForum(forum)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ForumRepository) Edit(forumID int64, forum *model.Forum) (err error) {
-	schema, err := g.newSchema([]string{"name"}, []string{"description"})
+//Edit handles logic
+func (c *ForumRepository) Edit(forumID int64, forum *model.Forum) (err error) {
+	schema, err := c.newSchema([]string{"name"}, []string{"description"})
 	if err != nil {
 		return
 	}
@@ -84,23 +89,25 @@ func (g *ForumRepository) Edit(forumID int64, forum *model.Forum) (err error) {
 		return
 	}
 
-	err = g.stor.EditForum(forumID, forum)
+	err = c.stor.EditForum(forumID, forum)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ForumRepository) Delete(forumID int64) (err error) {
-	err = g.stor.DeleteForum(forumID)
+//Delete handles logic
+func (c *ForumRepository) Delete(forumID int64) (err error) {
+	err = c.stor.DeleteForum(forumID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ForumRepository) List() (forums []*model.Forum, err error) {
-	forums, err = g.stor.ListForum()
+//List handles logic
+func (c *ForumRepository) List() (forums []*model.Forum, err error) {
+	forums, err = c.stor.ListForum()
 	if err != nil {
 		return
 	}

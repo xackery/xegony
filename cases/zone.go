@@ -8,7 +8,7 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-//ZoneRepository holds cases
+//ZoneRepository handles ZoneRepository cases and is a gateway to storage
 type ZoneRepository struct {
 	stor storage.Storage
 }

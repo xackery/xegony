@@ -8,30 +8,34 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//BaseRepository handles BaseRepository cases and is a gateway to storage
 type BaseRepository struct {
 	stor storage.Storage
 }
 
-func (g *BaseRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *BaseRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *BaseRepository) Get(class int64, level int64) (base *model.Base, err error) {
-	base, err = g.stor.GetBase(class, level)
+//Get handles logic
+func (c *BaseRepository) Get(class int64, level int64) (base *model.Base, err error) {
+	base, err = c.stor.GetBase(class, level)
 	return
 }
 
-func (g *BaseRepository) Create(base *model.Base) (err error) {
+//Create handles logic
+func (c *BaseRepository) Create(base *model.Base) (err error) {
 	if base == nil {
 		err = fmt.Errorf("Empty base")
 		return
 	}
-	schema, err := g.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -51,15 +55,16 @@ func (g *BaseRepository) Create(base *model.Base) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateBase(base)
+	err = c.stor.CreateBase(base)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *BaseRepository) Edit(class int64, level int64, base *model.Base) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *BaseRepository) Edit(class int64, level int64, base *model.Base) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -80,23 +85,25 @@ func (g *BaseRepository) Edit(class int64, level int64, base *model.Base) (err e
 		return
 	}
 
-	err = g.stor.EditBase(class, level, base)
+	err = c.stor.EditBase(class, level, base)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *BaseRepository) Delete(class int64, level int64) (err error) {
-	err = g.stor.DeleteBase(class, level)
+//Delete handles logic
+func (c *BaseRepository) Delete(class int64, level int64) (err error) {
+	err = c.stor.DeleteBase(class, level)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *BaseRepository) List() (bases []*model.Base, err error) {
-	bases, err = g.stor.ListBase()
+//List handles logic
+func (c *BaseRepository) List() (bases []*model.Base, err error) {
+	bases, err = c.stor.ListBase()
 	if err != nil {
 		return
 	}

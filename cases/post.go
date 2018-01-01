@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//PostRepository handles PostRepository cases and is a gateway to storage
 type PostRepository struct {
 	stor storage.Storage
 }
 
-func (g *PostRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *PostRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *PostRepository) Get(postID int64) (post *model.Post, err error) {
+//Get handles logic
+func (c *PostRepository) Get(postID int64) (post *model.Post, err error) {
 	if postID == 0 {
 		err = fmt.Errorf("Invalid Post ID")
 		return
 	}
-	post, err = g.stor.GetPost(postID)
+	post, err = c.stor.GetPost(postID)
 	return
 }
 
-func (g *PostRepository) Create(post *model.Post) (err error) {
+//Create handles logic
+func (c *PostRepository) Create(post *model.Post) (err error) {
 	if post == nil {
 		err = fmt.Errorf("Empty post")
 		return
 	}
-	schema, err := g.newSchema([]string{"body"}, nil)
+	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -55,15 +59,16 @@ func (g *PostRepository) Create(post *model.Post) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreatePost(post)
+	err = c.stor.CreatePost(post)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *PostRepository) Edit(postID int64, post *model.Post) (err error) {
-	schema, err := g.newSchema([]string{"body"}, nil)
+//Edit handles logic
+func (c *PostRepository) Edit(postID int64, post *model.Post) (err error) {
+	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -84,23 +89,25 @@ func (g *PostRepository) Edit(postID int64, post *model.Post) (err error) {
 		return
 	}
 
-	err = g.stor.EditPost(postID, post)
+	err = c.stor.EditPost(postID, post)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *PostRepository) Delete(postID int64) (err error) {
-	err = g.stor.DeletePost(postID)
+//Delete handles logic
+func (c *PostRepository) Delete(postID int64) (err error) {
+	err = c.stor.DeletePost(postID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *PostRepository) List(topicID int64) (posts []*model.Post, err error) {
-	posts, err = g.stor.ListPost(topicID)
+//List handles logic
+func (c *PostRepository) List(topicID int64) (posts []*model.Post, err error) {
+	posts, err = c.stor.ListPost(topicID)
 	if err != nil {
 		return
 	}

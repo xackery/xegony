@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//SpawnRepository handles SpawnRepository cases and is a gateway to storage
 type SpawnRepository struct {
 	stor storage.Storage
 }
 
-func (g *SpawnRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *SpawnRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *SpawnRepository) Get(spawnID int64) (spawn *model.Spawn, err error) {
+//Get handles logic
+func (c *SpawnRepository) Get(spawnID int64) (spawn *model.Spawn, err error) {
 	if spawnID == 0 {
 		err = fmt.Errorf("Invalid Spawn ID")
 		return
 	}
-	spawn, err = g.stor.GetSpawn(spawnID)
+	spawn, err = c.stor.GetSpawn(spawnID)
 	return
 }
 
-func (g *SpawnRepository) Create(spawn *model.Spawn) (err error) {
+//Create handles logic
+func (c *SpawnRepository) Create(spawn *model.Spawn) (err error) {
 	if spawn == nil {
 		err = fmt.Errorf("Empty spawn")
 		return
 	}
-	schema, err := g.newSchema([]string{"shortName"}, nil)
+	schema, err := c.newSchema([]string{"shortName"}, nil)
 	if err != nil {
 		return
 	}
@@ -54,15 +58,16 @@ func (g *SpawnRepository) Create(spawn *model.Spawn) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateSpawn(spawn)
+	err = c.stor.CreateSpawn(spawn)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *SpawnRepository) Edit(spawnID int64, spawn *model.Spawn) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *SpawnRepository) Edit(spawnID int64, spawn *model.Spawn) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -83,23 +88,25 @@ func (g *SpawnRepository) Edit(spawnID int64, spawn *model.Spawn) (err error) {
 		return
 	}
 
-	err = g.stor.EditSpawn(spawnID, spawn)
+	err = c.stor.EditSpawn(spawnID, spawn)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *SpawnRepository) Delete(spawnID int64) (err error) {
-	err = g.stor.DeleteSpawn(spawnID)
+//Delete handles logic
+func (c *SpawnRepository) Delete(spawnID int64) (err error) {
+	err = c.stor.DeleteSpawn(spawnID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *SpawnRepository) List() (spawns []*model.Spawn, err error) {
-	spawns, err = g.stor.ListSpawn()
+//List handles logic
+func (c *SpawnRepository) List() (spawns []*model.Spawn, err error) {
+	spawns, err = c.stor.ListSpawn()
 	if err != nil {
 		return
 	}

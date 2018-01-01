@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//TopicRepository handles TopicRepository cases and is a gateway to storage
 type TopicRepository struct {
 	stor storage.Storage
 }
 
-func (g *TopicRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *TopicRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *TopicRepository) Get(topicID int64) (topic *model.Topic, err error) {
+//Get handles logic
+func (c *TopicRepository) Get(topicID int64) (topic *model.Topic, err error) {
 	if topicID == 0 {
 		err = fmt.Errorf("Invalid Topic ID")
 		return
 	}
-	topic, err = g.stor.GetTopic(topicID)
+	topic, err = c.stor.GetTopic(topicID)
 	return
 }
 
-func (g *TopicRepository) Create(topic *model.Topic) (err error) {
+//Create handles logic
+func (c *TopicRepository) Create(topic *model.Topic) (err error) {
 	if topic == nil {
 		err = fmt.Errorf("Empty topic")
 		return
 	}
-	schema, err := g.newSchema([]string{"body"}, nil)
+	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -55,15 +59,16 @@ func (g *TopicRepository) Create(topic *model.Topic) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateTopic(topic)
+	err = c.stor.CreateTopic(topic)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TopicRepository) Edit(topicID int64, topic *model.Topic) (err error) {
-	schema, err := g.newSchema([]string{"body"}, nil)
+//Edit handles logic
+func (c *TopicRepository) Edit(topicID int64, topic *model.Topic) (err error) {
+	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -84,23 +89,25 @@ func (g *TopicRepository) Edit(topicID int64, topic *model.Topic) (err error) {
 		return
 	}
 
-	err = g.stor.EditTopic(topicID, topic)
+	err = c.stor.EditTopic(topicID, topic)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TopicRepository) Delete(topicID int64) (err error) {
-	err = g.stor.DeleteTopic(topicID)
+//Delete handles logic
+func (c *TopicRepository) Delete(topicID int64) (err error) {
+	err = c.stor.DeleteTopic(topicID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *TopicRepository) List(forumID int64) (topics []*model.Topic, err error) {
-	topics, err = g.stor.ListTopic(forumID)
+//List handles logic
+func (c *TopicRepository) List(forumID int64) (topics []*model.Topic, err error) {
+	topics, err = c.stor.ListTopic(forumID)
 	if err != nil {
 		return
 	}

@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//BazaarRepository handles BazaarRepository cases and is a gateway to storage
 type BazaarRepository struct {
 	stor storage.Storage
 }
 
-func (g *BazaarRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *BazaarRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *BazaarRepository) Get(bazaarID int64) (bazaar *model.Bazaar, err error) {
+//Get handles logic
+func (c *BazaarRepository) Get(bazaarID int64) (bazaar *model.Bazaar, err error) {
 	if bazaarID == 0 {
 		err = fmt.Errorf("Invalid Bazaar ID")
 		return
 	}
-	bazaar, err = g.stor.GetBazaar(bazaarID)
+	bazaar, err = c.stor.GetBazaar(bazaarID)
 	return
 }
 
-func (g *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
+//Create handles logic
+func (c *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
 	if bazaar == nil {
 		err = fmt.Errorf("Empty bazaar")
 		return
 	}
-	schema, err := g.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -55,15 +59,16 @@ func (g *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateBazaar(bazaar)
+	err = c.stor.CreateBazaar(bazaar)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *BazaarRepository) Edit(bazaarID int64, bazaar *model.Bazaar) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *BazaarRepository) Edit(bazaarID int64, bazaar *model.Bazaar) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -84,23 +89,25 @@ func (g *BazaarRepository) Edit(bazaarID int64, bazaar *model.Bazaar) (err error
 		return
 	}
 
-	err = g.stor.EditBazaar(bazaarID, bazaar)
+	err = c.stor.EditBazaar(bazaarID, bazaar)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *BazaarRepository) Delete(bazaarID int64) (err error) {
-	err = g.stor.DeleteBazaar(bazaarID)
+//Delete handles logic
+func (c *BazaarRepository) Delete(bazaarID int64) (err error) {
+	err = c.stor.DeleteBazaar(bazaarID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *BazaarRepository) List() (bazaars []*model.Bazaar, err error) {
-	bazaars, err = g.stor.ListBazaar()
+//List handles logic
+func (c *BazaarRepository) List() (bazaars []*model.Bazaar, err error) {
+	bazaars, err = c.stor.ListBazaar()
 	if err != nil {
 		return
 	}

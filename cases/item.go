@@ -8,50 +8,56 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//ItemRepository handles ItemRepository cases and is a gateway to storage
 type ItemRepository struct {
 	stor storage.Storage
 }
 
-func (g *ItemRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *ItemRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *ItemRepository) Get(itemID int64) (item *model.Item, err error) {
+//Get handles logic
+func (c *ItemRepository) Get(itemID int64) (item *model.Item, err error) {
 	if itemID == 0 {
 		err = fmt.Errorf("Invalid Item ID")
 		return
 	}
-	item, err = g.stor.GetItem(itemID)
+	item, err = c.stor.GetItem(itemID)
 	return
 }
 
-func (g *ItemRepository) Search(search string) (items []*model.Item, err error) {
-	items, err = g.stor.SearchItem(search)
+//Search handles logic
+func (c *ItemRepository) Search(search string) (items []*model.Item, err error) {
+	items, err = c.stor.SearchItem(search)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) SearchByAccount(accountID int64, search string) (items []*model.Item, err error) {
-	items, err = g.stor.SearchItemByAccount(accountID, search)
+//SearchByAccount handles logic
+func (c *ItemRepository) SearchByAccount(accountID int64, search string) (items []*model.Item, err error) {
+	items, err = c.stor.SearchItemByAccount(accountID, search)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) Create(item *model.Item) (err error) {
+//Create handles logic
+func (c *ItemRepository) Create(item *model.Item) (err error) {
 	if item == nil {
 		err = fmt.Errorf("Empty item")
 		return
 	}
-	schema, err := g.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -71,15 +77,16 @@ func (g *ItemRepository) Create(item *model.Item) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateItem(item)
+	err = c.stor.CreateItem(item)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) Edit(itemID int64, item *model.Item) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *ItemRepository) Edit(itemID int64, item *model.Item) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -100,22 +107,24 @@ func (g *ItemRepository) Edit(itemID int64, item *model.Item) (err error) {
 		return
 	}
 
-	err = g.stor.EditItem(itemID, item)
+	err = c.stor.EditItem(itemID, item)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) Delete(itemID int64) (err error) {
-	err = g.stor.DeleteItem(itemID)
+//Delete handles logic
+func (c *ItemRepository) Delete(itemID int64) (err error) {
+	err = c.stor.DeleteItem(itemID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) List(pageSize int64, pageNumber int64) (items []*model.Item, err error) {
+//List handles logic
+func (c *ItemRepository) List(pageSize int64, pageNumber int64) (items []*model.Item, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -124,31 +133,34 @@ func (g *ItemRepository) List(pageSize int64, pageNumber int64) (items []*model.
 		pageNumber = 0
 	}
 
-	items, err = g.stor.ListItem(pageSize, pageNumber)
+	items, err = c.stor.ListItem(pageSize, pageNumber)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) ListCount() (count int64, err error) {
+//ListCount handles logic
+func (c *ItemRepository) ListCount() (count int64, err error) {
 
-	count, err = g.stor.ListItemCount()
+	count, err = c.stor.ListItemCount()
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) ListByCharacter(characterID int64) (items []*model.Item, err error) {
-	items, err = g.stor.ListItemByCharacter(characterID)
+//ListByCharacter handles logic
+func (c *ItemRepository) ListByCharacter(characterID int64) (items []*model.Item, err error) {
+	items, err = c.stor.ListItemByCharacter(characterID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) ListBySlot() (items []*model.Item, err error) {
+//ListBySlot handles logic
+func (c *ItemRepository) ListBySlot() (items []*model.Item, err error) {
 	items = []*model.Item{
 		&model.Item{
 			Itemtype: 0,
@@ -395,16 +407,18 @@ func (g *ItemRepository) ListBySlot() (items []*model.Item, err error) {
 	return
 }
 
-func (g *ItemRepository) GetBySlot(slotID int64) (items []*model.Item, err error) {
-	items, err = g.stor.ListItemBySlot(slotID)
+//GetBySlot handles logic
+func (c *ItemRepository) GetBySlot(slotID int64) (items []*model.Item, err error) {
+	items, err = c.stor.ListItemBySlot(slotID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ItemRepository) GetByZone(zoneID int64) (items []*model.Item, err error) {
-	items, err = g.stor.ListItemByZone(zoneID)
+//GetByZone handles logic
+func (c *ItemRepository) GetByZone(zoneID int64) (items []*model.Item, err error) {
+	items, err = c.stor.ListItemByZone(zoneID)
 	if err != nil {
 		return
 	}

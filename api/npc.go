@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getNpc(w http.ResponseWriter, r *http.Request) {
+func (a *API) getNpc(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "npcID")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) getNpc(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createNpc(w http.ResponseWriter, r *http.Request) {
+func (a *API) createNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) createNpc(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deleteNpc(w http.ResponseWriter, r *http.Request) {
+func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) deleteNpc(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editNpc(w http.ResponseWriter, r *http.Request) {
+func (a *API) editNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) editNpc(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listNpc(w http.ResponseWriter, r *http.Request) {
+func (a *API) listNpc(w http.ResponseWriter, r *http.Request) {
 	npcs, err := a.npcRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

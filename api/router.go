@@ -8,7 +8,7 @@ import (
 )
 
 //ApplyRoutes applies routes to given mux router
-func (a *Api) ApplyRoutes(router *mux.Router) {
+func (a *API) ApplyRoutes(router *mux.Router) {
 	rootPath := os.Getenv("API_ROOT")
 	if len(rootPath) == 0 {
 		rootPath = "/api"

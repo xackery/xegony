@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//CharacterRepository handles CharacterRepository cases and is a gateway to storage
 type CharacterRepository struct {
 	stor storage.Storage
 }
 
-func (g *CharacterRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *CharacterRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *CharacterRepository) Get(characterID int64) (character *model.Character, err error) {
+//Get handles logic
+func (c *CharacterRepository) Get(characterID int64) (character *model.Character, err error) {
 	if characterID == 0 {
 		err = fmt.Errorf("Invalid Character ID")
 		return
 	}
-	character, err = g.stor.GetCharacter(characterID)
+	character, err = c.stor.GetCharacter(characterID)
 	return
 }
 
-func (g *CharacterRepository) Create(character *model.Character) (err error) {
+//Create handles logic
+func (c *CharacterRepository) Create(character *model.Character) (err error) {
 	if character == nil {
 		err = fmt.Errorf("Empty character")
 		return
 	}
-	schema, err := g.newSchema([]string{"name", "accountID"}, nil)
+	schema, err := c.newSchema([]string{"name", "accountID"}, nil)
 	if err != nil {
 		return
 	}
@@ -64,23 +68,25 @@ func (g *CharacterRepository) Create(character *model.Character) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateCharacter(character)
+	err = c.stor.CreateCharacter(character)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) Search(search string) (characters []*model.Character, err error) {
-	characters, err = g.stor.SearchCharacter(search)
+//Search handles logic
+func (c *CharacterRepository) Search(search string) (characters []*model.Character, err error) {
+	characters, err = c.stor.SearchCharacter(search)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) Edit(characterID int64, character *model.Character) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *CharacterRepository) Edit(characterID int64, character *model.Character) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -101,47 +107,52 @@ func (g *CharacterRepository) Edit(characterID int64, character *model.Character
 		return
 	}
 
-	err = g.stor.EditCharacter(characterID, character)
+	err = c.stor.EditCharacter(characterID, character)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) Delete(characterID int64) (err error) {
-	err = g.stor.DeleteCharacter(characterID)
+//Delete handles logic
+func (c *CharacterRepository) Delete(characterID int64) (err error) {
+	err = c.stor.DeleteCharacter(characterID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) List() (characters []*model.Character, err error) {
-	characters, err = g.stor.ListCharacter()
+//List handles logic
+func (c *CharacterRepository) List() (characters []*model.Character, err error) {
+	characters, err = c.stor.ListCharacter()
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) ListByRanking() (characters []*model.Character, err error) {
-	characters, err = g.stor.ListCharacterByRanking()
+//ListByRanking handles logic
+func (c *CharacterRepository) ListByRanking() (characters []*model.Character, err error) {
+	characters, err = c.stor.ListCharacterByRanking()
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) ListByOnline() (characters []*model.Character, err error) {
-	characters, err = g.stor.ListCharacterByOnline()
+//ListByOnline handles logic
+func (c *CharacterRepository) ListByOnline() (characters []*model.Character, err error) {
+	characters, err = c.stor.ListCharacterByOnline()
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *CharacterRepository) ListByAccount(accountID int64) (characters []*model.Character, err error) {
-	characters, err = g.stor.ListCharacterByAccount(accountID)
+//ListByAccount handles logic
+func (c *CharacterRepository) ListByAccount(accountID int64) (characters []*model.Character, err error) {
+	characters, err = c.stor.ListCharacterByAccount(accountID)
 	if err != nil {
 		return
 	}

@@ -8,20 +8,23 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//SpawnEntryRepository handles SpawnEntryRepository cases and is a gateway to storage
 type SpawnEntryRepository struct {
 	stor storage.Storage
 }
 
-func (g *SpawnEntryRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *SpawnEntryRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *SpawnEntryRepository) Get(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, err error) {
+//Get handles logic
+func (c *SpawnEntryRepository) Get(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, err error) {
 	if spawnGroupID == 0 {
 		err = fmt.Errorf("Invalid SpawnEntry ID")
 		return
@@ -30,11 +33,12 @@ func (g *SpawnEntryRepository) Get(spawnGroupID int64, npcID int64) (spawnEntry 
 		err = fmt.Errorf("Invalid Npc ID")
 		return
 	}
-	spawnEntry, err = g.stor.GetSpawnEntry(spawnGroupID, npcID)
+	spawnEntry, err = c.stor.GetSpawnEntry(spawnGroupID, npcID)
 	return
 }
 
-func (g *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (err error) {
+//Create handles logic
+func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (err error) {
 	if spawnEntry == nil {
 		err = fmt.Errorf("Empty SpawnEntry")
 		return
@@ -47,7 +51,7 @@ func (g *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (err error) 
 		err = fmt.Errorf("Invalid Npc ID")
 		return
 	}
-	schema, err := g.newSchema(nil, nil)
+	schema, err := c.newSchema(nil, nil)
 	if err != nil {
 		return
 	}
@@ -66,15 +70,16 @@ func (g *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (err error) 
 		err = vErr
 		return
 	}
-	err = g.stor.CreateSpawnEntry(spawnEntry)
+	err = c.stor.CreateSpawnEntry(spawnEntry)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -95,23 +100,25 @@ func (g *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry 
 		return
 	}
 
-	err = g.stor.EditSpawnEntry(spawnGroupID, npcID, spawnEntry)
+	err = c.stor.EditSpawnEntry(spawnGroupID, npcID, spawnEntry)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *SpawnEntryRepository) Delete(spawnGroupID int64, npcID int64) (err error) {
-	err = g.stor.DeleteSpawnEntry(spawnGroupID, npcID)
+//Delete handles logic
+func (c *SpawnEntryRepository) Delete(spawnGroupID int64, npcID int64) (err error) {
+	err = c.stor.DeleteSpawnEntry(spawnGroupID, npcID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *SpawnEntryRepository) List(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, err error) {
-	spawnEntrys, err = g.stor.ListSpawnEntry(spawnGroupID)
+//List handles logic
+func (c *SpawnEntryRepository) List(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, err error) {
+	spawnEntrys, err = c.stor.ListSpawnEntry(spawnGroupID)
 	if err != nil {
 		return
 	}

@@ -10,7 +10,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getItem(w http.ResponseWriter, r *http.Request) {
+func (a *API) getItem(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "itemID")
 	if err != nil {
@@ -70,7 +70,7 @@ const tooltipTemplate = `
 
 </div>`
 
-func (a *Api) getItemTooltip(w http.ResponseWriter, r *http.Request) {
+func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "itemID")
 	if err != nil {
@@ -81,7 +81,7 @@ func (a *Api) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 
 	type ItemTooltip struct {
 		Name    string `json:"name"`
-		Id      int64  `json:"id"`
+		ID      int64  `json:"id"`
 		Content string `json:"content"`
 	}
 	item, err := a.itemRepo.Get(id)
@@ -116,7 +116,7 @@ func (a *Api) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 
 	itemTooltip := &ItemTooltip{
 		Name:    item.Name,
-		Id:      item.ID,
+		ID:      item.ID,
 		Content: tpl.String(),
 	}
 
@@ -124,7 +124,7 @@ func (a *Api) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createItem(w http.ResponseWriter, r *http.Request) {
+func (a *API) createItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -147,7 +147,7 @@ func (a *Api) createItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deleteItem(w http.ResponseWriter, r *http.Request) {
+func (a *API) deleteItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -178,7 +178,7 @@ func (a *Api) deleteItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editItem(w http.ResponseWriter, r *http.Request) {
+func (a *API) editItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -210,7 +210,7 @@ func (a *Api) editItem(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listItem(w http.ResponseWriter, r *http.Request) {
+func (a *API) listItem(w http.ResponseWriter, r *http.Request) {
 	pageSize := getIntParam(r, "pageSize")
 	pageNumber := getIntParam(r, "pageNumber")
 

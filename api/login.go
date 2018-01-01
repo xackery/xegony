@@ -11,6 +11,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+//AuthClaims wraps all token data
 type AuthClaims struct {
 	IsAdmin      bool               `json:"isAdmin,omitempty"`
 	IsModerator  bool               `json:"isModerator,omitempty"`
@@ -19,7 +20,7 @@ type AuthClaims struct {
 	jwt.StandardClaims
 }
 
-func (a *Api) postLogin(w http.ResponseWriter, r *http.Request) {
+func (a *API) postLogin(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	user := &model.User{}
@@ -72,8 +73,8 @@ func (a *Api) postLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	loginResponse := LoginResponse{
-		ApiKey: tokenString,
+	loginResponse := loginResponse{
+		APIKey: tokenString,
 		User:   user,
 	}
 
@@ -82,6 +83,7 @@ func (a *Api) postLogin(w http.ResponseWriter, r *http.Request) {
 	writeData(w, r, loginResponse, http.StatusOK)
 }
 
+//IsLoggedIn checks token if user is logged in
 func IsLoggedIn(r *http.Request) (err error) {
 	claims, err := GetAuthClaims(r)
 	if err != nil {
@@ -99,6 +101,7 @@ func IsLoggedIn(r *http.Request) (err error) {
 	return
 }
 
+//IsAdmin checks token if user is admin
 func IsAdmin(r *http.Request) (err error) {
 	if r == nil {
 		err = &model.ErrPermission{
@@ -128,6 +131,7 @@ func IsAdmin(r *http.Request) (err error) {
 	return
 }
 
+//IsModerator checks token if user is moderator
 func IsModerator(r *http.Request) (err error) {
 	if r == nil {
 		err = &model.ErrPermission{
@@ -157,6 +161,7 @@ func IsModerator(r *http.Request) (err error) {
 	return
 }
 
+//IsUserOwner checks token if user is owner
 func IsUserOwner(userID int64, r *http.Request) (err error) {
 	if r == nil {
 		err = &model.ErrPermission{
@@ -186,6 +191,7 @@ func IsUserOwner(userID int64, r *http.Request) (err error) {
 	return
 }
 
+//GetAuthClaims gets token authorization data from request
 func GetAuthClaims(r *http.Request) (*AuthClaims, error) {
 	tokens, ok := r.Header["Authorization"]
 	token := ""

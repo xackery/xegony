@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getSpawn(w http.ResponseWriter, r *http.Request) {
+func (a *API) getSpawn(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "spawnID")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) getSpawn(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createSpawn(w http.ResponseWriter, r *http.Request) {
+func (a *API) createSpawn(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) createSpawn(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deleteSpawn(w http.ResponseWriter, r *http.Request) {
+func (a *API) deleteSpawn(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) deleteSpawn(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editSpawn(w http.ResponseWriter, r *http.Request) {
+func (a *API) editSpawn(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) editSpawn(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listSpawn(w http.ResponseWriter, r *http.Request) {
+func (a *API) listSpawn(w http.ResponseWriter, r *http.Request) {
 	spawns, err := a.spawnRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

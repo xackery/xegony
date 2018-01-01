@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//FactionRepository handles FactionRepository cases and is a gateway to storage
 type FactionRepository struct {
 	stor storage.Storage
 }
 
-func (g *FactionRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *FactionRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *FactionRepository) Get(factionID int64) (faction *model.Faction, err error) {
+//Get handles logic
+func (c *FactionRepository) Get(factionID int64) (faction *model.Faction, err error) {
 	if factionID == 0 {
 		err = fmt.Errorf("Invalid Faction ID")
 		return
 	}
-	faction, err = g.stor.GetFaction(factionID)
+	faction, err = c.stor.GetFaction(factionID)
 	return
 }
 
-func (g *FactionRepository) Create(faction *model.Faction) (err error) {
+//Create handles logic
+func (c *FactionRepository) Create(faction *model.Faction) (err error) {
 	if faction == nil {
 		err = fmt.Errorf("Empty faction")
 		return
 	}
-	schema, err := g.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -55,15 +59,16 @@ func (g *FactionRepository) Create(faction *model.Faction) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateFaction(faction)
+	err = c.stor.CreateFaction(faction)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *FactionRepository) Edit(factionID int64, faction *model.Faction) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *FactionRepository) Edit(factionID int64, faction *model.Faction) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -84,23 +89,25 @@ func (g *FactionRepository) Edit(factionID int64, faction *model.Faction) (err e
 		return
 	}
 
-	err = g.stor.EditFaction(factionID, faction)
+	err = c.stor.EditFaction(factionID, faction)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *FactionRepository) Delete(factionID int64) (err error) {
-	err = g.stor.DeleteFaction(factionID)
+//Delete handles logic
+func (c *FactionRepository) Delete(factionID int64) (err error) {
+	err = c.stor.DeleteFaction(factionID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *FactionRepository) List() (factions []*model.Faction, err error) {
-	factions, err = g.stor.ListFaction()
+//List handles logic
+func (c *FactionRepository) List() (factions []*model.Faction, err error) {
+	factions, err = c.stor.ListFaction()
 	if err != nil {
 		return
 	}

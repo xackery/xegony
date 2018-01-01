@@ -45,7 +45,7 @@ func initializeServer(t *testing.T) {
 		t.Fatalf("Failed to insert test data: %s", err.Error())
 	}
 	router := mux.NewRouter().StrictSlash(true)
-	apiServer := Api{}
+	apiServer := API{}
 	config := ""
 	listen := ":8081"
 	if err = apiServer.Initialize(s, config); err != nil {
@@ -60,15 +60,15 @@ func initializeServer(t *testing.T) {
 	return "root@tcp(127.0.0.1:3306)/eqemu?charset=utf8&parseTime=true"
 }*/
 
-func getUrl() string {
+func getURL() string {
 	return "http://localhost:8081"
 }
 
-func doHttpTest(test Endpoint, t *testing.T) string {
+func doHTTPTest(test Endpoint, t *testing.T) string {
 
 	var req *http.Request
 	client := &http.Client{}
-	url := getUrl()
+	url := getURL()
 	var err error
 	if test.method == "POST" || test.method == "PUT" {
 		req, err = http.NewRequest(test.method, url+test.path, strings.NewReader(test.body))
@@ -107,7 +107,7 @@ func doHttpTest(test Endpoint, t *testing.T) string {
 func getAuthKey(t *testing.T) {
 
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", getUrl()+"/api/login", strings.NewReader(`{"name":"Test","password":"somepass"}`))
+	req, err := http.NewRequest("POST", getURL()+"/api/login", strings.NewReader(`{"name":"Test","password":"somepass"}`))
 	if err != nil {
 		t.Fatal("Failed to get auth key", err.Error())
 	}
@@ -125,7 +125,7 @@ func getAuthKey(t *testing.T) {
 		t.Fatalf("Failed to get auth key, bad status code %d: %s", resp.StatusCode, string(actual))
 	}
 
-	loginResp := LoginResponse{}
+	loginResp := loginResponse{}
 
 	decoder := json.NewDecoder(resp.Body)
 
@@ -133,7 +133,7 @@ func getAuthKey(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to decode login response: %s", err.Error())
 	}
-	apiKey = loginResp.ApiKey
+	apiKey = loginResp.APIKey
 	if len(apiKey) < 1 {
 		t.Fatal("Failed to get token (empty response)")
 	}
@@ -161,7 +161,7 @@ func TestRestEndpoints(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		doHttpTest(test, t)
+		doHTTPTest(test, t)
 	}
 
 }

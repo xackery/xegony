@@ -8,20 +8,23 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//GoalRepository handles GoalRepository cases and is a gateway to storage
 type GoalRepository struct {
 	stor storage.Storage
 }
 
-func (g *GoalRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *GoalRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *GoalRepository) Get(listID int64, entryID int64) (goal *model.Goal, err error) {
+//Get handles logic
+func (c *GoalRepository) Get(listID int64, entryID int64) (goal *model.Goal, err error) {
 	if listID == 0 {
 		err = fmt.Errorf("Invalid List ID")
 		return
@@ -30,16 +33,17 @@ func (g *GoalRepository) Get(listID int64, entryID int64) (goal *model.Goal, err
 		err = fmt.Errorf("Invalid Entry ID")
 		return
 	}
-	goal, err = g.stor.GetGoal(listID, entryID)
+	goal, err = c.stor.GetGoal(listID, entryID)
 	return
 }
 
-func (g *GoalRepository) Create(goal *model.Goal) (err error) {
+//Create handles logic
+func (c *GoalRepository) Create(goal *model.Goal) (err error) {
 	if goal == nil {
 		err = fmt.Errorf("Empty goal")
 		return
 	}
-	schema, err := g.newSchema([]string{"body"}, nil)
+	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -58,15 +62,16 @@ func (g *GoalRepository) Create(goal *model.Goal) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateGoal(goal)
+	err = c.stor.CreateGoal(goal)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *GoalRepository) Edit(listID int64, goal *model.Goal) (err error) {
-	schema, err := g.newSchema([]string{"body"}, nil)
+//Edit handles logic
+func (c *GoalRepository) Edit(listID int64, goal *model.Goal) (err error) {
+	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -87,23 +92,25 @@ func (g *GoalRepository) Edit(listID int64, goal *model.Goal) (err error) {
 		return
 	}
 
-	err = g.stor.EditGoal(listID, goal)
+	err = c.stor.EditGoal(listID, goal)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *GoalRepository) Delete(listID int64, entryID int64) (err error) {
-	err = g.stor.DeleteGoal(listID, entryID)
+//Delete handles logic
+func (c *GoalRepository) Delete(listID int64, entryID int64) (err error) {
+	err = c.stor.DeleteGoal(listID, entryID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *GoalRepository) List() (goals []*model.Goal, err error) {
-	goals, err = g.stor.ListGoal()
+//List handles logic
+func (c *GoalRepository) List() (goals []*model.Goal, err error) {
+	goals, err = c.stor.ListGoal()
 	if err != nil {
 		return
 	}

@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getPost(w http.ResponseWriter, r *http.Request) {
+func (a *API) getPost(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "postID")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) getPost(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createPost(w http.ResponseWriter, r *http.Request) {
+func (a *API) createPost(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) createPost(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deletePost(w http.ResponseWriter, r *http.Request) {
+func (a *API) deletePost(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) deletePost(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editPost(w http.ResponseWriter, r *http.Request) {
+func (a *API) editPost(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) editPost(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listPost(w http.ResponseWriter, r *http.Request) {
+func (a *API) listPost(w http.ResponseWriter, r *http.Request) {
 	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")

@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//LootTableRepository handles LootTableRepository cases and is a gateway to storage
 type LootTableRepository struct {
 	stor storage.Storage
 }
 
-func (g *LootTableRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *LootTableRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *LootTableRepository) Get(lootTableID int64) (lootTable *model.LootTable, err error) {
+//Get handles logic
+func (c *LootTableRepository) Get(lootTableID int64) (lootTable *model.LootTable, err error) {
 	if lootTableID == 0 {
 		err = fmt.Errorf("Invalid LootTable ID")
 		return
 	}
-	lootTable, err = g.stor.GetLootTable(lootTableID)
+	lootTable, err = c.stor.GetLootTable(lootTableID)
 	return
 }
 
-func (g *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
+//Create handles logic
+func (c *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
 	if lootTable == nil {
 		err = fmt.Errorf("Empty lootTable")
 		return
 	}
-	schema, err := g.newSchema([]string{"shortName"}, nil)
+	schema, err := c.newSchema([]string{"shortName"}, nil)
 	if err != nil {
 		return
 	}
@@ -56,15 +60,16 @@ func (g *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateLootTable(lootTable)
+	err = c.stor.CreateLootTable(lootTable)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableRepository) Edit(lootTableID int64, lootTable *model.LootTable) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *LootTableRepository) Edit(lootTableID int64, lootTable *model.LootTable) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -85,23 +90,25 @@ func (g *LootTableRepository) Edit(lootTableID int64, lootTable *model.LootTable
 		return
 	}
 
-	err = g.stor.EditLootTable(lootTableID, lootTable)
+	err = c.stor.EditLootTable(lootTableID, lootTable)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableRepository) Delete(lootTableID int64) (err error) {
-	err = g.stor.DeleteLootTable(lootTableID)
+//Delete handles logic
+func (c *LootTableRepository) Delete(lootTableID int64) (err error) {
+	err = c.stor.DeleteLootTable(lootTableID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *LootTableRepository) List() (lootTables []*model.LootTable, err error) {
-	lootTables, err = g.stor.ListLootTable()
+//List handles logic
+func (c *LootTableRepository) List() (lootTables []*model.LootTable, err error) {
+	lootTables, err = c.stor.ListLootTable()
 	if err != nil {
 		return
 	}

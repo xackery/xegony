@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getAccount(w http.ResponseWriter, r *http.Request) {
+func (a *API) getAccount(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "accountID")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) getAccount(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createAccount(w http.ResponseWriter, r *http.Request) {
+func (a *API) createAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -53,7 +53,7 @@ func (a *Api) createAccount(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deleteAccount(w http.ResponseWriter, r *http.Request) {
+func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -84,7 +84,7 @@ func (a *Api) deleteAccount(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editAccount(w http.ResponseWriter, r *http.Request) {
+func (a *API) editAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -116,7 +116,7 @@ func (a *Api) editAccount(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listAccount(w http.ResponseWriter, r *http.Request) {
+func (a *API) listAccount(w http.ResponseWriter, r *http.Request) {
 	accounts, err := a.accountRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

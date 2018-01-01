@@ -18,8 +18,11 @@ import (
 )
 
 const (
+	//JSON is a constant string representing json
 	JSON = "json"
-	XML  = "xml"
+	//XML is a constant string representing xml
+	XML = "xml"
+	//YAML is a constant string representing yaml
 	YAML = "yaml"
 )
 
@@ -27,12 +30,13 @@ var (
 	mySigningKey = []byte("øˆ∂∆ø∆12")
 )
 
-type LoginResponse struct {
-	ApiKey string
+type loginResponse struct {
+	APIKey string
 	User   *model.User
 }
 
-type Api struct {
+//API wraps the api server
+type API struct {
 	accountRepo        *cases.AccountRepository
 	activityRepo       *cases.ActivityRepository
 	bazaarRepo         *cases.BazaarRepository
@@ -58,7 +62,7 @@ type Api struct {
 // Initialize initializes an API endpoint with the implemented storage.
 // config can be empty, it will initialize based on environment variables
 // or by default values.
-func (a *Api) Initialize(s storage.Storage, config string) (err error) {
+func (a *API) Initialize(s storage.Storage, config string) (err error) {
 	if s == nil {
 		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
 		return
@@ -108,7 +112,7 @@ func (a *Api) Initialize(s storage.Storage, config string) (err error) {
 }
 
 // Index handles the root endpoint of /api/
-func (a *Api) index(w http.ResponseWriter, r *http.Request) {
+func (a *API) index(w http.ResponseWriter, r *http.Request) {
 	log.Println("index")
 	type Content struct {
 		Message string `json:"message"`

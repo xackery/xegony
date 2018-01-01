@@ -9,34 +9,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//NpcRepository handles NpcRepository cases and is a gateway to storage
 type NpcRepository struct {
 	stor storage.Storage
 }
 
-func (g *NpcRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handles logic
+func (c *NpcRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *NpcRepository) Get(npcID int64) (npc *model.Npc, err error) {
+//Get handles logic
+func (c *NpcRepository) Get(npcID int64) (npc *model.Npc, err error) {
 	if npcID == 0 {
 		err = fmt.Errorf("Invalid Npc ID")
 		return
 	}
-	npc, err = g.stor.GetNpc(npcID)
+	npc, err = c.stor.GetNpc(npcID)
 	return
 }
 
-func (g *NpcRepository) Create(npc *model.Npc) (err error) {
+//Create handles logic
+func (c *NpcRepository) Create(npc *model.Npc) (err error) {
 	if npc == nil {
 		err = fmt.Errorf("Empty npc")
 		return
 	}
-	schema, err := g.newSchema([]string{"name", "accountID"}, nil)
+	schema, err := c.newSchema([]string{"name", "accountID"}, nil)
 	if err != nil {
 		return
 	}
@@ -57,24 +61,26 @@ func (g *NpcRepository) Create(npc *model.Npc) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateNpc(npc)
+	err = c.stor.CreateNpc(npc)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) Search(search string) (npcs []*model.Npc, err error) {
+//Search handles logic
+func (c *NpcRepository) Search(search string) (npcs []*model.Npc, err error) {
 	sanitySearch := strings.Replace(search, " ", "_", -1)
-	npcs, err = g.stor.SearchNpc(sanitySearch)
+	npcs, err = c.stor.SearchNpc(sanitySearch)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) Edit(npcID int64, npc *model.Npc) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handles logic
+func (c *NpcRepository) Edit(npcID int64, npc *model.Npc) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -95,39 +101,43 @@ func (g *NpcRepository) Edit(npcID int64, npc *model.Npc) (err error) {
 		return
 	}
 
-	err = g.stor.EditNpc(npcID, npc)
+	err = c.stor.EditNpc(npcID, npc)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) Delete(npcID int64) (err error) {
-	err = g.stor.DeleteNpc(npcID)
+//Delete handles logic
+func (c *NpcRepository) Delete(npcID int64) (err error) {
+	err = c.stor.DeleteNpc(npcID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) List() (npcs []*model.Npc, err error) {
-	npcs, err = g.stor.ListNpc()
+//List handles logic
+func (c *NpcRepository) List() (npcs []*model.Npc, err error) {
+	npcs, err = c.stor.ListNpc()
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) ListByZone(zoneID int64) (npcs []*model.Npc, err error) {
-	npcs, err = g.stor.ListNpcByZone(zoneID)
+//ListByZone handles logic
+func (c *NpcRepository) ListByZone(zoneID int64) (npcs []*model.Npc, err error) {
+	npcs, err = c.stor.ListNpcByZone(zoneID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *NpcRepository) ListByFaction(factionID int64) (npcs []*model.Npc, err error) {
-	npcs, err = g.stor.ListNpcByFaction(factionID)
+//ListByFaction handles logic
+func (c *NpcRepository) ListByFaction(factionID int64) (npcs []*model.Npc, err error) {
+	npcs, err = c.stor.ListNpcByFaction(factionID)
 	if err != nil {
 		return
 	}

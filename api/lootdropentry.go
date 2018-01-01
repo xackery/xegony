@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getLootDropEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) getLootDropEntry(w http.ResponseWriter, r *http.Request) {
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
@@ -38,7 +38,7 @@ func (a *Api) getLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createLootDropEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) createLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -61,7 +61,7 @@ func (a *Api) createLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deleteLootDropEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) deleteLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -99,7 +99,7 @@ func (a *Api) deleteLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editLootDropEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) editLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -138,7 +138,7 @@ func (a *Api) editLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listLootDropEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) listLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")

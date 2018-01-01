@@ -8,7 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Api) getForum(w http.ResponseWriter, r *http.Request) {
+func (a *API) getForum(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "forumID")
 	if err != nil {
@@ -30,7 +30,7 @@ func (a *Api) getForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) createForum(w http.ResponseWriter, r *http.Request) {
+func (a *API) createForum(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
 		writeError(w, r, err, http.StatusUnauthorized)
@@ -61,7 +61,7 @@ func (a *Api) createForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) deleteForum(w http.ResponseWriter, r *http.Request) {
+func (a *API) deleteForum(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
@@ -92,7 +92,7 @@ func (a *Api) deleteForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) editForum(w http.ResponseWriter, r *http.Request) {
+func (a *API) editForum(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
@@ -124,7 +124,7 @@ func (a *Api) editForum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Api) listForum(w http.ResponseWriter, r *http.Request) {
+func (a *API) listForum(w http.ResponseWriter, r *http.Request) {
 	forums, err := a.forumRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
