@@ -158,6 +158,10 @@ func (s *Storage) VerifyTables() (err error) {
 			Func: s.createTableUser,
 			Name: "User",
 		},
+		{
+			Func: s.createTableZoneLevel,
+			Name: "ZoneLevel",
+		},
 	}
 
 	for _, table := range tables {

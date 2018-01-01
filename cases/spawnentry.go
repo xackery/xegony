@@ -24,7 +24,7 @@ func (c *SpawnEntryRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *SpawnEntryRepository) Get(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, err error) {
+func (c *SpawnEntryRepository) Get(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, query string, err error) {
 	if spawnGroupID == 0 {
 		err = fmt.Errorf("Invalid SpawnEntry ID")
 		return
@@ -33,12 +33,12 @@ func (c *SpawnEntryRepository) Get(spawnGroupID int64, npcID int64) (spawnEntry 
 		err = fmt.Errorf("Invalid Npc ID")
 		return
 	}
-	spawnEntry, err = c.stor.GetSpawnEntry(spawnGroupID, npcID)
+	query, spawnEntry, err = c.stor.GetSpawnEntry(spawnGroupID, npcID)
 	return
 }
 
 //Create handles logic
-func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (err error) {
+func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (query string, err error) {
 	if spawnEntry == nil {
 		err = fmt.Errorf("Empty SpawnEntry")
 		return
@@ -70,7 +70,7 @@ func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (err error) 
 		err = vErr
 		return
 	}
-	err = c.stor.CreateSpawnEntry(spawnEntry)
+	query, err = c.stor.CreateSpawnEntry(spawnEntry)
 	if err != nil {
 		return
 	}
@@ -78,7 +78,7 @@ func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (err error) 
 }
 
 //Edit handles logic
-func (c *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (err error) {
+func (c *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (query string, err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -100,7 +100,7 @@ func (c *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry 
 		return
 	}
 
-	err = c.stor.EditSpawnEntry(spawnGroupID, npcID, spawnEntry)
+	query, err = c.stor.EditSpawnEntry(spawnGroupID, npcID, spawnEntry)
 	if err != nil {
 		return
 	}
@@ -108,8 +108,8 @@ func (c *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry 
 }
 
 //Delete handles logic
-func (c *SpawnEntryRepository) Delete(spawnGroupID int64, npcID int64) (err error) {
-	err = c.stor.DeleteSpawnEntry(spawnGroupID, npcID)
+func (c *SpawnEntryRepository) Delete(spawnGroupID int64, npcID int64) (query string, err error) {
+	query, err = c.stor.DeleteSpawnEntry(spawnGroupID, npcID)
 	if err != nil {
 		return
 	}
@@ -117,8 +117,17 @@ func (c *SpawnEntryRepository) Delete(spawnGroupID int64, npcID int64) (err erro
 }
 
 //List handles logic
-func (c *SpawnEntryRepository) List(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, err error) {
-	spawnEntrys, err = c.stor.ListSpawnEntry(spawnGroupID)
+func (c *SpawnEntryRepository) List(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, query string, err error) {
+	query, spawnEntrys, err = c.stor.ListSpawnEntry(spawnGroupID)
+	if err != nil {
+		return
+	}
+	return
+}
+
+//ListByZone handles logic
+func (c *SpawnEntryRepository) ListByZone(zoneID int64) (spawnEntrys []*model.SpawnEntry, query string, err error) {
+	query, spawnEntrys, err = c.stor.ListSpawnEntryByZone(zoneID)
 	if err != nil {
 		return
 	}

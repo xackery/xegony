@@ -30,7 +30,7 @@ func (a *Web) listSpawnEntry(w http.ResponseWriter, r *http.Request) {
 	site.Title = "spawnentry"
 	site.Section = "spawnentry"
 
-	spawnEntrys, err := a.spawnEntryRepo.List(spawnGroupID)
+	spawnEntrys, _, err := a.spawnEntryRepo.List(spawnGroupID)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -96,7 +96,7 @@ func (a *Web) getSpawnEntry(w http.ResponseWriter, r *http.Request) {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	spawnEntry, err := a.spawnEntryRepo.Get(spawnGroupID, npcID)
+	spawnEntry, _, err := a.spawnEntryRepo.Get(spawnGroupID, npcID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		a.writeError(w, r, err, http.StatusBadRequest)

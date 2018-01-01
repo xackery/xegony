@@ -51,12 +51,56 @@ func (a *Web) listZone(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request) {
+func (a *Web) listZoneByLevels(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
 		Site  site
 		Zones []*model.Zone
+	}
+
+	site := a.newSite(r)
+	site.Page = "zone"
+	site.Title = "Zone"
+	site.Section = "zone"
+
+	zones, err := a.zoneRepo.List()
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	content := Content{
+		Site:  site,
+		Zones: zones,
+	}
+
+	tmp := a.getTemplate("")
+	if tmp == nil {
+		tmp, err = a.loadTemplate(nil, "body", "zone/listbylevels.tpl")
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+		tmp, err = a.loadStandardTemplate(tmp)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+
+		a.setTemplate("zone", tmp)
+	}
+
+	a.writeData(w, r, tmp, content, http.StatusOK)
+	return
+}
+
+func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request) {
+	var err error
+
+	type Content struct {
+		Site  site
+		Zones []model.Zone
 	}
 
 	site := a.newSite(r)
@@ -109,6 +153,11 @@ func (a *Web) getZone(w http.ResponseWriter, r *http.Request) {
 
 	if strings.ToLower(getVar(r, "zoneID")) == "byhotzone" {
 		a.listZoneByHotzone(w, r)
+		return
+	}
+
+	if strings.ToLower(getVar(r, "zoneID")) == "bylevels" {
+		a.listZoneByLevels(w, r)
 		return
 	}
 

@@ -33,6 +33,8 @@ type site struct {
 
 //Web struct wraps all webServer related methods
 type Web struct {
+	templates map[string]*Template
+
 	accountRepo        *cases.AccountRepository
 	activityRepo       *cases.ActivityRepository
 	bazaarRepo         *cases.BazaarRepository
@@ -40,19 +42,19 @@ type Web struct {
 	factionRepo        *cases.FactionRepository
 	forumRepo          *cases.ForumRepository
 	itemRepo           *cases.ItemRepository
-	lootDropRepo       *cases.LootDropRepository
 	lootDropEntryRepo  *cases.LootDropEntryRepository
-	lootTableRepo      *cases.LootTableRepository
+	lootDropRepo       *cases.LootDropRepository
 	lootTableEntryRepo *cases.LootTableEntryRepository
-	npcRepo            *cases.NpcRepository
+	lootTableRepo      *cases.LootTableRepository
 	npcLootRepo        *cases.NpcLootRepository
+	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
-	spawnRepo          *cases.SpawnRepository
 	spawnEntryRepo     *cases.SpawnEntryRepository
+	spawnRepo          *cases.SpawnRepository
 	taskRepo           *cases.TaskRepository
-	templates          map[string]*Template
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
+	zoneLevelRepo      *cases.ZoneLevelRepository
 	zoneRepo           *cases.ZoneRepository
 }
 
@@ -125,45 +127,89 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	}
 
 	a.accountRepo = &cases.AccountRepository{}
-	a.accountRepo.Initialize(s)
+	if err = a.accountRepo.Initialize(s); err != nil {
+		return
+	}
 	a.activityRepo = &cases.ActivityRepository{}
-	a.activityRepo.Initialize(s)
+	if err = a.activityRepo.Initialize(s); err != nil {
+		return
+	}
 	a.bazaarRepo = &cases.BazaarRepository{}
-	a.bazaarRepo.Initialize(s)
+	if err = a.bazaarRepo.Initialize(s); err != nil {
+		return
+	}
 	a.characterRepo = &cases.CharacterRepository{}
-	a.characterRepo.Initialize(s)
+	if err = a.characterRepo.Initialize(s); err != nil {
+		return
+	}
 	a.factionRepo = &cases.FactionRepository{}
-	a.factionRepo.Initialize(s)
+	if err = a.factionRepo.Initialize(s); err != nil {
+		return
+	}
 	a.forumRepo = &cases.ForumRepository{}
-	a.forumRepo.Initialize(s)
+	if err = a.forumRepo.Initialize(s); err != nil {
+		return
+	}
 	a.itemRepo = &cases.ItemRepository{}
-	a.itemRepo.Initialize(s)
+	if err = a.itemRepo.Initialize(s); err != nil {
+		return
+	}
 	a.lootDropRepo = &cases.LootDropRepository{}
-	a.lootDropRepo.Initialize(s)
+	if err = a.lootDropRepo.Initialize(s); err != nil {
+		return
+	}
 	a.lootDropEntryRepo = &cases.LootDropEntryRepository{}
-	a.lootDropEntryRepo.Initialize(s)
+	if err = a.lootDropEntryRepo.Initialize(s); err != nil {
+		return
+	}
 	a.lootTableRepo = &cases.LootTableRepository{}
-	a.lootTableRepo.Initialize(s)
+	if err = a.lootTableRepo.Initialize(s); err != nil {
+		return
+	}
 	a.lootTableEntryRepo = &cases.LootTableEntryRepository{}
-	a.lootTableEntryRepo.Initialize(s)
+	if err = a.lootTableEntryRepo.Initialize(s); err != nil {
+		return
+	}
 	a.npcRepo = &cases.NpcRepository{}
-	a.npcRepo.Initialize(s)
+	if err = a.npcRepo.Initialize(s); err != nil {
+		return
+	}
 	a.npcLootRepo = &cases.NpcLootRepository{}
-	a.npcLootRepo.Initialize(s)
+	if err = a.npcLootRepo.Initialize(s); err != nil {
+		return
+	}
 	a.postRepo = &cases.PostRepository{}
-	a.postRepo.Initialize(s)
+	if err = a.postRepo.Initialize(s); err != nil {
+		return
+	}
 	a.spawnRepo = &cases.SpawnRepository{}
-	a.spawnRepo.Initialize(s)
+	if err = a.spawnRepo.Initialize(s); err != nil {
+		return
+	}
 	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
-	a.spawnEntryRepo.Initialize(s)
+	if err = a.spawnEntryRepo.Initialize(s); err != nil {
+		return
+	}
 	a.taskRepo = &cases.TaskRepository{}
-	a.taskRepo.Initialize(s)
+	if err = a.taskRepo.Initialize(s); err != nil {
+		return
+	}
 	a.topicRepo = &cases.TopicRepository{}
-	a.topicRepo.Initialize(s)
+	if err = a.topicRepo.Initialize(s); err != nil {
+		return
+	}
 	a.userRepo = &cases.UserRepository{}
-	a.userRepo.Initialize(s)
+	if err = a.userRepo.Initialize(s); err != nil {
+		return
+	}
 	a.zoneRepo = &cases.ZoneRepository{}
-	a.zoneRepo.Initialize(s)
+	if err = a.zoneRepo.Initialize(s); err != nil {
+		return
+	}
+	a.zoneLevelRepo = &cases.ZoneLevelRepository{}
+	if err = a.zoneLevelRepo.Initialize(s); err != nil {
+		return
+	}
 	return
 }
 

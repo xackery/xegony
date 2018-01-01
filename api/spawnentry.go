@@ -23,7 +23,7 @@ func (a *API) getSpawnEntry(w http.ResponseWriter, r *http.Request) {
 		writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	spawnEntry, err := a.spawnEntryRepo.Get(spawnID, npcID)
+	_, spawnEntry, err := a.spawnEntryRepo.Get(spawnID, npcID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			writeData(w, r, "", http.StatusOK)
@@ -50,7 +50,7 @@ func (a *API) createSpawnEntry(w http.ResponseWriter, r *http.Request) {
 		writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.spawnEntryRepo.Create(spawnEntry)
+	_, err = a.spawnEntryRepo.Create(spawnEntry)
 	if err != nil {
 		writeError(w, r, err, http.StatusInternalServerError)
 		return
@@ -82,7 +82,7 @@ func (a *API) deleteSpawnEntry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = a.spawnEntryRepo.Delete(spawnID, npcID)
+	_, err = a.spawnEntryRepo.Delete(spawnID, npcID)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -127,7 +127,7 @@ func (a *API) editSpawnEntry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = a.spawnEntryRepo.Edit(spawnID, npcID, spawnEntry)
+	_, err = a.spawnEntryRepo.Edit(spawnID, npcID, spawnEntry)
 	if err != nil {
 		writeError(w, r, err, http.StatusInternalServerError)
 		return
@@ -145,7 +145,7 @@ func (a *API) listSpawnEntry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	spawnEntrys, err := a.spawnEntryRepo.List(spawnID)
+	spawnEntrys, _, err := a.spawnEntryRepo.List(spawnID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		writeError(w, r, err, http.StatusInternalServerError)

@@ -2,10 +2,13 @@ package model
 
 import (
 	"database/sql"
+	"sort"
 )
 
 //Zone represents the zone table, Everquest is split into zones.
 type Zone struct {
+	Levels int64 `json:"levels", db:"levels"`
+
 	ShortName         sql.NullString `json:"shortName" db:"short_name"`                  //short_name` varchar(32) DEFAULT NULL,
 	ID                int64          `json:"id" db:"id"`                                 //id` int(10) NOT NULL AUTO_INCREMENT,
 	FileName          sql.NullString `json:"fileName" db:"file_name"`                    //file_name` varchar(16) DEFAULT NULL,
@@ -87,6 +90,42 @@ type Zone struct {
 	Gravity           float64        `json:"gravity" db:"gravity"`                       //gravity` float NOT NULL DEFAULT '0.4',
 	Type              int64          `json:"type" db:"type"`                             //type` int(3) NOT NULL DEFAULT '0',
 	Skylock           int64          `json:"skylock" db:"skylock"`                       //skylock` tinyint(4) NOT NULL DEFAULT '0',
+	ZoneLevels        int64          `json:"levels" db:"levels"`
+}
+
+type ZoneBy func(z1, z2 *Zone) bool
+
+func (by ZoneBy) Sort(zones []Zone) {
+	zs := &zoneSorter{
+		zones: zones,
+		by:    by,
+	}
+	sort.Sort(zs)
+}
+
+type zoneSorter struct {
+	zones []Zone
+	by    func(z1, z2 *Zone) bool
+}
+
+func (s *zoneSorter) Len() int {
+	return len(s.zones)
+}
+
+func (s *zoneSorter) Swap(i, j int) {
+	s.zones[i], s.zones[j] = s.zones[j], s.zones[i]
+}
+
+func (s *zoneSorter) Less(i, j int) bool {
+	return s.by(&s.zones[i], &s.zones[j])
+}
+
+func (c *Zone) Modifier() float64 {
+	mod := c.ZoneExpMultiplier + 1
+	if c.Hotzone == 1 {
+		mod *= RuleR("Zone:HotZoneBonus")
+	}
+	return mod
 }
 
 //GetMinStatusName converts the MinStatus field to the human readable name

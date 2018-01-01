@@ -15,7 +15,10 @@ const (
 //GetZone will grab data from storage
 func (s *Storage) GetZone(zoneID int64) (zone *model.Zone, err error) {
 	zone = &model.Zone{}
-	err = s.db.Get(zone, fmt.Sprintf("SELECT zone.id, %s FROM zone WHERE zoneidnumber = ?", zoneFields), zoneID)
+	err = s.db.Get(zone, fmt.Sprintf(`SELECT zone_level_cache.levels, zone.id, %s 
+		FROM zone 
+		INNER JOIN zone_level_cache.zone_id = zone.zoneidnumber 
+		WHERE zoneidnumber = ?`, zoneFields), zoneID)
 	if err != nil {
 		return
 	}
@@ -44,7 +47,9 @@ func (s *Storage) CreateZone(zone *model.Zone) (err error) {
 
 //ListZone will grab data from storage
 func (s *Storage) ListZone() (zones []*model.Zone, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT zone.id, %s FROM zone ORDER BY long_name ASC`, zoneFields))
+	query := fmt.Sprintf(`SELECT zone.id, %s 
+		FROM zone ORDER BY long_name ASC`, zoneFields)
+	rows, err := s.db.Queryx(query)
 	if err != nil {
 		return
 	}

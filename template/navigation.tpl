@@ -38,8 +38,8 @@
 				</a>
 				<ul class="nav nav-second-level collapse {{if eq .Site.Section "zone"}}in{{end}}" aria-expanded="{{if eq .Site.Section "zone"}}true{{else}}false{{end}}">					
 					<li class="{{if eq .Site.Page "zonebyexpansion"}}active{{end}}"><a href="/zone/byexpansion"> <span class="nav-label">By Expansion</span></a></li>
-					<li class="{{if eq .Site.Page "zonelevels"}}active{{end}}"><a href="/zone/levels"> <span class="nav-label">Levels</span></a></li>
-					<li class="{{if eq .Site.Page "zonehotzone"}}active{{end}}"><a href="/zone/byhotzone"> <span class="nav-label">Hot Zone</span></a></li>
+					<li class="{{if eq .Site.Page "zonebylevels"}}active{{end}}"><a href="/zone/bylevels"> <span class="nav-label">Levels</span></a></li>
+					<li class="{{if eq .Site.Page "zonebyhotzone"}}active{{end}}"><a href="/zone/byhotzone"> <span class="nav-label">Hot Zone</span></a></li>
 					<li class="{{if eq .Site.Page "listzone"}}active{{end}}"><a href="/zone"> <span class="nav-label">List</span></a></li>
 				</ul>
 			</li>

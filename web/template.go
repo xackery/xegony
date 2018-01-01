@@ -60,7 +60,8 @@ func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path stri
 	}
 
 	funcMap := template.FuncMap{
-		"comma": Comma,
+		"comma":       comma,
+		"iszonelevel": isZoneLevel,
 	}
 
 	if oldTemplate == nil {
@@ -71,7 +72,11 @@ func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path stri
 	return
 }
 
-//Comma will take an integer and put commas, e.g. 1234 => 1,234
-func Comma(v int64) string {
+//comma will take an integer and put commas, e.g. 1234 => 1,234
+func comma(v int64) string {
 	return humanize.Comma(v)
+}
+
+func isZoneLevel(level int64, levels int64) bool {
+	return ((levels & level) == level)
 }

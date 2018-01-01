@@ -8,9 +8,25 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+var (
+	hotzone = func(z1, z2 *model.Zone) bool {
+		return z1.Modifier() > z2.Modifier()
+	}
+
+	levels = func(z1, z2 *model.Zone) bool {
+		return z1.Levels < z2.Levels
+	}
+
+	expansions = func(z1, z2 *model.Zone) bool {
+		return z1.Expansion < z2.Expansion
+	}
+)
+
 //ZoneRepository handles ZoneRepository cases and is a gateway to storage
 type ZoneRepository struct {
-	stor storage.Storage
+	stor              storage.Storage
+	zoneCache         map[int64]*model.Zone
+	isZoneCacheLoaded bool
 }
 
 //Initialize handler
@@ -19,7 +35,47 @@ func (c *ZoneRepository) Initialize(stor storage.Storage) (err error) {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
+
 	c.stor = stor
+	c.isZoneCacheLoaded = false
+	if err = c.rebuildCache(); err != nil {
+		return
+	}
+	return
+}
+
+func (c *ZoneRepository) rebuildCache() (err error) {
+	if c.isZoneCacheLoaded {
+		return
+	}
+	c.isZoneCacheLoaded = true
+	c.zoneCache = make(map[int64]*model.Zone)
+	zones, err := c.list()
+	if err != nil {
+		return
+	}
+
+	zoneLevelRepo := &ZoneLevelRepository{}
+	if err = zoneLevelRepo.Initialize(c.stor); err != nil {
+		return
+	}
+
+	zoneLevels, err := zoneLevelRepo.List()
+	if err != nil {
+		return
+	}
+
+	for _, zone := range zones {
+		for _, zoneLevel := range zoneLevels {
+			if zoneLevel.ZoneID == zone.ZoneIDNumber {
+				zone.Levels = zoneLevel.Levels
+				break
+
+			}
+		}
+		c.zoneCache[zone.ZoneIDNumber] = zone
+	}
+	fmt.Println("Rebuilt Zone Cache")
 	return
 }
 
@@ -29,7 +85,8 @@ func (c *ZoneRepository) Get(zoneID int64) (zone *model.Zone, err error) {
 		err = fmt.Errorf("Invalid Zone ID")
 		return
 	}
-	zone, err = c.stor.GetZone(zoneID)
+	zone = c.zoneCache[zoneID]
+	//zone, err = c.stor.GetZone(zoneID)
 	return
 }
 
@@ -72,6 +129,8 @@ func (c *ZoneRepository) Create(zone *model.Zone) (err error) {
 	if err != nil {
 		return
 	}
+	c.isZoneCacheLoaded = false
+	c.rebuildCache()
 	return
 }
 
@@ -98,8 +157,10 @@ func (c *ZoneRepository) Edit(zoneID int64, zone *model.Zone) (err error) {
 		return
 	}
 
-	err = c.stor.EditZone(zoneID, zone)
-	if err != nil {
+	if err = c.stor.EditZone(zoneID, zone); err != nil {
+		return
+	}
+	if err = c.rebuildCache(); err != nil {
 		return
 	}
 	return
@@ -111,24 +172,35 @@ func (c *ZoneRepository) Delete(zoneID int64) (err error) {
 	if err != nil {
 		return
 	}
+	if err = c.rebuildCache(); err != nil {
+		return
+	}
+	return
+}
+
+func (c *ZoneRepository) list() (zones []*model.Zone, err error) {
+	if zones, err = c.stor.ListZone(); err != nil {
+		return
+	}
 	return
 }
 
 //List handler
 func (c *ZoneRepository) List() (zones []*model.Zone, err error) {
-	zones, err = c.stor.ListZone()
-	if err != nil {
-		return
+	for _, zone := range c.zoneCache {
+		zones = append(zones, zone)
 	}
 	return
 }
 
 //ListByHotzone handler
-func (c *ZoneRepository) ListByHotzone() (zones []*model.Zone, err error) {
-	zones, err = c.stor.ListZoneByHotzone()
-	if err != nil {
-		return
+func (c *ZoneRepository) ListByHotzone() (zones []model.Zone, err error) {
+
+	for _, zonePtr := range c.zoneCache {
+		zone := *zonePtr
+		zones = append(zones, zone)
 	}
+	model.ZoneBy(hotzone).Sort(zones)
 	return
 }
 

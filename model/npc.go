@@ -121,6 +121,11 @@ type Npc struct {
 	Untargetable        int64          `json:"untargetable" db:"untargetable"`                 //`untargetable` tinyint(2) NOT NULL DEFAULT '0',
 }
 
+//Zone returns zone data about a given npc, since zones are cached cost is minimum
+//func (c *Npc) Zone() *model.Zone {
+
+//}
+
 //ZoneID displays an npc into it's zone id
 func (c *Npc) ZoneID() int64 {
 	if c.ID > 1000 {

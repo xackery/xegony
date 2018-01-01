@@ -129,11 +129,12 @@ type Storage interface {
 	EditSpawn(spawnID int64, spawn *model.Spawn) (err error)
 	DeleteSpawn(spawnID int64) (err error)
 	//SpawnEntry
-	GetSpawnEntry(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, err error)
-	CreateSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
-	ListSpawnEntry(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, err error)
-	EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (err error)
-	DeleteSpawnEntry(spawnGroupID int64, npcID int64) (err error)
+	GetSpawnEntry(spawnGroupID int64, npcID int64) (query string, spawnEntry *model.SpawnEntry, err error)
+	CreateSpawnEntry(spawnEntry *model.SpawnEntry) (query string, err error)
+	ListSpawnEntry(spawnGroupID int64) (query string, spawnEntrys []*model.SpawnEntry, err error)
+	ListSpawnEntryByZone(zoneID int64) (query string, spawnEntrys []*model.SpawnEntry, err error)
+	EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (query string, err error)
+	DeleteSpawnEntry(spawnGroupID int64, npcID int64) (query string, err error)
 	//Topic
 	GetTopic(topicID int64) (topic *model.Topic, err error)
 	CreateTopic(topic *model.Topic) (err error)
@@ -147,6 +148,13 @@ type Storage interface {
 	ListZone() (zones []*model.Zone, err error)
 	ListZoneByHotzone() (zones []*model.Zone, err error)
 	DeleteZone(zoneID int64) (err error)
+	//ZoneLevel
+	GetZoneLevel(zoneID int64) (zoneLevel *model.ZoneLevel, err error)
+	CreateZoneLevel(zoneLevel *model.ZoneLevel) (err error)
+	ListZoneLevel() (zoneLevels []*model.ZoneLevel, err error)
+	EditZoneLevel(zoneID int64, zoneLevel *model.ZoneLevel) (err error)
+	TruncateZoneLevel() (err error)
+	DeleteZoneLevel(zoneID int64) (err error)
 	//Task
 	GetTask(taskID int64) (task *model.Task, err error)
 	CreateTask(task *model.Task) (err error)
