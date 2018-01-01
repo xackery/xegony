@@ -8,7 +8,7 @@ import (
 
 //Topic is the entries inside forum, grouping posts
 type Topic struct {
-	Id      int64  `json:"id"`
+	ID      int64  `json:"id"`
 	Title   string `json:"title"`
 	ForumID int64  `json:"forumID" db:"forum_id"`
 	Icon    string `json:"icon"`

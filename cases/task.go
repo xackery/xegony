@@ -39,7 +39,7 @@ func (g *TaskRepository) Create(task *model.Task) (err error) {
 	if err != nil {
 		return
 	}
-	task.Id = 0 //strip ID
+	task.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(task))
 	if err != nil {
 		return

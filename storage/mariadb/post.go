@@ -30,7 +30,7 @@ func (s *Storage) CreatePost(post *model.Post) (err error) {
 	if err != nil {
 		return
 	}
-	post.Id = postID
+	post.ID = postID
 	return
 }
 
@@ -51,7 +51,7 @@ func (s *Storage) ListPost(topicID int64) (posts []*model.Post, err error) {
 }
 
 func (s *Storage) EditPost(postID int64, post *model.Post) (err error) {
-	post.Id = postID
+	post.ID = postID
 	result, err := s.db.NamedExec(`UPDATE post SET body=:body, topic_id=:topic_id WHERE id = :id`, post)
 	if err != nil {
 		return

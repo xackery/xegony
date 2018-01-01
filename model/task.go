@@ -8,7 +8,7 @@ import (
 
 //Task is an everquest entry, grouping the Activities entries
 type Task struct {
-	Id           int64  `json:"id" db:"id"`                     //`id` int(11) unsigned NOT NULL DEFAULT '0',
+	ID           int64  `json:"id" db:"id"`                     //`id` int(11) unsigned NOT NULL DEFAULT '0',
 	Duration     int64  `json:"duration" db:"duration"`         //`duration` int(11) unsigned NOT NULL DEFAULT '0',
 	Title        string `json:"title" db:"title"`               //`title` varchar(100) NOT NULL DEFAULT '',
 	Description  string `json:"description" db:"description"`   //`description` text NOT NULL,

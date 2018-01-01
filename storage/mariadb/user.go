@@ -72,7 +72,7 @@ func (s *Storage) CreateUser(user *model.User) (err error) {
 	if err != nil {
 		return
 	}
-	user.Id = userID
+	user.ID = userID
 	//don't expose password
 	user.Password = ""
 	return
@@ -99,7 +99,7 @@ func (s *Storage) ListUser() (users []*model.User, err error) {
 }
 
 func (s *Storage) EditUser(userID int64, user *model.User) (err error) {
-	user.Id = userID
+	user.ID = userID
 	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email, account_id=:account_id WHERE id = :id`, user)
 	if err != nil {
 		return

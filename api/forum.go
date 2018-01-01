@@ -50,7 +50,7 @@ func (a *Api) createForum(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	forum.OwnerID = claims.User.Id
+	forum.OwnerID = claims.User.ID
 	err = a.forumRepo.Create(forum)
 	if err != nil {
 		writeError(w, r, err, http.StatusInternalServerError)

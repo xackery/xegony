@@ -39,7 +39,7 @@ func (g *UserRepository) Create(user *model.User) (err error) {
 	if err != nil {
 		return
 	}
-	user.Id = 0 //strip ID
+	user.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(user))
 	if err != nil {
 		return

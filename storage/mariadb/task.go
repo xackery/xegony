@@ -36,7 +36,7 @@ func (s *Storage) CreateTask(task *model.Task) (err error) {
 	if err != nil {
 		return
 	}
-	task.Id = taskID
+	task.ID = taskID
 	return
 }
 

@@ -30,7 +30,7 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 	if err != nil {
 		return
 	}
-	topic.Id = topicID
+	topic.ID = topicID
 	return
 }
 
@@ -51,7 +51,7 @@ func (s *Storage) ListTopic(forumID int64) (topics []*model.Topic, err error) {
 }
 
 func (s *Storage) EditTopic(topicID int64, topic *model.Topic) (err error) {
-	topic.Id = topicID
+	topic.ID = topicID
 	result, err := s.db.NamedExec(`UPDATE topic SET icon=:icon, title=:title, forum_id=:forum_id WHERE id = :id`, topic)
 	if err != nil {
 		return

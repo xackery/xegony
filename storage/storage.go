@@ -131,7 +131,7 @@ type Storage interface {
 	//SpawnEntry
 	GetSpawnEntry(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, err error)
 	CreateSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
-	ListSpawnEntry(spawnGroupId int64) (spawnEntrys []*model.SpawnEntry, err error)
+	ListSpawnEntry(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, err error)
 	EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (err error)
 	DeleteSpawnEntry(spawnGroupID int64, npcID int64) (err error)
 	//Topic

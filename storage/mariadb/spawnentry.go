@@ -36,8 +36,8 @@ func (s *Storage) CreateSpawnEntry(spawnEntry *model.SpawnEntry) (err error) {
 	return
 }
 
-func (s *Storage) ListSpawnEntry(spawnGroupId int64) (spawnEntrys []*model.SpawnEntry, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM spawnentry WHERE spawngroupid = ?`, spawnEntryFields), spawnGroupId)
+func (s *Storage) ListSpawnEntry(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM spawnentry WHERE spawngroupid = ?`, spawnEntryFields), spawnGroupID)
 	if err != nil {
 		return
 	}

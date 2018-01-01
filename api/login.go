@@ -90,7 +90,7 @@ func IsLoggedIn(r *http.Request) (err error) {
 		}
 		return
 	}
-	if claims.User.Id < 1 {
+	if claims.User.ID < 1 {
 		err = &model.ErrPermission{
 			Message: "Must be registered",
 		}
@@ -176,7 +176,7 @@ func IsUserOwner(userID int64, r *http.Request) (err error) {
 		return
 	}
 
-	if userID == claims.User.Id {
+	if userID == claims.User.ID {
 		return
 	}
 

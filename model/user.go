@@ -8,7 +8,7 @@ import (
 
 //User is a login authentication created by Xegony, binding an account ID
 type User struct {
-	Id          int64  `json:"id"`
+	ID          int64  `json:"id"`
 	Name        string `json:"name"`
 	AccountID   int64  `json:"accountID" db:"account_id"`
 	Email       string `json:"email"`

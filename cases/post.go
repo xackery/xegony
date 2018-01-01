@@ -39,7 +39,7 @@ func (g *PostRepository) Create(post *model.Post) (err error) {
 	if err != nil {
 		return
 	}
-	post.Id = 0 //strip ID
+	post.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(post))
 	if err != nil {
 		return

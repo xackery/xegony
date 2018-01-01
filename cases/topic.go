@@ -39,7 +39,7 @@ func (g *TopicRepository) Create(topic *model.Topic) (err error) {
 	if err != nil {
 		return
 	}
-	topic.Id = 0 //strip ID
+	topic.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(topic))
 	if err != nil {
 		return
