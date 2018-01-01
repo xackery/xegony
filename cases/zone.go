@@ -14,11 +14,62 @@ var (
 	}
 
 	levels = func(z1, z2 *model.Zone) bool {
-		return z1.Levels < z2.Levels
+		if z1.Levels&1 == 1 && z2.Levels&1 == 0 {
+			return true
+		}
+		if z1.Levels&2 == 2 && z2.Levels&2 == 0 {
+			return true
+		}
+		if z1.Levels&4 == 4 && z2.Levels&4 == 0 {
+			return true
+		}
+		if z1.Levels&8 == 8 && z2.Levels&8 == 0 {
+			return true
+		}
+		if z1.Levels&16 == 16 && z2.Levels&16 == 0 {
+			return true
+		}
+		if z1.Levels&32 == 32 && z2.Levels&32 == 0 {
+			return true
+		}
+		if z1.Levels&64 == 64 && z2.Levels&64 == 0 {
+			return true
+		}
+		if z1.Levels&128 == 128 && z2.Levels&128 == 0 {
+			return true
+		}
+		if z1.Levels&256 == 256 && z2.Levels&256 == 0 {
+			return true
+		}
+		if z1.Levels&512 == 512 && z2.Levels&512 == 0 {
+			return true
+		}
+		if z1.Levels&1024 == 1024 && z2.Levels&1024 == 0 {
+			return true
+		}
+		if z1.Levels&2048 == 2048 && z2.Levels&2048 == 0 {
+			return true
+		}
+		if z1.Levels&4096 == 4096 && z2.Levels&4096 == 0 {
+			return true
+		}
+		if z1.Levels&8192 == 8192 && z2.Levels&8192 == 0 {
+			return true
+		}
+		if z1.Levels&16384 == 16384 && z2.Levels&16384 == 0 {
+			return true
+		}
+		if z1.Levels&32768 == 32768 && z2.Levels&32768 == 0 {
+			return true
+		}
+		if z1.Levels&65536 == 65536 && z2.Levels&65536 == 0 {
+			return true
+		}
+		return false
 	}
 
 	expansions = func(z1, z2 *model.Zone) bool {
-		return z1.Expansion < z2.Expansion
+		return z1.Expansion > z2.Expansion
 	}
 )
 

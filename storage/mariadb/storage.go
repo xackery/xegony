@@ -159,6 +159,10 @@ func (s *Storage) VerifyTables() (err error) {
 			Name: "User",
 		},
 		{
+			Func: s.createTableZone,
+			Name: "Zone",
+		},
+		{
 			Func: s.createTableZoneLevel,
 			Name: "ZoneLevel",
 		},
