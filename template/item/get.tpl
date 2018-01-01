@@ -18,7 +18,7 @@
             <div class="panel-body">                
                 <span class="slot slotdrop"><span alt="{{.Item.Name}}" class="item icon-{{.Item.Icon}}"></span></span><br>
                 <h3>{{.Item.Name}}</h3>
-                <div class="text-muted font-bold m-b-xs text-right">{{.Item.Id}}</div>
+                <div class="text-muted font-bold m-b-xs text-right">{{.Item.ID}}</div>
             </div>
             <div class="panel-body">
                 <dl>
@@ -69,9 +69,9 @@
                     <tbody>
                     {{range $key, $value := .NPCs}}
                     <tr>
-                        <td><a href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>
+                        <td><a href="/npc/{{$value.ID}}">{{$value.Name}}</a></td>
                         <td><a href="/zone/{{$value.ZoneSnippetId}}">{{$value.ZoneSnippet}}</a></td>
-                        <td><a href="/zone/{{$value.Id}}">{{$value.ChanceSnippet}}</a></td>
+                        <td><a href="/zone/{{$value.ID}}">{{$value.ChanceSnippet}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>

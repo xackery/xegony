@@ -27,7 +27,7 @@
 					<tbody>
 					{{range $key, $value := .LootDrops}}
 					<tr>
-						<td><a href="/lootdrop/{{$value.Id}}">{{$value.Id}}</a></td>
+						<td><a href="/lootdrop/{{$value.ID}}">{{$value.ID}}</a></td>
 						<td>{{$value.Name}}</td>						
 					</tr>
 					{{end}}                

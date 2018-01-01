@@ -40,7 +40,7 @@ func (g *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
 		return
 	}
 
-	lootTable.Id = 0 //strip ID
+	lootTable.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(lootTable))
 	if err != nil {
 		return

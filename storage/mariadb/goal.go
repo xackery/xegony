@@ -27,7 +27,7 @@ func (s *Storage) CreateGoal(goal *model.Goal) (err error) {
 	}
 
 	newId++
-	goal.ListId = newId
+	goal.ListID = newId
 	_, err = s.db.NamedExec(`INSERT INTO goallists(listid, entry)
 		VALUES (:listid, :entry)`, goal)
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *Storage) ListGoal() (goals []*model.Goal, err error) {
 }
 
 func (s *Storage) EditGoal(listID int64, goal *model.Goal) (err error) {
-	goal.ListId = listID
+	goal.ListID = listID
 	result, err := s.db.NamedExec(`UPDATE goallists SET listid=:listid, entry=:entry WHERE listid = :listid`, goal)
 	if err != nil {
 		return

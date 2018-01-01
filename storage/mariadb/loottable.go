@@ -19,11 +19,11 @@ func (s *Storage) GetLootTable(lootTableID int64) (lootTable *model.LootTable, e
 		return
 	}
 
-	lootTable.Entries, err = s.ListLootTableEntry(lootTable.Id)
+	lootTable.Entries, err = s.ListLootTableEntry(lootTable.ID)
 	if err != nil {
 		return
 	}
-	lootTable.Npcs, err = s.ListNpcByLootTable(lootTable.Id)
+	lootTable.Npcs, err = s.ListNpcByLootTable(lootTable.ID)
 	if err != nil {
 		return
 	}
@@ -45,7 +45,7 @@ func (s *Storage) CreateLootTable(lootTable *model.LootTable) (err error) {
 	if err != nil {
 		return
 	}
-	lootTable.Id = lootTableID
+	lootTable.ID = lootTableID
 	return
 }
 
@@ -66,7 +66,7 @@ func (s *Storage) ListLootTable() (lootTables []*model.LootTable, err error) {
 }
 
 func (s *Storage) EditLootTable(lootTableID int64, lootTable *model.LootTable) (err error) {
-	lootTable.Id = lootTableID
+	lootTable.ID = lootTableID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE loottable SET %s WHERE id = :id`, lootTableSets), lootTable)
 	if err != nil {
 		return

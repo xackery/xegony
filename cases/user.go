@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//UserRepository handles cases
 type UserRepository struct {
 	stor storage.Storage
 }
 
-func (g *UserRepository) Initialize(stor storage.Storage) (err error) {
+// Initialize handles functions
+func (c *UserRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *UserRepository) Get(userID int64) (user *model.User, err error) {
+// Get handles functions
+func (c *UserRepository) Get(userID int64) (user *model.User, err error) {
 	if userID == 0 {
 		err = fmt.Errorf("Invalid User ID")
 		return
 	}
-	user, err = g.stor.GetUser(userID)
+	user, err = c.stor.GetUser(userID)
 	return
 }
 
-func (g *UserRepository) Create(user *model.User) (err error) {
+// Create handles functions
+func (c *UserRepository) Create(user *model.User) (err error) {
 	if user == nil {
 		err = fmt.Errorf("Empty user")
 		return
 	}
-	schema, err := g.newSchema([]string{"name", "password", "email", "accountID"}, nil)
+	schema, err := c.newSchema([]string{"name", "password", "email", "accountID"}, nil)
 	if err != nil {
 		return
 	}
@@ -55,19 +59,20 @@ func (g *UserRepository) Create(user *model.User) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateUser(user)
+	err = c.stor.CreateUser(user)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *UserRepository) Login(username string, password string) (user *model.User, err error) {
+// Login handles functions
+func (c *UserRepository) Login(username string, password string) (user *model.User, err error) {
 	user = &model.User{
 		Name:     username,
 		Password: password,
 	}
-	schema, err := g.newSchema([]string{"name", "password"}, nil)
+	schema, err := c.newSchema([]string{"name", "password"}, nil)
 	if err != nil {
 		return
 	}
@@ -86,7 +91,7 @@ func (g *UserRepository) Login(username string, password string) (user *model.Us
 		err = vErr
 		return
 	}
-	user, err = g.stor.LoginUser(user.Name, user.Password)
+	user, err = c.stor.LoginUser(user.Name, user.Password)
 	if err != nil {
 		return
 	}
@@ -94,8 +99,9 @@ func (g *UserRepository) Login(username string, password string) (user *model.Us
 	return
 }
 
-func (g *UserRepository) Edit(userID int64, user *model.User) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+// Edit handles functions
+func (c *UserRepository) Edit(userID int64, user *model.User) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -116,30 +122,33 @@ func (g *UserRepository) Edit(userID int64, user *model.User) (err error) {
 		return
 	}
 
-	err = g.stor.EditUser(userID, user)
+	err = c.stor.EditUser(userID, user)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *UserRepository) Delete(userID int64) (err error) {
-	err = g.stor.DeleteUser(userID)
+// Delete handles functions
+func (c *UserRepository) Delete(userID int64) (err error) {
+	err = c.stor.DeleteUser(userID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *UserRepository) List() (users []*model.User, err error) {
-	users, err = g.stor.ListUser()
+// List handles functions
+func (c *UserRepository) List() (users []*model.User, err error) {
+	users, err = c.stor.ListUser()
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (u *UserRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+// newSchema handles functions
+func (c *UserRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"
 	s.Required = requiredFields
@@ -147,13 +156,13 @@ func (u *UserRepository) newSchema(requiredFields []string, optionalFields []str
 	var field string
 	var prop model.Schema
 	for _, field = range requiredFields {
-		if prop, err = u.getSchemaProperty(field); err != nil {
+		if prop, err = c.getSchemaProperty(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
 	}
 	for _, field := range optionalFields {
-		if prop, err = u.getSchemaProperty(field); err != nil {
+		if prop, err = c.getSchemaProperty(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
@@ -166,7 +175,8 @@ func (u *UserRepository) newSchema(requiredFields []string, optionalFields []str
 	return
 }
 
-func (u *UserRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+// getSchemaProperty handles functions
+func (c *UserRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
 	switch field {
 	case "id":
 		prop.Type = "integer"

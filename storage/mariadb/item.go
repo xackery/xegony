@@ -36,7 +36,7 @@ func (s *Storage) CreateItem(item *model.Item) (err error) {
 	if err != nil {
 		return
 	}
-	item.Id = itemID
+	item.ID = itemID
 	return
 }
 
@@ -105,7 +105,7 @@ func (s *Storage) SearchItemByAccount(accountID int64, search string) (items []*
 		item := result.Item
 		item.Character = &model.Character{
 			Name: result.CharName,
-			Id:   result.CharId,
+			ID:   result.CharID,
 		}
 		items = append(items, item)
 	}
@@ -168,7 +168,7 @@ func (s *Storage) ListItemByZone(zoneID int64) (items []*model.Item, err error) 
 }
 
 func (s *Storage) EditItem(itemID int64, item *model.Item) (err error) {
-	item.Id = itemID
+	item.ID = itemID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE items SET %s WHERE id = :id`, itemSets), item)
 	if err != nil {
 		return

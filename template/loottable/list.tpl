@@ -29,7 +29,7 @@
 					<tbody>
 					{{range $key, $value := .LootTables}}
 					<tr>
-						<td><a href="/loottable/{{$value.Id}}">{{$value.Name}}</a></td>
+						<td><a href="/loottable/{{$value.ID}}">{{$value.Name}}</a></td>
 						<td>{{$value.MinCashName}}</td>
 						<td>{{$value.MaxCashName}}</td>
 						<td>{{$value.AvgCoinName}}</td>

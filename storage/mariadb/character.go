@@ -36,7 +36,7 @@ func (s *Storage) CreateCharacter(character *model.Character) (err error) {
 	if err != nil {
 		return
 	}
-	character.Id = characterID
+	character.ID = characterID
 	return
 }
 
@@ -75,7 +75,7 @@ func (s *Storage) ListCharacterByRanking() (characters []*model.Character, err e
 			return
 		}
 
-		character.Inventory, err = s.ListItemByCharacter(character.Id)
+		character.Inventory, err = s.ListItemByCharacter(character.ID)
 		characters = append(characters, &character)
 	}
 	return
@@ -116,7 +116,7 @@ func (s *Storage) ListCharacterByAccount(accountID int64) (characters []*model.C
 }
 
 func (s *Storage) EditCharacter(characterID int64, character *model.Character) (err error) {
-	character.Id = characterID
+	character.ID = characterID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE character_data SET %s WHERE id = :id`, characterSets), character)
 	if err != nil {
 		return

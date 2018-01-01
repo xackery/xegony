@@ -12,6 +12,7 @@ var (
 	isRulesLoaded bool
 )
 
+//CashName returns human readable cash
 func CashName(money int64) string {
 	amount := ""
 
@@ -44,6 +45,7 @@ func CashName(money int64) string {
 	return amount
 }
 
+//CleanName returns sanitized names
 func CleanName(name string) string {
 	var re = regexp.MustCompile(`[^0-9A-Za-z_]+`)
 	cleanName := strings.Replace(name, " ", "_", -1)
@@ -53,6 +55,7 @@ func CleanName(name string) string {
 	return cleanName
 }
 
+//RuleR grabs float64 version of rule table value
 func RuleR(rule string) float64 {
 	val := Rule(rule)
 	fVal, err := strconv.ParseFloat(val, 64)
@@ -62,6 +65,7 @@ func RuleR(rule string) float64 {
 	return fVal
 }
 
+//Rule grabs string version of rule table value
 func Rule(rule string) string {
 	switch rule {
 	case "Character:ExpMultiplier":
@@ -72,6 +76,7 @@ func Rule(rule string) string {
 	return ""
 }
 
+//ZoneName returns human readable name
 func ZoneName(zoneID int64) string {
 	switch zoneID {
 	case 1:
@@ -1040,6 +1045,7 @@ func ZoneName(zoneID int64) string {
 	return "unknown"
 }
 
+//ClassIcon returns xa-icon name
 func ClassIcon(class int64) string {
 	switch class {
 	case 1:
@@ -1078,8 +1084,8 @@ func ClassIcon(class int64) string {
 	return "xa-help"
 }
 
+//ClassName returns human readable version of a class
 func ClassName(class int64) string {
-
 	switch class {
 	case 1:
 		return "Warrior"
@@ -1175,6 +1181,7 @@ func ClassName(class int64) string {
 	return fmt.Sprintf("Unknown (%d)", class)
 }
 
+//RaceIcon returns the race icon
 func RaceIcon(race int64) string {
 	val, ok := raceIcons[race]
 	if ok {
@@ -1183,6 +1190,7 @@ func RaceIcon(race int64) string {
 	return "xa-help"
 }
 
+//RaceName returns the race name
 func RaceName(race int64) string {
 	val, ok := raceNames[race]
 	if ok {

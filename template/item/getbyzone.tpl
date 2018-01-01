@@ -34,7 +34,7 @@
                     <tr> 
                       
                         <td><span class="slot-sm"><span class="item icon-{{$value.Icon}}-sm"></span></span></td>
-                        <td><a item={{$value.ItemId}} href="/npc/{{$value.Item.Id}}">{{$value.Npc.Name}}</a></td>                        
+                        <td><a item={{$value.ItemId}} href="/npc/{{$value.Item.ID}}">{{$value.Npc.Name}}</a></td>                        
                         <td>{{$value.SlotsFirstName}}</td>                        
                         <td><i title="{{$value.ItemtypeName}}" class="xa {{$value.ItemtypeIcon}}"></i></td>
                           <td><i title="{{$value.Npc.RaceName}}" class="xa {{$value.Npc.RaceIcon}}"></i></td>

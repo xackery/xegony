@@ -31,8 +31,8 @@
 					<tbody>
 					{{range $key, $value := .Tasks}}
 					<tr>
-						<td><a href="/task/{{$value.Id}}">{{$value.Id}}</a></td>
-						<td><a href="/task/{{$value.Id}}">{{$value.Title}}</a></td>
+						<td><a href="/task/{{$value.ID}}">{{$value.ID}}</a></td>
+						<td><a href="/task/{{$value.ID}}">{{$value.Title}}</a></td>
 						<td>{{$value.RewardMethodName}}</a></td>
 						<td>{{$value.RewardName}}</td>
 						<td>{{$value.CashRewardName}}</td>

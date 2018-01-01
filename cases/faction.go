@@ -39,7 +39,7 @@ func (g *FactionRepository) Create(faction *model.Faction) (err error) {
 	if err != nil {
 		return
 	}
-	faction.Id = 0 //strip ID
+	faction.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(faction))
 	if err != nil {
 		return

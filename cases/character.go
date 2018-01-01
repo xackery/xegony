@@ -48,7 +48,7 @@ func (g *CharacterRepository) Create(character *model.Character) (err error) {
 		err = vErr
 		return
 	}
-	character.Id = 0 //strip ID
+	character.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(character))
 	if err != nil {
 		return

@@ -12,7 +12,7 @@
 	<div class="col-lg-12">
 		<div class="hpanel forum-box">
 			<div class="panel-heading">
-				<span class="f"><a href="/task">Task</a> > <a href="/task/{{.Task.Id}}">{{.Task.Title}}</a> > Activity {{.Activity.Activityid}}</span>
+				<span class="f"><a href="/task">Task</a> > <a href="/task/{{.Task.ID}}">{{.Task.Title}}</a> > Activity {{.Activity.Activityid}}</span>
 			</div>
 
 			<div class="panel-body">

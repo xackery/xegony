@@ -29,8 +29,8 @@
                     {{range $key, $value := .Npcs}}
                     <tr>
                         
-                        <td><a href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>
-                        <td>{{$value.Id}}</td>
+                        <td><a href="/npc/{{$value.ID}}">{{$value.Name}}</a></td>
+                        <td>{{$value.ID}}</td>
                     </tr>
                     {{end}}                
                     </tbody>

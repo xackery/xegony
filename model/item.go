@@ -10,9 +10,9 @@ import (
 //Item represents items inside everquest
 type Item struct {
 	//inventory added details
-	CharId            int64  `json:"charid" db:"charid"`                         //`charid` int(11) unsigned NOT NULL DEFAULT '0',
+	CharID            int64  `json:"charid" db:"charid"`                         //`charid` int(11) unsigned NOT NULL DEFAULT '0',
 	SlotID            int64  `json:"slotid" db:"slotid"`                         //`slotid` mediumint(7) unsigned NOT NULL DEFAULT '0',
-	ItemId            int64  `json:"itemid" db:"itemid"`                         //`itemid` int(11) unsigned DEFAULT '0',
+	ItemID            int64  `json:"itemid" db:"itemid"`                         //`itemid` int(11) unsigned DEFAULT '0',
 	Charges           int64  `json:"charges" db:"charges"`                       //`charges` smallint(3) unsigned DEFAULT '0',
 	InvColor          int64  `json:"invcolor" db:"invcolor"`                     //`color` int(11) unsigned NOT NULL DEFAULT '0',
 	Augslot1          int64  `json:"augslot1" db:"augslot1"`                     //`augslot1` mediumint(7) unsigned NOT NULL DEFAULT '0',
@@ -30,7 +30,7 @@ type Item struct {
 	Character *Character `json:"character"`
 
 	//normal items db
-	Id                  int64          `json:"id" db:"id"`                                   //
+	ID                  int64          `json:"id" db:"id"`                                   //
 	Name                string         `json:"name" db:"name"`                               //
 	Aagi                int64          `json:"aagi" db:"aagi"`                               //
 	Ac                  int64          `json:"ac" db:"ac"`                                   //
@@ -316,10 +316,24 @@ type Item struct {
 	Epicitem            int64          `json:"epicitem" db:"epicitem"`                       //
 }
 
+//SizeName returns the size name type
 func (c *Item) SizeName() string {
-	return "TINY"
+	switch c.Size {
+	case 0:
+		return "TINY"
+	case 1:
+		return "SMALL"
+	case 2:
+		return "MEDIUM"
+	case 3:
+		return "LARGE"
+	case 4:
+		return "GIANT"
+	}
+	return "UNKNOWN"
 }
 
+//SlotList returns a list of all slots
 func (c *Item) SlotList() string {
 	slots := ""
 	if c.Slots&1 == 1 {
@@ -388,6 +402,7 @@ func (c *Item) SlotList() string {
 	return slots
 }
 
+//ClassList returns a string of all classes
 func (c *Item) ClassList() string {
 	classes := ""
 	if c.Classes == 65535 {
@@ -450,6 +465,7 @@ func (c *Item) ClassList() string {
 	return classes
 }
 
+//RaceList returns a string of all races
 func (c *Item) RaceList() string {
 	races := ""
 	if c.Races == 65535 {
@@ -512,6 +528,7 @@ func (c *Item) RaceList() string {
 	return races
 }
 
+//ItemtypeName returns a list of all item types
 func (c *Item) ItemtypeName() string {
 	switch c.Itemtype {
 	case 0:
@@ -638,6 +655,7 @@ func (c *Item) ItemtypeName() string {
 	return "Unknown"
 }
 
+//ItemtypeIcon returns a list of item types icon
 func (c *Item) ItemtypeIcon() string {
 	switch c.Itemtype {
 	case 0:
@@ -764,6 +782,7 @@ func (c *Item) ItemtypeIcon() string {
 	return "xa-help"
 }
 
+//SlotsFirstName returns a brief version of slots supported of an item
 func (c *Item) SlotsFirstName() string {
 	switch {
 	case c.Slots&8192 == 8192:
@@ -870,6 +889,7 @@ func (c *Item) SlotsFirstName() string {
 	return "None"
 }
 
+//SlotName returns the human readable version of a slot
 func (c *Item) SlotName() string {
 	s := c.SlotID
 	switch {

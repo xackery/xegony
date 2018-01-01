@@ -8,7 +8,7 @@ import (
 
 //Account holds together characters inside Everquest's design
 type Account struct {
-	Id             int64         `json:"id" db:"id"`                         //`id` int(11) NOT NULL AUTO_INCREMENT,
+	ID             int64         `json:"id" db:"id"`                         //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name           string        `json:"name" db:"name"`                     //`name` varchar(30) NOT NULL DEFAULT '',
 	Charname       string        `json:"charname" db:"charname"`             //`charname` varchar(64) NOT NULL DEFAULT '',
 	Sharedplat     int64         `json:"sharedplat" db:"sharedplat"`         //`sharedplat` int(11) unsigned NOT NULL DEFAULT '0',
@@ -18,7 +18,7 @@ type Account struct {
 	Gmspeed        int64         `json:"gmspeed" db:"gmspeed"`               //`gmspeed` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	Revoked        int64         `json:"revoked" db:"revoked"`               //`revoked` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	Karma          int64         `json:"karma" db:"karma"`                   //`karma` int(5) unsigned NOT NULL DEFAULT '0',
-	MiniloginIp    string        `json:"miniloginIp" db:"minilogin_ip"`      //`minilogin_ip` varchar(32) NOT NULL DEFAULT '',
+	MiniloginIP    string        `json:"miniloginIp" db:"minilogin_ip"`      //`minilogin_ip` varchar(32) NOT NULL DEFAULT '',
 	Hideme         int64         `json:"hideme" db:"hideme"`                 //`hideme` tinyint(4) NOT NULL DEFAULT '0',
 	Rulesflag      int64         `json:"rulesflag" db:"rulesflag"`           //`rulesflag` tinyint(1) unsigned NOT NULL DEFAULT '0',
 	Suspendeduntil time.Time     `json:"suspendeduntil" db:"suspendeduntil"` //`suspendeduntil` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

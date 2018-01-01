@@ -55,7 +55,7 @@ func (g *ItemRepository) Create(item *model.Item) (err error) {
 	if err != nil {
 		return
 	}
-	item.Id = 0 //strip ID
+	item.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(item))
 	if err != nil {
 		return

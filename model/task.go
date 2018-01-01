@@ -21,10 +21,12 @@ type Task struct {
 	Repeatable   int64  `json:"repeatable" db:"repeatable"`     //`repeatable` tinyint(1) unsigned NOT NULL DEFAULT '1',
 }
 
+//CashRewardName breaks down money into human readable money
 func (c *Task) CashRewardName() string {
 	return CashName(c.Cashreward)
 }
 
+//RewardName shows a list of reward types
 func (c *Task) RewardName() string {
 	switch c.Rewardmethod {
 	case 0:
@@ -37,6 +39,7 @@ func (c *Task) RewardName() string {
 	return "Unknown"
 }
 
+//RewardMethodName displays reward method type
 func (c *Task) RewardMethodName() string {
 	switch c.Rewardmethod {
 	case 0:
@@ -49,9 +52,9 @@ func (c *Task) RewardMethodName() string {
 	return "Unknown"
 }
 
+//RepeatableName returns Yes or No
 func (c *Task) RepeatableName() string {
-	switch c.Repeatable {
-	case 0:
+	if c.Repeatable == 0 {
 		return "No"
 	}
 	return "Yes"

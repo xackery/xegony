@@ -41,7 +41,7 @@ func (g *NpcRepository) Create(npc *model.Npc) (err error) {
 		return
 	}
 
-	npc.Id = 0 //strip ID
+	npc.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(npc))
 	if err != nil {
 		return

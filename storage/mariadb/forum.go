@@ -31,7 +31,7 @@ func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 	if err != nil {
 		return
 	}
-	forum.Id = forumID
+	forum.ID = forumID
 	return
 }
 
@@ -52,7 +52,7 @@ func (s *Storage) ListForum() (forums []*model.Forum, err error) {
 }
 
 func (s *Storage) EditForum(forumID int64, forum *model.Forum) (err error) {
-	forum.Id = forumID
+	forum.ID = forumID
 	result, err := s.db.NamedExec(`UPDATE forum SET icon=:icon, name=:name, description=:description WHERE id = :id`, forum)
 	if err != nil {
 		return

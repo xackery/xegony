@@ -21,7 +21,7 @@
 			<div class="panel-body">
 				<table class="table table-striped">
 					<tbody>
-					<tr><td>Spawns In</td><td><a href="/zone/{{.Npc.ZoneId}}">{{.Npc.ZoneName}}</a></td></tr>
+					<tr><td>Spawns In</td><td><a href="/zone/{{.Npc.ZoneID}}">{{.Npc.ZoneName}}</a></td></tr>
 					<tr><td>Class</td><td><i title="{{.Npc.ClassName}}" class="xa {{.Npc.ClassIcon}}"></i> {{.Npc.ClassName}}</td></tr>
 					<tr><td>Race</td><td><i title="{{.Npc.RaceName}}" class="xa {{.Npc.RaceIcon}}"></i> 
 					{{.Npc.RaceName}}</td></tr>

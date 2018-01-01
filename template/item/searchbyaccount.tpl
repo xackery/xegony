@@ -51,8 +51,8 @@
                             {{range $key, $value := .Items}}
                             <tr>                               
                             <td><span class="slot-sm"><span class="item icon-{{$value.Icon}}-sm"></span></span></td> 
-                                <td><a href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
-                                <td><a href="/character/{{$value.Character.Id}}">{{$value.Character.Name}}</a></td>
+                                <td><a href="/item/{{$value.ID}}">{{$value.Name}}</a></td>
+                                <td><a href="/character/{{$value.Character.ID}}">{{$value.Character.Name}}</a></td>
                                 <td>{{$value.SlotName}}</td>
                                 <td>{{$value.SlotsFirstName}}</td>
                                 <td><i title="{{$value.ItemtypeName}}" class="xa {{$value.ItemtypeIcon}}"></i></td>

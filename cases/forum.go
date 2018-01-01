@@ -39,7 +39,7 @@ func (g *ForumRepository) Create(forum *model.Forum) (err error) {
 	if err != nil {
 		return
 	}
-	forum.Id = 0 //strip ID
+	forum.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(forum))
 	if err != nil {
 		return

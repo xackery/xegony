@@ -30,7 +30,7 @@ func (s *Storage) CreateAccount(account *model.Account) (err error) {
 	if err != nil {
 		return
 	}
-	account.Id = accountID
+	account.ID = accountID
 	return
 }
 
@@ -51,7 +51,7 @@ func (s *Storage) ListAccount() (accounts []*model.Account, err error) {
 }
 
 func (s *Storage) EditAccount(accountID int64, account *model.Account) (err error) {
-	account.Id = accountID
+	account.ID = accountID
 	result, err := s.db.NamedExec(`UPDATE account SET name=:name, status=:status WHERE id = :id`, account)
 	if err != nil {
 		return

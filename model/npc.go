@@ -10,7 +10,7 @@ import (
 
 //Npc represents Non player characters in everquest
 type Npc struct {
-	Id                  int64          `json:"id" db:"id"`                                     //`id` int(11) NOT NULL AUTO_INCREMENT,
+	ID                  int64          `json:"id" db:"id"`                                     //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name                string         `json:"name" db:"name"`                                 //`name` text NOT NULL,
 	Lastname            sql.NullString `json:"lastname" db:"lastname"`                         //`lastname` varchar(32) DEFAULT NULL,
 	Level               int64          `json:"level" db:"level"`                               //`level` tinyint(2) unsigned NOT NULL DEFAULT '0',
@@ -26,13 +26,13 @@ type Npc struct {
 	Size                float64        `json:"size" db:"size"`                                 //`size` float NOT NULL DEFAULT '0',
 	HpRegenRate         int64          `json:"hpRegenRate" db:"hp_regen_rate"`                 //`hp_regen_rate` int(11) unsigned NOT NULL DEFAULT '0',
 	ManaRegenRate       int64          `json:"manaRegenRate" db:"mana_regen_rate"`             //`mana_regen_rate` int(11) unsigned NOT NULL DEFAULT '0',
-	LoottableId         int64          `json:"loottableId" db:"loottable_id"`                  //`loottable_id` int(11) unsigned NOT NULL DEFAULT '0',
-	MerchantId          int64          `json:"merchantId" db:"merchant_id"`                    //`merchant_id` int(11) unsigned NOT NULL DEFAULT '0',
-	AltCurrencyId       int64          `json:"altCurrencyId" db:"alt_currency_id"`             //`alt_currency_id` int(11) unsigned NOT NULL DEFAULT '0',
-	NpcSpellsId         int64          `json:"npcSpellsId" db:"npc_spells_id"`                 //`npc_spells_id` int(11) unsigned NOT NULL DEFAULT '0',
-	NpcSpellsEffectsId  int64          `json:"npcSpellsEffectsId" db:"npc_spells_effects_id"`  //`npc_spells_effects_id` int(11) unsigned NOT NULL DEFAULT '0',
-	NpcFactionId        int64          `json:"npcFactionId" db:"npc_faction_id"`               //`npc_faction_id` int(11) NOT NULL DEFAULT '0',
-	AdventureTemplateId int64          `json:"adventureTemplateId" db:"adventure_template_id"` //`adventure_template_id` int(10) unsigned NOT NULL DEFAULT '0',
+	LoottableID         int64          `json:"loottableId" db:"loottable_id"`                  //`loottable_id` int(11) unsigned NOT NULL DEFAULT '0',
+	MerchantID          int64          `json:"merchantId" db:"merchant_id"`                    //`merchant_id` int(11) unsigned NOT NULL DEFAULT '0',
+	AltCurrencyID       int64          `json:"altCurrencyId" db:"alt_currency_id"`             //`alt_currency_id` int(11) unsigned NOT NULL DEFAULT '0',
+	NpcSpellsID         int64          `json:"npcSpellsId" db:"npc_spells_id"`                 //`npc_spells_id` int(11) unsigned NOT NULL DEFAULT '0',
+	NpcSpellsEffectsID  int64          `json:"npcSpellsEffectsId" db:"npc_spells_effects_id"`  //`npc_spells_effects_id` int(11) unsigned NOT NULL DEFAULT '0',
+	NpcFactionID        int64          `json:"npcFactionId" db:"npc_faction_id"`               //`npc_faction_id` int(11) NOT NULL DEFAULT '0',
+	AdventureTemplateID int64          `json:"adventureTemplateId" db:"adventure_template_id"` //`adventure_template_id` int(10) unsigned NOT NULL DEFAULT '0',
 	TrapTemplate        sql.NullInt64  `json:"trapTemplate" db:"trap_template"`                //`trap_template` int(10) unsigned DEFAULT '0',
 	Mindmg              int64          `json:"mindmg" db:"mindmg"`                             //`mindmg` int(10) unsigned NOT NULL DEFAULT '0',
 	Maxdmg              int64          `json:"maxdmg" db:"maxdmg"`                             //`maxdmg` int(10) unsigned NOT NULL DEFAULT '0',
@@ -51,13 +51,13 @@ type Npc struct {
 	DrakkinHeritage     int64          `json:"drakkinHeritage" db:"drakkin_heritage"`          //`drakkin_heritage` int(10) NOT NULL DEFAULT '0',
 	DrakkinTattoo       int64          `json:"drakkinTattoo" db:"drakkin_tattoo"`              //`drakkin_tattoo` int(10) NOT NULL DEFAULT '0',
 	DrakkinDetails      int64          `json:"drakkinDetails" db:"drakkin_details"`            //`drakkin_details` int(10) NOT NULL DEFAULT '0',
-	ArmortintId         int64          `json:"armortintId" db:"armortint_id"`                  //`armortint_id` int(10) unsigned NOT NULL DEFAULT '0',
+	ArmortintID         int64          `json:"armortintId" db:"armortint_id"`                  //`armortint_id` int(10) unsigned NOT NULL DEFAULT '0',
 	ArmortintRed        int64          `json:"armortintRed" db:"armortint_red"`                //`armortint_red` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	ArmortintGreen      int64          `json:"armortintGreen" db:"armortint_green"`            //`armortint_green` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	ArmortintBlue       int64          `json:"armortintBlue" db:"armortint_blue"`              //`armortint_blue` tinyint(3) unsigned NOT NULL DEFAULT '0',
 	DMeleeTexture1      int64          `json:"dMeleeTexture1" db:"d_melee_texture1"`           //`d_melee_texture1` int(11) NOT NULL DEFAULT '0',
 	DMeleeTexture2      int64          `json:"dMeleeTexture2" db:"d_melee_texture2"`           //`d_melee_texture2` int(11) NOT NULL DEFAULT '0',
-	AmmoIdfile          string         `json:"ammoIdfile" db:"ammo_idfile"`                    //`ammo_idfile` varchar(30) NOT NULL DEFAULT 'IT10',
+	AmmoIDfile          string         `json:"ammoIdfile" db:"ammo_idfile"`                    //`ammo_idfile` varchar(30) NOT NULL DEFAULT 'IT10',
 	PrimMeleeType       int64          `json:"primMeleeType" db:"prim_melee_type"`             //`prim_melee_type` tinyint(4) unsigned NOT NULL DEFAULT '28',
 	SecMeleeType        int64          `json:"secMeleeType" db:"sec_melee_type"`               //`sec_melee_type` tinyint(4) unsigned NOT NULL DEFAULT '28',
 	RangedType          int64          `json:"rangedType" db:"ranged_type"`                    //`ranged_type` tinyint(4) unsigned NOT NULL DEFAULT '7',
@@ -121,24 +121,30 @@ type Npc struct {
 	Untargetable        int64          `json:"untargetable" db:"untargetable"`                 //`untargetable` tinyint(2) NOT NULL DEFAULT '0',
 }
 
-func (c *Npc) ZoneId() int64 {
-	if c.Id > 1000 {
-		return c.Id / 1000
+//ZoneID displays an npc into it's zone id
+func (c *Npc) ZoneID() int64 {
+	if c.ID > 1000 {
+		return c.ID / 1000
 	}
 	return 0
 }
 
+//ZoneName shows the name of a zone
 func (c *Npc) ZoneName() string {
-	return ZoneName(c.ZoneId())
+	return ZoneName(c.ZoneID())
 }
 
+//ClassIcon grabs the xa-icon string
 func (c *Npc) ClassIcon() string {
 	return ClassIcon(c.Class)
 }
+
+//RaceIcon grabs the xa-icon string
 func (c *Npc) RaceIcon() string {
 	return RaceIcon(c.Race)
 }
 
+//SpecialAbilitiesList returns a list of special abilities
 func (c *Npc) SpecialAbilitiesList() map[string]string {
 	abilities := make(map[string]string)
 	rawAbils := strings.Split(c.SpecialAbilities.String, ",")
@@ -407,6 +413,7 @@ func (c *Npc) SpecialAbilitiesList() map[string]string {
 	return abilities
 }
 
+//Experience returns calculated experience to kill a npc
 func (c *Npc) Experience() int64 {
 	xp := c.Level * c.Level * 75 * 35 / 10 //EXP_FORMULA
 
@@ -427,14 +434,17 @@ func (c *Npc) Experience() int64 {
 	return xp
 }
 
+//CleanName returns a sanitized name
 func (c *Npc) CleanName() string {
 	return CleanName(c.Name)
 }
 
+//ClassName returns the human readable format of class
 func (c *Npc) ClassName() string {
 	return ClassName(c.Class)
 }
 
+//RaceName returns the human readable format of race
 func (c *Npc) RaceName() string {
 	return RaceName(c.Race)
 }

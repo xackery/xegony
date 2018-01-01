@@ -8,34 +8,38 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//ZoneRepository holds cases
 type ZoneRepository struct {
 	stor storage.Storage
 }
 
-func (g *ZoneRepository) Initialize(stor storage.Storage) (err error) {
+//Initialize handler
+func (c *ZoneRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
 	}
-	g.stor = stor
+	c.stor = stor
 	return
 }
 
-func (g *ZoneRepository) Get(zoneID int64) (zone *model.Zone, err error) {
+//Get handler
+func (c *ZoneRepository) Get(zoneID int64) (zone *model.Zone, err error) {
 	if zoneID == 0 {
 		err = fmt.Errorf("Invalid Zone ID")
 		return
 	}
-	zone, err = g.stor.GetZone(zoneID)
+	zone, err = c.stor.GetZone(zoneID)
 	return
 }
 
-func (g *ZoneRepository) Create(zone *model.Zone) (err error) {
+//Create handler
+func (c *ZoneRepository) Create(zone *model.Zone) (err error) {
 	if zone == nil {
 		err = fmt.Errorf("Empty zone")
 		return
 	}
-	schema, err := g.newSchema([]string{"shortName"}, nil)
+	schema, err := c.newSchema([]string{"shortName"}, nil)
 	if err != nil {
 		return
 	}
@@ -64,15 +68,16 @@ func (g *ZoneRepository) Create(zone *model.Zone) (err error) {
 		err = vErr
 		return
 	}
-	err = g.stor.CreateZone(zone)
+	err = c.stor.CreateZone(zone)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ZoneRepository) Edit(zoneID int64, zone *model.Zone) (err error) {
-	schema, err := g.newSchema([]string{"name"}, nil)
+//Edit handler
+func (c *ZoneRepository) Edit(zoneID int64, zone *model.Zone) (err error) {
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -93,37 +98,41 @@ func (g *ZoneRepository) Edit(zoneID int64, zone *model.Zone) (err error) {
 		return
 	}
 
-	err = g.stor.EditZone(zoneID, zone)
+	err = c.stor.EditZone(zoneID, zone)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ZoneRepository) Delete(zoneID int64) (err error) {
-	err = g.stor.DeleteZone(zoneID)
+//Delete handler
+func (c *ZoneRepository) Delete(zoneID int64) (err error) {
+	err = c.stor.DeleteZone(zoneID)
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ZoneRepository) List() (zones []*model.Zone, err error) {
-	zones, err = g.stor.ListZone()
+//List handler
+func (c *ZoneRepository) List() (zones []*model.Zone, err error) {
+	zones, err = c.stor.ListZone()
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (g *ZoneRepository) ListByHotzone() (zones []*model.Zone, err error) {
-	zones, err = g.stor.ListZoneByHotzone()
+//ListByHotzone handler
+func (c *ZoneRepository) ListByHotzone() (zones []*model.Zone, err error) {
+	zones, err = c.stor.ListZoneByHotzone()
 	if err != nil {
 		return
 	}
 	return
 }
 
+//newSchema handler
 func (c *ZoneRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"
@@ -151,6 +160,7 @@ func (c *ZoneRepository) newSchema(requiredFields []string, optionalFields []str
 	return
 }
 
+//getSchemaProperty handler
 func (c *ZoneRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
 	switch field {
 	case "id":

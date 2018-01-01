@@ -53,8 +53,8 @@ func (s *Storage) ListLootDropEntry(lootDropID int64) (lootDropEntrys []*model.L
 }
 
 func (s *Storage) EditLootDropEntry(lootDropID int64, itemID int64, lootDropEntry *model.LootDropEntry) (err error) {
-	lootDropEntry.ItemId = itemID
-	lootDropEntry.LootdropId = lootDropID
+	lootDropEntry.ItemID = itemID
+	lootDropEntry.LootdropID = lootDropID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE lootdrop_entries SET %s WHERE lootdrop_id = :lootdrop_id AND item_id = :item_id`, lootDropEntrySets), lootDropEntry)
 	if err != nil {
 		return

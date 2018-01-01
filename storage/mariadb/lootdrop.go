@@ -19,7 +19,7 @@ func (s *Storage) GetLootDrop(lootDropID int64) (lootDrop *model.LootDrop, err e
 		return
 	}
 
-	lootDrop.Entries, err = s.ListLootDropEntry(lootDrop.Id)
+	lootDrop.Entries, err = s.ListLootDropEntry(lootDrop.ID)
 	if err != nil {
 		return
 	}
@@ -41,7 +41,7 @@ func (s *Storage) CreateLootDrop(lootDrop *model.LootDrop) (err error) {
 	if err != nil {
 		return
 	}
-	lootDrop.Id = lootDropID
+	lootDrop.ID = lootDropID
 	return
 }
 
@@ -62,7 +62,7 @@ func (s *Storage) ListLootDrop() (lootDrops []*model.LootDrop, err error) {
 }
 
 func (s *Storage) EditLootDrop(lootDropID int64, lootDrop *model.LootDrop) (err error) {
-	lootDrop.Id = lootDropID
+	lootDrop.ID = lootDropID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE lootdrop SET %s WHERE id = :id`, lootDropSets), lootDrop)
 	if err != nil {
 		return

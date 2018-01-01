@@ -39,7 +39,7 @@
                     <tr>
                         <td><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}"></i></td>                        
                         <td><i title="{{$value.ClassName}}" class="xa {{$value.ClassIcon}}"></i></td>                        
-                        <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
+                        <td><a href="/character/{{$value.ID}}">{{$value.Name}}</a></td>
                         <th>{{$value.Level}}</th>
                         <th>{{$value.AA}}</th>
                         <th>{{$value.TotalHP}}</th>

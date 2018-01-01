@@ -36,7 +36,7 @@ func (s *Storage) CreateNpc(npc *model.Npc) (err error) {
 	if err != nil {
 		return
 	}
-	npc.Id = npcID
+	npc.ID = npcID
 	return
 }
 
@@ -113,7 +113,7 @@ func (s *Storage) ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err 
 }
 
 func (s *Storage) EditNpc(npcID int64, npc *model.Npc) (err error) {
-	npc.Id = npcID
+	npc.ID = npcID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE npc_types SET %s WHERE id = :id`, npcSets), npc)
 	if err != nil {
 		return

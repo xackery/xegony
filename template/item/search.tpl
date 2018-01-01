@@ -49,7 +49,7 @@
 							{{range $key, $value := .Items}}
 							<tr>
 								<td><span class="item icon-{{$value.Icon}}-sm"></span></td>
-								<td><a item={{$value.Id}} href="/item/{{$value.Id}}">{{$value.Name}}</a></td>
+								<td><a item={{$value.ID}} href="/item/{{$value.ID}}">{{$value.Name}}</a></td>
 								<td><span title="{{$value.SlotList}}">{{$value.SlotsFirstName}}</span></td>
 								<td><i title="{{$value.ItemtypeName}}" class="xa {{$value.ItemtypeIcon}}"></i></td></td>
 							</tr>

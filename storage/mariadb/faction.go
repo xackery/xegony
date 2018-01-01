@@ -30,7 +30,7 @@ func (s *Storage) CreateFaction(faction *model.Faction) (err error) {
 	if err != nil {
 		return
 	}
-	faction.Id = factionID
+	faction.ID = factionID
 	return
 }
 
@@ -51,7 +51,7 @@ func (s *Storage) ListFaction() (factions []*model.Faction, err error) {
 }
 
 func (s *Storage) EditFaction(factionID int64, faction *model.Faction) (err error) {
-	faction.Id = factionID
+	faction.ID = factionID
 	result, err := s.db.NamedExec(`UPDATE faction_list SET name=:name, base=:base WHERE id = :id`, faction)
 	if err != nil {
 		return

@@ -25,8 +25,8 @@
             <div class="col-md-10 forum-heading">
                 
                         
-                <a href="/topic/{{$value.Id}}"><h4><i class="xa {{if $value.Icon}}{{$value.Icon}}{{else}}ra-coffee-mug{{end}}"></i> {{$value.Title}}</h4></a>
-                <a href="/topic/{{$value.Id}}"><div class="desc"></div></a>
+                <a href="/topic/{{$value.ID}}"><h4><i class="xa {{if $value.Icon}}{{$value.Icon}}{{else}}ra-coffee-mug{{end}}"></i> {{$value.Title}}</h4></a>
+                <a href="/topic/{{$value.ID}}"><div class="desc"></div></a>
             </div>
             <div class="col-md-1 forum-info">
                 <span class="number"> 4780 </span>

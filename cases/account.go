@@ -39,7 +39,7 @@ func (g *AccountRepository) Create(account *model.Account) (err error) {
 	if err != nil {
 		return
 	}
-	account.Id = 0 //strip ID
+	account.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(account))
 	if err != nil {
 		return

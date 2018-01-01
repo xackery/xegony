@@ -64,11 +64,11 @@
                         <tbody>
                         {{range $key, $value := .LootTable.Entries}}
                         <tr>
-                            <td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.LootdropId}}</a></td>
-                            <td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Multiplier}}</a></td>
-                            <td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Droplimit}}</a></td>
-                            <td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Mindrop}}</a></td>
-                            <td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Probability}}</a></td>
+                            <td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.LootdropID}}</a></td>
+                            <td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Multiplier}}</a></td>
+                            <td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Droplimit}}</a></td>
+                            <td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Mindrop}}</a></td>
+                            <td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Probability}}</a></td>
                         </tr>
                         {{end}}
                         </tbody>

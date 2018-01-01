@@ -24,7 +24,7 @@
                 </div>
                 <img alt="logo" class="img-circle m-b m-t-md" src="/images/profile.jpg">
                 <h3><a href="/profile.html">{{.Character.Title}} {{.Character.Name}} {{.Character.LastName}}</a></h3>
-                <div class="text-muted font-bold m-b-xs">{{.Character.ZoneId}}</div>
+                <div class="text-muted font-bold m-b-xs">{{.Character.ZoneID}}</div>
                 <p>
                    Level {{.Character.Level}} <i class="xa {{.Character.RaceIcon}}"></i> {{.Character.RaceName}} <i class="xa {{.Character.ClassIcon}}"></i> {{.Character.ClassName}} 
                 </p>

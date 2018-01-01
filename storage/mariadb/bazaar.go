@@ -30,7 +30,7 @@ func (s *Storage) CreateBazaar(bazaar *model.Bazaar) (err error) {
 	if err != nil {
 		return
 	}
-	bazaar.Id = bazaarID
+	bazaar.ID = bazaarID
 	return
 }
 
@@ -51,7 +51,7 @@ func (s *Storage) ListBazaar() (bazaars []*model.Bazaar, err error) {
 }
 
 func (s *Storage) EditBazaar(bazaarID int64, bazaar *model.Bazaar) (err error) {
-	bazaar.Id = bazaarID
+	bazaar.ID = bazaarID
 	result, err := s.db.NamedExec(`UPDATE bazaar SET name=:name, itemid=:itemid WHERE id = :id`, bazaar)
 	if err != nil {
 		return

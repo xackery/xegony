@@ -39,7 +39,7 @@ func (g *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
 	if err != nil {
 		return
 	}
-	bazaar.Id = 0 //strip ID
+	bazaar.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(bazaar))
 	if err != nil {
 		return

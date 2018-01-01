@@ -75,11 +75,11 @@
 							<tbody>
 							{{range $key, $value := .Spawn.Entries}}
 							<tr>
-								<td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.LootdropId}}</a></td>
-								<td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Multiplier}}</a></td>
-								<td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Droplimit}}</a></td>
-								<td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Mindrop}}</a></td>
-								<td><a href="/lootdrop/{{$value.LootdropId}}">{{$value.Probability}}</a></td>
+								<td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.LootdropID}}</a></td>
+								<td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Multiplier}}</a></td>
+								<td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Droplimit}}</a></td>
+								<td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Mindrop}}</a></td>
+								<td><a href="/lootdrop/{{$value.LootdropID}}">{{$value.Probability}}</a></td>
 							</tr>
 							{{end}}
 							</tbody>
@@ -114,8 +114,8 @@
 							<tbody>
 							{{range $key, $value := .Spawn.Npcs}}
 							<tr>
-								<td><a href="/npc/{{$value.Id}}">{{$value.Id}}</a></td>
-								<td><a href="/npc/{{$value.Id}}">{{$value.Name}}</a></td>								
+								<td><a href="/npc/{{$value.ID}}">{{$value.ID}}</a></td>
+								<td><a href="/npc/{{$value.ID}}">{{$value.Name}}</a></td>								
 							</tr>
 							{{end}}
 							</tbody>

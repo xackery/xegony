@@ -34,7 +34,7 @@
 					<tbody>
 					{{range $key, $value := .LootDropEntrys}}
 					<tr>
-						<td><a href="/lootdrop/{{$value.LootdropId}}/{{$value.ItemId}}">{{$value.ItemId}}</a></td>
+						<td><a href="/lootdrop/{{$value.LootdropID}}/{{$value.ItemId}}">{{$value.ItemId}}</a></td>
 						<td>{{$value.ItemCharges}}</td>
 						<td>{{if $value.EquipItem}}<i title="Show As Equipped" class="fa fa-eye"></i>{{end}}</td>
 						<td>{{$value.Multiplier}}</td>

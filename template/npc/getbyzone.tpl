@@ -46,8 +46,8 @@
                     <tr>
                         
                         <td><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}"></i></td>
-                        <td><a href="/npc/{{$value.Id}}">{{$value.CleanName}}</a></td>
-                        <td>{{$value.Id}}</td>
+                        <td><a href="/npc/{{$value.ID}}">{{$value.CleanName}}</a></td>
+                        <td>{{$value.ID}}</td>
                     </tr>
                     {{end}}                
                     </tbody>

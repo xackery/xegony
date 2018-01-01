@@ -32,9 +32,9 @@
                     <tr>
                         <td><i class="xa {{$value.RaceIcon}}"></i></td>
                         <td><i class="xa {{$value.ClassIcon}}"></i></td>                        
-                        <td><a href="/character/{{$value.Id}}">{{$value.Name}}</a></td>
+                        <td><a href="/character/{{$value.ID}}">{{$value.Name}}</a></td>
                         
-                        <td><a href="/zone/{{$value.ZoneId}}">{{$value.ZoneId}}</a></td>         
+                        <td><a href="/zone/{{$value.ZoneID}}">{{$value.ZoneID}}</a></td>         
                     </tr>
                     {{end}}                
                     </tbody>

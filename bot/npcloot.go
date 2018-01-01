@@ -39,42 +39,42 @@ func (a *Bot) CreateNpcDropsCache() (err error) {
 	var item *model.Item
 	npcLoot := &model.NpcLoot{}
 	for _, npc := range npcs {
-		if npc.LoottableId == 0 {
+		if npc.LoottableID == 0 {
 			continue
 		}
-		loottable, err = a.lootTableRepo.Get(npc.LoottableId)
+		loottable, err = a.lootTableRepo.Get(npc.LoottableID)
 		if err != nil {
-			err = errors.Wrap(err, fmt.Sprintf("Failed to get lootTable %d", npc.LoottableId))
+			err = errors.Wrap(err, fmt.Sprintf("Failed to get lootTable %d", npc.LoottableID))
 			fmt.Println(err)
 			continue
 		}
 		for _, loottableEntry := range loottable.Entries {
-			lootdrop, err = a.lootDropRepo.Get(loottableEntry.LootdropId)
+			lootdrop, err = a.lootDropRepo.Get(loottableEntry.LootdropID)
 			if err != nil {
-				err = errors.Wrap(err, fmt.Sprintf("Failed to get lootDrop %d", loottableEntry.LootdropId))
+				err = errors.Wrap(err, fmt.Sprintf("Failed to get lootDrop %d", loottableEntry.LootdropID))
 				fmt.Println(err)
 				continue
 			}
 			for _, lootdropEntry := range lootdrop.Entries {
-				item, err = a.itemRepo.Get(lootdropEntry.ItemId)
+				item, err = a.itemRepo.Get(lootdropEntry.ItemID)
 				if err != nil {
-					err = errors.Wrap(err, fmt.Sprintf("Failed to get item %d", lootdropEntry.ItemId))
+					err = errors.Wrap(err, fmt.Sprintf("Failed to get item %d", lootdropEntry.ItemID))
 					fmt.Println(err)
 					continue
 				}
 				//fmt.Println(len(npcs), "npcs fetched, doing ", npc, "and got loottable", loottable, "and lootdrop", lootdrop, "with item", item)
-				npcLoot.NpcId = npc.Id
-				npcLoot.ItemId = item.Id
+				npcLoot.NpcID = npc.ID
+				npcLoot.ItemID = item.ID
 				err = a.npcLootRepo.Create(npcLoot)
 				if err != nil {
-					err = errors.Wrap(err, fmt.Sprintf("Failed to create cache entry npc_id: %d item_id: %d", npc.Id, item.Id))
+					err = errors.Wrap(err, fmt.Sprintf("Failed to create cache entry npc_id: %d item_id: %d", npc.ID, item.ID))
 					fmt.Println(err)
 					continue
 				}
 				entryCount++
 			}
 		}
-		fmt.Println(npc.Id, time.Since(start))
+		fmt.Println(npc.ID, time.Since(start))
 	}
 	fmt.Println("Created", entryCount, "entries for ", len(npcs), "npcs in", time.Since(start))
 	return

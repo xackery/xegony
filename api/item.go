@@ -116,7 +116,7 @@ func (a *Api) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 
 	itemTooltip := &ItemTooltip{
 		Name:    item.Name,
-		Id:      item.Id,
+		Id:      item.ID,
 		Content: tpl.String(),
 	}
 
