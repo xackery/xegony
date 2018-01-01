@@ -2,10 +2,8 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
-	"time"
 
-	"github.com/xeipuuv/gojsonschema"
+	"time"
 )
 
 //Account holds together characters inside Everquest's design
@@ -28,51 +26,4 @@ type Account struct {
 	Expansion      int64         `json:"expansion" db:"expansion"`           //`expansion` tinyint(4) NOT NULL DEFAULT '0',
 	BanReason      string        `json:"banReason" db:"ban_reason"`          //`ban_reason` text,
 	SuspendReason  string        `json:"suspendReason" db:"suspend_reason"`  //`suspend_reason` text,
-}
-
-func (c *Account) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
-	s := Schema{}
-	s.Type = "object"
-	s.Required = requiredFields
-	s.Properties = make(map[string]Schema)
-	var field string
-	var prop Schema
-	for _, field = range requiredFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	for _, field := range optionalFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	jsRef := gojsonschema.NewGoLoader(s)
-	schema, err = gojsonschema.NewSchema(jsRef)
-	if err != nil {
-		return
-	}
-	return
-}
-
-func (c *Account) getSchemaProperty(field string) (prop Schema, err error) {
-	switch field {
-	case "status":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "id":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "name":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 30
-		prop.Pattern = "^[a-zA-Z]*$"
-	default:
-		err = fmt.Errorf("Invalid field passed: %s", field)
-	}
-
-	return
 }

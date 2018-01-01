@@ -1,10 +1,6 @@
 package model
 
-import (
-	"fmt"
-
-	"github.com/xeipuuv/gojsonschema"
-)
+import ()
 
 //Activity is used by Tasks to break down which activities are involved in a provided task
 type Activity struct {
@@ -21,43 +17,4 @@ type Activity struct {
 	Delivertonpc int64  `json:"delivertonpc" db:"delivertonpc"` //`delivertonpc` int(11) unsigned NOT NULL DEFAULT '0',
 	Zoneid       int64  `json:"zoneid" db:"zoneid"`             //`zoneid` int(11) NOT NULL DEFAULT '0',
 	Optional     int64  `json:"optional" db:"optional"`         //`optional` tinyint(1) NOT NULL DEFAULT '0',
-}
-
-func (c *Activity) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
-	s := Schema{}
-	s.Type = "object"
-	s.Required = requiredFields
-	s.Properties = make(map[string]Schema)
-	var field string
-	var prop Schema
-	for _, field = range requiredFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	for _, field := range optionalFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	jsRef := gojsonschema.NewGoLoader(s)
-	schema, err = gojsonschema.NewSchema(jsRef)
-	if err != nil {
-		return
-	}
-	return
-}
-
-func (c *Activity) getSchemaProperty(field string) (prop Schema, err error) {
-	switch field {
-	case "id":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	default:
-		err = fmt.Errorf("Invalid field passed: %s", field)
-	}
-
-	return
 }

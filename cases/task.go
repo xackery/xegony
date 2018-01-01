@@ -35,7 +35,7 @@ func (g *TaskRepository) Create(task *model.Task) (err error) {
 		err = fmt.Errorf("Empty task")
 		return
 	}
-	schema, err := task.NewSchema([]string{"shortName"}, nil)
+	schema, err := g.newSchema([]string{"shortName"}, nil)
 	if err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (g *TaskRepository) Create(task *model.Task) (err error) {
 }
 
 func (g *TaskRepository) Edit(taskID int64, task *model.Task) (err error) {
-	schema, err := task.NewSchema([]string{"name"}, nil)
+	schema, err := g.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -104,5 +104,44 @@ func (g *TaskRepository) List() (tasks []*model.Task, err error) {
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (c *TaskRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+	s := model.Schema{}
+	s.Type = "object"
+	s.Required = requiredFields
+	s.Properties = make(map[string]model.Schema)
+	var field string
+	var prop model.Schema
+	for _, field = range requiredFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	for _, field := range optionalFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	jsRef := gojsonschema.NewGoLoader(s)
+	schema, err = gojsonschema.NewSchema(jsRef)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (c *TaskRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+	switch field {
+	case "id":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	default:
+		err = fmt.Errorf("Invalid field passed: %s", field)
+	}
+
 	return
 }

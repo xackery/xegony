@@ -35,7 +35,7 @@ func (g *UserRepository) Create(user *model.User) (err error) {
 		err = fmt.Errorf("Empty user")
 		return
 	}
-	schema, err := user.NewSchema([]string{"name", "password", "email", "accountID"}, nil)
+	schema, err := g.newSchema([]string{"name", "password", "email", "accountID"}, nil)
 	if err != nil {
 		return
 	}
@@ -67,7 +67,7 @@ func (g *UserRepository) Login(username string, password string) (user *model.Us
 		Name:     username,
 		Password: password,
 	}
-	schema, err := user.NewSchema([]string{"name", "password"}, nil)
+	schema, err := g.newSchema([]string{"name", "password"}, nil)
 	if err != nil {
 		return
 	}
@@ -95,7 +95,7 @@ func (g *UserRepository) Login(username string, password string) (user *model.Us
 }
 
 func (g *UserRepository) Edit(userID int64, user *model.User) (err error) {
-	schema, err := user.NewSchema([]string{"name"}, nil)
+	schema, err := g.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -136,5 +136,59 @@ func (g *UserRepository) List() (users []*model.User, err error) {
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (u *UserRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+	s := model.Schema{}
+	s.Type = "object"
+	s.Required = requiredFields
+	s.Properties = make(map[string]model.Schema)
+	var field string
+	var prop model.Schema
+	for _, field = range requiredFields {
+		if prop, err = u.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	for _, field := range optionalFields {
+		if prop, err = u.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	jsRef := gojsonschema.NewGoLoader(s)
+	schema, err = gojsonschema.NewSchema(jsRef)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (u *UserRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+	switch field {
+	case "id":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "name":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 32
+		prop.Pattern = "^[a-zA-Z' ]*$"
+	case "password":
+		prop.Type = "string"
+		prop.MinLength = 6
+		prop.MaxLength = 32
+		prop.Pattern = `^[a-zA-Z]\w{3,14}$`
+	case "email":
+		prop.Type = "email"
+	case "accountID":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	default:
+		err = fmt.Errorf("Invalid field passed: %s", field)
+	}
+
 	return
 }

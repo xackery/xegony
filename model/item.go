@@ -3,9 +3,8 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	"github.com/go-sql-driver/mysql"
 
-	"github.com/xeipuuv/gojsonschema"
+	"github.com/go-sql-driver/mysql"
 )
 
 //Item represents items inside everquest
@@ -71,7 +70,7 @@ type Item struct {
 	Bardvalue           int64          `json:"bardvalue" db:"bardvalue"`                     //
 	Book                int64          `json:"book" db:"book"`                               //
 	Casttime            int64          `json:"casttime" db:"casttime"`                       //
-	Casttime_           int64          `json:"casttime_" db:"casttime_"`                     //
+	Casttime2           int64          `json:"casttime_" db:"casttime_"`                     //
 	Charmfile           string         `json:"charmfile" db:"charmfile"`                     //
 	Charmfileid         string         `json:"charmfileid" db:"charmfileid"`                 //
 	Classes             int64          `json:"classes" db:"classes"`                         //
@@ -256,19 +255,19 @@ type Item struct {
 	Focusname           string         `json:"focusname" db:"focusname"`                     //
 	Scrollname          string         `json:"scrollname" db:"scrollname"`                   //
 	Dsmitigation        int64          `json:"dsmitigation" db:"dsmitigation"`               //
-	Heroic_str          int64          `json:"heroicStr" db:"heroic_str"`                    //
-	Heroic_int          int64          `json:"heroicInt" db:"heroic_int"`                    //
-	Heroic_wis          int64          `json:"heroicWis" db:"heroic_wis"`                    //
-	Heroic_agi          int64          `json:"heroicAgi" db:"heroic_agi"`                    //
-	Heroic_dex          int64          `json:"heroicDex" db:"heroic_dex"`                    //
-	Heroic_sta          int64          `json:"heroicSta" db:"heroic_sta"`                    //
-	Heroic_cha          int64          `json:"heroicCha" db:"heroic_cha"`                    //
-	Heroic_pr           int64          `json:"heroicPr" db:"heroic_pr"`                      //
-	Heroic_dr           int64          `json:"heroicDr" db:"heroic_dr"`                      //
-	Heroic_fr           int64          `json:"heroicFr" db:"heroic_fr"`                      //
-	Heroic_cr           int64          `json:"heroicCr" db:"heroic_cr"`                      //
-	Heroic_mr           int64          `json:"heroicMr" db:"heroic_mr"`                      //
-	Heroic_svcorrup     int64          `json:"heroicSvcorrup" db:"heroic_svcorrup"`          //
+	HeroicStr           int64          `json:"heroicStr" db:"heroic_str"`                    //
+	HeroicInt           int64          `json:"heroicInt" db:"heroic_int"`                    //
+	HeroicWis           int64          `json:"heroicWis" db:"heroic_wis"`                    //
+	HeroicAgi           int64          `json:"heroicAgi" db:"heroic_agi"`                    //
+	HeroicDex           int64          `json:"heroicDex" db:"heroic_dex"`                    //
+	HeroicSta           int64          `json:"heroicSta" db:"heroic_sta"`                    //
+	HeroicCha           int64          `json:"heroicCha" db:"heroic_cha"`                    //
+	HeroicPr            int64          `json:"heroicPr" db:"heroic_pr"`                      //
+	HeroicDr            int64          `json:"heroicDr" db:"heroic_dr"`                      //
+	HeroicFr            int64          `json:"heroicFr" db:"heroic_fr"`                      //
+	HeroicCr            int64          `json:"heroicCr" db:"heroic_cr"`                      //
+	HeroicMr            int64          `json:"heroicMr" db:"heroic_mr"`                      //
+	HeroicSvcorrup      int64          `json:"heroicSvcorrup" db:"heroic_svcorrup"`          //
 	Healamt             int64          `json:"healamt" db:"healamt"`                         //
 	Spelldmg            int64          `json:"spelldmg" db:"spelldmg"`                       //
 	Clairvoyance        int64          `json:"clairvoyance" db:"clairvoyance"`               //
@@ -961,51 +960,4 @@ func (c *Item) SlotName() string {
 	default:
 		return fmt.Sprintf("Unknown (%d)", c.SlotID)
 	}
-}
-
-func (c *Item) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
-	s := Schema{}
-	s.Type = "object"
-	s.Required = requiredFields
-	s.Properties = make(map[string]Schema)
-	var field string
-	var prop Schema
-	for _, field = range requiredFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	for _, field := range optionalFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	jsRef := gojsonschema.NewGoLoader(s)
-	schema, err = gojsonschema.NewSchema(jsRef)
-	if err != nil {
-		return
-	}
-	return
-}
-
-func (c *Item) getSchemaProperty(field string) (prop Schema, err error) {
-	switch field {
-	case "id":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "zoneID":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "name":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 32
-		prop.Pattern = "^[a-zA-Z]*$"
-	default:
-		err = fmt.Errorf("Invalid field passed: %s", field)
-	}
-
-	return
 }

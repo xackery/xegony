@@ -35,7 +35,7 @@ func (g *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
 		err = fmt.Errorf("Empty lootTable")
 		return
 	}
-	schema, err := lootTable.NewSchema([]string{"shortName"}, nil)
+	schema, err := g.newSchema([]string{"shortName"}, nil)
 	if err != nil {
 		return
 	}
@@ -64,7 +64,7 @@ func (g *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
 }
 
 func (g *LootTableRepository) Edit(lootTableID int64, lootTable *model.LootTable) (err error) {
-	schema, err := lootTable.NewSchema([]string{"name"}, nil)
+	schema, err := g.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -105,5 +105,52 @@ func (g *LootTableRepository) List() (lootTables []*model.LootTable, err error) 
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (c *LootTableRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+	s := model.Schema{}
+	s.Type = "object"
+	s.Required = requiredFields
+	s.Properties = make(map[string]model.Schema)
+	var field string
+	var prop model.Schema
+	for _, field = range requiredFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	for _, field := range optionalFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	jsRef := gojsonschema.NewGoLoader(s)
+	schema, err = gojsonschema.NewSchema(jsRef)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (c *LootTableRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+	switch field {
+	case "id":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "lootTableID":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "name":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 32
+		prop.Pattern = "^[a-zA-Z]*$"
+	default:
+		err = fmt.Errorf("Invalid field passed: %s", field)
+	}
+
 	return
 }

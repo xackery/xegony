@@ -39,7 +39,7 @@ func (g *GoalRepository) Create(goal *model.Goal) (err error) {
 		err = fmt.Errorf("Empty goal")
 		return
 	}
-	schema, err := goal.NewSchema([]string{"body"}, nil)
+	schema, err := g.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -66,7 +66,7 @@ func (g *GoalRepository) Create(goal *model.Goal) (err error) {
 }
 
 func (g *GoalRepository) Edit(listID int64, goal *model.Goal) (err error) {
-	schema, err := goal.NewSchema([]string{"body"}, nil)
+	schema, err := g.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -107,5 +107,44 @@ func (g *GoalRepository) List() (goals []*model.Goal, err error) {
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (c *GoalRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+	s := model.Schema{}
+	s.Type = "object"
+	s.Required = requiredFields
+	s.Properties = make(map[string]model.Schema)
+	var field string
+	var prop model.Schema
+	for _, field = range requiredFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	for _, field := range optionalFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	jsRef := gojsonschema.NewGoLoader(s)
+	schema, err = gojsonschema.NewSchema(jsRef)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (c *GoalRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+	switch field {
+	case "id":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	default:
+		err = fmt.Errorf("Invalid field passed: %s", field)
+	}
+
 	return
 }

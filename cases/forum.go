@@ -35,7 +35,7 @@ func (g *ForumRepository) Create(forum *model.Forum) (err error) {
 		err = fmt.Errorf("Empty forum")
 		return
 	}
-	schema, err := forum.NewSchema([]string{"name"}, nil)
+	schema, err := g.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (g *ForumRepository) Create(forum *model.Forum) (err error) {
 }
 
 func (g *ForumRepository) Edit(forumID int64, forum *model.Forum) (err error) {
-	schema, err := forum.NewSchema([]string{"name"}, []string{"description"})
+	schema, err := g.newSchema([]string{"name"}, []string{"description"})
 	if err != nil {
 		return
 	}
@@ -104,5 +104,55 @@ func (g *ForumRepository) List() (forums []*model.Forum, err error) {
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (c *ForumRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+	s := model.Schema{}
+	s.Type = "object"
+	s.Required = requiredFields
+	s.Properties = make(map[string]model.Schema)
+	var field string
+	var prop model.Schema
+	for _, field = range requiredFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	for _, field := range optionalFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	jsRef := gojsonschema.NewGoLoader(s)
+	schema, err = gojsonschema.NewSchema(jsRef)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (c *ForumRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+	switch field {
+	case "id":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "ownerId":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "name":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 32
+		prop.Pattern = "^[a-zA-Z' ]*$"
+	case "description":
+		prop.Type = "string"
+		prop.MaxLength = 128
+	default:
+		err = fmt.Errorf("Invalid field passed: %s", field)
+	}
+
 	return
 }

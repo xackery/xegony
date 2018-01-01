@@ -35,7 +35,7 @@ func (g *FactionRepository) Create(faction *model.Faction) (err error) {
 		err = fmt.Errorf("Empty faction")
 		return
 	}
-	schema, err := faction.NewSchema([]string{"name"}, nil)
+	schema, err := g.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (g *FactionRepository) Create(faction *model.Faction) (err error) {
 }
 
 func (g *FactionRepository) Edit(factionID int64, faction *model.Faction) (err error) {
-	schema, err := faction.NewSchema([]string{"name"}, nil)
+	schema, err := g.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
@@ -104,5 +104,52 @@ func (g *FactionRepository) List() (factions []*model.Faction, err error) {
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (c *FactionRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+	s := model.Schema{}
+	s.Type = "object"
+	s.Required = requiredFields
+	s.Properties = make(map[string]model.Schema)
+	var field string
+	var prop model.Schema
+	for _, field = range requiredFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	for _, field := range optionalFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	jsRef := gojsonschema.NewGoLoader(s)
+	schema, err = gojsonschema.NewSchema(jsRef)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (c *FactionRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+	switch field {
+	case "base":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "id":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "name":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 30
+		prop.Pattern = "^[a-zA-Z]*$"
+	default:
+		err = fmt.Errorf("Invalid field passed: %s", field)
+	}
+
 	return
 }

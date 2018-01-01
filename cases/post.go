@@ -35,7 +35,7 @@ func (g *PostRepository) Create(post *model.Post) (err error) {
 		err = fmt.Errorf("Empty post")
 		return
 	}
-	schema, err := post.NewSchema([]string{"body"}, nil)
+	schema, err := g.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (g *PostRepository) Create(post *model.Post) (err error) {
 }
 
 func (g *PostRepository) Edit(postID int64, post *model.Post) (err error) {
-	schema, err := post.NewSchema([]string{"body"}, nil)
+	schema, err := g.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
 	}
@@ -104,5 +104,49 @@ func (g *PostRepository) List(topicID int64) (posts []*model.Post, err error) {
 	if err != nil {
 		return
 	}
+	return
+}
+
+func (c *PostRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+	s := model.Schema{}
+	s.Type = "object"
+	s.Required = requiredFields
+	s.Properties = make(map[string]model.Schema)
+	var field string
+	var prop model.Schema
+	for _, field = range requiredFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	for _, field := range optionalFields {
+		if prop, err = c.getSchemaProperty(field); err != nil {
+			return
+		}
+		s.Properties[field] = prop
+	}
+	jsRef := gojsonschema.NewGoLoader(s)
+	schema, err = gojsonschema.NewSchema(jsRef)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (c *PostRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+	switch field {
+	case "id":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "body":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 1024
+		prop.Pattern = "^[a-zA-Z' ]*$"
+	default:
+		err = fmt.Errorf("Invalid field passed: %s", field)
+	}
+
 	return
 }

@@ -1,10 +1,6 @@
 package model
 
-import (
-	"fmt"
-
-	"github.com/xeipuuv/gojsonschema"
-)
+import ()
 
 //Lootdropentry groups together items that npcs drop
 type LootDropEntry struct {
@@ -17,51 +13,4 @@ type LootDropEntry struct {
 	Minlevel       int64   `json:"minlevel" db:"minlevel"`              //`minlevel` tinyint(3) NOT NULL DEFAULT '0',
 	Maxlevel       int64   `json:"maxlevel" db:"maxlevel"`              //`maxlevel` tinyint(3) NOT NULL DEFAULT '127',
 	Multiplier     int64   `json:"multiplier" db:"multiplier"`          //`multiplier` tinyint(2) unsigned NOT NULL DEFAULT '1',
-}
-
-func (c *LootDropEntry) NewSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
-	s := Schema{}
-	s.Type = "object"
-	s.Required = requiredFields
-	s.Properties = make(map[string]Schema)
-	var field string
-	var prop Schema
-	for _, field = range requiredFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	for _, field := range optionalFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
-			return
-		}
-		s.Properties[field] = prop
-	}
-	jsRef := gojsonschema.NewGoLoader(s)
-	schema, err = gojsonschema.NewSchema(jsRef)
-	if err != nil {
-		return
-	}
-	return
-}
-
-func (c *LootDropEntry) getSchemaProperty(field string) (prop Schema, err error) {
-	switch field {
-	case "id":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "lootDropID":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "name":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 32
-		prop.Pattern = "^[a-zA-Z]*$"
-	default:
-		err = fmt.Errorf("Invalid field passed: %s", field)
-	}
-
-	return
 }
