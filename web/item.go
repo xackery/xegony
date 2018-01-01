@@ -316,6 +316,7 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 	type Content struct {
 		Site site
 		Item *model.Item
+		Npcs []*model.Npc
 	}
 
 	if strings.ToLower(getVar(r, "itemID")) == "byslot" {
@@ -333,15 +334,22 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	id, err := getIntVar(r, "itemID")
+	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	item, err := a.itemRepo.Get(id)
+	item, err := a.itemRepo.Get(itemID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	npcs, err := a.npcRepo.ListByItem(itemID)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get NCPs based on item")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -353,6 +361,7 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 	content := Content{
 		Site: site,
 		Item: item,
+		Npcs: npcs,
 	}
 
 	tmp := a.getTemplate("")

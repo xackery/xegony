@@ -126,6 +126,15 @@ func (c *NpcRepository) List() (npcs []*model.Npc, err error) {
 	return
 }
 
+//ListByItem handles logic
+func (c *NpcRepository) ListByItem(itemID int64) (npcs []*model.Npc, err error) {
+	npcs, err = c.stor.ListNpcByItem(itemID)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //ListByZone handles logic
 func (c *NpcRepository) ListByZone(zoneID int64) (npcs []*model.Npc, err error) {
 	npcs, err = c.stor.ListNpcByZone(zoneID)

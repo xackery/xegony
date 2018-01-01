@@ -22,16 +22,8 @@
                 <i class="fa fa-chevron-down"></i>
             </button>
             <div class="collapse mobile-navbar" id="mobile-collapse">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a class="" href="login.html">Login</a>
-                    </li>
-                    <li>
-                        <a class="" href="login.html">Logout</a>
-                    </li>
-                    <li>
-                        <a class="" href="profile.html">Profile</a>
-                    </li>
+                <ul class="nav" id="top-menu">
+                    {{template "navmenu" .}}
                 </ul>
             </div>
         </div>

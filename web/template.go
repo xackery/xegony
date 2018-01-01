@@ -16,6 +16,10 @@ type Template struct {
 
 func (w *Web) loadStandardTemplate(oldTemplate *template.Template) (tmp *template.Template, err error) {
 	tmp = oldTemplate
+	tmp, err = w.loadTemplate(tmp, "navmenu", "navmenu.tpl")
+	if err != nil {
+		return
+	}
 	tmp, err = w.loadTemplate(tmp, "navigation", "navigation.tpl")
 	if err != nil {
 		return

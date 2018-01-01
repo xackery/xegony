@@ -61,17 +61,20 @@
                 <table cellpadding="1" cellspacing="1" class="table table-striped">
                     <thead>
                     <tr>
+                        <th width="10px"><i title="Race" class="xa xa-bear"></i></th>
+                        <th width="10px"><i title="Class" class="xa xa-all-for-one"></i></th>
                         <th>Name</th>
                         <th>Zone</th>
-                        <th>Chance</th>
+                        
                     </tr>
                     </thead>
                     <tbody>
-                    {{range $key, $value := .NPCs}}
+                    {{range $key, $value := .Npcs}}
                     <tr>
+                        <td><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}"></i></td>
+                                <td><i title="{{$value.ClassName}}" class="xa {{$value.ClassIcon}}"></i></td>
                         <td><a href="/npc/{{$value.ID}}">{{$value.Name}}</a></td>
-                        <td><a href="/zone/{{$value.ZoneSnippetId}}">{{$value.ZoneSnippet}}</a></td>
-                        <td><a href="/zone/{{$value.ID}}">{{$value.ChanceSnippet}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneName}}">{{$value.ZoneName}}</a></td>
                     </tr>
                     {{end}}                
                     </tbody>

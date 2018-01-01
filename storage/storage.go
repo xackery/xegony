@@ -74,6 +74,7 @@ type Storage interface {
 	EditNpc(npcID int64, npc *model.Npc) (err error)
 	ListNpc() (npcs []*model.Npc, err error)
 	ListNpcByZone(zoneID int64) (npcs []*model.Npc, err error)
+	ListNpcByItem(itemID int64) (npcs []*model.Npc, err error)
 	ListNpcByFaction(factionID int64) (npcs []*model.Npc, err error)
 	ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err error)
 	DeleteNpc(npcID int64) (err error)

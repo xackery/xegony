@@ -31,6 +31,7 @@ $(document).ready(function () {
 
     // Initialize metsiMenu plugin to sidebar menu
     $('#side-menu').metisMenu();
+    $('#top-menu').metisMenu();
 
     // Initialize iCheck plugin
     $('.i-checks').iCheck({

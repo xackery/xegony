@@ -118,6 +118,25 @@ func (s *Storage) ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err 
 	return
 }
 
+//ListNpcByItem will grab data from storage
+func (s *Storage) ListNpcByItem(itemID int64) (npcs []*model.Npc, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
+		INNER JOIN npc_loot_cache ON npc_loot_cache.npc_id = npc_types.id
+		WHERE npc_loot_cache.item_id = ?`, npcFields), itemID)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		npc := model.Npc{}
+		if err = rows.StructScan(&npc); err != nil {
+			return
+		}
+		npcs = append(npcs, &npc)
+	}
+	return
+}
+
 //EditNpc will grab data from storage
 func (s *Storage) EditNpc(npcID int64, npc *model.Npc) (err error) {
 	npc.ID = npcID

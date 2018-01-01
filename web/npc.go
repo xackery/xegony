@@ -305,7 +305,7 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 	type Content struct {
 		Site  site
 		Npc   *model.Npc
-		Items []*model.NpcLoot
+		Items []*model.Item
 	}
 
 	if strings.ToLower(getVar(r, "npcID")) == "search" {
@@ -335,7 +335,7 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	items, err := a.npcLootRepo.List(npcID)
+	itemsLoots, err := a.npcLootRepo.List(npcID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error on items")
 		a.writeError(w, r, err, http.StatusBadRequest)
@@ -347,9 +347,19 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Npc"
 
 	content := Content{
-		Site:  site,
-		Npc:   npc,
-		Items: items,
+		Site: site,
+		Npc:  npc,
+	}
+
+	var item *model.Item
+	for _, itemLoot := range itemsLoots {
+		item, err = a.itemRepo.Get(itemLoot.ItemID)
+		if err != nil {
+			err = errors.Wrap(err, "Request error on item")
+			return
+		}
+
+		content.Items = append(content.Items, item)
 	}
 
 	tmp := a.getTemplate("")
