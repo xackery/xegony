@@ -15,6 +15,7 @@ const (
 	spawnGroupBinds  = `:name, :spawn_limit, :dist, :max_x, :min_x, :max_y, :min_y, :delay, :mindelay, :despawn, :despawn_timer`
 )
 
+//GetSpawn will grab data from storage
 func (s *Storage) GetSpawn(spawnID int64) (spawn *model.Spawn, err error) {
 	spawn = &model.Spawn{}
 	err = s.db.Get(spawn, fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
@@ -26,6 +27,7 @@ func (s *Storage) GetSpawn(spawnID int64) (spawn *model.Spawn, err error) {
 	return
 }
 
+//CreateSpawn will grab data from storage
 func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
 	if spawn == nil {
 		err = fmt.Errorf("Must provide spawn")
@@ -55,6 +57,7 @@ func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
 	return
 }
 
+//ListSpawn will grab data from storage
 func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
 		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID
@@ -73,6 +76,7 @@ func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
 	return
 }
 
+//EditSpawn will grab data from storage
 func (s *Storage) EditSpawn(spawnID int64, spawn *model.Spawn) (err error) {
 	spawn.SpawngroupID = spawnID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE spawn2 SET %s WHERE spawn2.spawngroupID = :spawn2.spawngroupID`, spawn2Sets), spawn)
@@ -103,6 +107,7 @@ func (s *Storage) EditSpawn(spawnID int64, spawn *model.Spawn) (err error) {
 	return
 }
 
+//DeleteSpawn will grab data from storage
 func (s *Storage) DeleteSpawn(spawnID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM spawn2 WHERE spawngroupid = ?`, spawnID)
 	if err != nil {

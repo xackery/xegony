@@ -12,6 +12,7 @@ const (
 	npcBinds  = ` :name, :lastname, :level, :race, :class, :bodytype, :hp, :mana, :gender, :texture, :helmtexture, :herosforgemodel, :size, :hp_regen_rate, :mana_regen_rate, :loottable_id, :merchant_id, :alt_currency_id, :npc_spells_id, :npc_spells_effects_id, :npc_faction_id, :adventure_template_id, :trap_template, :mindmg, :maxdmg, :attack_count, :npcspecialattks, :special_abilities, :aggroradius, :assistradius, :face, :luclin_hairstyle, :luclin_haircolor, :luclin_eyecolor, :luclin_eyecolor2, :luclin_beardcolor, :luclin_beard, :drakkin_heritage, :drakkin_tattoo, :drakkin_details, :armortint_id, :armortint_red, :armortint_green, :armortint_blue, :d_melee_texture1, :d_melee_texture2, :ammo_idfile, :prim_melee_type, :sec_melee_type, :ranged_type, :runspeed, :MR, :CR, :DR, :FR, :PR, :Corrup, :PhR, :see_invis, :see_invis_undead, :qglobal, :AC, :npc_aggro, :spawn_limit, :attack_speed, :attack_delay, :findable, :STR, :STA, :DEX, :AGI, :_INT, :WIS, :CHA, :see_hide, :see_improved_hide, :trackable, :isbot, :exclude, :ATK, :Accuracy, :Avoidance, :slow_mitigation, :version, :maxlevel, :scalerate, :private_corpse, :unique_spawn_by_name, :underwater, :isquest, :emoteid, :spellscale, :healscale, :no_target_hotkey, :raid_target, :armtexture, :bracertexture, :handtexture, :legtexture, :feettexture, :light, :walkspeed, :peqid, :unique_, :fixed, :ignore_despawn, :show_name, :untargetable`
 )
 
+//GetNpc will grab data from storage
 func (s *Storage) GetNpc(npcID int64) (npc *model.Npc, err error) {
 	npc = &model.Npc{}
 	err = s.db.Get(npc, fmt.Sprintf("SELECT npc_types.id, %s FROM npc_types WHERE id = ?", npcFields), npcID)
@@ -21,6 +22,7 @@ func (s *Storage) GetNpc(npcID int64) (npc *model.Npc, err error) {
 	return
 }
 
+//CreateNpc will grab data from storage
 func (s *Storage) CreateNpc(npc *model.Npc) (err error) {
 	if npc == nil {
 		err = fmt.Errorf("Must provide npc")
@@ -40,6 +42,7 @@ func (s *Storage) CreateNpc(npc *model.Npc) (err error) {
 	return
 }
 
+//ListNpc will grab data from storage
 func (s *Storage) ListNpc() (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types ORDER BY id ASC`, npcFields))
 	if err != nil {
@@ -56,12 +59,13 @@ func (s *Storage) ListNpc() (npcs []*model.Npc, err error) {
 	return
 }
 
+//ListNpcByZone will grab data from storage
 func (s *Storage) ListNpcByZone(zoneID int64) (npcs []*model.Npc, err error) {
 
-	upperId := (zoneID * 1000) + 1000 - 1
-	lowerId := (zoneID * 1000) - 1
+	upperID := (zoneID * 1000) + 1000 - 1
+	lowerID := (zoneID * 1000) - 1
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
-	WHERE npc_types.id < ? AND npc_types.id > ?`, npcFields), upperId, lowerId)
+	WHERE npc_types.id < ? AND npc_types.id > ?`, npcFields), upperID, lowerID)
 	if err != nil {
 		return
 	}
@@ -76,6 +80,7 @@ func (s *Storage) ListNpcByZone(zoneID int64) (npcs []*model.Npc, err error) {
 	return
 }
 
+//ListNpcByFaction will grab data from storage
 func (s *Storage) ListNpcByFaction(factionID int64) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types	
 	INNER JOIN npc_faction ON npc_faction.id = npc_types.npc_faction_id
@@ -95,6 +100,7 @@ func (s *Storage) ListNpcByFaction(factionID int64) (npcs []*model.Npc, err erro
 	return
 }
 
+//ListNpcByLootTable will grab data from storage
 func (s *Storage) ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
 		WHERE loottable_id = ?`, npcFields), lootTableID)
@@ -112,6 +118,7 @@ func (s *Storage) ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err 
 	return
 }
 
+//EditNpc will grab data from storage
 func (s *Storage) EditNpc(npcID int64, npc *model.Npc) (err error) {
 	npc.ID = npcID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE npc_types SET %s WHERE id = :id`, npcSets), npc)
@@ -129,6 +136,7 @@ func (s *Storage) EditNpc(npcID int64, npc *model.Npc) (err error) {
 	return
 }
 
+//DeleteNpc will grab data from storage
 func (s *Storage) DeleteNpc(npcID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM npc_types WHERE id = ?`, npcID)
 	if err != nil {
@@ -145,6 +153,7 @@ func (s *Storage) DeleteNpc(npcID int64) (err error) {
 	return
 }
 
+//SearchNpc will grab data from storage
 func (s *Storage) SearchNpc(search string) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types WHERE name like ? ORDER BY id DESC`, npcFields), "%"+search+"%")
 	if err != nil {

@@ -6,6 +6,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+//GetForum will grab data from storage
 func (s *Storage) GetForum(forumID int64) (forum *model.Forum, err error) {
 	forum = &model.Forum{}
 	err = s.db.Get(forum, "SELECT id, owner_id, description, icon, name FROM forum WHERE id = ?", forumID)
@@ -16,6 +17,7 @@ func (s *Storage) GetForum(forumID int64) (forum *model.Forum, err error) {
 	return
 }
 
+//CreateForum will grab data from storage
 func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 	if forum == nil {
 		err = fmt.Errorf("Must provide forum")
@@ -35,6 +37,7 @@ func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 	return
 }
 
+//ListForum will grab data from storage
 func (s *Storage) ListForum() (forums []*model.Forum, err error) {
 	rows, err := s.db.Queryx(`SELECT id, icon,  description, name, owner_id FROM forum ORDER BY id DESC`)
 	if err != nil {
@@ -51,6 +54,7 @@ func (s *Storage) ListForum() (forums []*model.Forum, err error) {
 	return
 }
 
+//EditForum will grab data from storage
 func (s *Storage) EditForum(forumID int64, forum *model.Forum) (err error) {
 	forum.ID = forumID
 	result, err := s.db.NamedExec(`UPDATE forum SET icon=:icon, name=:name, description=:description WHERE id = :id`, forum)
@@ -68,6 +72,7 @@ func (s *Storage) EditForum(forumID int64, forum *model.Forum) (err error) {
 	return
 }
 
+//DeleteForum will grab data from storage
 func (s *Storage) DeleteForum(forumID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM forum WHERE id = ?`, forumID)
 	if err != nil {
@@ -84,6 +89,7 @@ func (s *Storage) DeleteForum(forumID int64) (err error) {
 	return
 }
 
+//createTableForum will grab data from storage
 func (s *Storage) createTableForum() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE forum (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,

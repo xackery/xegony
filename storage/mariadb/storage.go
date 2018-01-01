@@ -9,10 +9,12 @@ import (
 	"github.com/pkg/errors"
 )
 
+//Storage implements the storage interface
 type Storage struct {
 	db *sqlx.DB
 }
 
+//Initialize will grab data from storage
 func (s *Storage) Initialize(config string) (err error) {
 	if s.db != nil {
 		return
@@ -46,6 +48,7 @@ func (s *Storage) Initialize(config string) (err error) {
 	return
 }
 
+//InsertTestData will grab data from storage
 func (s *Storage) InsertTestData() (err error) {
 	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id)
 	   VALUES
@@ -63,6 +66,7 @@ func (s *Storage) InsertTestData() (err error) {
 	return
 }
 
+//DropTables will grab data from storage
 func (s *Storage) DropTables() (err error) {
 	s.Initialize("")
 
@@ -110,6 +114,7 @@ func (s *Storage) DropTables() (err error) {
 	return
 }
 
+//VerifyTables will grab data from storage
 func (s *Storage) VerifyTables() (err error) {
 	if err = s.Initialize(""); err != nil {
 		return

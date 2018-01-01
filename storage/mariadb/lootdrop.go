@@ -12,6 +12,7 @@ const (
 	lootDropBinds  = `:name`
 )
 
+//GetLootDrop will grab data from storage
 func (s *Storage) GetLootDrop(lootDropID int64) (lootDrop *model.LootDrop, err error) {
 	lootDrop = &model.LootDrop{}
 	err = s.db.Get(lootDrop, fmt.Sprintf("SELECT lootdrop.id, %s FROM lootdrop WHERE id = ?", lootDropFields), lootDropID)
@@ -26,6 +27,7 @@ func (s *Storage) GetLootDrop(lootDropID int64) (lootDrop *model.LootDrop, err e
 	return
 }
 
+//CreateLootDrop will grab data from storage
 func (s *Storage) CreateLootDrop(lootDrop *model.LootDrop) (err error) {
 	if lootDrop == nil {
 		err = fmt.Errorf("Must provide lootDrop")
@@ -45,6 +47,7 @@ func (s *Storage) CreateLootDrop(lootDrop *model.LootDrop) (err error) {
 	return
 }
 
+//ListLootDrop will grab data from storage
 func (s *Storage) ListLootDrop() (lootDrops []*model.LootDrop, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT lootdrop.id, %s FROM lootdrop LIMIT 50`, lootDropFields))
 	if err != nil {
@@ -61,6 +64,7 @@ func (s *Storage) ListLootDrop() (lootDrops []*model.LootDrop, err error) {
 	return
 }
 
+//EditLootDrop will grab data from storage
 func (s *Storage) EditLootDrop(lootDropID int64, lootDrop *model.LootDrop) (err error) {
 	lootDrop.ID = lootDropID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE lootdrop SET %s WHERE id = :id`, lootDropSets), lootDrop)
@@ -78,6 +82,7 @@ func (s *Storage) EditLootDrop(lootDropID int64, lootDrop *model.LootDrop) (err 
 	return
 }
 
+//DeleteLootDrop will grab data from storage
 func (s *Storage) DeleteLootDrop(lootDropID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM lootdrop WHERE id = ?`, lootDropID)
 	if err != nil {

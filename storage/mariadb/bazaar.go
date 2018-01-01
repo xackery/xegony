@@ -6,6 +6,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+//GetBazaar will grab data from storage
 func (s *Storage) GetBazaar(bazaarID int64) (bazaar *model.Bazaar, err error) {
 	bazaar = &model.Bazaar{}
 	err = s.db.Get(bazaar, "SELECT id, name, itemid FROM bazaar WHERE id = ?", bazaarID)
@@ -15,6 +16,7 @@ func (s *Storage) GetBazaar(bazaarID int64) (bazaar *model.Bazaar, err error) {
 	return
 }
 
+//CreateBazaar will grab data from storage
 func (s *Storage) CreateBazaar(bazaar *model.Bazaar) (err error) {
 	if bazaar == nil {
 		err = fmt.Errorf("Must provide bazaar")
@@ -34,6 +36,7 @@ func (s *Storage) CreateBazaar(bazaar *model.Bazaar) (err error) {
 	return
 }
 
+//ListBazaar will grab data from storage
 func (s *Storage) ListBazaar() (bazaars []*model.Bazaar, err error) {
 	rows, err := s.db.Queryx(`SELECT id, name, itemid FROM bazaar ORDER BY id DESC`)
 	if err != nil {
@@ -50,6 +53,7 @@ func (s *Storage) ListBazaar() (bazaars []*model.Bazaar, err error) {
 	return
 }
 
+//EditBazaar will grab data from storage
 func (s *Storage) EditBazaar(bazaarID int64, bazaar *model.Bazaar) (err error) {
 	bazaar.ID = bazaarID
 	result, err := s.db.NamedExec(`UPDATE bazaar SET name=:name, itemid=:itemid WHERE id = :id`, bazaar)
@@ -67,6 +71,7 @@ func (s *Storage) EditBazaar(bazaarID int64, bazaar *model.Bazaar) (err error) {
 	return
 }
 
+//DeleteBazaar will grab data from storage
 func (s *Storage) DeleteBazaar(bazaarID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM bazaar WHERE id = ?`, bazaarID)
 	if err != nil {
@@ -83,6 +88,7 @@ func (s *Storage) DeleteBazaar(bazaarID int64) (err error) {
 	return
 }
 
+//createTableBazaar will grab data from storage
 func (s *Storage) createTableBazaar() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS bazaar (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,

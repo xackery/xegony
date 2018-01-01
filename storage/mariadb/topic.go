@@ -6,6 +6,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+//GetTopic will grab data from storage
 func (s *Storage) GetTopic(topicID int64) (topic *model.Topic, err error) {
 	topic = &model.Topic{}
 	err = s.db.Get(topic, "SELECT id, icon, title, forum_id FROM topic WHERE id = ?", topicID)
@@ -15,6 +16,7 @@ func (s *Storage) GetTopic(topicID int64) (topic *model.Topic, err error) {
 	return
 }
 
+//CreateTopic will grab data from storage
 func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 	if topic == nil {
 		err = fmt.Errorf("Must provide topic")
@@ -34,6 +36,7 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 	return
 }
 
+//ListTopic will grab data from storage
 func (s *Storage) ListTopic(forumID int64) (topics []*model.Topic, err error) {
 	rows, err := s.db.Queryx(`SELECT id, title, icon, forum_id FROM topic WHERE forum_id = ? ORDER BY id DESC`, forumID)
 	if err != nil {
@@ -50,6 +53,7 @@ func (s *Storage) ListTopic(forumID int64) (topics []*model.Topic, err error) {
 	return
 }
 
+//EditTopic will grab data from storage
 func (s *Storage) EditTopic(topicID int64, topic *model.Topic) (err error) {
 	topic.ID = topicID
 	result, err := s.db.NamedExec(`UPDATE topic SET icon=:icon, title=:title, forum_id=:forum_id WHERE id = :id`, topic)
@@ -67,6 +71,7 @@ func (s *Storage) EditTopic(topicID int64, topic *model.Topic) (err error) {
 	return
 }
 
+//DeleteTopic will grab data from storage
 func (s *Storage) DeleteTopic(topicID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM topic WHERE id = ?`, topicID)
 	if err != nil {
@@ -83,6 +88,7 @@ func (s *Storage) DeleteTopic(topicID int64) (err error) {
 	return
 }
 
+//createTableTopic will grab data from storage
 func (s *Storage) createTableTopic() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE topic (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,

@@ -12,6 +12,7 @@ const (
 	baseBinds  = `level=:level, class=:class, hp=:hp, mana=:mana, end=:end, unk1=:unk1, unk2=:unk2, hp_fac=:hp_fac, mana_fac=:mana_fac, end_fac=:end_fac`
 )
 
+//GetBase will grab data from storage
 func (s *Storage) GetBase(level int64, class int64) (base *model.Base, err error) {
 	base = &model.Base{}
 	err = s.db.Get(base, fmt.Sprintf("SELECT %s FROM base_data WHERE level = ? AND class = ?", baseFields), level, class)
@@ -21,6 +22,7 @@ func (s *Storage) GetBase(level int64, class int64) (base *model.Base, err error
 	return
 }
 
+//CreateBase will grab data from storage
 func (s *Storage) CreateBase(base *model.Base) (err error) {
 	if base == nil {
 		err = fmt.Errorf("Must provide base")
@@ -36,6 +38,7 @@ func (s *Storage) CreateBase(base *model.Base) (err error) {
 	return
 }
 
+//ListBase will grab data from storage
 func (s *Storage) ListBase() (bases []*model.Base, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM base_data ORDER BY class, level ASC`, baseFields))
 	if err != nil {
@@ -52,6 +55,7 @@ func (s *Storage) ListBase() (bases []*model.Base, err error) {
 	return
 }
 
+//EditBase will grab data from storage
 func (s *Storage) EditBase(level int64, class int64, base *model.Base) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE base_data SET %s WHERE level = :level AND class = :class`, baseSets), base)
 	if err != nil {
@@ -68,6 +72,7 @@ func (s *Storage) EditBase(level int64, class int64, base *model.Base) (err erro
 	return
 }
 
+//DeleteBase will grab data from storage
 func (s *Storage) DeleteBase(level int64, class int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM base_data WHERE level = ? AND class = ?`, level, class)
 	if err != nil {

@@ -12,6 +12,7 @@ const (
 	lootTableBinds  = `:name, :mincash, :maxcash, :avgcoin, :done`
 )
 
+//GetLootTable will grab data from storage
 func (s *Storage) GetLootTable(lootTableID int64) (lootTable *model.LootTable, err error) {
 	lootTable = &model.LootTable{}
 	err = s.db.Get(lootTable, fmt.Sprintf(`SELECT loottable.id, %s FROM loottable WHERE id = ?`, lootTableFields), lootTableID)
@@ -30,6 +31,7 @@ func (s *Storage) GetLootTable(lootTableID int64) (lootTable *model.LootTable, e
 	return
 }
 
+//CreateLootTable will grab data from storage
 func (s *Storage) CreateLootTable(lootTable *model.LootTable) (err error) {
 	if lootTable == nil {
 		err = fmt.Errorf("Must provide lootTable")
@@ -49,6 +51,7 @@ func (s *Storage) CreateLootTable(lootTable *model.LootTable) (err error) {
 	return
 }
 
+//ListLootTable will grab data from storage
 func (s *Storage) ListLootTable() (lootTables []*model.LootTable, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT loottable.id, %s FROM loottable LIMIT 50`, lootTableFields))
 	if err != nil {
@@ -65,6 +68,7 @@ func (s *Storage) ListLootTable() (lootTables []*model.LootTable, err error) {
 	return
 }
 
+//EditLootTable will grab data from storage
 func (s *Storage) EditLootTable(lootTableID int64, lootTable *model.LootTable) (err error) {
 	lootTable.ID = lootTableID
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE loottable SET %s WHERE id = :id`, lootTableSets), lootTable)
@@ -82,6 +86,7 @@ func (s *Storage) EditLootTable(lootTableID int64, lootTable *model.LootTable) (
 	return
 }
 
+//DeleteLootTable will grab data from storage
 func (s *Storage) DeleteLootTable(lootTableID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM loottable WHERE id = ?`, lootTableID)
 	if err != nil {

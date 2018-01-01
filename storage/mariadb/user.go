@@ -8,6 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+//GetUser will grab data from storage
 func (s *Storage) GetUser(userID int64) (user *model.User, err error) {
 	user = &model.User{}
 	err = s.db.Get(user, "SELECT id, name, account_id, FROM user WHERE id = ?", userID)
@@ -17,6 +18,7 @@ func (s *Storage) GetUser(userID int64) (user *model.User, err error) {
 	return
 }
 
+//LoginUser will grab data from storage
 func (s *Storage) LoginUser(username string, password string) (user *model.User, err error) {
 	user = &model.User{}
 	err = s.db.Get(user, "SELECT id, name, password, account_id, email FROM user WHERE name = ?", username)
@@ -32,6 +34,7 @@ func (s *Storage) LoginUser(username string, password string) (user *model.User,
 	return
 }
 
+//CreateUser will grab data from storage
 func (s *Storage) CreateUser(user *model.User) (err error) {
 	if user == nil {
 		err = fmt.Errorf("Must provide user")
@@ -78,6 +81,7 @@ func (s *Storage) CreateUser(user *model.User) (err error) {
 	return
 }
 
+//ListUser will grab data from storage
 func (s *Storage) ListUser() (users []*model.User, err error) {
 	rows, err := s.db.Queryx(`SELECT id, name, account_id FROM user ORDER BY id DESC`)
 	if err != nil {
@@ -98,6 +102,7 @@ func (s *Storage) ListUser() (users []*model.User, err error) {
 	return
 }
 
+//EditUser will grab data from storage
 func (s *Storage) EditUser(userID int64, user *model.User) (err error) {
 	user.ID = userID
 	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email, account_id=:account_id WHERE id = :id`, user)
@@ -115,6 +120,7 @@ func (s *Storage) EditUser(userID int64, user *model.User) (err error) {
 	return
 }
 
+//DeleteUser will grab data from storage
 func (s *Storage) DeleteUser(userID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM user WHERE id = ?`, userID)
 	if err != nil {
@@ -131,6 +137,7 @@ func (s *Storage) DeleteUser(userID int64) (err error) {
 	return
 }
 
+//createTableUser will grab data from storage
 func (s *Storage) createTableUser() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE user (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,

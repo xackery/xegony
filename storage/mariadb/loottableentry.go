@@ -12,6 +12,7 @@ const (
 	lootTableEntryBinds  = `:loottable_id, :lootdrop_id, :multiplier, :droplimit, :mindrop, :probability`
 )
 
+//GetLootTableEntry will grab data from storage
 func (s *Storage) GetLootTableEntry(lootTableID int64, lootDropID int64) (lootTableEntry *model.LootTableEntry, err error) {
 	lootTableEntry = &model.LootTableEntry{}
 	err = s.db.Get(lootTableEntry, fmt.Sprintf("SELECT %s FROM loottable_entries WHERE loottable_id = ? AND lootdrop_id = ?", lootTableEntryFields), lootTableID, lootDropID)
@@ -21,6 +22,7 @@ func (s *Storage) GetLootTableEntry(lootTableID int64, lootDropID int64) (lootTa
 	return
 }
 
+//CreateLootTableEntry will grab data from storage
 func (s *Storage) CreateLootTableEntry(lootTableEntry *model.LootTableEntry) (err error) {
 	if lootTableEntry == nil {
 		err = fmt.Errorf("Must provide lootTableEntry")
@@ -36,6 +38,7 @@ func (s *Storage) CreateLootTableEntry(lootTableEntry *model.LootTableEntry) (er
 	return
 }
 
+//ListLootTableEntry will grab data from storage
 func (s *Storage) ListLootTableEntry(lootTableID int64) (lootTableEntrys []*model.LootTableEntry, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM loottable_entries WHERE loottable_id = ?`, lootTableEntryFields), lootTableID)
 	if err != nil {
@@ -52,6 +55,7 @@ func (s *Storage) ListLootTableEntry(lootTableID int64) (lootTableEntrys []*mode
 	return
 }
 
+//EditLootTableEntry will grab data from storage
 func (s *Storage) EditLootTableEntry(lootTableID int64, lootDropID int64, lootTableEntry *model.LootTableEntry) (err error) {
 
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE loottable_entries SET %s WHERE loottable_id = :loottable_id AND lootdrop_id = :lootdrop_id`, lootTableEntrySets), lootTableEntry)
@@ -69,6 +73,7 @@ func (s *Storage) EditLootTableEntry(lootTableID int64, lootDropID int64, lootTa
 	return
 }
 
+//DeleteLootTableEntry will grab data from storage
 func (s *Storage) DeleteLootTableEntry(lootTableID int64, lootDropID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM loottable_entries WHERE loottable_id = ?  and lootdrop_id = ?`, lootTableID, lootDropID)
 	if err != nil {

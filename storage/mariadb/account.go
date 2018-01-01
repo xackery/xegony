@@ -6,6 +6,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+//GetAccount will grab data from storage
 func (s *Storage) GetAccount(accountID int64) (account *model.Account, err error) {
 	account = &model.Account{}
 	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE id = ?", accountID)
@@ -15,6 +16,7 @@ func (s *Storage) GetAccount(accountID int64) (account *model.Account, err error
 	return
 }
 
+//CreateAccount will grab data from storage
 func (s *Storage) CreateAccount(account *model.Account) (err error) {
 	if account == nil {
 		err = fmt.Errorf("Must provide account")
@@ -34,6 +36,7 @@ func (s *Storage) CreateAccount(account *model.Account) (err error) {
 	return
 }
 
+//ListAccount will grab data from storage
 func (s *Storage) ListAccount() (accounts []*model.Account, err error) {
 	rows, err := s.db.Queryx(`SELECT id, name, status FROM account ORDER BY id DESC`)
 	if err != nil {
@@ -50,6 +53,7 @@ func (s *Storage) ListAccount() (accounts []*model.Account, err error) {
 	return
 }
 
+//EditAccount will grab data from storage
 func (s *Storage) EditAccount(accountID int64, account *model.Account) (err error) {
 	account.ID = accountID
 	result, err := s.db.NamedExec(`UPDATE account SET name=:name, status=:status WHERE id = :id`, account)
@@ -67,6 +71,7 @@ func (s *Storage) EditAccount(accountID int64, account *model.Account) (err erro
 	return
 }
 
+//DeleteAccount will grab data from storage
 func (s *Storage) DeleteAccount(accountID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM account WHERE id = ?`, accountID)
 	if err != nil {
@@ -83,6 +88,7 @@ func (s *Storage) DeleteAccount(accountID int64) (err error) {
 	return
 }
 
+//createTableAccount will grab data from storage
 func (s *Storage) createTableAccount() (err error) {
 	_, err = s.db.Exec(`
 CREATE TABLE account (

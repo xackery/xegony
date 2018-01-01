@@ -12,6 +12,7 @@ const (
 	spawnEntryBinds  = `:spawngroupID, :npcID, :chance`
 )
 
+//GetSpawnEntry will grab data from storage
 func (s *Storage) GetSpawnEntry(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, err error) {
 	spawnEntry = &model.SpawnEntry{}
 	err = s.db.Get(spawnEntry, fmt.Sprintf(`SELECT %s FROM spawnentry 
@@ -22,6 +23,7 @@ func (s *Storage) GetSpawnEntry(spawnGroupID int64, npcID int64) (spawnEntry *mo
 	return
 }
 
+//CreateSpawnEntry will grab data from storage
 func (s *Storage) CreateSpawnEntry(spawnEntry *model.SpawnEntry) (err error) {
 	if spawnEntry == nil {
 		err = fmt.Errorf("Must provide spawnEntry")
@@ -36,6 +38,7 @@ func (s *Storage) CreateSpawnEntry(spawnEntry *model.SpawnEntry) (err error) {
 	return
 }
 
+//ListSpawnEntry will grab data from storage
 func (s *Storage) ListSpawnEntry(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM spawnentry WHERE spawngroupid = ?`, spawnEntryFields), spawnGroupID)
 	if err != nil {
@@ -52,6 +55,7 @@ func (s *Storage) ListSpawnEntry(spawnGroupID int64) (spawnEntrys []*model.Spawn
 	return
 }
 
+//EditSpawnEntry will grab data from storage
 func (s *Storage) EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (err error) {
 
 	spawnEntry.SpawngroupID = spawnGroupID
@@ -71,6 +75,7 @@ func (s *Storage) EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *mo
 	return
 }
 
+//DeleteSpawnEntry will grab data from storage
 func (s *Storage) DeleteSpawnEntry(spawnGroupID int64, npcID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM spawnentry WHERE spawngroupid = ? AND npcid = ?`, spawnGroupID, npcID)
 	if err != nil {

@@ -12,6 +12,7 @@ const (
 	taskSets   = `duration=:duration, title=:title, description=:description, reward=:reward, rewardid=:rewardid, cashreward=:cashreward, xpreward=:xpreward, rewardmethod=:rewardmethod, startzone=:startzone, minlevel=:minlevel, maxlevel=:maxlevel, repeatable=:repeatable`
 )
 
+//GetTask will grab data from storage
 func (s *Storage) GetTask(taskID int64) (task *model.Task, err error) {
 	task = &model.Task{}
 	err = s.db.Get(task, fmt.Sprintf("SELECT id, %s FROM tasks WHERE id = ?", taskFields), taskID)
@@ -21,6 +22,7 @@ func (s *Storage) GetTask(taskID int64) (task *model.Task, err error) {
 	return
 }
 
+//CreateTask will grab data from storage
 func (s *Storage) CreateTask(task *model.Task) (err error) {
 	if task == nil {
 		err = fmt.Errorf("Must provide task")
@@ -40,6 +42,7 @@ func (s *Storage) CreateTask(task *model.Task) (err error) {
 	return
 }
 
+//ListTask will grab data from storage
 func (s *Storage) ListTask() (tasks []*model.Task, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM tasks ORDER BY ID ASC`, taskFields))
 	if err != nil {
@@ -56,6 +59,7 @@ func (s *Storage) ListTask() (tasks []*model.Task, err error) {
 	return
 }
 
+//EditTask will grab data from storage
 func (s *Storage) EditTask(taskID int64, task *model.Task) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE tasks SET %s WHERE id = :id`, taskSets), task)
 	if err != nil {
@@ -72,6 +76,7 @@ func (s *Storage) EditTask(taskID int64, task *model.Task) (err error) {
 	return
 }
 
+//DeleteTask will grab data from storage
 func (s *Storage) DeleteTask(taskID int64) (err error) {
 	result, err := s.db.Exec(`DELETE FROM tasks WHERE id = ?`, taskID)
 	if err != nil {
