@@ -76,8 +76,6 @@
 								<td><a href="/spawn/{{$value.SpawngroupID}}/{{$value.NpcID}}">{{$value.SpawngroupID}}</a></td>
 								<td><a href="/spawn/{{$value.SpawngroupID}}/{{$value.NpcID}}">{{$value.NpcID}}</a></td>
 								<td><a href="/spawn/{{$value.SpawngroupID}}/{{$value.NpcID}}">{{$value.Chance}}</a></td>
-								<td><a href="/spawn/{{$value.SpawngroupID}}/{{$value.NpcID}}">{{$value.Mindrop}}</a></td>
-								<td><a href="/spawn/{{$value.SpawngroupID}}/{{$value.NpcID}}">{{$value.Probability}}</a></td>
 							</tr>
 							{{end}}
 							</tbody>

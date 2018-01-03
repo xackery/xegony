@@ -125,6 +125,15 @@ func (c *SpawnEntryRepository) List(spawnGroupID int64) (spawnEntrys []*model.Sp
 	return
 }
 
+//ListByNpc handles logic
+func (c *SpawnEntryRepository) ListByNpc(npcID int64) (spawnEntrys []*model.SpawnEntry, query string, err error) {
+	query, spawnEntrys, err = c.stor.ListSpawnEntryByNpc(npcID)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //ListByZone handles logic
 func (c *SpawnEntryRepository) ListByZone(zoneID int64) (spawnEntrys []*model.SpawnEntry, query string, err error) {
 	query, spawnEntrys, err = c.stor.ListSpawnEntryByZone(zoneID)

@@ -40,8 +40,8 @@
 	</div>
 	{{if .Items}}
 	<div class="col-lg-6">
-		<div class="hpanel">
-			<div class="panel-heading hbuilt">
+		<div class="hpanel forum-box">
+			<div class="panel-heading">
 			   Drops
 			</div>
 			<div class="panel-body">
@@ -73,8 +73,46 @@
 			</div>
 		</div>
 	</div>
-	{{end}}                    
+	{{end}}
+	{{if .Map}}
+	<div class="col-lg-6">
+		<div class="hpanel forum-box">
+			<div class="panel-heading">
+			   Map
+			</div>
+			<div class="panel-body">
+				<svg width="12cm" height="10cm" version="1.1"
+				     xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
+					<image xlink:href="/images/maps/{{.Npc.ZoneName}}.png" x="0" y="0" height="400px" width="400px"/>				
+					{{if .Spawns}}
+					{{range $key, $value := .Spawns}}
+					<circle cx="{{$value.XScaled}}" cy="{{$value.YScaled}}" r="3" fill="red"/>
+					<circle cx="{{$value.X}}" cy="{{$value.Y}}" r="3" fill="maroon"/>
+
+
+					{{end}}
+					{{end}}
+				</svg>
+			</div>
+		</div>
+	</div>
+	{{end}}
 	</div>
 	</div>
 </div>
 </div>
+
+{{if .Map}}
+<script>
+
+	$(function () {
+
+	//foo = Snap("#map");
+	//foo.circle(300, 300, 100);
+	/*s.line(500,500,300,100).attr({strokeWidth:1, stroke:"green"});
+var cir = s.circle(300, 300, 2).attr({strokeWidth: 1, stroke:"red", fill:"maroon"});
+console.log((parseFloat(cir.attr("cx"))+parseFloat(100)))
+cir.animate({cx: 445.5260009765625, cy: 301.7739990234375}, 5000);*/
+});
+</script>
+{{end}}

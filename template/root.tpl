@@ -41,6 +41,8 @@
 
 	<script src="/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="/vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	<script src="//cdn.jsdelivr.net/velocity/1.5/velocity.min.js"></script>
+	 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js"></script>
 
 </head>
 <body class="fixed-navbar sidebar-scroll">

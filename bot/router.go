@@ -29,10 +29,16 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 			a.index,
 		},
 		Route{
-			"Index",
+			"NpcLootStatus",
 			"GET",
 			"/npcloot",
 			a.npcLootStatus,
+		},
+		Route{
+			"ZoneLevelsStatus",
+			"GET",
+			"/zonelevels",
+			a.zoneLevelsStatus,
 		},
 	}
 

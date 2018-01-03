@@ -81,6 +81,27 @@ func (s *Storage) ListSpawnEntryByZone(zoneID int64) (query string, spawnEntrys 
 	return
 }
 
+//ListSpawnEntryByNpc will grab data from storage
+func (s *Storage) ListSpawnEntryByNpc(npcID int64) (query string, spawnEntrys []*model.SpawnEntry, err error) {
+
+	query = fmt.Sprintf(`SELECT %s FROM spawnentry
+	WHERE npcID = ?`, spawnEntryFields)
+
+	rows, err := s.db.Queryx(query, npcID)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		spawnEntry := model.SpawnEntry{}
+		if err = rows.StructScan(&spawnEntry); err != nil {
+			return
+		}
+		spawnEntrys = append(spawnEntrys, &spawnEntry)
+	}
+	return
+}
+
 //EditSpawnEntry will grab data from storage
 func (s *Storage) EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (query string, err error) {
 

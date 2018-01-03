@@ -6,6 +6,10 @@ import (
 
 //Spawn represents the spawn2 table, used for npcs
 type Spawn struct {
+	XScaled float64 `json:"xScaled"`
+	YScaled float64 `json:"yScaled"`
+	ZScaled float64 `json:"zScaled"`
+
 	Spawn2ID     int64          `json:"id" db:"spawn2id"`               //`id` int(11) NOT NULL AUTO_INCREMENT,
 	SpawngroupID int64          `json:"spawngroupID" db:"spawngroupID"` //`spawngroupID` int(11) NOT NULL DEFAULT '0',
 	Zone         sql.NullString `json:"zone" db:"zone"`                 //`zone` varchar(32) DEFAULT NULL,

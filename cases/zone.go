@@ -141,6 +141,17 @@ func (c *ZoneRepository) Get(zoneID int64) (zone *model.Zone, err error) {
 	return
 }
 
+//GetByShortname gets a zone by it's short name
+func (c *ZoneRepository) GetByShortname(zoneShortname string) (zone *model.Zone, err error) {
+	for _, zoneC := range c.zoneCache {
+		if zoneC.ShortName.String == zoneShortname {
+			zone = zoneC
+			return
+		}
+	}
+	return
+}
+
 //Create handler
 func (c *ZoneRepository) Create(zone *model.Zone) (err error) {
 	if zone == nil {

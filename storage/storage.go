@@ -133,6 +133,7 @@ type Storage interface {
 	GetSpawnEntry(spawnGroupID int64, npcID int64) (query string, spawnEntry *model.SpawnEntry, err error)
 	CreateSpawnEntry(spawnEntry *model.SpawnEntry) (query string, err error)
 	ListSpawnEntry(spawnGroupID int64) (query string, spawnEntrys []*model.SpawnEntry, err error)
+	ListSpawnEntryByNpc(npcID int64) (query string, spawnEntrys []*model.SpawnEntry, err error)
 	ListSpawnEntryByZone(zoneID int64) (query string, spawnEntrys []*model.SpawnEntry, err error)
 	EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (query string, err error)
 	DeleteSpawnEntry(spawnGroupID int64, npcID int64) (query string, err error)

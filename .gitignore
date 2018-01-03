@@ -3,6 +3,10 @@
 /xa/node_modules/
 /font/
 
+#Map related rendered documents
+/map/
+/www/images/maps/
+
 /docker/*
 cover.txt
 

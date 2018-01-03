@@ -402,6 +402,43 @@ func (c *Item) SlotList() string {
 	return slots
 }
 
+//PriceName returns a price in human readable format
+func (c *Item) PriceName() string {
+	return CashName(c.Price)
+}
+
+//SellrateName returns the price * sellrate in human readable format
+func (c *Item) SellrateName() string {
+	return CashName(int64(float64(c.Price) * c.Sellrate * 1))
+}
+
+//StyleColor returns the RGBA css of an item's color
+func (c *Item) StyleColor() string {
+	iColor := fmt.Sprintf("%d", c.Color)
+
+	if len(iColor) < 8 {
+		return ""
+	}
+	color := ""
+	//color := "style=\"color: rgba("
+	pos := 0
+	if len(iColor) > 9 {
+		pos = 2
+	}
+	alpha := iColor[pos : pos+2] //alpha
+	pos += 2
+
+	color += iColor[pos:pos+2] + "," //rr
+	pos += 2
+	color += iColor[pos:pos+2] + "," //gg
+	pos += 2
+	color += iColor[pos:pos+2] + "," //bb
+	color += alpha                   //add alpha to end
+	//color += "\");"
+	fmt.Println(color)
+	return color
+}
+
 //ClassList returns a string of all classes
 func (c *Item) ClassList() string {
 	classes := ""

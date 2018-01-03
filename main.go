@@ -56,10 +56,14 @@ func main() {
 }
 
 func runBot(botServer bot.Bot) {
-	err := botServer.CreateZoneLevelCache()
+	err := botServer.CreateZoneMapCache()
 	if err != nil {
 		log.Fatal("Failed botserver:", err.Error())
 	}
+	/*err := botServer.CreateZoneLevelCache()
+	if err != nil {
+		log.Fatal("Failed botserver:", err.Error())
+	}*/
 	/*err := botServer.CreateNpcDropsCache()
 	if err != nil {
 		log.Fatal("Failed botserver:", err.Error())

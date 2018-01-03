@@ -303,9 +303,11 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  site
-		Npc   *model.Npc
-		Items []*model.Item
+		Site   site
+		Npc    *model.Npc
+		Items  []*model.Item
+		Map    *model.ZoneLevel
+		Spawns []*model.Spawn
 	}
 
 	if strings.ToLower(getVar(r, "npcID")) == "search" {
@@ -335,6 +337,45 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	mapData, err := a.zoneLevelRepo.Get(npc.ZoneID())
+	if err != nil {
+		err = errors.Wrap(err, "Request error on zonelevel")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	entrys, _, err := a.spawnEntryRepo.ListByNpc(npc.ID)
+	if err != nil {
+		err = errors.Wrap(err, "Request error on spawnentry")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	spawns := []*model.Spawn{}
+	spawn := &model.Spawn{}
+	for _, entry := range entrys {
+		spawn, err = a.spawnRepo.Get(entry.SpawngroupID)
+		if err != nil {
+			err = errors.Wrap(err, "Request error on spawn")
+			a.writeError(w, r, err, http.StatusBadRequest)
+			return
+		}
+		spawn.XScaled = spawn.X + 2000
+		spawn.XScaled /= 5
+		spawn.XScaled += mapData.MapXOffset
+		spawn.XScaled *= mapData.MapAspect
+
+		spawn.YScaled = spawn.Y + 2000
+		spawn.YScaled /= 5
+
+		//spawn.YScaled -= 30
+		spawn.YScaled += mapData.MapYOffset
+		spawn.YScaled *= mapData.MapAspect
+		spawn.YScaled /= 2
+
+		spawns = append(spawns, spawn)
+	}
+
 	itemsLoots, err := a.npcLootRepo.List(npcID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error on items")
@@ -347,8 +388,10 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Npc"
 
 	content := Content{
-		Site: site,
-		Npc:  npc,
+		Site:   site,
+		Npc:    npc,
+		Map:    mapData,
+		Spawns: spawns,
 	}
 
 	var item *model.Item

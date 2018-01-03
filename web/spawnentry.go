@@ -76,6 +76,7 @@ func (a *Web) getSpawnEntry(w http.ResponseWriter, r *http.Request) {
 	type Content struct {
 		Site       site
 		SpawnEntry *model.SpawnEntry
+		Npc        *model.Npc
 	}
 
 	spawnGroupID, err := getIntVar(r, "spawnGroupID")
@@ -103,6 +104,12 @@ func (a *Web) getSpawnEntry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	npc, err := a.npcRepo.Get(npcID)
+	if err != nil {
+		err = errors.Wrap(err, "Request error for npc")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
 	site := a.newSite(r)
 	site.Page = "spawnentry"
 	site.Title = "spawnentry"
@@ -111,6 +118,7 @@ func (a *Web) getSpawnEntry(w http.ResponseWriter, r *http.Request) {
 	content := Content{
 		Site:       site,
 		SpawnEntry: spawnEntry,
+		Npc:        npc,
 	}
 
 	tmp := a.getTemplate("")

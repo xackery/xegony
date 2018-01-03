@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	zoneLevelSets   = `zone_id=:zone_id, levels=:levels`
-	zoneLevelFields = `zone_id, levels`
-	zoneLevelBinds  = `:zone_id, :levels`
+	zoneLevelSets   = `zone_id=:zone_id, levels=:levels, map_aspect=:map_aspect, map_x_offset=:map_x_offset, map_y_offset=:map_y_offset`
+	zoneLevelFields = `zone_id, levels, map_aspect, map_x_offset, map_y_offset`
+	zoneLevelBinds  = `:zone_id, :levels, :map_aspect, :map_x_offset, :map_y_offset`
 )
 
 //GetZoneLevel will grab data from storage
@@ -106,6 +106,9 @@ func (s *Storage) createTableZoneLevel() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE zone_level_cache (
   zone_id int(11) unsigned NOT NULL,
   levels int(11) unsigned NOT NULL,
+  map_aspect float unsigned NOT NULL DEFAULT '1',
+  map_x_offset float NOT NULL DEFAULT '0',
+  map_y_offset float NOT NULL DEFAULT '0',
   UNIQUE KEY zone_id (zone_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
 	if err != nil {
