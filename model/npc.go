@@ -166,13 +166,24 @@ func (c *Npc) SpecialAbilitiesList() map[string]string {
 		case "1": //Summon
 			key = "Summons"
 			if len(breakdown) == 1 {
-				description += fmt.Sprintf("you to them at lvl 41, 90%% or less HP, 6s cooldown, ")
+				if c.Level < 50 { //even if flagged summon, won't summon if below summon level
+					continue
+				}
+				description += fmt.Sprintf("you to them at lvl 50, 90%% or less HP, 6s cooldown, ")
 			}
 			if len(breakdown) > 1 {
+				//todo: convert  breakdown to integer, see if npc leve is less
+				if c.Level < 50 { //even if flagged summon, won't summon if below summon level
+					continue
+				}
 				//level enabled at
 				description += fmt.Sprintf("you to them at lvl %s, ", breakdown[1])
 			}
 			if len(breakdown) > 2 {
+				//todo: convert  breakdown to integer, see if npc leve is less
+				if c.Level < 50 { //even if flagged summon, won't summon if below summon level
+					continue
+				}
 				description += fmt.Sprintf("to you at lvl %s, ", breakdown[2])
 			}
 			if len(breakdown) > 3 {

@@ -25,6 +25,8 @@ type site struct {
 	Page        string
 	Section     string
 	Description string //Description for oprop
+	Image       string
+	Author      string
 	User        *model.User
 	PageNumber  int64
 	PageSize    int64

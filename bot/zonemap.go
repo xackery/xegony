@@ -84,13 +84,13 @@ func (a *Bot) loadMap(path string, filename string) (err error) {
 
 	//outData := ""
 	//iterate each entry
-	width := float64(400)
-	height := float64(400)
+	width := float64(300)
+	height := float64(300)
 	dest := image.NewRGBA(image.Rect(0, 0, int(width), int(height)))
 	gc := draw2dimg.NewGraphicContext(dest)
 	gc.SetFillColor(color.RGBA{0x44, 0xff, 0x44, 0xff})
-	gc.SetStrokeColor(color.RGBA{0x11, 0x11, 0xff, 0xff})
-	gc.SetLineWidth(1)
+	gc.SetStrokeColor(color.RGBA{0x00, 0x00, 0x00, 0xff})
+	gc.SetLineWidth(0.25)
 
 	var bounds line
 
@@ -122,15 +122,15 @@ func (a *Bot) loadMap(path string, filename string) (err error) {
 		line.y1, err = strconv.ParseFloat(strings.TrimSpace(record[1]), 64)
 		line.x2, err = strconv.ParseFloat(strings.TrimSpace(record[3]), 64)
 		line.y2, err = strconv.ParseFloat(strings.TrimSpace(record[4]), 64)
-		line.x1 += 2000
+		/*line.x1 += 2000
 		line.y1 += 2000
 		line.x2 += 2000
 		line.y2 += 2000
-
-		line.x1 /= 5
-		line.y1 /= 5
-		line.x2 /= 5
-		line.y2 /= 5
+		*/
+		//line.x1 /= 5
+		//line.y1 /= 5
+		//line.x2 /= 5
+		//line.y2 /= 5
 
 		if bounds.x1 > line.x1 {
 			bounds.x1 = line.x1
@@ -165,36 +165,28 @@ func (a *Bot) loadMap(path string, filename string) (err error) {
 
 	var aspect float64
 
-	var xOffset float64
-	var yOffset float64
-	xOffset = 0
-	yOffset = 0
-
-	if bounds.x1 < 0 {
-		xOffset += bounds.x1
-	}
-	if bounds.x1 > 0 {
-		xOffset += bounds.x1
-	}
-	if bounds.y1 < 1 {
-		yOffset += bounds.y1
-	}
-	if bounds.y1 > 0 {
-		yOffset += bounds.y1
-	}
+	xOffset := -bounds.x1
+	yOffset := -bounds.y1
 
 	bounds.x1 += xOffset
 	bounds.x2 += xOffset
 	bounds.y1 += yOffset
 	bounds.y2 += yOffset
 
-	//fmt.Println("offsets", xOffset, yOffset)
-	if bounds.y2 > height {
-		aspect = height / bounds.y2
+	farPoint := bounds.x2
+	if bounds.y2 > farPoint {
+		farPoint = bounds.y2
 	}
 
-	if aspect > float64(width)/bounds.x2 {
-		aspect = width / bounds.x2
+	longestSide := height
+	if width > longestSide {
+		longestSide = width
+	}
+
+	if longestSide > farPoint {
+		aspect = farPoint / longestSide
+	} else {
+		aspect = longestSide / farPoint
 	}
 
 	for _, srcLine := range lines {

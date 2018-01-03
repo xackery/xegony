@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -352,28 +353,25 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	spawns := []*model.Spawn{}
-	spawn := &model.Spawn{}
+
 	for _, entry := range entrys {
-		spawn, err = a.spawnRepo.Get(entry.SpawngroupID)
+
+		spawnGroups := []*model.Spawn{}
+		spawnGroups, err = a.spawnRepo.ListBySpawnGroup(entry.SpawngroupID)
 		if err != nil {
 			err = errors.Wrap(err, "Request error on spawn")
 			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
-		spawn.XScaled = spawn.X + 2000
-		spawn.XScaled /= 5
-		spawn.XScaled += mapData.MapXOffset
-		spawn.XScaled *= mapData.MapAspect
+		for _, spawn := range spawnGroups {
+			spawn.XScaled -= mapData.MapXOffset
+			spawn.XScaled *= mapData.MapAspect
 
-		spawn.YScaled = spawn.Y + 2000
-		spawn.YScaled /= 5
+			spawn.YScaled -= mapData.MapYOffset
+			spawn.YScaled *= mapData.MapAspect
 
-		//spawn.YScaled -= 30
-		spawn.YScaled += mapData.MapYOffset
-		spawn.YScaled *= mapData.MapAspect
-		spawn.YScaled /= 2
-
-		spawns = append(spawns, spawn)
+			spawns = append(spawns, spawn)
+		}
 	}
 
 	itemsLoots, err := a.npcLootRepo.List(npcID)
@@ -385,7 +383,7 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 
 	site := a.newSite(r)
 	site.Page = "npc"
-	site.Title = "Npc"
+	site.Title = fmt.Sprintf("%s in %s", npc.CleanName(), npc.ZoneName())
 
 	content := Content{
 		Site:   site,
@@ -404,7 +402,7 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 
 		content.Items = append(content.Items, item)
 	}
-
+	content.Site.Description = fmt.Sprintf("%s is a level %d %s %s found in %s who drops %d items and spawns at %d locations", npc.CleanName(), npc.Level, npc.RaceName(), npc.ClassName(), npc.ZoneName(), len(content.Items), len(spawns))
 	tmp := a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "npc/get.tpl")

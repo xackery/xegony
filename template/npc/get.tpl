@@ -8,7 +8,7 @@
 <div class="content">
 
 <div class="row">
-	<div class="col-lg-6">
+	<div class="col-lg-4">
 		<div class="hpanel forum-box">
 			<div class="panel-heading">
 				<span class="f"><a href="/npc">NPC</a> > {{.Npc.CleanName}}</span>
@@ -35,11 +35,61 @@
 					</tbody>
 				</table>
 			</div>
-
+			<div class="panel-footer">
+			</div>
 		</div>
 	</div>
+	{{if .Map}}
+	<div class="col-lg-4">
+		<div class="hpanel forum-box">
+			<div class="panel-heading">
+			   Map
+			</div>
+			<div class="panel-body">
+				<span class="text-center">
+				<svg width="300px" height="300px" version="1.1"
+				     xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
+					<image xlink:href="/images/maps/{{.Npc.ZoneName}}.png" x="0" y="0" height="300px" width="300px"/>				
+					{{if .Spawns}}
+					{{range $key, $value := .Spawns}}
+					<circle cx="{{$value.XScaled}}" cy="{{$value.YScaled}}" r="3" fill="red"/>
+					{{end}}
+					{{end}}
+				</svg>
+				</span>
+				{{if .Spawns}}					
+				<div class="table-responsive">
+				<table cellpadding="1" cellspacing="1" class="table table-striped">
+
+						<thead>
+						<tr>							
+							<th>Name</th>
+							<th>Location</th>
+						</tr>
+						</thead>
+						<tbody>
+						{{range $key, $value := .Spawns}}
+						<tr>
+							<td><a href="/spawn/{{$value.SpawngroupID}}">{{$value.Name}}</a></td>
+							<td>{{$value.X}}, {{$value.Y}}, {{$value.Z}}</td>							
+						</tr>
+						{{end}}                
+						</tbody>
+					
+				</table>
+				</div>
+				{{end}}
+			</div>
+			{{if .Spawns}}
+			<div class="panel-footer">
+				{{len .Spawns}} spawn locations
+			</div>
+			{{end}}
+		</div>
+	</div>
+	{{end}}
 	{{if .Items}}
-	<div class="col-lg-6">
+	<div class="col-lg-4">
 		<div class="hpanel forum-box">
 			<div class="panel-heading">
 			   Drops
@@ -71,33 +121,13 @@
 				</table>
 				</div>
 			</div>
-		</div>
-	</div>
-	{{end}}
-	{{if .Map}}
-	<div class="col-lg-6">
-		<div class="hpanel forum-box">
-			<div class="panel-heading">
-			   Map
-			</div>
-			<div class="panel-body">
-				<svg width="12cm" height="10cm" version="1.1"
-				     xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink">
-					<image xlink:href="/images/maps/{{.Npc.ZoneName}}.png" x="0" y="0" height="400px" width="400px"/>				
-					{{if .Spawns}}
-					{{range $key, $value := .Spawns}}
-					<circle cx="{{$value.XScaled}}" cy="{{$value.YScaled}}" r="3" fill="red"/>
-					<circle cx="{{$value.X}}" cy="{{$value.Y}}" r="3" fill="maroon"/>
-
-
-					{{end}}
-					{{end}}
-				</svg>
+			<div class="panel-footer">
+				{{len .Items}} items drop from {{.Npc.CleanName}}
 			</div>
 		</div>
+
 	</div>
-	{{end}}
-	</div>
+	{{end}}	
 	</div>
 </div>
 </div>

@@ -127,6 +127,7 @@ type Storage interface {
 	GetSpawn(spawnID int64) (spawn *model.Spawn, err error)
 	CreateSpawn(spawn *model.Spawn) (err error)
 	ListSpawn() (spawns []*model.Spawn, err error)
+	ListSpawnBySpawnGroup(spawngroupID int64) (spawns []*model.Spawn, err error)
 	EditSpawn(spawnID int64, spawn *model.Spawn) (err error)
 	DeleteSpawn(spawnID int64) (err error)
 	//SpawnEntry

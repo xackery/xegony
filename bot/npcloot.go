@@ -21,14 +21,14 @@ func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request) {
 }
 
 // CreateNpcDropsCache is a shortcut function to prepare cache
-func (a *Bot) CreateNpcDropsCache() (err error) {
+func (a *Bot) CreateNpcDropsCache(zoneID int64) (err error) {
 	start := time.Now()
-	err = a.npcLootRepo.Truncate()
+	//err = a.npcLootRepo.Truncate()
 	if err != nil {
 		err = errors.Wrap(err, "Failed to truncate cache")
 		return
 	}
-	npcs, err := a.npcRepo.List()
+	npcs, err := a.npcRepo.ListByZone(zoneID)
 	if err != nil {
 		return
 	}
@@ -72,9 +72,11 @@ func (a *Bot) CreateNpcDropsCache() (err error) {
 					continue
 				}
 				entryCount++
+				if entryCount%50 == 0 {
+					fmt.Println(npc.ID, time.Since(start))
+				}
 			}
 		}
-		fmt.Println(npc.ID, time.Since(start))
 	}
 	fmt.Println("Created", entryCount, "entries for ", len(npcs), "npcs in", time.Since(start))
 	return

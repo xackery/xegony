@@ -57,11 +57,30 @@ func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
 	return
 }
 
+//ListSpawnBySpawnGroup will grab data from storage
+func (s *Storage) ListSpawnBySpawnGroup(spawngroupID int64) (spawns []*model.Spawn, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
+		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID
+		WHERE spawngroupid = ?`, spawn2Fields, spawnGroupFields), spawngroupID)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		spawn := model.Spawn{}
+		if err = rows.StructScan(&spawn); err != nil {
+			return
+		}
+		spawns = append(spawns, &spawn)
+	}
+	return
+}
+
 //ListSpawn will grab data from storage
 func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
 		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID
-		GROUP BY spawn2.spawngroupID`, spawn2Fields, spawnGroupFields))
+		`, spawn2Fields, spawnGroupFields))
 	if err != nil {
 		return
 	}

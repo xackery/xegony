@@ -4,6 +4,16 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta property="og:title" content="{{.Site.Title}}">
+	<meta property="og:type" content="website">
+	<meta itemprop="name" content="{{.Site.Name}}">
+	<meta itemprop="description" content="{{.Site.Description}}">
+	{{/*<meta itemprop="og:url" content="{{.Site.Url}}">*/}}
+	<meta itemprop="og:image" content="{{.Site.Image}}">
+	<meta itemprop="og:site_name" content="{{.Site.Name}}">
+	<meta property="og:description" content="{{.Site.Description}}">
+	<meta name="description" content="{{.Site.Description}}">
+	<meta name="author" content="{{.Site.Author}}">
 
 	<!-- Page title -->
 	<title>{{.Site.Title}}</title>
