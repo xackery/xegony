@@ -48,6 +48,8 @@ type Web struct {
 	lootDropRepo       *cases.LootDropRepository
 	lootTableEntryRepo *cases.LootTableEntryRepository
 	lootTableRepo      *cases.LootTableRepository
+	merchantRepo       *cases.MerchantRepository
+	merchantEntryRepo  *cases.MerchantEntryRepository
 	npcLootRepo        *cases.NpcLootRepository
 	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
@@ -173,6 +175,14 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	}
 	a.lootTableEntryRepo = &cases.LootTableEntryRepository{}
 	if err = a.lootTableEntryRepo.Initialize(s); err != nil {
+		return
+	}
+	a.merchantRepo = &cases.MerchantRepository{}
+	if err = a.merchantRepo.Initialize(s); err != nil {
+		return
+	}
+	a.merchantEntryRepo = &cases.MerchantEntryRepository{}
+	if err = a.merchantEntryRepo.Initialize(s); err != nil {
 		return
 	}
 	a.npcRepo = &cases.NpcRepository{}

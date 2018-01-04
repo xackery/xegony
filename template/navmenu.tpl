@@ -95,6 +95,18 @@
 	</ul>
 </li>
 
+
+<li class="{{if eq .Site.Section "merchant"}}active{{end}}">
+	<a href="#" aira-expanded="{{if eq .Site.Section "merchant"}}true{{else}}false{{end}}"> 
+		<span class="nav-label"><i class="xa xa-cheese"></i> Merchant</span>
+		<span class="fa arrow"/>
+	</a>
+	<ul class="nav nav-second-level collapse {{if eq .Site.Section "merchant"}}in{{end}}" aria-expanded="{{if eq .Site.Section "merchant"}}true{{else}}false{{end}}">
+		<li class="{{if eq .Site.Page "merchantsearch"}}active{{end}}"><a href="/merchant/search"> <span class="nav-label">Search</span></a></li>		
+		<li class="{{if eq .Site.Page "merchantlist"}}active{{end}}"><a href="/merchant"> <span class="nav-label">List</span></a></li>
+	</ul>
+</li>
+
 <li class="{{if eq .Site.Page "recipe"}}active{{end}}"><a href="/recipe"> <span class="nav-label"><i class="xa xa-knife-fork"></i> Recipe</span></a></li>
 
 {{if .Site.User}}

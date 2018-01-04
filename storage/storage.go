@@ -69,6 +69,19 @@ type Storage interface {
 	DeleteItem(itemID int64) (err error)
 	SearchItem(search string) (items []*model.Item, err error)
 	SearchItemByAccount(accountID int64, search string) (items []*model.Item, err error)
+	//Merchant
+	GetMerchant(merchantID int64) (merchant *model.Merchant, err error)
+	ListMerchant(pageSize int64, pageNumber int64) (merchants []*model.Merchant, err error)
+	ListMerchantCount() (count int64, err error)
+	SearchMerchant(search string) (merchants []*model.Merchant, err error)
+	DeleteMerchant(merchantID int64) (err error)
+	//MerchantEntry
+	GetMerchantEntry(merchantID int64, itemID int64) (query string, merchantEntry *model.MerchantEntry, err error)
+	CreateMerchantEntry(merchantEntry *model.MerchantEntry) (query string, err error)
+	ListMerchantEntry(merchantID int64) (query string, merchantEntrys []*model.MerchantEntry, err error)
+	ListMerchantEntryByItem(itemID int64) (query string, merchantEntrys []*model.MerchantEntry, err error)
+	EditMerchantEntry(merchantID int64, itemID int64, merchantEntry *model.MerchantEntry) (query string, err error)
+	DeleteMerchantEntry(merchantID int64, itemID int64) (query string, err error)
 	//Npc
 	GetNpc(npcID int64) (npc *model.Npc, err error)
 	CreateNpc(npc *model.Npc) (err error)
@@ -78,6 +91,7 @@ type Storage interface {
 	ListNpcByItem(itemID int64) (npcs []*model.Npc, err error)
 	ListNpcByFaction(factionID int64) (npcs []*model.Npc, err error)
 	ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err error)
+	ListNpcByMerchant(merchantID int64) (npcs []*model.Npc, err error)
 	ListNpcBySpell(spellID int64) (npcs []*model.Npc, err error)
 	DeleteNpc(npcID int64) (err error)
 	SearchNpc(search string) (npcs []*model.Npc, err error)

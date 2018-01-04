@@ -212,6 +212,33 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/lootdrop/{lootDropID}",
 			a.listLootDropEntry,
 		},
+		//Merchant
+		{
+			"GetMerchant",
+			"GET",
+			"/merchant/{merchantID}/details",
+			a.getMerchant,
+		},
+		{
+			"ListMerchant",
+			"GET",
+			"/merchant",
+			a.listMerchant,
+		},
+		//MerchantEntry
+		{
+			"GetMerchantEntry",
+			"GET",
+			"/merchant/{merchantID}/{itemID}",
+			a.getMerchantEntry,
+		},
+		{
+			"ListMerchantEntry",
+			"GET",
+			"/merchant/{merchantID}",
+			a.listMerchantEntry,
+		},
+
 		//Post
 		{
 			"ListPost",

@@ -399,8 +399,26 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 			err = errors.Wrap(err, "Request error on item")
 			return
 		}
-
+		item.Reference = "Drop"
 		content.Items = append(content.Items, item)
+	}
+
+	var merchentrys []*model.MerchantEntry
+	if npc.MerchantID > 0 {
+		merchentrys, _, err = a.merchantEntryRepo.List(npc.MerchantID)
+		if err != nil {
+			err = errors.Wrap(err, "Request error on merchant entries")
+			return
+		}
+		for _, entry := range merchentrys {
+			item, err = a.itemRepo.Get(entry.ItemID)
+			if err != nil {
+				err = errors.Wrap(err, "Request error on item")
+				return
+			}
+			item.Reference = "Merchant"
+			content.Items = append(content.Items, item)
+		}
 	}
 	content.Site.Description = fmt.Sprintf("%s is a level %d %s %s found in %s who drops %d items and spawns at %d locations", npc.CleanName(), npc.Level, npc.RaceName(), npc.ClassName(), npc.ZoneName(), len(content.Items), len(spawns))
 	tmp := a.getTemplate("")

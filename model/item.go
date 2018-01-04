@@ -9,6 +9,8 @@ import (
 
 //Item represents items inside everquest
 type Item struct {
+	//Reference is used when listing from npc
+	Reference string
 	//inventory added details
 	CharID            int64  `json:"charid" db:"charid"`                         //`charid` int(11) unsigned NOT NULL DEFAULT '0',
 	SlotID            int64  `json:"slotid" db:"slotid"`                         //`slotid` mediumint(7) unsigned NOT NULL DEFAULT '0',

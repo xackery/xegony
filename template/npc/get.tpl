@@ -92,7 +92,7 @@
 	<div class="col-lg-4">
 		<div class="hpanel forum-box">
 			<div class="panel-heading">
-			   Drops
+			   Items
 			</div>
 			<div class="panel-body">
 				
@@ -100,16 +100,19 @@
 				<table cellpadding="1" cellspacing="1" class="table table-striped">
 
 						<thead>
-						<tr>							
+						<tr>
+							<th>Source</th>							
 							<th width="20px"><i class="xa xa-sword"></i></th>
 							<th>Name</th>
 							<th>Slot</th>
 							<th><i title="Category" class="xa xa-vest"></i></th>
+
 						</tr>
 						</thead>
 						<tbody>
 						{{range $key, $value := .Items}}
 						<tr>
+							<td>{{$value.Reference}}</td>
 							<td><span class="item icon-{{$value.Icon}}-sm"></span></td>
 								<td><a item={{$value.ID}} href="/item/{{$value.ID}}">{{$value.Name}}</a></td>
 								<td><span title="{{$value.SlotList}}">{{$value.SlotsFirstName}}</span></td>
