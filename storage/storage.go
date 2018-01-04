@@ -34,6 +34,12 @@ type Storage interface {
 	EditBazaar(bazaarID int64, bazaar *model.Bazaar) (err error)
 	ListBazaar() (bazaars []*model.Bazaar, err error)
 	DeleteBazaar(bazaarID int64) (err error)
+	//Character
+	GetCharacterGraph(id int64) (characterGraph *model.CharacterGraph, err error)
+	CreateCharacterGraph(characterGraph *model.CharacterGraph) (err error)
+	ListCharacterGraph(characterID int64) (characterGraphs []*model.CharacterGraph, err error)
+	EditCharacterGraph(id int64, characterGraph *model.CharacterGraph) (err error)
+	DeleteCharacterGraph(id int64) (err error)
 	//Faction
 	GetFaction(accountID int64) (account *model.Faction, err error)
 	CreateFaction(account *model.Faction) (err error)

@@ -40,6 +40,12 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 			"/zonelevels",
 			a.zoneLevelsStatus,
 		},
+		Route{
+			"CharacterGraphStatus",
+			"GET",
+			"/charactergraph",
+			a.characterGraphStatus,
+		},
 	}
 
 	for _, route := range routes {
