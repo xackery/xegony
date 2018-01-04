@@ -53,6 +53,7 @@ type Web struct {
 	postRepo           *cases.PostRepository
 	spawnEntryRepo     *cases.SpawnEntryRepository
 	spawnRepo          *cases.SpawnRepository
+	spellRepo          *cases.SpellRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
@@ -190,6 +191,10 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	}
 	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
 	if err = a.spawnEntryRepo.Initialize(s); err != nil {
+		return
+	}
+	a.spellRepo = &cases.SpellRepository{}
+	if err = a.spellRepo.Initialize(s); err != nil {
 		return
 	}
 	a.taskRepo = &cases.TaskRepository{}

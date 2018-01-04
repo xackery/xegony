@@ -64,6 +64,7 @@ type Storage interface {
 	ListItemCount() (count int64, err error)
 	ListItemByCharacter(characterID int64) (items []*model.Item, err error)
 	ListItemBySlot(slotID int64) (items []*model.Item, err error)
+	ListItemBySpell(spellID int64) (items []*model.Item, err error)
 	ListItemByZone(zoneID int64) (items []*model.Item, err error)
 	DeleteItem(itemID int64) (err error)
 	SearchItem(search string) (items []*model.Item, err error)
@@ -77,6 +78,7 @@ type Storage interface {
 	ListNpcByItem(itemID int64) (npcs []*model.Npc, err error)
 	ListNpcByFaction(factionID int64) (npcs []*model.Npc, err error)
 	ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err error)
+	ListNpcBySpell(spellID int64) (npcs []*model.Npc, err error)
 	DeleteNpc(npcID int64) (err error)
 	SearchNpc(search string) (npcs []*model.Npc, err error)
 	//NpcLoot
@@ -138,6 +140,14 @@ type Storage interface {
 	ListSpawnEntryByZone(zoneID int64) (query string, spawnEntrys []*model.SpawnEntry, err error)
 	EditSpawnEntry(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (query string, err error)
 	DeleteSpawnEntry(spawnGroupID int64, npcID int64) (query string, err error)
+	//Spell
+	GetSpell(spellID int64) (spell *model.Spell, err error)
+	CreateSpell(spell *model.Spell) (err error)
+	ListSpell(pageSize int64, pageNumber int64) (spells []*model.Spell, err error)
+	ListSpellCount() (count int64, err error)
+	SearchSpell(search string) (spells []*model.Spell, err error)
+	EditSpell(spellID int64, spell *model.Spell) (err error)
+	DeleteSpell(spellID int64) (err error)
 	//Topic
 	GetTopic(topicID int64) (topic *model.Topic, err error)
 	CreateTopic(topic *model.Topic) (err error)

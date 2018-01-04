@@ -11,7 +11,6 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="hpanel forum-box">
-
             <div class="panel-heading">
                 <span class="f"><a href="/npc/byfaction/">Bestiary by Faction</a> > {{.Faction.Name}}</span>
             </div>

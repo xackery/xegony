@@ -83,6 +83,19 @@
 		<li class="{{if eq .Site.Page "spawnlist"}}active{{end}}"><a href="/spawn"> <span class="nav-label">List</span></a></li>
 	</ul>
 </li>
+
+
+<li class="{{if eq .Site.Section "spell"}}active{{end}}">
+	<a href="#" aira-expanded="{{if eq .Site.Section "spell"}}true{{else}}false{{end}}"> 
+		<span class="nav-label"><i class="xa xa-lightning-bolt"></i> Spell</span>
+		<span class="fa arrow"/>
+	</a>
+	<ul class="nav nav-second-level collapse {{if eq .Site.Section "spell"}}in{{end}}" aria-expanded="{{if eq .Site.Section "spell"}}true{{else}}false{{end}}">
+		<li class="{{if eq .Site.Page "spellsearch"}}active{{end}}"><a href="/spell/search"> <span class="nav-label">Search</span></a></li>		
+		<li class="{{if eq .Site.Page "spelllist"}}active{{end}}"><a href="/spell"> <span class="nav-label">List</span></a></li>
+	</ul>
+</li>
+
 {{if .Site.User}}
 <div class="profile-picture">
     

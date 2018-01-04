@@ -159,6 +159,15 @@ func (c *ItemRepository) ListByCharacter(characterID int64) (items []*model.Item
 	return
 }
 
+//ListBySpell handles logic
+func (c *ItemRepository) ListBySpell(spellID int64) (items []*model.Item, err error) {
+	items, err = c.stor.ListItemBySpell(spellID)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //ListBySlot handles logic
 func (c *ItemRepository) ListBySlot() (items []*model.Item, err error) {
 	items = []*model.Item{

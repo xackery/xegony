@@ -126,6 +126,15 @@ func (c *NpcRepository) List() (npcs []*model.Npc, err error) {
 	return
 }
 
+//ListBySpell handles logic
+func (c *NpcRepository) ListBySpell(spellID int64) (npcs []*model.Npc, err error) {
+	npcs, err = c.stor.ListNpcBySpell(spellID)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //ListByItem handles logic
 func (c *NpcRepository) ListByItem(itemID int64) (npcs []*model.Npc, err error) {
 	npcs, err = c.stor.ListNpcByItem(itemID)

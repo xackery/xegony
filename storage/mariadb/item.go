@@ -155,6 +155,24 @@ func (s *Storage) ListItemBySlot(slotID int64) (items []*model.Item, err error) 
 	return
 }
 
+//ListItemBySpell will grab data from storage
+func (s *Storage) ListItemBySpell(spellID int64) (items []*model.Item, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 		
+		WHERE items.clickeffect = ? OR items.focuseffect = ? OR items.proceffect = ? OR items.worneffect = ? or items.scrolleffect = ?`, itemFields), spellID, spellID, spellID, spellID, spellID)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		item := model.Item{}
+		if err = rows.StructScan(&item); err != nil {
+			return
+		}
+		items = append(items, &item)
+	}
+	return
+}
+
 //ListItemByZone will grab data from storage
 func (s *Storage) ListItemByZone(zoneID int64) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, %s FROM items 		

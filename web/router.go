@@ -53,6 +53,24 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			a.searchCharacter,
 		},
 		{
+			"SearchSpell",
+			"GET",
+			"/spell/search/{search}",
+			a.searchSpell,
+		},
+		{
+			"GetSpell",
+			"GET",
+			"/spell/{spellID}",
+			a.getSpell,
+		},
+		{
+			"ListSpell",
+			"GET",
+			"/spell",
+			a.listSpell,
+		},
+		{
 			"SearchCharacter",
 			"GET",
 			"/character/search/{search}",
