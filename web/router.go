@@ -22,18 +22,21 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 	}
 
 	routes := []Route{
+		//Index
 		{
 			"Index",
 			"GET",
 			"/",
 			a.listForum,
 		},
+		//Dashboard
 		{
 			"GetDashboard",
 			"GET",
 			"/dashboard",
 			a.getDashboard,
 		},
+		//Login
 		{
 			"Login",
 			"GET",
@@ -46,29 +49,12 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/logout",
 			a.getLogout,
 		},
+		//Character
 		{
 			"SearchCharacter",
 			"GET",
 			"/character/search",
 			a.searchCharacter,
-		},
-		{
-			"SearchSpell",
-			"GET",
-			"/spell/search/{search}",
-			a.searchSpell,
-		},
-		{
-			"GetSpell",
-			"GET",
-			"/spell/{spellID}",
-			a.getSpell,
-		},
-		{
-			"ListSpell",
-			"GET",
-			"/spell",
-			a.listSpell,
 		},
 		{
 			"SearchCharacter",
@@ -118,6 +104,26 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/ranking",
 			a.listCharacterByRanking,
 		},
+		//Spell
+		{
+			"SearchSpell",
+			"GET",
+			"/spell/search/{search}",
+			a.searchSpell,
+		},
+		{
+			"GetSpell",
+			"GET",
+			"/spell/{spellID}",
+			a.getSpell,
+		},
+		{
+			"ListSpell",
+			"GET",
+			"/spell",
+			a.listSpell,
+		},
+		//Npc
 		{
 			"GetNpc",
 			"GET",
@@ -154,6 +160,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/npc/byfaction/{factionID}",
 			a.getNpcByFaction,
 		},
+		//Topic
 		{
 			"ListTopic",
 			"GET",
@@ -166,6 +173,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/topic/{topicID}/details",
 			a.getTopic,
 		},
+		//Activity
 		{
 			"ListActivity",
 			"GET",
@@ -178,6 +186,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/task/{taskID}/activity/{activityID}",
 			a.getActivity,
 		},
+		//LootTable
 		{
 			"GetLootTable",
 			"GET",
@@ -190,6 +199,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/loottable",
 			a.listLootTable,
 		},
+		//LootDropEntry
 		{
 			"GetLootDropEntry",
 			"GET",
@@ -202,6 +212,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/lootdrop/{lootDropID}",
 			a.listLootDropEntry,
 		},
+		//Post
 		{
 			"ListPost",
 			"GET",
@@ -214,6 +225,33 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/post/{postID}",
 			a.getPost,
 		},
+		//Recipe
+		{
+			"ListRecipe",
+			"GET",
+			"/recipe",
+			a.listRecipe,
+		},
+		{
+			"GetRecipe",
+			"GET",
+			"/recipe/{recipeID}/details",
+			a.getRecipe,
+		},
+		//RecipeEntry
+		{
+			"ListRecipeEntry",
+			"GET",
+			"/recipe/{recipeID}",
+			a.listRecipeEntry,
+		},
+		{
+			"GetRecipeEntry",
+			"GET",
+			"/spawn/{recipeID}/{recipeEntryID}",
+			a.getRecipeEntry,
+		},
+		//Spawn
 		{
 			"ListSpawn",
 			"GET",
@@ -226,6 +264,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/spawn/{spawnID}/details",
 			a.getSpawn,
 		},
+		//SpawnEntry
 		{
 			"ListSpawnEntry",
 			"GET",
@@ -238,6 +277,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/spawn/{spawnGroupID}/{npcID}",
 			a.getSpawnEntry,
 		},
+		//Forum
 		{
 			"ListForum",
 			"GET",
@@ -256,6 +296,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/forum/create",
 			a.createForum,
 		},
+		//Task
 		{
 			"GetTask",
 			"GET",
@@ -268,6 +309,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/task",
 			a.listTask,
 		},
+		//Zone
 		{
 			"GetZone",
 			"GET",
@@ -281,7 +323,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			a.listZone,
 		},
 		{
-			"ListZone",
+			"ListZoneByLevels",
 			"GET",
 			"/zone/bylevels",
 			a.listZoneByLevels,
@@ -292,6 +334,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/zone/byhotzone",
 			a.listZoneByHotzone,
 		},
+		//Item
 		{
 			"GetItem",
 			"GET",

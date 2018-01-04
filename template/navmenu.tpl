@@ -1,6 +1,5 @@
 <li class="{{if eq .Site.Page "forum"}}active{{end}}"><a href="/"> <span class="nav-label"><i class="xa xa-coffee-mug"></i> Forum</span></a></li>
 
-
 <li class="{{if eq .Site.Section "character"}}active{{end}}">
 	<a href="#" aira-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}"> 
 		<span class="nav-label"><i class="xa xa-monster-skull"></i> Character</span>
@@ -95,6 +94,8 @@
 		<li class="{{if eq .Site.Page "spelllist"}}active{{end}}"><a href="/spell"> <span class="nav-label">List</span></a></li>
 	</ul>
 </li>
+
+<li class="{{if eq .Site.Page "recipe"}}active{{end}}"><a href="/recipe"> <span class="nav-label"><i class="xa xa-knife-fork"></i> Recipe</span></a></li>
 
 {{if .Site.User}}
 <div class="profile-picture">

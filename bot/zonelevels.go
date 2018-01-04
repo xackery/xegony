@@ -23,7 +23,7 @@ func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request) {
 
 // CreateZoneLevelCache is a shortcut function to prepare cache
 func (a *Bot) CreateZoneLevelCache() (err error) {
-	minCount := 20 //minimum number of mobs to be considered levelable there
+
 	start := time.Now()
 	var query string
 	err = a.zoneLevelRepo.Truncate()
@@ -125,6 +125,22 @@ func (a *Bot) CreateZoneLevelCache() (err error) {
 				mobCounter[65536]++
 			}
 		}
+
+		minCount := 20
+		totalCount := 0
+		largestRange := 0
+		largestIndex := 0
+
+		for index, mob := range mobCounter {
+			if mob > largestRange {
+				largestRange = mob
+				largestIndex = index
+			}
+			totalCount += mob
+		}
+
+		//every zone should have their largest range detected at least
+		mobCounter[largestIndex] += 20
 
 		zoneLevel.ZoneID = zone.ZoneIDNumber
 		zoneLevel.Levels = 0

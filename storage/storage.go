@@ -125,6 +125,21 @@ type Storage interface {
 	EditPost(postID int64, post *model.Post) (err error)
 	ListPost(topicID int64) (posts []*model.Post, err error)
 	DeletePost(postID int64) (err error)
+	//Recipe
+	GetRecipe(recipeID int64) (recipe *model.Recipe, err error)
+	CreateRecipe(recipe *model.Recipe) (err error)
+	ListRecipe(pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error)
+	ListRecipeCount() (count int64, err error)
+	SearchRecipe(search string) (recipes []*model.Recipe, err error)
+	EditRecipe(recipeID int64, recipe *model.Recipe) (err error)
+	DeleteRecipe(recipeID int64) (err error)
+	//RecipeEntry
+	GetRecipeEntry(recipeID int64, itemID int64) (query string, recipeEntry *model.RecipeEntry, err error)
+	CreateRecipeEntry(recipeEntry *model.RecipeEntry) (query string, err error)
+	ListRecipeEntry(recipeID int64) (query string, recipeEntrys []*model.RecipeEntry, err error)
+	ListRecipeEntryByItem(itemID int64) (query string, recipeEntrys []*model.RecipeEntry, err error)
+	EditRecipeEntry(recipeID int64, itemID int64, recipeEntry *model.RecipeEntry) (query string, err error)
+	DeleteRecipeEntry(recipeID int64, itemID int64) (query string, err error)
 	//Spawn
 	GetSpawn(spawnID int64) (spawn *model.Spawn, err error)
 	CreateSpawn(spawn *model.Spawn) (err error)
