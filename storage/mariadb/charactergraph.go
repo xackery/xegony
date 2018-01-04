@@ -100,7 +100,7 @@ func (s *Storage) createTableCharacterGraph() (err error) {
 CREATE TABLE character_graph (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   character_id int(11) DEFAULT NULL,
-  create_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  create_date datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   experience int(10) unsigned NOT NULL DEFAULT '0',
   aa_experience int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (id)

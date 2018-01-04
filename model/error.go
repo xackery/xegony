@@ -4,6 +4,16 @@ import (
 	"github.com/pkg/errors"
 )
 
+//Error is used for Xegony Error handling
+type Error struct {
+	ID         int64  `json:"id" db:"id"`                  //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	URL        string `json:"url" db:"url"`                //`url` varchar(32) NOT NULL DEFAULT '',
+	Scope      string `json:"scope" db:"scope"`            //`scope` varchar(32) NOT NULL DEFAULT '',
+	Message    string `json:"message" db:"message"`        //`message` varchar(256) NOT NULL,
+	Severity   int64  `json:"severity" db:"severity"`      //`severity` int(10) unsigned NOT NULL DEFAULT '0',
+	CreateDate int64  `json:"createDate" db:"create_date"` //`create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+}
+
 //ErrNoContent means no content should be displayed
 type ErrNoContent struct {
 }

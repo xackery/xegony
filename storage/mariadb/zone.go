@@ -117,7 +117,7 @@ func (s *Storage) DeleteZone(zoneID int64) (err error) {
 	return
 }
 
-//createTableUser will grab data from storage
+//createTableZone will grab data from storage
 func (s *Storage) createTableZone() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE zone (
   short_name varchar(32) DEFAULT NULL,

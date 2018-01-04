@@ -39,7 +39,9 @@ type Web struct {
 	bazaarRepo         *cases.BazaarRepository
 	characterRepo      *cases.CharacterRepository
 	characterGraphRepo *cases.CharacterGraphRepository
+	errorRepo          *cases.ErrorRepository
 	factionRepo        *cases.FactionRepository
+	fishingRepo        *cases.FishingRepository
 	forumRepo          *cases.ForumRepository
 	itemRepo           *cases.ItemRepository
 	lootDropEntryRepo  *cases.LootDropEntryRepository
@@ -111,8 +113,16 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	if err = a.characterGraphRepo.Initialize(s); err != nil {
 		return
 	}
+	a.errorRepo = &cases.ErrorRepository{}
+	if err = a.errorRepo.Initialize(s); err != nil {
+		return
+	}
 	a.factionRepo = &cases.FactionRepository{}
 	if err = a.factionRepo.Initialize(s); err != nil {
+		return
+	}
+	a.fishingRepo = &cases.FishingRepository{}
+	if err = a.fishingRepo.Initialize(s); err != nil {
 		return
 	}
 	a.forumRepo = &cases.ForumRepository{}
@@ -270,6 +280,16 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 	site.Title = "Error"
 
 	tmp := a.getTemplate("")
+
+	//Figure out scope based on URL
+
+	if cErr := a.errorRepo.Create(&model.Error{
+		URL:     r.URL.String(),
+		Scope:   "unknown",
+		Message: err.Error(),
+	}); cErr != nil {
+		log.Println("Failed to create error", cErr.Error())
+	}
 
 	var tErr error
 	switch statusCode {

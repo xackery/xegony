@@ -104,6 +104,38 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/ranking",
 			a.listCharacterByRanking,
 		},
+		//Error
+		{
+			"SearchError",
+			"GET",
+			"/error/search/{search}",
+			a.searchError,
+		},
+		{
+			"GetError",
+			"GET",
+			"/error/{errorID}",
+			a.getError,
+		},
+		{
+			"ListError",
+			"GET",
+			"/error",
+			a.listError,
+		},
+		//Fishing
+		{
+			"GetFishing",
+			"GET",
+			"/fishing/{fishingID}",
+			a.getFishing,
+		},
+		{
+			"ListFishing",
+			"GET",
+			"/fishing",
+			a.listFishing,
+		},
 		//Spell
 		{
 			"SearchSpell",

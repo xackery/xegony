@@ -319,9 +319,10 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site site
-		Item *model.Item
-		Npcs []*model.Npc
+		Site     site
+		Item     *model.Item
+		Npcs     []*model.Npc
+		Fishings []*model.Fishing
 	}
 
 	if strings.ToLower(getVar(r, "itemID")) == "byslot" {
@@ -354,9 +355,27 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 
 	npcs, err := a.npcRepo.ListByItem(itemID)
 	if err != nil {
-		err = errors.Wrap(err, "Failed to get NCPs based on item")
+		err = errors.Wrap(err, "Failed to get NPCs based on item")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
+	}
+
+	fishings, err := a.fishingRepo.GetByItem(itemID)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get fishings based on item")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	for _, fishing := range fishings {
+		if fishing.ZoneID > 0 {
+			fishing.Zone, err = a.zoneRepo.Get(fishing.ZoneID)
+			if err != nil {
+				err = errors.Wrap(err, "Failed to get zone based on fishing zoneid")
+				a.writeError(w, r, err, http.StatusBadRequest)
+				return
+			}
+		}
 	}
 
 	site := a.newSite(r)
@@ -364,9 +383,10 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Item"
 
 	content := Content{
-		Site: site,
-		Item: item,
-		Npcs: npcs,
+		Site:     site,
+		Item:     item,
+		Npcs:     npcs,
+		Fishings: fishings,
 	}
 
 	tmp := a.getTemplate("")

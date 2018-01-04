@@ -107,6 +107,29 @@
 	</ul>
 </li>
 
+<li class="{{if eq .Site.Section "error"}}active{{end}}">
+	<a href="#" aira-expanded="{{if eq .Site.Section "error"}}true{{else}}false{{end}}"> 
+		<span class="nav-label"><i class="fa fa-facebook"></i> Error</span>
+		<span class="fa arrow"/>
+	</a>
+	<ul class="nav nav-second-level collapse {{if eq .Site.Section "error"}}in{{end}}" aria-expanded="{{if eq .Site.Section "error"}}true{{else}}false{{end}}">
+		<li class="{{if eq .Site.Page "errorsearch"}}active{{end}}"><a href="/error/search"> <span class="nav-label">Search</span></a></li>		
+		<li class="{{if eq .Site.Page "errorlist"}}active{{end}}"><a href="/error"> <span class="nav-label">List</span></a></li>
+	</ul>
+</li>
+
+
+<li class="{{if eq .Site.Section "fishing"}}active{{end}}">
+	<a href="#" aira-expanded="{{if eq .Site.Section "fishing"}}true{{else}}false{{end}}"> 
+		<span class="nav-label"><i class="xa xa-fish"></i> Fishing</span>
+		<span class="fa arrow"/>
+	</a>
+	<ul class="nav nav-second-level collapse {{if eq .Site.Section "fishing"}}in{{end}}" aria-expanded="{{if eq .Site.Section "fishing"}}true{{else}}false{{end}}">
+		<li class="{{if eq .Site.Page "fishingsearch"}}active{{end}}"><a href="/fishing/search"> <span class="nav-label">Search</span></a></li>		
+		<li class="{{if eq .Site.Page "fishinglist"}}active{{end}}"><a href="/fishing"> <span class="nav-label">List</span></a></li>
+	</ul>
+</li>
+
 <li class="{{if eq .Site.Page "recipe"}}active{{end}}"><a href="/recipe"> <span class="nav-label"><i class="xa xa-knife-fork"></i> Recipe</span></a></li>
 
 {{if .Site.User}}

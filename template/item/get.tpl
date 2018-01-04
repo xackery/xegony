@@ -378,7 +378,42 @@
 
             </div>
             <div class="panel-footer">
-                Table - 6 rows
+               {{len .Npcs}} total creatures
+            </div>
+        </div>
+    </div>
+    {{end}}
+    {{if .Fishings}}
+    <div class="col-lg-8">
+        <div class="hpanel">
+            <div class="panel-heading hbuilt">
+                <div class="panel-tools">
+                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                    <a class="closebox"><i class="fa fa-times"></i></a>
+                </div>
+                This item is found by fishing
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                <table cellpadding="1" cellspacing="1" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Zone</th>                        
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range $key, $value := .Fishings}}
+                    <tr>
+                       {{if $value.ZoneID}}<td><a href="/fishing/{{$value.ID}}">{{$value.Zone.Name}}</a></td><td>Unknown Zone for {{$value.ID}}</td>{{else}}{{end}}
+                    </tr>
+                    {{end}}                
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+               {{len .Npcs}} total creatures
             </div>
         </div>
     </div>
