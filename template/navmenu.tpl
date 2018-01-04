@@ -130,6 +130,17 @@
 	</ul>
 </li>
 
+<li class="{{if eq .Site.Section "forage"}}active{{end}}">
+	<a href="#" aira-expanded="{{if eq .Site.Section "forage"}}true{{else}}false{{end}}"> 
+		<span class="nav-label"><i class="xa xa-leaf"></i> Forage</span>
+		<span class="fa arrow"/>
+	</a>
+	<ul class="nav nav-second-level collapse {{if eq .Site.Section "forage"}}in{{end}}" aria-expanded="{{if eq .Site.Section "forage"}}true{{else}}false{{end}}">
+		<li class="{{if eq .Site.Page "foragesearch"}}active{{end}}"><a href="/forage/search"> <span class="nav-label">Search</span></a></li>		
+		<li class="{{if eq .Site.Page "foragelist"}}active{{end}}"><a href="/forage"> <span class="nav-label">List</span></a></li>
+	</ul>
+</li>
+
 <li class="{{if eq .Site.Page "recipe"}}active{{end}}"><a href="/recipe"> <span class="nav-label"><i class="xa xa-knife-fork"></i> Recipe</span></a></li>
 
 {{if .Site.User}}

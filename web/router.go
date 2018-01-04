@@ -136,6 +136,19 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/fishing",
 			a.listFishing,
 		},
+		//Forage
+		{
+			"GetForage",
+			"GET",
+			"/forage/{forageID}",
+			a.getForage,
+		},
+		{
+			"ListForage",
+			"GET",
+			"/forage",
+			a.listForage,
+		},
 		//Spell
 		{
 			"SearchSpell",

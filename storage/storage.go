@@ -65,6 +65,15 @@ type Storage interface {
 	ListFishingByZone(zoneID int64) (fishings []*model.Fishing, err error)
 	EditFishing(fishingID int64, fishing *model.Fishing) (err error)
 	DeleteFishing(fishingID int64) (err error)
+	//Forage
+	GetForage(forageID int64) (forage *model.Forage, err error)
+	CreateForage(forage *model.Forage) (err error)
+	ListForage(pageSize int64, pageNumber int64) (forages []*model.Forage, err error)
+	ListForageCount() (count int64, err error)
+	ListForageByItem(itemID int64) (forages []*model.Forage, err error)
+	ListForageByZone(zoneID int64) (forages []*model.Forage, err error)
+	EditForage(forageID int64, forage *model.Forage) (err error)
+	DeleteForage(forageID int64) (err error)
 	//Goal
 	GetGoal(listID int64, entryID int64) (goal *model.Goal, err error)
 	CreateGoal(goal *model.Goal) (err error)

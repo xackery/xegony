@@ -42,6 +42,7 @@ type Web struct {
 	errorRepo          *cases.ErrorRepository
 	factionRepo        *cases.FactionRepository
 	fishingRepo        *cases.FishingRepository
+	forageRepo         *cases.ForageRepository
 	forumRepo          *cases.ForumRepository
 	itemRepo           *cases.ItemRepository
 	lootDropEntryRepo  *cases.LootDropEntryRepository
@@ -123,6 +124,10 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	}
 	a.fishingRepo = &cases.FishingRepository{}
 	if err = a.fishingRepo.Initialize(s); err != nil {
+		return
+	}
+	a.forageRepo = &cases.ForageRepository{}
+	if err = a.forageRepo.Initialize(s); err != nil {
 		return
 	}
 	a.forumRepo = &cases.ForumRepository{}
