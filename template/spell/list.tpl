@@ -38,10 +38,10 @@
                     </tbody>
                 </table>
                 </div>
-                {{.Site.PageList}}
+                {{.SpellPage.PageList}}
             </div>
             <div class="panel-footer">
-                {{.Site.ResultCount}} total spells
+                {{.SpellPage.Total}} total spells
             </div>
         </div>
     </div>

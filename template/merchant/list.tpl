@@ -32,10 +32,10 @@
                     </tbody>
                 </table>
                 </div>
-                {{.Site.PageList}}
+                {{.MerchantPage.PageList}}
             </div>
             <div class="panel-footer">
-                {{.Site.ResultCount}} total merchants
+                {{.MerchantPage.Total}} total merchants
             </div>
         </div>
     </div>

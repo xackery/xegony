@@ -28,9 +28,6 @@ type site struct {
 	Image       string
 	Author      string
 	User        *model.User
-	PageNumber  int64
-	PageSize    int64
-	ResultCount int64
 }
 
 //Web struct wraps all webServer related methods
@@ -41,6 +38,7 @@ type Web struct {
 	activityRepo       *cases.ActivityRepository
 	bazaarRepo         *cases.BazaarRepository
 	characterRepo      *cases.CharacterRepository
+	characterGraphRepo *cases.CharacterGraphRepository
 	factionRepo        *cases.FactionRepository
 	forumRepo          *cases.ForumRepository
 	itemRepo           *cases.ItemRepository
@@ -65,51 +63,11 @@ type Web struct {
 	zoneRepo           *cases.ZoneRepository
 }
 
-//PageList allows a site to create pagination on bottom
-func (s site) PageList() template.HTML {
-	page := `<div class="btn-group pull-right">`
-	curPage := s.PageNumber
-	var curElement int64
-	if s.PageNumber > 0 {
-		page += fmt.Sprintf("\n"+`<button type="button" class="btn btn-default"><a href="/item?pageNumber=%d"><i class="fa fa-chevron-left"></i></a></button>`, s.PageNumber-1)
-	}
-
-	curElement = (s.PageNumber - 6) * s.PageSize
-	curPage -= 6
-	numCount := 0
-
-	for curElement <= s.ResultCount {
-		if curPage < 0 {
-			curPage++
-			curElement += s.PageSize
-			continue
-		}
-		curPage++
-		if curPage == s.PageNumber {
-			page += fmt.Sprintf("\n"+` <button class="btn btn-default active"><a href="/item/?pageNumber=%d">%d</a></button>`, curPage, curPage)
-		} else {
-			page += fmt.Sprintf("\n"+` <button class="btn btn-default"><a href="/item/?pageNumber=%d">%d</a></button>`, curPage, curPage)
-		}
-		curElement += s.PageSize
-		numCount++
-		if numCount >= 10 {
-			break
-		}
-	}
-	if s.PageNumber*s.PageSize < s.ResultCount {
-		page += fmt.Sprintf("\n"+`<button type="button" class="btn btn-default"><a href="/item?pageNumber=%d"><i class="fa fa-chevron-right"></a></i></button>`, s.PageNumber+1)
-	}
-	page += "\n</div>"
-	return template.HTML(page)
-}
-
 func (a *Web) newSite(r *http.Request) (data site) {
 	data = site{
 		Name:        "Xegony",
 		Title:       "Xegony",
 		Description: "Xegony",
-		PageSize:    getIntParam(r, "pageSize"),
-		PageNumber:  getIntParam(r, "pageNumber"),
 	}
 
 	claims, err := api.GetAuthClaims(r)
@@ -147,6 +105,10 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	}
 	a.characterRepo = &cases.CharacterRepository{}
 	if err = a.characterRepo.Initialize(s); err != nil {
+		return
+	}
+	a.characterGraphRepo = &cases.CharacterGraphRepository{}
+	if err = a.characterGraphRepo.Initialize(s); err != nil {
 		return
 	}
 	a.factionRepo = &cases.FactionRepository{}

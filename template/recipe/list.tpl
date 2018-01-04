@@ -38,10 +38,10 @@
                     </tbody>
                 </table>
                 </div>
-                {{.Site.PageList}}
+                {{.RecipePage.PageList}}
             </div>
             <div class="panel-footer">
-                {{.Site.ResultCount}} total spells
+                {{.RecipePage.Total}} total spells
             </div>
         </div>
     </div>

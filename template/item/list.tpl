@@ -36,10 +36,10 @@
                     </tbody>
                 </table>
                 </div>
-                {{.Site.PageList}}
+                {{.ItemPage.PageList}}
             </div>
             <div class="panel-footer">
-                {{.Site.ResultCount}} total items
+                {{.ItemPage.Total}} total items
             </div>
         </div>
     </div>

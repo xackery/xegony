@@ -12,23 +12,27 @@ func (a *Web) listMerchant(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site      site
-		Merchants []*model.Merchant
+		Site         site
+		Merchants    []*model.Merchant
+		MerchantPage *model.Page
 	}
 
 	site := a.newSite(r)
 	site.Page = "merchant"
 	site.Title = "Merchant"
 
-	pageSize := getIntParam(r, "pageSize")
-	pageNumber := getIntParam(r, "pageNumber")
+	merchantPage := &model.Page{
+		Scope: "merchant",
+	}
+	merchantPage.PageSize = getIntParam(r, "pageSize")
+	merchantPage.PageNumber = getIntParam(r, "pageNumber")
 
-	merchants, err := a.merchantRepo.List(pageSize, pageNumber)
+	merchants, err := a.merchantRepo.List(merchantPage.PageSize, merchantPage.PageNumber)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	site.ResultCount, err = a.merchantRepo.ListCount()
+	merchantPage.Total, err = a.merchantRepo.ListCount()
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return

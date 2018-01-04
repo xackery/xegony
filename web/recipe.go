@@ -12,23 +12,27 @@ func (a *Web) listRecipe(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site    site
-		Recipes []*model.Recipe
+		Site       site
+		Recipes    []*model.Recipe
+		RecipePage *model.Page
 	}
 
 	site := a.newSite(r)
 	site.Page = "recipe"
 	site.Title = "Recipe"
 
-	pageSize := getIntParam(r, "pageSize")
-	pageNumber := getIntParam(r, "pageNumber")
+	recipePage := &model.Page{
+		Scope: "recipe",
+	}
+	recipePage.PageSize = getIntParam(r, "pageSize")
+	recipePage.PageNumber = getIntParam(r, "pageNumber")
 
-	recipes, err := a.recipeRepo.List(pageSize, pageNumber)
+	recipes, err := a.recipeRepo.List(recipePage.PageSize, recipePage.PageNumber)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	site.ResultCount, err = a.recipeRepo.ListCount()
+	recipePage.Total, err = a.recipeRepo.ListCount()
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
@@ -51,8 +55,9 @@ func (a *Web) listRecipe(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	content := Content{
-		Site:    site,
-		Recipes: recipes,
+		Site:       site,
+		Recipes:    recipes,
+		RecipePage: recipePage,
 	}
 
 	tmp := a.getTemplate("")

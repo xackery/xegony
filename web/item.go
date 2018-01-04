@@ -14,30 +14,35 @@ func (a *Web) listItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site  site
-		Items []*model.Item
+		Site     site
+		Items    []*model.Item
+		ItemPage *model.Page
 	}
 
 	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
 
-	pageSize := getIntParam(r, "pageSize")
-	pageNumber := getIntParam(r, "pageNumber")
+	itemPage := &model.Page{
+		Scope: "item",
+	}
+	itemPage.PageSize = getIntParam(r, "pageSize")
+	itemPage.PageNumber = getIntParam(r, "pageNumber")
 
-	items, err := a.itemRepo.List(pageSize, pageNumber)
+	items, err := a.itemRepo.List(itemPage.PageSize, itemPage.PageNumber)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	site.ResultCount, err = a.itemRepo.ListCount()
+	itemPage.Total, err = a.itemRepo.ListCount()
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 	content := Content{
-		Site:  site,
-		Items: items,
+		Site:     site,
+		Items:    items,
+		ItemPage: itemPage,
 	}
 
 	tmp := a.getTemplate("")

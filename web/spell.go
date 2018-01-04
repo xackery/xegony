@@ -12,30 +12,36 @@ func (a *Web) listSpell(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site   site
-		Spells []*model.Spell
+		Site      site
+		Spells    []*model.Spell
+		SpellPage *model.Page
 	}
 
 	site := a.newSite(r)
 	site.Page = "spell"
 	site.Title = "Spell"
 
-	pageSize := getIntParam(r, "pageSize")
-	pageNumber := getIntParam(r, "pageNumber")
+	spellPage := &model.Page{
+		Scope: "spell",
+	}
 
-	spells, err := a.spellRepo.List(pageSize, pageNumber)
+	spellPage.PageSize = getIntParam(r, "spellPage.PageSize")
+	spellPage.PageNumber = getIntParam(r, "spellPage.PageNumber")
+
+	spells, err := a.spellRepo.List(spellPage.PageSize, spellPage.PageNumber)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	site.ResultCount, err = a.spellRepo.ListCount()
+	spellPage.Total, err = a.spellRepo.ListCount()
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 	content := Content{
-		Site:   site,
-		Spells: spells,
+		Site:      site,
+		Spells:    spells,
+		SpellPage: spellPage,
 	}
 
 	tmp := a.getTemplate("")

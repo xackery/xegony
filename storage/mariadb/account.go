@@ -113,7 +113,7 @@ CREATE TABLE account (
   PRIMARY KEY (id),
   UNIQUE KEY name (name),
   UNIQUE KEY lsaccount_id (lsaccount_id)
-) ENGINE=MyISAM AUTO_INCREMENT=82152 DEFAULT CHARSET=latin1;`)
+) ENGINE=INNODB AUTO_INCREMENT=82152 DEFAULT CHARSET=latin1;`)
 	if err != nil {
 		return
 	}
