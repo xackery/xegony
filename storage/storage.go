@@ -123,6 +123,16 @@ type Storage interface {
 	DeleteItem(itemID int64) (err error)
 	SearchItem(search string) (items []*model.Item, err error)
 	SearchItemByAccount(accountID int64, search string) (items []*model.Item, err error)
+	//Mail
+	GetMail(mailID int64) (mail *model.Mail, err error)
+	CreateMail(mail *model.Mail) (err error)
+	ListMail(pageSize int64, pageNumber int64) (mails []*model.Mail, err error)
+	ListMailCount() (count int64, err error)
+	SearchMail(search string) (mails []*model.Mail, err error)
+	SearchMailByCharacter(characterID int64, search string) (mails []*model.Mail, err error)
+	ListMailByCharacter(characterID int64) (mails []*model.Mail, err error)
+	EditMail(mailID int64, mail *model.Mail) (err error)
+	DeleteMail(mailID int64) (err error)
 	//Merchant
 	GetMerchant(merchantID int64) (merchant *model.Merchant, err error)
 	ListMerchant(pageSize int64, pageNumber int64) (merchants []*model.Merchant, err error)
