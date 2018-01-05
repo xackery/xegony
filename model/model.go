@@ -146,18 +146,19 @@ func CleanName(name string) string {
 }
 
 //RuleR grabs float64 version of rule table value
-func RuleR(rule string) float64 {
-	val := Rule(rule)
+func RuleR(name string) float64 {
+
+	val := GetRule(name)
 	fVal, err := strconv.ParseFloat(val, 64)
 	if err != nil {
-		fmt.Println("Rule", rule, "was attempted to be parsed as float (RuleR) but failed")
+		fmt.Println("Rule", name, "was attempted to be parsed as float (RuleR) but failed")
 	}
 	return fVal
 }
 
-//Rule grabs string version of rule table value
-func Rule(rule string) string {
-	switch rule {
+//GetRule grabs string version of rule table value
+func GetRule(name string) string {
+	switch name {
 	case "Character:ExpMultiplier":
 		return "2.0000000000000"
 	case "Zone:HotZoneBonus":

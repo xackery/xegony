@@ -161,7 +161,7 @@ func (c *Npc) SpecialAbilitiesList() map[string]string {
 		if len(breakdown) < 1 {
 			continue
 		}
-		fmt.Println(breakdown[0], "foo")
+
 		switch breakdown[0] { //based on http://wiki.eqemulator.org/p?NPC_Special_Attacks
 		case "1": //Summon
 			key = "Summons"

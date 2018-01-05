@@ -336,6 +336,19 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/spawn/{recipeID}/{recipeEntryID}",
 			a.getRecipeEntry,
 		},
+		//Rule
+		{
+			"ListRule",
+			"GET",
+			"/rule",
+			a.listRule,
+		},
+		{
+			"GetRule",
+			"GET",
+			"/rule/{ruleName}",
+			a.getRule,
+		},
 		//Spawn
 		{
 			"ListSpawn",

@@ -188,6 +188,12 @@ type Storage interface {
 	ListRecipeEntryByItem(itemID int64) (query string, recipeEntrys []*model.RecipeEntry, err error)
 	EditRecipeEntry(recipeID int64, itemID int64, recipeEntry *model.RecipeEntry) (query string, err error)
 	DeleteRecipeEntry(recipeID int64, itemID int64) (query string, err error)
+	//Rule
+	GetRule(ruleName int64) (rule *model.Rule, err error)
+	CreateRule(rule *model.Rule) (err error)
+	ListRule() (rules []*model.Rule, err error)
+	EditRule(ruleName string, rule *model.Rule) (err error)
+	DeleteRule(ruleName string) (err error)
 	//SharedBank
 	GetSharedBank(accountID int64, slotID int64) (sharedBank *model.SharedBank, err error)
 	CreateSharedBank(sharedBank *model.SharedBank) (err error)
