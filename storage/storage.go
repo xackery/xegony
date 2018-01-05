@@ -10,6 +10,18 @@ type Storage interface {
 	DropTables() (err error)
 	VerifyTables() (err error)
 	InsertTestData() (err error)
+	//Aa
+	GetAa(aaID int64) (aa *model.Aa, err error)
+	CreateAa(aa *model.Aa) (err error)
+	ListAa() (aas []*model.Aa, err error)
+	EditAa(aaID int64, aa *model.Aa) (err error)
+	DeleteAa(aaID int64) (err error)
+	//AaRank
+	GetAaRank(rankID int64) (query string, aaRank *model.AaRank, err error)
+	CreateAaRank(aaRank *model.AaRank) (query string, err error)
+	ListAaRank() (query string, aaRanks []*model.AaRank, err error)
+	EditAaRank(rankID int64, aaRank *model.AaRank) (query string, err error)
+	DeleteAaRank(rankID int64) (query string, err error)
 	//Account
 	GetAccount(accountID int64) (account *model.Account, err error)
 	CreateAccount(account *model.Account) (err error)
