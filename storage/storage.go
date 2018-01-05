@@ -188,6 +188,15 @@ type Storage interface {
 	ListRecipeEntryByItem(itemID int64) (query string, recipeEntrys []*model.RecipeEntry, err error)
 	EditRecipeEntry(recipeID int64, itemID int64, recipeEntry *model.RecipeEntry) (query string, err error)
 	DeleteRecipeEntry(recipeID int64, itemID int64) (query string, err error)
+	//SharedBank
+	GetSharedBank(accountID int64, slotID int64) (sharedBank *model.SharedBank, err error)
+	CreateSharedBank(sharedBank *model.SharedBank) (err error)
+	ListSharedBank(accountID int64, pageSize int64, pageNumber int64) (sharedBanks []*model.SharedBank, err error)
+	ListSharedBankCount(accountID int64) (count int64, err error)
+	ListSharedBankByAccount(accountID int64) (sharedBanks []*model.SharedBank, err error)
+	ListSharedBankByItem(accountID int64, itemID int64) (sharedBanks []*model.SharedBank, err error)
+	EditSharedBank(accountID int64, slotID int64, sharedBank *model.SharedBank) (err error)
+	DeleteSharedBank(accountID int64, slotID int64) (err error)
 	//Spawn
 	GetSpawn(spawnID int64) (spawn *model.Spawn, err error)
 	CreateSpawn(spawn *model.Spawn) (err error)
