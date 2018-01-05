@@ -80,6 +80,14 @@ type Storage interface {
 	ListGoal() (goals []*model.Goal, err error)
 	EditGoal(listID int64, goal *model.Goal) (err error)
 	DeleteGoal(listID int64, entryID int64) (err error)
+	//Hacker
+	GetHacker(hackerID int64) (hacker *model.Hacker, err error)
+	CreateHacker(hacker *model.Hacker) (err error)
+	ListHacker(pageSize int64, pageNumber int64) (hackers []*model.Hacker, err error)
+	ListHackerCount() (count int64, err error)
+	SearchHacker(search string) (hackers []*model.Hacker, err error)
+	EditHacker(hackerID int64, hacker *model.Hacker) (err error)
+	DeleteHacker(hackerID int64) (err error)
 	//Character
 	GetCharacter(characterID int64) (character *model.Character, err error)
 	CreateCharacter(character *model.Character) (err error)

@@ -134,6 +134,18 @@
 	</ul>
 </li>
 
+
+<li class="{{if eq .Site.Section "hacker"}}active{{end}}">
+	<a href="#" aira-expanded="{{if eq .Site.Section "hacker"}}true{{else}}false{{end}}"> 
+		<span class="nav-label"><i class="xa xa-gun"></i> Hacker</span>
+		<span class="fa arrow"/>
+	</a>
+	<ul class="nav nav-second-level collapse {{if eq .Site.Section "hacker"}}in{{end}}" aria-expanded="{{if eq .Site.Section "hacker"}}true{{else}}false{{end}}">
+		<li class="{{if eq .Site.Page "hackersearch"}}active{{end}}"><a href="/hacker/search"> <span class="nav-label">Search</span></a></li>		
+		<li class="{{if eq .Site.Page "hackerlist"}}active{{end}}"><a href="/hacker"> <span class="nav-label">List</span></a></li>
+	</ul>
+</li>
+
 <li class="{{if eq .Site.Section "forage"}}active{{end}}">
 	<a href="#" aira-expanded="{{if eq .Site.Section "forage"}}true{{else}}false{{end}}"> 
 		<span class="nav-label"><i class="xa xa-leaf"></i> Forage</span>

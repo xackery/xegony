@@ -149,6 +149,25 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/forage",
 			a.listForage,
 		},
+		//Hacker
+		{
+			"SearchHacker",
+			"GET",
+			"/hacker/search/{search}",
+			a.searchHacker,
+		},
+		{
+			"GetHacker",
+			"GET",
+			"/hacker/{hackerID}",
+			a.getHacker,
+		},
+		{
+			"ListHacker",
+			"GET",
+			"/hacker",
+			a.listHacker,
+		},
 		//Spell
 		{
 			"SearchSpell",
