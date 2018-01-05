@@ -252,6 +252,7 @@ func (s *Spell) SkillName() string {
 	return SkillName(s.Skill)
 }
 
+//ClassesList returns a list of human readable classes
 func (s *Spell) ClassesList() string {
 	classes := ""
 

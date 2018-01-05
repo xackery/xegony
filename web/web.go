@@ -62,6 +62,7 @@ type Web struct {
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
+	variableRepo       *cases.VariableRepository
 	zoneLevelRepo      *cases.ZoneLevelRepository
 	zoneRepo           *cases.ZoneRepository
 }
@@ -204,6 +205,10 @@ func (a *Web) Initialize(s storage.Storage, config string) (err error) {
 	}
 	a.userRepo = &cases.UserRepository{}
 	if err = a.userRepo.Initialize(s); err != nil {
+		return
+	}
+	a.variableRepo = &cases.VariableRepository{}
+	if err = a.variableRepo.Initialize(s); err != nil {
 		return
 	}
 	a.zoneRepo = &cases.ZoneRepository{}

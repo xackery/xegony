@@ -205,6 +205,19 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/npc/byfaction/{factionID}",
 			a.getNpcByFaction,
 		},
+		//Variable
+		{
+			"ListVariable",
+			"GET",
+			"/variable",
+			a.listVariable,
+		},
+		{
+			"GetVariable",
+			"GET",
+			"/variable/{variableName}",
+			a.getVariable,
+		},
 		//Topic
 		{
 			"ListTopic",

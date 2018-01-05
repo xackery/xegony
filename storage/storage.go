@@ -217,6 +217,12 @@ type Storage interface {
 	EditTopic(topicID int64, topic *model.Topic) (err error)
 	ListTopic(forumID int64) (topics []*model.Topic, err error)
 	DeleteTopic(topicID int64) (err error)
+	//Variable
+	GetVariable(variableName int64) (variable *model.Variable, err error)
+	CreateVariable(variable *model.Variable) (err error)
+	ListVariable() (variables []*model.Variable, err error)
+	EditVariable(variableName string, variable *model.Variable) (err error)
+	DeleteVariable(variableName string) (err error)
 	//Zone
 	GetZone(zoneID int64) (zone *model.Zone, err error)
 	CreateZone(zone *model.Zone) (err error)

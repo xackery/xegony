@@ -1,5 +1,7 @@
 <li class="{{if eq .Site.Page "forum"}}active{{end}}"><a href="/"> <span class="nav-label"><i class="xa xa-coffee-mug"></i> Forum</span></a></li>
 
+<li class="{{if eq .Site.Page "forum"}}active{{end}}"><a href="/variable"> <span class="nav-label"><i class="xa xa-eye"></i> Variable</span></a></li>
+
 <li class="{{if eq .Site.Section "character"}}active{{end}}">
 	<a href="#" aira-expanded="{{if eq .Site.Section "character"}}true{{else}}false{{end}}"> 
 		<span class="nav-label"><i class="xa xa-monster-skull"></i> Character</span>
