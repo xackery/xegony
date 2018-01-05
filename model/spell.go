@@ -1,6 +1,8 @@
 package model
 
 import (
+	"fmt"
+
 	"database/sql"
 )
 
@@ -248,6 +250,54 @@ type Spell struct {
 //SkillName returns human readable version of Skill Name
 func (s *Spell) SkillName() string {
 	return SkillName(s.Skill)
+}
+
+func (s *Spell) ClassesList() string {
+	classes := ""
+
+	if s.Classes1 > 0 && s.Classes1 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(1), s.Classes1)
+	}
+	if s.Classes2 > 0 && s.Classes2 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(2), s.Classes2)
+	}
+	if s.Classes3 > 0 && s.Classes3 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(3), s.Classes3)
+	}
+	if s.Classes4 > 0 && s.Classes4 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(4), s.Classes4)
+	}
+	if s.Classes5 > 0 && s.Classes5 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(5), s.Classes5)
+	}
+	if s.Classes6 > 0 && s.Classes6 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(6), s.Classes6)
+	}
+	if s.Classes7 > 0 && s.Classes7 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(7), s.Classes7)
+	}
+	if s.Classes8 > 0 && s.Classes8 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(8), s.Classes8)
+	}
+	if s.Classes9 > 0 && s.Classes9 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(9), s.Classes9)
+	}
+	if s.Classes10 > 0 && s.Classes10 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(10), s.Classes10)
+	}
+	if s.Classes11 > 0 && s.Classes11 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(11), s.Classes11)
+	}
+	if s.Classes12 > 0 && s.Classes12 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(12), s.Classes12)
+	}
+	if s.Classes13 > 0 && s.Classes13 < 255 {
+		classes += fmt.Sprintf("%s (%d), ", ClassName(13), s.Classes13)
+	}
+	if len(classes) > 3 {
+		classes = classes[0 : len(classes)-2]
+	}
+	return classes
 }
 
 //LowestLevel returns the lowest level a character can mem this
