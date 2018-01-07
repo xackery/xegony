@@ -22,6 +22,16 @@ func (s *Storage) GetCharacter(characterID int64) (character *model.Character, e
 	return
 }
 
+//GetCharacterByName will grab data from storage
+func (s *Storage) GetCharacterByName(name string) (character *model.Character, err error) {
+	character = &model.Character{}
+	err = s.db.Get(character, fmt.Sprintf("SELECT id, %s FROM character_data WHERE name = ?", characterFields), name)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //CreateCharacter will grab data from storage
 func (s *Storage) CreateCharacter(character *model.Character) (err error) {
 	if character == nil {

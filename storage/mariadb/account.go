@@ -16,6 +16,16 @@ func (s *Storage) GetAccount(accountID int64) (account *model.Account, err error
 	return
 }
 
+//GetAccountByName will grab data from storage
+func (s *Storage) GetAccountByName(name string) (account *model.Account, err error) {
+	account = &model.Account{}
+	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE name = ?", name)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //CreateAccount will grab data from storage
 func (s *Storage) CreateAccount(account *model.Account) (err error) {
 	if account == nil {

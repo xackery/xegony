@@ -27,12 +27,48 @@ type line struct {
 }
 
 func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request) {
+	var err error
+	type Content struct {
+		Message     string
+		Status      string
+		Runtime     string
+		LastStarted time.Time
+	}
+
+	var bot *Status
+	if bot, err = a.getStatus("zonemap"); err != nil {
+		writeError(w, r, err, http.StatusInternalServerError)
+		return
+	}
+
+	content := &Content{
+		Message:     fmt.Sprintf("Bot is %s, last started %s", bot.State, bot.StartTime),
+		Status:      bot.State,
+		Runtime:     fmt.Sprintf("%.2f minutes", bot.getRuntime().Minutes()),
+		LastStarted: bot.StartTime,
+	}
+
+	writeData(w, r, content, http.StatusOK)
+	return
+}
+
+func (a *Bot) zoneMapCreate(w http.ResponseWriter, r *http.Request) {
+	var err error
 	type Content struct {
 		Message string
 	}
+
 	content := &Content{
-		Message: "Idle",
+		Message: "Starting bot to process zonemap",
 	}
+
+	if err = a.startBot("zonemap"); err != nil {
+		writeError(w, r, err, http.StatusForbidden)
+		return
+	}
+
+	go a.CreateZoneMapCache()
+
 	writeData(w, r, content, http.StatusOK)
 	return
 }
@@ -45,6 +81,7 @@ func (a *Bot) CreateZoneMapCache() (err error) {
 		return
 	}
 
+	a.endBot("zonemap")
 	fmt.Println("Finished in", time.Since(start))
 	return
 }

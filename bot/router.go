@@ -22,29 +22,66 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 	}
 
 	routes := []Route{
-		Route{
+		{
 			"Index",
 			"GET",
 			"/",
 			a.index,
 		},
-		Route{
+		//NpcLoot
+		{
 			"NpcLootStatus",
 			"GET",
 			"/npcloot",
 			a.npcLootStatus,
 		},
-		Route{
+		{
+			"NpcLootCreate",
+			"POST",
+			"/npcloot",
+			a.npcLootCreate,
+		},
+
+		//ZoneLevel
+		{
 			"ZoneLevelsStatus",
 			"GET",
 			"/zonelevels",
 			a.zoneLevelsStatus,
 		},
-		Route{
+		{
+			"ZoneLevelsCreate",
+			"POST",
+			"/zonelevels",
+			a.zoneLevelsCreate,
+		},
+
+		//ZoneMap
+		{
+			"ZoneMapStatus",
+			"GET",
+			"/zonemap",
+			a.zoneMapStatus,
+		},
+		{
+			"ZoneMapCreate",
+			"POST",
+			"/zonemap",
+			a.zoneMapCreate,
+		},
+
+		//CharacterGraph
+		{
 			"CharacterGraphStatus",
 			"GET",
 			"/charactergraph",
 			a.characterGraphStatus,
+		},
+		{
+			"CharacterGraphCreate",
+			"POST",
+			"/charactergraph",
+			a.characterGraphCreate,
 		},
 	}
 

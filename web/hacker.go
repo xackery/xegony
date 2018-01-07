@@ -38,6 +38,34 @@ func (a *Web) listHacker(w http.ResponseWriter, r *http.Request) {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+
+	for _, hacker := range hackers {
+		if len(hacker.ZoneName.String) > 0 {
+			hacker.Zone, err = a.zoneRepo.GetByShortname(hacker.ZoneName.String)
+			if err != nil {
+				err = errors.Wrap(err, "invalid zone load")
+				a.writeError(w, r, err, http.StatusBadRequest)
+				return
+			}
+		}
+		if len(hacker.AccountName) > 0 {
+			hacker.Account, err = a.accountRepo.GetByName(hacker.AccountName)
+			if err != nil {
+				err = errors.Wrap(err, "invalid account name")
+				a.writeError(w, r, err, http.StatusBadRequest)
+				return
+			}
+		}
+		if len(hacker.CharacterName) > 0 {
+			hacker.Character, err = a.characterRepo.GetByName(hacker.CharacterName)
+			if err != nil {
+				err = errors.Wrap(err, "invalid account name")
+				a.writeError(w, r, err, http.StatusBadRequest)
+				return
+			}
+		}
+	}
+
 	content := Content{
 		Site:       site,
 		Hackers:    hackers,
@@ -91,6 +119,14 @@ func (a *Web) getHacker(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(hacker.ZoneName.String) > 0 {
+		hacker.Zone, err = a.zoneRepo.GetByShortname(hacker.ZoneName.String)
+		if err != nil {
+			err = errors.Wrap(err, "invalid zone load")
+			a.writeError(w, r, err, http.StatusBadRequest)
+			return
+		}
+	}
 	site := a.newSite(r)
 	site.Page = "hacker"
 	site.Title = "Hacker"

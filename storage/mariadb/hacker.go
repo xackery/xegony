@@ -45,7 +45,7 @@ func (s *Storage) CreateHacker(hacker *model.Hacker) (err error) {
 //ListHacker will grab data from storage
 func (s *Storage) ListHacker(pageSize int64, pageNumber int64) (hackers []*model.Hacker, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM hackers 
-		ORDER BY id ASC LIMIT %d OFFSET %d`, hackerFields, pageSize, pageSize*pageNumber))
+		ORDER BY id DESC LIMIT %d OFFSET %d`, hackerFields, pageSize, pageSize*pageNumber))
 	if err != nil {
 		return
 	}

@@ -18,7 +18,7 @@
                 <table id="errors" data-paging="true" data-sorting="false" data-filtering="false" cellpadding="1" cellspacing="1" class="table">
                     <thead>
                     <tr>
-                        <th>AccountID</th>
+                        <th>Name</th>
                         <th>Name</th>
                         <th>Message</th>
                         <th>Zone</th>
@@ -28,11 +28,11 @@
                     <tbody>
                     {{range $key, $value := .Hackers}}
                     <tr>
-                        <td>{{$value.AccountID}}</td>
-                        <td>{{$value.Name}}</td>
+                        <td><a href="/account/{{$value.Account.ID}}">{{$value.Account.Name}}</a></td>
+                        <td><a href="/character/{{$value.Character.ID}}">{{$value.Character.Name}}</a></td>
                         <td>{{$value.Hacked}}</td>
-                        <td>{{$value.ZoneID}}</td>
-                        <td>{{$value.Date}}</td>
+                        <td>{{if $value.Zone}}<a href="/zone/{{$value.Zone.ID}}">{{$value.Zone.ShortName.String}}</a>{{end}}</td>
+                        <td>{{time $value.Date}}</td>
                     </tr>
                     {{end}}                
                     </tbody>

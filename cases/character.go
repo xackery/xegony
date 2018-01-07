@@ -33,6 +33,12 @@ func (c *CharacterRepository) Get(characterID int64) (character *model.Character
 	return
 }
 
+//GetByName handles logic
+func (c *CharacterRepository) GetByName(name string) (character *model.Character, err error) {
+	character, err = c.stor.GetCharacterByName(name)
+	return
+}
+
 //Create handles logic
 func (c *CharacterRepository) Create(character *model.Character) (err error) {
 	if character == nil {

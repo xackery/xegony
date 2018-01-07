@@ -24,6 +24,7 @@ type Storage interface {
 	DeleteAaRank(rankID int64) (query string, err error)
 	//Account
 	GetAccount(accountID int64) (account *model.Account, err error)
+	GetAccountByName(name string) (account *model.Account, err error)
 	CreateAccount(account *model.Account) (err error)
 	EditAccount(accountID int64, account *model.Account) (err error)
 	ListAccount() (accounts []*model.Account, err error)
@@ -47,6 +48,17 @@ type Storage interface {
 	ListBazaar() (bazaars []*model.Bazaar, err error)
 	DeleteBazaar(bazaarID int64) (err error)
 	//Character
+	GetCharacter(characterID int64) (character *model.Character, err error)
+	GetCharacterByName(name string) (character *model.Character, err error)
+	CreateCharacter(character *model.Character) (err error)
+	EditCharacter(characterID int64, character *model.Character) (err error)
+	ListCharacter() (characters []*model.Character, err error)
+	ListCharacterByAccount(accountID int64) (characters []*model.Character, err error)
+	ListCharacterByOnline() (characters []*model.Character, err error)
+	ListCharacterByRanking() (characters []*model.Character, err error)
+	SearchCharacter(search string) (characters []*model.Character, err error)
+	DeleteCharacter(characterID int64) (err error)
+	//CharacterGraph
 	GetCharacterGraph(id int64) (characterGraph *model.CharacterGraph, err error)
 	CreateCharacterGraph(characterGraph *model.CharacterGraph) (err error)
 	ListCharacterGraph(characterID int64) (characterGraphs []*model.CharacterGraph, err error)
@@ -100,16 +112,6 @@ type Storage interface {
 	SearchHacker(search string) (hackers []*model.Hacker, err error)
 	EditHacker(hackerID int64, hacker *model.Hacker) (err error)
 	DeleteHacker(hackerID int64) (err error)
-	//Character
-	GetCharacter(characterID int64) (character *model.Character, err error)
-	CreateCharacter(character *model.Character) (err error)
-	EditCharacter(characterID int64, character *model.Character) (err error)
-	ListCharacter() (characters []*model.Character, err error)
-	ListCharacterByAccount(accountID int64) (characters []*model.Character, err error)
-	ListCharacterByOnline() (characters []*model.Character, err error)
-	ListCharacterByRanking() (characters []*model.Character, err error)
-	SearchCharacter(search string) (characters []*model.Character, err error)
-	DeleteCharacter(characterID int64) (err error)
 	//Item
 	GetItem(itemID int64) (item *model.Item, err error)
 	CreateItem(item *model.Item) (err error)

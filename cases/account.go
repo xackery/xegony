@@ -33,6 +33,12 @@ func (c *AccountRepository) Get(accountID int64) (account *model.Account, err er
 	return
 }
 
+//GetByName handles logic
+func (c *AccountRepository) GetByName(name string) (account *model.Account, err error) {
+	account, err = c.stor.GetAccountByName(name)
+	return
+}
+
 //Create handles logic
 func (c *AccountRepository) Create(account *model.Account) (err error) {
 	if account == nil {

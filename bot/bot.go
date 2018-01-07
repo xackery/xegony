@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/go-yaml/yaml"
 	"github.com/pkg/errors"
@@ -22,10 +24,18 @@ const (
 	XML = "xml"
 	//YAML Defines an encoding type
 	YAML = "yaml"
+
+	//StateIdle is an idle bot, ready to run
+	StateIdle = "Idle"
+	//StateRunning means it is currently doing a job
+	StateRunning = "Running"
+	//StateError means it errored and is waiting to be addressed
+	StateError = "Error"
 )
 
 //Bot wraps all routing endpoints
 type Bot struct {
+	statusTracker      sync.Map
 	accountRepo        *cases.AccountRepository
 	activityRepo       *cases.ActivityRepository
 	bazaarRepo         *cases.BazaarRepository
@@ -47,6 +57,86 @@ type Bot struct {
 	userRepo           *cases.UserRepository
 	zoneLevelRepo      *cases.ZoneLevelRepository
 	zoneRepo           *cases.ZoneRepository
+}
+
+//Status groups together bot status related entries
+type Status struct {
+	Name      string
+	State     string
+	StartTime time.Time
+	RunTime   time.Duration
+}
+
+func (b *Status) getRuntime() time.Duration {
+	if b.State == StateRunning {
+		return time.Since(b.StartTime)
+	}
+	return b.RunTime
+}
+
+func (a *Bot) startBot(key string) (err error) {
+	bot := &Status{
+		Name:      key,
+		State:     StateIdle,
+		StartTime: time.Now(),
+	}
+
+	rawBot, loaded := a.statusTracker.LoadOrStore(key, bot)
+	if !loaded { //did not exist, started
+		return
+	}
+	bot, ok := rawBot.(*Status)
+	if !ok {
+		err = fmt.Errorf("Invalid Status %s", key)
+		return
+	}
+	if bot.State != StateIdle {
+		err = fmt.Errorf("Bot is already running")
+		return
+	}
+	bot.State = StateRunning
+	a.statusTracker.Store(key, bot)
+	return
+}
+
+func (a *Bot) endBot(key string) (err error) {
+
+	rawBot, loaded := a.statusTracker.Load(key)
+	if !loaded { //did not exist, started
+		return
+	}
+	bot, ok := rawBot.(*Status)
+	if !ok {
+		err = fmt.Errorf("Invalid Status %s", key)
+		return
+	}
+	if bot.State == StateIdle {
+		err = fmt.Errorf("Bot is already ended")
+		return
+	}
+	bot.State = StateIdle
+	bot.RunTime = time.Since(bot.StartTime)
+	a.statusTracker.Store(key, bot)
+	return
+}
+
+func (a *Bot) getStatus(key string) (bot *Status, err error) {
+	bot = &Status{
+		Name:      key,
+		State:     StateIdle,
+		StartTime: time.Now(),
+	}
+
+	rawBot, loaded := a.statusTracker.LoadOrStore(key, bot)
+	if !loaded { //did not exist, started
+		return
+	}
+	bot, ok := rawBot.(*Status)
+	if !ok {
+		err = fmt.Errorf("Invalid Status %s", key)
+		return
+	}
+	return
 }
 
 // Initialize initializes an API endpoint with the implemented storage.

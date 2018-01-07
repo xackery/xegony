@@ -3,6 +3,7 @@ package web
 import (
 	"html/template"
 	"io/ioutil"
+	"time"
 
 	"github.com/dustin/go-humanize"
 	"github.com/pkg/errors"
@@ -64,8 +65,9 @@ func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path stri
 	}
 
 	funcMap := template.FuncMap{
-		"comma":       comma,
+		"comma":       commaFormat,
 		"iszonelevel": isZoneLevel,
+		"time":        timeFormat,
 	}
 
 	if oldTemplate == nil {
@@ -77,8 +79,12 @@ func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path stri
 }
 
 //comma will take an integer and put commas, e.g. 1234 => 1,234
-func comma(v int64) string {
+func commaFormat(v int64) string {
 	return humanize.Comma(v)
+}
+
+func timeFormat(v time.Time) string {
+	return humanize.Time(v)
 }
 
 func isZoneLevel(level int64, levels int64) bool {
