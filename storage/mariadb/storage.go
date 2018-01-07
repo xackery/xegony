@@ -144,6 +144,10 @@ func (s *Storage) VerifyTables() (err error) {
 			Name: "Character",
 		},
 		{
+			Func: s.createTableError,
+			Name: "Error",
+		},
+		{
 			Func: s.createTableForum,
 			Name: "Forum",
 		},
