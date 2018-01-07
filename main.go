@@ -17,7 +17,7 @@ func main() {
 
 	config := ""
 	stor := &mariadb.Storage{}
-	stor.Initialize("")
+	stor.Initialize("", nil)
 
 	err = stor.VerifyTables()
 	if err != nil {
@@ -32,19 +32,19 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 
 	botServer := bot.Bot{}
-	if err = botServer.Initialize(stor, config); err != nil {
+	if err = botServer.Initialize(stor, config, nil); err != nil {
 		log.Fatal("Failed to initialize botServer:", err.Error())
 	}
 	botServer.ApplyRoutes(router)
 
 	apiServer := api.API{}
-	if err = apiServer.Initialize(stor, config); err != nil {
+	if err = apiServer.Initialize(stor, config, nil); err != nil {
 		log.Fatal("Failed to initialize apiServer:", err.Error())
 	}
 	apiServer.ApplyRoutes(router)
 
 	webServer := web.Web{}
-	if err = webServer.Initialize(stor, config); err != nil {
+	if err = webServer.Initialize(stor, config, nil); err != nil {
 		log.Fatal("Failed to initialize webServer:", err.Error())
 	}
 	webServer.ApplyRoutes(router)

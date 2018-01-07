@@ -1,6 +1,7 @@
 package api
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -10,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
+	"github.com/stretchr/testify/assert"
 	"github.com/xackery/xegony/storage/mariadb"
 )
 
@@ -17,13 +19,18 @@ var (
 	apiKey string
 )
 
+type fieldResp struct {
+	Message string            `json:"message"`
+	Fields  map[string]string `json:"fields"`
+}
+
 type Endpoint struct {
 	name         string
 	path         string
 	method       string
-	body         string
+	body         interface{}
 	responseCode int
-	response     string
+	response     interface{}
 	useAuth      bool
 }
 
@@ -31,26 +38,25 @@ func initializeServer(t *testing.T) {
 	var err error
 
 	s := &mariadb.Storage{}
-	if err = s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
-		t.Fatalf("Failed to initialize: %s", err.Error())
-	}
-	if err = s.DropTables(); err != nil {
-		t.Fatalf("Failed to drop tables: %s", err.Error())
-	}
+	err = s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", ioutil.Discard)
+	assert.Nil(t, err)
 
-	if err = s.VerifyTables(); err != nil {
-		t.Fatalf("Failed to verify tables: %s", err.Error())
-	}
-	if err = s.InsertTestData(); err != nil {
-		t.Fatalf("Failed to insert test data: %s", err.Error())
-	}
+	err = s.DropTables()
+	assert.Nil(t, err)
+
+	err = s.VerifyTables()
+	assert.Nil(t, err)
+
+	s.InsertTestData()
+	assert.Nil(t, err)
+
 	router := mux.NewRouter().StrictSlash(true)
 	apiServer := API{}
 	config := ""
 	listen := ":8081"
-	if err = apiServer.Initialize(s, config); err != nil {
-		t.Fatal("Failed to initialize apiServer:", err.Error())
-	}
+	apiServer.Initialize(s, config, ioutil.Discard)
+	assert.Nil(t, err)
+
 	apiServer.ApplyRoutes(router)
 	go http.ListenAndServe(listen, router)
 	return
@@ -70,37 +76,72 @@ func doHTTPTest(test Endpoint, t *testing.T) string {
 	client := &http.Client{}
 	url := getURL()
 	var err error
-	if test.method == "POST" || test.method == "PUT" {
-		req, err = http.NewRequest(test.method, url+test.path, strings.NewReader(test.body))
-		req.Header.Add("Content-Length", strconv.Itoa(len(test.body)))
-	} else {
+	var bData []byte
+
+	switch v := test.body.(type) {
+	case string:
+		if len(v) == 0 {
+			req, err = http.NewRequest(test.method, url+test.path, nil)
+			assert.Nil(t, err)
+		}
+		if test.method == "POST" || test.method == "PUT" {
+			req, err = http.NewRequest(test.method, url+test.path, strings.NewReader(v))
+			assert.Nil(t, err)
+			req.Header.Add("Content-Length", strconv.Itoa(len(v)))
+		}
+	case nil:
+		req, err = http.NewRequest(test.method, url+test.path, nil)
+		assert.Nil(t, err)
+	default:
+		bData, err = json.Marshal(v)
+		assert.Nil(t, err)
+
+		if test.method == "POST" || test.method == "PUT" {
+			req, err = http.NewRequest(test.method, url+test.path, bytes.NewReader(bData))
+			req.Header.Add("Content-Length", strconv.Itoa(len(bData)))
+		}
+	}
+
+	if req == nil {
 		req, err = http.NewRequest(test.method, url+test.path, nil)
 	}
+
 	if test.useAuth {
 		if len(apiKey) == 0 {
 			getAuthKey(t)
 		}
 		req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", apiKey))
 	}
+
 	req.Header.Add("Content-Type", "application/json; charset=UTF-8")
 
 	resp, err := client.Do(req)
-	if err != nil {
-		t.Fatalf("%s %s %s failed: %s", test.name, test.method, test.path, err.Error())
-	}
+	assert.Nil(t, err)
 
 	actual, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		t.Fatalf("%s %s %s failed getting body: %s", test.name, test.method, test.path, err.Error())
-	}
+	assert.Nil(t, err)
 	actualStr := strings.TrimSpace(string(actual))
-	if resp.StatusCode != test.responseCode {
-		t.Fatalf("%s %s %s failed response: Expected %d, got %d: %s", test.name, test.method, url+test.path, test.responseCode, resp.StatusCode, actualStr)
+	assert.Equal(t, test.responseCode, resp.StatusCode, test.name, test.method, test.path, actualStr)
+
+	response := ""
+	switch v := test.response.(type) {
+	case string:
+		response = v
+	case nil:
+		if len(actualStr) > 3 {
+			t.Fatalf("%s %s %s failed, expected blank, got %s", test.name, test.method, test.path, actualStr)
+		}
+		return ""
+	default:
+		bData, err = json.Marshal(v)
+		if err != nil {
+			t.Fatalf("%s %s %s failed marshalling response json: %s", test.name, test.method, test.path, err.Error())
+		}
+
+		response = string(bData)
 	}
 
-	if strings.Index(actualStr, test.response) != 0 {
-		t.Fatalf("%s %s %s failed body: Expected %s, got %s", test.name, test.method, test.path, test.response, actualStr)
-	}
+	assert.Equal(t, response, actualStr)
 	return actualStr
 }
 
@@ -108,9 +149,7 @@ func getAuthKey(t *testing.T) {
 
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", getURL()+"/api/login", strings.NewReader(`{"name":"Test","password":"somepass"}`))
-	if err != nil {
-		t.Fatal("Failed to get auth key", err.Error())
-	}
+	assert.Nil(t, err)
 	req.Header.Add("Content-Type", "application/json; charset=UTF-8")
 
 	resp, err := client.Do(req)
@@ -130,9 +169,7 @@ func getAuthKey(t *testing.T) {
 	decoder := json.NewDecoder(resp.Body)
 
 	err = decoder.Decode(&loginResp)
-	if err != nil {
-		t.Fatalf("Failed to decode login response: %s", err.Error())
-	}
+	assert.Nil(t, err)
 	apiKey = loginResp.APIKey
 	if len(apiKey) < 1 {
 		t.Fatal("Failed to get token (empty response)")
@@ -143,9 +180,9 @@ func getAuthKey(t *testing.T) {
 func TestRestEndpoints(t *testing.T) {
 	var err error
 	s := &mariadb.Storage{}
-	if err = s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true"); err != nil {
-		t.Fatalf("Failed to initialize: %s", err.Error())
-	}
+	s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", ioutil.Discard)
+	assert.Nil(t, err)
+
 	initializeServer(t)
 
 	tests := []Endpoint{

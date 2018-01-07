@@ -13,43 +13,43 @@ func (a *API) getNpc(w http.ResponseWriter, r *http.Request) {
 	id, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 	npc, err := a.npcRepo.Get(id)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			writeData(w, r, "", http.StatusOK)
+			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	writeData(w, r, npc, http.StatusOK)
+	a.writeData(w, r, npc, http.StatusOK)
 	return
 }
 
 func (a *API) createNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
-		writeError(w, r, err, http.StatusUnauthorized)
+		a.writeError(w, r, err, http.StatusUnauthorized)
 		return
 	}
 
 	npc := &model.Npc{}
 	err = decodeBody(r, npc)
 	if err != nil {
-		writeError(w, r, err, http.StatusMethodNotAllowed)
+		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 	err = a.npcRepo.Create(npc)
 	if err != nil {
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 
-	writeData(w, r, npc, http.StatusCreated)
+	a.writeData(w, r, npc, http.StatusCreated)
 	return
 }
 
@@ -57,14 +57,14 @@ func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
-		writeError(w, r, err, http.StatusUnauthorized)
+		a.writeError(w, r, err, http.StatusUnauthorized)
 		return
 	}
 
 	id, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -72,15 +72,15 @@ func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			writeData(w, r, nil, http.StatusNotModified)
+			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			writeError(w, r, err, http.StatusInternalServerError)
+			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	writeData(w, r, nil, http.StatusNoContent)
+	a.writeData(w, r, nil, http.StatusNoContent)
 	return
 }
 
@@ -88,14 +88,14 @@ func (a *API) editNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
-		writeError(w, r, err, http.StatusUnauthorized)
+		a.writeError(w, r, err, http.StatusUnauthorized)
 		return
 	}
 
 	id, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -103,16 +103,16 @@ func (a *API) editNpc(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, npc)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		writeError(w, r, err, http.StatusMethodNotAllowed)
+		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
 	err = a.npcRepo.Edit(id, npc)
 	if err != nil {
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	writeData(w, r, npc, http.StatusOK)
+	a.writeData(w, r, npc, http.StatusOK)
 	return
 }
 
@@ -120,9 +120,9 @@ func (a *API) listNpc(w http.ResponseWriter, r *http.Request) {
 	npcs, err := a.npcRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	writeData(w, r, npcs, http.StatusOK)
+	a.writeData(w, r, npcs, http.StatusOK)
 	return
 }

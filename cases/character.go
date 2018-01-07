@@ -13,6 +13,14 @@ type CharacterRepository struct {
 	stor storage.Storage
 }
 
+func (c *CharacterRepository) isStorageInitialized() (err error) {
+	if c.stor == nil {
+		err = fmt.Errorf("Storage not initialized")
+		return
+	}
+	return
+}
+
 //Initialize handles logic
 func (c *CharacterRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
@@ -29,12 +37,18 @@ func (c *CharacterRepository) Get(characterID int64) (character *model.Character
 		err = fmt.Errorf("Invalid Character ID")
 		return
 	}
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	character, err = c.stor.GetCharacter(characterID)
 	return
 }
 
 //GetByName handles logic
 func (c *CharacterRepository) GetByName(name string) (character *model.Character, err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	character, err = c.stor.GetCharacterByName(name)
 	return
 }
@@ -74,6 +88,9 @@ func (c *CharacterRepository) Create(character *model.Character) (err error) {
 		err = vErr
 		return
 	}
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	err = c.stor.CreateCharacter(character)
 	if err != nil {
 		return
@@ -83,6 +100,9 @@ func (c *CharacterRepository) Create(character *model.Character) (err error) {
 
 //Search handles logic
 func (c *CharacterRepository) Search(search string) (characters []*model.Character, err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	characters, err = c.stor.SearchCharacter(search)
 	if err != nil {
 		return
@@ -92,6 +112,9 @@ func (c *CharacterRepository) Search(search string) (characters []*model.Charact
 
 //Edit handles logic
 func (c *CharacterRepository) Edit(characterID int64, character *model.Character) (err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -122,6 +145,9 @@ func (c *CharacterRepository) Edit(characterID int64, character *model.Character
 
 //Delete handles logic
 func (c *CharacterRepository) Delete(characterID int64) (err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	err = c.stor.DeleteCharacter(characterID)
 	if err != nil {
 		return
@@ -131,6 +157,9 @@ func (c *CharacterRepository) Delete(characterID int64) (err error) {
 
 //List handles logic
 func (c *CharacterRepository) List() (characters []*model.Character, err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	characters, err = c.stor.ListCharacter()
 	if err != nil {
 		return
@@ -140,6 +169,9 @@ func (c *CharacterRepository) List() (characters []*model.Character, err error) 
 
 //ListByRanking handles logic
 func (c *CharacterRepository) ListByRanking() (characters []*model.Character, err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	characters, err = c.stor.ListCharacterByRanking()
 	if err != nil {
 		return
@@ -149,6 +181,9 @@ func (c *CharacterRepository) ListByRanking() (characters []*model.Character, er
 
 //ListByOnline handles logic
 func (c *CharacterRepository) ListByOnline() (characters []*model.Character, err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	characters, err = c.stor.ListCharacterByOnline()
 	if err != nil {
 		return
@@ -158,6 +193,9 @@ func (c *CharacterRepository) ListByOnline() (characters []*model.Character, err
 
 //ListByAccount handles logic
 func (c *CharacterRepository) ListByAccount(accountID int64) (characters []*model.Character, err error) {
+	if err = c.isStorageInitialized(); err != nil {
+		return
+	}
 	characters, err = c.stor.ListCharacterByAccount(accountID)
 	if err != nil {
 		return

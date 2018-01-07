@@ -1,12 +1,14 @@
 package storage
 
 import (
+	"io"
+
 	"github.com/xackery/xegony/model"
 )
 
 //Storage is a generic interface of all storage types
 type Storage interface {
-	Initialize(config string) (err error)
+	Initialize(config string, w io.Writer) (err error)
 	DropTables() (err error)
 	VerifyTables() (err error)
 	InsertTestData() (err error)

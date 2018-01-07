@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 	"time"
@@ -35,6 +37,9 @@ const (
 
 //Bot wraps all routing endpoints
 type Bot struct {
+	log    *log.Logger
+	logErr *log.Logger
+
 	statusTracker      sync.Map
 	accountRepo        *cases.AccountRepository
 	activityRepo       *cases.ActivityRepository
@@ -142,11 +147,17 @@ func (a *Bot) getStatus(key string) (bot *Status, err error) {
 // Initialize initializes an API endpoint with the implemented storage.
 // config can be empty, it will initialize based on environment variables
 // or by default values.
-func (a *Bot) Initialize(s storage.Storage, config string) (err error) {
+func (a *Bot) Initialize(s storage.Storage, config string, w io.Writer) (err error) {
 	if s == nil {
 		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
 		return
 	}
+
+	if w == nil {
+		w = os.Stdout
+	}
+	a.log = log.New(w, "BOT: ", 0)
+	a.logErr = log.New(w, "BOTErr: ", 0)
 
 	a.accountRepo = &cases.AccountRepository{}
 	if err = a.accountRepo.Initialize(s); err != nil {
@@ -237,7 +248,6 @@ func (a *Bot) Initialize(s storage.Storage, config string) (err error) {
 
 // Index handles the root endpoint of /api/
 func (a *Bot) index(w http.ResponseWriter, r *http.Request) {
-	log.Println("index")
 	type Content struct {
 		Message string `json:"message"`
 	}
@@ -245,14 +255,15 @@ func (a *Bot) index(w http.ResponseWriter, r *http.Request) {
 		Message: "Please refer to documentation for more details",
 	}
 
-	writeData(w, r, content, http.StatusOK)
+	a.writeData(w, r, content, http.StatusOK)
 }
 
-// writeData is the final step of all http responses. All routes should end here.
-func writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
+// a.writeData is the final step of all http responses. All routes should end here.
+func (a *Bot) writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
 	var err error
 	if w == nil || r == nil {
-		log.Println("writeData called with invalid writer/request")
+
+		log.Println("a.writeData called with invalid writer/request")
 		return
 	}
 	if content == nil {
@@ -292,7 +303,7 @@ func writeData(w http.ResponseWriter, r *http.Request, content interface{}, stat
 	w.Write(data)
 }
 
-func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
+func (a *Bot) writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 	type Content struct {
 		Message string            `json:"message"`
 		Fields  map[string]string `json:"fields,omitempty"`
@@ -302,14 +313,16 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 		Message: fmt.Sprintf("%s", err), //errors.Cause(err).Error(),
 	}
 
+	a.logErr.Println(err.Error())
+
 	switch errors.Cause(err).(type) {
 	case *model.ErrNoContent:
-		writeData(w, r, nil, http.StatusNotModified)
+		a.writeData(w, r, nil, http.StatusNotModified)
 		return
 	case *model.ErrPermission:
 		statusCode = http.StatusUnauthorized
 	}
 
-	writeData(w, r, content, statusCode)
+	a.writeData(w, r, content, statusCode)
 	return
 }

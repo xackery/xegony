@@ -53,6 +53,12 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 			a.getCharacter,
 		},
 		{
+			"GetCharacterByName",
+			"GET",
+			"/character/byname/{name}",
+			a.getCharacterByName,
+		},
+		{
 			"ListCharacter",
 			"GET",
 			"/character",
@@ -285,7 +291,7 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 	for _, route := range routes {
 		var handler http.Handler
 		handler = route.HandlerFunc
-		handler = logger(handler, route.Name)
+		handler = a.logger(handler, route.Name)
 
 		router.
 			Methods(route.Method).

@@ -2,6 +2,8 @@ package mariadb
 
 import (
 	"fmt"
+	"io"
+	"log"
 	"os"
 
 	"github.com/go-sql-driver/mysql"
@@ -11,14 +13,22 @@ import (
 
 //Storage implements the storage interface
 type Storage struct {
-	db *sqlx.DB
+	db     *sqlx.DB
+	log    *log.Logger
+	logErr *log.Logger
 }
 
 //Initialize will grab data from storage
-func (s *Storage) Initialize(config string) (err error) {
+func (s *Storage) Initialize(config string, w io.Writer) (err error) {
 	if s.db != nil {
 		return
 	}
+	if w == nil {
+		w = os.Stdout
+	}
+	s.log = log.New(w, "SQL: ", 0)
+	s.logErr = log.New(w, "SQLErr: ", 0)
+
 	if config == "" {
 		user := os.Getenv("API_DB_USERNAME")
 		if len(user) == 0 {
@@ -68,7 +78,6 @@ func (s *Storage) InsertTestData() (err error) {
 
 //DropTables will grab data from storage
 func (s *Storage) DropTables() (err error) {
-	s.Initialize("")
 
 	_, err = s.db.Exec(`SET FOREIGN_KEY_CHECKS = 0`)
 	if err != nil {
@@ -116,10 +125,6 @@ func (s *Storage) DropTables() (err error) {
 
 //VerifyTables will grab data from storage
 func (s *Storage) VerifyTables() (err error) {
-	if err = s.Initialize(""); err != nil {
-		return
-	}
-
 	type TableCheck struct {
 		Func func() (err error)
 		Name string
@@ -174,7 +179,7 @@ func (s *Storage) VerifyTables() (err error) {
 			return
 		}
 		if err == nil {
-			fmt.Println("Created table for", table.Name)
+			s.log.Println("Created table for", table.Name)
 		}
 	}
 	err = nil

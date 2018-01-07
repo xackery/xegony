@@ -20,7 +20,7 @@ func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request) {
 
 	var bot *Status
 	if bot, err = a.getStatus("npcloot"); err != nil {
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -31,7 +31,7 @@ func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request) {
 		LastStarted: bot.StartTime,
 	}
 
-	writeData(w, r, content, http.StatusOK)
+	a.writeData(w, r, content, http.StatusOK)
 	return
 }
 
@@ -46,13 +46,13 @@ func (a *Bot) npcLootCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = a.startBot("npcloot"); err != nil {
-		writeError(w, r, err, http.StatusForbidden)
+		a.writeError(w, r, err, http.StatusForbidden)
 		return
 	}
 
 	go a.allNpcLootCreate()
 
-	writeData(w, r, content, http.StatusOK)
+	a.writeData(w, r, content, http.StatusOK)
 	return
 }
 

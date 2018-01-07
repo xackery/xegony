@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -33,6 +34,8 @@ type site struct {
 //Web struct wraps all webServer related methods
 type Web struct {
 	templates map[string]*Template
+	log       *log.Logger
+	logErr    *log.Logger
 
 	accountRepo        *cases.AccountRepository
 	activityRepo       *cases.ActivityRepository
@@ -89,8 +92,14 @@ func (a *Web) newSite(r *http.Request) (data site) {
 }
 
 //Initialize creates a new web instance
-func (a *Web) Initialize(s storage.Storage, config string) (err error) {
+func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err error) {
 	a.templates = map[string]*Template{}
+
+	if w == nil {
+		w = os.Stdout
+	}
+	a.log = log.New(w, "WEB: ", 0)
+	a.logErr = log.New(w, "WEBErr: ", 0)
 
 	if s == nil {
 		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
@@ -303,6 +312,7 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 
 	//Figure out scope based on URL
 
+	a.logErr.Println(err.Error())
 	if cErr := a.errorRepo.Create(&model.Error{
 		URL:     r.URL.String(),
 		Scope:   "unknown",
@@ -361,11 +371,11 @@ func (a *Web) writeData(w http.ResponseWriter, r *http.Request, tmp *template.Te
 	var err error
 	w.WriteHeader(statusCode)
 	if tmp == nil {
-		log.Println("Failed to load template", content)
+		a.logErr.Println("Failed to load template", content)
 		return
 	}
 	if err = tmp.Execute(w, content); err != nil {
-		log.Println("Failed to execute template:", err.Error())
+		a.logErr.Println("Failed to execute template:", err.Error())
 		return
 	}
 }

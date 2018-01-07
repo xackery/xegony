@@ -27,21 +27,21 @@ func (a *API) postLogin(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		writeError(w, r, err, http.StatusMethodNotAllowed)
+		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
 	user, err = a.userRepo.Login(user.Name, user.Password)
 	if err != nil {
 		err = errors.Wrap(err, "login failed")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	account, err := a.accountRepo.Get(user.AccountID)
 	if err != nil {
 		err = errors.Wrap(err, fmt.Sprintf("account not found for %s: %d", user.Name, user.AccountID))
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -69,7 +69,7 @@ func (a *API) postLogin(w http.ResponseWriter, r *http.Request) {
 
 	tokenString, err := token.SignedString(mySigningKey)
 	if err != nil {
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -80,7 +80,7 @@ func (a *API) postLogin(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Gave token", tokenString)
 
-	writeData(w, r, loginResponse, http.StatusOK)
+	a.writeData(w, r, loginResponse, http.StatusOK)
 }
 
 //IsLoggedIn checks token if user is logged in

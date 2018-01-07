@@ -19,7 +19,7 @@
 						<tr><td>Name</td><td>{{.Rule.Name}}</td></tr>
 						<tr><td>Value</td><td>{{.Rule.ValueParse}}</td></tr>
 						<tr><td>Raw Value</td><td>{{.Rule.Value}}</td></tr>
-						<tr><td>Information</td><td>{{.Rule.Information}}</td></tr>
+						<tr><td>Information</td><td>{{.Rule.Notes.String}}</td></tr>
 					</tbody>
 				</table>
 			</div>           

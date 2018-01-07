@@ -1,19 +1,18 @@
 package bot
 
 import (
-	"log"
 	"net/http"
 	"time"
 )
 
-func logger(inner http.Handler, name string) http.Handler {
+func (a *Bot) logger(inner http.Handler, name string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
 		inner.ServeHTTP(w, r)
 
-		log.Printf(
-			"%s %s %s %s",
+		a.log.Printf(
+			"%s %s -> %s %s",
 			r.Method,
 			r.RequestURI,
 			name,

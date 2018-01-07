@@ -37,7 +37,7 @@ func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request) {
 
 	var bot *Status
 	if bot, err = a.getStatus("zonemap"); err != nil {
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -48,7 +48,7 @@ func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request) {
 		LastStarted: bot.StartTime,
 	}
 
-	writeData(w, r, content, http.StatusOK)
+	a.writeData(w, r, content, http.StatusOK)
 	return
 }
 
@@ -63,13 +63,13 @@ func (a *Bot) zoneMapCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = a.startBot("zonemap"); err != nil {
-		writeError(w, r, err, http.StatusForbidden)
+		a.writeError(w, r, err, http.StatusForbidden)
 		return
 	}
 
 	go a.CreateZoneMapCache()
 
-	writeData(w, r, content, http.StatusOK)
+	a.writeData(w, r, content, http.StatusOK)
 	return
 }
 

@@ -13,43 +13,43 @@ func (a *API) getAccount(w http.ResponseWriter, r *http.Request) {
 	id, err := getIntVar(r, "accountID")
 	if err != nil {
 		err = errors.Wrap(err, "accountID argument is required")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 	account, err := a.accountRepo.Get(id)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			writeData(w, r, "", http.StatusOK)
+			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	writeData(w, r, account, http.StatusOK)
+	a.writeData(w, r, account, http.StatusOK)
 	return
 }
 
 func (a *API) createAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 	if err = IsAdmin(r); err != nil {
-		writeError(w, r, err, http.StatusUnauthorized)
+		a.writeError(w, r, err, http.StatusUnauthorized)
 		return
 	}
 
 	account := &model.Account{}
 	err = decodeBody(r, account)
 	if err != nil {
-		writeError(w, r, err, http.StatusMethodNotAllowed)
+		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 	err = a.accountRepo.Create(account)
 	if err != nil {
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 
-	writeData(w, r, account, http.StatusCreated)
+	a.writeData(w, r, account, http.StatusCreated)
 	return
 }
 
@@ -57,14 +57,14 @@ func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsAdmin(r); err != nil {
-		writeError(w, r, err, http.StatusUnauthorized)
+		a.writeError(w, r, err, http.StatusUnauthorized)
 		return
 	}
 
 	id, err := getIntVar(r, "accountID")
 	if err != nil {
 		err = errors.Wrap(err, "accountID argument is required")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -72,15 +72,15 @@ func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			writeData(w, r, nil, http.StatusNotModified)
+			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			writeError(w, r, err, http.StatusInternalServerError)
+			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	writeData(w, r, nil, http.StatusNoContent)
+	a.writeData(w, r, nil, http.StatusNoContent)
 	return
 }
 
@@ -88,14 +88,14 @@ func (a *API) editAccount(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if err = IsModerator(r); err != nil {
-		writeError(w, r, err, http.StatusUnauthorized)
+		a.writeError(w, r, err, http.StatusUnauthorized)
 		return
 	}
 
 	id, err := getIntVar(r, "accountID")
 	if err != nil {
 		err = errors.Wrap(err, "accountID argument is required")
-		writeError(w, r, err, http.StatusBadRequest)
+		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -103,16 +103,16 @@ func (a *API) editAccount(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, account)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		writeError(w, r, err, http.StatusMethodNotAllowed)
+		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
 	err = a.accountRepo.Edit(id, account)
 	if err != nil {
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	writeData(w, r, account, http.StatusOK)
+	a.writeData(w, r, account, http.StatusOK)
 	return
 }
 
@@ -120,9 +120,9 @@ func (a *API) listAccount(w http.ResponseWriter, r *http.Request) {
 	accounts, err := a.accountRepo.List()
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		writeError(w, r, err, http.StatusInternalServerError)
+		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	writeData(w, r, accounts, http.StatusOK)
+	a.writeData(w, r, accounts, http.StatusOK)
 	return
 }
