@@ -11,7 +11,7 @@
     <div class="col-lg-12">
         <div class="hpanel forum-box">
             <div class="panel-heading">
-                <span class="f">Recipes</span>
+                <span class="f">Recipes for {{.Skill.Name}}</span>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -25,6 +25,7 @@
                         <th>Tradeskill</th>                        
                         <th>Reagents</th>
                         <th>Reagent Price</th>
+                        <th>Profit</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -37,6 +38,7 @@
                         <td>{{$value.SkillName}}</td>
                         <td>{{$value.ReagentIconList}}</td>
                         <th>{{$value.ReagentPriceList}}</th>
+                        <th>{{$value.ProfitMarginName}}</th>
                     </tr>
                     {{end}}                
                     </tbody>

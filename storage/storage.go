@@ -212,6 +212,8 @@ type Storage interface {
 	CreateRecipe(recipe *model.Recipe) (err error)
 	ListRecipe(pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error)
 	ListRecipeCount() (count int64, err error)
+	ListRecipeByTradeskill(tradeskillID int64, pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error)
+	ListRecipeByTradeskillCount(tradeskillID int64) (count int64, err error)
 	SearchRecipe(search string) (recipes []*model.Recipe, err error)
 	EditRecipe(recipeID int64, recipe *model.Recipe) (err error)
 	DeleteRecipe(recipeID int64) (err error)

@@ -7,6 +7,7 @@ type User struct {
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`
 	AccountID   int64  `json:"accountID" db:"account_id"`
+	CharacterID int64  `json:"characterID" db:"character_id"`
 	Email       string `json:"email"`
 	Password    string `json:"password"`
 	IsAdmin     bool   `json:"isAdmin"`

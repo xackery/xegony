@@ -319,10 +319,12 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site     site
-		Item     *model.Item
-		Npcs     []*model.Npc
-		Fishings []*model.Fishing
+		Site      site
+		Item      *model.Item
+		Npcs      []*model.Npc
+		Merchants []*model.MerchantEntry
+		Fishings  []*model.Fishing
+		Recipes   []*model.RecipeEntry
 	}
 
 	if strings.ToLower(getVar(r, "itemID")) == "byslot" {
@@ -360,11 +362,53 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	merchants, _, err := a.merchantEntryRepo.ListByItem(itemID)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get merchants based on item")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	for _, merchant := range merchants {
+		fmt.Println("foo", merchant.MerchantID)
+		if merchant.MerchantID > 0 {
+			merchant.Merchant, err = a.merchantRepo.Get(merchant.MerchantID)
+			if err != nil {
+				fmt.Println("Failed to get", merchant.MerchantID, err.Error())
+				continue
+			}
+			fmt.Println("Adding npcs")
+			merchant.Merchant.Npcs, err = a.npcRepo.ListByMerchant(merchant.Merchant.ID)
+			if err != nil {
+				continue
+			}
+		}
+	}
+
 	fishings, err := a.fishingRepo.GetByItem(itemID)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get fishings based on item")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
+	}
+
+	recipes, _, err := a.recipeEntryRepo.ListByItem(itemID)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get recipes based on item")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	for _, recipe := range recipes {
+		if recipe.RecipeID > 0 {
+			recipe.Recipe, err = a.recipeRepo.Get(recipe.RecipeID)
+			if err != nil {
+				continue
+				//err = errors.Wrap(err, "Failed to get recipe")
+				//a.writeError(w, r, err, http.StatusBadRequest)
+				//return
+			}
+		}
 	}
 
 	for _, fishing := range fishings {
@@ -383,10 +427,12 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Item"
 
 	content := Content{
-		Site:     site,
-		Item:     item,
-		Npcs:     npcs,
-		Fishings: fishings,
+		Site:      site,
+		Item:      item,
+		Npcs:      npcs,
+		Fishings:  fishings,
+		Recipes:   recipes,
+		Merchants: merchants,
 	}
 
 	tmp := a.getTemplate("")

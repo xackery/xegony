@@ -52,7 +52,7 @@ $("#loginForm").submit(function(event) {
 		dataType: "JSON",
 		success: function(data){
 			console.log(data);
-			document.cookie = "apiKey="+data.ApiKey;
+			document.cookie = "apiKey="+data.APIKey;
 			window.location = "/"
 	    },
 	    error: function(data){

@@ -383,6 +383,90 @@
         </div>
     </div>
     {{end}}
+    {{if .Merchants}}
+    <div class="col-lg-8">
+        <div class="hpanel">
+            <div class="panel-heading hbuilt">
+                <div class="panel-tools">
+                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                    <a class="closebox"><i class="fa fa-times"></i></a>
+                </div>
+                This item is found off merchants:
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                <table cellpadding="1" cellspacing="1" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="10px"><i title="Race" class="xa xa-bear"></i></th>
+                        <th width="10px"><i title="Class" class="xa xa-all-for-one"></i></th>
+                        <th>Name</th>
+                        <th>Zone</th>
+                        
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range $merchant := .Merchants}}
+                         {{if $merchant}}
+                         {{range $value := $merchant.Merchant.Npcs}}
+                    
+                    <tr>
+                        <td><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}"></i></td>
+                                <td><i title="{{$value.ClassName}}" class="xa {{$value.ClassIcon}}"></i></td>
+                        <td><a href="/npc/{{$value.ID}}">{{$value.Name}}</a></td>
+                        <td><a href="/zone/{{$value.ZoneName}}">{{$value.ZoneName}}</a></td>
+                    </tr>          
+                    {{end}}
+                    {{end}}
+                    {{end}}                
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+               {{len .Npcs}} total creatures
+            </div>
+        </div>
+    </div>
+    {{end}}
+    {{if .Recipes}}
+    <div class="col-lg-8">
+        <div class="hpanel">
+            <div class="panel-heading hbuilt">
+                <div class="panel-tools">
+                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                    <a class="closebox"><i class="fa fa-times"></i></a>
+                </div>
+                This item is used in recipes
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                <table cellpadding="1" cellspacing="1" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>                        
+                        <th>Trivial</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range $key, $value := .Recipes}}
+                    <tr>
+                       {{if $value.Recipe}}<td><a href="/recipe/{{$value.Recipe.ID}}">{{$value.Recipe.Name}}</a>{{end}}
+                       <td>{{$value.Recipe.Trivial}}</td>
+                    </tr>
+                    {{end}}                
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
+            <div class="panel-footer">
+               {{len .Npcs}} total creatures
+            </div>
+        </div>
+    </div>
+    {{end}}
     {{if .Fishings}}
     <div class="col-lg-8">
         <div class="hpanel">

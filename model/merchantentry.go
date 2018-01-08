@@ -4,7 +4,8 @@ import ()
 
 //MerchantEntry group together loot drops for npc drops
 type MerchantEntry struct {
-	Item *Item
+	Item     *Item
+	Merchant *Merchant
 
 	MerchantID      int64 `json:"merchantID" db:"merchantid"`             //`merchantid` int(11) NOT NULL DEFAULT '0',
 	Slot            int64 `json:"slot" db:"slot"`                         //`slot` int(11) NOT NULL DEFAULT '0',

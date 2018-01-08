@@ -23,6 +23,33 @@ type Recipe struct {
 	Enabled          int64          `json:"enabled" db:"enabled"`                    //`enabled` tinyint(1) NOT NULL DEFAULT '1',
 }
 
+//ProfitMarginName takes difference of a tradeskill cost to item reward
+func (c *Recipe) ProfitMarginName() string {
+	//Get reagent cost
+	cost := int64(0)
+	for _, entry := range c.Entrys {
+		if entry.Componentcount > 0 && entry.Successcount == 0 && entry.Failcount == 0 && entry.Item != nil {
+			cost += entry.Item.Price
+		}
+	}
+	//Get reward price
+	price := int64(0)
+	for _, entry := range c.Entrys {
+		if entry.Successcount > 0 && entry.Item != nil {
+			price = entry.Item.Price
+		}
+	}
+	//Take difference
+	price = price - cost
+	if price == 0 {
+		return "None"
+	}
+	if price < 0 {
+		return fmt.Sprintf("Loss %s", CashName(-price))
+	}
+	return CashName(price)
+}
+
 //RewardItem returns the primary reward item for a recipe
 func (c *Recipe) RewardItem() *Item {
 	for _, entry := range c.Entrys {
@@ -47,6 +74,17 @@ func (c *Recipe) ReagentIconList() template.HTML {
 		}
 	}
 	return template.HTML(icons)
+}
+
+//ReagentPriceList returns a total human readable price for reagents
+func (c *Recipe) ReagentPriceList() string {
+	price := int64(0)
+	for _, entry := range c.Entrys {
+		if entry.Componentcount > 0 && entry.Successcount == 0 && entry.Failcount == 0 && entry.Item != nil {
+			price += entry.Item.Price
+		}
+	}
+	return CashName(price)
 }
 
 //ToolIconList returns icons as <span> elements

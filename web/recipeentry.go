@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -11,9 +12,20 @@ import (
 func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request) {
 	var err error
 
+	if strings.ToLower(getVar(r, "recipeID")) == "bytradeskill" {
+		a.listRecipeByTradeskill(w, r)
+		return
+	}
+
 	recipeID, err := getIntVar(r, "recipeID")
 	if err != nil {
 		err = errors.Wrap(err, "recipeEntryID argument is required")
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	recipe, err := a.recipeRepo.Get(recipeID)
+	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
@@ -25,14 +37,8 @@ func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request) {
 
 	site := a.newSite(r)
 	site.Page = "recipeentry"
-	site.Title = "recipeentry"
+	site.Title = fmt.Sprintf("Recipe: %s", recipe.Name)
 	site.Section = "recipeentry"
-
-	recipe, err := a.recipeRepo.Get(recipeID)
-	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
-	}
 
 	recipe.Entrys, _, err = a.recipeEntryRepo.List(recipe.ID)
 	if err != nil {
@@ -43,9 +49,10 @@ func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request) {
 	for _, entry := range recipe.Entrys {
 		entry.Item, err = a.itemRepo.Get(entry.ItemID)
 		if err != nil {
-			err = errors.Wrap(err, "recipeID argument is required")
-			a.writeError(w, r, err, http.StatusBadRequest)
-			return
+			continue
+			//err = errors.Wrap(err, "recipeID argument is required")
+			//a.writeError(w, r, err, http.StatusBadRequest)
+
 		}
 	}
 
@@ -85,7 +92,7 @@ func (a *Web) getRecipeEntry(w http.ResponseWriter, r *http.Request) {
 
 	recipeID, err := getIntVar(r, "recipeID")
 	if err != nil {
-		err = errors.Wrap(err, "recipeEntryID argument is required")
+		err = errors.Wrap(err, "recipeID argument is required")
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}

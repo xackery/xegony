@@ -39,7 +39,7 @@ func (a *Web) listMerchant(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, merchant := range merchants {
-		merchant.Entrys, _, err = a.merchantEntryRepo.List(merchant.MerchantID)
+		merchant.Entrys, _, err = a.merchantEntryRepo.List(merchant.ID)
 		if err != nil {
 			err = errors.Wrap(err, "merchant entry not found")
 			a.writeError(w, r, err, http.StatusBadRequest)

@@ -11,7 +11,7 @@ import (
 //GetUser will grab data from storage
 func (s *Storage) GetUser(userID int64) (user *model.User, err error) {
 	user = &model.User{}
-	err = s.db.Get(user, "SELECT id, name, account_id, FROM user WHERE id = ?", userID)
+	err = s.db.Get(user, "SELECT id, name, account_id, character_id FROM user WHERE id = ?", userID)
 	if err != nil {
 		return
 	}
@@ -21,10 +21,11 @@ func (s *Storage) GetUser(userID int64) (user *model.User, err error) {
 //LoginUser will grab data from storage
 func (s *Storage) LoginUser(username string, password string) (user *model.User, err error) {
 	user = &model.User{}
-	err = s.db.Get(user, "SELECT id, name, password, account_id, email FROM user WHERE name = ?", username)
+	err = s.db.Get(user, "SELECT id, name, password, account_id, character_id email FROM user WHERE name = ?", username)
 	if err != nil {
 		return
 	}
+	fmt.Println(user.Password, password)
 	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		return
 	}
@@ -47,8 +48,8 @@ func (s *Storage) CreateUser(user *model.User) (err error) {
 	}
 	user.Password = string(hash)
 
-	result, err := s.db.NamedExec(`INSERT INTO user(name, password, email, account_id)
-		VALUES (:name, :password, :email, :account_id)`, user)
+	result, err := s.db.NamedExec(`INSERT INTO user(name, password, email, account_id, character_id)
+		VALUES (:name, :password, :email, :account_id, :character_id)`, user)
 	if err != nil {
 		if strings.Index(err.Error(), "Error 1062:") == 0 {
 			vErr := &model.ErrValidation{
@@ -83,7 +84,7 @@ func (s *Storage) CreateUser(user *model.User) (err error) {
 
 //ListUser will grab data from storage
 func (s *Storage) ListUser() (users []*model.User, err error) {
-	rows, err := s.db.Queryx(`SELECT id, name, account_id FROM user ORDER BY id DESC`)
+	rows, err := s.db.Queryx(`SELECT id, name, email, account_id, character_id FROM user ORDER BY id DESC`)
 	if err != nil {
 		return
 	}
@@ -105,7 +106,7 @@ func (s *Storage) ListUser() (users []*model.User, err error) {
 //EditUser will grab data from storage
 func (s *Storage) EditUser(userID int64, user *model.User) (err error) {
 	user.ID = userID
-	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email, account_id=:account_id WHERE id = :id`, user)
+	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email, account_id=:account_id character_id=:character_id WHERE id = :id`, user)
 	if err != nil {
 		return
 	}
@@ -143,13 +144,14 @@ func (s *Storage) createTableUser() (err error) {
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   name varchar(32) NOT NULL DEFAULT '',
   account_id int(11) unsigned NOT NULL,
+  character_id int(11) unsigned NOT NULL,
   email varchar(32) NOT NULL DEFAULT '',
-  password varchar(64) NOT NULL DEFAULT '',
+  password varchar(80) NOT NULL DEFAULT '',
   last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   icon varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
 	if err != nil {
 		return
 	}

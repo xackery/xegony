@@ -61,8 +61,8 @@ func (s *Storage) ListMerchantEntry(merchantID int64) (query string, merchantEnt
 //ListMerchantEntryByItem will grab data from storage
 func (s *Storage) ListMerchantEntryByItem(itemID int64) (query string, merchantEntrys []*model.MerchantEntry, err error) {
 
-	query = fmt.Sprintf(`SELECT %s FROM merchantlist
-	WHERE item = ?`, merchantEntryFields)
+	query = fmt.Sprintf(`SELECT merchantid, %s FROM merchantlist
+	WHERE item = ? LIMIT 10`, merchantEntryFields)
 
 	rows, err := s.db.Queryx(query, itemID)
 	if err != nil {

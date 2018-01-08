@@ -342,6 +342,12 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			"/recipe/{recipeID}/details",
 			a.getRecipe,
 		},
+		{
+			"GetRecipeByTradeskill",
+			"GET",
+			"/recipe/bytradeskill/{tradeskillID}",
+			a.getRecipeByTradeskill,
+		},
 		//RecipeEntry
 		{
 			"ListRecipeEntry",

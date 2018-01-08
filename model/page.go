@@ -19,6 +19,7 @@ func (c *Page) PageList() template.HTML {
 	curPage := c.PageNumber
 
 	var curElement int64
+
 	if c.PageNumber > 0 {
 		page += fmt.Sprintf("\n"+`<button type="button" class="btn btn-default"><a href="/%s?pageNumber=%d"><i class="fa fa-chevron-left"></i></a></button>`, c.Scope, c.PageNumber-1)
 	}

@@ -60,9 +60,9 @@ func (s *Storage) Initialize(config string, w io.Writer) (err error) {
 
 //InsertTestData will grab data from storage
 func (s *Storage) InsertTestData() (err error) {
-	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id)
+	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id, character_id)
 	   VALUES
-	   	(1, 'Test', '', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC', 1);`)
+	   	(1, 'Test', '', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC', 1, 1);`)
 	if err != nil {
 		return
 	}

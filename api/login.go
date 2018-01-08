@@ -214,9 +214,11 @@ func GetAuthClaims(r *http.Request) (*AuthClaims, error) {
 		}
 	}
 
-	if token == "" {
+	if token == "" || token == "undefined" {
 		return nil, fmt.Errorf("No Token Provided")
 	}
+
+	fmt.Println(token)
 
 	parsedToken, err := jwt.ParseWithClaims(token, &AuthClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -225,7 +227,7 @@ func GetAuthClaims(r *http.Request) (*AuthClaims, error) {
 		return mySigningKey, nil
 	})
 	if err != nil {
-		return nil, fmt.Errorf("Invalid Token: %s", err.Error())
+		return nil, errors.Wrap(err, "failed to parse token")
 	}
 
 	if claims, ok := parsedToken.Claims.(*AuthClaims); ok && parsedToken.Valid {

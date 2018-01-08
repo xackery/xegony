@@ -114,6 +114,33 @@ func (c *RecipeRepository) Delete(recipeID int64) (err error) {
 	return
 }
 
+//ListByTradeskill handles logic
+func (c *RecipeRepository) ListByTradeskill(tradeskillID int64, pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error) {
+	if pageSize < 1 {
+		pageSize = 25
+	}
+
+	if pageNumber < 0 {
+		pageNumber = 0
+	}
+
+	recipes, err = c.stor.ListRecipeByTradeskill(tradeskillID, pageSize, pageNumber)
+	if err != nil {
+		return
+	}
+	return
+}
+
+//ListByTradeskillCount handles logic
+func (c *RecipeRepository) ListByTradeskillCount(tradeskillID int64) (count int64, err error) {
+
+	count, err = c.stor.ListRecipeByTradeskillCount(tradeskillID)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //List handles logic
 func (c *RecipeRepository) List(pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error) {
 	if pageSize < 1 {

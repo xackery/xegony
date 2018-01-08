@@ -42,10 +42,37 @@ func (s *Storage) CreateRecipe(recipe *model.Recipe) (err error) {
 	return
 }
 
+//ListRecipeByTradeskill will grab data from storage
+func (s *Storage) ListRecipeByTradeskill(tradeskillID int64, pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM tradeskill_recipe 
+		WHERE tradeskill = ? ORDER BY trivial ASC LIMIT %d OFFSET %d`, recipeFields, pageSize, pageSize*pageNumber), tradeskillID)
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		recipe := model.Recipe{}
+		if err = rows.StructScan(&recipe); err != nil {
+			return
+		}
+		recipes = append(recipes, &recipe)
+	}
+	return
+}
+
+//ListRecipeByTradeskillCount will grab data from storage
+func (s *Storage) ListRecipeByTradeskillCount(tradeskillID int64) (count int64, err error) {
+	err = s.db.Get(&count, `SELECT count(id) FROM tradeskill_recipe WHERE tradeskill = ?`, tradeskillID)
+	if err != nil {
+		return
+	}
+	return
+}
+
 //ListRecipe will grab data from storage
 func (s *Storage) ListRecipe(pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM tradeskill_recipe 
-		ORDER BY id ASC LIMIT %d OFFSET %d`, recipeFields, pageSize, pageSize*pageNumber))
+		ORDER BY trivial ASC LIMIT %d OFFSET %d`, recipeFields, pageSize, pageSize*pageNumber))
 	if err != nil {
 		return
 	}

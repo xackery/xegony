@@ -7,9 +7,9 @@ import (
 
 //Merchant represents tradeskill merchants inside everquest
 type Merchant struct {
-	Entrys     []*MerchantEntry
-	Npcs       []*Npc
-	MerchantID int64 `json:"merchantID" db:"merchantid"` //`merchantid` int(11) NOT NULL DEFAULT '0',
+	Entrys []*MerchantEntry
+	Npcs   []*Npc
+	ID     int64 `json:"merchantID" db:"merchantid"` //`merchantid` int(11) NOT NULL DEFAULT '0',
 }
 
 //ItemIconList returns icons as <span> elements
