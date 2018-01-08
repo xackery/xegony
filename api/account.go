@@ -8,6 +8,42 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) accountRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"CreateAccount",
+			"POST",
+			"/account",
+			a.createAccount,
+		},
+		{
+			"DeleteAccount",
+			"DELETE",
+			"/account/{accountID}",
+			a.deleteAccount,
+		},
+		{
+			"EditAccount",
+			"PUT",
+			"/account/{accountID}",
+			a.editAccount,
+		},
+		{
+			"GetAccount",
+			"GET",
+			"/account/{accountID}",
+			a.getAccount,
+		},
+		{
+			"ListAccount",
+			"GET",
+			"/account",
+			a.listAccount,
+		},
+	}
+	return
+}
+
 func (a *API) getAccount(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "accountID")

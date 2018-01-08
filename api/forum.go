@@ -8,6 +8,42 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) forumRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"CreateForum",
+			"POST",
+			"/forum",
+			a.createForum,
+		},
+		{
+			"DeleteForum",
+			"DELETE",
+			"/forum/{forumID}",
+			a.deleteForum,
+		},
+		{
+			"EditForum",
+			"PUT",
+			"/forum/{forumID}",
+			a.editForum,
+		},
+		{
+			"GetForum",
+			"GET",
+			"/forum/{forumID}",
+			a.getForum,
+		},
+		{
+			"ListForum",
+			"GET",
+			"/forum",
+			a.listForum,
+		},
+	}
+	return
+}
+
 func (a *API) getForum(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "forumID")

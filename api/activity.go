@@ -8,6 +8,24 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) activityRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"GetActivity",
+			"GET",
+			"/activity/{activityID}",
+			a.getActivity,
+		},
+		{
+			"ListActivity",
+			"GET",
+			"/activity",
+			a.listCharacter,
+		},
+	}
+	return
+}
+
 func (a *API) getActivity(w http.ResponseWriter, r *http.Request) {
 
 	activityID, err := getIntVar(r, "activityID")

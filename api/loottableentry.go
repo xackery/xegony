@@ -8,6 +8,10 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) lootTableEntryRoutes() (routes []*route) {
+	routes = []*route{}
+	return
+}
 func (a *API) getLootTableEntry(w http.ResponseWriter, r *http.Request) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")

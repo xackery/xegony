@@ -8,6 +8,11 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) bazaarRoutes() (routes []*route) {
+	routes = []*route{}
+	return
+}
+
 func (a *API) getBazaar(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "bazaarID")

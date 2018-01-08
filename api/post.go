@@ -8,6 +8,10 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) postRoutes() (routes []*route) {
+	routes = []*route{}
+	return
+}
 func (a *API) getPost(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "postID")

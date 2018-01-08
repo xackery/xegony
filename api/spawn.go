@@ -8,6 +8,41 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) spawnRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"CreateSpawn",
+			"POST",
+			"/spawn",
+			a.createSpawn,
+		},
+		{
+			"DeleteSpawn",
+			"DELETE",
+			"/spawn/{spawnID}",
+			a.deleteSpawn,
+		},
+		{
+			"EditSpawn",
+			"PUT",
+			"/spawn/{spawnID}",
+			a.editSpawn,
+		},
+		{
+			"GetSpawn",
+			"GET",
+			"/spawn/{spawnID}",
+			a.getSpawn,
+		},
+		{
+			"ListSpawn",
+			"GET",
+			"/spawn",
+			a.listSpawn,
+		},
+	}
+	return
+}
 func (a *API) getSpawn(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "spawnID")

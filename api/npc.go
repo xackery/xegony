@@ -8,6 +8,11 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) npcRoutes() (routes []*route) {
+	routes = []*route{}
+	return
+}
+
 func (a *API) getNpc(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "npcID")

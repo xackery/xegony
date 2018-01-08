@@ -8,6 +8,36 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) topicRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"CreateTopic",
+			"POST",
+			"/topic",
+			a.createTopic,
+		},
+		{
+			"DeleteTopic",
+			"DELETE",
+			"/topic/{topicID}",
+			a.deleteTopic,
+		},
+		{
+			"EditTopic",
+			"PUT",
+			"/topic/{topicID}",
+			a.editTopic,
+		},
+		{
+			"GetTopic",
+			"GET",
+			"/topic/{topicID}",
+			a.getTopic,
+		},
+	}
+	return
+}
+
 func (a *API) getTopic(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "topicID")

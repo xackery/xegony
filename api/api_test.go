@@ -128,7 +128,7 @@ func doHTTPTest(test Endpoint, t *testing.T) string {
 	case string:
 		response = v
 	case nil:
-		if len(actualStr) > 3 {
+		if len(actualStr) > 4 {
 			t.Fatalf("%s %s %s failed, expected blank, got %s", test.name, test.method, test.path, actualStr)
 		}
 		return ""

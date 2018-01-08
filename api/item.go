@@ -10,6 +10,54 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) itemRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"ListItem",
+			"GET",
+			"/item",
+			a.listItem,
+		},
+		{
+			"CreateItem",
+			"POST",
+			"/item",
+			a.createItem,
+		},
+		{
+			"DeleteItem",
+			"DELETE",
+			"/item/{itemID}",
+			a.deleteItem,
+		},
+		{
+			"EditItem",
+			"PUT",
+			"/item/{itemID}",
+			a.editItem,
+		},
+		{
+			"GetItem",
+			"GET",
+			"/item/{itemID}",
+			a.getItem,
+		},
+		{
+			"GetItemTooltip",
+			"GET",
+			"/item/{itemID}/tooltip",
+			a.getItemTooltip,
+		},
+		{
+			"ListItem",
+			"GET",
+			"/item",
+			a.listItem,
+		},
+	}
+	return
+}
+
 func (a *API) getItem(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "itemID")

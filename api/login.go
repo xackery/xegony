@@ -20,6 +20,18 @@ type AuthClaims struct {
 	jwt.StandardClaims
 }
 
+func (a *API) loginRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"PostLogin",
+			"POST",
+			"/login",
+			a.postLogin,
+		},
+	}
+	return
+}
+
 func (a *API) postLogin(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -218,7 +230,7 @@ func GetAuthClaims(r *http.Request) (*AuthClaims, error) {
 		return nil, fmt.Errorf("No Token Provided")
 	}
 
-	fmt.Println(token)
+	//fmt.Println(token)
 
 	parsedToken, err := jwt.ParseWithClaims(token, &AuthClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

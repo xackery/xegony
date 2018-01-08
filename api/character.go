@@ -8,6 +8,48 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) characterRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"CreateCharacter",
+			"POST",
+			"/character",
+			a.createCharacter,
+		},
+		{
+			"DeleteCharacter",
+			"DELETE",
+			"/character/{characterID}",
+			a.deleteCharacter,
+		},
+		{
+			"EditCharacter",
+			"PUT",
+			"/character/{characterID}",
+			a.editCharacter,
+		},
+		{
+			"GetCharacter",
+			"GET",
+			"/character/{characterID}",
+			a.getCharacter,
+		},
+		{
+			"GetCharacterByName",
+			"GET",
+			"/character/byname/{name}",
+			a.getCharacterByName,
+		},
+		{
+			"ListCharacter",
+			"GET",
+			"/character",
+			a.listCharacter,
+		},
+	}
+	return
+}
+
 func (a *API) getCharacter(w http.ResponseWriter, r *http.Request) {
 	if getVar(r, "characterID") == "byname" {
 		a.getCharacterByName(w, r)

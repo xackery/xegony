@@ -8,6 +8,42 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) factionRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"ListFaction",
+			"GET",
+			"/faction",
+			a.listFaction,
+		},
+		{
+			"CreateFaction",
+			"POST",
+			"/faction",
+			a.createFaction,
+		},
+		{
+			"DeleteFaction",
+			"DELETE",
+			"/faction/{factionID}",
+			a.deleteFaction,
+		},
+		{
+			"EditFaction",
+			"PUT",
+			"/faction/{factionID}",
+			a.editFaction,
+		},
+		{
+			"GetFaction",
+			"GET",
+			"/faction/{factionID}",
+			a.getFaction,
+		},
+	}
+	return
+}
+
 func (a *API) getFaction(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "factionID")

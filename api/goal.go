@@ -8,6 +8,36 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) goalRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"CreateAccount",
+			"POST",
+			"/account",
+			a.createAccount,
+		},
+		{
+			"DeleteAccount",
+			"DELETE",
+			"/account/{accountID}",
+			a.deleteAccount,
+		},
+		{
+			"EditAccount",
+			"PUT",
+			"/account/{accountID}",
+			a.editAccount,
+		},
+		{
+			"GetAccount",
+			"GET",
+			"/account/{accountID}",
+			a.getAccount,
+		},
+	}
+	return
+}
+
 func (a *API) getGoal(w http.ResponseWriter, r *http.Request) {
 
 	listID, err := getIntVar(r, "listID")

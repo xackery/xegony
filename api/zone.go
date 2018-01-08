@@ -8,6 +8,11 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *API) zoneRoutes() (routes []*route) {
+	routes = []*route{}
+	return
+}
+
 func (a *API) getZone(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getIntVar(r, "zoneID")

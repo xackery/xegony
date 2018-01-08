@@ -171,6 +171,18 @@ func (a *API) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	return
 }
 
+func (a *API) indexRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"Index",
+			"GET",
+			"/",
+			a.index,
+		},
+	}
+	return
+}
+
 // Index handles the root endpoint of /api/
 func (a *API) index(w http.ResponseWriter, r *http.Request) {
 	type Content struct {
