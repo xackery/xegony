@@ -9,6 +9,49 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) npcRoutes() (routes []*route) {
+	routes = []*route{
+		//Npc
+		{
+			"GetNpc",
+			"GET",
+			"/npc/{npcID}",
+			a.getNpc,
+		},
+		{
+			"ListNpc",
+			"GET",
+			"/npc",
+			a.listNpc,
+		},
+		{
+			"ListNpcByZone",
+			"GET",
+			"/npc/byzone",
+			a.listNpcByZone,
+		},
+		{
+			"GetNpcByZone",
+			"GET",
+			"/npc/byzone/{zoneID}",
+			a.getNpcByZone,
+		},
+		{
+			"ListNpcByFaction",
+			"GET",
+			"/npc/byfaction",
+			a.listNpcByFaction,
+		},
+		{
+			"GetNpcByFaction",
+			"GET",
+			"/npc/byfaction/{factionID}",
+			a.getNpcByFaction,
+		},
+	}
+	return
+}
+
 func (a *Web) listNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -340,9 +383,9 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 
 	mapData, err := a.zoneLevelRepo.Get(npc.ZoneID())
 	if err != nil {
-		err = errors.Wrap(err, "Request error on zonelevel")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+		//err = errors.Wrap(err, "Request error on zonelevel")
+		//a.writeError(w, r, err, http.StatusBadRequest)
+		//return
 	}
 
 	entrys, _, err := a.spawnEntryRepo.ListByNpc(npc.ID)

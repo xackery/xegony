@@ -7,6 +7,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) ruleRoutes() (routes []*route) {
+	routes = []*route{
+		//Rule
+		{
+			"ListRule",
+			"GET",
+			"/rule",
+			a.listRule,
+		},
+		{
+			"GetRule",
+			"GET",
+			"/rule/{ruleName}",
+			a.getRule,
+		},
+	}
+	return
+}
+
 func (a *Web) listRule(w http.ResponseWriter, r *http.Request) {
 	var err error
 

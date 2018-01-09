@@ -7,6 +7,26 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) variableRoutes() (routes []*route) {
+	routes = []*route{
+
+		//Variable
+		{
+			"ListVariable",
+			"GET",
+			"/variable",
+			a.listVariable,
+		},
+		{
+			"GetVariable",
+			"GET",
+			"/variable/{variableName}",
+			a.getVariable,
+		},
+	}
+	return
+}
+
 func (a *Web) listVariable(w http.ResponseWriter, r *http.Request) {
 	var err error
 

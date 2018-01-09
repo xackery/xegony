@@ -4,6 +4,18 @@ import (
 	"net/http"
 )
 
+func (a *Web) dashboardRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"GetDashboard",
+			"GET",
+			"/dashboard",
+			a.getDashboard,
+		},
+	}
+	return
+}
+
 func (a *Web) getDashboard(w http.ResponseWriter, r *http.Request) {
 	var err error
 

@@ -8,6 +8,37 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) zoneRoutes() (routes []*route) {
+	routes = []*route{
+		//Zone
+		{
+			"GetZone",
+			"GET",
+			"/zone/{zoneID}",
+			a.getZone,
+		},
+		{
+			"ListZone",
+			"GET",
+			"/zone",
+			a.listZone,
+		},
+		{
+			"ListZoneByLevels",
+			"GET",
+			"/zone/bylevels",
+			a.listZoneByLevels,
+		},
+		{
+			"ListZoneByHotzone",
+			"GET",
+			"/zone/byhotzone",
+			a.listZoneByHotzone,
+		},
+	}
+	return
+}
+
 func (a *Web) listZone(w http.ResponseWriter, r *http.Request) {
 	var err error
 

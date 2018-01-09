@@ -8,6 +8,30 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) errorRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"SearchError",
+			"GET",
+			"/error/search/{search}",
+			a.searchError,
+		},
+		{
+			"GetError",
+			"GET",
+			"/error/{errorID}",
+			a.getError,
+		},
+		{
+			"ListError",
+			"GET",
+			"/error",
+			a.listError,
+		},
+	}
+	return
+}
+
 func (a *Web) listError(w http.ResponseWriter, r *http.Request) {
 	var err error
 

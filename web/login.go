@@ -4,6 +4,24 @@ import (
 	"net/http"
 )
 
+func (a *Web) loginRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"Login",
+			"GET",
+			"/login",
+			a.getLogin,
+		},
+		{
+			"Logout",
+			"GET",
+			"/logout",
+			a.getLogout,
+		},
+	}
+	return
+}
+
 func (a *Web) getLogin(w http.ResponseWriter, r *http.Request) {
 	var err error
 

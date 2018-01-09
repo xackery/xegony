@@ -8,6 +8,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) merchantEntryRoutes() (routes []*route) {
+	routes = []*route{
+		//MerchantEntry
+		{
+			"GetMerchantEntry",
+			"GET",
+			"/merchant/{merchantID}/{itemID}",
+			a.getMerchantEntry,
+		},
+		{
+			"ListMerchantEntry",
+			"GET",
+			"/merchant/{merchantID}",
+			a.listMerchantEntry,
+		},
+	}
+	return
+}
+
 func (a *Web) listMerchantEntry(w http.ResponseWriter, r *http.Request) {
 	var err error
 

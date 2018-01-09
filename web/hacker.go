@@ -8,6 +8,31 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) hackerRoutes() (routes []*route) {
+	routes = []*route{
+		//Hacker
+		{
+			"SearchHacker",
+			"GET",
+			"/hacker/search/{search}",
+			a.searchHacker,
+		},
+		{
+			"GetHacker",
+			"GET",
+			"/hacker/{hackerID}",
+			a.getHacker,
+		},
+		{
+			"ListHacker",
+			"GET",
+			"/hacker",
+			a.listHacker,
+		},
+	}
+	return
+}
+
 func (a *Web) listHacker(w http.ResponseWriter, r *http.Request) {
 	var err error
 

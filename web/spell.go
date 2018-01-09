@@ -8,6 +8,32 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) spellRoutes() (routes []*route) {
+	routes = []*route{
+
+		//Spell
+		{
+			"SearchSpell",
+			"GET",
+			"/spell/search/{search}",
+			a.searchSpell,
+		},
+		{
+			"GetSpell",
+			"GET",
+			"/spell/{spellID}",
+			a.getSpell,
+		},
+		{
+			"ListSpell",
+			"GET",
+			"/spell",
+			a.listSpell,
+		},
+	}
+	return
+}
+
 func (a *Web) listSpell(w http.ResponseWriter, r *http.Request) {
 	var err error
 

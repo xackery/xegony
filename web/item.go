@@ -10,6 +10,61 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) itemRoutes() (routes []*route) {
+	routes = []*route{
+		//Item
+		{
+			"GetItem",
+			"GET",
+			"/item/{itemID}",
+			a.getItem,
+		},
+		{
+			"SearchItem",
+			"GET",
+			"/item/search",
+			a.searchItem,
+		},
+		{
+			"SearchItemByAccount",
+			"GET",
+			"/item/search/byaccount",
+			a.searchItemByAccount,
+		},
+		{
+			"ListItemBySlot",
+			"GET",
+			"/item/byslot",
+			a.listItemBySlot,
+		},
+		{
+			"ListItemByZone",
+			"GET",
+			"/item/byzone",
+			a.listItemByZone,
+		},
+		{
+			"GetItemByZone",
+			"GET",
+			"/item/byzone/{zoneID}",
+			a.getItemByZone,
+		},
+		{
+			"GetItemBySlot",
+			"GET",
+			"/item/byslot/{slotID}",
+			a.getItemBySlot,
+		},
+		{
+			"ListItem",
+			"GET",
+			"/item",
+			a.listItem,
+		},
+	}
+	return
+}
+
 func (a *Web) listItem(w http.ResponseWriter, r *http.Request) {
 	var err error
 

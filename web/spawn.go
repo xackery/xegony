@@ -7,6 +7,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) spawnRoutes() (routes []*route) {
+	routes = []*route{
+		//Spawn
+		{
+			"ListSpawn",
+			"GET",
+			"/spawn",
+			a.listSpawn,
+		},
+		{
+			"GetSpawn",
+			"GET",
+			"/spawn/{spawnID}/details",
+			a.getSpawn,
+		},
+	}
+	return
+}
+
 func (a *Web) listSpawn(w http.ResponseWriter, r *http.Request) {
 	var err error
 

@@ -7,6 +7,11 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) bazaarRoutes() (routes []*route) {
+	routes = []*route{}
+	return
+}
+
 func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request) {
 	var err error
 

@@ -8,6 +8,24 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) activityRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"ListActivity",
+			"GET",
+			"/task/{taskID}",
+			a.listActivity,
+		},
+		{
+			"GetActivity",
+			"GET",
+			"/task/{taskID}/{activityID}",
+			a.getActivity,
+		},
+	}
+	return
+}
+
 func (a *Web) listActivity(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -76,6 +94,11 @@ func (a *Web) getActivity(w http.ResponseWriter, r *http.Request) {
 		Site     site
 		Activity *model.Activity
 		Task     *model.Task
+	}
+
+	if strings.ToLower(getVar(r, "activityID")) == "details" {
+		a.getTask(w, r)
+		return
 	}
 
 	activityID, err := getIntVar(r, "activityID")

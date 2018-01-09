@@ -8,6 +8,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) topicRoutes() (routes []*route) {
+	routes = []*route{
+		//Topic
+		{
+			"ListTopic",
+			"GET",
+			"/forum/{forumID}",
+			a.listTopic,
+		},
+		{
+			"GetTopic",
+			"GET",
+			"/topic/{topicID}/details",
+			a.getTopic,
+		},
+	}
+	return
+}
+
 func (a *Web) listTopic(w http.ResponseWriter, r *http.Request) {
 	var err error
 

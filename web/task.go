@@ -8,6 +8,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) taskRoutes() (routes []*route) {
+	routes = []*route{
+		//Task
+		{
+			"GetTask",
+			"GET",
+			"/task/{taskID}/details",
+			a.getTask,
+		},
+		{
+			"ListTask",
+			"GET",
+			"/task",
+			a.listTask,
+		},
+	}
+	return
+}
+
 func (a *Web) listTask(w http.ResponseWriter, r *http.Request) {
 	var err error
 

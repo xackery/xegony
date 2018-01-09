@@ -8,6 +8,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) postRoutes() (routes []*route) {
+	routes = []*route{
+		//Post
+		{
+			"ListPost",
+			"GET",
+			"/topic/{topicID}",
+			a.listPost,
+		},
+		{
+			"GetPost",
+			"GET",
+			"/post/{postID}",
+			a.getPost,
+		},
+	}
+	return
+}
+
 func (a *Web) listPost(w http.ResponseWriter, r *http.Request) {
 	var err error
 

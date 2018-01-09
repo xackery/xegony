@@ -9,6 +9,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) recipeEntryRoutes() (routes []*route) {
+	routes = []*route{
+		//RecipeEntry
+		{
+			"ListRecipeEntry",
+			"GET",
+			"/recipe/{recipeID}",
+			a.listRecipeEntry,
+		},
+		{
+			"GetRecipeEntry",
+			"GET",
+			"/spawn/{recipeID}/{recipeEntryID}",
+			a.getRecipeEntry,
+		},
+	}
+	return
+}
+
 func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request) {
 	var err error
 

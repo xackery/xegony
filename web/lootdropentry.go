@@ -7,6 +7,11 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) lootDropEntryRoutes() (routes []*route) {
+	routes = []*route{}
+	return
+}
+
 func (a *Web) listLootDropEntry(w http.ResponseWriter, r *http.Request) {
 	var err error
 

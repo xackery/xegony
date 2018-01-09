@@ -92,6 +92,18 @@ func (a *Web) newSite(r *http.Request) (data site) {
 	return
 }
 
+func (a *Web) indexRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"Index",
+			"GET",
+			"/",
+			a.listForum,
+		},
+	}
+	return
+}
+
 //Initialize creates a new web instance
 func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err error) {
 	a.templates = map[string]*Template{}

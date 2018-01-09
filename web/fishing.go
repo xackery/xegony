@@ -8,6 +8,25 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) fishingRoutes() (routes []*route) {
+	routes = []*route{
+		//Fishing
+		{
+			"GetFishing",
+			"GET",
+			"/fishing/{fishingID}",
+			a.getFishing,
+		},
+		{
+			"ListFishing",
+			"GET",
+			"/fishing",
+			a.listFishing,
+		},
+	}
+	return
+}
+
 func (a *Web) listFishing(w http.ResponseWriter, r *http.Request) {
 	var err error
 

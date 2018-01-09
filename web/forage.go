@@ -8,6 +8,26 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) forageRoutes() (routes []*route) {
+	routes = []*route{
+
+		//Forage
+		{
+			"GetForage",
+			"GET",
+			"/forage/{forageID}",
+			a.getForage,
+		},
+		{
+			"ListForage",
+			"GET",
+			"/forage",
+			a.listForage,
+		},
+	}
+	return
+}
+
 func (a *Web) listForage(w http.ResponseWriter, r *http.Request) {
 	var err error
 

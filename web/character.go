@@ -8,6 +8,66 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+func (a *Web) characterRoutes() (routes []*route) {
+	routes = []*route{
+		{
+			"SearchCharacter",
+			"GET",
+			"/character/search",
+			a.searchCharacter,
+		},
+		{
+			"SearchCharacter",
+			"GET",
+			"/character/search/{search}",
+			a.searchCharacter,
+		},
+		{
+			"GetCharacter",
+			"GET",
+			"/character/{characterID}",
+			a.getCharacter,
+		},
+		{
+			"ListCharacter",
+			"GET",
+			"/character",
+			a.listCharacter,
+		},
+		{
+			"ListCharacter",
+			"GET",
+			"/character/{characterID}/inventory",
+			a.listItemByCharacter,
+		},
+		{
+			"ListCharacterByRanking",
+			"GET",
+			"/character/ranking",
+			a.listCharacterByRanking,
+		},
+		{
+			"ListCharacterByOnline",
+			"GET",
+			"/character/byonline",
+			a.listCharacterByOnline,
+		},
+		{
+			"ListCharacterByAccount",
+			"GET",
+			"/character/byaccount/{accountID}",
+			a.listCharacterByAccount,
+		},
+		{
+			"ListCharacterByRanking",
+			"GET",
+			"/ranking",
+			a.listCharacterByRanking,
+		},
+	}
+	return
+}
+
 func (a *Web) listCharacter(w http.ResponseWriter, r *http.Request) {
 	var err error
 
