@@ -56,23 +56,37 @@ func (a *Web) listNpc(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Content struct {
-		Site site
-		Npcs []*model.Npc
+		Site    site
+		Npcs    []*model.Npc
+		NpcPage *model.Page
 	}
+
+	npcPage := &model.Page{
+		Scope: "npc",
+	}
+	npcPage.PageSize = getIntParam(r, "pageSize")
+	npcPage.PageNumber = getIntParam(r, "pageNumber")
 
 	site := a.newSite(r)
 	site.Page = "npclist"
 	site.Title = "Npc"
 	site.Section = "npc"
 
-	npcs, err := a.npcRepo.List()
+	npcs, err := a.npcRepo.List(npcPage.PageSize, npcPage.PageNumber)
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+	npcPage.Total, err = a.npcRepo.ListCount()
+	if err != nil {
+		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+
 	content := Content{
-		Site: site,
-		Npcs: npcs,
+		Site:    site,
+		Npcs:    npcs,
+		NpcPage: npcPage,
 	}
 
 	tmp := a.getTemplate("")

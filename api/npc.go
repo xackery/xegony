@@ -122,7 +122,7 @@ func (a *API) editNpc(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *API) listNpc(w http.ResponseWriter, r *http.Request) {
-	npcs, err := a.npcRepo.List()
+	npcs, err := a.npcRepo.List(20, 0)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		a.writeError(w, r, err, http.StatusInternalServerError)

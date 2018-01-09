@@ -118,8 +118,26 @@ func (c *NpcRepository) Delete(npcID int64) (err error) {
 }
 
 //List handles logic
-func (c *NpcRepository) List() (npcs []*model.Npc, err error) {
-	npcs, err = c.stor.ListNpc()
+func (c *NpcRepository) List(pageSize int64, pageNumber int64) (npcs []*model.Npc, err error) {
+	if pageSize < 1 {
+		pageSize = 25
+	}
+
+	if pageNumber < 0 {
+		pageNumber = 0
+	}
+
+	npcs, err = c.stor.ListNpc(pageSize, pageNumber)
+	if err != nil {
+		return
+	}
+	return
+}
+
+//ListCount handles logic
+func (c *NpcRepository) ListCount() (count int64, err error) {
+
+	count, err = c.stor.ListNpcCount()
 	if err != nil {
 		return
 	}

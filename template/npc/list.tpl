@@ -37,10 +37,10 @@
                     </tbody>
                 </table>
                 </div>
-
+                {{.NpcPage.PageList}}
             </div>
             <div class="panel-footer">
-                {{len .Npcs}} total results
+                {{.NpcPage.Total}} total creatures
             </div>
         </div>
     </div>

@@ -80,7 +80,7 @@
 					<i class="xa xa-palm-tree"></i>
 				</a>
 				<ul class="dropdown-menu hdropdown">
-					<li><a href="/zone/levels">Leveling Chart</a></li>
+					<li><a href="/zone/bylevels">Leveling Chart</a></li>
 					<li><a href="/zone">Zone List</a></li>
 				</ul>
 			</li>

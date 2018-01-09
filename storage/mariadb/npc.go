@@ -43,8 +43,8 @@ func (s *Storage) CreateNpc(npc *model.Npc) (err error) {
 }
 
 //ListNpc will grab data from storage
-func (s *Storage) ListNpc() (npcs []*model.Npc, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types ORDER BY id ASC`, npcFields))
+func (s *Storage) ListNpc(pageSize int64, pageNumber int64) (npcs []*model.Npc, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types ORDER BY id ASC LIMIT %d OFFSET %d`, npcFields, pageSize, pageSize*pageNumber))
 	if err != nil {
 		return
 	}
@@ -55,6 +55,15 @@ func (s *Storage) ListNpc() (npcs []*model.Npc, err error) {
 			return
 		}
 		npcs = append(npcs, &npc)
+	}
+	return
+}
+
+//ListNpcCount will grab data from storage
+func (s *Storage) ListNpcCount() (count int64, err error) {
+	err = s.db.Get(&count, `SELECT count(id) FROM npc_types`)
+	if err != nil {
+		return
 	}
 	return
 }

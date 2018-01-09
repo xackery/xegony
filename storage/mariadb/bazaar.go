@@ -99,7 +99,7 @@ func (s *Storage) DeleteBazaar(bazaarID int64) (err error) {
 
 //createTableBazaar will grab data from storage
 func (s *Storage) createTableBazaar() (err error) {
-	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS bazaar (
+	_, err = s.db.Exec(`CREATE TABLE bazaar (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
   accountid int(11) unsigned NOT NULL,
   itemid int(11) unsigned NOT NULL,

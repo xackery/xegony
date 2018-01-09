@@ -331,6 +331,8 @@ func (c *Item) SizeName() string {
 		return "LARGE"
 	case 4:
 		return "GIANT"
+	case 5:
+		return "GIGANTIC"
 	}
 	return "UNKNOWN"
 }
