@@ -23,6 +23,7 @@ func (s *Storage) GetActivity(taskID int64, activityID int64) (activity *model.A
 	return
 }
 
+//GetActivityNextStep will grab data from storage
 func (s *Storage) GetActivityNextStep(taskID int64, activityID int64) (step int64, err error) {
 	err = s.db.Get(&step, "SELECT step FROM activities WHERE taskid = ? AND activityid = ? ORDER BY step DESC LIMIT 1", taskID, activityID)
 	if err != nil {

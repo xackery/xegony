@@ -23,6 +23,7 @@ func (s *Storage) GetTask(taskID int64) (task *model.Task, err error) {
 	return
 }
 
+//GetTaskNextID will grab data from storage
 func (s *Storage) GetTaskNextID() (taskID int64, err error) {
 	err = s.db.Get(&taskID, "SELECT id FROM tasks ORDER BY ID DESC LIMIT 1")
 	if err != nil {

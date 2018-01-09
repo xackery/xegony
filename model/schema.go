@@ -17,10 +17,10 @@ type Schema struct {
 	Format            string            `json:"format,omitempty"`   //string types, email, ipv4, ipv6, uri, hostname, date-time,
 	Optional          bool              `json:"optional,omitempty"` //Is this field optional?
 	Pattern           string            `json:"pattern,omitempty"`  //string types, regex pattern matching e.g. "^[A-Z]{2}-[0-9]{5}$"
-	Enum              []string          `json:"enum,omitempty"`     //string types, Contains an explicit list of options
 	EnumInt           []int64           `json:"enum,omitempty"`
 	MinProperties     int64             `json:"minproperties,omitempty"` //Minimum number of required properties
 	MaxProperties     int64             `json:"maxproperties,omitempty"` //Maximum number of required properties
 	MinLength         int64             `json:"minLength,omitempty"`     //string types, minimum length of string
 	MaxLength         int64             `json:"maxLength,omitempty"`     //string types, maximum length of string
+	//Enum              []string          `json:"enum,omitempty"`     //string types, Contains an explicit list of options
 }
