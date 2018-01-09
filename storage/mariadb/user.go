@@ -25,7 +25,6 @@ func (s *Storage) LoginUser(username string, password string) (user *model.User,
 	if err != nil {
 		return
 	}
-	fmt.Println(user.Password, password)
 	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		return
 	}

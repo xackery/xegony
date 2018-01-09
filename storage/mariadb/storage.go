@@ -89,7 +89,7 @@ func (s *Storage) DropTables() (err error) {
 	}
 	tables := []string{
 		"account",
-		"activity",
+		"activities",
 		"base",
 		"bazaar",
 		"character_data",
@@ -104,7 +104,7 @@ func (s *Storage) DropTables() (err error) {
 		"npc",
 		"npcloot",
 		"post",
-		"task",
+		"tasks",
 		"topic",
 		"user",
 		"zone",
@@ -132,6 +132,10 @@ func (s *Storage) VerifyTables() (err error) {
 
 	tables := []TableCheck{
 		{
+			Func: s.createTableActivity,
+			Name: "Activity",
+		},
+		{
 			Func: s.createTableAccount,
 			Name: "Account",
 		},
@@ -158,6 +162,10 @@ func (s *Storage) VerifyTables() (err error) {
 		{
 			Func: s.createTablePost,
 			Name: "Post",
+		},
+		{
+			Func: s.createTableTask,
+			Name: "Task",
 		},
 		{
 			Func: s.createTableTopic,

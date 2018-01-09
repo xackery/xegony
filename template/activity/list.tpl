@@ -39,9 +39,9 @@
 					<tbody>
 					{{range $key, $value := .Activitys}}
 					<tr>
-						<td><a href="/task/{{$value.Taskid}}/activity/{{$value.Activityid}}">{{$value.Activityid}}</a></td>
-						<td><a href="/task/{{$value.Taskid}}/activity/{{$value.Activityid}}">{{$value.Activitytype}}</a></td>
-						<td><a href="/task/{{$value.Taskid}}/activity/{{$value.Activityid}}">{{$value.Text3}}</a></td>
+						<td><a href="/task/{{$value.Taskid}}/{{$value.Activityid}}">{{$value.Activityid}}</a></td>
+						<td><a href="/task/{{$value.Taskid}}/{{$value.Activityid}}">{{$value.Activitytype}}</a></td>
+						<td><a href="/task/{{$value.Taskid}}/{{$value.Activityid}}">{{$value.Text3}}</a></td>
 					</tr>
 					{{end}}                
 					</tbody>

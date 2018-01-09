@@ -33,6 +33,7 @@ type Storage interface {
 	DeleteAccount(accountID int64) (err error)
 	//Activity
 	GetActivity(taskID int64, activityID int64) (activity *model.Activity, err error)
+	GetActivityNextStep(taskID int64, activityID int64) (step int64, err error)
 	CreateActivity(activity *model.Activity) (err error)
 	EditActivity(activityID int64, activity *model.Activity) (err error)
 	ListActivity(taskID int64) (activitys []*model.Activity, err error)
@@ -290,6 +291,7 @@ type Storage interface {
 	DeleteZoneLevel(zoneID int64) (err error)
 	//Task
 	GetTask(taskID int64) (task *model.Task, err error)
+	GetTaskNextID() (taskID int64, err error)
 	CreateTask(task *model.Task) (err error)
 	EditTask(taskID int64, task *model.Task) (err error)
 	ListTask() (tasks []*model.Task, err error)

@@ -39,7 +39,7 @@ func (c *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
 		err = fmt.Errorf("Empty bazaar")
 		return
 	}
-	schema, err := c.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"price", "accountID", "itemID"}, nil)
 	if err != nil {
 		return
 	}
@@ -68,7 +68,7 @@ func (c *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
 
 //Edit handles logic
 func (c *BazaarRepository) Edit(bazaarID int64, bazaar *model.Bazaar) (err error) {
-	schema, err := c.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"price", "accountID", "itemID"}, nil)
 	if err != nil {
 		return
 	}
@@ -146,14 +146,12 @@ func (c *BazaarRepository) getSchemaProperty(field string) (prop model.Schema, e
 	case "itemID":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "id":
+	case "accountID":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "name":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 30
-		prop.Pattern = "^[a-zA-Z]*$"
+	case "price":
+		prop.Type = "integer"
+		prop.Minimum = 1
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

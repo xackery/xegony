@@ -7,7 +7,7 @@ import (
 func TestAccountEndpoints(t *testing.T) {
 	initializeServer(t)
 
-	test := Endpoint{
+	doHTTPTest(t, Endpoint{
 		name:         "CreateAccountInvalidNameReq",
 		path:         "/api/account",
 		method:       "POST",
@@ -15,9 +15,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 400,
 		response:     `{"message":"String length must be greater than or equal to 3","fields":{"name":"String length must be greater than or equal to 3"}}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "CreateAccountFailDecode",
 		path:         "/api/account",
 		method:       "POST",
@@ -25,9 +24,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 405,
 		response:     `{"message":"Failed to decode body"}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "CreateAccountMinNameFail",
 		path:         "/api/account",
 		method:       "POST",
@@ -40,9 +38,8 @@ func TestAccountEndpoints(t *testing.T) {
 			},
 		},
 		useAuth: true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "CreateAccountMaxNameFail",
 		path:         "/api/account",
 		method:       "POST",
@@ -50,9 +47,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 400,
 		response:     `{"message":"String length must be less than or equal to 30","fields":{"name":"String length must be less than or equal to 30"}}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "CreateAccountBadCharFail",
 		path:         "/api/account",
 		method:       "POST",
@@ -60,9 +56,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 400,
 		response:     `{"message":"Does not match pattern '^[a-zA-Z]*$'","fields":{"name":"Does not match pattern '^[a-zA-Z]*$'"}}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "CreateAccountNotAdmin",
 		path:         "/api/account",
 		method:       "POST",
@@ -70,9 +65,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 401,
 		response:     `{"message":"Administrator access required"}`,
 		useAuth:      false,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "CreateAccount",
 		path:         "/api/account",
 		method:       "POST",
@@ -80,9 +74,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 201,
 		response:     `{"id":82152,"name":"Test","charname":"","sharedplat":0,"password":"","status":10,"lsaccountID":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "GetAccountInvalidAccountID",
 		path:         "/api/account/invalid",
 		method:       "GET",
@@ -90,9 +83,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 400,
 		response:     `{"message":"accountID argument is required: Invalid arguments provided"}`,
 		useAuth:      false,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "GetAccountNoResults",
 		path:         "/api/account/2",
 		method:       "GET",
@@ -100,9 +92,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 200,
 		response:     nil,
 		useAuth:      false,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "GetAccount",
 		path:         "/api/account/1",
 		method:       "GET",
@@ -110,9 +101,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 200,
 		response:     `{"id":1,"name":"Shin","charname":"","sharedplat":0,"password":"","status":200,"lsaccountID":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}`,
 		useAuth:      false,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "NoTokenEditAccount",
 		path:         "/api/account/invalid",
 		method:       "PUT",
@@ -120,9 +110,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 401,
 		response:     `{"message":"Moderator access required"}`,
 		useAuth:      false,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "InvalidEditAccount",
 		path:         "/api/account/invalid",
 		method:       "PUT",
@@ -130,9 +119,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 400,
 		response:     `{"message":"accountID argument is required: Invalid arguments provided"}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "RequestFailEditAccount",
 		path:         "/api/account/4",
 		method:       "PUT",
@@ -140,9 +128,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 400,
 		response:     `{"message":"Does not match pattern '^[a-zA-Z]*$'","fields":{"name":"Does not match pattern '^[a-zA-Z]*$'"}}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "EditAccount",
 		path:         "/api/account/2",
 		method:       "PUT",
@@ -150,9 +137,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 304,
 		response:     ``,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "NoContentEditAccount",
 		path:         "/api/account/2",
 		method:       "PUT",
@@ -160,9 +146,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 304,
 		response:     ``,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "EditAccountInvalid",
 		path:         "/api/account/1",
 		method:       "PUT",
@@ -170,9 +155,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 405,
 		response:     `{"message":"Request error: Failed to decode body"}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "ListAccount",
 		path:         "/api/account",
 		method:       "GET",
@@ -180,9 +164,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 200,
 		response:     `[{"id":82152,"name":"Test","charname":"","sharedplat":0,"password":"","status":10,"lsaccountID":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""},{"id":1,"name":"Shin","charname":"","sharedplat":0,"password":"","status":200,"lsaccountID":{"Int64":0,"Valid":false},"gmspeed":0,"revoked":0,"karma":0,"miniloginIp":"","hideme":0,"rulesflag":0,"suspendeduntil":"0001-01-01T00:00:00Z","timeCreation":0,"expansion":0,"banReason":"","suspendReason":""}]`,
 		useAuth:      false,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "InvalidIdDeleteAccount",
 		path:         "/api/account/{invalid}",
 		method:       "DELETE",
@@ -190,9 +173,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 400,
 		response:     `{"message":"accountID argument is required: Invalid arguments provided"}`,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "RequestFailDeleteAccount",
 		path:         "/api/account/3",
 		method:       "DELETE",
@@ -200,9 +182,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 304,
 		response:     ``,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "DeleteAccountNotLoggedIn",
 		path:         "/api/account/1",
 		method:       "DELETE",
@@ -210,9 +191,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 401,
 		response:     `{"message":"Administrator access required"}`,
 		useAuth:      false,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "DeleteAccount",
 		path:         "/api/account/1",
 		method:       "DELETE",
@@ -220,9 +200,8 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 204,
 		response:     ``,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
-	test = Endpoint{
+	})
+	doHTTPTest(t, Endpoint{
 		name:         "DeleteAccountInvalidID",
 		path:         "/api/account/5",
 		method:       "DELETE",
@@ -230,6 +209,5 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 304,
 		response:     ``,
 		useAuth:      true,
-	}
-	doHTTPTest(test, t)
+	})
 }

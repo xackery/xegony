@@ -39,10 +39,11 @@ func (c *TaskRepository) Create(task *model.Task) (err error) {
 		err = fmt.Errorf("Empty task")
 		return
 	}
-	schema, err := c.newSchema([]string{"shortName"}, nil)
+	schema, err := c.newSchema([]string{"title"}, nil)
 	if err != nil {
 		return
 	}
+
 	task.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(task))
 	if err != nil {
@@ -68,7 +69,7 @@ func (c *TaskRepository) Create(task *model.Task) (err error) {
 
 //Edit handles logic
 func (c *TaskRepository) Edit(taskID int64, task *model.Task) (err error) {
-	schema, err := c.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema([]string{"title"}, nil)
 	if err != nil {
 		return
 	}
@@ -146,6 +147,11 @@ func (c *TaskRepository) getSchemaProperty(field string) (prop model.Schema, err
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
+	case "title":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 32
+		prop.Pattern = "^[a-zA-Z]*$"
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

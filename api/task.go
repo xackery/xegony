@@ -9,7 +9,27 @@ import (
 )
 
 func (a *API) taskRoutes() (routes []*route) {
-	routes = []*route{}
+	routes = []*route{
+		//Task
+		{
+			"GetTask",
+			"GET",
+			"/task/{taskID}/details",
+			a.getTask,
+		},
+		{
+			"ListTask",
+			"GET",
+			"/task",
+			a.listTask,
+		},
+		{
+			"ListTask",
+			"POST",
+			"/task",
+			a.createTask,
+		},
+	}
 	return
 }
 

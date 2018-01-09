@@ -1,6 +1,7 @@
 package mariadb
 
 import (
+	"database/sql"
 	"fmt"
 
 	"github.com/xackery/xegony/model"
@@ -22,6 +23,21 @@ func (s *Storage) GetTask(taskID int64) (task *model.Task, err error) {
 	return
 }
 
+func (s *Storage) GetTaskNextID() (taskID int64, err error) {
+	err = s.db.Get(&taskID, "SELECT id FROM tasks ORDER BY ID DESC LIMIT 1")
+	if err != nil {
+		if err == sql.ErrNoRows {
+			taskID = 1
+			err = nil
+			return
+		}
+		return
+	}
+
+	taskID++
+	return
+}
+
 //CreateTask will grab data from storage
 func (s *Storage) CreateTask(task *model.Task) (err error) {
 	if task == nil {
@@ -29,16 +45,19 @@ func (s *Storage) CreateTask(task *model.Task) (err error) {
 		return
 	}
 
-	result, err := s.db.NamedExec(fmt.Sprintf(`INSERT INTO tasks(%s)
-		VALUES (%s)`, taskFields, taskBinds), task)
+	taskID, err := s.GetTaskNextID()
 	if err != nil {
 		return
 	}
-	taskID, err := result.LastInsertId()
-	if err != nil {
-		return
-	}
+
 	task.ID = taskID
+
+	fmt.Println(task)
+	_, err = s.db.NamedExec(fmt.Sprintf(`INSERT INTO tasks(id, %s)
+		VALUES (:id, %s)`, taskFields, taskBinds), task)
+	if err != nil {
+		return
+	}
 	return
 }
 
@@ -88,6 +107,31 @@ func (s *Storage) DeleteTask(taskID int64) (err error) {
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		return
+	}
+	return
+}
+
+//createTableTopic will grab data from storage
+func (s *Storage) createTableTask() (err error) {
+	_, err = s.db.Exec(`
+CREATE TABLE tasks (
+  id int(11) unsigned NOT NULL DEFAULT '0',
+  duration int(11) unsigned NOT NULL DEFAULT '0',
+  title varchar(100) NOT NULL DEFAULT '',
+  description text NOT NULL,
+  reward varchar(64) NOT NULL DEFAULT '',
+  rewardid int(11) unsigned NOT NULL DEFAULT '0',
+  cashreward int(11) unsigned NOT NULL DEFAULT '0',
+  xpreward int(10) NOT NULL DEFAULT '0',
+  rewardmethod tinyint(3) unsigned NOT NULL DEFAULT '2',
+  startzone int(11) NOT NULL DEFAULT '0',
+  minlevel tinyint(3) unsigned NOT NULL DEFAULT '0',
+  maxlevel tinyint(3) unsigned NOT NULL DEFAULT '0',
+  repeatable tinyint(1) unsigned NOT NULL DEFAULT '1',
+  PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;`)
+	if err != nil {
 		return
 	}
 	return

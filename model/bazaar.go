@@ -1,10 +1,15 @@
 package model
 
-import ()
+import (
+	"time"
+)
 
 //Bazaar is an item store on the website
 type Bazaar struct {
-	ID     int64  `json:"id"`
-	ItemID int64  `json:"itemID" db:"itemid"`
-	Name   string `json:"name"`
+	Item       *Item
+	ID         int64     `json:"id" db:"id"`
+	ItemID     int64     `json:"itemID" db:"itemid"`
+	AccountID  int64     `json:"accountID" db:"accountid"`
+	Price      int64     `json:"price" db:"price"`
+	CreateDate time.Time `json:"createDate" db:"createdate"`
 }

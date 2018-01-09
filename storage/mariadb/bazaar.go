@@ -6,10 +6,17 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+var (
+	bazaarFields = `accountid, itemid, price`
+	bazaarSets   = `accountid=:accountid, itemid=:itemid, price=:price`
+	bazaarBinds  = `:accountid, :itemid, :price`
+)
+
 //GetBazaar will grab data from storage
 func (s *Storage) GetBazaar(bazaarID int64) (bazaar *model.Bazaar, err error) {
 	bazaar = &model.Bazaar{}
-	err = s.db.Get(bazaar, "SELECT id, name, itemid FROM bazaar WHERE id = ?", bazaarID)
+	query := fmt.Sprintf(`SELECT id, %s FROM bazaar WHERE id = ?`, bazaarFields)
+	err = s.db.Get(bazaar, query, bazaarID)
 	if err != nil {
 		return
 	}
@@ -23,8 +30,9 @@ func (s *Storage) CreateBazaar(bazaar *model.Bazaar) (err error) {
 		return
 	}
 
-	result, err := s.db.NamedExec(`INSERT INTO bazaar(name, itemid)
-		VALUES (:name, :itemid)`, bazaar)
+	query := fmt.Sprintf(`INSERT INTO bazaar(%s)
+		VALUES (%s)`, bazaarFields, bazaarBinds)
+	result, err := s.db.NamedExec(query, bazaar)
 	if err != nil {
 		return
 	}
@@ -38,7 +46,8 @@ func (s *Storage) CreateBazaar(bazaar *model.Bazaar) (err error) {
 
 //ListBazaar will grab data from storage
 func (s *Storage) ListBazaar() (bazaars []*model.Bazaar, err error) {
-	rows, err := s.db.Queryx(`SELECT id, name, itemid FROM bazaar ORDER BY id DESC`)
+	query := fmt.Sprintf(`SELECT id, %s FROM bazaar ORDER BY id DESC`, bazaarFields)
+	rows, err := s.db.Queryx(query)
 	if err != nil {
 		return
 	}
@@ -56,7 +65,7 @@ func (s *Storage) ListBazaar() (bazaars []*model.Bazaar, err error) {
 //EditBazaar will grab data from storage
 func (s *Storage) EditBazaar(bazaarID int64, bazaar *model.Bazaar) (err error) {
 	bazaar.ID = bazaarID
-	result, err := s.db.NamedExec(`UPDATE bazaar SET name=:name, itemid=:itemid WHERE id = :id`, bazaar)
+	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE bazaar SET %s WHERE id = :id`, bazaarSets), bazaar)
 	if err != nil {
 		return
 	}
@@ -92,13 +101,12 @@ func (s *Storage) DeleteBazaar(bazaarID int64) (err error) {
 func (s *Storage) createTableBazaar() (err error) {
 	_, err = s.db.Exec(`CREATE TABLE if NOT EXISTS bazaar (
   id int(11) unsigned NOT NULL AUTO_INCREMENT,
-  name varchar(32) NOT NULL DEFAULT '',
-  owner_id int(11) unsigned NOT NULL,
-  item_id int(11) unsigned NOT NULL,
-  last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  accountid int(11) unsigned NOT NULL,
+  itemid int(11) unsigned NOT NULL,
+  price int(11) unsigned NOT NULL,
+  createdate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;`)
 	if err != nil {
 		return
 	}

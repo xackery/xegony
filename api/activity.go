@@ -3,6 +3,7 @@ package api
 import (
 	"database/sql"
 	"net/http"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -11,22 +12,33 @@ import (
 func (a *API) activityRoutes() (routes []*route) {
 	routes = []*route{
 		{
+			"ListActivity",
+			"GET",
+			"/task/{taskID}",
+			a.listActivity,
+		},
+		{
 			"GetActivity",
 			"GET",
-			"/activity/{activityID}",
+			"/task/{taskID}/{activityID}",
 			a.getActivity,
 		},
 		{
-			"ListActivity",
-			"GET",
-			"/activity",
-			a.listCharacter,
+			"CreateActivity",
+			"POST",
+			"/task/{taskID}",
+			a.createActivity,
 		},
 	}
 	return
 }
 
 func (a *API) getActivity(w http.ResponseWriter, r *http.Request) {
+
+	if strings.ToLower(getVar(r, "activityID")) == "details" {
+		a.getTask(w, r)
+		return
+	}
 
 	activityID, err := getIntVar(r, "activityID")
 	if err != nil {

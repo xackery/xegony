@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -43,10 +44,50 @@ func (c *ActivityRepository) Create(activity *model.Activity) (err error) {
 		err = fmt.Errorf("Empty activity")
 		return
 	}
-	schema, err := c.newSchema([]string{"body"}, nil)
+
+	schema, err := c.newSchema([]string{"zoneid", "activityType"}, nil)
 	if err != nil {
 		return
 	}
+
+	//Verify taskID
+
+	_, err = c.stor.GetTask(activity.TaskID)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to verify TaskID")
+		return
+	}
+
+	//Verify zoneID
+	if activity.ZoneID == 0 {
+		err = fmt.Errorf("Invalid ZoneID")
+	}
+	zoneRepo := &ZoneRepository{}
+	err = zoneRepo.Initialize(c.stor)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to initialize zone repo")
+		return
+	}
+
+	if _, err = zoneRepo.Get(activity.ZoneID); err != nil {
+		err = errors.Wrap(err, "Failed to get zone ID")
+		return
+	}
+
+	//Check if step is valid
+	step, err := c.stor.GetActivityNextStep(activity.TaskID, activity.ActivityID)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get next activity step")
+		return
+	}
+	if activity.Step == 0 {
+		activity.Step = step
+	}
+	if activity.Step > step {
+		err = errors.Wrap(err, "Step is out of steps bounds")
+		return
+	}
+
 	result, err := schema.Validate(gojsonschema.NewGoLoader(activity))
 	if err != nil {
 		return
@@ -149,6 +190,12 @@ func (c *ActivityRepository) getSchemaProperty(field string) (prop model.Schema,
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
+	case "zoneid":
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "activityType":
+		prop.Type = "integer"
+		prop.EnumInt = []int64{1, 2, 3, 4, 5, 6, 7, 8, 11, 100}
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

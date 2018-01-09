@@ -13,7 +13,6 @@ func (s *Storage) GetForum(forumID int64) (forum *model.Forum, err error) {
 	if err != nil {
 		return
 	}
-	fmt.Println("Forum", forum)
 	return
 }
 

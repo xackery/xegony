@@ -19,6 +19,10 @@ var (
 	apiKey string
 )
 
+type resp struct {
+	Message string `json:"message"`
+}
+
 type fieldResp struct {
 	Message string            `json:"message"`
 	Fields  map[string]string `json:"fields"`
@@ -70,7 +74,7 @@ func getURL() string {
 	return "http://localhost:8081"
 }
 
-func doHTTPTest(test Endpoint, t *testing.T) string {
+func doHTTPTest(t *testing.T, test Endpoint) string {
 
 	var req *http.Request
 	client := &http.Client{}
@@ -177,7 +181,7 @@ func getAuthKey(t *testing.T) {
 	return
 }
 
-func TestRestEndpoints(t *testing.T) {
+func TestIndex(t *testing.T) {
 	var err error
 	s := &mariadb.Storage{}
 	s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", ioutil.Discard)
@@ -185,20 +189,13 @@ func TestRestEndpoints(t *testing.T) {
 
 	initializeServer(t)
 
-	tests := []Endpoint{
-		{
-			name:         "GetIndex",
-			path:         "/api/",
-			method:       "GET",
-			body:         "",
-			responseCode: 200,
-			response:     `{"message":"Please refer to documentation for more details"}`,
-			useAuth:      false,
-		},
-	}
-
-	for _, test := range tests {
-		doHTTPTest(test, t)
-	}
-
+	doHTTPTest(t, Endpoint{
+		name:         "GetIndex",
+		path:         "/api/",
+		method:       "GET",
+		body:         "",
+		responseCode: 200,
+		response:     `{"message":"Please refer to documentation for more details"}`,
+		useAuth:      false,
+	})
 }

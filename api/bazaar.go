@@ -9,7 +9,38 @@ import (
 )
 
 func (a *API) bazaarRoutes() (routes []*route) {
-	routes = []*route{}
+	routes = []*route{
+		{
+			"CreateBazaar",
+			"POST",
+			"/bazaar",
+			a.createBazaar,
+		},
+		{
+			"DeleteBazaar",
+			"DELETE",
+			"/bazaar/{bazaarID}",
+			a.deleteBazaar,
+		},
+		{
+			"EditBazaar",
+			"PUT",
+			"/bazaar/{bazaarID}",
+			a.editBazaar,
+		},
+		{
+			"GetBazaar",
+			"GET",
+			"/bazaar/{bazaarID}",
+			a.getBazaar,
+		},
+		{
+			"ListBazaar",
+			"GET",
+			"/bazaar",
+			a.listBazaar,
+		},
+	}
 	return
 }
 
