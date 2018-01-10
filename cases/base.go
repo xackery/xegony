@@ -110,6 +110,11 @@ func (c *BaseRepository) List() (bases []*model.Base, err error) {
 	return
 }
 
+func (c *BaseRepository) prepare(base *model.Base) (err error) {
+
+	return
+}
+
 func (c *BaseRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -114,6 +114,11 @@ func (c *BazaarRepository) List() (bazaars []*model.Bazaar, err error) {
 	return
 }
 
+func (c *BazaarRepository) prepare(bazaar *model.Bazaar) (err error) {
+
+	return
+}
+
 func (c *BazaarRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

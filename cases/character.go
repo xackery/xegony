@@ -203,6 +203,11 @@ func (c *CharacterRepository) ListByAccount(accountID int64) (characters []*mode
 	return
 }
 
+func (c *CharacterRepository) prepare(character *model.Character) (err error) {
+	character.ClassName = className(character.Class)
+	return
+}
+
 func (c *CharacterRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

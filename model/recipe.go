@@ -8,7 +8,7 @@ import (
 
 //Recipe represents tradeskill recipes inside everquest
 type Recipe struct {
-	Entrys []*RecipeEntry
+	Entrys []*RecipeEntry `json:"entrys"`
 
 	ID               int64          `json:"id" db:"id"`                              //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name             string         `json:"name" db:"name"`                          //`name` varchar(64) NOT NULL DEFAULT '',

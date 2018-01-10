@@ -115,6 +115,11 @@ func (c *AaRankRepository) List() (aaEntrys []*model.AaRank, query string, err e
 	return
 }
 
+func (c *AaRankRepository) prepare(aarank *model.AaRank) (err error) {
+
+	return
+}
+
 func (c *AaRankRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

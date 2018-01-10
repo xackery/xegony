@@ -158,6 +158,10 @@ func (c *ActivityRepository) List(taskID int64) (activitys []*model.Activity, er
 	return
 }
 
+func (c *ActivityRepository) prepare(activity *model.Activity) (err error) {
+
+	return
+}
 func (c *ActivityRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

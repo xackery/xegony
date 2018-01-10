@@ -150,6 +150,11 @@ func (c *RuleRepository) List() (rules []*model.Rule, err error) {
 	return
 }
 
+func (c *RuleRepository) prepare(rule *model.Rule) (err error) {
+
+	return
+}
+
 //newSchema handler
 func (c *RuleRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}

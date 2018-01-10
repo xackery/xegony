@@ -150,6 +150,11 @@ func (c *SharedBankRepository) ListByItem(accountID int64, itemID int64) (shared
 	return
 }
 
+func (c *SharedBankRepository) prepare(sharedBank *model.SharedBank) (err error) {
+
+	return
+}
+
 func (c *SharedBankRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -159,6 +159,11 @@ func (c *FishingRepository) GetByItem(itemID int64) (fishings []*model.Fishing, 
 	return
 }
 
+func (c *FishingRepository) prepare(fishing *model.Fishing) (err error) {
+
+	return
+}
+
 func (c *FishingRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

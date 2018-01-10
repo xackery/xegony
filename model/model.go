@@ -67,6 +67,7 @@ var (
 		15: "Tunare",
 		16: "Veeshan",
 	}
+
 	skills = map[int64]string{
 		0:  "1H Blunt",
 		1:  "1H Slashing",
@@ -1229,103 +1230,6 @@ func ClassIcon(class int64) string {
 		return "xa-axe" //ber
 	}
 	return "xa-help"
-}
-
-//ClassName returns human readable version of a class
-func ClassName(class int64) string {
-	switch class {
-	case 1:
-		return "Warrior"
-	case 2:
-		return "Cleric"
-	case 3:
-		return "Paladin"
-	case 4:
-		return "Ranger"
-	case 5:
-		return "Shadowknight"
-	case 6:
-		return "Druid"
-	case 7:
-		return "Monk"
-	case 8:
-		return "Bard"
-	case 9:
-		return "Rogue"
-	case 10:
-		return "Shaman"
-	case 11:
-		return "Necromancer"
-	case 12:
-		return "Wizard"
-	case 13:
-		return "Magician"
-	case 14:
-		return "Enchanter"
-	case 15:
-		return "Beastlord"
-	case 16:
-		return "Berserker"
-	case 20:
-		return "GM Warrior"
-	case 21:
-		return "GM Cleric"
-	case 22:
-		return "GM Paladin"
-	case 23:
-		return "GM Ranger"
-	case 24:
-		return "GM Shadow Knight"
-	case 25:
-		return "GM Druid"
-	case 26:
-		return "GM Monk"
-	case 27:
-		return "GM Bard"
-	case 28:
-		return "GM Rogue"
-	case 29:
-		return "GM Shaman"
-	case 30:
-		return "GM Necromancer"
-	case 31:
-		return "GM Wizard"
-	case 32:
-		return "GM Magician"
-	case 33:
-		return "GM Enchanter"
-	case 34:
-		return "GM Beastlord"
-	case 35:
-		return "GM Berserker"
-	case 40:
-		return "Banker"
-	case 41:
-		return "Shopkeeper"
-	case 59:
-		return "Discord Merchant"
-	case 60:
-		return "Adventure Recruiter"
-	case 61:
-		return "Adventure Merchant"
-	case 63:
-		return "Tribute Master"
-	case 64:
-		return "Guild Tribute Master?"
-	case 66:
-		return "Guild Bank"
-	case 67:
-		return "Radiant Crystal Merchant"
-	case 68:
-		return "Ebon Crystal Merchant"
-	case 69:
-		return "Fellowships"
-	case 70:
-		return "Alternate Currency Merchant"
-	case 71:
-		return "Mercenary Merchant"
-	}
-	return fmt.Sprintf("Unknown (%d)", class)
 }
 
 //RaceIcon returns the race icon
@@ -3135,4 +3039,69 @@ var itemGroups = map[int64]string{
 	6: "FoodDrink",
 	7: "Benefit",
 	8: "Potion",
+}
+
+var spellAnimations = map[string]string{
+	"F": "Fire and Ice",
+	"P": "Poison/Disease",
+	"E": "Electricity",
+	"S": "Sparkles",
+	"L": "Light",
+	"D": "Darkness",
+	"N": "Nature",
+	"U": "Blue",
+	"T": "Teleportation",
+	"M": "Music",
+	"B": "Dragon Breath",
+	"X": "Sound Effects",
+	"I": "Shielding",
+	"G": "Ground/Feet",
+	"H": "Hands",
+	"C": "Caster Only",
+	"W": "Fireworks",
+	"R": "Permanent/Glitched",
+	"O": "Other/Special",
+	"-": "Unused",
+}
+
+var damageShieldTypes = map[int64]string{
+	254: "Decaying",
+	255: "Chilled",
+	256: "Freezing",
+	257: "Torment",
+	258: "Burning",
+	259: "Thorns",
+}
+
+var mercenarySpellTypes = map[int64]string{
+	0:  "Nuke",
+	1:  "Heal",
+	2:  "Root",
+	3:  "Buff",
+	4:  "Escape",
+	5:  "Pet",
+	6:  "Lifetap",
+	7:  "Snare",
+	8:  "DoT",
+	9:  "Dispell",
+	10: "In-Combat Buff",
+	11: "Mez",
+	12: "Charm",
+	13: "Slow",
+	14: "Debuff",
+	15: "Cure",
+	16: "Resurrect",
+}
+
+var resistanceTypes = map[int64]string{
+	0: "Unresistable",
+	1: "Magic",
+	2: "Fire",
+	3: "Cold",
+	4: "Poison",
+	5: "Disease",
+	6: "Chromatic (Lowest)",
+	7: "Prismatic (Average)",
+	8: "Physical",
+	9: "Corruption",
 }

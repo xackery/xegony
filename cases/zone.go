@@ -266,6 +266,11 @@ func (c *ZoneRepository) ListByHotzone() (zones []model.Zone, err error) {
 	return
 }
 
+func (c *ZoneRepository) prepare(zone *model.Zone) (err error) {
+
+	return
+}
+
 //newSchema handler
 func (c *ZoneRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}

@@ -143,6 +143,11 @@ func (c *SpawnEntryRepository) ListByZone(zoneID int64) (spawnEntrys []*model.Sp
 	return
 }
 
+func (c *SpawnEntryRepository) prepare(spawnEntry *model.SpawnEntry) (err error) {
+
+	return
+}
+
 func (c *SpawnEntryRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

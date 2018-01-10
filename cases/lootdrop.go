@@ -115,6 +115,11 @@ func (c *LootDropRepository) List() (lootDrops []*model.LootDrop, err error) {
 	return
 }
 
+func (c *LootDropRepository) prepare(lootDrop *model.LootDrop) (err error) {
+
+	return
+}
+
 func (c *LootDropRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -114,6 +114,11 @@ func (c *FactionRepository) List() (factions []*model.Faction, err error) {
 	return
 }
 
+func (c *FactionRepository) prepare(faction *model.Faction) (err error) {
+
+	return
+}
+
 func (c *FactionRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

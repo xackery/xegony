@@ -189,6 +189,10 @@ func (c *NpcRepository) ListByFaction(factionID int64) (npcs []*model.Npc, err e
 	return
 }
 
+func (c *NpcRepository) prepare(npc *model.Npc) {
+	npc.ClassName = className(npc.Class)
+}
+
 func (c *NpcRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

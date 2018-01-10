@@ -114,6 +114,11 @@ func (c *PostRepository) List(topicID int64) (posts []*model.Post, err error) {
 	return
 }
 
+func (c *PostRepository) prepare(post *model.Post) (err error) {
+
+	return
+}
+
 func (c *PostRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

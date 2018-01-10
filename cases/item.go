@@ -434,6 +434,11 @@ func (c *ItemRepository) GetByZone(zoneID int64) (items []*model.Item, err error
 	return
 }
 
+func (c *ItemRepository) prepare(item *model.Item) (err error) {
+
+	return
+}
+
 func (c *ItemRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

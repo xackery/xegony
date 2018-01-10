@@ -150,6 +150,11 @@ func (c *ForageRepository) GetByItem(itemID int64) (forages []*model.Forage, err
 	return
 }
 
+func (c *ForageRepository) prepare(forage *model.Forage) (err error) {
+
+	return
+}
+
 func (c *ForageRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

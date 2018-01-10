@@ -1,13 +1,25 @@
 package model
 
 import (
-	"fmt"
-
 	"database/sql"
 )
 
 //Spell represents items inside everquest
 type Spell struct {
+	Skill            *Skill         `json:"skill"`
+	TypeName         string         `json:"typeName"`
+	ClassesList      string         `json:"classesList"`
+	LowestLevel      int64          `json:"lowestLevel"`
+	CastTimeName     string         `json:"castTimeName"`
+	RecoveryTimeName string         `json:"recoveryTimeName"`
+	RecastTimeName   string         `json:"recastTimeName"`
+	TargetTypeName   string         `json:"targetTypeName"`
+	ResistTypeName   string         `json:"resistTypeName"`
+	BuffDurationName string         `json:"buffDurationName"`
+	Reagents         []*Item        `json:"reagents"`
+	NoExpendReagents []*Item        `json:"noExpendReagents"`
+	Effects          []*SpellEffect `json:"effects"`
+
 	ID                  int64          `json:"id" db:"id"`                                   //`id` int(11) NOT NULL DEFAULT '0',
 	Name                sql.NullString `json:"name" db:"name"`                               //`name` varchar(64) DEFAULT NULL,
 	Player1             sql.NullString `json:"player1" db:"player_1"`                        //`player_1` varchar(64) DEFAULT 'BLUE_TRAIL',
@@ -24,8 +36,8 @@ type Spell struct {
 	CastTime            int64          `json:"castTime" db:"cast_time"`                      //`cast_time` int(11) NOT NULL DEFAULT '0',
 	RecoveryTime        int64          `json:"recoveryTime" db:"recovery_time"`              //`recovery_time` int(11) NOT NULL DEFAULT '0',
 	RecastTime          int64          `json:"recastTime" db:"recast_time"`                  //`recast_time` int(11) NOT NULL DEFAULT '0',
-	Buffdurationformula int64          `json:"buffdurationformula" db:"buffdurationformula"` //`buffdurationformula` int(11) NOT NULL DEFAULT '7',
-	Buffduration        int64          `json:"buffduration" db:"buffduration"`               //`buffduration` int(11) NOT NULL DEFAULT '65',
+	BuffDurationFormula int64          `json:"buffdurationformula" db:"buffdurationformula"` //`buffdurationformula` int(11) NOT NULL DEFAULT '7',
+	BuffDuration        int64          `json:"buffduration" db:"buffduration"`               //`buffduration` int(11) NOT NULL DEFAULT '65',
 	Aeduration          int64          `json:"AEDuration" db:"AEDuration"`                   //`AEDuration` int(11) NOT NULL DEFAULT '0',
 	Mana                int64          `json:"mana" db:"mana"`                               //`mana` int(11) NOT NULL DEFAULT '0',
 	EffectBaseValue1    int64          `json:"effectBaseValue1" db:"effect_base_value1"`     //`effect_base_value1` int(11) NOT NULL DEFAULT '100',
@@ -93,7 +105,7 @@ type Spell struct {
 	Lighttype           int64          `json:"LightType" db:"LightType"`                     //`LightType` int(11) NOT NULL DEFAULT '0',
 	Goodeffect          int64          `json:"goodEffect" db:"goodEffect"`                   //`goodEffect` int(11) NOT NULL DEFAULT '0',
 	Activated           int64          `json:"Activated" db:"Activated"`                     //`Activated` int(11) NOT NULL DEFAULT '0',
-	Resisttype          int64          `json:"resisttype" db:"resisttype"`                   //`resisttype` int(11) NOT NULL DEFAULT '0',
+	ResistType          int64          `json:"resisttype" db:"resisttype"`                   //`resisttype` int(11) NOT NULL DEFAULT '0',
 	Effectid1           int64          `json:"effectid1" db:"effectid1"`                     //`effectid1` int(11) NOT NULL DEFAULT '254',
 	Effectid2           int64          `json:"effectid2" db:"effectid2"`                     //`effectid2` int(11) NOT NULL DEFAULT '254',
 	Effectid3           int64          `json:"effectid3" db:"effectid3"`                     //`effectid3` int(11) NOT NULL DEFAULT '254',
@@ -108,7 +120,7 @@ type Spell struct {
 	Effectid12          int64          `json:"effectid12" db:"effectid12"`                   //`effectid12` int(11) NOT NULL DEFAULT '254',
 	Targettype          int64          `json:"targettype" db:"targettype"`                   //`targettype` int(11) NOT NULL DEFAULT '2',
 	Basediff            int64          `json:"basediff" db:"basediff"`                       //`basediff` int(11) NOT NULL DEFAULT '0',
-	Skill               int64          `json:"skill" db:"skill"`                             //`skill` int(11) NOT NULL DEFAULT '98',
+	SkillID             int64          `json:"skill" db:"skill"`                             //`skill` int(11) NOT NULL DEFAULT '98',
 	Zonetype            int64          `json:"zonetype" db:"zonetype"`                       //`zonetype` int(11) NOT NULL DEFAULT '-1',
 	Environmenttype     int64          `json:"EnvironmentType" db:"EnvironmentType"`         //`EnvironmentType` int(11) NOT NULL DEFAULT '0',
 	Timeofday           int64          `json:"TimeOfDay" db:"TimeOfDay"`                     //`TimeOfDay` int(11) NOT NULL DEFAULT '0',
@@ -245,105 +257,6 @@ type Spell struct {
 	Field234            int64          `json:"field234" db:"field234"`                       //`field234` int(11) NOT NULL DEFAULT '0',
 	Field235            int64          `json:"field235" db:"field235"`                       //`field235` int(11) NOT NULL DEFAULT '0',
 	Field236            int64          `json:"field236" db:"field236"`                       //`field236` int(11) NOT NULL DEFAULT '0',
-}
-
-//SkillName returns human readable version of Skill Name
-func (s *Spell) SkillName() string {
-	return SkillName(s.Skill)
-}
-
-//ClassesList returns a list of human readable classes
-func (s *Spell) ClassesList() string {
-	classes := ""
-
-	if s.Classes1 > 0 && s.Classes1 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(1), s.Classes1)
-	}
-	if s.Classes2 > 0 && s.Classes2 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(2), s.Classes2)
-	}
-	if s.Classes3 > 0 && s.Classes3 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(3), s.Classes3)
-	}
-	if s.Classes4 > 0 && s.Classes4 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(4), s.Classes4)
-	}
-	if s.Classes5 > 0 && s.Classes5 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(5), s.Classes5)
-	}
-	if s.Classes6 > 0 && s.Classes6 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(6), s.Classes6)
-	}
-	if s.Classes7 > 0 && s.Classes7 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(7), s.Classes7)
-	}
-	if s.Classes8 > 0 && s.Classes8 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(8), s.Classes8)
-	}
-	if s.Classes9 > 0 && s.Classes9 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(9), s.Classes9)
-	}
-	if s.Classes10 > 0 && s.Classes10 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(10), s.Classes10)
-	}
-	if s.Classes11 > 0 && s.Classes11 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(11), s.Classes11)
-	}
-	if s.Classes12 > 0 && s.Classes12 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(12), s.Classes12)
-	}
-	if s.Classes13 > 0 && s.Classes13 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", ClassName(13), s.Classes13)
-	}
-	if len(classes) > 3 {
-		classes = classes[0 : len(classes)-2]
-	}
-	return classes
-}
-
-//LowestLevel returns the lowest level a character can mem this
-func (s *Spell) LowestLevel() int64 {
-	lowestClass := int64(255)
-	if s.Classes1 < lowestClass {
-		lowestClass = s.Classes1
-	}
-	if s.Classes2 < lowestClass {
-		lowestClass = s.Classes2
-	}
-	if s.Classes3 < lowestClass {
-		lowestClass = s.Classes3
-	}
-	if s.Classes4 < lowestClass {
-		lowestClass = s.Classes4
-	}
-	if s.Classes5 < lowestClass {
-		lowestClass = s.Classes5
-	}
-	if s.Classes6 < lowestClass {
-		lowestClass = s.Classes6
-	}
-	if s.Classes7 < lowestClass {
-		lowestClass = s.Classes7
-	}
-	if s.Classes8 < lowestClass {
-		lowestClass = s.Classes8
-	}
-	if s.Classes9 < lowestClass {
-		lowestClass = s.Classes9
-	}
-	if s.Classes10 < lowestClass {
-		lowestClass = s.Classes10
-	}
-	if s.Classes11 < lowestClass {
-		lowestClass = s.Classes11
-	}
-	if s.Classes12 < lowestClass {
-		lowestClass = s.Classes12
-	}
-	if s.Classes13 < lowestClass {
-		lowestClass = s.Classes13
-	}
-	return lowestClass
 }
 
 //DescriptionName returns a summary of this spell's attributes

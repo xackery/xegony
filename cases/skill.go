@@ -176,6 +176,11 @@ func (c *SkillRepository) List() (skills []*model.Skill, err error) {
 	return
 }
 
+func (c *SkillRepository) prepare(skill *model.Skill) (err error) {
+
+	return
+}
+
 //newSchema handler
 func (c *SkillRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}

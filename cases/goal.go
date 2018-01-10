@@ -117,6 +117,11 @@ func (c *GoalRepository) List() (goals []*model.Goal, err error) {
 	return
 }
 
+func (c *GoalRepository) prepare(goal *model.Goal) (err error) {
+
+	return
+}
+
 func (c *GoalRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -150,6 +150,11 @@ func (c *VariableRepository) List() (variables []*model.Variable, err error) {
 	return
 }
 
+func (c *VariableRepository) prepare(variable *model.Variable) (err error) {
+
+	return
+}
+
 //newSchema handler
 func (c *VariableRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}

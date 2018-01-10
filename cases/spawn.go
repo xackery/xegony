@@ -122,6 +122,11 @@ func (c *SpawnRepository) ListBySpawnGroup(spawnGroupID int64) (spawns []*model.
 	return
 }
 
+func (c *SpawnRepository) prepare(spawn *model.Spawn) (err error) {
+
+	return
+}
+
 func (c *SpawnRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

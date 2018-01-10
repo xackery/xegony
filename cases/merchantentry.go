@@ -134,6 +134,11 @@ func (c *MerchantEntryRepository) ListByItem(itemID int64) (merchantEntrys []*mo
 	return
 }
 
+func (c *MerchantEntryRepository) prepare(merchantEntry *model.MerchantEntry) (err error) {
+
+	return
+}
+
 func (c *MerchantEntryRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

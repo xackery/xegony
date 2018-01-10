@@ -168,6 +168,11 @@ func (c *RecipeRepository) ListCount() (count int64, err error) {
 	return
 }
 
+func (c *RecipeRepository) prepare(recipe *model.Recipe) (err error) {
+
+	return
+}
+
 func (c *RecipeRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -141,6 +141,11 @@ func (c *ErrorRepository) ListCount() (count int64, err error) {
 	return
 }
 
+func (c *ErrorRepository) prepare(errorStruct *model.Error) (err error) {
+
+	return
+}
+
 func (c *ErrorRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

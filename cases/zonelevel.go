@@ -116,6 +116,11 @@ func (c *ZoneLevelRepository) List() (zoneLevels []*model.ZoneLevel, err error) 
 	return
 }
 
+func (c *ZoneLevelRepository) prepare(zoneLevel *model.ZoneLevel) (err error) {
+
+	return
+}
+
 func (c *ZoneLevelRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -115,6 +115,11 @@ func (c *TaskRepository) List() (tasks []*model.Task, err error) {
 	return
 }
 
+func (c *TaskRepository) prepare(task *model.Task) (err error) {
+
+	return
+}
+
 func (c *TaskRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

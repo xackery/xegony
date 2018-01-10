@@ -111,6 +111,11 @@ func (c *LootTableEntryRepository) List(lootTableID int64) (lootTableEntrys []*m
 	return
 }
 
+func (c *LootTableEntryRepository) prepare(lootTableEntry *model.LootTableEntry) (err error) {
+
+	return
+}
+
 func (c *LootTableEntryRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

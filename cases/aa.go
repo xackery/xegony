@@ -113,6 +113,11 @@ func (c *AaRepository) List() (aas []*model.Aa, err error) {
 	return
 }
 
+func (c *AaRepository) prepare(aa *model.Aa) (err error) {
+
+	return
+}
+
 func (c *AaRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -134,6 +134,11 @@ func (c *RecipeEntryRepository) ListByItem(itemID int64) (recipeEntrys []*model.
 	return
 }
 
+func (c *RecipeEntryRepository) prepare(recipeEntry *model.RecipeEntry) (err error) {
+
+	return
+}
+
 func (c *RecipeEntryRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

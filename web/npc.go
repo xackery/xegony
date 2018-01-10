@@ -477,7 +477,7 @@ func (a *Web) getNpc(w http.ResponseWriter, r *http.Request) {
 			content.Items = append(content.Items, item)
 		}
 	}
-	content.Site.Description = fmt.Sprintf("%s is a level %d %s %s found in %s who drops %d items and spawns at %d locations", npc.CleanName(), npc.Level, npc.RaceName(), npc.ClassName(), npc.ZoneName(), len(content.Items), len(spawns))
+	content.Site.Description = fmt.Sprintf("%s is a level %d %s %s found in %s who drops %d items and spawns at %d locations", npc.CleanName(), npc.Level, npc.RaceName(), npc.ClassName, npc.ZoneName(), len(content.Items), len(spawns))
 	tmp := a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "npc/get.tpl")

@@ -125,6 +125,11 @@ func (c *NpcLootRepository) ListByZone(zoneID int64) (npcLoots []*model.NpcLoot,
 	return
 }
 
+func (c *NpcLootRepository) prepare(npcLoot *model.NpcLoot) (err error) {
+
+	return
+}
+
 func (c *NpcLootRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

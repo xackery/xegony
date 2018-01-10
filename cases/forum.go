@@ -114,6 +114,11 @@ func (c *ForumRepository) List() (forums []*model.Forum, err error) {
 	return
 }
 
+func (c *ForumRepository) prepare(aa *model.Forum) (err error) {
+
+	return
+}
+
 func (c *ForumRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

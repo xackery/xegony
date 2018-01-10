@@ -147,6 +147,11 @@ func (c *UserRepository) List() (users []*model.User, err error) {
 	return
 }
 
+func (c *UserRepository) prepare(user *model.User) (err error) {
+
+	return
+}
+
 // newSchema handles functions
 func (c *UserRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}

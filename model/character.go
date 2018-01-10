@@ -5,8 +5,9 @@ import ()
 //Character holds data about players inside Everquest, it primarily uses character_data table
 type Character struct {
 	//Used by ranking system
-	Base      *Base
-	Inventory []*Item
+	Base      *Base   `json:"base"`
+	Inventory []*Item `json:"inventory"`
+	ClassName string  `json:"className"`
 
 	ID                    int64   `json:"id" db:"id"`                                         //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	AccountID             int64   `json:"accountID" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
@@ -227,11 +228,6 @@ func (c *Character) HPRegen() int64 {
 //ManaRegen returns total mana regeneration
 func (c *Character) ManaRegen() int64 {
 	return 0
-}
-
-//ClassName returns sanitized clean name
-func (c *Character) ClassName() string {
-	return ClassName(c.Class)
 }
 
 //RaceName returns sanitized race name

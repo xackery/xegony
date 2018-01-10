@@ -150,6 +150,11 @@ func (c *MailRepository) ListByCharacter(characterID int64) (mails []*model.Mail
 	return
 }
 
+func (c *MailRepository) prepare(mail *model.Mail) (err error) {
+
+	return
+}
+
 func (c *MailRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -141,6 +141,10 @@ func (c *HackerRepository) ListCount() (count int64, err error) {
 	return
 }
 
+func (c *HackerRepository) prepare(hacker *model.Hacker) (err error) {
+
+	return
+}
 func (c *HackerRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

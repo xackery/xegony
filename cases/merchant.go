@@ -78,6 +78,11 @@ func (c *MerchantRepository) ListCount() (count int64, err error) {
 	return
 }
 
+func (c *MerchantRepository) prepare(merchant *model.Merchant) (err error) {
+
+	return
+}
+
 func (c *MerchantRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -115,6 +115,11 @@ func (c *CharacterGraphRepository) List(characterID int64) (characterGraphs []*m
 	return
 }
 
+func (c *CharacterGraphRepository) prepare(characterGraph *model.CharacterGraph) (err error) {
+
+	return
+}
+
 func (c *CharacterGraphRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"

@@ -59,6 +59,13 @@ func (a *Web) listSpell(w http.ResponseWriter, r *http.Request) {
 		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+	for _, spell := range spells {
+		spell.Skill, err = a.skillRepo.Get(spell.SkillID)
+		if err != nil {
+			a.writeError(w, r, err, http.StatusInternalServerError)
+			return
+		}
+	}
 	spellPage.Total, err = a.spellRepo.ListCount()
 	if err != nil {
 		a.writeError(w, r, err, http.StatusBadRequest)

@@ -4,8 +4,8 @@ import ()
 
 //RecipeEntry group together loot drops for npc drops
 type RecipeEntry struct {
-	Item   *Item
-	Recipe *Recipe
+	Item   *Item   `json:"item"`
+	Recipe *Recipe `json:"recipe"`
 
 	ID             int64 `json:"id" db:"id"`                         //`id` int(11) NOT NULL AUTO_INCREMENT,
 	RecipeID       int64 `json:"recipeId" db:"recipe_id"`            //`recipe_id` int(11) NOT NULL DEFAULT '0',

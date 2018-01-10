@@ -10,6 +10,8 @@ import (
 
 //Npc represents Non player characters in everquest
 type Npc struct {
+	ClassName string
+
 	ID                  int64          `json:"id" db:"id"`                                     //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name                string         `json:"name" db:"name"`                                 //`name` text NOT NULL,
 	Lastname            sql.NullString `json:"lastname" db:"lastname"`                         //`lastname` varchar(32) DEFAULT NULL,
@@ -453,11 +455,6 @@ func (c *Npc) Experience() int64 {
 //CleanName returns a sanitized name
 func (c *Npc) CleanName() string {
 	return CleanName(c.Name)
-}
-
-//ClassName returns the human readable format of class
-func (c *Npc) ClassName() string {
-	return ClassName(c.Class)
 }
 
 //RaceName returns the human readable format of race

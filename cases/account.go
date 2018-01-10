@@ -120,6 +120,11 @@ func (c *AccountRepository) List() (accounts []*model.Account, err error) {
 	return
 }
 
+func (c *AccountRepository) prepare(account *model.Account) (err error) {
+
+	return
+}
+
 func (c *AccountRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"
