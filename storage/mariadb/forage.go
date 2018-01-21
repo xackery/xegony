@@ -13,9 +13,8 @@ const (
 )
 
 //GetForage will grab data from storage
-func (s *Storage) GetForage(forageID int64) (forage *model.Forage, err error) {
-	forage = &model.Forage{}
-	err = s.db.Get(forage, fmt.Sprintf("SELECT id, %s FROM forage WHERE id = ?", forageFields), forageID)
+func (s *Storage) GetForage(forage *model.Forage) (err error) {
+	err = s.db.Get(forage, fmt.Sprintf("SELECT id, %s FROM forage WHERE id = ?", forageFields), forage.ID)
 	if err != nil {
 		return
 	}
@@ -70,9 +69,9 @@ func (s *Storage) ListForageCount() (count int64, err error) {
 }
 
 //ListForageByItem will grab data from storage
-func (s *Storage) ListForageByItem(itemID int64) (forages []*model.Forage, err error) {
+func (s *Storage) ListForageByItem(item *model.Item) (forages []*model.Forage, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT forage.id, %s FROM forage		
-		WHERE forage.itemid = ?`, forageFields), itemID)
+		WHERE forage.itemid = ?`, forageFields), item.ID)
 	if err != nil {
 		return
 	}
@@ -88,9 +87,9 @@ func (s *Storage) ListForageByItem(itemID int64) (forages []*model.Forage, err e
 }
 
 //ListForageByZone will grab data from storage
-func (s *Storage) ListForageByZone(zoneID int64) (forages []*model.Forage, err error) {
+func (s *Storage) ListForageByZone(zone *model.Zone) (forages []*model.Forage, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT forage.id, %s FROM forage		
-		WHERE forage.zoneid = ?`, forageFields), zoneID)
+		WHERE forage.zoneid = ?`, forageFields), zone.ZoneIDNumber)
 	if err != nil {
 		return
 	}
@@ -106,8 +105,7 @@ func (s *Storage) ListForageByZone(zoneID int64) (forages []*model.Forage, err e
 }
 
 //EditForage will grab data from storage
-func (s *Storage) EditForage(forageID int64, forage *model.Forage) (err error) {
-	forage.ID = forageID
+func (s *Storage) EditForage(forage *model.Forage) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE forage SET %s WHERE id = :id`, forageSets), forage)
 	if err != nil {
 		return
@@ -124,8 +122,8 @@ func (s *Storage) EditForage(forageID int64, forage *model.Forage) (err error) {
 }
 
 //DeleteForage will grab data from storage
-func (s *Storage) DeleteForage(forageID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM forage WHERE id = ?`, forageID)
+func (s *Storage) DeleteForage(forage *model.Forage) (err error) {
+	result, err := s.db.Exec(`DELETE FROM forage WHERE id = ?`, forage.ID)
 	if err != nil {
 		return
 	}

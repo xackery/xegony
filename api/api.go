@@ -57,8 +57,6 @@ type API struct {
 	npcLootRepo        *cases.NpcLootRepository
 	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
-	spawnEntryRepo     *cases.SpawnEntryRepository
-	spawnRepo          *cases.SpawnRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
@@ -140,14 +138,7 @@ func (a *API) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.postRepo.Initialize(s); err != nil {
 		return
 	}
-	a.spawnRepo = &cases.SpawnRepository{}
-	if err = a.spawnRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
-	if err = a.spawnEntryRepo.Initialize(s); err != nil {
-		return
-	}
+
 	a.taskRepo = &cases.TaskRepository{}
 	if err = a.taskRepo.Initialize(s); err != nil {
 		return
@@ -168,6 +159,7 @@ func (a *API) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.zoneLevelRepo.Initialize(s); err != nil {
 		return
 	}
+	a.log.Println("Initialized")
 	return
 }
 
@@ -184,24 +176,22 @@ func (a *API) indexRoutes() (routes []*route) {
 }
 
 // Index handles the root endpoint of /api/
-func (a *API) index(w http.ResponseWriter, r *http.Request) {
+func (a *API) index(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 	type Content struct {
 		Message string `json:"message"`
 	}
 
-	content := Content{
+	content = Content{
 		Message: "Please refer to documentation for more details",
 	}
 
-	a.writeData(w, r, content, http.StatusOK)
+	return
 }
 
-// a.writeData is the final step of all http responses. All routes should end here.
 func (a *API) writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
 	var err error
 	if w == nil || r == nil {
 		a.logErr.Println("a.writeData called with invalid writer/request")
-		return
 	}
 	if content == nil {
 		w.WriteHeader(statusCode)
@@ -240,8 +230,6 @@ func (a *API) writeData(w http.ResponseWriter, r *http.Request, content interfac
 	w.Write(data)
 }
 
-// a.writeError gracefully handles errors occurred during the routing.
-// Calling this will call a.writeData, so you can safely return once it is called.
 func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 	type Content struct {
 		Message string            `json:"message"`
@@ -264,7 +252,6 @@ func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 
 	switch tErr := errors.Cause(err).(type) {
 	case *model.ErrNoContent:
-		a.writeData(w, r, nil, http.StatusNotModified)
 		return
 	case *model.ErrValidation:
 		content.Fields = map[string]string{}
@@ -280,7 +267,6 @@ func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 		statusCode = http.StatusUnauthorized
 	}
 
-	a.writeData(w, r, content, statusCode)
 	return
 }
 

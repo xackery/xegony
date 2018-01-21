@@ -7,7 +7,8 @@ import (
 
 //Zone represents the zone table, Everquest is split into zones.
 type Zone struct {
-	Levels int64 `json:"levels" db:"levels"`
+	Levels   int64   `json:"levels" db:"levels"`
+	Modifier float64 `json:"modifier"`
 
 	ShortName         sql.NullString `json:"shortName" db:"short_name"`                  //short_name` varchar(32) DEFAULT NULL,
 	ID                int64          `json:"id" db:"id"`                                 //id` int(10) NOT NULL AUTO_INCREMENT,
@@ -122,15 +123,6 @@ func (s *zoneSorter) Swap(i, j int) {
 //Less implements the sort interface
 func (s *zoneSorter) Less(i, j int) bool {
 	return s.by(&s.zones[i], &s.zones[j])
-}
-
-//Modifier does calculations of HotZone + ZEM
-func (c *Zone) Modifier() float64 {
-	mod := c.ZoneExpMultiplier + 1
-	if c.Hotzone == 1 {
-		mod *= RuleR("Zone:HotZoneBonus")
-	}
-	return mod
 }
 
 //GetMinStatusName converts the MinStatus field to the human readable name

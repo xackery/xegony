@@ -13,9 +13,8 @@ const (
 )
 
 //GetSpell will grab data from storage
-func (s *Storage) GetSpell(spellID int64) (spell *model.Spell, err error) {
-	spell = &model.Spell{}
-	err = s.db.Get(spell, fmt.Sprintf("SELECT id, %s FROM spells_new WHERE id = ?", spellFields), spellID)
+func (s *Storage) GetSpell(spell *model.Spell) (err error) {
+	err = s.db.Get(spell, fmt.Sprintf("SELECT id, %s FROM spells_new WHERE id = ?", spellFields), spell.ID)
 	if err != nil {
 		return
 	}
@@ -70,9 +69,10 @@ func (s *Storage) ListSpellCount() (count int64, err error) {
 }
 
 //SearchSpell will grab data from storage
-func (s *Storage) SearchSpell(search string) (spells []*model.Spell, err error) {
+func (s *Storage) SearchSpellByName(spell *model.Spell) (spells []*model.Spell, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM spells_new 
-		WHERE name like ? ORDER BY id DESC`, spellFields), "%"+search+"%")
+		WHERE name like ? ORDER BY id DESC`, spellFields), "%"+spell.Name.String+"%")
+
 	if err != nil {
 		return
 	}
@@ -88,8 +88,7 @@ func (s *Storage) SearchSpell(search string) (spells []*model.Spell, err error) 
 }
 
 //EditSpell will grab data from storage
-func (s *Storage) EditSpell(spellID int64, spell *model.Spell) (err error) {
-	spell.ID = spellID
+func (s *Storage) EditSpell(spell *model.Spell) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE spells_new SET %s WHERE id = :id`, spellSets), spell)
 	if err != nil {
 		return
@@ -106,8 +105,8 @@ func (s *Storage) EditSpell(spellID int64, spell *model.Spell) (err error) {
 }
 
 //DeleteSpell will grab data from storage
-func (s *Storage) DeleteSpell(spellID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM spells_new WHERE id = ?`, spellID)
+func (s *Storage) DeleteSpell(spell *model.Spell) (err error) {
+	result, err := s.db.Exec(`DELETE FROM spells_new WHERE id = ?`, spell.ID)
 	if err != nil {
 		return
 	}

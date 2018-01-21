@@ -2,11 +2,10 @@ package web
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/model"
 )
 
@@ -65,8 +64,7 @@ func (a *Web) itemRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listItem(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -84,44 +82,39 @@ func (a *Web) listItem(w http.ResponseWriter, r *http.Request) {
 	itemPage.PageSize = getIntParam(r, "pageSize")
 	itemPage.PageNumber = getIntParam(r, "pageNumber")
 
-	items, err := a.itemRepo.List(itemPage.PageSize, itemPage.PageNumber)
+	items, err := a.itemRepo.List(itemPage.PageSize, itemPage.PageNumber, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	itemPage.Total, err = a.itemRepo.ListCount()
+
+	itemPage.Total, err = a.itemRepo.ListCount(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:     site,
 		Items:    items,
 		ItemPage: itemPage,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("item", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listItemByZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listItemByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -132,38 +125,33 @@ func (a *Web) listItemByZone(w http.ResponseWriter, r *http.Request) {
 	site.Page = "item"
 	site.Title = "Item"
 
-	zones, err := a.zoneRepo.List()
+	zones, err := a.zoneRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Zones: zones,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/listbyzone.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("itemlistbyzone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -174,7 +162,6 @@ func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request) {
 	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
 		err = errors.Wrap(err, "zoneID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -182,44 +169,42 @@ func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request) {
 	site.Page = "item"
 	site.Title = "Item"
 
-	npcLoots, err := a.npcLootRepo.ListByZone(zoneID)
+	zone := &model.Zone{
+		ID: zoneID,
+	}
+	npcLoots, err := a.npcLootRepo.ListByZone(zone, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	zone, err := a.zoneRepo.Get(zoneID)
-	content := Content{
+	err = a.zoneRepo.Get(zone, user)
+	content = Content{
 		Site:     site,
 		NpcLoots: npcLoots,
 		Zone:     zone,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/getbyzone.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("itemlistbyzone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+
 	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -232,15 +217,16 @@ func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
-	character, err := a.characterRepo.Get(characterID)
+	character := &model.Character{
+		ID: characterID,
+	}
+	err = a.characterRepo.Get(character, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	inventory, err := a.itemRepo.ListByCharacter(characterID)
+	inventory, err := a.itemRepo.ListByCharacter(character, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -250,35 +236,31 @@ func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request) {
 		itemInventory[int(inventory[i].SlotID)] = *inventory[i]
 	}
 
-	content := Content{
+	content = Content{
 		Site:      site,
 		Inventory: itemInventory,
 		Character: character,
 	}
 
 	fmt.Println(characterID, len(inventory))
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/listbycharacter.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("item", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listItemBySlot(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listItemBySlot(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -288,39 +270,37 @@ func (a *Web) listItemBySlot(w http.ResponseWriter, r *http.Request) {
 	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
-	items, err := a.itemRepo.ListBySlot()
-	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+
+	//itemCategory := &model.ItemCategory{}
+
+	//	err = a.itemRepo.GetByItemCategory(itemCategory, user)
+	//	if err != nil {
+	//		return
+	//	}
+
+	content = Content{
+		Site: site,
+		//	Items: items,
 	}
 
-	content := Content{
-		Site:  site,
-		Items: items,
-	}
-
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/listbyslot.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("item", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
@@ -331,187 +311,173 @@ func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request) {
 	slotID, err := getIntVar(r, "slotID")
 	if err != nil {
 		err = errors.Wrap(err, "slotID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
-	items, err := a.itemRepo.GetBySlot(slotID)
+
+	itemCategory := &model.ItemCategory{
+		ID: slotID,
+	}
+	items, err := a.itemRepo.GetByItemCategory(itemCategory, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Items:  items,
 		SlotID: slotID,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/getbyslot.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("item", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getItem(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
 		Item      *model.Item
 		Npcs      []*model.Npc
-		Merchants []*model.MerchantEntry
+		Merchants []*model.Merchant
 		Fishings  []*model.Fishing
-		Recipes   []*model.RecipeEntry
+		Recipes   []*model.Recipe
 	}
 
-	if strings.ToLower(getVar(r, "itemID")) == "byslot" {
-		a.listItemBySlot(w, r)
-		return
-	}
-
-	if strings.ToLower(getVar(r, "itemID")) == "byzone" {
-		a.listItemByZone(w, r)
-		return
-	}
-
-	if strings.ToLower(getVar(r, "itemID")) == "search" {
-		a.searchItem(w, r)
-		return
-	}
+	prepContent := &Content{}
 
 	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	item, err := a.itemRepo.Get(itemID)
+	item := &model.Item{
+		ID: itemID,
+	}
+	err = a.itemRepo.Get(item, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+	prepContent.Item = item
 
-	npcs, err := a.npcRepo.ListByItem(itemID)
+	npcs, err := a.npcRepo.ListByItem(item, user)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get NPCs based on item")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+	prepContent.Npcs = npcs
 
-	merchants, _, err := a.merchantEntryRepo.ListByItem(itemID)
+	merchantEntrys, err := a.merchantEntryRepo.ListByItem(item, user)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get merchants based on item")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	for _, merchant := range merchants {
-		fmt.Println("foo", merchant.MerchantID)
-		if merchant.MerchantID > 0 {
-			merchant.Merchant, err = a.merchantRepo.Get(merchant.MerchantID)
+	for _, merchantEntry := range merchantEntrys {
+		if merchantEntry.MerchantID > 0 {
+			merchant := &model.Merchant{
+				ID: merchantEntry.MerchantID,
+			}
+
+			err = a.merchantRepo.Get(merchant, user)
 			if err != nil {
-				fmt.Println("Failed to get", merchant.MerchantID, err.Error())
+				fmt.Println("Failed to get", merchant.ID, err.Error())
 				continue
 			}
-			fmt.Println("Adding npcs")
-			merchant.Merchant.Npcs, err = a.npcRepo.ListByMerchant(merchant.Merchant.ID)
+
+			merchant.Npcs, err = a.npcRepo.ListByMerchant(merchant, user)
 			if err != nil {
+				fmt.Println("failed to get npcs for", merchant.ID, err.Error())
 				continue
 			}
+
+			prepContent.Merchants = append(prepContent.Merchants, merchant)
 		}
 	}
 
-	fishings, err := a.fishingRepo.GetByItem(itemID)
+	fishings, err := a.fishingRepo.GetByItem(item, user)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get fishings based on item")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-
-	recipes, _, err := a.recipeEntryRepo.ListByItem(itemID)
-	if err != nil {
-		err = errors.Wrap(err, "Failed to get recipes based on item")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
-	}
-
-	for _, recipe := range recipes {
-		if recipe.RecipeID > 0 {
-			recipe.Recipe, err = a.recipeRepo.Get(recipe.RecipeID)
-			if err != nil {
-				continue
-				//err = errors.Wrap(err, "Failed to get recipe")
-				//a.writeError(w, r, err, http.StatusBadRequest)
-				//return
-			}
-		}
-	}
-
 	for _, fishing := range fishings {
 		if fishing.ZoneID > 0 {
-			fishing.Zone, err = a.zoneRepo.Get(fishing.ZoneID)
+			zone := &model.Zone{
+				ZoneIDNumber: fishing.ZoneID,
+			}
+			err = a.zoneRepo.Get(zone, user)
 			if err != nil {
 				err = errors.Wrap(err, "Failed to get zone based on fishing zoneid")
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 	}
+	prepContent.Fishings = fishings
+
+	recipeEntrys, err := a.recipeEntryRepo.ListByItem(item, user)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get recipes based on item")
+		return
+	}
+
+	recipes := []*model.Recipe{}
+	for _, recipeEntry := range recipeEntrys {
+		if recipeEntry.RecipeID > 0 {
+			recipe := &model.Recipe{
+				ID: recipeEntry.RecipeID,
+			}
+			err = a.recipeRepo.Get(recipe, user)
+			if err != nil {
+				continue
+				//err = errors.Wrap(err, "Failed to get recipe")
+				//				//return
+			}
+			recipes = append(recipes, recipe)
+		}
+	}
+	prepContent.Recipes = recipes
 
 	site := a.newSite(r)
 	site.Page = "item"
 	site.Title = "Item"
+	prepContent.Site = site
 
-	content := Content{
-		Site:      site,
-		Item:      item,
-		Npcs:      npcs,
-		Fishings:  fishings,
-		Recipes:   recipes,
-		Merchants: merchants,
-	}
-
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("item", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
+	content = prepContent
 	return
 }
 
-func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site
@@ -520,20 +486,20 @@ func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request) {
 		Search  string
 	}
 
-	claims, err := api.GetAuthClaims(r)
-	if err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
 	search := getParam(r, "search")
 
 	var items []*model.Item
 
 	if len(search) > 0 {
-		items, err = a.itemRepo.SearchByAccount(claims.User.AccountID, search)
+		account := &model.Account{
+			ID: user.AccountID,
+		}
+		item := &model.Item{
+			Name: search,
+		}
+
+		items, err = a.itemRepo.SearchByAccount(item, account, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
 	}
@@ -542,34 +508,30 @@ func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request) {
 	site.Page = "item"
 	site.Title = "Item"
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Items:  items,
 		Search: search,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/searchbyaccount.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("itemsearchbyaccount", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) searchItem(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) searchItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
@@ -582,9 +544,11 @@ func (a *Web) searchItem(w http.ResponseWriter, r *http.Request) {
 	var items []*model.Item
 
 	if len(search) > 0 {
-		items, err = a.itemRepo.Search(search)
+		item := &model.Item{
+			Name: search,
+		}
+		items, err = a.itemRepo.SearchByName(item, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
 	}
@@ -593,28 +557,25 @@ func (a *Web) searchItem(w http.ResponseWriter, r *http.Request) {
 	site.Page = "item"
 	site.Title = "Item"
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Items:  items,
 		Search: search,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "item/search.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("itemsearch", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

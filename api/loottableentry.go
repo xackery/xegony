@@ -12,114 +12,93 @@ func (a *API) lootTableEntryRoutes() (routes []*route) {
 	routes = []*route{}
 	return
 }
-func (a *API) getLootTableEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) getLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
 		err = errors.Wrap(err, "lootTableID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
 		err = errors.Wrap(err, "lootDropID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	lootTableEntry, err := a.lootTableEntryRepo.Get(lootTableID, lootDropID)
+	lootTableEntry := &model.LootTableEntry{
+		LootdropID:  lootDropID,
+		LoottableID: lootTableID,
+	}
+	err = a.lootTableEntryRepo.Get(lootTableEntry, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, lootTableEntry, http.StatusOK)
+	content = lootTableEntry
 	return
 }
 
-func (a *API) createLootTableEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableEntry := &model.LootTableEntry{}
 	err = decodeBody(r, lootTableEntry)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.lootTableEntryRepo.Create(lootTableEntry)
+	err = a.lootTableEntryRepo.Create(lootTableEntry, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, lootTableEntry, http.StatusCreated)
+	content = lootTableEntry
 	return
 }
 
-func (a *API) deleteLootTableEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
-
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) deleteLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
 		err = errors.Wrap(err, "lootTableID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
 		err = errors.Wrap(err, "lootDropID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.lootTableEntryRepo.Delete(lootTableID, lootDropID)
+	lootTableEntry := &model.LootTableEntry{
+		LoottableID: lootTableID,
+		LootdropID:  lootDropID,
+	}
+	err = a.lootTableEntryRepo.Delete(lootTableEntry, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = lootTableEntry
 	return
 }
 
-func (a *API) editLootTableEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
 		err = errors.Wrap(err, "lootTableID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
 		err = errors.Wrap(err, "lootDropID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -127,34 +106,35 @@ func (a *API) editLootTableEntry(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, lootTableEntry)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	err = a.lootTableEntryRepo.Edit(lootTableID, lootDropID, lootTableEntry)
+	lootTableEntry.LoottableID = lootTableID
+	lootTableEntry.LootdropID = lootDropID
+	err = a.lootTableEntryRepo.Edit(lootTableEntry, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, lootTableEntry, http.StatusOK)
+	content = lootTableEntry
 	return
 }
 
-func (a *API) listLootTableEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) listLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
 		err = errors.Wrap(err, "lootTableID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	lootTableEntrys, err := a.lootTableEntryRepo.List(lootTableID)
+	lootTable := &model.LootTable{
+		ID: lootTableID,
+	}
+	lootTableEntrys, err := a.lootTableEntryRepo.ListByLootTable(lootTable, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, lootTableEntrys, http.StatusOK)
+	content = lootTableEntrys
 	return
 }

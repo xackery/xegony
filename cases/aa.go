@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,22 @@ func (c *AaRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *AaRepository) Get(aaID int64) (aa *model.Aa, err error) {
-	if aaID == 0 {
-		err = fmt.Errorf("Invalid Aa ID")
+func (c *AaRepository) Get(aa *model.Aa, user *model.User) (err error) {
+
+	err = c.stor.GetAa(aa)
+	if err != nil {
 		return
 	}
-	aa, err = c.stor.GetAa(aaID)
+	err = c.prepare(aa, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare aa")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *AaRepository) Create(aa *model.Aa) (err error) {
+func (c *AaRepository) Create(aa *model.Aa, user *model.User) (err error) {
 	if aa == nil {
 		err = fmt.Errorf("Empty aa")
 		return
@@ -62,11 +68,16 @@ func (c *AaRepository) Create(aa *model.Aa) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(aa, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare aa")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *AaRepository) Edit(aaID int64, aa *model.Aa) (err error) {
+func (c *AaRepository) Edit(aa *model.Aa, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -88,16 +99,21 @@ func (c *AaRepository) Edit(aaID int64, aa *model.Aa) (err error) {
 		return
 	}
 
-	err = c.stor.EditAa(aaID, aa)
+	err = c.stor.EditAa(aa)
 	if err != nil {
+		return
+	}
+	err = c.prepare(aa, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare aa")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *AaRepository) Delete(aaID int64) (err error) {
-	err = c.stor.DeleteAa(aaID)
+func (c *AaRepository) Delete(aa *model.Aa, user *model.User) (err error) {
+	err = c.stor.DeleteAa(aa)
 	if err != nil {
 		return
 	}
@@ -105,15 +121,22 @@ func (c *AaRepository) Delete(aaID int64) (err error) {
 }
 
 //List handles logic
-func (c *AaRepository) List() (aas []*model.Aa, err error) {
+func (c *AaRepository) List(user *model.User) (aas []*model.Aa, err error) {
 	aas, err = c.stor.ListAa()
 	if err != nil {
 		return
 	}
+	for _, aa := range aas {
+		err = c.prepare(aa, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare aa")
+			return
+		}
+	}
 	return
 }
 
-func (c *AaRepository) prepare(aa *model.Aa) (err error) {
+func (c *AaRepository) prepare(aa *model.Aa, user *model.User) (err error) {
 
 	return
 }

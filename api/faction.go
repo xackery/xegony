@@ -25,113 +25,92 @@ func (a *API) factionRoutes() (routes []*route) {
 		{
 			"DeleteFaction",
 			"DELETE",
-			"/faction/{factionID}",
+			"/faction/{factionID:[0-9]+}",
 			a.deleteFaction,
 		},
 		{
 			"EditFaction",
 			"PUT",
-			"/faction/{factionID}",
+			"/faction/{factionID:[0-9]+}",
 			a.editFaction,
 		},
 		{
 			"GetFaction",
 			"GET",
-			"/faction/{factionID}",
+			"/faction/{factionID:[0-9]+}",
 			a.getFaction,
 		},
 	}
 	return
 }
 
-func (a *API) getFaction(w http.ResponseWriter, r *http.Request) {
+func (a *API) getFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "factionID")
+	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
 		err = errors.Wrap(err, "factionID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	faction, err := a.factionRepo.Get(id)
+	faction := &model.Faction{
+		ID: factionID,
+	}
+	err = a.factionRepo.Get(faction, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, faction, http.StatusOK)
+	content = faction
 	return
 }
 
-func (a *API) createFaction(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	faction := &model.Faction{}
 	err = decodeBody(r, faction)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.factionRepo.Create(faction)
+	err = a.factionRepo.Create(faction, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, faction, http.StatusCreated)
+	content = faction
 	return
 }
 
-func (a *API) deleteFaction(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "factionID")
+	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
 		err = errors.Wrap(err, "factionID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.factionRepo.Delete(id)
+	faction := &model.Faction{
+		ID: factionID,
+	}
+	err = a.factionRepo.Delete(faction, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = faction
 	return
 }
 
-func (a *API) editFaction(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "factionID")
+	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
 		err = errors.Wrap(err, "factionID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -139,26 +118,24 @@ func (a *API) editFaction(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, faction)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
+	faction.ID = factionID
 
-	err = a.factionRepo.Edit(id, faction)
+	err = a.factionRepo.Edit(faction, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, faction, http.StatusOK)
+	content = faction
 	return
 }
 
-func (a *API) listFaction(w http.ResponseWriter, r *http.Request) {
-	factions, err := a.factionRepo.List()
+func (a *API) listFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	factions, err := a.factionRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, factions, http.StatusOK)
+	content = factions
 	return
 }

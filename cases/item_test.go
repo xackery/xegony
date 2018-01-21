@@ -7,7 +7,7 @@ import (
 )
 
 func TestItemInitialize(t *testing.T) {
-	var err error
+
 	itemRepo := &ItemRepository{}
 	err = itemRepo.Initialize(nil)
 	assert.EqualError(t, err, "Invalid storage type")

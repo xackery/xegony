@@ -1,8 +1,8 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -14,8 +14,14 @@ func (a *Web) fishingRoutes() (routes []*route) {
 		{
 			"GetFishing",
 			"GET",
-			"/fishing/{fishingID}",
+			"/fishing/{fishingID:[0-9]+}",
 			a.getFishing,
+		},
+		{
+			"ListFishingByZone",
+			"GET",
+			"/fishing/zone",
+			a.listFishingByZone,
 		},
 		{
 			"ListFishing",
@@ -27,8 +33,7 @@ func (a *Web) fishingRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listFishing(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listFishing(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site        site
@@ -46,68 +51,68 @@ func (a *Web) listFishing(w http.ResponseWriter, r *http.Request) {
 	fishingPage.PageSize = getIntParam(r, "pageSize")
 	fishingPage.PageNumber = getIntParam(r, "pageNumber")
 
-	fishings, err := a.fishingRepo.List(fishingPage.PageSize, fishingPage.PageNumber)
+	fishings, err := a.fishingRepo.List(fishingPage.PageSize, fishingPage.PageNumber, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	for _, fishing := range fishings {
 		if fishing.ItemID > 0 {
-			fishing.Item, err = a.itemRepo.Get(fishing.ItemID)
+			item := &model.Item{
+				ID: fishing.ItemID,
+			}
+			err = a.itemRepo.Get(item, user)
 			if err != nil {
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 		if fishing.ZoneID > 0 {
-			fishing.Zone, err = a.zoneRepo.Get(fishing.ZoneID)
+			zone := &model.Zone{
+				ZoneIDNumber: fishing.ZoneID,
+			}
+			err = a.zoneRepo.Get(zone, user)
 			if err != nil {
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 		if fishing.NpcID > 0 {
-			fishing.Npc, err = a.npcRepo.Get(fishing.NpcID)
+			npc := &model.Npc{
+				ID: fishing.NpcID,
+			}
+			err = a.npcRepo.Get(npc, user)
 			if err != nil {
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 	}
-	fishingPage.Total, err = a.fishingRepo.ListCount()
+	fishingPage.Total, err = a.fishingRepo.ListCount(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:        site,
 		Fishings:    fishings,
 		FishingPage: fishingPage,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "fishing/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("fishing", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listFishingByZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listFishingByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -118,38 +123,33 @@ func (a *Web) listFishingByZone(w http.ResponseWriter, r *http.Request) {
 	site.Page = "fishing"
 	site.Title = "Fishing"
 
-	zones, err := a.zoneRepo.List()
+	zones, err := a.zoneRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Zones: zones,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "fishing/listbyzone.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("fishinglistbyzone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getFishingByZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getFishingByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -160,119 +160,123 @@ func (a *Web) getFishingByZone(w http.ResponseWriter, r *http.Request) {
 	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
 		err = errors.Wrap(err, "zoneID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
+	}
+
+	zone := &model.Zone{
+		ZoneIDNumber: zoneID,
+	}
+	err = a.zoneRepo.Get(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone")
 	}
 
 	site := a.newSite(r)
 	site.Page = "fishing"
 	site.Title = "Fishing"
 
-	npcLoots, err := a.npcLootRepo.ListByZone(zoneID)
+	npcLoots, err := a.npcLootRepo.ListByZone(zone, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	zone, err := a.zoneRepo.Get(zoneID)
-	content := Content{
+
+	content = Content{
 		Site:     site,
 		NpcLoots: npcLoots,
 		Zone:     zone,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "fishing/getbyzone.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("fishinglistbyzone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getFishing(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getFishing(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site
 		Fishing *model.Fishing
 	}
 
-	if strings.ToLower(getVar(r, "fishingID")) == "byzone" {
-		a.listFishingByZone(w, r)
-		return
-	}
-
 	fishingID, err := getIntVar(r, "fishingID")
 	if err != nil {
 		err = errors.Wrap(err, "fishingID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	fishing, err := a.fishingRepo.Get(fishingID)
+	fishing := &model.Fishing{
+		ID: fishingID,
+	}
+	err = a.fishingRepo.Get(fishing, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	if fishing.ItemID > 0 {
-		fishing.Item, err = a.itemRepo.Get(fishing.ItemID)
+		item := &model.Item{
+			ID: fishing.ItemID,
+		}
+		err = a.itemRepo.Get(item, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
+		fishing.Item = item
 	}
 	if fishing.ZoneID > 0 {
-		fishing.Zone, err = a.zoneRepo.Get(fishing.ZoneID)
+		zone := &model.Zone{
+			ID: fishing.ZoneID,
+		}
+		err = a.zoneRepo.Get(zone, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
+		fishing.Zone = zone
 	}
 	if fishing.NpcID > 0 {
-		fishing.Npc, err = a.npcRepo.Get(fishing.NpcID)
+		npc := &model.Npc{
+			ID: fishing.NpcID,
+		}
+		err = a.npcRepo.Get(npc, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
+		fishing.Npc = npc
 	}
 
 	site := a.newSite(r)
 	site.Page = "fishing"
 	site.Title = "Fishing"
 
-	content := Content{
+	content = Content{
 		Site:    site,
 		Fishing: fishing,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "fishing/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("fishing", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

@@ -12,94 +12,74 @@ func (a *API) postRoutes() (routes []*route) {
 	routes = []*route{}
 	return
 }
-func (a *API) getPost(w http.ResponseWriter, r *http.Request) {
+func (a *API) getPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "postID")
+	postID, err := getIntVar(r, "postID")
 	if err != nil {
 		err = errors.Wrap(err, "postID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	post, err := a.postRepo.Get(id)
+	post := &model.Post{
+		ID: postID,
+	}
+	err = a.postRepo.Get(post, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, post, http.StatusOK)
+	content = post
 	return
 }
 
-func (a *API) createPost(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	post := &model.Post{}
 	err = decodeBody(r, post)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.postRepo.Create(post)
+	err = a.postRepo.Create(post, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, post, http.StatusCreated)
+	content = post
 	return
 }
 
-func (a *API) deletePost(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deletePost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "postID")
+	postID, err := getIntVar(r, "postID")
 	if err != nil {
 		err = errors.Wrap(err, "postID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.postRepo.Delete(id)
+	post := &model.Post{
+		ID: postID,
+	}
+
+	err = a.postRepo.Delete(post, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = post
 	return
 }
 
-func (a *API) editPost(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "postID")
+	postID, err := getIntVar(r, "postID")
 	if err != nil {
 		err = errors.Wrap(err, "postID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -107,32 +87,32 @@ func (a *API) editPost(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, post)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
+	post.ID = postID
 
-	err = a.postRepo.Edit(id, post)
+	err = a.postRepo.Edit(post, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, post, http.StatusOK)
+	content = post
 	return
 }
 
-func (a *API) listPost(w http.ResponseWriter, r *http.Request) {
-	forumID, err := getIntVar(r, "forumID")
+func (a *API) listPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
-		err = errors.Wrap(err, "forumID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
+		err = errors.Wrap(err, "topicID argument is required")
 		return
 	}
-	posts, err := a.postRepo.List(forumID)
+	topic := &model.Topic{
+		ID: topicID,
+	}
+	posts, err := a.postRepo.ListByTopic(topic, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, posts, http.StatusOK)
+	content = posts
 	return
 }

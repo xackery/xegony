@@ -7,9 +7,8 @@ import (
 )
 
 //GetTopic will grab data from storage
-func (s *Storage) GetTopic(topicID int64) (topic *model.Topic, err error) {
-	topic = &model.Topic{}
-	err = s.db.Get(topic, "SELECT id, icon, title, forum_id FROM topic WHERE id = ?", topicID)
+func (s *Storage) GetTopic(topic *model.Topic) (err error) {
+	err = s.db.Get(topic, "SELECT id, icon, title, forum_id FROM topic WHERE id = ?", topic.ID)
 	if err != nil {
 		return
 	}
@@ -37,8 +36,8 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 }
 
 //ListTopic will grab data from storage
-func (s *Storage) ListTopic(forumID int64) (topics []*model.Topic, err error) {
-	rows, err := s.db.Queryx(`SELECT id, title, icon, forum_id FROM topic WHERE forum_id = ? ORDER BY id DESC`, forumID)
+func (s *Storage) ListTopicByForum(forum *model.Forum) (topics []*model.Topic, err error) {
+	rows, err := s.db.Queryx(`SELECT id, title, icon, forum_id FROM topic WHERE forum_id = ? ORDER BY id DESC`, forum.ID)
 	if err != nil {
 		return
 	}
@@ -54,8 +53,7 @@ func (s *Storage) ListTopic(forumID int64) (topics []*model.Topic, err error) {
 }
 
 //EditTopic will grab data from storage
-func (s *Storage) EditTopic(topicID int64, topic *model.Topic) (err error) {
-	topic.ID = topicID
+func (s *Storage) EditTopic(topic *model.Topic) (err error) {
 	result, err := s.db.NamedExec(`UPDATE topic SET icon=:icon, title=:title, forum_id=:forum_id WHERE id = :id`, topic)
 	if err != nil {
 		return
@@ -72,8 +70,8 @@ func (s *Storage) EditTopic(topicID int64, topic *model.Topic) (err error) {
 }
 
 //DeleteTopic will grab data from storage
-func (s *Storage) DeleteTopic(topicID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM topic WHERE id = ?`, topicID)
+func (s *Storage) DeleteTopic(topic *model.Topic) (err error) {
+	result, err := s.db.Exec(`DELETE FROM topic WHERE id = ?`, topic.ID)
 	if err != nil {
 		return
 	}

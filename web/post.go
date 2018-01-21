@@ -1,7 +1,7 @@
 package web
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -27,8 +27,7 @@ func (a *Web) postRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listPost(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -41,66 +40,56 @@ func (a *Web) listPost(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forum"
 	site.Title = "Forum"
 
-	forumID, err := getIntVar(r, "topicID")
+	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
 		err = errors.Wrap(err, "topicID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	posts, err := a.postRepo.List(forumID)
+	topic := &model.Topic{
+		ID: topicID,
+	}
+	err = a.topicRepo.Get(topic, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
+		return
+	}
+	forum := &model.Forum{
+		ID: topic.ForumID,
+	}
+	err = a.forumRepo.Get(forum, user)
+	if err != nil {
+		return
+	}
+	posts, err := a.postRepo.ListByTopic(topic, user)
+	if err != nil {
 		return
 	}
 
-	var topic *model.Topic
-	var forum *model.Forum
-
-	if len(posts) > 0 {
-		topic, err = a.topicRepo.Get(posts[0].TopicID)
-		if err != nil {
-			err = errors.Wrap(err, fmt.Sprintf("Failed to get topic id: %d", posts[0].TopicID))
-			a.writeError(w, r, err, http.StatusBadRequest)
-			return
-		}
-
-		forum, err = a.forumRepo.Get(topic.ForumID)
-		if err != nil {
-			err = errors.Wrap(err, "Failed to get forum id")
-			a.writeError(w, r, err, http.StatusBadRequest)
-			return
-		}
-	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Posts: posts,
 		Topic: topic,
 		Forum: forum,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "post/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("post", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getPost(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -109,33 +98,34 @@ func (a *Web) getPost(w http.ResponseWriter, r *http.Request) {
 		Forum *model.Forum
 	}
 
-	id, err := getIntVar(r, "postID")
+	postID, err := getIntVar(r, "postID")
 	if err != nil {
 		err = errors.Wrap(err, "postID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	post, err := a.postRepo.Get(id)
+	post := &model.Post{
+		ID: postID,
+	}
+	err = a.postRepo.Get(post, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	var topic *model.Topic
-	var forum *model.Forum
-
-	topic, err = a.topicRepo.Get(post.TopicID)
+	topic := &model.Topic{
+		ID: post.TopicID,
+	}
+	err = a.topicRepo.Get(topic, user)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get topic id")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-
-	forum, err = a.forumRepo.Get(topic.ForumID)
+	forum := &model.Forum{
+		ID: topic.ForumID,
+	}
+	err = a.forumRepo.Get(forum, user)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get forum id")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -143,29 +133,26 @@ func (a *Web) getPost(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forum"
 	site.Title = "Forum"
 
-	content := Content{
+	content = Content{
 		Site:  site,
 		Post:  post,
 		Topic: topic,
 		Forum: forum,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "post/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("post", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

@@ -1,8 +1,10 @@
 package cases
 
+/*
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +26,23 @@ func (c *SpawnRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *SpawnRepository) Get(spawnID int64) (spawn *model.Spawn, err error) {
-	if spawnID == 0 {
-		err = fmt.Errorf("Invalid Spawn ID")
+func (c *SpawnRepository) Get(spawn *model.Spawn, user *model.User) (err error) {
+
+	err = c.stor.GetSpawn(spawn)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get spawn")
 		return
 	}
-	spawn, err = c.stor.GetSpawn(spawnID)
+	err = c.prepare(spawn, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spawn")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *SpawnRepository) Create(spawn *model.Spawn) (err error) {
+func (c *SpawnRepository) Create(spawn *model.Spawn, user *model.User) (err error) {
 	if spawn == nil {
 		err = fmt.Errorf("Empty spawn")
 		return
@@ -62,11 +70,16 @@ func (c *SpawnRepository) Create(spawn *model.Spawn) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(spawn, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spawn")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *SpawnRepository) Edit(spawnID int64, spawn *model.Spawn) (err error) {
+func (c *SpawnRepository) Edit(spawn *model.Spawn, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -88,16 +101,21 @@ func (c *SpawnRepository) Edit(spawnID int64, spawn *model.Spawn) (err error) {
 		return
 	}
 
-	err = c.stor.EditSpawn(spawnID, spawn)
+	err = c.stor.EditSpawn(spawn)
 	if err != nil {
+		return
+	}
+	err = c.prepare(spawn, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spawn")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *SpawnRepository) Delete(spawnID int64) (err error) {
-	err = c.stor.DeleteSpawn(spawnID)
+func (c *SpawnRepository) Delete(spawn *model.Spawn, user *model.User) (err error) {
+	err = c.stor.DeleteSpawn(spawn)
 	if err != nil {
 		return
 	}
@@ -105,24 +123,38 @@ func (c *SpawnRepository) Delete(spawnID int64) (err error) {
 }
 
 //List handles logic
-func (c *SpawnRepository) List() (spawns []*model.Spawn, err error) {
+func (c *SpawnRepository) List(user *model.User) (spawns []*model.Spawn, err error) {
 	spawns, err = c.stor.ListSpawn()
 	if err != nil {
 		return
+	}
+	for _, spawn := range spawns {
+		err = c.prepare(spawn, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare spawn")
+			return
+		}
 	}
 	return
 }
 
 //ListBySpawnGroup handles logic
-func (c *SpawnRepository) ListBySpawnGroup(spawnGroupID int64) (spawns []*model.Spawn, err error) {
-	spawns, err = c.stor.ListSpawnBySpawnGroup(spawnGroupID)
+func (c *SpawnRepository) ListBySpawnGroup(spawnGroup *model.SpawnGroup, user *model.User) (spawns []*model.Spawn, err error) {
+	spawns, err = c.stor.ListSpawnBySpawnGroup(spawnGroup)
 	if err != nil {
 		return
+	}
+	for _, spawn := range spawns {
+		err = c.prepare(spawn, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare spawn")
+			return
+		}
 	}
 	return
 }
 
-func (c *SpawnRepository) prepare(spawn *model.Spawn) (err error) {
+func (c *SpawnRepository) prepare(spawn *model.Spawn, user *model.User) (err error) {
 
 	return
 }
@@ -170,3 +202,4 @@ func (c *SpawnRepository) getSchemaProperty(field string) (prop model.Schema, er
 
 	return
 }
+*/

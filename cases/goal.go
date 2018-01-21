@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,21 +25,23 @@ func (c *GoalRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *GoalRepository) Get(listID int64, entryID int64) (goal *model.Goal, err error) {
-	if listID == 0 {
-		err = fmt.Errorf("Invalid List ID")
+func (c *GoalRepository) Get(goal *model.Goal, user *model.User) (err error) {
+
+	err = c.stor.GetGoal(goal)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get goal")
 		return
 	}
-	if entryID == 0 {
-		err = fmt.Errorf("Invalid Entry ID")
+	err = c.prepare(goal, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare goal")
 		return
 	}
-	goal, err = c.stor.GetGoal(listID, entryID)
 	return
 }
 
 //Create handles logic
-func (c *GoalRepository) Create(goal *model.Goal) (err error) {
+func (c *GoalRepository) Create(goal *model.Goal, user *model.User) (err error) {
 	if goal == nil {
 		err = fmt.Errorf("Empty goal")
 		return
@@ -66,11 +69,16 @@ func (c *GoalRepository) Create(goal *model.Goal) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(goal, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare goal")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *GoalRepository) Edit(listID int64, goal *model.Goal) (err error) {
+func (c *GoalRepository) Edit(goal *model.Goal, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -92,16 +100,21 @@ func (c *GoalRepository) Edit(listID int64, goal *model.Goal) (err error) {
 		return
 	}
 
-	err = c.stor.EditGoal(listID, goal)
+	err = c.stor.EditGoal(goal)
 	if err != nil {
+		return
+	}
+	err = c.prepare(goal, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare goal")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *GoalRepository) Delete(listID int64, entryID int64) (err error) {
-	err = c.stor.DeleteGoal(listID, entryID)
+func (c *GoalRepository) Delete(goal *model.Goal, user *model.User) (err error) {
+	err = c.stor.DeleteGoal(goal)
 	if err != nil {
 		return
 	}
@@ -109,15 +122,22 @@ func (c *GoalRepository) Delete(listID int64, entryID int64) (err error) {
 }
 
 //List handles logic
-func (c *GoalRepository) List() (goals []*model.Goal, err error) {
+func (c *GoalRepository) List(user *model.User) (goals []*model.Goal, err error) {
 	goals, err = c.stor.ListGoal()
 	if err != nil {
 		return
 	}
+	for _, goal := range goals {
+		err = c.prepare(goal, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare goal")
+			return
+		}
+	}
 	return
 }
 
-func (c *GoalRepository) prepare(goal *model.Goal) (err error) {
+func (c *GoalRepository) prepare(goal *model.Goal, user *model.User) (err error) {
 
 	return
 }

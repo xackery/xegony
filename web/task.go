@@ -1,10 +1,10 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/pkg/errors"
-	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/model"
 )
 
@@ -14,7 +14,7 @@ func (a *Web) taskRoutes() (routes []*route) {
 		{
 			"GetTask",
 			"GET",
-			"/task/{taskID}/details",
+			"/task/{taskID:[0-9]+}/details",
 			a.getTask,
 		},
 		{
@@ -23,12 +23,17 @@ func (a *Web) taskRoutes() (routes []*route) {
 			"/task",
 			a.listTask,
 		},
+		{
+			"CreateTask",
+			"GET",
+			"/task/{taskID:[0-9]+}/create",
+			a.listActivity,
+		},
 	}
 	return
 }
 
-func (a *Web) listTask(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -39,54 +44,50 @@ func (a *Web) listTask(w http.ResponseWriter, r *http.Request) {
 	site.Page = "task"
 	site.Title = "Task"
 
-	tasks, err := a.taskRepo.List()
+	tasks, err := a.taskRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Tasks: tasks,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "task/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("task", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getTask(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
 		Task *model.Task
 	}
 
-	id, err := getIntVar(r, "taskID")
+	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
 		err = errors.Wrap(err, "taskID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	task, err := a.taskRepo.Get(id)
+	task := &model.Task{
+		ID: taskID,
+	}
+	err = a.taskRepo.Get(task, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -94,33 +95,29 @@ func (a *Web) getTask(w http.ResponseWriter, r *http.Request) {
 	site.Page = "task"
 	site.Title = "Task"
 
-	content := Content{
+	content = Content{
 		Site: site,
 		Task: task,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "task/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("task", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) createTask(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) createTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
@@ -130,31 +127,23 @@ func (a *Web) createTask(w http.ResponseWriter, r *http.Request) {
 	site.Page = "task"
 	site.Title = "Task"
 
-	if err = api.IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	content := Content{
+	content = Content{
 		Site: site,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "task/create.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("task", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

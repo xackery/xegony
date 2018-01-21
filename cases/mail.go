@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,26 +25,39 @@ func (c *MailRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *MailRepository) Get(mailID int64) (mail *model.Mail, err error) {
-	if mailID == 0 {
-		err = fmt.Errorf("Invalid Mail ID")
+func (c *MailRepository) Get(mail *model.Mail, user *model.User) (err error) {
+
+	err = c.stor.GetMail(mail)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get mail")
 		return
 	}
-	mail, err = c.stor.GetMail(mailID)
+	err = c.prepare(mail, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare mail")
+		return
+	}
 	return
 }
 
 //Search handles logic
-func (c *MailRepository) Search(search string) (mails []*model.Mail, err error) {
-	mails, err = c.stor.SearchMail(search)
+func (c *MailRepository) Search(mail *model.Mail, user *model.User) (mails []*model.Mail, err error) {
+	mails, err = c.stor.SearchMailByBody(mail)
 	if err != nil {
 		return
+	}
+	for _, mail := range mails {
+		err = c.prepare(mail, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare mail")
+			return
+		}
 	}
 	return
 }
 
 //Create handles logic
-func (c *MailRepository) Create(mail *model.Mail) (err error) {
+func (c *MailRepository) Create(mail *model.Mail, user *model.User) (err error) {
 	if mail == nil {
 		err = fmt.Errorf("Empty mail")
 		return
@@ -72,11 +86,16 @@ func (c *MailRepository) Create(mail *model.Mail) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(mail, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare mail")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *MailRepository) Edit(mailID int64, mail *model.Mail) (err error) {
+func (c *MailRepository) Edit(mail *model.Mail, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -98,16 +117,21 @@ func (c *MailRepository) Edit(mailID int64, mail *model.Mail) (err error) {
 		return
 	}
 
-	err = c.stor.EditMail(mailID, mail)
+	err = c.stor.EditMail(mail)
 	if err != nil {
+		return
+	}
+	err = c.prepare(mail, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare mail")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *MailRepository) Delete(mailID int64) (err error) {
-	err = c.stor.DeleteMail(mailID)
+func (c *MailRepository) Delete(mail *model.Mail, user *model.User) (err error) {
+	err = c.stor.DeleteMail(mail)
 	if err != nil {
 		return
 	}
@@ -115,7 +139,7 @@ func (c *MailRepository) Delete(mailID int64) (err error) {
 }
 
 //List handles logic
-func (c *MailRepository) List(pageSize int64, pageNumber int64) (mails []*model.Mail, err error) {
+func (c *MailRepository) List(pageSize int64, pageNumber int64, user *model.User) (mails []*model.Mail, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -128,11 +152,18 @@ func (c *MailRepository) List(pageSize int64, pageNumber int64) (mails []*model.
 	if err != nil {
 		return
 	}
+	for _, mail := range mails {
+		err = c.prepare(mail, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare mail")
+			return
+		}
+	}
 	return
 }
 
 //ListCount handles logic
-func (c *MailRepository) ListCount() (count int64, err error) {
+func (c *MailRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListMailCount()
 	if err != nil {
@@ -142,15 +173,22 @@ func (c *MailRepository) ListCount() (count int64, err error) {
 }
 
 //ListByCharacter handles logic
-func (c *MailRepository) ListByCharacter(characterID int64) (mails []*model.Mail, err error) {
-	mails, err = c.stor.ListMailByCharacter(characterID)
+func (c *MailRepository) ListByCharacter(character *model.Character, user *model.User) (mails []*model.Mail, err error) {
+	mails, err = c.stor.ListMailByCharacter(character)
 	if err != nil {
 		return
+	}
+	for _, mail := range mails {
+		err = c.prepare(mail, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare mail")
+			return
+		}
 	}
 	return
 }
 
-func (c *MailRepository) prepare(mail *model.Mail) (err error) {
+func (c *MailRepository) prepare(mail *model.Mail, user *model.User) (err error) {
 
 	return
 }

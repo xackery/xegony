@@ -13,9 +13,8 @@ const (
 )
 
 //GetNpc will grab data from storage
-func (s *Storage) GetNpc(npcID int64) (npc *model.Npc, err error) {
-	npc = &model.Npc{}
-	err = s.db.Get(npc, fmt.Sprintf("SELECT npc_types.id, %s FROM npc_types WHERE id = ?", npcFields), npcID)
+func (s *Storage) GetNpc(npc *model.Npc) (err error) {
+	err = s.db.Get(npc, fmt.Sprintf("SELECT npc_types.id, %s FROM npc_types WHERE id = ?", npcFields), npc.ID)
 	if err != nil {
 		return
 	}
@@ -69,10 +68,10 @@ func (s *Storage) ListNpcCount() (count int64, err error) {
 }
 
 //ListNpcByZone will grab data from storage
-func (s *Storage) ListNpcByZone(zoneID int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByZone(zone *model.Zone) (npcs []*model.Npc, err error) {
 
-	upperID := (zoneID * 1000) + 1000 - 1
-	lowerID := (zoneID * 1000) - 1
+	upperID := (zone.ID * 1000) + 1000 - 1
+	lowerID := (zone.ID * 1000) - 1
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
 	WHERE npc_types.id < ? AND npc_types.id > ?`, npcFields), upperID, lowerID)
 	if err != nil {
@@ -90,11 +89,11 @@ func (s *Storage) ListNpcByZone(zoneID int64) (npcs []*model.Npc, err error) {
 }
 
 //ListNpcByFaction will grab data from storage
-func (s *Storage) ListNpcByFaction(factionID int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByFaction(faction *model.Faction) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types	
 	INNER JOIN npc_faction ON npc_faction.id = npc_types.npc_faction_id
 	INNER JOIN faction_list on faction_list.id = npc_faction.primaryfaction
-	WHERE faction_list.id = ?`, npcFields), factionID)
+	WHERE faction_list.id = ?`, npcFields), faction.ID)
 	if err != nil {
 		return
 	}
@@ -110,9 +109,9 @@ func (s *Storage) ListNpcByFaction(factionID int64) (npcs []*model.Npc, err erro
 }
 
 //ListNpcByLootTable will grab data from storage
-func (s *Storage) ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByLootTable(lootTable *model.LootTable) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
-		WHERE loottable_id = ?`, npcFields), lootTableID)
+		WHERE loottable_id = ?`, npcFields), lootTable.ID)
 	if err != nil {
 		return
 	}
@@ -128,9 +127,9 @@ func (s *Storage) ListNpcByLootTable(lootTableID int64) (npcs []*model.Npc, err 
 }
 
 //ListNpcByMerchant will grab data from storage
-func (s *Storage) ListNpcByMerchant(merchantID int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByMerchant(merchant *model.Merchant) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
-		WHERE merchant_id = ?`, npcFields), merchantID)
+		WHERE merchant_id = ?`, npcFields), merchant.ID)
 	if err != nil {
 		return
 	}
@@ -146,10 +145,10 @@ func (s *Storage) ListNpcByMerchant(merchantID int64) (npcs []*model.Npc, err er
 }
 
 //ListNpcByItem will grab data from storage
-func (s *Storage) ListNpcByItem(itemID int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcByItem(item *model.Item) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
 		INNER JOIN npc_loot_cache ON npc_loot_cache.npc_id = npc_types.id
-		WHERE npc_loot_cache.item_id = ?`, npcFields), itemID)
+		WHERE npc_loot_cache.item_id = ?`, npcFields), item.ID)
 	if err != nil {
 		return
 	}
@@ -165,10 +164,10 @@ func (s *Storage) ListNpcByItem(itemID int64) (npcs []*model.Npc, err error) {
 }
 
 //ListNpcBySpell will grab data from storage
-func (s *Storage) ListNpcBySpell(spellID int64) (npcs []*model.Npc, err error) {
+func (s *Storage) ListNpcBySpell(spell *model.Spell) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT npc_types.id, %s FROM npc_types
 		INNER JOIN npc_spells_entries ON npc_spells_entries.id = npc_types.npc_spells_id
-		WHERE npc_spells_entries.spellid = ?`, npcFields), spellID)
+		WHERE npc_spells_entries.spellid = ?`, npcFields), spell.ID)
 	if err != nil {
 		return
 	}
@@ -184,8 +183,7 @@ func (s *Storage) ListNpcBySpell(spellID int64) (npcs []*model.Npc, err error) {
 }
 
 //EditNpc will grab data from storage
-func (s *Storage) EditNpc(npcID int64, npc *model.Npc) (err error) {
-	npc.ID = npcID
+func (s *Storage) EditNpc(npc *model.Npc) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE npc_types SET %s WHERE id = :id`, npcSets), npc)
 	if err != nil {
 		return
@@ -202,8 +200,8 @@ func (s *Storage) EditNpc(npcID int64, npc *model.Npc) (err error) {
 }
 
 //DeleteNpc will grab data from storage
-func (s *Storage) DeleteNpc(npcID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM npc_types WHERE id = ?`, npcID)
+func (s *Storage) DeleteNpc(npc *model.Npc) (err error) {
+	result, err := s.db.Exec(`DELETE FROM npc_types WHERE id = ?`, npc.ID)
 	if err != nil {
 		return
 	}
@@ -219,8 +217,8 @@ func (s *Storage) DeleteNpc(npcID int64) (err error) {
 }
 
 //SearchNpc will grab data from storage
-func (s *Storage) SearchNpc(search string) (npcs []*model.Npc, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types WHERE name like ? ORDER BY id DESC`, npcFields), "%"+search+"%")
+func (s *Storage) SearchNpcByName(npc *model.Npc) (npcs []*model.Npc, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types WHERE name like ? ORDER BY id DESC`, npcFields), "%"+npc.Name+"%")
 	if err != nil {
 		return
 	}

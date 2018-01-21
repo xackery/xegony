@@ -13,11 +13,11 @@ const (
 )
 
 //GetAaRank will grab data from storage
-func (s *Storage) GetAaRank(rankID int64) (query string, aaRank *model.AaRank, err error) {
-	aaRank = &model.AaRank{}
-	query = fmt.Sprintf(`SELECT %s FROM aa_ranks 
+func (s *Storage) GetAaRank(aaRank *model.AaRank) (err error) {
+
+	query := fmt.Sprintf(`SELECT %s FROM aa_ranks 
 		WHERE id = ?`, aaRankFields)
-	err = s.db.Get(aaRank, query, rankID)
+	err = s.db.Get(aaRank, query, aaRank.ID)
 	if err != nil {
 		return
 	}
@@ -25,13 +25,13 @@ func (s *Storage) GetAaRank(rankID int64) (query string, aaRank *model.AaRank, e
 }
 
 //CreateAaRank will grab data from storage
-func (s *Storage) CreateAaRank(aaRank *model.AaRank) (query string, err error) {
+func (s *Storage) CreateAaRank(aaRank *model.AaRank) (err error) {
 	if aaRank == nil {
 		err = fmt.Errorf("Must provide aaRank")
 		return
 	}
 
-	query = fmt.Sprintf(`INSERT INTO aa_ranks(%s)
+	query := fmt.Sprintf(`INSERT INTO aa_ranks(%s)
 		VALUES (%s)`, aaRankFields, aaRankBinds)
 	_, err = s.db.NamedExec(query, aaRank)
 	if err != nil {
@@ -41,8 +41,8 @@ func (s *Storage) CreateAaRank(aaRank *model.AaRank) (query string, err error) {
 }
 
 //ListAaRank will grab data from storage
-func (s *Storage) ListAaRank() (query string, aaRanks []*model.AaRank, err error) {
-	query = fmt.Sprintf(`SELECT %s FROM aa_ranks`, aaRankFields)
+func (s *Storage) ListAaRank() (aaRanks []*model.AaRank, err error) {
+	query := fmt.Sprintf(`SELECT %s FROM aa_ranks`, aaRankFields)
 	rows, err := s.db.Queryx(query)
 	if err != nil {
 		return
@@ -59,10 +59,9 @@ func (s *Storage) ListAaRank() (query string, aaRanks []*model.AaRank, err error
 }
 
 //EditAaRank will grab data from storage
-func (s *Storage) EditAaRank(rankID int64, aaRank *model.AaRank) (query string, err error) {
+func (s *Storage) EditAaRank(aaRank *model.AaRank) (err error) {
 
-	query = fmt.Sprintf(`UPDATE aa_ranks SET %s WHERE id = ?`, aaRankSets)
-	aaRank.ID = rankID
+	query := fmt.Sprintf(`UPDATE aa_ranks SET %s WHERE id = ?`, aaRankSets)
 	result, err := s.db.NamedExec(query, aaRank)
 	if err != nil {
 		return
@@ -79,9 +78,9 @@ func (s *Storage) EditAaRank(rankID int64, aaRank *model.AaRank) (query string, 
 }
 
 //DeleteAaRank will grab data from storage
-func (s *Storage) DeleteAaRank(rankID int64) (query string, err error) {
-	query = `DELETE FROM aa_ranks WHERE id = ?`
-	result, err := s.db.Exec(query, rankID)
+func (s *Storage) DeleteAaRank(aaRank *model.AaRank) (err error) {
+	query := `DELETE FROM aa_ranks WHERE id = ?`
+	result, err := s.db.Exec(query, aaRank.ID)
 	if err != nil {
 		return
 	}

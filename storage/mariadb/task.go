@@ -14,9 +14,8 @@ const (
 )
 
 //GetTask will grab data from storage
-func (s *Storage) GetTask(taskID int64) (task *model.Task, err error) {
-	task = &model.Task{}
-	err = s.db.Get(task, fmt.Sprintf("SELECT id, %s FROM tasks WHERE id = ?", taskFields), taskID)
+func (s *Storage) GetTask(task *model.Task) (err error) {
+	err = s.db.Get(task, fmt.Sprintf("SELECT id, %s FROM tasks WHERE id = ?", taskFields), task.ID)
 	if err != nil {
 		return
 	}
@@ -80,7 +79,7 @@ func (s *Storage) ListTask() (tasks []*model.Task, err error) {
 }
 
 //EditTask will grab data from storage
-func (s *Storage) EditTask(taskID int64, task *model.Task) (err error) {
+func (s *Storage) EditTask(task *model.Task) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE tasks SET %s WHERE id = :id`, taskSets), task)
 	if err != nil {
 		return
@@ -97,8 +96,8 @@ func (s *Storage) EditTask(taskID int64, task *model.Task) (err error) {
 }
 
 //DeleteTask will grab data from storage
-func (s *Storage) DeleteTask(taskID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM tasks WHERE id = ?`, taskID)
+func (s *Storage) DeleteTask(task *model.Task) (err error) {
+	result, err := s.db.Exec(`DELETE FROM tasks WHERE id = ?`, task.ID)
 	if err != nil {
 		return
 	}

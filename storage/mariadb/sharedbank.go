@@ -13,9 +13,8 @@ const (
 )
 
 //GetSharedBank will grab data from storage
-func (s *Storage) GetSharedBank(accountID int64, slotID int64) (sharedBank *model.SharedBank, err error) {
-	sharedBank = &model.SharedBank{}
-	err = s.db.Get(sharedBank, fmt.Sprintf("SELECT %s FROM sharedbank WHERE acctid = ? AND slotid = ?", sharedBankFields), accountID, slotID)
+func (s *Storage) GetSharedBank(sharedBank *model.SharedBank) (err error) {
+	err = s.db.Get(sharedBank, fmt.Sprintf("SELECT %s FROM sharedbank WHERE acctid = ? AND slotid = ?", sharedBankFields), sharedBank.AccountID, sharedBank.SlotID)
 	if err != nil {
 		return
 	}
@@ -38,10 +37,10 @@ func (s *Storage) CreateSharedBank(sharedBank *model.SharedBank) (err error) {
 }
 
 //ListSharedBank will grab data from storage
-func (s *Storage) ListSharedBank(accountID int64, pageSize int64, pageNumber int64) (sharedBanks []*model.SharedBank, err error) {
+func (s *Storage) ListSharedBankByAccount(account *model.Account, pageSize int64, pageNumber int64) (sharedBanks []*model.SharedBank, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM sharedbank
 		WHERE acctid = ? 
-		ORDER BY slotid ASC LIMIT %d OFFSET %d`, sharedBankFields, pageSize, pageSize*pageNumber), accountID)
+		ORDER BY slotid ASC LIMIT %d OFFSET %d`, sharedBankFields, pageSize, pageSize*pageNumber), account.ID)
 	if err != nil {
 		return
 	}
@@ -57,36 +56,18 @@ func (s *Storage) ListSharedBank(accountID int64, pageSize int64, pageNumber int
 }
 
 //ListSharedBankCount will grab data from storage
-func (s *Storage) ListSharedBankCount(accountID int64) (count int64, err error) {
-	err = s.db.Get(&count, `SELECT count(id) FROM sharedbank WHERE acctid = ?`, accountID)
+func (s *Storage) ListSharedBankByAccountCount(account *model.Account) (count int64, err error) {
+	err = s.db.Get(&count, `SELECT count(id) FROM sharedbank WHERE acctid = ?`, account.ID)
 	if err != nil {
 		return
-	}
-	return
-}
-
-//ListSharedBankByAccount will grab data from storage
-func (s *Storage) ListSharedBankByAccount(accountID int64) (sharedBanks []*model.SharedBank, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM sharedbank		
-		WHERE acctid = ? ORDER BY slotid ASC`, sharedBankFields), accountID)
-	if err != nil {
-		return
-	}
-
-	for rows.Next() {
-		sharedBank := model.SharedBank{}
-		if err = rows.StructScan(&sharedBank); err != nil {
-			return
-		}
-		sharedBanks = append(sharedBanks, &sharedBank)
 	}
 	return
 }
 
 //ListSharedBankByItem will grab data from storage
-func (s *Storage) ListSharedBankByItem(accountID int64, itemID int64) (sharedBanks []*model.SharedBank, err error) {
+func (s *Storage) ListSharedBankByAccountAndItem(account *model.Account, item *model.Item) (sharedBanks []*model.SharedBank, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM sharedbank		
-		WHERE acctid = ? AND itemid = ? ORDER BY slotid ASC`, sharedBankFields), accountID, itemID)
+		WHERE acctid = ? AND itemid = ? ORDER BY slotid ASC`, sharedBankFields), account.ID, item.ID)
 	if err != nil {
 		return
 	}
@@ -102,9 +83,8 @@ func (s *Storage) ListSharedBankByItem(accountID int64, itemID int64) (sharedBan
 }
 
 //EditSharedBank will grab data from storage
-func (s *Storage) EditSharedBank(accountID int64, slotID int64, sharedBank *model.SharedBank) (err error) {
-	sharedBank.AccountID = accountID
-	sharedBank.SlotID = slotID
+func (s *Storage) EditSharedBank(sharedBank *model.SharedBank) (err error) {
+
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE sharedbank SET %s WHERE acctid = :acctid AND slotid = :slotid`, sharedBankSets), sharedBank)
 	if err != nil {
 		return
@@ -121,8 +101,8 @@ func (s *Storage) EditSharedBank(accountID int64, slotID int64, sharedBank *mode
 }
 
 //DeleteSharedBank will grab data from storage
-func (s *Storage) DeleteSharedBank(accountID int64, slotID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM sharedbank WHERE acctid = ? AND slotid = ?`, accountID, slotID)
+func (s *Storage) DeleteSharedBank(sharedBank *model.SharedBank) (err error) {
+	result, err := s.db.Exec(`DELETE FROM sharedbank WHERE acctid = ? AND slotid = ?`, sharedBank.AccountID, sharedBank.SlotID)
 	if err != nil {
 		return
 	}

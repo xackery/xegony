@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,26 +25,37 @@ func (c *RecipeRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *RecipeRepository) Get(recipeID int64) (recipe *model.Recipe, err error) {
-	if recipeID == 0 {
-		err = fmt.Errorf("Invalid Recipe ID")
+func (c *RecipeRepository) Get(recipe *model.Recipe, user *model.User) (err error) {
+
+	err = c.stor.GetRecipe(recipe)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get recipe")
 		return
 	}
-	recipe, err = c.stor.GetRecipe(recipeID)
+	err = c.prepare(recipe, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare recipe")
+		return
+	}
 	return
 }
 
 //Search handles logic
-func (c *RecipeRepository) Search(search string) (recipes []*model.Recipe, err error) {
-	recipes, err = c.stor.SearchRecipe(search)
+func (c *RecipeRepository) SearchByName(recipe *model.Recipe, user *model.User) (recipes []*model.Recipe, err error) {
+	recipes, err = c.stor.SearchRecipeByName(recipe)
 	if err != nil {
+		return
+	}
+	err = c.prepare(recipe, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare recipe")
 		return
 	}
 	return
 }
 
 //Create handles logic
-func (c *RecipeRepository) Create(recipe *model.Recipe) (err error) {
+func (c *RecipeRepository) Create(recipe *model.Recipe, user *model.User) (err error) {
 	if recipe == nil {
 		err = fmt.Errorf("Empty recipe")
 		return
@@ -72,11 +84,16 @@ func (c *RecipeRepository) Create(recipe *model.Recipe) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(recipe, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare recipe")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *RecipeRepository) Edit(recipeID int64, recipe *model.Recipe) (err error) {
+func (c *RecipeRepository) Edit(recipe *model.Recipe, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -98,16 +115,21 @@ func (c *RecipeRepository) Edit(recipeID int64, recipe *model.Recipe) (err error
 		return
 	}
 
-	err = c.stor.EditRecipe(recipeID, recipe)
+	err = c.stor.EditRecipe(recipe)
 	if err != nil {
+		return
+	}
+	err = c.prepare(recipe, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare recipe")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *RecipeRepository) Delete(recipeID int64) (err error) {
-	err = c.stor.DeleteRecipe(recipeID)
+func (c *RecipeRepository) Delete(recipe *model.Recipe, user *model.User) (err error) {
+	err = c.stor.DeleteRecipe(recipe)
 	if err != nil {
 		return
 	}
@@ -115,7 +137,7 @@ func (c *RecipeRepository) Delete(recipeID int64) (err error) {
 }
 
 //ListByTradeskill handles logic
-func (c *RecipeRepository) ListByTradeskill(tradeskillID int64, pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error) {
+func (c *RecipeRepository) ListBySkill(skill *model.Skill, pageSize int64, pageNumber int64, user *model.User) (recipes []*model.Recipe, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -124,25 +146,33 @@ func (c *RecipeRepository) ListByTradeskill(tradeskillID int64, pageSize int64, 
 		pageNumber = 0
 	}
 
-	recipes, err = c.stor.ListRecipeByTradeskill(tradeskillID, pageSize, pageNumber)
+	recipes, err = c.stor.ListRecipeBySkill(skill, pageSize, pageNumber)
 	if err != nil {
 		return
+	}
+	for _, recipe := range recipes {
+		err = c.prepare(recipe, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare recipe")
+			return
+		}
 	}
 	return
 }
 
 //ListByTradeskillCount handles logic
-func (c *RecipeRepository) ListByTradeskillCount(tradeskillID int64) (count int64, err error) {
+func (c *RecipeRepository) ListBySkillCount(skill *model.Skill, user *model.User) (count int64, err error) {
 
-	count, err = c.stor.ListRecipeByTradeskillCount(tradeskillID)
+	count, err = c.stor.ListRecipeBySkillCount(skill)
 	if err != nil {
 		return
 	}
+
 	return
 }
 
 //List handles logic
-func (c *RecipeRepository) List(pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error) {
+func (c *RecipeRepository) List(pageSize int64, pageNumber int64, user *model.User) (recipes []*model.Recipe, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -155,11 +185,18 @@ func (c *RecipeRepository) List(pageSize int64, pageNumber int64) (recipes []*mo
 	if err != nil {
 		return
 	}
+	for _, recipe := range recipes {
+		err = c.prepare(recipe, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare recipe")
+			return
+		}
+	}
 	return
 }
 
 //ListCount handles logic
-func (c *RecipeRepository) ListCount() (count int64, err error) {
+func (c *RecipeRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListRecipeCount()
 	if err != nil {
@@ -168,7 +205,7 @@ func (c *RecipeRepository) ListCount() (count int64, err error) {
 	return
 }
 
-func (c *RecipeRepository) prepare(recipe *model.Recipe) (err error) {
+func (c *RecipeRepository) prepare(recipe *model.Recipe, user *model.User) (err error) {
 
 	return
 }

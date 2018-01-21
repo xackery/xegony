@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,22 @@ func (c *TaskRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *TaskRepository) Get(taskID int64) (task *model.Task, err error) {
-	if taskID == 0 {
-		err = fmt.Errorf("Invalid Task ID")
+func (c *TaskRepository) Get(task *model.Task, user *model.User) (err error) {
+	err = c.stor.GetTask(task)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get task")
 		return
 	}
-	task, err = c.stor.GetTask(taskID)
+	err = c.prepare(task, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare task")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *TaskRepository) Create(task *model.Task) (err error) {
+func (c *TaskRepository) Create(task *model.Task, user *model.User) (err error) {
 	if task == nil {
 		err = fmt.Errorf("Empty task")
 		return
@@ -64,11 +70,16 @@ func (c *TaskRepository) Create(task *model.Task) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(task, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare task")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *TaskRepository) Edit(taskID int64, task *model.Task) (err error) {
+func (c *TaskRepository) Edit(task *model.Task, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"title"}, nil)
 	if err != nil {
 		return
@@ -90,16 +101,21 @@ func (c *TaskRepository) Edit(taskID int64, task *model.Task) (err error) {
 		return
 	}
 
-	err = c.stor.EditTask(taskID, task)
+	err = c.stor.EditTask(task)
 	if err != nil {
+		return
+	}
+	err = c.prepare(task, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare task")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *TaskRepository) Delete(taskID int64) (err error) {
-	err = c.stor.DeleteTask(taskID)
+func (c *TaskRepository) Delete(task *model.Task, user *model.User) (err error) {
+	err = c.stor.DeleteTask(task)
 	if err != nil {
 		return
 	}
@@ -107,15 +123,22 @@ func (c *TaskRepository) Delete(taskID int64) (err error) {
 }
 
 //List handles logic
-func (c *TaskRepository) List() (tasks []*model.Task, err error) {
+func (c *TaskRepository) List(user *model.User) (tasks []*model.Task, err error) {
 	tasks, err = c.stor.ListTask()
 	if err != nil {
 		return
 	}
+	for _, task := range tasks {
+		err = c.prepare(task, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare task")
+			return
+		}
+	}
 	return
 }
 
-func (c *TaskRepository) prepare(task *model.Task) (err error) {
+func (c *TaskRepository) prepare(task *model.Task, user *model.User) (err error) {
 
 	return
 }

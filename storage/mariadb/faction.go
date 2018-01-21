@@ -7,9 +7,9 @@ import (
 )
 
 //GetFaction will grab data from storage
-func (s *Storage) GetFaction(factionID int64) (faction *model.Faction, err error) {
+func (s *Storage) GetFaction(faction *model.Faction) (err error) {
 	faction = &model.Faction{}
-	err = s.db.Get(faction, "SELECT id, name, base FROM faction_list WHERE id = ?", factionID)
+	err = s.db.Get(faction, "SELECT id, name, base FROM faction_list WHERE id = ?", faction.ID)
 	if err != nil {
 		return
 	}
@@ -54,8 +54,7 @@ func (s *Storage) ListFaction() (factions []*model.Faction, err error) {
 }
 
 //EditFaction will grab data from storage
-func (s *Storage) EditFaction(factionID int64, faction *model.Faction) (err error) {
-	faction.ID = factionID
+func (s *Storage) EditFaction(faction *model.Faction) (err error) {
 	result, err := s.db.NamedExec(`UPDATE faction_list SET name=:name, base=:base WHERE id = :id`, faction)
 	if err != nil {
 		return
@@ -72,8 +71,8 @@ func (s *Storage) EditFaction(factionID int64, faction *model.Faction) (err erro
 }
 
 //DeleteFaction will grab data from storage
-func (s *Storage) DeleteFaction(factionID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM faction_list WHERE id = ?`, factionID)
+func (s *Storage) DeleteFaction(faction *model.Faction) (err error) {
+	result, err := s.db.Exec(`DELETE FROM faction_list WHERE id = ?`, faction.ID)
 	if err != nil {
 		return
 	}

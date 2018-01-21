@@ -13,9 +13,8 @@ const (
 )
 
 //GetCharacterGraph will grab data from storage
-func (s *Storage) GetCharacterGraph(id int64) (characterGraph *model.CharacterGraph, err error) {
-	characterGraph = &model.CharacterGraph{}
-	err = s.db.Get(characterGraph, fmt.Sprintf("SELECT id, %s FROM character_graph WHERE id = ?", characterGraphFields), id)
+func (s *Storage) GetCharacterGraph(characterGraph *model.CharacterGraph) (err error) {
+	err = s.db.Get(characterGraph, fmt.Sprintf("SELECT id, %s FROM character_graph WHERE id = ?", characterGraphFields), characterGraph.ID)
 	if err != nil {
 		return
 	}
@@ -43,8 +42,8 @@ func (s *Storage) CreateCharacterGraph(characterGraph *model.CharacterGraph) (er
 }
 
 //ListCharacterGraph will grab data from storage
-func (s *Storage) ListCharacterGraph(characterID int64) (characterGraphs []*model.CharacterGraph, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM character_graph WHERE character_id = ? ORDER BY create_date DESC`, characterGraphFields), characterID)
+func (s *Storage) ListCharacterGraphByCharacter(character *model.Character) (characterGraphs []*model.CharacterGraph, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM character_graph WHERE character_id = ? ORDER BY create_date DESC`, characterGraphFields), character.ID)
 	if err != nil {
 		return
 	}
@@ -60,8 +59,7 @@ func (s *Storage) ListCharacterGraph(characterID int64) (characterGraphs []*mode
 }
 
 //EditCharacterGraph will grab data from storage
-func (s *Storage) EditCharacterGraph(id int64, characterGraph *model.CharacterGraph) (err error) {
-	characterGraph.ID = id
+func (s *Storage) EditCharacterGraph(characterGraph *model.CharacterGraph) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE character_graph SET %s WHERE id = :id`, characterGraphSets), characterGraph)
 	if err != nil {
 		return
@@ -78,8 +76,8 @@ func (s *Storage) EditCharacterGraph(id int64, characterGraph *model.CharacterGr
 }
 
 //DeleteCharacterGraph will grab data from storage
-func (s *Storage) DeleteCharacterGraph(id int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM character_graph WHERE id = ?`, id)
+func (s *Storage) DeleteCharacterGraph(characterGraph *model.CharacterGraph) (err error) {
+	result, err := s.db.Exec(`DELETE FROM character_graph WHERE id = ?`, characterGraph.ID)
 	if err != nil {
 		return
 	}

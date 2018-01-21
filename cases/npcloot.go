@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,19 +25,28 @@ func (c *NpcLootRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *NpcLootRepository) Get(npcID int64, itemID int64) (npcLoot *model.NpcLoot, err error) {
-	npcLoot, err = c.stor.GetNpcLoot(npcID, itemID)
+func (c *NpcLootRepository) Get(npcLoot *model.NpcLoot, user *model.User) (err error) {
+	err = c.stor.GetNpcLoot(npcLoot)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get npc loot")
+		return
+	}
+	err = c.prepare(npcLoot, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare npc loot")
+		return
+	}
 	return
 }
 
 //Truncate handles logic
-func (c *NpcLootRepository) Truncate() (err error) {
+func (c *NpcLootRepository) Truncate(user *model.User) (err error) {
 	err = c.stor.TruncateNpcLoot()
 	return
 }
 
 //Create handles logic
-func (c *NpcLootRepository) Create(npcLoot *model.NpcLoot) (err error) {
+func (c *NpcLootRepository) Create(npcLoot *model.NpcLoot, user *model.User) (err error) {
 	if npcLoot == nil {
 		err = fmt.Errorf("Empty npcLoot")
 		return
@@ -65,11 +75,16 @@ func (c *NpcLootRepository) Create(npcLoot *model.NpcLoot) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(npcLoot, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare npc loot")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *NpcLootRepository) Edit(npcID int64, itemID int64, npcLoot *model.NpcLoot) (err error) {
+func (c *NpcLootRepository) Edit(npcLoot *model.NpcLoot, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -91,16 +106,21 @@ func (c *NpcLootRepository) Edit(npcID int64, itemID int64, npcLoot *model.NpcLo
 		return
 	}
 
-	err = c.stor.EditNpcLoot(npcID, itemID, npcLoot)
+	err = c.stor.EditNpcLoot(npcLoot)
 	if err != nil {
+		return
+	}
+	err = c.prepare(npcLoot, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare npc loot")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *NpcLootRepository) Delete(npcID int64, itemID int64) (err error) {
-	err = c.stor.DeleteNpcLoot(npcID, itemID)
+func (c *NpcLootRepository) Delete(npcLoot *model.NpcLoot, user *model.User) (err error) {
+	err = c.stor.DeleteNpcLoot(npcLoot)
 	if err != nil {
 		return
 	}
@@ -108,24 +128,38 @@ func (c *NpcLootRepository) Delete(npcID int64, itemID int64) (err error) {
 }
 
 //List handles logic
-func (c *NpcLootRepository) List(npcID int64) (npcLoots []*model.NpcLoot, err error) {
-	npcLoots, err = c.stor.ListNpcLoot(npcID)
+func (c *NpcLootRepository) ListByNpc(npc *model.Npc, user *model.User) (npcLoots []*model.NpcLoot, err error) {
+	npcLoots, err = c.stor.ListNpcLootByNpc(npc)
 	if err != nil {
 		return
+	}
+	for _, npcLoot := range npcLoots {
+		err = c.prepare(npcLoot, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare npc loot")
+			return
+		}
 	}
 	return
 }
 
 //ListByZone handles logic
-func (c *NpcLootRepository) ListByZone(zoneID int64) (npcLoots []*model.NpcLoot, err error) {
-	npcLoots, err = c.stor.ListNpcLootByZone(zoneID)
+func (c *NpcLootRepository) ListByZone(zone *model.Zone, user *model.User) (npcLoots []*model.NpcLoot, err error) {
+	npcLoots, err = c.stor.ListNpcLootByZone(zone)
 	if err != nil {
 		return
+	}
+	for _, npcLoot := range npcLoots {
+		err = c.prepare(npcLoot, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare npc loot")
+			return
+		}
 	}
 	return
 }
 
-func (c *NpcLootRepository) prepare(npcLoot *model.NpcLoot) (err error) {
+func (c *NpcLootRepository) prepare(npcLoot *model.NpcLoot, user *model.User) (err error) {
 
 	return
 }

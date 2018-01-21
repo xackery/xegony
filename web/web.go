@@ -13,7 +13,6 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/box"
 	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
@@ -62,15 +61,15 @@ type Web struct {
 	recipeEntryRepo    *cases.RecipeEntryRepository
 	ruleRepo           *cases.RuleRepository
 	skillRepo          *cases.SkillRepository
-	spawnEntryRepo     *cases.SpawnEntryRepository
-	spawnRepo          *cases.SpawnRepository
-	spellRepo          *cases.SpellRepository
-	taskRepo           *cases.TaskRepository
-	topicRepo          *cases.TopicRepository
-	userRepo           *cases.UserRepository
-	variableRepo       *cases.VariableRepository
-	zoneLevelRepo      *cases.ZoneLevelRepository
-	zoneRepo           *cases.ZoneRepository
+	//spawnEntryRepo     *cases.SpawnEntryRepository
+	//spawnRepo          *cases.SpawnRepository
+	spellRepo     *cases.SpellRepository
+	taskRepo      *cases.TaskRepository
+	topicRepo     *cases.TopicRepository
+	userRepo      *cases.UserRepository
+	variableRepo  *cases.VariableRepository
+	zoneLevelRepo *cases.ZoneLevelRepository
+	zoneRepo      *cases.ZoneRepository
 }
 
 func (a *Web) newSite(r *http.Request) (data site) {
@@ -80,15 +79,6 @@ func (a *Web) newSite(r *http.Request) (data site) {
 		Description: "Xegony",
 	}
 
-	claims, err := api.GetAuthClaims(r)
-	if err != nil && err.Error() != "No token provided" {
-		//flush cookie
-		log.Println("Bad auth", err.Error())
-	}
-
-	if claims != nil {
-		data.User = claims.User
-	}
 	return
 }
 
@@ -219,14 +209,14 @@ func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.skillRepo.Initialize(s); err != nil {
 		return
 	}
-	a.spawnRepo = &cases.SpawnRepository{}
+	/*a.spawnRepo = &cases.SpawnRepository{}
 	if err = a.spawnRepo.Initialize(s); err != nil {
 		return
 	}
 	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
 	if err = a.spawnEntryRepo.Initialize(s); err != nil {
 		return
-	}
+	}*/
 	a.spellRepo = &cases.SpellRepository{}
 	if err = a.spellRepo.Initialize(s); err != nil {
 		return
@@ -255,11 +245,11 @@ func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.zoneLevelRepo.Initialize(s); err != nil {
 		return
 	}
+	a.log.Println("Initialized")
 	return
 }
 
-func (a *Web) index(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) index(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
@@ -270,33 +260,29 @@ func (a *Web) index(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forum"
 	site.Title = "Xegony"
 
-	content := Content{
+	content = Content{
 		Site: site,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "index.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("index", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
 func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
 	var err error
-
 	path := "www/" + r.URL.Path[1:]
 
 	if _, err = os.Stat(path); err == nil {
@@ -306,7 +292,6 @@ func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
 	var bData []byte
 	if bData, err = box.ReadFile(path); err != nil {
 		//box open
-		a.writeError(w, r, err, http.StatusNotFound)
 		return
 	}
 	reader := bytes.NewReader(bData)
@@ -334,7 +319,7 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 		URL:     r.URL.String(),
 		Scope:   "unknown",
 		Message: err.Error(),
-	}); cErr != nil {
+	}, nil); cErr != nil {
 		log.Println("Failed to create error", cErr.Error())
 	}
 

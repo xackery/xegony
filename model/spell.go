@@ -120,7 +120,7 @@ type Spell struct {
 	Effectid12          int64          `json:"effectid12" db:"effectid12"`                   //`effectid12` int(11) NOT NULL DEFAULT '254',
 	Targettype          int64          `json:"targettype" db:"targettype"`                   //`targettype` int(11) NOT NULL DEFAULT '2',
 	Basediff            int64          `json:"basediff" db:"basediff"`                       //`basediff` int(11) NOT NULL DEFAULT '0',
-	SkillID             int64          `json:"skill" db:"skill"`                             //`skill` int(11) NOT NULL DEFAULT '98',
+	SkillID             int64          `json:"skillID" db:"skill"`                           //`skill` int(11) NOT NULL DEFAULT '98',
 	Zonetype            int64          `json:"zonetype" db:"zonetype"`                       //`zonetype` int(11) NOT NULL DEFAULT '-1',
 	Environmenttype     int64          `json:"EnvironmentType" db:"EnvironmentType"`         //`EnvironmentType` int(11) NOT NULL DEFAULT '0',
 	Timeofday           int64          `json:"TimeOfDay" db:"TimeOfDay"`                     //`TimeOfDay` int(11) NOT NULL DEFAULT '0',

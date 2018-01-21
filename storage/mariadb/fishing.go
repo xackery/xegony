@@ -13,9 +13,8 @@ const (
 )
 
 //GetFishing will grab data from storage
-func (s *Storage) GetFishing(fishingID int64) (fishing *model.Fishing, err error) {
-	fishing = &model.Fishing{}
-	err = s.db.Get(fishing, fmt.Sprintf("SELECT id, %s FROM fishing WHERE id = ?", fishingFields), fishingID)
+func (s *Storage) GetFishing(fishing *model.Fishing) (err error) {
+	err = s.db.Get(fishing, fmt.Sprintf("SELECT id, %s FROM fishing WHERE id = ?", fishingFields), fishing.ID)
 	if err != nil {
 		return
 	}
@@ -70,9 +69,10 @@ func (s *Storage) ListFishingCount() (count int64, err error) {
 }
 
 //ListFishingByItem will grab data from storage
-func (s *Storage) ListFishingByItem(itemID int64) (fishings []*model.Fishing, err error) {
+func (s *Storage) ListFishingByItem(item *model.Item) (fishings []*model.Fishing, err error) {
+
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT fishing.id, %s FROM fishing		
-		WHERE fishing.itemid = ?`, fishingFields), itemID)
+		WHERE fishing.itemid = ?`, fishingFields), item.ID)
 	if err != nil {
 		return
 	}
@@ -88,9 +88,9 @@ func (s *Storage) ListFishingByItem(itemID int64) (fishings []*model.Fishing, er
 }
 
 //ListFishingByNpc will grab data from storage
-func (s *Storage) ListFishingByNpc(npcID int64) (fishings []*model.Fishing, err error) {
+func (s *Storage) ListFishingByNpc(npc *model.Npc) (fishings []*model.Fishing, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT fishing.id, %s FROM fishing		
-		WHERE fishing.npcid = ?`, fishingFields), npcID)
+		WHERE fishing.npcid = ?`, fishingFields), npc.ID)
 	if err != nil {
 		return
 	}
@@ -106,9 +106,9 @@ func (s *Storage) ListFishingByNpc(npcID int64) (fishings []*model.Fishing, err 
 }
 
 //ListFishingByZone will grab data from storage
-func (s *Storage) ListFishingByZone(zoneID int64) (fishings []*model.Fishing, err error) {
+func (s *Storage) ListFishingByZone(zone *model.Zone) (fishings []*model.Fishing, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT fishing.id, %s FROM fishing		
-		WHERE fishing.zoneid = ?`, fishingFields), zoneID)
+		WHERE fishing.zoneid = ?`, fishingFields), zone.ZoneIDNumber)
 	if err != nil {
 		return
 	}
@@ -124,8 +124,7 @@ func (s *Storage) ListFishingByZone(zoneID int64) (fishings []*model.Fishing, er
 }
 
 //EditFishing will grab data from storage
-func (s *Storage) EditFishing(fishingID int64, fishing *model.Fishing) (err error) {
-	fishing.ID = fishingID
+func (s *Storage) EditFishing(fishing *model.Fishing) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE fishing SET %s WHERE id = :id`, fishingSets), fishing)
 	if err != nil {
 		return
@@ -142,8 +141,8 @@ func (s *Storage) EditFishing(fishingID int64, fishing *model.Fishing) (err erro
 }
 
 //DeleteFishing will grab data from storage
-func (s *Storage) DeleteFishing(fishingID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM fishing WHERE id = ?`, fishingID)
+func (s *Storage) DeleteFishing(fishing *model.Fishing) (err error) {
+	result, err := s.db.Exec(`DELETE FROM fishing WHERE id = ?`, fishing.ID)
 	if err != nil {
 		return
 	}

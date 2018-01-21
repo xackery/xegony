@@ -3,9 +3,6 @@ package model
 
 import (
 	"fmt"
-	"regexp"
-	"strconv"
-	"strings"
 )
 
 const (
@@ -190,38 +187,6 @@ func SkillName(id int64) string {
 		return skill
 	}
 	return "Unknown"
-}
-
-//CleanName returns sanitized names
-func CleanName(name string) string {
-	var re = regexp.MustCompile(`[^0-9A-Za-z_]+`)
-	cleanName := strings.Replace(name, " ", "_", -1)
-	cleanName = strings.Replace(cleanName, "#", "", -1)
-	cleanName = strings.TrimSpace(re.ReplaceAllString(cleanName, ""))
-	cleanName = strings.Replace(cleanName, "_", " ", -1)
-	return cleanName
-}
-
-//RuleR grabs float64 version of rule table value
-func RuleR(name string) float64 {
-
-	val := GetRule(name)
-	fVal, err := strconv.ParseFloat(val, 64)
-	if err != nil {
-		fmt.Println("Rule", name, "was attempted to be parsed as float (RuleR) but failed")
-	}
-	return fVal
-}
-
-//GetRule grabs string version of rule table value
-func GetRule(name string) string {
-	switch name {
-	case "Character:ExpMultiplier":
-		return "2.0000000000000"
-	case "Zone:HotZoneBonus":
-		return "0.5000000000000"
-	}
-	return ""
 }
 
 //ZoneName returns human readable name
@@ -1193,54 +1158,6 @@ func ZoneName(zoneID int64) string {
 	return "unknown"
 }
 
-//ClassIcon returns xa-icon name
-func ClassIcon(class int64) string {
-	switch class {
-	case 1:
-		return "xa-shield" //warrior
-	case 2:
-		return "xa-ankh" //cleric
-	case 3:
-		return "xa-fireball-sword" //paladin
-	case 4:
-		return "xa-arrow-cluster" //ranger
-	case 5:
-		return "xa-bat-sword" //shd
-	case 6:
-		return "xa-leaf" //druid
-	case 7:
-		return "xa-hand-emblem" //Monk
-	case 8:
-		return "xa-ocarina" //Bard
-	case 9:
-		return "xa-hood" //rogue
-	case 10:
-		return "xa-incense" //shaman
-	case 11:
-		return "xa-skull" //necro
-	case 12:
-		return "xa-fire" //wiz
-	case 13:
-		return "xa-burning-book" //magician
-	case 14:
-		return "xa-crystal-ball" //enchanter
-	case 15:
-		return "xa-pawprint" //beastlord
-	case 16:
-		return "xa-axe" //ber
-	}
-	return "xa-help"
-}
-
-//RaceIcon returns the race icon
-func RaceIcon(race int64) string {
-	val, ok := raceIcons[race]
-	if ok {
-		return string(val)
-	}
-	return "xa-help"
-}
-
 //RaceName returns the race name
 func RaceName(race int64) string {
 	val, ok := raceNames[race]
@@ -1248,53 +1165,6 @@ func RaceName(race int64) string {
 		return string(val)
 	}
 	return fmt.Sprintf("Unknown (%d)", race)
-}
-
-var slots = map[int64]string{
-	0:  "Charm",
-	1:  "Ear",
-	2:  "Head",
-	3:  "Face",
-	4:  "Ear",
-	5:  "Neck",
-	6:  "Shoulders",
-	7:  "Arms",
-	8:  "Back",
-	9:  "Wrist",
-	10: "Wrist",
-	11: "Range",
-	12: "Hands",
-	13: "Primary",
-	14: "Secondary",
-	15: "Fingers",
-	16: "Fingers",
-	17: "Chest",
-	18: "Legs",
-	19: "Feet",
-	20: "Waist",
-	21: "Ammo",
-}
-
-var slotFlags = map[int64]int64{
-	0:  1 << 0,        // Charm
-	1:  1<<1 | 1<<4,   // Ear1 + Ear2
-	2:  1 << 2,        // Head
-	3:  1 << 3,        // Face
-	4:  1 << 5,        // Neck
-	5:  1 << 6,        // Shoulders
-	6:  1 << 7,        // Arms
-	7:  1 << 8,        // Back
-	8:  1<<9 | 1<<10,  // Wrist1 + Wrist2
-	9:  1 << 11,       // Range
-	10: 1 << 12,       // Hands
-	11: 1 << 13,       // Primary
-	12: 1 << 14,       // Secondary
-	13: 1<<15 | 1<<16, // Fingers1 + Fingers2
-	14: 1 << 17,       // Chest
-	15: 1 << 18,       // Legs
-	16: 1 << 19,       // Feet
-	17: 1 << 20,       // Waist
-	18: 1 << 21,       // Ammo
 }
 
 var languages = map[int64]string{

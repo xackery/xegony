@@ -13,11 +13,10 @@ const (
 )
 
 //GetVariable will grab data from storage
-func (s *Storage) GetVariable(variableName int64) (variable *model.Variable, err error) {
-	variable = &model.Variable{}
+func (s *Storage) GetVariable(variable *model.Variable) (err error) {
 	err = s.db.Get(variable, fmt.Sprintf(`SELECT %s 
 		FROM variables
-		WHERE name = ?`, variableFields), variableName)
+		WHERE name = ?`, variableFields), variable.Name)
 	if err != nil {
 		return
 	}
@@ -59,8 +58,7 @@ func (s *Storage) ListVariable() (variables []*model.Variable, err error) {
 }
 
 //EditVariable will grab data from storage
-func (s *Storage) EditVariable(variableName string, variable *model.Variable) (err error) {
-	variable.Name = variableName
+func (s *Storage) EditVariable(variable *model.Variable) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE variables SET %s WHERE varname = :varname`, variableSets), variable)
 	if err != nil {
 		return
@@ -77,8 +75,8 @@ func (s *Storage) EditVariable(variableName string, variable *model.Variable) (e
 }
 
 //DeleteVariable will grab data from storage
-func (s *Storage) DeleteVariable(variableName string) (err error) {
-	result, err := s.db.Exec(`DELETE FROM variables WHERE name = ?`, variableName)
+func (s *Storage) DeleteVariable(variable *model.Variable) (err error) {
+	result, err := s.db.Exec(`DELETE FROM variables WHERE name = ?`, variable.Name)
 	if err != nil {
 		return
 	}

@@ -1,6 +1,7 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -20,15 +21,14 @@ func (a *Web) variableRoutes() (routes []*route) {
 		{
 			"GetVariable",
 			"GET",
-			"/variable/{variableName}",
+			"/variable/{name}",
 			a.getVariable,
 		},
 	}
 	return
 }
 
-func (a *Web) listVariable(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listVariable(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
@@ -40,50 +40,47 @@ func (a *Web) listVariable(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Variable"
 	site.Section = "variable"
 
-	variables, err := a.variableRepo.List()
+	variables, err := a.variableRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:      site,
 		Variables: variables,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "variable/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("variable", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getVariable(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getVariable(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
 		Variable *model.Variable
 	}
 
-	variableName := getVar(r, "variableName")
+	name := getVar(r, "name")
 
-	variable, err := a.variableRepo.Get(variableName)
+	variable := &model.Variable{
+		Name: name,
+	}
+	err = a.variableRepo.GetByName(variable, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -92,27 +89,24 @@ func (a *Web) getVariable(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Variable"
 	site.Section = "variable"
 
-	content := Content{
+	content = Content{
 		Site:     site,
 		Variable: variable,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "variable/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("variable", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

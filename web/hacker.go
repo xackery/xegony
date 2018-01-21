@@ -1,8 +1,8 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -14,13 +14,13 @@ func (a *Web) hackerRoutes() (routes []*route) {
 		{
 			"SearchHacker",
 			"GET",
-			"/hacker/search/{search}",
+			"/hacker/{search:[a-Z]+}",
 			a.searchHacker,
 		},
 		{
 			"GetHacker",
 			"GET",
-			"/hacker/{hackerID}",
+			"/hacker/{hackerID:[0-9]+}",
 			a.getHacker,
 		},
 		{
@@ -33,8 +33,7 @@ func (a *Web) hackerRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listHacker(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listHacker(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -53,102 +52,101 @@ func (a *Web) listHacker(w http.ResponseWriter, r *http.Request) {
 	hackerPage.PageSize = getIntParam(r, "hackerPage.PageSize")
 	hackerPage.PageNumber = getIntParam(r, "hackerPage.PageNumber")
 
-	hackers, err := a.hackerRepo.List(hackerPage.PageSize, hackerPage.PageNumber)
+	hackers, err := a.hackerRepo.List(hackerPage.PageSize, hackerPage.PageNumber, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	hackerPage.Total, err = a.hackerRepo.ListCount()
+	hackerPage.Total, err = a.hackerRepo.ListCount(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	for _, hacker := range hackers {
 		if len(hacker.ZoneName.String) > 0 {
-			hacker.Zone, err = a.zoneRepo.GetByShortname(hacker.ZoneName.String)
+			zone := &model.Zone{
+				ShortName: hacker.ZoneName,
+			}
+			err = a.zoneRepo.GetByShortname(zone, user)
 			if err != nil {
 				err = errors.Wrap(err, "invalid zone load")
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 		if len(hacker.AccountName) > 0 {
-			hacker.Account, err = a.accountRepo.GetByName(hacker.AccountName)
+			account := &model.Account{
+				Name: hacker.AccountName,
+			}
+			err = a.accountRepo.GetByName(account, user)
 			if err != nil {
 				err = errors.Wrap(err, "invalid account name")
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 		if len(hacker.CharacterName) > 0 {
-			hacker.Character, err = a.characterRepo.GetByName(hacker.CharacterName)
+			character := &model.Character{
+				Name: hacker.CharacterName,
+			}
+			err = a.characterRepo.GetByName(character, user)
 			if err != nil {
 				err = errors.Wrap(err, "invalid account name")
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 	}
 
-	content := Content{
+	content = Content{
 		Site:       site,
 		Hackers:    hackers,
 		HackerPage: hackerPage,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "hacker/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("hacker", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getHacker(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getHacker(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
 		Hacker *model.Hacker
 	}
 
-	if strings.ToLower(getVar(r, "hackerID")) == "search" {
-		a.searchHacker(w, r)
-		return
-	}
-
 	hackerID, err := getIntVar(r, "hackerID")
 	if err != nil {
 		err = errors.Wrap(err, "hackerID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	hacker, err := a.hackerRepo.Get(hackerID)
+	hacker := &model.Hacker{
+		ID: hackerID,
+	}
+
+	err = a.hackerRepo.Get(hacker, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	if len(hacker.ZoneName.String) > 0 {
-		hacker.Zone, err = a.zoneRepo.GetByShortname(hacker.ZoneName.String)
+		zone := &model.Zone{
+			ShortName: hacker.ZoneName,
+		}
+		err = a.zoneRepo.GetByShortname(zone, user)
 		if err != nil {
 			err = errors.Wrap(err, "invalid zone load")
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
 	}
@@ -156,33 +154,29 @@ func (a *Web) getHacker(w http.ResponseWriter, r *http.Request) {
 	site.Page = "hacker"
 	site.Title = "Hacker"
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Hacker: hacker,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "hacker/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("hacker", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) searchHacker(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) searchHacker(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site
@@ -195,9 +189,11 @@ func (a *Web) searchHacker(w http.ResponseWriter, r *http.Request) {
 	var hackers []*model.Hacker
 
 	if len(search) > 0 {
-		hackers, err = a.hackerRepo.Search(search)
+		hacker := &model.Hacker{
+			Hacked: search,
+		}
+		hackers, err = a.hackerRepo.SearchByMessage(hacker, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
 	}
@@ -206,28 +202,25 @@ func (a *Web) searchHacker(w http.ResponseWriter, r *http.Request) {
 	site.Page = "hacker"
 	site.Title = "Hacker"
 
-	content := Content{
+	content = Content{
 		Site:    site,
 		Hackers: hackers,
 		Search:  search,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "hacker/search.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("hackersearch", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

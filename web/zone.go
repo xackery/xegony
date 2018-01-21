@@ -1,8 +1,8 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -14,7 +14,7 @@ func (a *Web) zoneRoutes() (routes []*route) {
 		{
 			"GetZone",
 			"GET",
-			"/zone/{zoneID}",
+			"/zone/{zoneID:[0-9]+}",
 			a.getZone,
 		},
 		{
@@ -39,8 +39,7 @@ func (a *Web) zoneRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -52,38 +51,33 @@ func (a *Web) listZone(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Zone"
 	site.Section = "zone"
 
-	zones, err := a.zoneRepo.List()
+	zones, err := a.zoneRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Zones: zones,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "zone/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("zone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listZoneByLevels(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listZoneByLevels(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -95,39 +89,34 @@ func (a *Web) listZoneByLevels(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Zone"
 	site.Section = "zone"
 
-	zones, err := a.zoneRepo.List()
+	zones, err := a.zoneRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	content := Content{
+	content = Content{
 		Site:  site,
 		Zones: zones,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "zone/listbylevels.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("zone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -139,69 +128,50 @@ func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Zone"
 	site.Section = "zone"
 
-	zones, err := a.zoneRepo.ListByHotzone()
+	zones, err := a.zoneRepo.ListByHotzone(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Zones: zones,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "zone/listbyhotzone.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("zone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
 		Zone *model.Zone
 	}
 
-	if strings.ToLower(getVar(r, "zoneID")) == "byexpansion" {
-		a.listZoneByExpansion(w, r)
-		return
-	}
-
-	if strings.ToLower(getVar(r, "zoneID")) == "byhotzone" {
-		a.listZoneByHotzone(w, r)
-		return
-	}
-
-	if strings.ToLower(getVar(r, "zoneID")) == "bylevels" {
-		a.listZoneByLevels(w, r)
-		return
-	}
-
-	id, err := getIntVar(r, "zoneID")
+	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
 		err = errors.Wrap(err, "zoneID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	zone, err := a.zoneRepo.Get(id)
+	zone := &model.Zone{
+		ZoneIDNumber: zoneID,
+	}
+	err = a.zoneRepo.Get(zone, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -210,33 +180,29 @@ func (a *Web) getZone(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Zone"
 	site.Section = "zone"
 
-	content := Content{
+	content = Content{
 		Site: site,
 		Zone: zone,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "zone/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("zone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listZoneByExpansion(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listZoneByExpansion(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -248,9 +214,8 @@ func (a *Web) listZoneByExpansion(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Zone"
 	site.Section = "zone"
 
-	zones, err := a.zoneRepo.List()
+	zones, err := a.zoneRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -259,27 +224,24 @@ func (a *Web) listZoneByExpansion(w http.ResponseWriter, r *http.Request) {
 		zonesByExpansion[zone.ExpansionName()] = append(zonesByExpansion[zone.ExpansionName()], zone)
 	}
 
-	content := Content{
+	content = Content{
 		Site:  site,
 		Zones: zonesByExpansion,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "zone/listbyexpansion.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("zone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

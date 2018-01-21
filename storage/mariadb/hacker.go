@@ -13,9 +13,8 @@ const (
 )
 
 //GetHacker will grab data from storage
-func (s *Storage) GetHacker(hackerID int64) (hacker *model.Hacker, err error) {
-	hacker = &model.Hacker{}
-	err = s.db.Get(hacker, fmt.Sprintf("SELECT id, %s FROM hackers WHERE id = ?", hackerFields), hackerID)
+func (s *Storage) GetHacker(hacker *model.Hacker) (err error) {
+	err = s.db.Get(hacker, fmt.Sprintf("SELECT id, %s FROM hackers WHERE id = ?", hackerFields), hacker.ID)
 	if err != nil {
 		return
 	}
@@ -70,9 +69,9 @@ func (s *Storage) ListHackerCount() (count int64, err error) {
 }
 
 //SearchHacker will grab data from storage
-func (s *Storage) SearchHacker(search string) (hackers []*model.Hacker, err error) {
+func (s *Storage) SearchHackerByMessage(hacker *model.Hacker) (hackers []*model.Hacker, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM hackers 
-		WHERE name like ? ORDER BY id DESC`, hackerFields), "%"+search+"%")
+		WHERE name like ? ORDER BY id DESC`, hackerFields), "%"+hacker.Hacked+"%")
 	if err != nil {
 		return
 	}
@@ -88,8 +87,7 @@ func (s *Storage) SearchHacker(search string) (hackers []*model.Hacker, err erro
 }
 
 //EditHacker will grab data from storage
-func (s *Storage) EditHacker(hackerID int64, hacker *model.Hacker) (err error) {
-	hacker.ID = hackerID
+func (s *Storage) EditHacker(hacker *model.Hacker) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE hackers SET %s WHERE id = :id`, hackerSets), hacker)
 	if err != nil {
 		return
@@ -106,8 +104,8 @@ func (s *Storage) EditHacker(hackerID int64, hacker *model.Hacker) (err error) {
 }
 
 //DeleteHacker will grab data from storage
-func (s *Storage) DeleteHacker(hackerID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM hackers WHERE id = ?`, hackerID)
+func (s *Storage) DeleteHacker(hacker *model.Hacker) (err error) {
+	result, err := s.db.Exec(`DELETE FROM hackers WHERE id = ?`, hacker.ID)
 	if err != nil {
 		return
 	}

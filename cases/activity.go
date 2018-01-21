@@ -11,7 +11,8 @@ import (
 
 //ActivityRepository handles ActivityRepository cases and is a gateway to storage
 type ActivityRepository struct {
-	stor storage.Storage
+	stor       storage.Storage
+	globalRepo *GlobalRepository
 }
 
 //Initialize handles logic
@@ -21,25 +22,32 @@ func (c *ActivityRepository) Initialize(stor storage.Storage) (err error) {
 		return
 	}
 	c.stor = stor
+	c.globalRepo = &GlobalRepository{}
+	err = c.globalRepo.Initialize(stor)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize global repository")
+		return
+	}
+
 	return
 }
 
 //Get handles logic
-func (c *ActivityRepository) Get(taskID int64, activityID int64) (activity *model.Activity, err error) {
-	if activityID == 0 {
-		err = fmt.Errorf("Invalid Activity ID")
-		return
+func (c *ActivityRepository) Get(activity *model.Activity, user *model.User) (err error) {
+
+	err = c.stor.GetActivity(activity)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get activity")
 	}
-	if taskID == 0 {
-		err = fmt.Errorf("Invalid Task ID")
-		return
+	err = c.prepare(activity, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare activity")
 	}
-	activity, err = c.stor.GetActivity(taskID, activityID)
 	return
 }
 
 //Create handles logic
-func (c *ActivityRepository) Create(activity *model.Activity) (err error) {
+func (c *ActivityRepository) Create(activity *model.Activity, user *model.User) (err error) {
 	if activity == nil {
 		err = fmt.Errorf("Empty activity")
 		return
@@ -50,41 +58,10 @@ func (c *ActivityRepository) Create(activity *model.Activity) (err error) {
 		return
 	}
 
-	//Verify taskID
-
-	_, err = c.stor.GetTask(activity.TaskID)
-	if err != nil {
-		err = errors.Wrap(err, "Failed to verify TaskID")
-		return
-	}
-
-	//Verify zoneID
-	if activity.ZoneID == 0 {
-		err = fmt.Errorf("Invalid ZoneID")
-	}
-	zoneRepo := &ZoneRepository{}
-	err = zoneRepo.Initialize(c.stor)
-	if err != nil {
-		err = errors.Wrap(err, "Failed to initialize zone repo")
-		return
-	}
-
-	if _, err = zoneRepo.Get(activity.ZoneID); err != nil {
-		err = errors.Wrap(err, "Failed to get zone ID")
-		return
-	}
-
 	//Check if step is valid
-	step, err := c.stor.GetActivityNextStep(activity.TaskID, activity.ActivityID)
+	activity.Step, err = c.stor.GetActivityNextStep(activity)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to get next activity step")
-		return
-	}
-	if activity.Step == 0 {
-		activity.Step = step
-	}
-	if activity.Step > step {
-		err = errors.Wrap(err, "Step is out of steps bounds")
 		return
 	}
 
@@ -107,11 +84,15 @@ func (c *ActivityRepository) Create(activity *model.Activity) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(activity, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare activity")
+	}
 	return
 }
 
 //Edit handles logic
-func (c *ActivityRepository) Edit(activityID int64, activity *model.Activity) (err error) {
+func (c *ActivityRepository) Edit(activity *model.Activity, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -133,16 +114,21 @@ func (c *ActivityRepository) Edit(activityID int64, activity *model.Activity) (e
 		return
 	}
 
-	err = c.stor.EditActivity(activityID, activity)
+	err = c.stor.EditActivity(activity)
 	if err != nil {
 		return
+	}
+	err = c.prepare(activity, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare activity")
 	}
 	return
 }
 
 //Delete handles logic
-func (c *ActivityRepository) Delete(activityID int64) (err error) {
-	err = c.stor.DeleteActivity(activityID)
+func (c *ActivityRepository) Delete(activity *model.Activity, user *model.User) (err error) {
+
+	err = c.stor.DeleteActivity(activity)
 	if err != nil {
 		return
 	}
@@ -150,16 +136,26 @@ func (c *ActivityRepository) Delete(activityID int64) (err error) {
 }
 
 //List handles logic
-func (c *ActivityRepository) List(taskID int64) (activitys []*model.Activity, err error) {
-	activitys, err = c.stor.ListActivity(taskID)
+func (c *ActivityRepository) ListByTask(task *model.Task, user *model.User) (activitys []*model.Activity, err error) {
+	activitys, err = c.stor.ListActivityByTask(task)
 	if err != nil {
 		return
+	}
+	for _, activity := range activitys {
+		err = c.prepare(activity, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare activity")
+		}
 	}
 	return
 }
 
-func (c *ActivityRepository) prepare(activity *model.Activity) (err error) {
-
+func (c *ActivityRepository) prepare(activity *model.Activity, user *model.User) (err error) {
+	activity.Zone, err = c.globalRepo.GetZone(activity.ZoneID, user)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get activity zone ID")
+		return
+	}
 	return
 }
 func (c *ActivityRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {

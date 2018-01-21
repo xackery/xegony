@@ -1,5 +1,6 @@
 package bot
 
+/*
 import (
 	"encoding/csv"
 	"fmt"
@@ -26,8 +27,8 @@ type line struct {
 	y2 float64
 }
 
-func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	type Content struct {
 		Message     string
 		Status      string
@@ -37,8 +38,7 @@ func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request) {
 
 	var bot *Status
 	if bot, err = a.getStatus("zonemap"); err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
-		return
+				return
 	}
 
 	content := &Content{
@@ -48,12 +48,11 @@ func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request) {
 		LastStarted: bot.StartTime,
 	}
 
-	a.writeData(w, r, content, http.StatusOK)
-	return
+		return
 }
 
-func (a *Bot) zoneMapCreate(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Bot) zoneMapCreate(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	type Content struct {
 		Message string
 	}
@@ -63,14 +62,12 @@ func (a *Bot) zoneMapCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = a.startBot("zonemap"); err != nil {
-		a.writeError(w, r, err, http.StatusForbidden)
-		return
+				return
 	}
 
 	go a.CreateZoneMapCache()
 
-	a.writeData(w, r, content, http.StatusOK)
-	return
+		return
 }
 
 //CreateZoneMapCache processes map files and saves them to www/images/maps/ then update zonelevel
@@ -159,11 +156,6 @@ func (a *Bot) loadMap(path string, filename string) (err error) {
 		line.y1, err = strconv.ParseFloat(strings.TrimSpace(record[1]), 64)
 		line.x2, err = strconv.ParseFloat(strings.TrimSpace(record[3]), 64)
 		line.y2, err = strconv.ParseFloat(strings.TrimSpace(record[4]), 64)
-		/*line.x1 += 2000
-		line.y1 += 2000
-		line.x2 += 2000
-		line.y2 += 2000
-		*/
 		//line.x1 /= 5
 		//line.y1 /= 5
 		//line.x2 /= 5
@@ -256,7 +248,7 @@ func (a *Bot) loadMap(path string, filename string) (err error) {
 		return
 	}
 
-	zone, err := a.zoneRepo.GetByShortname(filename)
+	zone, err := a.zoneRepo.GetByShortname(filename, nil)
 	if err != nil {
 		err = errors.Wrap(err, fmt.Sprintf("Failed to get %s", filename))
 		return
@@ -273,7 +265,7 @@ func (a *Bot) loadMap(path string, filename string) (err error) {
 		MapYOffset: yOffset,
 	}
 
-	if err = a.zoneLevelRepo.Edit(zone.ID, zoneLevel); err != nil {
+	if err = a.zoneLevelRepo.Edit(zone.ID, zoneLevel, nil); err != nil {
 		fmt.Printf("Failed to update %s: %s\n", filename, err.Error())
 		err = nil
 		//err = errors.Wrap(err, fmt.Sprintf("Failed to update %s", filename))
@@ -281,3 +273,4 @@ func (a *Bot) loadMap(path string, filename string) (err error) {
 	//ioutil.WriteFile("out.txt", []byte(outData), 0755)
 	return
 }
+*/

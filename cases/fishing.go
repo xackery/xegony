@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,23 @@ func (c *FishingRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *FishingRepository) Get(fishingID int64) (fishing *model.Fishing, err error) {
-	if fishingID == 0 {
-		err = fmt.Errorf("Invalid Fishing ID")
+func (c *FishingRepository) Get(fishing *model.Fishing, user *model.User) (err error) {
+
+	err = c.stor.GetFishing(fishing)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get fishing")
 		return
 	}
-	fishing, err = c.stor.GetFishing(fishingID)
+	err = c.prepare(fishing, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare fishing")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *FishingRepository) Create(fishing *model.Fishing) (err error) {
+func (c *FishingRepository) Create(fishing *model.Fishing, user *model.User) (err error) {
 	if fishing == nil {
 		err = fmt.Errorf("Empty fishing")
 		return
@@ -63,11 +70,16 @@ func (c *FishingRepository) Create(fishing *model.Fishing) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(fishing, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare fishing")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *FishingRepository) Edit(fishingID int64, fishing *model.Fishing) (err error) {
+func (c *FishingRepository) Edit(fishing *model.Fishing, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -89,16 +101,21 @@ func (c *FishingRepository) Edit(fishingID int64, fishing *model.Fishing) (err e
 		return
 	}
 
-	err = c.stor.EditFishing(fishingID, fishing)
+	err = c.stor.EditFishing(fishing)
 	if err != nil {
+		return
+	}
+	err = c.prepare(fishing, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare fishing")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *FishingRepository) Delete(fishingID int64) (err error) {
-	err = c.stor.DeleteFishing(fishingID)
+func (c *FishingRepository) Delete(fishing *model.Fishing, user *model.User) (err error) {
+	err = c.stor.DeleteFishing(fishing)
 	if err != nil {
 		return
 	}
@@ -106,7 +123,7 @@ func (c *FishingRepository) Delete(fishingID int64) (err error) {
 }
 
 //List handles logic
-func (c *FishingRepository) List(pageSize int64, pageNumber int64) (fishings []*model.Fishing, err error) {
+func (c *FishingRepository) List(pageSize int64, pageNumber int64, user *model.User) (fishings []*model.Fishing, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -119,11 +136,18 @@ func (c *FishingRepository) List(pageSize int64, pageNumber int64) (fishings []*
 	if err != nil {
 		return
 	}
+	for _, fishing := range fishings {
+		err = c.prepare(fishing, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare fishing")
+			return
+		}
+	}
 	return
 }
 
 //ListCount handles logic
-func (c *FishingRepository) ListCount() (count int64, err error) {
+func (c *FishingRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListFishingCount()
 	if err != nil {
@@ -133,33 +157,54 @@ func (c *FishingRepository) ListCount() (count int64, err error) {
 }
 
 //GetByZone handles logic
-func (c *FishingRepository) GetByZone(zoneID int64) (fishings []*model.Fishing, err error) {
-	fishings, err = c.stor.ListFishingByZone(zoneID)
+func (c *FishingRepository) GetByZone(zone *model.Zone, user *model.User) (fishings []*model.Fishing, err error) {
+	fishings, err = c.stor.ListFishingByZone(zone)
 	if err != nil {
 		return
+	}
+	for _, fishing := range fishings {
+		err = c.prepare(fishing, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare fishing")
+			return
+		}
 	}
 	return
 }
 
 //GetByNpc handles logic
-func (c *FishingRepository) GetByNpc(npcID int64) (fishings []*model.Fishing, err error) {
-	fishings, err = c.stor.ListFishingByNpc(npcID)
+func (c *FishingRepository) GetByNpc(npc *model.Npc, user *model.User) (fishings []*model.Fishing, err error) {
+	fishings, err = c.stor.ListFishingByNpc(npc)
 	if err != nil {
 		return
+	}
+	for _, fishing := range fishings {
+		err = c.prepare(fishing, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare fishing")
+			return
+		}
 	}
 	return
 }
 
 //GetByItem handles logic
-func (c *FishingRepository) GetByItem(itemID int64) (fishings []*model.Fishing, err error) {
-	fishings, err = c.stor.ListFishingByItem(itemID)
+func (c *FishingRepository) GetByItem(item *model.Item, user *model.User) (fishings []*model.Fishing, err error) {
+	fishings, err = c.stor.ListFishingByItem(item)
 	if err != nil {
 		return
+	}
+	for _, fishing := range fishings {
+		err = c.prepare(fishing, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare fishing")
+			return
+		}
 	}
 	return
 }
 
-func (c *FishingRepository) prepare(fishing *model.Fishing) (err error) {
+func (c *FishingRepository) prepare(fishing *model.Fishing, user *model.User) (err error) {
 
 	return
 }

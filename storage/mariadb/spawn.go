@@ -16,11 +16,11 @@ const (
 )
 
 //GetSpawn will grab data from storage
-func (s *Storage) GetSpawn(spawnID int64) (spawn *model.Spawn, err error) {
+func (s *Storage) GetSpawn(spawn *model.Spawn) (err error) {
 	spawn = &model.Spawn{}
 	err = s.db.Get(spawn, fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
 		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupid
-		WHERE spawngroup.id = ?`, spawn2Fields, spawnGroupFields), spawnID)
+		WHERE spawngroup.id = ?`, spawn2Fields, spawnGroupFields), spawn.SpawngroupID)
 	if err != nil {
 		return
 	}
@@ -58,10 +58,10 @@ func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
 }
 
 //ListSpawnBySpawnGroup will grab data from storage
-func (s *Storage) ListSpawnBySpawnGroup(spawngroupID int64) (spawns []*model.Spawn, err error) {
+func (s *Storage) ListSpawnBySpawnGroup(spawnGroup *model.SpawnGroup) (spawns []*model.Spawn, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
 		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID
-		WHERE spawngroupid = ?`, spawn2Fields, spawnGroupFields), spawngroupID)
+		WHERE spawngroupid = ?`, spawn2Fields, spawnGroupFields), spawnGroup.ID)
 	if err != nil {
 		return
 	}
@@ -96,8 +96,7 @@ func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
 }
 
 //EditSpawn will grab data from storage
-func (s *Storage) EditSpawn(spawnID int64, spawn *model.Spawn) (err error) {
-	spawn.SpawngroupID = spawnID
+func (s *Storage) EditSpawn(spawn *model.Spawn) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE spawn2 SET %s WHERE spawn2.spawngroupID = :spawn2.spawngroupID`, spawn2Sets), spawn)
 	if err != nil {
 		return
@@ -127,8 +126,8 @@ func (s *Storage) EditSpawn(spawnID int64, spawn *model.Spawn) (err error) {
 }
 
 //DeleteSpawn will grab data from storage
-func (s *Storage) DeleteSpawn(spawnID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM spawn2 WHERE spawngroupid = ?`, spawnID)
+func (s *Storage) DeleteSpawn(spawn *model.Spawn) (err error) {
+	result, err := s.db.Exec(`DELETE FROM spawn2 WHERE spawngroupid = ?`, spawn.SpawngroupID)
 	if err != nil {
 		return
 	}
@@ -141,7 +140,7 @@ func (s *Storage) DeleteSpawn(spawnID int64) (err error) {
 		return
 	}
 
-	result, err = s.db.Exec(`DELETE FROM spawngroup WHERE id = ?`, spawnID)
+	result, err = s.db.Exec(`DELETE FROM spawngroup WHERE id = ?`, spawn.ID)
 	if err != nil {
 		return
 	}

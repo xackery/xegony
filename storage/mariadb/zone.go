@@ -13,12 +13,11 @@ const (
 )
 
 //GetZone will grab data from storage
-func (s *Storage) GetZone(zoneID int64) (zone *model.Zone, err error) {
-	zone = &model.Zone{}
+func (s *Storage) GetZone(zone *model.Zone) (err error) {
 	err = s.db.Get(zone, fmt.Sprintf(`SELECT zone_level_cache.levels, zone.id, %s 
 		FROM zone 
 		INNER JOIN zone_level_cache.zone_id = zone.zoneidnumber 
-		WHERE zoneidnumber = ?`, zoneFields), zoneID)
+		WHERE zoneidnumber = ?`, zoneFields), zone.ID)
 	if err != nil {
 		return
 	}
@@ -83,8 +82,7 @@ func (s *Storage) ListZoneByHotzone() (zones []*model.Zone, err error) {
 }
 
 //EditZone will grab data from storage
-func (s *Storage) EditZone(zoneID int64, zone *model.Zone) (err error) {
-	zone.ZoneIDNumber = zoneID
+func (s *Storage) EditZone(zone *model.Zone) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE zone SET %s WHERE zoneidnumber = :zoneidnumber`, zoneSets), zone)
 	if err != nil {
 		return
@@ -101,8 +99,8 @@ func (s *Storage) EditZone(zoneID int64, zone *model.Zone) (err error) {
 }
 
 //DeleteZone will grab data from storage
-func (s *Storage) DeleteZone(zoneID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM zone WHERE zoneidnumber = ?`, zoneID)
+func (s *Storage) DeleteZone(zone *model.Zone) (err error) {
+	result, err := s.db.Exec(`DELETE FROM zone WHERE zoneidnumber = ?`, zone.ID)
 	if err != nil {
 		return
 	}

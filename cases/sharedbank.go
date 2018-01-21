@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,22 @@ func (c *SharedBankRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *SharedBankRepository) Get(accountID int64, slotID int64) (sharedBank *model.SharedBank, err error) {
-	if accountID == 0 {
-		err = fmt.Errorf("Invalid SharedBank ID")
+func (c *SharedBankRepository) Get(sharedBank *model.SharedBank, user *model.User) (err error) {
+	err = c.stor.GetSharedBank(sharedBank)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get shared bank")
 		return
 	}
-	sharedBank, err = c.stor.GetSharedBank(accountID, slotID)
+	err = c.prepare(sharedBank, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare shared bank")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *SharedBankRepository) Create(sharedBank *model.SharedBank) (err error) {
+func (c *SharedBankRepository) Create(sharedBank *model.SharedBank, user *model.User) (err error) {
 	if sharedBank == nil {
 		err = fmt.Errorf("Empty sharedBank")
 		return
@@ -63,11 +69,16 @@ func (c *SharedBankRepository) Create(sharedBank *model.SharedBank) (err error) 
 	if err != nil {
 		return
 	}
+	err = c.prepare(sharedBank, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare shared bank")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *SharedBankRepository) Edit(accountID int64, slotID int64, sharedBank *model.SharedBank) (err error) {
+func (c *SharedBankRepository) Edit(sharedBank *model.SharedBank, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -89,16 +100,21 @@ func (c *SharedBankRepository) Edit(accountID int64, slotID int64, sharedBank *m
 		return
 	}
 
-	err = c.stor.EditSharedBank(accountID, slotID, sharedBank)
+	err = c.stor.EditSharedBank(sharedBank)
 	if err != nil {
+		return
+	}
+	err = c.prepare(sharedBank, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare shared bank")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *SharedBankRepository) Delete(accountID int64, slotID int64) (err error) {
-	err = c.stor.DeleteSharedBank(accountID, slotID)
+func (c *SharedBankRepository) Delete(sharedBank *model.SharedBank, user *model.User) (err error) {
+	err = c.stor.DeleteSharedBank(sharedBank)
 	if err != nil {
 		return
 	}
@@ -106,7 +122,7 @@ func (c *SharedBankRepository) Delete(accountID int64, slotID int64) (err error)
 }
 
 //List handles logic
-func (c *SharedBankRepository) List(accountID int64, pageSize int64, pageNumber int64) (sharedBanks []*model.SharedBank, err error) {
+func (c *SharedBankRepository) ListByAccount(account *model.Account, pageSize int64, pageNumber int64, user *model.User) (sharedBanks []*model.SharedBank, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -115,26 +131,24 @@ func (c *SharedBankRepository) List(accountID int64, pageSize int64, pageNumber 
 		pageNumber = 0
 	}
 
-	sharedBanks, err = c.stor.ListSharedBank(accountID, pageSize, pageNumber)
+	sharedBanks, err = c.stor.ListSharedBankByAccount(account, pageSize, pageNumber)
 	if err != nil {
 		return
+	}
+	for _, sharedBank := range sharedBanks {
+		err = c.prepare(sharedBank, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare shared bank")
+			return
+		}
 	}
 	return
 }
 
 //ListCount handles logic
-func (c *SharedBankRepository) ListCount(accountID int64) (count int64, err error) {
+func (c *SharedBankRepository) ListCountByAccount(account *model.Account, user *model.User) (count int64, err error) {
 
-	count, err = c.stor.ListSharedBankCount(accountID)
-	if err != nil {
-		return
-	}
-	return
-}
-
-//ListByAccount handles logic
-func (c *SharedBankRepository) ListByAccount(accountID int64) (sharedBanks []*model.SharedBank, err error) {
-	sharedBanks, err = c.stor.ListSharedBankByAccount(accountID)
+	count, err = c.stor.ListSharedBankByAccountCount(account)
 	if err != nil {
 		return
 	}
@@ -142,15 +156,22 @@ func (c *SharedBankRepository) ListByAccount(accountID int64) (sharedBanks []*mo
 }
 
 //ListByItem handles logic
-func (c *SharedBankRepository) ListByItem(accountID int64, itemID int64) (sharedBanks []*model.SharedBank, err error) {
-	sharedBanks, err = c.stor.ListSharedBankByItem(accountID, itemID)
+func (c *SharedBankRepository) ListByItem(account *model.Account, item *model.Item, user *model.User) (sharedBanks []*model.SharedBank, err error) {
+	sharedBanks, err = c.stor.ListSharedBankByAccountAndItem(account, item)
 	if err != nil {
 		return
+	}
+	for _, sharedBank := range sharedBanks {
+		err = c.prepare(sharedBank, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare shared bank")
+			return
+		}
 	}
 	return
 }
 
-func (c *SharedBankRepository) prepare(sharedBank *model.SharedBank) (err error) {
+func (c *SharedBankRepository) prepare(sharedBank *model.SharedBank, user *model.User) (err error) {
 
 	return
 }

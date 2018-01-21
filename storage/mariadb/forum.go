@@ -7,9 +7,8 @@ import (
 )
 
 //GetForum will grab data from storage
-func (s *Storage) GetForum(forumID int64) (forum *model.Forum, err error) {
-	forum = &model.Forum{}
-	err = s.db.Get(forum, "SELECT id, owner_id, description, icon, name FROM forum WHERE id = ?", forumID)
+func (s *Storage) GetForum(forum *model.Forum) (err error) {
+	err = s.db.Get(forum, "SELECT id, owner_id, description, icon, name FROM forum WHERE id = ?", forum.ID)
 	if err != nil {
 		return
 	}
@@ -54,8 +53,7 @@ func (s *Storage) ListForum() (forums []*model.Forum, err error) {
 }
 
 //EditForum will grab data from storage
-func (s *Storage) EditForum(forumID int64, forum *model.Forum) (err error) {
-	forum.ID = forumID
+func (s *Storage) EditForum(forum *model.Forum) (err error) {
 	result, err := s.db.NamedExec(`UPDATE forum SET icon=:icon, name=:name, description=:description WHERE id = :id`, forum)
 	if err != nil {
 		return
@@ -72,8 +70,8 @@ func (s *Storage) EditForum(forumID int64, forum *model.Forum) (err error) {
 }
 
 //DeleteForum will grab data from storage
-func (s *Storage) DeleteForum(forumID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM forum WHERE id = ?`, forumID)
+func (s *Storage) DeleteForum(forum *model.Forum) (err error) {
+	result, err := s.db.Exec(`DELETE FROM forum WHERE id = ?`, forum.ID)
 	if err != nil {
 		return
 	}

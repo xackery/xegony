@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,21 +25,22 @@ func (c *RecipeEntryRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *RecipeEntryRepository) Get(recipeID int64, itemID int64) (recipeEntry *model.RecipeEntry, query string, err error) {
-	if recipeID == 0 {
-		err = fmt.Errorf("Invalid RecipeEntry ID")
+func (c *RecipeEntryRepository) Get(recipeEntry *model.RecipeEntry, user *model.User) (err error) {
+
+	err = c.stor.GetRecipeEntry(recipeEntry)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get recipe")
 		return
 	}
-	if itemID == 0 {
-		err = fmt.Errorf("Invalid Item ID")
-		return
+	err = c.prepare(recipeEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get recipe")
 	}
-	query, recipeEntry, err = c.stor.GetRecipeEntry(recipeID, itemID)
 	return
 }
 
 //Create handles logic
-func (c *RecipeEntryRepository) Create(recipeEntry *model.RecipeEntry) (query string, err error) {
+func (c *RecipeEntryRepository) Create(recipeEntry *model.RecipeEntry, user *model.User) (err error) {
 	if recipeEntry == nil {
 		err = fmt.Errorf("Empty RecipeEntry")
 		return
@@ -70,15 +72,19 @@ func (c *RecipeEntryRepository) Create(recipeEntry *model.RecipeEntry) (query st
 		err = vErr
 		return
 	}
-	query, err = c.stor.CreateRecipeEntry(recipeEntry)
+	err = c.stor.CreateRecipeEntry(recipeEntry)
 	if err != nil {
 		return
+	}
+	err = c.prepare(recipeEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get recipe")
 	}
 	return
 }
 
 //Edit handles logic
-func (c *RecipeEntryRepository) Edit(recipeID int64, itemID int64, recipeEntry *model.RecipeEntry) (query string, err error) {
+func (c *RecipeEntryRepository) Edit(recipeEntry *model.RecipeEntry, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -100,16 +106,20 @@ func (c *RecipeEntryRepository) Edit(recipeID int64, itemID int64, recipeEntry *
 		return
 	}
 
-	query, err = c.stor.EditRecipeEntry(recipeID, itemID, recipeEntry)
+	err = c.stor.EditRecipeEntry(recipeEntry)
 	if err != nil {
 		return
+	}
+	err = c.prepare(recipeEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get recipe")
 	}
 	return
 }
 
 //Delete handles logic
-func (c *RecipeEntryRepository) Delete(recipeID int64, itemID int64) (query string, err error) {
-	query, err = c.stor.DeleteRecipeEntry(recipeID, itemID)
+func (c *RecipeEntryRepository) Delete(recipeEntry *model.RecipeEntry, user *model.User) (err error) {
+	err = c.stor.DeleteRecipeEntry(recipeEntry)
 	if err != nil {
 		return
 	}
@@ -117,24 +127,36 @@ func (c *RecipeEntryRepository) Delete(recipeID int64, itemID int64) (query stri
 }
 
 //List handles logic
-func (c *RecipeEntryRepository) List(recipeID int64) (recipeEntrys []*model.RecipeEntry, query string, err error) {
-	query, recipeEntrys, err = c.stor.ListRecipeEntry(recipeID)
+func (c *RecipeEntryRepository) ListByRecipe(recipe *model.Recipe, user *model.User) (recipeEntrys []*model.RecipeEntry, err error) {
+	recipeEntrys, err = c.stor.ListRecipeEntryByRecipe(recipe)
 	if err != nil {
 		return
+	}
+	for _, recipeEntry := range recipeEntrys {
+		err = c.prepare(recipeEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get recipe")
+		}
 	}
 	return
 }
 
 //ListByItem handles logic
-func (c *RecipeEntryRepository) ListByItem(itemID int64) (recipeEntrys []*model.RecipeEntry, query string, err error) {
-	query, recipeEntrys, err = c.stor.ListRecipeEntryByItem(itemID)
+func (c *RecipeEntryRepository) ListByItem(item *model.Item, user *model.User) (recipeEntrys []*model.RecipeEntry, err error) {
+	recipeEntrys, err = c.stor.ListRecipeEntryByItem(item)
 	if err != nil {
 		return
+	}
+	for _, recipeEntry := range recipeEntrys {
+		err = c.prepare(recipeEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get recipe")
+		}
 	}
 	return
 }
 
-func (c *RecipeEntryRepository) prepare(recipeEntry *model.RecipeEntry) (err error) {
+func (c *RecipeEntryRepository) prepare(recipeEntry *model.RecipeEntry, user *model.User) (err error) {
 
 	return
 }

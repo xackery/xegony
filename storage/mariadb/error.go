@@ -13,11 +13,10 @@ const (
 )
 
 //GetError will grab data from storage
-func (s *Storage) GetError(errorID int64) (errorStruct *model.Error, err error) {
-	errorStruct = &model.Error{}
-	err = s.db.Get(errorStruct, fmt.Sprintf(`SELECT id, %s 
+func (s *Storage) GetError(errStruct *model.Error) (err error) {
+	err = s.db.Get(errStruct, fmt.Sprintf(`SELECT id, %s 
 		FROM xegony_error 
-		WHERE id = ?`, errorFields), errorID)
+		WHERE id = ?`, errorFields), errStruct.ID)
 	if err != nil {
 		return
 	}
@@ -25,14 +24,10 @@ func (s *Storage) GetError(errorID int64) (errorStruct *model.Error, err error) 
 }
 
 //CreateError will grab data from storage
-func (s *Storage) CreateError(error *model.Error) (err error) {
-	if error == nil {
-		err = fmt.Errorf("Must provide error")
-		return
-	}
+func (s *Storage) CreateError(errStruct *model.Error) (err error) {
 
 	result, err := s.db.NamedExec(fmt.Sprintf(`INSERT INTO xegony_error(%s)
-		VALUES (%s)`, errorFields, errorBinds), error)
+		VALUES (%s)`, errorFields, errorBinds), errStruct)
 	if err != nil {
 		return
 	}
@@ -40,7 +35,7 @@ func (s *Storage) CreateError(error *model.Error) (err error) {
 	if err != nil {
 		return
 	}
-	error.ID = errorID
+	errStruct.ID = errorID
 	return
 }
 
@@ -73,10 +68,11 @@ func (s *Storage) ListError(pageSize int64, pageNumber int64) (errors []*model.E
 }
 
 //ListErrorByScope will grab data from storage
-func (s *Storage) ListErrorByScope(scope string) (errors []*model.Error, err error) {
+func (s *Storage) ListErrorByScope(errStruct *model.Error) (errors []*model.Error, err error) {
+
 	query := fmt.Sprintf(`SELECT xegony_error.id, %s 
 		FROM xegony_error WHERE xegony_error.scope = ? ORDER BY create_date DESC`, errorFields)
-	rows, err := s.db.Queryx(query, scope)
+	rows, err := s.db.Queryx(query, errStruct.Scope)
 	if err != nil {
 		return
 	}
@@ -92,9 +88,9 @@ func (s *Storage) ListErrorByScope(scope string) (errors []*model.Error, err err
 }
 
 //SearchError will grab data from storage
-func (s *Storage) SearchError(search string) (errors []*model.Error, err error) {
+func (s *Storage) SearchErrorByMessage(errStruct *model.Error) (errors []*model.Error, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM errors 
-		WHERE name like ? ORDER BY id DESC`, errorFields), "%"+search+"%")
+		WHERE name like ? ORDER BY id DESC`, errorFields), "%"+errStruct.Message+"%")
 	if err != nil {
 		return
 	}
@@ -110,8 +106,7 @@ func (s *Storage) SearchError(search string) (errors []*model.Error, err error) 
 }
 
 //EditError will grab data from storage
-func (s *Storage) EditError(errorID int64, errorStruct *model.Error) (err error) {
-	errorStruct.ID = errorID
+func (s *Storage) EditError(errorStruct *model.Error) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE xegony_error SET %s WHERE id = :id`, errorSets), errorStruct)
 	if err != nil {
 		return
@@ -128,8 +123,8 @@ func (s *Storage) EditError(errorID int64, errorStruct *model.Error) (err error)
 }
 
 //DeleteError will grab data from storage
-func (s *Storage) DeleteError(errorID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM xegony_error WHERE id = ?`, errorID)
+func (s *Storage) DeleteError(errStruct *model.Error) (err error) {
+	result, err := s.db.Exec(`DELETE FROM xegony_error WHERE id = ?`, errStruct.ID)
 	if err != nil {
 		return
 	}

@@ -7,7 +7,7 @@ import (
 )
 
 func TestStorage(t *testing.T) {
-	var err error
+
 	stor := Storage{}
 
 	err = stor.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", nil)

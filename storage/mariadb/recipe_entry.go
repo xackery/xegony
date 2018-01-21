@@ -13,11 +13,10 @@ const (
 )
 
 //GetRecipeEntry will grab data from storage
-func (s *Storage) GetRecipeEntry(recipeID int64, itemID int64) (query string, recipeEntry *model.RecipeEntry, err error) {
-	recipeEntry = &model.RecipeEntry{}
-	query = fmt.Sprintf(`SELECT %s FROM tradeskill_recipe_entries 
+func (s *Storage) GetRecipeEntry(recipeEntry *model.RecipeEntry) (err error) {
+	query := fmt.Sprintf(`SELECT %s FROM tradeskill_recipe_entries 
 		WHERE tradeskill_recipe_entries.recipe_id = ? AND tradeskill_recipe_entries.item_id = ?`, recipeEntryFields)
-	err = s.db.Get(recipeEntry, query, recipeID, itemID)
+	err = s.db.Get(recipeEntry, query, recipeEntry.RecipeID, recipeEntry.ItemID)
 	if err != nil {
 		return
 	}
@@ -25,13 +24,13 @@ func (s *Storage) GetRecipeEntry(recipeID int64, itemID int64) (query string, re
 }
 
 //CreateRecipeEntry will grab data from storage
-func (s *Storage) CreateRecipeEntry(recipeEntry *model.RecipeEntry) (query string, err error) {
+func (s *Storage) CreateRecipeEntry(recipeEntry *model.RecipeEntry) (err error) {
 	if recipeEntry == nil {
 		err = fmt.Errorf("Must provide recipeEntry")
 		return
 	}
 
-	query = fmt.Sprintf(`INSERT INTO tradeskill_recipe_entries(%s)
+	query := fmt.Sprintf(`INSERT INTO tradeskill_recipe_entries(%s)
 		VALUES (%s)`, recipeEntryFields, recipeEntryBinds)
 	_, err = s.db.NamedExec(query, recipeEntry)
 	if err != nil {
@@ -41,9 +40,9 @@ func (s *Storage) CreateRecipeEntry(recipeEntry *model.RecipeEntry) (query strin
 }
 
 //ListRecipeEntry will grab data from storage
-func (s *Storage) ListRecipeEntry(recipeID int64) (query string, recipeEntrys []*model.RecipeEntry, err error) {
-	query = fmt.Sprintf(`SELECT %s FROM tradeskill_recipe_entries WHERE recipe_id = ?`, recipeEntryFields)
-	rows, err := s.db.Queryx(query, recipeID)
+func (s *Storage) ListRecipeEntryByRecipe(recipe *model.Recipe) (recipeEntrys []*model.RecipeEntry, err error) {
+	query := fmt.Sprintf(`SELECT %s FROM tradeskill_recipe_entries WHERE recipe_id = ?`, recipeEntryFields)
+	rows, err := s.db.Queryx(query, recipe.ID)
 	if err != nil {
 		return
 	}
@@ -59,12 +58,12 @@ func (s *Storage) ListRecipeEntry(recipeID int64) (query string, recipeEntrys []
 }
 
 //ListRecipeEntryByItem will grab data from storage
-func (s *Storage) ListRecipeEntryByItem(itemID int64) (query string, recipeEntrys []*model.RecipeEntry, err error) {
+func (s *Storage) ListRecipeEntryByItem(item *model.Item) (recipeEntrys []*model.RecipeEntry, err error) {
 
-	query = fmt.Sprintf(`SELECT %s FROM tradeskill_recipe_entries
+	query := fmt.Sprintf(`SELECT %s FROM tradeskill_recipe_entries
 	WHERE item_id = ?`, recipeEntryFields)
 
-	rows, err := s.db.Queryx(query, itemID)
+	rows, err := s.db.Queryx(query, item.ID)
 	if err != nil {
 		return
 	}
@@ -80,11 +79,9 @@ func (s *Storage) ListRecipeEntryByItem(itemID int64) (query string, recipeEntry
 }
 
 //EditRecipeEntry will grab data from storage
-func (s *Storage) EditRecipeEntry(recipeID int64, itemID int64, recipeEntry *model.RecipeEntry) (query string, err error) {
+func (s *Storage) EditRecipeEntry(recipeEntry *model.RecipeEntry) (err error) {
 
-	query = fmt.Sprintf(`UPDATE tradeskill_recipe_entries SET %s WHERE tradeskill_recipe_entries.recipe_id = ? AND tradeskill_recipe_entries.item_id = ?`, recipeEntrySets)
-	recipeEntry.RecipeID = recipeID
-	recipeEntry.ItemID = itemID
+	query := fmt.Sprintf(`UPDATE tradeskill_recipe_entries SET %s WHERE tradeskill_recipe_entries.recipe_id = ? AND tradeskill_recipe_entries.item_id = ?`, recipeEntrySets)
 	result, err := s.db.NamedExec(query, recipeEntry)
 	if err != nil {
 		return
@@ -101,9 +98,9 @@ func (s *Storage) EditRecipeEntry(recipeID int64, itemID int64, recipeEntry *mod
 }
 
 //DeleteRecipeEntry will grab data from storage
-func (s *Storage) DeleteRecipeEntry(recipeID int64, itemID int64) (query string, err error) {
-	query = `DELETE FROM tradeskill_recipe_entries WHERE recipe_id = ? AND item_id = ?`
-	result, err := s.db.Exec(query, recipeID, itemID)
+func (s *Storage) DeleteRecipeEntry(recipeEntry *model.RecipeEntry) (err error) {
+	query := `DELETE FROM tradeskill_recipe_entries WHERE recipe_id = ? AND item_id = ?`
+	result, err := s.db.Exec(query, recipeEntry.RecipeID, recipeEntry.ItemID)
 	if err != nil {
 		return
 	}

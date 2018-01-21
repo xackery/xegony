@@ -3,18 +3,19 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
 )
 
-//CharacterGraphRepository handles CharacterGraphRepository cases and is a gateway to storage
-type CharacterGraphRepository struct {
+//AaRankRepository handles AaRankRepository cases and is a gateway to storage
+type AaRankRepository struct {
 	stor storage.Storage
 }
 
 //Initialize handles logic
-func (c *CharacterGraphRepository) Initialize(stor storage.Storage) (err error) {
+func (c *AaRankRepository) Initialize(stor storage.Storage) (err error) {
 	if stor == nil {
 		err = fmt.Errorf("Invalid storage type")
 		return
@@ -24,28 +25,31 @@ func (c *CharacterGraphRepository) Initialize(stor storage.Storage) (err error) 
 }
 
 //Get handles logic
-func (c *CharacterGraphRepository) Get(id int64) (characterGraph *model.CharacterGraph, err error) {
-	if id == 0 {
-		err = fmt.Errorf("Invalid CharacterGraph ID")
+func (c *AaRankRepository) Get(aaRank *model.AaRank, user *model.User) (err error) {
+	err = c.stor.GetAaRank(aaRank)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get aa rank")
 		return
 	}
-	characterGraph, err = c.stor.GetCharacterGraph(id)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare aa rank")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *CharacterGraphRepository) Create(characterGraph *model.CharacterGraph) (err error) {
-	if characterGraph == nil {
-		err = fmt.Errorf("Empty characterGraph")
-		return
-	}
-	schema, err := c.newSchema([]string{"name", "accountID"}, nil)
-	if err != nil {
+func (c *AaRankRepository) Create(aaEntry *model.AaRank, user *model.User) (err error) {
+	if aaEntry == nil {
+		err = fmt.Errorf("Empty AaRank")
 		return
 	}
 
-	characterGraph.ID = 0 //strip ID
-	result, err := schema.Validate(gojsonschema.NewGoLoader(characterGraph))
+	schema, err := c.newSchema(nil, nil)
+	if err != nil {
+		return
+	}
+	result, err := schema.Validate(gojsonschema.NewGoLoader(aaEntry))
 	if err != nil {
 		return
 	}
@@ -60,21 +64,25 @@ func (c *CharacterGraphRepository) Create(characterGraph *model.CharacterGraph) 
 		err = vErr
 		return
 	}
-	err = c.stor.CreateCharacterGraph(characterGraph)
+	err = c.stor.CreateAaRank(aaEntry)
 	if err != nil {
+		return
+	}
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare aa rank")
 		return
 	}
 	return
 }
 
 //Edit handles logic
-func (c *CharacterGraphRepository) Edit(id int64, characterGraph *model.CharacterGraph) (err error) {
+func (c *AaRankRepository) Edit(aaRank *model.AaRank, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
 
-	result, err := schema.Validate(gojsonschema.NewGoLoader(characterGraph))
+	result, err := schema.Validate(gojsonschema.NewGoLoader(aaRank))
 	if err != nil {
 		return
 	}
@@ -90,37 +98,52 @@ func (c *CharacterGraphRepository) Edit(id int64, characterGraph *model.Characte
 		return
 	}
 
-	err = c.stor.EditCharacterGraph(id, characterGraph)
+	err = c.stor.EditAaRank(aaRank)
 	if err != nil {
+		return
+	}
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare aa rank")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *CharacterGraphRepository) Delete(characterID int64) (err error) {
-	err = c.stor.DeleteCharacterGraph(characterID)
+func (c *AaRankRepository) Delete(aaRank *model.AaRank, user *model.User) (err error) {
+	err = c.stor.DeleteAaRank(aaRank)
 	if err != nil {
+		return
+	}
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare aa rank")
 		return
 	}
 	return
 }
 
 //List handles logic
-func (c *CharacterGraphRepository) List(characterID int64) (characterGraphs []*model.CharacterGraph, err error) {
-	characterGraphs, err = c.stor.ListCharacterGraph(characterID)
+func (c *AaRankRepository) List(user *model.User) (aaRanks []*model.AaRank, err error) {
+	aaRanks, err = c.stor.ListAaRank()
 	if err != nil {
 		return
+	}
+	for _, aaRank := range aaRanks {
+		err = c.prepare(aaRank, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare aa rank")
+			return
+		}
 	}
 	return
 }
 
-func (c *CharacterGraphRepository) prepare(characterGraph *model.CharacterGraph) (err error) {
+func (c *AaRankRepository) prepare(aaRank *model.AaRank, user *model.User) (err error) {
 
 	return
 }
 
-func (c *CharacterGraphRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+func (c *AaRankRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"
 	s.Required = requiredFields
@@ -147,22 +170,11 @@ func (c *CharacterGraphRepository) newSchema(requiredFields []string, optionalFi
 	return
 }
 
-func (c *CharacterGraphRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+func (c *AaRankRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
 	switch field {
-	case "accountID":
-		prop.Type = "integer"
-		prop.Minimum = 1
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "zoneID":
-		prop.Type = "integer"
-		prop.Minimum = 1
-	case "name":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 32
-		prop.Pattern = "^[a-zA-Z]*$"
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

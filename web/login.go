@@ -1,7 +1,10 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
+
+	"github.com/xackery/xegony/model"
 )
 
 func (a *Web) loginRoutes() (routes []*route) {
@@ -22,8 +25,7 @@ func (a *Web) loginRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) getLogin(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getLogin(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
@@ -33,26 +35,23 @@ func (a *Web) getLogin(w http.ResponseWriter, r *http.Request) {
 	site := a.newSite(r)
 	site.Page = "login"
 
-	content := Content{
+	content = Content{
 		Site: site,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "login.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("login", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

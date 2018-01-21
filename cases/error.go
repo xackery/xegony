@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,26 +25,39 @@ func (c *ErrorRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *ErrorRepository) Get(errorID int64) (errorStruct *model.Error, err error) {
-	if errorID == 0 {
-		err = fmt.Errorf("Invalid Error ID")
+func (c *ErrorRepository) Get(errorStruct *model.Error, user *model.User) (err error) {
+
+	err = c.stor.GetError(errorStruct)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get error")
 		return
 	}
-	errorStruct, err = c.stor.GetError(errorID)
+	err = c.prepare(errorStruct, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare error")
+		return
+	}
 	return
 }
 
 //Search handles logic
-func (c *ErrorRepository) Search(search string) (errors []*model.Error, err error) {
-	errors, err = c.stor.SearchError(search)
+func (c *ErrorRepository) SearchByMessage(errorStruct *model.Error, user *model.User) (errorStructs []*model.Error, err error) {
+	errorStructs, err = c.stor.SearchErrorByMessage(errorStruct)
 	if err != nil {
 		return
+	}
+	for _, errorStruct := range errorStructs {
+		err = c.prepare(errorStruct, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare error")
+			return
+		}
 	}
 	return
 }
 
 //Create handles logic
-func (c *ErrorRepository) Create(errorStruct *model.Error) (err error) {
+func (c *ErrorRepository) Create(errorStruct *model.Error, user *model.User) (err error) {
 	if errorStruct == nil {
 		err = fmt.Errorf("Empty error")
 		return
@@ -72,11 +86,16 @@ func (c *ErrorRepository) Create(errorStruct *model.Error) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(errorStruct, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare error")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *ErrorRepository) Edit(errorID int64, errorStruct *model.Error) (err error) {
+func (c *ErrorRepository) Edit(errorStruct *model.Error, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -98,16 +117,21 @@ func (c *ErrorRepository) Edit(errorID int64, errorStruct *model.Error) (err err
 		return
 	}
 
-	err = c.stor.EditError(errorID, errorStruct)
+	err = c.stor.EditError(errorStruct)
 	if err != nil {
+		return
+	}
+	err = c.prepare(errorStruct, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare error")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *ErrorRepository) Delete(errorID int64) (err error) {
-	err = c.stor.DeleteError(errorID)
+func (c *ErrorRepository) Delete(errorStruct *model.Error, user *model.User) (err error) {
+	err = c.stor.DeleteError(errorStruct)
 	if err != nil {
 		return
 	}
@@ -115,7 +139,7 @@ func (c *ErrorRepository) Delete(errorID int64) (err error) {
 }
 
 //List handles logic
-func (c *ErrorRepository) List(pageSize int64, pageNumber int64) (errors []*model.Error, err error) {
+func (c *ErrorRepository) List(pageSize int64, pageNumber int64, user *model.User) (errorStructs []*model.Error, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -124,15 +148,22 @@ func (c *ErrorRepository) List(pageSize int64, pageNumber int64) (errors []*mode
 		pageNumber = 0
 	}
 
-	errors, err = c.stor.ListError(pageSize, pageNumber)
+	errorStructs, err = c.stor.ListError(pageSize, pageNumber)
 	if err != nil {
 		return
+	}
+	for _, errorStruct := range errorStructs {
+		err = c.prepare(errorStruct, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare error")
+			return
+		}
 	}
 	return
 }
 
 //ListCount handles logic
-func (c *ErrorRepository) ListCount() (count int64, err error) {
+func (c *ErrorRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListErrorCount()
 	if err != nil {
@@ -141,7 +172,7 @@ func (c *ErrorRepository) ListCount() (count int64, err error) {
 	return
 }
 
-func (c *ErrorRepository) prepare(errorStruct *model.Error) (err error) {
+func (c *ErrorRepository) prepare(errorStruct *model.Error, user *model.User) (err error) {
 
 	return
 }

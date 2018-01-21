@@ -2,7 +2,10 @@ package cases
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -51,13 +54,18 @@ func (c *RuleRepository) rebuildCache() (err error) {
 }
 
 //Get handler
-func (c *RuleRepository) Get(ruleName string) (rule *model.Rule, err error) {
-	rule = c.ruleCache[ruleName]
+func (c *RuleRepository) Get(rule *model.Rule, user *model.User) (err error) {
+	rule = c.ruleCache[rule.Name]
+	err = c.prepare(rule, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare rule")
+		return
+	}
 	return
 }
 
 //Create handler
-func (c *RuleRepository) Create(rule *model.Rule) (err error) {
+func (c *RuleRepository) Create(rule *model.Rule, user *model.User) (err error) {
 	if rule == nil {
 		err = fmt.Errorf("Empty rule")
 		return
@@ -86,13 +94,18 @@ func (c *RuleRepository) Create(rule *model.Rule) (err error) {
 	if err != nil {
 		return
 	}
-	c.isRuleCacheLoaded = false
-	c.rebuildCache()
+	//c.isRuleCacheLoaded = false
+	//c.rebuildCache()
+	err = c.prepare(rule, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare rule")
+		return
+	}
 	return
 }
 
 //Edit handler
-func (c *RuleRepository) Edit(ruleName string, rule *model.Rule) (err error) {
+func (c *RuleRepository) Edit(rule *model.Rule, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -114,24 +127,29 @@ func (c *RuleRepository) Edit(ruleName string, rule *model.Rule) (err error) {
 		return
 	}
 
-	if err = c.stor.EditRule(ruleName, rule); err != nil {
+	if err = c.stor.EditRule(rule); err != nil {
 		return
 	}
-	if err = c.rebuildCache(); err != nil {
+	//if err = c.rebuildCache(); err != nil {
+	//	return
+	//}
+	err = c.prepare(rule, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare rule")
 		return
 	}
 	return
 }
 
 //Delete handler
-func (c *RuleRepository) Delete(ruleName string) (err error) {
-	err = c.stor.DeleteRule(ruleName)
+func (c *RuleRepository) Delete(rule *model.Rule, user *model.User) (err error) {
+	err = c.stor.DeleteRule(rule)
 	if err != nil {
 		return
 	}
-	if err = c.rebuildCache(); err != nil {
-		return
-	}
+	//if err = c.rebuildCache(); err != nil {
+	//	return
+	//}
 	return
 }
 
@@ -143,16 +161,37 @@ func (c *RuleRepository) list() (rules []*model.Rule, err error) {
 }
 
 //List handler
-func (c *RuleRepository) List() (rules []*model.Rule, err error) {
+func (c *RuleRepository) List(user *model.User) (rules []*model.Rule, err error) {
 	for _, rule := range c.ruleCache {
+		err = c.prepare(rule, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare rule")
+			return
+		}
 		rules = append(rules, rule)
 	}
 	return
 }
 
-func (c *RuleRepository) prepare(rule *model.Rule) (err error) {
+func (c *RuleRepository) prepare(rule *model.Rule, user *model.User) (err error) {
+	rule.Scope = c.scope(rule)
+	if rule.ValueFloat, err = strconv.ParseFloat(rule.Value, 10); err != nil {
+		//error handling for float64 for now is blank
+	}
+	if rule.ValueInt, err = strconv.ParseInt(rule.Value, 64, 10); err != nil {
+		//error handling for int64 for now is blank
+	}
 
 	return
+}
+
+//Scope is what scope a rule is for
+func (c *RuleRepository) scope(rule *model.Rule) string {
+	scope := ""
+	if strings.Contains(rule.Name, ":") {
+		scope = rule.Name[0:strings.Index(rule.Name, ":")]
+	}
+	return scope
 }
 
 //newSchema handler

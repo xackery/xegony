@@ -1,6 +1,7 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -12,8 +13,7 @@ func (a *Web) bazaarRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site
@@ -24,54 +24,50 @@ func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request) {
 	site.Page = "bazaar"
 	site.Title = "Bazaar"
 
-	bazaars, err := a.bazaarRepo.List()
+	bazaars, err := a.bazaarRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:    site,
 		Bazaars: bazaars,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "bazaar/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("bazaar", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getBazaar(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
 		Bazaar *model.Bazaar
 	}
 
-	id, err := getIntVar(r, "bazaarID")
+	bazaarID, err := getIntVar(r, "bazaarID")
 	if err != nil {
 		err = errors.Wrap(err, "bazaarID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	bazaar, err := a.bazaarRepo.Get(id)
+	bazaar := &model.Bazaar{
+		ID: bazaarID,
+	}
+	err = a.bazaarRepo.Get(bazaar, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -79,27 +75,24 @@ func (a *Web) getBazaar(w http.ResponseWriter, r *http.Request) {
 	site.Page = "bazaar"
 	site.Title = "Bazaar"
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Bazaar: bazaar,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "bazaar/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("bazaar", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

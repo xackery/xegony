@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,26 +25,40 @@ func (c *HackerRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *HackerRepository) Get(hackerID int64) (hacker *model.Hacker, err error) {
-	if hackerID == 0 {
-		err = fmt.Errorf("Invalid Hacker ID")
+func (c *HackerRepository) Get(hacker *model.Hacker, user *model.User) (err error) {
+
+	err = c.stor.GetHacker(hacker)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get hacker")
 		return
 	}
-	hacker, err = c.stor.GetHacker(hackerID)
+
+	err = c.prepare(hacker, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare hacker")
+		return
+	}
 	return
 }
 
 //Search handles logic
-func (c *HackerRepository) Search(search string) (hackers []*model.Hacker, err error) {
-	hackers, err = c.stor.SearchHacker(search)
+func (c *HackerRepository) SearchByMessage(hacker *model.Hacker, user *model.User) (hackers []*model.Hacker, err error) {
+	hackers, err = c.stor.SearchHackerByMessage(hacker)
 	if err != nil {
 		return
+	}
+	for _, hacker := range hackers {
+		err = c.prepare(hacker, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare hacker")
+			return
+		}
 	}
 	return
 }
 
 //Create handles logic
-func (c *HackerRepository) Create(hacker *model.Hacker) (err error) {
+func (c *HackerRepository) Create(hacker *model.Hacker, user *model.User) (err error) {
 	if hacker == nil {
 		err = fmt.Errorf("Empty hacker")
 		return
@@ -72,11 +87,16 @@ func (c *HackerRepository) Create(hacker *model.Hacker) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(hacker, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare hacker")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *HackerRepository) Edit(hackerID int64, hacker *model.Hacker) (err error) {
+func (c *HackerRepository) Edit(hacker *model.Hacker, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -98,16 +118,21 @@ func (c *HackerRepository) Edit(hackerID int64, hacker *model.Hacker) (err error
 		return
 	}
 
-	err = c.stor.EditHacker(hackerID, hacker)
+	err = c.stor.EditHacker(hacker)
 	if err != nil {
+		return
+	}
+	err = c.prepare(hacker, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare hacker")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *HackerRepository) Delete(hackerID int64) (err error) {
-	err = c.stor.DeleteHacker(hackerID)
+func (c *HackerRepository) Delete(hacker *model.Hacker, user *model.User) (err error) {
+	err = c.stor.DeleteHacker(hacker)
 	if err != nil {
 		return
 	}
@@ -115,7 +140,7 @@ func (c *HackerRepository) Delete(hackerID int64) (err error) {
 }
 
 //List handles logic
-func (c *HackerRepository) List(pageSize int64, pageNumber int64) (hackers []*model.Hacker, err error) {
+func (c *HackerRepository) List(pageSize int64, pageNumber int64, user *model.User) (hackers []*model.Hacker, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -128,11 +153,18 @@ func (c *HackerRepository) List(pageSize int64, pageNumber int64) (hackers []*mo
 	if err != nil {
 		return
 	}
+	for _, hacker := range hackers {
+		err = c.prepare(hacker, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare hacker")
+			return
+		}
+	}
 	return
 }
 
 //ListCount handles logic
-func (c *HackerRepository) ListCount() (count int64, err error) {
+func (c *HackerRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListHackerCount()
 	if err != nil {
@@ -141,7 +173,7 @@ func (c *HackerRepository) ListCount() (count int64, err error) {
 	return
 }
 
-func (c *HackerRepository) prepare(hacker *model.Hacker) (err error) {
+func (c *HackerRepository) prepare(hacker *model.Hacker, user *model.User) (err error) {
 
 	return
 }

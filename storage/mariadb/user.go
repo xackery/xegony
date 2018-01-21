@@ -9,9 +9,9 @@ import (
 )
 
 //GetUser will grab data from storage
-func (s *Storage) GetUser(userID int64) (user *model.User, err error) {
+func (s *Storage) GetUser(user *model.User) (err error) {
 	user = &model.User{}
-	err = s.db.Get(user, "SELECT id, name, account_id, character_id FROM user WHERE id = ?", userID)
+	err = s.db.Get(user, "SELECT id, name, account_id, character_id FROM user WHERE id = ?", user.ID)
 	if err != nil {
 		return
 	}
@@ -19,13 +19,13 @@ func (s *Storage) GetUser(userID int64) (user *model.User, err error) {
 }
 
 //LoginUser will grab data from storage
-func (s *Storage) LoginUser(username string, password string) (user *model.User, err error) {
+func (s *Storage) LoginUser(user *model.User, passwordConfirm string) (err error) {
 	user = &model.User{}
-	err = s.db.Get(user, "SELECT id, name, password, account_id, character_id email FROM user WHERE name = ?", username)
+	err = s.db.Get(user, "SELECT id, name, password, account_id, character_id email FROM user WHERE name = ?", user.Name)
 	if err != nil {
 		return
 	}
-	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+	if err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(passwordConfirm)); err != nil {
 		return
 	}
 
@@ -103,8 +103,7 @@ func (s *Storage) ListUser() (users []*model.User, err error) {
 }
 
 //EditUser will grab data from storage
-func (s *Storage) EditUser(userID int64, user *model.User) (err error) {
-	user.ID = userID
+func (s *Storage) EditUser(user *model.User) (err error) {
 	result, err := s.db.NamedExec(`UPDATE user SET name=:name, email=:email, account_id=:account_id character_id=:character_id WHERE id = :id`, user)
 	if err != nil {
 		return
@@ -121,8 +120,8 @@ func (s *Storage) EditUser(userID int64, user *model.User) (err error) {
 }
 
 //DeleteUser will grab data from storage
-func (s *Storage) DeleteUser(userID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM user WHERE id = ?`, userID)
+func (s *Storage) DeleteUser(user *model.User) (err error) {
+	result, err := s.db.Exec(`DELETE FROM user WHERE id = ?`, user.ID)
 	if err != nil {
 		return
 	}

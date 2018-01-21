@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,23 @@ func (c *ForageRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *ForageRepository) Get(forageID int64) (forage *model.Forage, err error) {
-	if forageID == 0 {
-		err = fmt.Errorf("Invalid Forage ID")
+func (c *ForageRepository) Get(forage *model.Forage, user *model.User) (err error) {
+
+	err = c.stor.GetForage(forage)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get forage")
+	}
+	err = c.prepare(forage, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare forage")
 		return
 	}
-	forage, err = c.stor.GetForage(forageID)
+
 	return
 }
 
 //Create handles logic
-func (c *ForageRepository) Create(forage *model.Forage) (err error) {
+func (c *ForageRepository) Create(forage *model.Forage, user *model.User) (err error) {
 	if forage == nil {
 		err = fmt.Errorf("Empty forage")
 		return
@@ -63,11 +70,16 @@ func (c *ForageRepository) Create(forage *model.Forage) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(forage, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare forage")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *ForageRepository) Edit(forageID int64, forage *model.Forage) (err error) {
+func (c *ForageRepository) Edit(forage *model.Forage, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -89,16 +101,21 @@ func (c *ForageRepository) Edit(forageID int64, forage *model.Forage) (err error
 		return
 	}
 
-	err = c.stor.EditForage(forageID, forage)
+	err = c.stor.EditForage(forage)
 	if err != nil {
+		return
+	}
+	err = c.prepare(forage, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare forage")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *ForageRepository) Delete(forageID int64) (err error) {
-	err = c.stor.DeleteForage(forageID)
+func (c *ForageRepository) Delete(forage *model.Forage, user *model.User) (err error) {
+	err = c.stor.DeleteForage(forage)
 	if err != nil {
 		return
 	}
@@ -106,7 +123,7 @@ func (c *ForageRepository) Delete(forageID int64) (err error) {
 }
 
 //List handles logic
-func (c *ForageRepository) List(pageSize int64, pageNumber int64) (forages []*model.Forage, err error) {
+func (c *ForageRepository) List(pageSize int64, pageNumber int64, user *model.User) (forages []*model.Forage, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -119,11 +136,18 @@ func (c *ForageRepository) List(pageSize int64, pageNumber int64) (forages []*mo
 	if err != nil {
 		return
 	}
+	for _, forage := range forages {
+		err = c.prepare(forage, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare forage")
+			return
+		}
+	}
 	return
 }
 
 //ListCount handles logic
-func (c *ForageRepository) ListCount() (count int64, err error) {
+func (c *ForageRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListForageCount()
 	if err != nil {
@@ -133,24 +157,38 @@ func (c *ForageRepository) ListCount() (count int64, err error) {
 }
 
 //GetByZone handles logic
-func (c *ForageRepository) GetByZone(zoneID int64) (forages []*model.Forage, err error) {
-	forages, err = c.stor.ListForageByZone(zoneID)
+func (c *ForageRepository) GetByZone(zone *model.Zone, user *model.User) (forages []*model.Forage, err error) {
+	forages, err = c.stor.ListForageByZone(zone)
 	if err != nil {
 		return
+	}
+	for _, forage := range forages {
+		err = c.prepare(forage, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare forage")
+			return
+		}
 	}
 	return
 }
 
 //GetByItem handles logic
-func (c *ForageRepository) GetByItem(itemID int64) (forages []*model.Forage, err error) {
-	forages, err = c.stor.ListForageByItem(itemID)
+func (c *ForageRepository) GetByItem(item *model.Item, user *model.User) (forages []*model.Forage, err error) {
+	forages, err = c.stor.ListForageByItem(item)
 	if err != nil {
 		return
+	}
+	for _, forage := range forages {
+		err = c.prepare(forage, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare forage")
+			return
+		}
 	}
 	return
 }
 
-func (c *ForageRepository) prepare(forage *model.Forage) (err error) {
+func (c *ForageRepository) prepare(forage *model.Forage, user *model.User) (err error) {
 
 	return
 }

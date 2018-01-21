@@ -4,6 +4,8 @@ import ()
 
 //Activity is used by Tasks to break down which activities are involved in a provided task
 type Activity struct {
+	Zone *Zone `json:"zone"`
+
 	TaskID       int64  `json:"taskID" db:"taskid"`             //`taskid` int(11) unsigned NOT NULL DEFAULT '0',
 	ActivityID   int64  `json:"activityID" db:"activityid"`     //`activityid` int(11) unsigned NOT NULL DEFAULT '0',
 	Step         int64  `json:"step" db:"step"`                 //`step` int(11) unsigned NOT NULL DEFAULT '0',

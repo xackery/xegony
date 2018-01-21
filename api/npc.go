@@ -13,94 +13,73 @@ func (a *API) npcRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getNpc(w http.ResponseWriter, r *http.Request) {
+func (a *API) getNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "npcID")
+	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	npc, err := a.npcRepo.Get(id)
+	npc := &model.Npc{
+		ID: npcID,
+	}
+	err = a.npcRepo.Get(npc, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, npc, http.StatusOK)
+	content = npc
 	return
 }
 
-func (a *API) createNpc(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	npc := &model.Npc{}
 	err = decodeBody(r, npc)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.npcRepo.Create(npc)
+	err = a.npcRepo.Create(npc, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, npc, http.StatusCreated)
+	content = npc
 	return
 }
 
-func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "npcID")
+	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.npcRepo.Delete(id)
+	npc := &model.Npc{
+		ID: npcID,
+	}
+	err = a.npcRepo.Delete(npc, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = npc
 	return
 }
 
-func (a *API) editNpc(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "npcID")
+	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -108,26 +87,23 @@ func (a *API) editNpc(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, npc)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-
-	err = a.npcRepo.Edit(id, npc)
+	npc.ID = npcID
+	err = a.npcRepo.Edit(npc, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, npc, http.StatusOK)
+	content = npc
 	return
 }
 
-func (a *API) listNpc(w http.ResponseWriter, r *http.Request) {
-	npcs, err := a.npcRepo.List(20, 0)
+func (a *API) listNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	npcs, err := a.npcRepo.List(20, 0, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, npcs, http.StatusOK)
+	content = npcs
 	return
 }

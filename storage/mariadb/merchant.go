@@ -7,9 +7,8 @@ import (
 )
 
 //GetMerchant will grab data from storage
-func (s *Storage) GetMerchant(merchantID int64) (merchant *model.Merchant, err error) {
-	merchant = &model.Merchant{}
-	err = s.db.Get(merchant, fmt.Sprintf("SELECT merchantid FROM merchantlist WHERE merchantid = ? GROUP BY merchantid"), merchantID)
+func (s *Storage) GetMerchant(merchant *model.Merchant) (err error) {
+	err = s.db.Get(merchant, fmt.Sprintf("SELECT merchantid FROM merchantlist WHERE merchantid = ? GROUP BY merchantid"), merchant.ID)
 	if err != nil {
 		return
 	}
@@ -44,27 +43,9 @@ func (s *Storage) ListMerchantCount() (count int64, err error) {
 	return
 }
 
-//SearchMerchant will grab data from storage
-func (s *Storage) SearchMerchant(search string) (merchants []*model.Merchant, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT merchantid FROM merchantlist 
-		WHERE id like ? ORDER BY merchantid ASC GROUP BY merchantid`), "%"+search+"%")
-	if err != nil {
-		return
-	}
-
-	for rows.Next() {
-		merchant := model.Merchant{}
-		if err = rows.StructScan(&merchant); err != nil {
-			return
-		}
-		merchants = append(merchants, &merchant)
-	}
-	return
-}
-
 //DeleteMerchant will grab data from storage
-func (s *Storage) DeleteMerchant(merchantID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM merchantlist WHERE merchantid = ?`, merchantID)
+func (s *Storage) DeleteMerchant(merchant *model.Merchant) (err error) {
+	result, err := s.db.Exec(`DELETE FROM merchantlist WHERE merchantid = ?`, merchant.ID)
 	if err != nil {
 		return
 	}

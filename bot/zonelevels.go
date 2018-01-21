@@ -1,5 +1,6 @@
 package bot
 
+/*
 import (
 	"fmt"
 	"net/http"
@@ -10,8 +11,8 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	type Content struct {
 		Message     string
 		Status      string
@@ -21,8 +22,7 @@ func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request) {
 
 	var bot *Status
 	if bot, err = a.getStatus("zonelevels"); err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
-		return
+				return
 	}
 
 	content := &Content{
@@ -32,12 +32,11 @@ func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request) {
 		LastStarted: bot.StartTime,
 	}
 
-	a.writeData(w, r, content, http.StatusOK)
-	return
+		return
 }
 
-func (a *Bot) zoneLevelsCreate(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Bot) zoneLevelsCreate(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	type Content struct {
 		Message string
 	}
@@ -47,14 +46,12 @@ func (a *Bot) zoneLevelsCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = a.startBot("zonelevels"); err != nil {
-		a.writeError(w, r, err, http.StatusForbidden)
-		return
+				return
 	}
 
 	go a.CreateZoneLevelCache()
 
-	a.writeData(w, r, content, http.StatusOK)
-	return
+		return
 }
 
 // CreateZoneLevelCache is a shortcut function to prepare cache
@@ -62,12 +59,12 @@ func (a *Bot) CreateZoneLevelCache() (err error) {
 
 	start := time.Now()
 	var query string
-	err = a.zoneLevelRepo.Truncate()
+	err = a.zoneLevelRepo.Truncate(nil)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to truncate cache")
 		return
 	}
-	zones, err := a.zoneRepo.List()
+	zones, err := a.zoneRepo.List(nil)
 	if err != nil {
 		return
 	}
@@ -83,7 +80,7 @@ func (a *Bot) CreateZoneLevelCache() (err error) {
 			continue
 		}
 
-		spawns, query, err = a.spawnEntryRepo.ListByZone(zone.ZoneIDNumber)
+		spawns, query, err = a.spawnEntryRepo.ListByZone(zone.ZoneIDNumber, nil)
 		if err != nil {
 			err = errors.Wrap(err, fmt.Sprintf("Failed to get spawnentry %s", query))
 			return
@@ -93,13 +90,13 @@ func (a *Bot) CreateZoneLevelCache() (err error) {
 		//fmt.Println("Zone", zone.ZoneIDNumber, "has", len(spawns), "entries")
 		for _, spawn := range spawns {
 
-			npc, err = a.npcRepo.Get(spawn.NpcID)
+			npc, err = a.npcRepo.Get(spawn.NpcID, nil)
 			if err != nil {
 				fmt.Println("Invalid NPC provided", spawn.NpcID)
 				continue
 			}
 			//can't kill non-class mobs
-			if npc.Class < 1 && npc.Class > 17 {
+			if npc.Class.ID < 1 && npc.Class.ID > 17 {
 				continue
 			}
 
@@ -254,7 +251,7 @@ func (a *Bot) CreateZoneLevelCache() (err error) {
 			}
 		}
 
-		err = a.zoneLevelRepo.Create(zoneLevel)
+		err = a.zoneLevelRepo.Create(zoneLevel, nil)
 
 		if err != nil {
 			err = errors.Wrap(err, fmt.Sprintf("Failed to create cache entry zone_id: %d levels: %d", zoneLevel.ZoneID, zoneLevel.Levels))
@@ -268,3 +265,4 @@ func (a *Bot) CreateZoneLevelCache() (err error) {
 	a.endBot("zonelevels")
 	return
 }
+*/

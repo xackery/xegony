@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,23 +25,39 @@ func (c *AccountRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *AccountRepository) Get(accountID int64) (account *model.Account, err error) {
-	if accountID == 0 {
-		err = fmt.Errorf("Invalid Account ID")
+func (c *AccountRepository) Get(account *model.Account, user *model.User) (err error) {
+	err = c.stor.GetAccount(account)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get account")
 		return
 	}
-	account, err = c.stor.GetAccount(accountID)
+
+	err = c.prepare(account, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare account")
+		return
+	}
+
 	return
 }
 
 //GetByName handles logic
-func (c *AccountRepository) GetByName(name string) (account *model.Account, err error) {
-	account, err = c.stor.GetAccountByName(name)
+func (c *AccountRepository) GetByName(account *model.Account, user *model.User) (err error) {
+	err = c.stor.GetAccountByName(account)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get account")
+		return
+	}
+	err = c.prepare(account, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare account")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *AccountRepository) Create(account *model.Account) (err error) {
+func (c *AccountRepository) Create(account *model.Account, user *model.User) (err error) {
 	if account == nil {
 		err = fmt.Errorf("Empty account")
 		return
@@ -69,11 +86,16 @@ func (c *AccountRepository) Create(account *model.Account) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(account, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare account")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *AccountRepository) Edit(accountID int64, account *model.Account) (err error) {
+func (c *AccountRepository) Edit(account *model.Account, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -95,16 +117,21 @@ func (c *AccountRepository) Edit(accountID int64, account *model.Account) (err e
 		return
 	}
 
-	err = c.stor.EditAccount(accountID, account)
+	err = c.stor.EditAccount(account)
 	if err != nil {
+		return
+	}
+	err = c.prepare(account, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare account")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *AccountRepository) Delete(accountID int64) (err error) {
-	err = c.stor.DeleteAccount(accountID)
+func (c *AccountRepository) Delete(account *model.Account, user *model.User) (err error) {
+	err = c.stor.DeleteAccount(account)
 	if err != nil {
 		return
 	}
@@ -112,15 +139,22 @@ func (c *AccountRepository) Delete(accountID int64) (err error) {
 }
 
 //List handles logic
-func (c *AccountRepository) List() (accounts []*model.Account, err error) {
+func (c *AccountRepository) List(user *model.User) (accounts []*model.Account, err error) {
 	accounts, err = c.stor.ListAccount()
 	if err != nil {
 		return
 	}
+	for _, account := range accounts {
+		err = c.prepare(account, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare account")
+			return
+		}
+	}
 	return
 }
 
-func (c *AccountRepository) prepare(account *model.Account) (err error) {
+func (c *AccountRepository) prepare(account *model.Account, user *model.User) (err error) {
 
 	return
 }

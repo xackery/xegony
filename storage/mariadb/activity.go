@@ -14,9 +14,8 @@ const (
 )
 
 //GetActivity will grab data from storage
-func (s *Storage) GetActivity(taskID int64, activityID int64) (activity *model.Activity, err error) {
-	activity = &model.Activity{}
-	err = s.db.Get(activity, fmt.Sprintf("SELECT %s FROM activities WHERE activityid = ? AND taskid = ?", activityFields), activityID, taskID)
+func (s *Storage) GetActivity(activity *model.Activity) (err error) {
+	err = s.db.Get(activity, fmt.Sprintf("SELECT %s FROM activities WHERE activityid = ? AND taskid = ?", activityFields), activity.ActivityID, activity.TaskID)
 	if err != nil {
 		return
 	}
@@ -24,8 +23,8 @@ func (s *Storage) GetActivity(taskID int64, activityID int64) (activity *model.A
 }
 
 //GetActivityNextStep will grab data from storage
-func (s *Storage) GetActivityNextStep(taskID int64, activityID int64) (step int64, err error) {
-	err = s.db.Get(&step, "SELECT step FROM activities WHERE taskid = ? AND activityid = ? ORDER BY step DESC LIMIT 1", taskID, activityID)
+func (s *Storage) GetActivityNextStep(activity *model.Activity) (step int64, err error) {
+	err = s.db.Get(&step, "SELECT step FROM activities WHERE taskid = ? AND activityid = ? ORDER BY step DESC LIMIT 1", activity.TaskID, activity.ActivityID)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			step = 0
@@ -60,8 +59,8 @@ func (s *Storage) CreateActivity(activity *model.Activity) (err error) {
 }
 
 //ListActivity will grab data from storage
-func (s *Storage) ListActivity(taskID int64) (activitys []*model.Activity, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM activities WHERE taskid = ? ORDER BY activityid DESC`, activityFields), taskID)
+func (s *Storage) ListActivityByTask(task *model.Task) (activitys []*model.Activity, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM activities WHERE taskid = ? ORDER BY activityid DESC`, activityFields), task.ID)
 	if err != nil {
 		return
 	}
@@ -77,12 +76,12 @@ func (s *Storage) ListActivity(taskID int64) (activitys []*model.Activity, err e
 }
 
 //EditActivity will grab data from storage
-func (s *Storage) EditActivity(activityID int64, activity *model.Activity) (err error) {
-	activity.ActivityID = activityID
-	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE activities SET %s WHERE id = :id`, activitySets), activity)
+func (s *Storage) EditActivity(activity *model.Activity) (err error) {
+	result, err := s.db.Exec(fmt.Sprintf(`UPDATE activities SET %s WHERE taskid = ? AND activityid = ?`, activitySets), activity.TaskID, activity.ActivityID)
 	if err != nil {
 		return
 	}
+
 	affected, err := result.RowsAffected()
 	if err != nil {
 		return
@@ -95,8 +94,8 @@ func (s *Storage) EditActivity(activityID int64, activity *model.Activity) (err 
 }
 
 //DeleteActivity will grab data from storage
-func (s *Storage) DeleteActivity(activityID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM activities WHERE activityid = ?`, activityID)
+func (s *Storage) DeleteActivity(activity *model.Activity) (err error) {
+	result, err := s.db.Exec(`DELETE FROM activities WHERE taskid = ? AND activityid = ?`, activity.TaskID, activity.ActivityID)
 	if err != nil {
 		return
 	}

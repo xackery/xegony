@@ -19,25 +19,25 @@ func (a *API) characterRoutes() (routes []*route) {
 		{
 			"DeleteCharacter",
 			"DELETE",
-			"/character/{characterID}",
+			"/character/{characterID:[0-9]+}",
 			a.deleteCharacter,
 		},
 		{
 			"EditCharacter",
 			"PUT",
-			"/character/{characterID}",
+			"/character/{characterID:[0-9]+}",
 			a.editCharacter,
 		},
 		{
 			"GetCharacter",
 			"GET",
-			"/character/{characterID}",
+			"/character/{characterID:[0-9]+}",
 			a.getCharacter,
 		},
 		{
 			"GetCharacterByName",
 			"GET",
-			"/character/byname/{name}",
+			"/character/byname/{name:[a-zA-Z]+}",
 			a.getCharacterByName,
 		},
 		{
@@ -50,115 +50,94 @@ func (a *API) characterRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getCharacter(w http.ResponseWriter, r *http.Request) {
-	if getVar(r, "characterID") == "byname" {
-		a.getCharacterByName(w, r)
-		return
-	}
+func (a *API) getCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "characterID")
+	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
 		err = errors.Wrap(err, "characterID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	character, err := a.characterRepo.Get(id)
+	character := &model.Character{
+		ID: characterID,
+	}
+	err = a.characterRepo.Get(character, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, character, http.StatusOK)
+	content = character
 	return
 }
 
-func (a *API) getCharacterByName(w http.ResponseWriter, r *http.Request) {
+func (a *API) getCharacterByName(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	name := getVar(r, "name")
 
-	character, err := a.characterRepo.GetByName(name)
+	character := &model.Character{
+		Name: name,
+	}
+
+	err = a.characterRepo.GetByName(character, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, character, http.StatusOK)
+	content = character
 	return
 }
 
-func (a *API) createCharacter(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	character := &model.Character{}
 	err = decodeBody(r, character)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.characterRepo.Create(character)
+	err = a.characterRepo.Create(character, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, character, http.StatusCreated)
+	content = character
 	return
 }
 
-func (a *API) deleteCharacter(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "characterID")
+	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
 		err = errors.Wrap(err, "characterID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.characterRepo.Delete(id)
+	character := &model.Character{
+		ID: characterID,
+	}
+
+	err = a.characterRepo.Delete(character, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = character
 	return
 }
 
-func (a *API) editCharacter(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "characterID")
+	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
 		err = errors.Wrap(err, "characterID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -166,26 +145,24 @@ func (a *API) editCharacter(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, character)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
+	character.ID = characterID
 
-	err = a.characterRepo.Edit(id, character)
+	err = a.characterRepo.Edit(character, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, character, http.StatusOK)
+	content = character
 	return
 }
 
-func (a *API) listCharacter(w http.ResponseWriter, r *http.Request) {
-	characters, err := a.characterRepo.List()
+func (a *API) listCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	characters, err := a.characterRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, characters, http.StatusOK)
+	content = characters
 	return
 }

@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -10,7 +11,7 @@ import (
 
 var (
 	hotzone = func(z1, z2 *model.Zone) bool {
-		return z1.Modifier() > z2.Modifier()
+		return z1.Modifier > z2.Modifier
 	}
 
 	levels = func(z1, z2 *model.Zone) bool {
@@ -78,6 +79,7 @@ type ZoneRepository struct {
 	stor              storage.Storage
 	zoneCache         map[int64]*model.Zone
 	isZoneCacheLoaded bool
+	globalRepository  *GlobalRepository
 }
 
 //Initialize handler
@@ -89,13 +91,20 @@ func (c *ZoneRepository) Initialize(stor storage.Storage) (err error) {
 
 	c.stor = stor
 	c.isZoneCacheLoaded = false
-	if err = c.rebuildCache(); err != nil {
+	if err = c.rebuildCache(nil); err != nil {
+		return
+	}
+
+	c.globalRepository = &GlobalRepository{}
+	err = c.globalRepository.Initialize(stor)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize global repository")
 		return
 	}
 	return
 }
 
-func (c *ZoneRepository) rebuildCache() (err error) {
+func (c *ZoneRepository) rebuildCache(user *model.User) (err error) {
 	if c.isZoneCacheLoaded {
 		return
 	}
@@ -111,7 +120,7 @@ func (c *ZoneRepository) rebuildCache() (err error) {
 		return
 	}
 
-	zoneLevels, err := zoneLevelRepo.List()
+	zoneLevels, err := zoneLevelRepo.List(user)
 	if err != nil {
 		return
 	}
@@ -131,20 +140,17 @@ func (c *ZoneRepository) rebuildCache() (err error) {
 }
 
 //Get handler
-func (c *ZoneRepository) Get(zoneID int64) (zone *model.Zone, err error) {
-	if zoneID == 0 {
-		err = fmt.Errorf("Invalid Zone ID")
-		return
-	}
-	zone = c.zoneCache[zoneID]
+func (c *ZoneRepository) Get(zone *model.Zone, user *model.User) (err error) {
+
+	zone = c.zoneCache[zone.ID]
 	//zone, err = c.stor.GetZone(zoneID)
 	return
 }
 
 //GetByShortname gets a zone by it's short name
-func (c *ZoneRepository) GetByShortname(zoneShortname string) (zone *model.Zone, err error) {
+func (c *ZoneRepository) GetByShortname(zone *model.Zone, user *model.User) (err error) {
 	for _, zoneC := range c.zoneCache {
-		if zoneC.ShortName.String == zoneShortname {
+		if zoneC.ShortName.String == zone.ShortName.String {
 			zone = zoneC
 			return
 		}
@@ -153,7 +159,7 @@ func (c *ZoneRepository) GetByShortname(zoneShortname string) (zone *model.Zone,
 }
 
 //Create handler
-func (c *ZoneRepository) Create(zone *model.Zone) (err error) {
+func (c *ZoneRepository) Create(zone *model.Zone, user *model.User) (err error) {
 	if zone == nil {
 		err = fmt.Errorf("Empty zone")
 		return
@@ -191,13 +197,13 @@ func (c *ZoneRepository) Create(zone *model.Zone) (err error) {
 	if err != nil {
 		return
 	}
-	c.isZoneCacheLoaded = false
-	c.rebuildCache()
+	//c.isZoneCacheLoaded = false
+	//c.rebuildCache(nil)
 	return
 }
 
 //Edit handler
-func (c *ZoneRepository) Edit(zoneID int64, zone *model.Zone) (err error) {
+func (c *ZoneRepository) Edit(zone *model.Zone, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -219,24 +225,24 @@ func (c *ZoneRepository) Edit(zoneID int64, zone *model.Zone) (err error) {
 		return
 	}
 
-	if err = c.stor.EditZone(zoneID, zone); err != nil {
+	if err = c.stor.EditZone(zone); err != nil {
 		return
 	}
-	if err = c.rebuildCache(); err != nil {
-		return
-	}
+	//if err = c.rebuildCache(user); err != nil {
+	//	return
+	//}
 	return
 }
 
 //Delete handler
-func (c *ZoneRepository) Delete(zoneID int64) (err error) {
-	err = c.stor.DeleteZone(zoneID)
+func (c *ZoneRepository) Delete(zone *model.Zone, user *model.User) (err error) {
+	err = c.stor.DeleteZone(zone)
 	if err != nil {
 		return
 	}
-	if err = c.rebuildCache(); err != nil {
-		return
-	}
+	//if err = c.rebuildCache(user); err != nil {
+	//	return
+	//}
 	return
 }
 
@@ -248,7 +254,7 @@ func (c *ZoneRepository) list() (zones []*model.Zone, err error) {
 }
 
 //List handler
-func (c *ZoneRepository) List() (zones []*model.Zone, err error) {
+func (c *ZoneRepository) List(user *model.User) (zones []*model.Zone, err error) {
 	for _, zone := range c.zoneCache {
 		zones = append(zones, zone)
 	}
@@ -256,7 +262,7 @@ func (c *ZoneRepository) List() (zones []*model.Zone, err error) {
 }
 
 //ListByHotzone handler
-func (c *ZoneRepository) ListByHotzone() (zones []model.Zone, err error) {
+func (c *ZoneRepository) ListByHotzone(user *model.User) (zones []model.Zone, err error) {
 
 	for _, zonePtr := range c.zoneCache {
 		zone := *zonePtr
@@ -266,7 +272,23 @@ func (c *ZoneRepository) ListByHotzone() (zones []model.Zone, err error) {
 	return
 }
 
-func (c *ZoneRepository) prepare(zone *model.Zone) (err error) {
+func (c *ZoneRepository) prepare(zone *model.Zone, user *model.User) (err error) {
+
+	hotZoneRule, err := c.globalRepository.GetRule("Zone:HotZoneBonus", user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get hot zone bonus")
+		return
+	}
+	zone.Modifier = zone.ZoneExpMultiplier + 1
+	if zone.Hotzone == 1 && hotZoneRule.ValueFloat > 0 {
+		zone.Modifier *= hotZoneRule.ValueFloat
+	}
+
+	return
+}
+
+//Modifier does calculations of HotZone + ZEM
+func (c *ZoneRepository) zoneModifier(zone *model.Zone, user *model.User) (mod float64, err error) {
 
 	return
 }

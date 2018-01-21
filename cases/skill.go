@@ -50,20 +50,19 @@ func (c *SkillRepository) rebuildCache() (err error) {
 }
 
 //Get handler
-func (c *SkillRepository) Get(skillID int64) (skill *model.Skill, err error) {
-	if skillID == 0 {
+func (c *SkillRepository) Get(skill *model.Skill, user *model.User) (err error) {
+	if skill.ID == 0 {
 		err = fmt.Errorf("Invalid Skill ID")
 		return
 	}
-	skill = c.skillCache[skillID]
-	//skill, err = c.stor.GetSkill(skillID)
+	skill = c.skillCache[skill.ID]
 	return
 }
 
 //GetByName gets a skill by it's name
-func (c *SkillRepository) GetByName(name string) (skill *model.Skill, err error) {
+func (c *SkillRepository) GetByName(skill *model.Skill, user *model.User) (err error) {
 	for _, skillC := range c.skillCache {
-		if skillC.Name == name {
+		if skillC.Name == skill.Name {
 			skill = skillC
 			return
 		}
@@ -72,9 +71,9 @@ func (c *SkillRepository) GetByName(name string) (skill *model.Skill, err error)
 }
 
 //ListByType gets a skill by it's name
-func (c *SkillRepository) ListByType(skillType int64) (skills []*model.Skill, err error) {
+func (c *SkillRepository) ListByType(skill *model.Skill, user *model.User) (skills []*model.Skill, err error) {
 	for _, skillC := range c.skillCache {
-		if skillC.Type == skillType {
+		if skillC.Type == skill.Type {
 			skills = append(skills, skillC)
 		}
 	}
@@ -82,7 +81,7 @@ func (c *SkillRepository) ListByType(skillType int64) (skills []*model.Skill, er
 }
 
 //Create handler
-func (c *SkillRepository) Create(skill *model.Skill) (err error) {
+func (c *SkillRepository) Create(skill *model.Skill, user *model.User) (err error) {
 	if skill == nil {
 		err = fmt.Errorf("Empty skill")
 		return
@@ -118,7 +117,7 @@ func (c *SkillRepository) Create(skill *model.Skill) (err error) {
 }
 
 //Edit handler
-func (c *SkillRepository) Edit(skillID int64, skill *model.Skill) (err error) {
+func (c *SkillRepository) Edit(skill *model.Skill, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -150,7 +149,7 @@ func (c *SkillRepository) Edit(skillID int64, skill *model.Skill) (err error) {
 }
 
 //Delete handler
-func (c *SkillRepository) Delete(skillID int64) (err error) {
+func (c *SkillRepository) Delete(skill *model.Skill, user *model.User) (err error) {
 	//err = c.stor.DeleteSkill(skillID)
 	//if err != nil {
 	//	return
@@ -169,14 +168,14 @@ func (c *SkillRepository) list() (skills []*model.Skill, err error) {
 }
 
 //List handler
-func (c *SkillRepository) List() (skills []*model.Skill, err error) {
+func (c *SkillRepository) List(user *model.User) (skills []*model.Skill, err error) {
 	for _, skill := range c.skillCache {
 		skills = append(skills, skill)
 	}
 	return
 }
 
-func (c *SkillRepository) prepare(skill *model.Skill) (err error) {
+func (c *SkillRepository) prepare(skill *model.Skill, user *model.User) (err error) {
 
 	return
 }

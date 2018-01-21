@@ -49,9 +49,9 @@
                             {{range $key, $value := .Characters}}
                             <tr>            
                                 <td><i title="{{$value.RaceName}}" class="xa {{$value.RaceIcon}}"></i></td>
-                                <td><a href="/npc/{{$value.ID}}">{{$value.CleanName}}</a></td>
+                                <td><a href="/character/{{$value.ID}}">{{$value.CleanName}}</a></td>
                                 <td>{{$value.Level}}</td>
-                                <td>{{$value.ZoneName}}</td>
+                                <td>{{if $value.Zone}}<a href="/zone/{{$value.Zone.ID}}">{{$value.Zone.Name}}</a>{{end}}</td>
                             </tr>
                             {{end}}                
                             </tbody>

@@ -13,11 +13,11 @@ const (
 )
 
 //GetRule will grab data from storage
-func (s *Storage) GetRule(ruleName int64) (rule *model.Rule, err error) {
+func (s *Storage) GetRule(rule *model.Rule) (err error) {
 	rule = &model.Rule{}
 	err = s.db.Get(rule, fmt.Sprintf(`SELECT %s 
 		FROM rule_values
-		WHERE name = ?`, ruleFields), ruleName)
+		WHERE name = ?`, ruleFields), rule.Name)
 	if err != nil {
 		return
 	}
@@ -59,8 +59,7 @@ func (s *Storage) ListRule() (rules []*model.Rule, err error) {
 }
 
 //EditRule will grab data from storage
-func (s *Storage) EditRule(ruleName string, rule *model.Rule) (err error) {
-	rule.Name = ruleName
+func (s *Storage) EditRule(rule *model.Rule) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE rule_values SET %s WHERE varname = :varname`, ruleSets), rule)
 	if err != nil {
 		return
@@ -77,8 +76,8 @@ func (s *Storage) EditRule(ruleName string, rule *model.Rule) (err error) {
 }
 
 //DeleteRule will grab data from storage
-func (s *Storage) DeleteRule(ruleName string) (err error) {
-	result, err := s.db.Exec(`DELETE FROM rule_values WHERE name = ?`, ruleName)
+func (s *Storage) DeleteRule(rule *model.Rule) (err error) {
+	result, err := s.db.Exec(`DELETE FROM rule_values WHERE name = ?`, rule.Name)
 	if err != nil {
 		return
 	}

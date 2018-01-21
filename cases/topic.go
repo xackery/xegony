@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,23 @@ func (c *TopicRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *TopicRepository) Get(topicID int64) (topic *model.Topic, err error) {
-	if topicID == 0 {
-		err = fmt.Errorf("Invalid Topic ID")
+func (c *TopicRepository) Get(topic *model.Topic, user *model.User) (err error) {
+
+	err = c.stor.GetTopic(topic)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get topic")
 		return
 	}
-	topic, err = c.stor.GetTopic(topicID)
+	err = c.prepare(topic, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare topic")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *TopicRepository) Create(topic *model.Topic) (err error) {
+func (c *TopicRepository) Create(topic *model.Topic, user *model.User) (err error) {
 	if topic == nil {
 		err = fmt.Errorf("Empty topic")
 		return
@@ -63,11 +70,16 @@ func (c *TopicRepository) Create(topic *model.Topic) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(topic, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare topic")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *TopicRepository) Edit(topicID int64, topic *model.Topic) (err error) {
+func (c *TopicRepository) Edit(topic *model.Topic, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -89,16 +101,21 @@ func (c *TopicRepository) Edit(topicID int64, topic *model.Topic) (err error) {
 		return
 	}
 
-	err = c.stor.EditTopic(topicID, topic)
+	err = c.stor.EditTopic(topic)
 	if err != nil {
+		return
+	}
+	err = c.prepare(topic, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare topic")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *TopicRepository) Delete(topicID int64) (err error) {
-	err = c.stor.DeleteTopic(topicID)
+func (c *TopicRepository) Delete(topic *model.Topic, user *model.User) (err error) {
+	err = c.stor.DeleteTopic(topic)
 	if err != nil {
 		return
 	}
@@ -106,15 +123,22 @@ func (c *TopicRepository) Delete(topicID int64) (err error) {
 }
 
 //List handles logic
-func (c *TopicRepository) List(forumID int64) (topics []*model.Topic, err error) {
-	topics, err = c.stor.ListTopic(forumID)
+func (c *TopicRepository) ListByForum(forum *model.Forum, user *model.User) (topics []*model.Topic, err error) {
+	topics, err = c.stor.ListTopicByForum(forum)
 	if err != nil {
 		return
+	}
+	for _, topic := range topics {
+		err = c.prepare(topic, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare topic")
+			return
+		}
 	}
 	return
 }
 
-func (c *TopicRepository) prepare(topic *model.Topic) (err error) {
+func (c *TopicRepository) prepare(topic *model.Topic, user *model.User) (err error) {
 
 	return
 }

@@ -24,19 +24,19 @@ func (c *ZoneLevelRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *ZoneLevelRepository) Get(zoneID int64) (zoneLevel *model.ZoneLevel, err error) {
-	zoneLevel, err = c.stor.GetZoneLevel(zoneID)
+func (c *ZoneLevelRepository) Get(zoneLevel *model.ZoneLevel, user *model.User) (err error) {
+	err = c.stor.GetZoneLevel(zoneLevel)
 	return
 }
 
 //Truncate handles logic
-func (c *ZoneLevelRepository) Truncate() (err error) {
+func (c *ZoneLevelRepository) Truncate(user *model.User) (err error) {
 	err = c.stor.TruncateZoneLevel()
 	return
 }
 
 //Create handles logic
-func (c *ZoneLevelRepository) Create(zoneLevel *model.ZoneLevel) (err error) {
+func (c *ZoneLevelRepository) Create(zoneLevel *model.ZoneLevel, user *model.User) (err error) {
 	if zoneLevel == nil {
 		err = fmt.Errorf("Empty zoneLevel")
 		return
@@ -69,7 +69,7 @@ func (c *ZoneLevelRepository) Create(zoneLevel *model.ZoneLevel) (err error) {
 }
 
 //Edit handles logic
-func (c *ZoneLevelRepository) Edit(zoneID int64, zoneLevel *model.ZoneLevel) (err error) {
+func (c *ZoneLevelRepository) Edit(zoneLevel *model.ZoneLevel, user *model.User) (err error) {
 	schema, err := c.newSchema(nil, nil)
 	if err != nil {
 		return
@@ -91,7 +91,7 @@ func (c *ZoneLevelRepository) Edit(zoneID int64, zoneLevel *model.ZoneLevel) (er
 		return
 	}
 
-	err = c.stor.EditZoneLevel(zoneID, zoneLevel)
+	err = c.stor.EditZoneLevel(zoneLevel)
 	if err != nil {
 		return
 	}
@@ -99,8 +99,8 @@ func (c *ZoneLevelRepository) Edit(zoneID int64, zoneLevel *model.ZoneLevel) (er
 }
 
 //Delete handles logic
-func (c *ZoneLevelRepository) Delete(zoneID int64) (err error) {
-	err = c.stor.DeleteZoneLevel(zoneID)
+func (c *ZoneLevelRepository) Delete(zoneLevel *model.ZoneLevel, user *model.User) (err error) {
+	err = c.stor.DeleteZoneLevel(zoneLevel)
 	if err != nil {
 		return
 	}
@@ -108,7 +108,7 @@ func (c *ZoneLevelRepository) Delete(zoneID int64) (err error) {
 }
 
 //List handles logic
-func (c *ZoneLevelRepository) List() (zoneLevels []*model.ZoneLevel, err error) {
+func (c *ZoneLevelRepository) List(user *model.User) (zoneLevels []*model.ZoneLevel, err error) {
 	zoneLevels, err = c.stor.ListZoneLevel()
 	if err != nil {
 		return
@@ -116,7 +116,7 @@ func (c *ZoneLevelRepository) List() (zoneLevels []*model.ZoneLevel, err error) 
 	return
 }
 
-func (c *ZoneLevelRepository) prepare(zoneLevel *model.ZoneLevel) (err error) {
+func (c *ZoneLevelRepository) prepare(zoneLevel *model.ZoneLevel, user *model.User) (err error) {
 
 	return
 }

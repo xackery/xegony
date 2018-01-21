@@ -1,6 +1,7 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -26,8 +27,7 @@ func (a *Web) ruleRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listRule(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listRule(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -39,38 +39,33 @@ func (a *Web) listRule(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Rule"
 	site.Section = "rule"
 
-	rules, err := a.ruleRepo.List()
+	rules, err := a.ruleRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Rules: rules,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "rule/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("rule", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getRule(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getRule(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
@@ -79,10 +74,12 @@ func (a *Web) getRule(w http.ResponseWriter, r *http.Request) {
 
 	ruleName := getVar(r, "ruleName")
 
-	rule, err := a.ruleRepo.Get(ruleName)
+	rule := &model.Rule{
+		Name: ruleName,
+	}
+	err = a.ruleRepo.Get(rule, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -91,27 +88,24 @@ func (a *Web) getRule(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Rule"
 	site.Section = "rule"
 
-	content := Content{
+	content = Content{
 		Site: site,
 		Rule: rule,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "rule/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("rule", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

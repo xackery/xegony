@@ -1,5 +1,6 @@
 package bot
 
+/*
 import (
 	"fmt"
 	"net/http"
@@ -9,8 +10,9 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request) {
-	var err error
+
+func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	type Content struct {
 		Message     string
 		Status      string
@@ -20,8 +22,7 @@ func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request) {
 
 	var bot *Status
 	if bot, err = a.getStatus("npcloot"); err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
-		return
+				return
 	}
 
 	content := &Content{
@@ -31,12 +32,11 @@ func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request) {
 		LastStarted: bot.StartTime,
 	}
 
-	a.writeData(w, r, content, http.StatusOK)
-	return
+		return
 }
 
-func (a *Bot) npcLootCreate(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Bot) npcLootCreate(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	type Content struct {
 		Message string
 	}
@@ -46,18 +46,16 @@ func (a *Bot) npcLootCreate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = a.startBot("npcloot"); err != nil {
-		a.writeError(w, r, err, http.StatusForbidden)
-		return
+				return
 	}
 
 	go a.allNpcLootCreate()
 
-	a.writeData(w, r, content, http.StatusOK)
-	return
+		return
 }
 
 func (a *Bot) allNpcLootCreate() {
-	var err error
+
 	for i := int64(0); i < 999; i++ {
 		err = a.CreateNpcDropsCache(i)
 		if err != nil {
@@ -76,7 +74,7 @@ func (a *Bot) CreateNpcDropsCache(zoneID int64) (err error) {
 		err = errors.Wrap(err, "Failed to truncate cache")
 		return
 	}
-	npcs, err := a.npcRepo.ListByZone(zoneID)
+	npcs, err := a.npcRepo.ListByZone(zoneID, nil)
 	if err != nil {
 		return
 	}
@@ -90,21 +88,21 @@ func (a *Bot) CreateNpcDropsCache(zoneID int64) (err error) {
 		if npc.LoottableID == 0 {
 			continue
 		}
-		loottable, err = a.lootTableRepo.Get(npc.LoottableID)
+		loottable, err = a.lootTableRepo.Get(npc.LoottableID, nil)
 		if err != nil {
 			err = errors.Wrap(err, fmt.Sprintf("Failed to get lootTable %d", npc.LoottableID))
 			fmt.Println(err)
 			continue
 		}
 		for _, loottableEntry := range loottable.Entries {
-			lootdrop, err = a.lootDropRepo.Get(loottableEntry.LootdropID)
+			lootdrop, err = a.lootDropRepo.Get(loottableEntry.LootdropID, nil)
 			if err != nil {
 				err = errors.Wrap(err, fmt.Sprintf("Failed to get lootDrop %d", loottableEntry.LootdropID))
 				fmt.Println(err)
 				continue
 			}
 			for _, lootdropEntry := range lootdrop.Entries {
-				item, err = a.itemRepo.Get(lootdropEntry.ItemID)
+				item, err = a.itemRepo.Get(lootdropEntry.ItemID, nil)
 				if err != nil {
 					err = errors.Wrap(err, fmt.Sprintf("Failed to get item %d", lootdropEntry.ItemID))
 					fmt.Println(err)
@@ -113,7 +111,7 @@ func (a *Bot) CreateNpcDropsCache(zoneID int64) (err error) {
 				//fmt.Println(len(npcs), "npcs fetched, doing ", npc, "and got loottable", loottable, "and lootdrop", lootdrop, "with item", item)
 				npcLoot.NpcID = npc.ID
 				npcLoot.ItemID = item.ID
-				err = a.npcLootRepo.Create(npcLoot)
+				err = a.npcLootRepo.Create(npcLoot, nil)
 				if err != nil {
 					err = errors.Wrap(err, fmt.Sprintf("Failed to create cache entry npc_id: %d item_id: %d", npc.ID, item.ID))
 					fmt.Println(err)
@@ -129,3 +127,4 @@ func (a *Bot) CreateNpcDropsCache(zoneID int64) (err error) {
 	fmt.Println("Created", entryCount, "entries for ", len(npcs), "npcs in", time.Since(start))
 	return
 }
+*/

@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,13 +25,22 @@ func (c *BaseRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *BaseRepository) Get(class int64, level int64) (base *model.Base, err error) {
-	base, err = c.stor.GetBase(class, level)
+func (c *BaseRepository) Get(base *model.Base, user *model.User) (err error) {
+	err = c.stor.GetBase(base)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get base")
+		return
+	}
+	err = c.prepare(base, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare base")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *BaseRepository) Create(base *model.Base) (err error) {
+func (c *BaseRepository) Create(base *model.Base, user *model.User) (err error) {
 	if base == nil {
 		err = fmt.Errorf("Empty base")
 		return
@@ -59,11 +69,16 @@ func (c *BaseRepository) Create(base *model.Base) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(base, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare base")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *BaseRepository) Edit(class int64, level int64, base *model.Base) (err error) {
+func (c *BaseRepository) Edit(base *model.Base, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -85,16 +100,21 @@ func (c *BaseRepository) Edit(class int64, level int64, base *model.Base) (err e
 		return
 	}
 
-	err = c.stor.EditBase(class, level, base)
+	err = c.stor.EditBase(base)
 	if err != nil {
+		return
+	}
+	err = c.prepare(base, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare base")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *BaseRepository) Delete(class int64, level int64) (err error) {
-	err = c.stor.DeleteBase(class, level)
+func (c *BaseRepository) Delete(base *model.Base, user *model.User) (err error) {
+	err = c.stor.DeleteBase(base)
 	if err != nil {
 		return
 	}
@@ -102,15 +122,22 @@ func (c *BaseRepository) Delete(class int64, level int64) (err error) {
 }
 
 //List handles logic
-func (c *BaseRepository) List() (bases []*model.Base, err error) {
+func (c *BaseRepository) List(user *model.User) (bases []*model.Base, err error) {
 	bases, err = c.stor.ListBase()
 	if err != nil {
 		return
 	}
+	for _, base := range bases {
+		err = c.prepare(base, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare base")
+			return
+		}
+	}
 	return
 }
 
-func (c *BaseRepository) prepare(base *model.Base) (err error) {
+func (c *BaseRepository) prepare(base *model.Base, user *model.User) (err error) {
 
 	return
 }

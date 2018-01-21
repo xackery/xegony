@@ -11,135 +11,114 @@ import (
 func (a *API) goalRoutes() (routes []*route) {
 	routes = []*route{
 		{
-			"CreateAccount",
+			"CreateGoal",
 			"POST",
-			"/account",
-			a.createAccount,
+			"/goal",
+			a.createGoal,
 		},
 		{
 			"DeleteAccount",
 			"DELETE",
-			"/account/{accountID}",
-			a.deleteAccount,
+			"/goal/{goalID:[0-9]+}",
+			a.deleteGoal,
 		},
 		{
-			"EditAccount",
+			"EditGoal",
 			"PUT",
-			"/account/{accountID}",
-			a.editAccount,
+			"/goal/{goalID:[0-9]+}",
+			a.editGoal,
 		},
 		{
 			"GetAccount",
 			"GET",
-			"/account/{accountID}",
-			a.getAccount,
+			"/goal/{goalID:[0-9]+}",
+			a.getGoal,
 		},
 	}
 	return
 }
 
-func (a *API) getGoal(w http.ResponseWriter, r *http.Request) {
+func (a *API) getGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	listID, err := getIntVar(r, "listID")
 	if err != nil {
 		err = errors.Wrap(err, "listID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	entryID, err := getIntVar(r, "entryID")
 	if err != nil {
 		err = errors.Wrap(err, "entryID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	goal, err := a.goalRepo.Get(listID, entryID)
+	goal := &model.Goal{
+		EntryID: entryID,
+		ListID:  listID,
+	}
+	err = a.goalRepo.Get(goal, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, goal, http.StatusOK)
+	content = goal
 	return
 }
 
-func (a *API) createGoal(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	goal := &model.Goal{}
 	err = decodeBody(r, goal)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.goalRepo.Create(goal)
+	err = a.goalRepo.Create(goal, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, goal, http.StatusCreated)
+	content = goal
 	return
 }
 
-func (a *API) deleteGoal(w http.ResponseWriter, r *http.Request) {
-	var err error
-
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) deleteGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	listID, err := getIntVar(r, "listID")
 	if err != nil {
 		err = errors.Wrap(err, "listID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	entryID, err := getIntVar(r, "entryID")
 	if err != nil {
 		err = errors.Wrap(err, "entryID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
+	goal := &model.Goal{
+		EntryID: entryID,
+		ListID:  listID,
+	}
 
-	err = a.goalRepo.Delete(listID, entryID)
+	err = a.goalRepo.Delete(goal, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = goal
 	return
 }
 
-func (a *API) editGoal(w http.ResponseWriter, r *http.Request) {
-	var err error
-
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) editGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	listID, err := getIntVar(r, "listID")
 	if err != nil {
 		err = errors.Wrap(err, "listID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -147,26 +126,25 @@ func (a *API) editGoal(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, goal)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	err = a.goalRepo.Edit(listID, goal)
+	goal.ListID = listID
+
+	err = a.goalRepo.Edit(goal, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, goal, http.StatusOK)
+	content = goal
 	return
 }
 
-func (a *API) listGoal(w http.ResponseWriter, r *http.Request) {
-	goals, err := a.goalRepo.List()
+func (a *API) listGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	goals, err := a.goalRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, goals, http.StatusOK)
+	content = goals
 	return
 }

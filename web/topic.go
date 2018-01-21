@@ -1,8 +1,8 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -14,21 +14,20 @@ func (a *Web) topicRoutes() (routes []*route) {
 		{
 			"ListTopic",
 			"GET",
-			"/forum/{forumID}",
+			"/forum/{forumID:[0-9]+}",
 			a.listTopic,
 		},
 		{
 			"GetTopic",
 			"GET",
-			"/topic/{topicID}/details",
+			"/topic/{topicID:[0-9]+}/details",
 			a.getTopic,
 		},
 	}
 	return
 }
 
-func (a *Web) listTopic(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
@@ -40,72 +39,65 @@ func (a *Web) listTopic(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forum"
 	site.Title = "Forum"
 
-	if strings.ToLower(getVar(r, "forumID")) == "create" {
-		a.createForum(w, r)
-		return
-	}
-
 	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	topics, err := a.topicRepo.List(forumID)
+	forum := &model.Forum{
+		ID: forumID,
+	}
+	err = a.forumRepo.Get(forum, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	forum, err := a.forumRepo.Get(forumID)
+
+	topics, err := a.topicRepo.ListByForum(forum, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:   site,
 		Topics: topics,
 		Forum:  forum,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "topic/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("topic", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getTopic(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
 		Topic *model.Topic
 	}
 
-	id, err := getIntVar(r, "topicID")
+	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
 		err = errors.Wrap(err, "topicID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	topic, err := a.topicRepo.Get(id)
+	topic := &model.Topic{
+		ID: topicID,
+	}
+	err = a.topicRepo.Get(topic, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -113,27 +105,24 @@ func (a *Web) getTopic(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forum"
 	site.Title = "Forum"
 
-	content := Content{
+	content = Content{
 		Site:  site,
 		Topic: topic,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "topic/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("topic", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

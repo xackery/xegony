@@ -13,21 +13,13 @@ const (
 )
 
 //GetLootTable will grab data from storage
-func (s *Storage) GetLootTable(lootTableID int64) (lootTable *model.LootTable, err error) {
+func (s *Storage) GetLootTable(lootTable *model.LootTable) (err error) {
 	lootTable = &model.LootTable{}
-	err = s.db.Get(lootTable, fmt.Sprintf(`SELECT loottable.id, %s FROM loottable WHERE id = ?`, lootTableFields), lootTableID)
+	err = s.db.Get(lootTable, fmt.Sprintf(`SELECT loottable.id, %s FROM loottable WHERE id = ?`, lootTableFields), lootTable.ID)
 	if err != nil {
 		return
 	}
 
-	lootTable.Entries, err = s.ListLootTableEntry(lootTable.ID)
-	if err != nil {
-		return
-	}
-	lootTable.Npcs, err = s.ListNpcByLootTable(lootTable.ID)
-	if err != nil {
-		return
-	}
 	return
 }
 
@@ -69,8 +61,7 @@ func (s *Storage) ListLootTable() (lootTables []*model.LootTable, err error) {
 }
 
 //EditLootTable will grab data from storage
-func (s *Storage) EditLootTable(lootTableID int64, lootTable *model.LootTable) (err error) {
-	lootTable.ID = lootTableID
+func (s *Storage) EditLootTable(lootTable *model.LootTable) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE loottable SET %s WHERE id = :id`, lootTableSets), lootTable)
 	if err != nil {
 		return
@@ -87,8 +78,8 @@ func (s *Storage) EditLootTable(lootTableID int64, lootTable *model.LootTable) (
 }
 
 //DeleteLootTable will grab data from storage
-func (s *Storage) DeleteLootTable(lootTableID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM loottable WHERE id = ?`, lootTableID)
+func (s *Storage) DeleteLootTable(lootTable *model.LootTable) (err error) {
+	result, err := s.db.Exec(`DELETE FROM loottable WHERE id = ?`, lootTable.ID)
 	if err != nil {
 		return
 	}

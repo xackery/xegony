@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,23 @@ func (c *FactionRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *FactionRepository) Get(factionID int64) (faction *model.Faction, err error) {
-	if factionID == 0 {
-		err = fmt.Errorf("Invalid Faction ID")
+func (c *FactionRepository) Get(faction *model.Faction, user *model.User) (err error) {
+
+	err = c.stor.GetFaction(faction)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get faction")
 		return
 	}
-	faction, err = c.stor.GetFaction(factionID)
+	err = c.prepare(faction, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare faction")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *FactionRepository) Create(faction *model.Faction) (err error) {
+func (c *FactionRepository) Create(faction *model.Faction, user *model.User) (err error) {
 	if faction == nil {
 		err = fmt.Errorf("Empty faction")
 		return
@@ -63,11 +70,16 @@ func (c *FactionRepository) Create(faction *model.Faction) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(faction, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare faction")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *FactionRepository) Edit(factionID int64, faction *model.Faction) (err error) {
+func (c *FactionRepository) Edit(faction *model.Faction, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -89,16 +101,21 @@ func (c *FactionRepository) Edit(factionID int64, faction *model.Faction) (err e
 		return
 	}
 
-	err = c.stor.EditFaction(factionID, faction)
+	err = c.stor.EditFaction(faction)
 	if err != nil {
+		return
+	}
+	err = c.prepare(faction, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare faction")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *FactionRepository) Delete(factionID int64) (err error) {
-	err = c.stor.DeleteFaction(factionID)
+func (c *FactionRepository) Delete(faction *model.Faction, user *model.User) (err error) {
+	err = c.stor.DeleteFaction(faction)
 	if err != nil {
 		return
 	}
@@ -106,16 +123,23 @@ func (c *FactionRepository) Delete(factionID int64) (err error) {
 }
 
 //List handles logic
-func (c *FactionRepository) List() (factions []*model.Faction, err error) {
+func (c *FactionRepository) List(user *model.User) (factions []*model.Faction, err error) {
 	factions, err = c.stor.ListFaction()
 	if err != nil {
 		return
 	}
+	for _, faction := range factions {
+		err = c.prepare(faction, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare faction")
+			return
+		}
+	}
 	return
 }
 
-func (c *FactionRepository) prepare(faction *model.Faction) (err error) {
-
+func (c *FactionRepository) prepare(faction *model.Faction, user *model.User) (err error) {
+	faction.CleanName = cleanName(faction.Name)
 	return
 }
 

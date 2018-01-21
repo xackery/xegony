@@ -7,9 +7,9 @@ import (
 )
 
 //GetGoal will grab data from storage
-func (s *Storage) GetGoal(listID int64, entryID int64) (goal *model.Goal, err error) {
+func (s *Storage) GetGoal(goal *model.Goal) (err error) {
 	goal = &model.Goal{}
-	err = s.db.Get(goal, "SELECT listid, entry FROM goallists WHERE listid = ? AND entry = ?", listID, entryID)
+	err = s.db.Get(goal, "SELECT listid, entry FROM goallists WHERE listid = ? AND entry = ?", goal.ListID, goal.EntryID)
 	if err != nil {
 		return
 	}
@@ -57,8 +57,7 @@ func (s *Storage) ListGoal() (goals []*model.Goal, err error) {
 }
 
 //EditGoal will grab data from storage
-func (s *Storage) EditGoal(listID int64, goal *model.Goal) (err error) {
-	goal.ListID = listID
+func (s *Storage) EditGoal(goal *model.Goal) (err error) {
 	result, err := s.db.NamedExec(`UPDATE goallists SET listid=:listid, entry=:entry WHERE listid = :listid`, goal)
 	if err != nil {
 		return
@@ -75,8 +74,8 @@ func (s *Storage) EditGoal(listID int64, goal *model.Goal) (err error) {
 }
 
 //DeleteGoal will grab data from storage
-func (s *Storage) DeleteGoal(listID int64, entryID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM goallists WHERE listid = ? and entry = ?`, listID, entryID)
+func (s *Storage) DeleteGoal(goal *model.Goal) (err error) {
+	result, err := s.db.Exec(`DELETE FROM goallists WHERE listid = ? and entry = ?`, goal.ListID, goal.EntryID)
 	if err != nil {
 		return
 	}

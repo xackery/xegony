@@ -19,19 +19,19 @@ func (a *API) forumRoutes() (routes []*route) {
 		{
 			"DeleteForum",
 			"DELETE",
-			"/forum/{forumID}",
+			"/forum/{forumID:[0-9]+}",
 			a.deleteForum,
 		},
 		{
 			"EditForum",
 			"PUT",
-			"/forum/{forumID}",
+			"/forum/{forumID:[0-9]+}",
 			a.editForum,
 		},
 		{
 			"GetForum",
 			"GET",
-			"/forum/{forumID}",
+			"/forum/{forumID:[0-9]+}",
 			a.getForum,
 		},
 		{
@@ -44,102 +44,75 @@ func (a *API) forumRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getForum(w http.ResponseWriter, r *http.Request) {
+func (a *API) getForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "forumID")
+	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	forum, err := a.forumRepo.Get(id)
+	forum := &model.Forum{
+		ID: forumID,
+	}
+	err = a.forumRepo.Get(forum, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, forum, http.StatusOK)
+	content = forum
 	return
 }
 
-func (a *API) createForum(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	claims, err := GetAuthClaims(r)
-	if err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-	}
+func (a *API) createForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	forum := &model.Forum{}
 
 	err = decodeBody(r, forum)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	forum.OwnerID = claims.User.ID
-	err = a.forumRepo.Create(forum)
+	forum.OwnerID = user.ID
+	err = a.forumRepo.Create(forum, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, forum, http.StatusCreated)
+	content = forum
 	return
 }
 
-func (a *API) deleteForum(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "forumID")
+	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-
-	err = a.forumRepo.Delete(id)
+	forum := &model.Forum{
+		ID: forumID,
+	}
+	err = a.forumRepo.Delete(forum, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = forum
 	return
 }
 
-func (a *API) editForum(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "forumID")
+	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -147,26 +120,25 @@ func (a *API) editForum(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, forum)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	err = a.forumRepo.Edit(id, forum)
+	forum.ID = forumID
+
+	err = a.forumRepo.Edit(forum, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, forum, http.StatusOK)
+	content = forum
 	return
 }
 
-func (a *API) listForum(w http.ResponseWriter, r *http.Request) {
-	forums, err := a.forumRepo.List()
+func (a *API) listForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	forums, err := a.forumRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, forums, http.StatusOK)
+	content = forums
 	return
 }

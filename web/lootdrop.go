@@ -1,6 +1,7 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -27,8 +28,7 @@ func (a *Web) lootDropRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listLootDrop(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listLootDrop(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
@@ -40,54 +40,51 @@ func (a *Web) listLootDrop(w http.ResponseWriter, r *http.Request) {
 	site.Title = "LootDrop"
 	site.Section = "lootDrop"
 
-	lootDrops, err := a.lootDropRepo.List()
+	lootDrops, err := a.lootDropRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:      site,
 		LootDrops: lootDrops,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "lootdrop/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("lootDrop", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getLootDrop(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getLootDrop(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
 		LootDrop *model.LootDrop
 	}
 
-	id, err := getIntVar(r, "lootDropID")
+	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
 		err = errors.Wrap(err, "lootDropID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	lootDrop, err := a.lootDropRepo.Get(id)
+	lootDrop := &model.LootDrop{
+		ID: lootDropID,
+	}
+
+	err = a.lootDropRepo.Get(lootDrop, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -96,27 +93,24 @@ func (a *Web) getLootDrop(w http.ResponseWriter, r *http.Request) {
 	site.Title = "LootDrop"
 	site.Section = "lootDrop"
 
-	content := Content{
+	content = Content{
 		Site:     site,
 		LootDrop: lootDrop,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "lootdrop/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("lootdrop", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

@@ -13,11 +13,11 @@ const (
 )
 
 //GetZoneLevel will grab data from storage
-func (s *Storage) GetZoneLevel(zoneID int64) (zoneLevel *model.ZoneLevel, err error) {
+func (s *Storage) GetZoneLevel(zoneLevel *model.ZoneLevel) (err error) {
 	zoneLevel = &model.ZoneLevel{}
 	err = s.db.Get(zoneLevel, fmt.Sprintf(`SELECT %s FROM zone_level_cache
 	INNER JOIN zone ON zone.zoneidnumber = zone_level_cache.zone_id
-	WHERE zone_level_cache.zone_id = ?`, zoneLevelFields), zoneID)
+	WHERE zone_level_cache.zone_id = ?`, zoneLevelFields), zoneLevel.ZoneID)
 	if err != nil {
 		return
 	}
@@ -58,8 +58,7 @@ func (s *Storage) ListZoneLevel() (zoneLevels []*model.ZoneLevel, err error) {
 }
 
 //EditZoneLevel will grab data from storage
-func (s *Storage) EditZoneLevel(zoneID int64, zoneLevel *model.ZoneLevel) (err error) {
-	zoneLevel.ZoneID = zoneID
+func (s *Storage) EditZoneLevel(zoneLevel *model.ZoneLevel) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE zone_level_cache SET %s WHERE zone_id = :zone_id`, zoneLevelSets), zoneLevel)
 	if err != nil {
 		return
@@ -85,8 +84,8 @@ func (s *Storage) TruncateZoneLevel() (err error) {
 }
 
 //DeleteZoneLevel will grab data from storage
-func (s *Storage) DeleteZoneLevel(zoneID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM zone_level_cache WHERE zone_id = ?`, zoneID)
+func (s *Storage) DeleteZoneLevel(zoneLevel *model.ZoneLevel) (err error) {
+	result, err := s.db.Exec(`DELETE FROM zone_level_cache WHERE zone_id = ?`, zoneLevel.ZoneID)
 	if err != nil {
 		return
 	}

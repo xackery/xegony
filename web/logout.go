@@ -1,12 +1,14 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
 	"time"
+
+	"github.com/xackery/xegony/model"
 )
 
-func (a *Web) getLogout(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getLogout(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
@@ -23,27 +25,24 @@ func (a *Web) getLogout(w http.ResponseWriter, r *http.Request) {
 	site := a.newSite(r)
 	site.Page = "logout"
 
-	content := Content{
+	content = Content{
 		Site: site,
 	}
 	http.SetCookie(w, cookie)
 	site.User = nil
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "logout.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("logout", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

@@ -55,8 +55,6 @@ type Bot struct {
 	npcLootRepo        *cases.NpcLootRepository
 	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
-	spawnEntryRepo     *cases.SpawnEntryRepository
-	spawnRepo          *cases.SpawnRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
@@ -215,14 +213,6 @@ func (a *Bot) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.postRepo.Initialize(s); err != nil {
 		return
 	}
-	a.spawnRepo = &cases.SpawnRepository{}
-	if err = a.spawnRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
-	if err = a.spawnEntryRepo.Initialize(s); err != nil {
-		return
-	}
 	a.taskRepo = &cases.TaskRepository{}
 	if err = a.taskRepo.Initialize(s); err != nil {
 		return
@@ -243,28 +233,27 @@ func (a *Bot) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.zoneLevelRepo.Initialize(s); err != nil {
 		return
 	}
+	a.log.Println("Initialized")
 	return
 }
 
 // Index handles the root endpoint of /api/
-func (a *Bot) index(w http.ResponseWriter, r *http.Request) {
+func (a *Bot) index(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 	type Content struct {
 		Message string `json:"message"`
 	}
-	content := Content{
+	content = Content{
 		Message: "Please refer to documentation for more details",
 	}
+	return
 
-	a.writeData(w, r, content, http.StatusOK)
 }
 
-// a.writeData is the final step of all http responses. All routes should end here.
 func (a *Bot) writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
+
 	var err error
 	if w == nil || r == nil {
-
-		log.Println("a.writeData called with invalid writer/request")
-		return
+		a.logErr.Println("a.writeData called with invalid writer/request")
 	}
 	if content == nil {
 		w.WriteHeader(statusCode)
@@ -301,6 +290,7 @@ func (a *Bot) writeData(w http.ResponseWriter, r *http.Request, content interfac
 	}
 	w.WriteHeader(statusCode)
 	w.Write(data)
+	return
 }
 
 func (a *Bot) writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
@@ -317,7 +307,6 @@ func (a *Bot) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 
 	switch errors.Cause(err).(type) {
 	case *model.ErrNoContent:
-		a.writeData(w, r, nil, http.StatusNotModified)
 		return
 	case *model.ErrPermission:
 		statusCode = http.StatusUnauthorized

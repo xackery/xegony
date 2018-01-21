@@ -13,10 +13,10 @@ var (
 )
 
 //GetBazaar will grab data from storage
-func (s *Storage) GetBazaar(bazaarID int64) (bazaar *model.Bazaar, err error) {
+func (s *Storage) GetBazaar(bazaar *model.Bazaar) (err error) {
 	bazaar = &model.Bazaar{}
 	query := fmt.Sprintf(`SELECT id, %s FROM bazaar WHERE id = ?`, bazaarFields)
-	err = s.db.Get(bazaar, query, bazaarID)
+	err = s.db.Get(bazaar, query, bazaar.ID)
 	if err != nil {
 		return
 	}
@@ -63,8 +63,7 @@ func (s *Storage) ListBazaar() (bazaars []*model.Bazaar, err error) {
 }
 
 //EditBazaar will grab data from storage
-func (s *Storage) EditBazaar(bazaarID int64, bazaar *model.Bazaar) (err error) {
-	bazaar.ID = bazaarID
+func (s *Storage) EditBazaar(bazaar *model.Bazaar) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE bazaar SET %s WHERE id = :id`, bazaarSets), bazaar)
 	if err != nil {
 		return
@@ -81,8 +80,8 @@ func (s *Storage) EditBazaar(bazaarID int64, bazaar *model.Bazaar) (err error) {
 }
 
 //DeleteBazaar will grab data from storage
-func (s *Storage) DeleteBazaar(bazaarID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM bazaar WHERE id = ?`, bazaarID)
+func (s *Storage) DeleteBazaar(bazaar *model.Bazaar) (err error) {
+	result, err := s.db.Exec(`DELETE FROM bazaar WHERE id = ?`, bazaar.ID)
 	if err != nil {
 		return
 	}

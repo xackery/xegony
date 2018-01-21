@@ -10,7 +10,7 @@ type Spawn struct {
 	YScaled float64 `json:"yScaled"`
 	ZScaled float64 `json:"zScaled"`
 
-	Spawn2ID     int64          `json:"id" db:"spawn2id"`               //`id` int(11) NOT NULL AUTO_INCREMENT,
+	ID           int64          `json:"id" db:"spawn2id"`               //`id` int(11) NOT NULL AUTO_INCREMENT,
 	SpawngroupID int64          `json:"spawngroupID" db:"spawngroupID"` //`spawngroupID` int(11) NOT NULL DEFAULT '0',
 	Zone         sql.NullString `json:"zone" db:"zone"`                 //`zone` varchar(32) DEFAULT NULL,
 	Version      int64          `json:"version" db:"version"`           //`version` smallint(5) unsigned NOT NULL DEFAULT '0',

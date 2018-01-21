@@ -13,94 +13,72 @@ func (a *API) lootDropRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getLootDrop(w http.ResponseWriter, r *http.Request) {
+func (a *API) getLootDrop(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "lootDropID")
+	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
 		err = errors.Wrap(err, "lootDropID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	lootDrop, err := a.lootDropRepo.Get(id)
+	lootDrop := &model.LootDrop{
+		ID: lootDropID,
+	}
+	err = a.lootDropRepo.Get(lootDrop, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, lootDrop, http.StatusOK)
+	content = lootDrop
 	return
 }
 
-func (a *API) createLootDrop(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createLootDrop(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootDrop := &model.LootDrop{}
 	err = decodeBody(r, lootDrop)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.lootDropRepo.Create(lootDrop)
+	err = a.lootDropRepo.Create(lootDrop, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, lootDrop, http.StatusCreated)
+	content = lootDrop
 	return
 }
 
-func (a *API) deleteLootDrop(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteLootDrop(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "lootDropID")
+	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
 		err = errors.Wrap(err, "lootDropID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-
-	err = a.lootDropRepo.Delete(id)
+	lootDrop := &model.LootDrop{
+		ID: lootDropID,
+	}
+	err = a.lootDropRepo.Delete(lootDrop, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = lootDrop
 	return
 }
 
-func (a *API) editLootDrop(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editLootDrop(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "lootDropID")
+	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
 		err = errors.Wrap(err, "lootDropID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -108,26 +86,25 @@ func (a *API) editLootDrop(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, lootDrop)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	err = a.lootDropRepo.Edit(id, lootDrop)
+	lootDrop.ID = lootDropID
+
+	err = a.lootDropRepo.Edit(lootDrop, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, lootDrop, http.StatusOK)
+	content = lootDrop
 	return
 }
 
-func (a *API) listLootDrop(w http.ResponseWriter, r *http.Request) {
-	lootDrops, err := a.lootDropRepo.List()
+func (a *API) listLootDrop(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	lootDrops, err := a.lootDropRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, lootDrops, http.StatusOK)
+	content = lootDrops
 	return
 }

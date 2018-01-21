@@ -1,8 +1,8 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -28,8 +28,7 @@ func (a *Web) forageRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listForage(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listForage(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -47,61 +46,59 @@ func (a *Web) listForage(w http.ResponseWriter, r *http.Request) {
 	foragePage.PageSize = getIntParam(r, "pageSize")
 	foragePage.PageNumber = getIntParam(r, "pageNumber")
 
-	forages, err := a.forageRepo.List(foragePage.PageSize, foragePage.PageNumber)
+	forages, err := a.forageRepo.List(foragePage.PageSize, foragePage.PageNumber, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	for _, forage := range forages {
 		if forage.ItemID > 0 {
-			forage.Item, err = a.itemRepo.Get(forage.ItemID)
+			item := &model.Item{
+				ID: forage.ItemID,
+			}
+			err = a.itemRepo.Get(item, user)
 			if err != nil {
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 		if forage.ZoneID > 0 {
-			forage.Zone, err = a.zoneRepo.Get(forage.ZoneID)
+			zone := &model.Zone{
+				ZoneIDNumber: forage.ZoneID,
+			}
+			err = a.zoneRepo.Get(zone, user)
 			if err != nil {
-				a.writeError(w, r, err, http.StatusBadRequest)
 				return
 			}
 		}
 	}
-	foragePage.Total, err = a.forageRepo.ListCount()
+	foragePage.Total, err = a.forageRepo.ListCount(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:       site,
 		Forages:    forages,
 		ForagePage: foragePage,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "forage/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("forage", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) listForageByZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listForageByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -112,38 +109,33 @@ func (a *Web) listForageByZone(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forage"
 	site.Title = "Forage"
 
-	zones, err := a.zoneRepo.List()
+	zones, err := a.zoneRepo.List(user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:  site,
 		Zones: zones,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "forage/listbyzone.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("foragelistbyzone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getForageByZone(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getForageByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -154,7 +146,6 @@ func (a *Web) getForageByZone(w http.ResponseWriter, r *http.Request) {
 	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
 		err = errors.Wrap(err, "zoneID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -162,75 +153,83 @@ func (a *Web) getForageByZone(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forage"
 	site.Title = "Forage"
 
-	npcLoots, err := a.npcLootRepo.ListByZone(zoneID)
+	zone := &model.Zone{
+		ZoneIDNumber: zoneID,
+	}
+
+	err = a.zoneRepo.Get(zone, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	zone, err := a.zoneRepo.Get(zoneID)
-	content := Content{
+
+	npcLoots, err := a.npcLootRepo.ListByZone(zone, user)
+	if err != nil {
+		return
+	}
+
+	content = Content{
 		Site:     site,
 		NpcLoots: npcLoots,
 		Zone:     zone,
 	}
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone")
+		return
+	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "forage/getbyzone.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("foragelistbyzone", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getForage(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getForage(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
 		Forage *model.Forage
 	}
 
-	if strings.ToLower(getVar(r, "forageID")) == "byzone" {
-		a.listForageByZone(w, r)
-		return
-	}
-
 	forageID, err := getIntVar(r, "forageID")
 	if err != nil {
 		err = errors.Wrap(err, "forageID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	forage, err := a.forageRepo.Get(forageID)
+	forage := &model.Forage{
+		ID: forageID,
+	}
+	err = a.forageRepo.Get(forage, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	if forage.ItemID > 0 {
-		forage.Item, err = a.itemRepo.Get(forage.ItemID)
+		item := &model.Item{
+			ID: forage.ItemID,
+		}
+		err = a.itemRepo.Get(item, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
 	}
 	if forage.ZoneID > 0 {
-		forage.Zone, err = a.zoneRepo.Get(forage.ZoneID)
+		zone := &model.Zone{
+			ZoneIDNumber: forage.ZoneID,
+		}
+		err = a.zoneRepo.Get(zone, user)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
 	}
@@ -239,27 +238,24 @@ func (a *Web) getForage(w http.ResponseWriter, r *http.Request) {
 	site.Page = "forage"
 	site.Title = "Forage"
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Forage: forage,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "forage/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("forage", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

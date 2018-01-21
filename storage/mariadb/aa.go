@@ -13,10 +13,10 @@ const (
 )
 
 //GetAa will grab data from storage
-func (s *Storage) GetAa(aaID int64) (aa *model.Aa, err error) {
+func (s *Storage) GetAa(aa *model.Aa) (err error) {
 	aa = &model.Aa{}
 	err = s.db.Get(aa, fmt.Sprintf(`SELECT id, %s FROM aa_ability 
-		WHERE id = ?`, aaFields), aaID)
+		WHERE id = ?`, aaFields), aa.ID)
 	if err != nil {
 		return
 	}
@@ -62,8 +62,7 @@ func (s *Storage) ListAa() (aas []*model.Aa, err error) {
 }
 
 //EditAa will grab data from storage
-func (s *Storage) EditAa(aaID int64, aa *model.Aa) (err error) {
-	aa.ID = aaID
+func (s *Storage) EditAa(aa *model.Aa) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE aa_ability SET %s WHERE id = :id`, aaSets), aa)
 	if err != nil {
 		return
@@ -80,8 +79,8 @@ func (s *Storage) EditAa(aaID int64, aa *model.Aa) (err error) {
 }
 
 //DeleteAa will grab data from storage
-func (s *Storage) DeleteAa(aaID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM aa WHERE id = ?`, aaID)
+func (s *Storage) DeleteAa(aa *model.Aa) (err error) {
+	result, err := s.db.Exec(`DELETE FROM aa WHERE id = ?`, aa.ID)
 	if err != nil {
 		return
 	}

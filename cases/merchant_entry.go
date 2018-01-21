@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,21 +25,23 @@ func (c *MerchantEntryRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *MerchantEntryRepository) Get(merchantID int64, itemID int64) (merchantEntry *model.MerchantEntry, query string, err error) {
-	if merchantID == 0 {
-		err = fmt.Errorf("Invalid MerchantEntry ID")
+func (c *MerchantEntryRepository) Get(merchantEntry *model.MerchantEntry, user *model.User) (err error) {
+
+	err = c.stor.GetMerchantEntry(merchantEntry)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get merchant entry")
 		return
 	}
-	if itemID == 0 {
-		err = fmt.Errorf("Invalid Item ID")
+	err = c.prepare(merchantEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare merchant entry")
 		return
 	}
-	query, merchantEntry, err = c.stor.GetMerchantEntry(merchantID, itemID)
 	return
 }
 
 //Create handles logic
-func (c *MerchantEntryRepository) Create(merchantEntry *model.MerchantEntry) (query string, err error) {
+func (c *MerchantEntryRepository) Create(merchantEntry *model.MerchantEntry, user *model.User) (err error) {
 	if merchantEntry == nil {
 		err = fmt.Errorf("Empty MerchantEntry")
 		return
@@ -70,15 +73,20 @@ func (c *MerchantEntryRepository) Create(merchantEntry *model.MerchantEntry) (qu
 		err = vErr
 		return
 	}
-	query, err = c.stor.CreateMerchantEntry(merchantEntry)
+	err = c.stor.CreateMerchantEntry(merchantEntry)
 	if err != nil {
+		return
+	}
+	err = c.prepare(merchantEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare merchant entry")
 		return
 	}
 	return
 }
 
 //Edit handles logic
-func (c *MerchantEntryRepository) Edit(merchantID int64, itemID int64, merchantEntry *model.MerchantEntry) (query string, err error) {
+func (c *MerchantEntryRepository) Edit(merchantEntry *model.MerchantEntry, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -100,16 +108,21 @@ func (c *MerchantEntryRepository) Edit(merchantID int64, itemID int64, merchantE
 		return
 	}
 
-	query, err = c.stor.EditMerchantEntry(merchantID, itemID, merchantEntry)
+	err = c.stor.EditMerchantEntry(merchantEntry)
 	if err != nil {
+		return
+	}
+	err = c.prepare(merchantEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare merchant entry")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *MerchantEntryRepository) Delete(merchantID int64, itemID int64) (query string, err error) {
-	query, err = c.stor.DeleteMerchantEntry(merchantID, itemID)
+func (c *MerchantEntryRepository) Delete(merchantEntry *model.MerchantEntry, user *model.User) (err error) {
+	err = c.stor.DeleteMerchantEntry(merchantEntry)
 	if err != nil {
 		return
 	}
@@ -117,24 +130,38 @@ func (c *MerchantEntryRepository) Delete(merchantID int64, itemID int64) (query 
 }
 
 //List handles logic
-func (c *MerchantEntryRepository) List(merchantID int64) (merchantEntrys []*model.MerchantEntry, query string, err error) {
-	query, merchantEntrys, err = c.stor.ListMerchantEntry(merchantID)
+func (c *MerchantEntryRepository) ListByMerchant(merchant *model.Merchant, user *model.User) (merchantEntrys []*model.MerchantEntry, err error) {
+	merchantEntrys, err = c.stor.ListMerchantEntryByMerchant(merchant)
 	if err != nil {
 		return
+	}
+	for _, merchantEntry := range merchantEntrys {
+		err = c.prepare(merchantEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare merchant entry")
+			return
+		}
 	}
 	return
 }
 
 //ListByItem handles logic
-func (c *MerchantEntryRepository) ListByItem(itemID int64) (merchantEntrys []*model.MerchantEntry, query string, err error) {
-	query, merchantEntrys, err = c.stor.ListMerchantEntryByItem(itemID)
+func (c *MerchantEntryRepository) ListByItem(item *model.Item, user *model.User) (merchantEntrys []*model.MerchantEntry, err error) {
+	merchantEntrys, err = c.stor.ListMerchantEntryByItem(item)
 	if err != nil {
 		return
+	}
+	for _, merchantEntry := range merchantEntrys {
+		err = c.prepare(merchantEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare merchant entry")
+			return
+		}
 	}
 	return
 }
 
-func (c *MerchantEntryRepository) prepare(merchantEntry *model.MerchantEntry) (err error) {
+func (c *MerchantEntryRepository) prepare(merchantEntry *model.MerchantEntry, user *model.User) (err error) {
 
 	return
 }

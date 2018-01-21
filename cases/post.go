@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,22 @@ func (c *PostRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *PostRepository) Get(postID int64) (post *model.Post, err error) {
-	if postID == 0 {
-		err = fmt.Errorf("Invalid Post ID")
+func (c *PostRepository) Get(post *model.Post, user *model.User) (err error) {
+	err = c.stor.GetPost(post)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get post")
 		return
 	}
-	post, err = c.stor.GetPost(postID)
+	err = c.prepare(post, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare post")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *PostRepository) Create(post *model.Post) (err error) {
+func (c *PostRepository) Create(post *model.Post, user *model.User) (err error) {
 	if post == nil {
 		err = fmt.Errorf("Empty post")
 		return
@@ -63,11 +69,16 @@ func (c *PostRepository) Create(post *model.Post) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(post, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare post")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *PostRepository) Edit(postID int64, post *model.Post) (err error) {
+func (c *PostRepository) Edit(post *model.Post, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"body"}, nil)
 	if err != nil {
 		return
@@ -89,16 +100,21 @@ func (c *PostRepository) Edit(postID int64, post *model.Post) (err error) {
 		return
 	}
 
-	err = c.stor.EditPost(postID, post)
+	err = c.stor.EditPost(post)
 	if err != nil {
+		return
+	}
+	err = c.prepare(post, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare post")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *PostRepository) Delete(postID int64) (err error) {
-	err = c.stor.DeletePost(postID)
+func (c *PostRepository) Delete(post *model.Post, user *model.User) (err error) {
+	err = c.stor.DeletePost(post)
 	if err != nil {
 		return
 	}
@@ -106,15 +122,22 @@ func (c *PostRepository) Delete(postID int64) (err error) {
 }
 
 //List handles logic
-func (c *PostRepository) List(topicID int64) (posts []*model.Post, err error) {
-	posts, err = c.stor.ListPost(topicID)
+func (c *PostRepository) ListByTopic(topic *model.Topic, user *model.User) (posts []*model.Post, err error) {
+	posts, err = c.stor.ListPostByTopic(topic)
 	if err != nil {
 		return
+	}
+	for _, post := range posts {
+		err = c.prepare(post, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare post")
+			return
+		}
 	}
 	return
 }
 
-func (c *PostRepository) prepare(post *model.Post) (err error) {
+func (c *PostRepository) prepare(post *model.Post, user *model.User) (err error) {
 
 	return
 }

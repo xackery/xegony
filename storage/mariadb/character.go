@@ -13,9 +13,8 @@ const (
 )
 
 //GetCharacter will grab data from storage
-func (s *Storage) GetCharacter(characterID int64) (character *model.Character, err error) {
-	character = &model.Character{}
-	err = s.db.Get(character, fmt.Sprintf("SELECT id, %s FROM character_data WHERE id = ?", characterFields), characterID)
+func (s *Storage) GetCharacter(character *model.Character) (err error) {
+	err = s.db.Get(character, fmt.Sprintf("SELECT id, %s FROM character_data WHERE id = ?", characterFields), character.ID)
 	if err != nil {
 		return
 	}
@@ -23,9 +22,8 @@ func (s *Storage) GetCharacter(characterID int64) (character *model.Character, e
 }
 
 //GetCharacterByName will grab data from storage
-func (s *Storage) GetCharacterByName(name string) (character *model.Character, err error) {
-	character = &model.Character{}
-	err = s.db.Get(character, fmt.Sprintf("SELECT id, %s FROM character_data WHERE name = ?", characterFields), name)
+func (s *Storage) GetCharacterByName(character *model.Character) (err error) {
+	err = s.db.Get(character, fmt.Sprintf("SELECT id, %s FROM character_data WHERE name = ?", characterFields), character.Name)
 	if err != nil {
 		return
 	}
@@ -79,18 +77,12 @@ func (s *Storage) ListCharacterByRanking() (characters []*model.Character, err e
 	}
 
 	for rows.Next() {
-		character := model.Character{}
-		if err = rows.StructScan(&character); err != nil {
+		character := &model.Character{}
+		if err = rows.StructScan(character); err != nil {
 			return
 		}
 
-		character.Base, err = s.GetBase(character.Level, character.Class)
-		if err != nil {
-			return
-		}
-
-		character.Inventory, err = s.ListItemByCharacter(character.ID)
-		characters = append(characters, &character)
+		characters = append(characters, character)
 	}
 	return
 }
@@ -115,8 +107,8 @@ func (s *Storage) ListCharacterByOnline() (characters []*model.Character, err er
 }
 
 //ListCharacterByAccount will grab data from storage
-func (s *Storage) ListCharacterByAccount(accountID int64) (characters []*model.Character, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM character_data WHERE account_id = ?`, characterFields), accountID)
+func (s *Storage) ListCharacterByAccount(account *model.Account) (characters []*model.Character, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM character_data WHERE account_id = ?`, characterFields), account.ID)
 	if err != nil {
 		return
 	}
@@ -132,8 +124,7 @@ func (s *Storage) ListCharacterByAccount(accountID int64) (characters []*model.C
 }
 
 //EditCharacter will grab data from storage
-func (s *Storage) EditCharacter(characterID int64, character *model.Character) (err error) {
-	character.ID = characterID
+func (s *Storage) EditCharacter(character *model.Character) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE character_data SET %s WHERE id = :id`, characterSets), character)
 	if err != nil {
 		return
@@ -150,8 +141,8 @@ func (s *Storage) EditCharacter(characterID int64, character *model.Character) (
 }
 
 //DeleteCharacter will grab data from storage
-func (s *Storage) DeleteCharacter(characterID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM character_data WHERE id = ?`, characterID)
+func (s *Storage) DeleteCharacter(character *model.Character) (err error) {
+	result, err := s.db.Exec(`DELETE FROM character_data WHERE id = ?`, character.ID)
 	if err != nil {
 		return
 	}
@@ -167,8 +158,8 @@ func (s *Storage) DeleteCharacter(characterID int64) (err error) {
 }
 
 //SearchCharacter will grab data from storage
-func (s *Storage) SearchCharacter(search string) (characters []*model.Character, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM character_data WHERE name like ? ORDER BY id DESC`, characterFields), "%"+search+"%")
+func (s *Storage) SearchCharacterByName(character *model.Character) (characters []*model.Character, err error) {
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM character_data WHERE name like ? ORDER BY id DESC`, characterFields), "%"+character.Name+"%")
 	if err != nil {
 		return
 	}

@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,23 @@ func (c *ForumRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *ForumRepository) Get(forumID int64) (forum *model.Forum, err error) {
-	if forumID == 0 {
-		err = fmt.Errorf("Invalid Forum ID")
+func (c *ForumRepository) Get(forum *model.Forum, user *model.User) (err error) {
+
+	err = c.stor.GetForum(forum)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get forum")
 		return
 	}
-	forum, err = c.stor.GetForum(forumID)
+	err = c.prepare(forum, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare forum")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *ForumRepository) Create(forum *model.Forum) (err error) {
+func (c *ForumRepository) Create(forum *model.Forum, user *model.User) (err error) {
 	if forum == nil {
 		err = fmt.Errorf("Empty forum")
 		return
@@ -63,11 +70,16 @@ func (c *ForumRepository) Create(forum *model.Forum) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(forum, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare forum")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *ForumRepository) Edit(forumID int64, forum *model.Forum) (err error) {
+func (c *ForumRepository) Edit(forum *model.Forum, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, []string{"description"})
 	if err != nil {
 		return
@@ -89,16 +101,21 @@ func (c *ForumRepository) Edit(forumID int64, forum *model.Forum) (err error) {
 		return
 	}
 
-	err = c.stor.EditForum(forumID, forum)
+	err = c.stor.EditForum(forum)
 	if err != nil {
+		return
+	}
+	err = c.prepare(forum, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare forum")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *ForumRepository) Delete(forumID int64) (err error) {
-	err = c.stor.DeleteForum(forumID)
+func (c *ForumRepository) Delete(forum *model.Forum, user *model.User) (err error) {
+	err = c.stor.DeleteForum(forum)
 	if err != nil {
 		return
 	}
@@ -106,15 +123,22 @@ func (c *ForumRepository) Delete(forumID int64) (err error) {
 }
 
 //List handles logic
-func (c *ForumRepository) List() (forums []*model.Forum, err error) {
+func (c *ForumRepository) List(user *model.User) (forums []*model.Forum, err error) {
 	forums, err = c.stor.ListForum()
 	if err != nil {
 		return
 	}
+	for _, forum := range forums {
+		err = c.prepare(forum, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare forum")
+			return
+		}
+	}
 	return
 }
 
-func (c *ForumRepository) prepare(aa *model.Forum) (err error) {
+func (c *ForumRepository) prepare(forum *model.Forum, user *model.User) (err error) {
 
 	return
 }

@@ -1,8 +1,8 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -27,13 +27,11 @@ func (a *Web) merchantEntryRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listMerchantEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listMerchantEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	merchantID, err := getIntVar(r, "merchantID")
 	if err != nil {
 		err = errors.Wrap(err, "merchantEntryID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -47,60 +45,58 @@ func (a *Web) listMerchantEntry(w http.ResponseWriter, r *http.Request) {
 	site.Title = "merchantentry"
 	site.Section = "merchantentry"
 
-	merchant, err := a.merchantRepo.Get(merchantID)
+	merchant := &model.Merchant{
+		ID: merchantID,
+	}
+	err = a.merchantRepo.Get(merchant, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	merchant.Npcs, err = a.npcRepo.ListByMerchant(merchantID)
+	merchant.Npcs, err = a.npcRepo.ListByMerchant(merchant, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	merchant.Entrys, _, err = a.merchantEntryRepo.List(merchantID)
+	merchant.Entrys, err = a.merchantEntryRepo.ListByMerchant(merchant, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	for _, entry := range merchant.Entrys {
-		entry.Item, err = a.itemRepo.Get(entry.ItemID)
+		entry.Item = &model.Item{
+			ID: entry.ItemID,
+		}
+		err = a.itemRepo.Get(entry.Item, user)
 		if err != nil {
 			err = errors.Wrap(err, "itemID get is required")
-			a.writeError(w, r, err, http.StatusBadRequest)
 			return
 		}
 	}
 
-	content := Content{
+	content = Content{
 		Site:     site,
 		Merchant: merchant,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "merchantentry/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("merchantentry", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getMerchantEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getMerchantEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site          site
@@ -110,25 +106,21 @@ func (a *Web) getMerchantEntry(w http.ResponseWriter, r *http.Request) {
 	merchantID, err := getIntVar(r, "merchantID")
 	if err != nil {
 		err = errors.Wrap(err, "merchantEntryID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
-	}
-
-	if strings.ToLower(getVar(r, "itemID")) == "details" {
-		a.getMerchant(w, r)
 		return
 	}
 
 	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	merchantEntry, _, err := a.merchantEntryRepo.Get(merchantID, itemID)
+	merchantEntry := &model.MerchantEntry{
+		MerchantID: merchantID,
+		ItemID:     itemID,
+	}
+	err = a.merchantEntryRepo.Get(merchantEntry, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -137,27 +129,24 @@ func (a *Web) getMerchantEntry(w http.ResponseWriter, r *http.Request) {
 	site.Title = "merchantentry"
 	site.Section = "merchantentry"
 
-	content := Content{
+	content = Content{
 		Site:          site,
 		MerchantEntry: merchantEntry,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "merchantentry/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("merchantentry", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

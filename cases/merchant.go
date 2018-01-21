@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,27 +25,24 @@ func (c *MerchantRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *MerchantRepository) Get(merchantID int64) (merchant *model.Merchant, err error) {
-	if merchantID == 0 {
-		err = fmt.Errorf("Invalid Merchant ID")
+func (c *MerchantRepository) Get(merchant *model.Merchant, user *model.User) (err error) {
+
+	err = c.stor.GetMerchant(merchant)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get merchant")
 		return
 	}
-	merchant, err = c.stor.GetMerchant(merchantID)
-	return
-}
-
-//Search handles logic
-func (c *MerchantRepository) Search(search string) (merchants []*model.Merchant, err error) {
-	merchants, err = c.stor.SearchMerchant(search)
+	err = c.prepare(merchant, user)
 	if err != nil {
+		err = errors.Wrap(err, "failed to prepare merchant")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *MerchantRepository) Delete(merchantID int64) (err error) {
-	err = c.stor.DeleteMerchant(merchantID)
+func (c *MerchantRepository) Delete(merchant *model.Merchant, user *model.User) (err error) {
+	err = c.stor.DeleteMerchant(merchant)
 	if err != nil {
 		return
 	}
@@ -52,7 +50,7 @@ func (c *MerchantRepository) Delete(merchantID int64) (err error) {
 }
 
 //List handles logic
-func (c *MerchantRepository) List(pageSize int64, pageNumber int64) (merchants []*model.Merchant, err error) {
+func (c *MerchantRepository) List(pageSize int64, pageNumber int64, user *model.User) (merchants []*model.Merchant, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -65,11 +63,18 @@ func (c *MerchantRepository) List(pageSize int64, pageNumber int64) (merchants [
 	if err != nil {
 		return
 	}
+	for _, merchant := range merchants {
+		err = c.prepare(merchant, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare merchant")
+			return
+		}
+	}
 	return
 }
 
 //ListCount handles logic
-func (c *MerchantRepository) ListCount() (count int64, err error) {
+func (c *MerchantRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListMerchantCount()
 	if err != nil {
@@ -78,7 +83,7 @@ func (c *MerchantRepository) ListCount() (count int64, err error) {
 	return
 }
 
-func (c *MerchantRepository) prepare(merchant *model.Merchant) (err error) {
+func (c *MerchantRepository) prepare(merchant *model.Merchant, user *model.User) (err error) {
 
 	return
 }

@@ -1,7 +1,9 @@
 package web
 
+/*
 import (
 	"net/http"
+	"html/template"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -26,8 +28,8 @@ func (a *Web) spawnRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listSpawn(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listSpawn(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+
 
 	type Content struct {
 		Site   site
@@ -41,37 +43,33 @@ func (a *Web) listSpawn(w http.ResponseWriter, r *http.Request) {
 
 	spawns, err := a.spawnRepo.List()
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Spawns: spawns,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "spawn/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
-			return
+						return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
-			return
+						return
 		}
 
 		a.setTemplate("spawn", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
-	return
+		return
 }
 
-func (a *Web) getSpawn(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getSpawn(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+
 
 	type Content struct {
 		Site  site
@@ -81,14 +79,12 @@ func (a *Web) getSpawn(w http.ResponseWriter, r *http.Request) {
 	id, err := getIntVar(r, "spawnID")
 	if err != nil {
 		err = errors.Wrap(err, "spawnID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 	spawn, err := a.spawnRepo.Get(id)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
 	site := a.newSite(r)
@@ -96,27 +92,26 @@ func (a *Web) getSpawn(w http.ResponseWriter, r *http.Request) {
 	site.Title = "Spawn"
 	site.Section = "spawn"
 
-	content := Content{
+	content = Content{
 		Site:  site,
 		Spawn: spawn,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "spawn/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
-			return
+						return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
-			return
+						return
 		}
 
 		a.setTemplate("spawn", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
-	return
+		return
 }
+
+*/

@@ -19,113 +19,93 @@ func (a *API) topicRoutes() (routes []*route) {
 		{
 			"DeleteTopic",
 			"DELETE",
-			"/topic/{topicID}",
+			"/topic/{topicID:[0-9]+}",
 			a.deleteTopic,
 		},
 		{
 			"EditTopic",
 			"PUT",
-			"/topic/{topicID}",
+			"/topic/{topicID:[0-9]+}",
 			a.editTopic,
 		},
 		{
 			"GetTopic",
 			"GET",
-			"/topic/{topicID}",
+			"/topic/{topicID:[0-9]+}",
 			a.getTopic,
 		},
 	}
 	return
 }
 
-func (a *API) getTopic(w http.ResponseWriter, r *http.Request) {
+func (a *API) getTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "topicID")
+	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
 		err = errors.Wrap(err, "topicID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	topic, err := a.topicRepo.Get(id)
+	topic := &model.Topic{
+		ID: topicID,
+	}
+	err = a.topicRepo.Get(topic, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, topic, http.StatusOK)
+	content = topic
 	return
 }
 
-func (a *API) createTopic(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	topic := &model.Topic{}
 	err = decodeBody(r, topic)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.topicRepo.Create(topic)
+	err = a.topicRepo.Create(topic, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, topic, http.StatusCreated)
+	content = topic
 	return
 }
 
-func (a *API) deleteTopic(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "topicID")
+	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
 		err = errors.Wrap(err, "topicID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.topicRepo.Delete(id)
+	topic := &model.Topic{
+		ID: topicID,
+	}
+
+	err = a.topicRepo.Delete(topic, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = topic
 	return
 }
 
-func (a *API) editTopic(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "topicID")
+	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
 		err = errors.Wrap(err, "topicID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -133,32 +113,32 @@ func (a *API) editTopic(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, topic)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	err = a.topicRepo.Edit(id, topic)
+	topic.ID = topicID
+	err = a.topicRepo.Edit(topic, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, topic, http.StatusOK)
+	content = topic
 	return
 }
 
-func (a *API) listTopic(w http.ResponseWriter, r *http.Request) {
+func (a *API) listTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	topics, err := a.topicRepo.List(forumID)
+	forum := &model.Forum{
+		ID: forumID,
+	}
+	topics, err := a.topicRepo.ListByForum(forum, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, topics, http.StatusOK)
+	content = topics
 	return
 }

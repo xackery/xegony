@@ -7,9 +7,8 @@ import (
 )
 
 //GetPost will grab data from storage
-func (s *Storage) GetPost(postID int64) (post *model.Post, err error) {
-	post = &model.Post{}
-	err = s.db.Get(post, "SELECT id, body, topic_id FROM post WHERE id = ?", postID)
+func (s *Storage) GetPost(post *model.Post) (err error) {
+	err = s.db.Get(post, "SELECT id, body, topic_id FROM post WHERE id = ?", post.ID)
 	if err != nil {
 		return
 	}
@@ -37,8 +36,8 @@ func (s *Storage) CreatePost(post *model.Post) (err error) {
 }
 
 //ListPost will grab data from storage
-func (s *Storage) ListPost(topicID int64) (posts []*model.Post, err error) {
-	rows, err := s.db.Queryx(`SELECT id, body, topic_id FROM post WHERE topic_id = ? ORDER BY id DESC`, topicID)
+func (s *Storage) ListPostByTopic(topic *model.Topic) (posts []*model.Post, err error) {
+	rows, err := s.db.Queryx(`SELECT id, body, topic_id FROM post WHERE topic_id = ? ORDER BY id DESC`, topic.ID)
 	if err != nil {
 		return
 	}
@@ -54,8 +53,7 @@ func (s *Storage) ListPost(topicID int64) (posts []*model.Post, err error) {
 }
 
 //EditPost will grab data from storage
-func (s *Storage) EditPost(postID int64, post *model.Post) (err error) {
-	post.ID = postID
+func (s *Storage) EditPost(post *model.Post) (err error) {
 	result, err := s.db.NamedExec(`UPDATE post SET body=:body, topic_id=:topic_id WHERE id = :id`, post)
 	if err != nil {
 		return
@@ -72,8 +70,8 @@ func (s *Storage) EditPost(postID int64, post *model.Post) (err error) {
 }
 
 //DeletePost will grab data from storage
-func (s *Storage) DeletePost(postID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM post WHERE id = ?`, postID)
+func (s *Storage) DeletePost(post *model.Post) (err error) {
+	result, err := s.db.Exec(`DELETE FROM post WHERE id = ?`, post.ID)
 	if err != nil {
 		return
 	}

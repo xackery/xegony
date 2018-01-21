@@ -1,5 +1,6 @@
 package api
 
+/*
 import (
 	"database/sql"
 	"net/http"
@@ -13,180 +14,165 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 		{
 			"CreateSpawnEntry",
 			"POST",
-			"/spawn",
+			"/spawn/{spawnID:[0-9]+}/entry",
 			a.createSpawnEntry,
 		},
 		{
 			"DeleteSpawnEntry",
 			"DELETE",
-			"/spawn/{spawnID}",
+			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
 			a.deleteSpawnEntry,
 		},
 		{
 			"EditSpawnEntry",
 			"PUT",
-			"/spawn/{spawnID}",
+			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID::[0-9]+}",
 			a.editSpawnEntry,
 		},
 		{
 			"GetSpawnEntry",
 			"GET",
-			"/spawn/{spawnID}",
+			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
 			a.getSpawnEntry,
 		},
 		{
 			"ListSpawnEntry",
 			"GET",
-			"/spawn",
+			"/spawn/{spawnID:[0-9]+}/entry",
 			a.listSpawnEntry,
 		},
 	}
 	return
 }
 
-func (a *API) getSpawnEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) getSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	spawnID, err := getIntVar(r, "spawnID")
+	spawnGroupID, err := getIntVar(r, "spawnGroupID")
 	if err != nil {
 		err = errors.Wrap(err, "spawnID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
 	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
-	_, spawnEntry, err := a.spawnEntryRepo.Get(spawnID, npcID)
+	spawnEntry := &model.SpawnEntry{
+		NpcID:        npcID,
+		SpawngroupID: spawnGroupID,
+	}
+	err = a.spawnEntryRepo.Get(spawnEntry, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
-			return
+						return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
-	a.writeData(w, r, spawnEntry, http.StatusOK)
-	return
+		return
 }
 
-func (a *API) createSpawnEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) createSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
+				return
 	}
 
 	spawnEntry := &model.SpawnEntry{}
 	err = decodeBody(r, spawnEntry)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
-		return
+				return
 	}
-	_, err = a.spawnEntryRepo.Create(spawnEntry)
+	err = a.spawnEntryRepo.Create(spawnEntry, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
-		return
+				return
 	}
 
-	a.writeData(w, r, spawnEntry, http.StatusCreated)
-	return
+		return
 }
 
-func (a *API) deleteSpawnEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 
 	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
+				return
 	}
 
 	spawnID, err := getIntVar(r, "spawnID")
 	if err != nil {
 		err = errors.Wrap(err, "spawnID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
 	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
-	_, err = a.spawnEntryRepo.Delete(spawnID, npcID)
+	spawn := &model.Spawn{
+		ID:    spawnID,
+		NpcID: npcID,
+	}
+	_, err = a.spawnEntryRepo.Delete(spawn, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
-			return
+						return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
-		}
+					}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
-	return
+		return
 }
 
-func (a *API) editSpawnEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 
 	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
+				return
 	}
 	spawnID, err := getIntVar(r, "spawnID")
 	if err != nil {
 		err = errors.Wrap(err, "spawnID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
 	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
 	spawnEntry := &model.SpawnEntry{}
 	err = decodeBody(r, spawnEntry)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
-		return
+				return
 	}
 
 	_, err = a.spawnEntryRepo.Edit(spawnID, npcID, spawnEntry)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
-		return
+				return
 	}
-	a.writeData(w, r, spawnEntry, http.StatusOK)
-	return
+		return
 }
 
-func (a *API) listSpawnEntry(w http.ResponseWriter, r *http.Request) {
+func (a *API) listSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	spawnID, err := getIntVar(r, "spawnID")
 	if err != nil {
 		err = errors.Wrap(err, "spawnID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
+				return
 	}
 
 	spawnEntrys, _, err := a.spawnEntryRepo.List(spawnID)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
-		return
+				return
 	}
-	a.writeData(w, r, spawnEntrys, http.StatusOK)
-	return
+		return
 }
+*/

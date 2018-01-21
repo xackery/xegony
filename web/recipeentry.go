@@ -2,8 +2,8 @@ package web
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -15,37 +15,32 @@ func (a *Web) recipeEntryRoutes() (routes []*route) {
 		{
 			"ListRecipeEntry",
 			"GET",
-			"/recipe/{recipeID}",
+			"/recipe/{recipeID:[0-9]+}",
 			a.listRecipeEntry,
 		},
 		{
 			"GetRecipeEntry",
 			"GET",
-			"/spawn/{recipeID}/{recipeEntryID}",
+			"/spawn/{recipeID:[0-9]+}/{recipeEntryID:[0-9]+}",
 			a.getRecipeEntry,
 		},
 	}
 	return
 }
 
-func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
-
-	if strings.ToLower(getVar(r, "recipeID")) == "bytradeskill" {
-		a.listRecipeByTradeskill(w, r)
-		return
-	}
+func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	recipeID, err := getIntVar(r, "recipeID")
 	if err != nil {
 		err = errors.Wrap(err, "recipeEntryID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	recipe, err := a.recipeRepo.Get(recipeID)
+	recipe := &model.Recipe{
+		ID: recipeID,
+	}
+	err = a.recipeRepo.Get(recipe, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -59,49 +54,43 @@ func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request) {
 	site.Title = fmt.Sprintf("Recipe: %s", recipe.Name)
 	site.Section = "recipeentry"
 
-	recipe.Entrys, _, err = a.recipeEntryRepo.List(recipe.ID)
+	recipe.Entrys, err = a.recipeEntryRepo.ListByRecipe(recipe, user)
 	if err != nil {
 		err = errors.Wrap(err, "recipeID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 	for _, entry := range recipe.Entrys {
-		entry.Item, err = a.itemRepo.Get(entry.ItemID)
+		err = a.itemRepo.Get(entry.Item, user)
 		if err != nil {
 			continue
 			//err = errors.Wrap(err, "recipeID argument is required")
-			//a.writeError(w, r, err, http.StatusBadRequest)
-
+			//
 		}
 	}
 
-	content := Content{
+	content = Content{
 		Site:   site,
 		Recipe: recipe,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "recipeentry/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("recipeentry", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getRecipeEntry(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getRecipeEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site        site
@@ -112,32 +101,30 @@ func (a *Web) getRecipeEntry(w http.ResponseWriter, r *http.Request) {
 	recipeID, err := getIntVar(r, "recipeID")
 	if err != nil {
 		err = errors.Wrap(err, "recipeID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
-		return
-	}
-
-	if strings.ToLower(getVar(r, "npcID")) == "details" {
-		a.getRecipe(w, r)
 		return
 	}
 
 	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
 		err = errors.Wrap(err, "npcID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	recipeEntry, _, err := a.recipeEntryRepo.Get(recipeID, npcID)
+	recipeEntry := &model.RecipeEntry{
+		RecipeID: recipeID,
+	}
+
+	err = a.recipeEntryRepo.Get(recipeEntry, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	npc, err := a.npcRepo.Get(npcID)
+	npc := &model.Npc{
+		ID: npcID,
+	}
+	err = a.npcRepo.Get(npc, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error for npc")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 	site := a.newSite(r)
@@ -145,28 +132,25 @@ func (a *Web) getRecipeEntry(w http.ResponseWriter, r *http.Request) {
 	site.Title = "recipeentry"
 	site.Section = "recipeentry"
 
-	content := Content{
+	content = Content{
 		Site:        site,
 		RecipeEntry: recipeEntry,
 		Npc:         npc,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "recipeentry/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("recipeentry", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

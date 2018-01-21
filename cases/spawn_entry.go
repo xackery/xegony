@@ -1,8 +1,10 @@
 package cases
 
+/*
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,21 +26,23 @@ func (c *SpawnEntryRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *SpawnEntryRepository) Get(spawnGroupID int64, npcID int64) (spawnEntry *model.SpawnEntry, query string, err error) {
-	if spawnGroupID == 0 {
-		err = fmt.Errorf("Invalid SpawnEntry ID")
+func (c *SpawnEntryRepository) Get(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
+
+	err = c.stor.GetSpawnEntry(spawnEntry)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get spawn entry")
 		return
 	}
-	if npcID == 0 {
-		err = fmt.Errorf("Invalid Npc ID")
+	err = c.prepare(spawnEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spawn entry")
 		return
 	}
-	query, spawnEntry, err = c.stor.GetSpawnEntry(spawnGroupID, npcID)
 	return
 }
 
 //Create handles logic
-func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (query string, err error) {
+func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
 	if spawnEntry == nil {
 		err = fmt.Errorf("Empty SpawnEntry")
 		return
@@ -70,15 +74,20 @@ func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry) (query strin
 		err = vErr
 		return
 	}
-	query, err = c.stor.CreateSpawnEntry(spawnEntry)
+	err = c.stor.CreateSpawnEntry(spawnEntry)
 	if err != nil {
+		return
+	}
+	err = c.prepare(spawnEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spawn entry")
 		return
 	}
 	return
 }
 
 //Edit handles logic
-func (c *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry *model.SpawnEntry) (query string, err error) {
+func (c *SpawnEntryRepository) Edit(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -100,16 +109,21 @@ func (c *SpawnEntryRepository) Edit(spawnGroupID int64, npcID int64, spawnEntry 
 		return
 	}
 
-	query, err = c.stor.EditSpawnEntry(spawnGroupID, npcID, spawnEntry)
+	err = c.stor.EditSpawnEntry(spawnEntry)
 	if err != nil {
+		return
+	}
+	err = c.prepare(spawnEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spawn entry")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *SpawnEntryRepository) Delete(spawnGroupID int64, npcID int64) (query string, err error) {
-	query, err = c.stor.DeleteSpawnEntry(spawnGroupID, npcID)
+func (c *SpawnEntryRepository) Delete(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
+	err = c.stor.DeleteSpawnEntry(spawnEntry)
 	if err != nil {
 		return
 	}
@@ -117,33 +131,54 @@ func (c *SpawnEntryRepository) Delete(spawnGroupID int64, npcID int64) (query st
 }
 
 //List handles logic
-func (c *SpawnEntryRepository) List(spawnGroupID int64) (spawnEntrys []*model.SpawnEntry, query string, err error) {
-	query, spawnEntrys, err = c.stor.ListSpawnEntry(spawnGroupID)
+func (c *SpawnEntryRepository) ListBySpawnGroup(spawnGroup *model.SpawnGroup, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
+	spawnEntrys, err = c.stor.ListSpawnEntryBySpawnGroup(spawnGroup)
 	if err != nil {
 		return
+	}
+	for _, spawnEntry := range spawnEntrys {
+		err = c.prepare(spawnEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare spawn entry")
+			return
+		}
 	}
 	return
 }
 
 //ListByNpc handles logic
-func (c *SpawnEntryRepository) ListByNpc(npcID int64) (spawnEntrys []*model.SpawnEntry, query string, err error) {
-	query, spawnEntrys, err = c.stor.ListSpawnEntryByNpc(npcID)
+func (c *SpawnEntryRepository) ListByNpc(npc *model.Npc, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
+	spawnEntrys, err = c.stor.ListSpawnEntryByNpc(npc)
 	if err != nil {
 		return
+	}
+	for _, spawnEntry := range spawnEntrys {
+		err = c.prepare(spawnEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare spawn entry")
+			return
+		}
 	}
 	return
 }
 
 //ListByZone handles logic
-func (c *SpawnEntryRepository) ListByZone(zoneID int64) (spawnEntrys []*model.SpawnEntry, query string, err error) {
-	query, spawnEntrys, err = c.stor.ListSpawnEntryByZone(zoneID)
+func (c *SpawnEntryRepository) ListByZone(zone *model.Zone, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
+	spawnEntrys, err = c.stor.ListSpawnEntryByZone(zone)
 	if err != nil {
 		return
+	}
+	for _, spawnEntry := range spawnEntrys {
+		err = c.prepare(spawnEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare spawn entry")
+			return
+		}
 	}
 	return
 }
 
-func (c *SpawnEntryRepository) prepare(spawnEntry *model.SpawnEntry) (err error) {
+func (c *SpawnEntryRepository) prepare(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
 
 	return
 }
@@ -186,3 +221,4 @@ func (c *SpawnEntryRepository) getSchemaProperty(field string) (prop model.Schem
 
 	return
 }
+*/

@@ -3,7 +3,6 @@ package api
 import (
 	"database/sql"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -14,125 +13,112 @@ func (a *API) activityRoutes() (routes []*route) {
 		{
 			"ListActivity",
 			"GET",
-			"/task/{taskID}",
+			"/task/{taskID:[0-9]+}/activity",
 			a.listActivity,
 		},
 		{
 			"GetActivity",
 			"GET",
-			"/task/{taskID}/{activityID}",
+			"/task/{taskID:[0-9]+}/activity/{activityID:[0-9]+}",
 			a.getActivity,
 		},
 		{
 			"CreateActivity",
 			"POST",
-			"/task/{taskID}",
+			"/task/{taskID:[0-9]+}/activity",
 			a.createActivity,
+		},
+		{
+			"DeleteActivity",
+			"DELETE",
+			"/task/{taskID:[0-9]+}/activity/{activityID:[0-9]+}",
+			a.deleteActivity,
 		},
 	}
 	return
 }
 
-func (a *API) getActivity(w http.ResponseWriter, r *http.Request) {
-
-	if strings.ToLower(getVar(r, "activityID")) == "details" {
-		a.getTask(w, r)
-		return
-	}
+func (a *API) getActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
 		err = errors.Wrap(err, "activityID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
+	activity := &model.Activity{
+		ActivityID: activityID,
+	}
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
 		err = errors.Wrap(err, "taskID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	activity, err := a.activityRepo.Get(taskID, activityID)
+	activity.TaskID = taskID
+	err = a.activityRepo.Get(activity, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, activity, http.StatusOK)
+	content = activity
 	return
 }
 
-func (a *API) createActivity(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	activity := &model.Activity{}
 	err = decodeBody(r, activity)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.activityRepo.Create(activity)
+	err = a.activityRepo.Create(activity, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, activity, http.StatusCreated)
+	content = activity
 	return
 }
 
-func (a *API) deleteActivity(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "activityID")
+	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
 		err = errors.Wrap(err, "activityID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.activityRepo.Delete(id)
+	activity := &model.Activity{
+		ActivityID: activityID,
+	}
+	taskID, err := getIntVar(r, "taskID")
+	if err != nil {
+		err = errors.Wrap(err, "taskID argument is required")
+		return
+	}
+	activity.TaskID = taskID
+
+	err = a.activityRepo.Delete(activity, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = activity
 	return
 }
 
-func (a *API) editActivity(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "activityID")
+	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
 		err = errors.Wrap(err, "activityID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -140,32 +126,32 @@ func (a *API) editActivity(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, activity)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-
-	err = a.activityRepo.Edit(id, activity)
+	activity.ActivityID = activityID
+	err = a.activityRepo.Edit(activity, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, activity, http.StatusOK)
+	content = activity
 	return
 }
 
-func (a *API) listActivity(w http.ResponseWriter, r *http.Request) {
+func (a *API) listActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
 		err = errors.Wrap(err, "taskID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	activitys, err := a.activityRepo.List(taskID)
+	task := &model.Task{
+		ID: taskID,
+	}
+	activitys, err := a.activityRepo.ListByTask(task, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, activitys, http.StatusOK)
+	content = activitys
 	return
 }

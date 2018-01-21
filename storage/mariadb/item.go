@@ -13,9 +13,8 @@ const (
 )
 
 //GetItem will grab data from storage
-func (s *Storage) GetItem(itemID int64) (item *model.Item, err error) {
-	item = &model.Item{}
-	err = s.db.Get(item, fmt.Sprintf("SELECT id, %s FROM items WHERE id = ?", itemFields), itemID)
+func (s *Storage) GetItem(item *model.Item) (err error) {
+	err = s.db.Get(item, fmt.Sprintf("SELECT id, %s FROM items WHERE id = ?", itemFields), item.ID)
 	if err != nil {
 		return
 	}
@@ -70,9 +69,9 @@ func (s *Storage) ListItemCount() (count int64, err error) {
 }
 
 //SearchItem will grab data from storage
-func (s *Storage) SearchItem(search string) (items []*model.Item, err error) {
+func (s *Storage) SearchItemByName(item *model.Item) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 
-		WHERE name like ? ORDER BY id DESC`, itemFields), "%"+search+"%")
+		WHERE name like ? ORDER BY id DESC`, itemFields), "%"+item.Name+"%")
 	if err != nil {
 		return
 	}
@@ -88,7 +87,7 @@ func (s *Storage) SearchItem(search string) (items []*model.Item, err error) {
 }
 
 //SearchItemByAccount will grab data from storage
-func (s *Storage) SearchItemByAccount(accountID int64, search string) (items []*model.Item, err error) {
+func (s *Storage) SearchItemByAccount(item *model.Item, account *model.Account) (items []*model.Item, err error) {
 	type Result struct {
 		*model.Item
 		CharID   int64  `db:"char_id"`
@@ -97,7 +96,7 @@ func (s *Storage) SearchItemByAccount(accountID int64, search string) (items []*
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT character_data.id char_id, character_data.name char_name, items.id, slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
 		INNER JOIN inventory ON inventory.itemid = items.id
 		INNER JOIN character_data ON character_data.id = inventory.charid
-		WHERE items.name like ? AND character_data.account_id = ? ORDER BY id DESC`, itemFields), "%"+search+"%", accountID)
+		WHERE items.name like ? AND character_data.account_id = ? ORDER BY id DESC`, itemFields), "%"+item.Name+"%", account.ID)
 	if err != nil {
 		return
 	}
@@ -119,10 +118,10 @@ func (s *Storage) SearchItemByAccount(accountID int64, search string) (items []*
 }
 
 //ListItemByCharacter will grab data from storage
-func (s *Storage) ListItemByCharacter(characterID int64) (items []*model.Item, err error) {
+func (s *Storage) ListItemByCharacter(character *model.Character) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, slotid,charges,inventory.color invcolor,augslot1,augslot2,augslot3,augslot4,augslot5,augslot6,instnodrop,custom_data,ornamenticon,ornamentidfile,ornament_hero_model, %s FROM items 
 		INNER JOIN inventory ON inventory.itemid = items.id
-		WHERE inventory.charid = ? ORDER BY slotid ASC`, itemFields), characterID)
+		WHERE inventory.charid = ? ORDER BY slotid ASC`, itemFields), character.ID)
 	if err != nil {
 		return
 	}
@@ -138,9 +137,9 @@ func (s *Storage) ListItemByCharacter(characterID int64) (items []*model.Item, e
 }
 
 //ListItemBySlot will grab data from storage
-func (s *Storage) ListItemBySlot(slotID int64) (items []*model.Item, err error) {
+func (s *Storage) ListItemByItemCategory(itemCategory *model.ItemCategory) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 		
-		WHERE items.itemtype = ? ORDER BY damage/delay DESC`, itemFields), slotID)
+		WHERE items.itemtype = ? ORDER BY damage/delay DESC`, itemFields), itemCategory.ID)
 	if err != nil {
 		return
 	}
@@ -156,9 +155,9 @@ func (s *Storage) ListItemBySlot(slotID int64) (items []*model.Item, err error) 
 }
 
 //ListItemBySpell will grab data from storage
-func (s *Storage) ListItemBySpell(spellID int64) (items []*model.Item, err error) {
+func (s *Storage) ListItemBySpell(spell *model.Spell) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 		
-		WHERE items.clickeffect = ? OR items.focuseffect = ? OR items.proceffect = ? OR items.worneffect = ? or items.scrolleffect = ?`, itemFields), spellID, spellID, spellID, spellID, spellID)
+		WHERE items.clickeffect = ? OR items.focuseffect = ? OR items.proceffect = ? OR items.worneffect = ? or items.scrolleffect = ?`, itemFields), spell.ID, spell.ID, spell.ID, spell.ID, spell.ID)
 	if err != nil {
 		return
 	}
@@ -174,12 +173,12 @@ func (s *Storage) ListItemBySpell(spellID int64) (items []*model.Item, err error
 }
 
 //ListItemByZone will grab data from storage
-func (s *Storage) ListItemByZone(zoneID int64) (items []*model.Item, err error) {
+func (s *Storage) ListItemByZone(zone *model.Zone) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT items.id, %s FROM items 		
 		INNER JOIN lootdrop_entries le ON le.item_id = items.id
 		INNER JOIN loottable_entries lt ON lt.lootdrop_id = le.lootdrop_id
 		INNER JOIN npc_types nt ON nt.loottable_id = lt.loottable_id
-		WHERE nt.id > (?*1000-1) AND nt.id < (?*2000) ORDER BY damage/delay DESC`, itemFields), zoneID, zoneID)
+		WHERE nt.id > (?*1000-1) AND nt.id < (?*2000) ORDER BY damage/delay DESC`, itemFields), zone.ID, zone.ID)
 	if err != nil {
 		return
 	}
@@ -195,8 +194,7 @@ func (s *Storage) ListItemByZone(zoneID int64) (items []*model.Item, err error) 
 }
 
 //EditItem will grab data from storage
-func (s *Storage) EditItem(itemID int64, item *model.Item) (err error) {
-	item.ID = itemID
+func (s *Storage) EditItem(item *model.Item) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE items SET %s WHERE id = :id`, itemSets), item)
 	if err != nil {
 		return
@@ -213,8 +211,8 @@ func (s *Storage) EditItem(itemID int64, item *model.Item) (err error) {
 }
 
 //DeleteItem will grab data from storage
-func (s *Storage) DeleteItem(itemID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM items WHERE id = ?`, itemID)
+func (s *Storage) DeleteItem(item *model.Item) (err error) {
+	result, err := s.db.Exec(`DELETE FROM items WHERE id = ?`, item.ID)
 	if err != nil {
 		return
 	}

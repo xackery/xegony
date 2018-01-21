@@ -13,9 +13,9 @@ const (
 )
 
 //GetMail will grab data from storage
-func (s *Storage) GetMail(mailID int64) (mail *model.Mail, err error) {
+func (s *Storage) GetMail(mail *model.Mail) (err error) {
 	mail = &model.Mail{}
-	err = s.db.Get(mail, fmt.Sprintf("SELECT msgid, %s FROM mail WHERE msgid = ?", mailFields), mailID)
+	err = s.db.Get(mail, fmt.Sprintf("SELECT msgid, %s FROM mail WHERE msgid = ?", mailFields), mail.ID)
 	if err != nil {
 		return
 	}
@@ -70,9 +70,9 @@ func (s *Storage) ListMailCount() (count int64, err error) {
 }
 
 //SearchMail will grab data from storage
-func (s *Storage) SearchMail(search string) (mails []*model.Mail, err error) {
+func (s *Storage) SearchMailByBody(mail *model.Mail) (mails []*model.Mail, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT msgid, %s FROM mail
-		WHERE body like ? ORDER BY msgid DESC`, mailFields), "%"+search+"%")
+		WHERE body like ? ORDER BY msgid DESC`, mailFields), "%"+mail.Body+"%")
 	if err != nil {
 		return
 	}
@@ -88,10 +88,9 @@ func (s *Storage) SearchMail(search string) (mails []*model.Mail, err error) {
 }
 
 //SearchMailByCharacter will grab data from storage
-func (s *Storage) SearchMailByCharacter(characterID int64, search string) (mails []*model.Mail, err error) {
-
+func (s *Storage) SearchMailByCharacter(character *model.Character, mail *model.Mail) (mails []*model.Mail, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT msgid, %s FROM mail 
-		WHERE mails.name like ? AND mail.charid = ? ORDER BY time DESC`, mailFields), "%"+search+"%", characterID)
+		WHERE mail.charid = ? AND mail.body like ? ORDER BY time DESC`, mailFields), character.ID, "%"+mail.Body+"%")
 	if err != nil {
 		return
 	}
@@ -108,9 +107,9 @@ func (s *Storage) SearchMailByCharacter(characterID int64, search string) (mails
 }
 
 //ListMailByCharacter will grab data from storage
-func (s *Storage) ListMailByCharacter(characterID int64) (mails []*model.Mail, err error) {
+func (s *Storage) ListMailByCharacter(character *model.Character) (mails []*model.Mail, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT msgid, %s FROM mail
-		WHERE mail.charid = ? ORDER BY time DESC`, mailFields), characterID)
+		WHERE mail.charid = ? ORDER BY time DESC`, mailFields), character.ID)
 	if err != nil {
 		return
 	}
@@ -126,8 +125,7 @@ func (s *Storage) ListMailByCharacter(characterID int64) (mails []*model.Mail, e
 }
 
 //EditMail will grab data from storage
-func (s *Storage) EditMail(mailID int64, mail *model.Mail) (err error) {
-	mail.ID = mailID
+func (s *Storage) EditMail(mail *model.Mail) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE mail SET %s WHERE msgid = :msgid`, mailSets), mail)
 	if err != nil {
 		return
@@ -144,8 +142,8 @@ func (s *Storage) EditMail(mailID int64, mail *model.Mail) (err error) {
 }
 
 //DeleteMail will grab data from storage
-func (s *Storage) DeleteMail(mailID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM mail WHERE msgid = ?`, mailID)
+func (s *Storage) DeleteMail(mail *model.Mail) (err error) {
+	result, err := s.db.Exec(`DELETE FROM mail WHERE msgid = ?`, mail.ID)
 	if err != nil {
 		return
 	}

@@ -19,19 +19,19 @@ func (a *API) bazaarRoutes() (routes []*route) {
 		{
 			"DeleteBazaar",
 			"DELETE",
-			"/bazaar/{bazaarID}",
+			"/bazaar/{bazaarID:[0-9]+}",
 			a.deleteBazaar,
 		},
 		{
 			"EditBazaar",
 			"PUT",
-			"/bazaar/{bazaarID}",
+			"/bazaar/{bazaarID:[0-9]+}",
 			a.editBazaar,
 		},
 		{
 			"GetBazaar",
 			"GET",
-			"/bazaar/{bazaarID}",
+			"/bazaar/{bazaarID:[0-9]+}",
 			a.getBazaar,
 		},
 		{
@@ -44,94 +44,74 @@ func (a *API) bazaarRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getBazaar(w http.ResponseWriter, r *http.Request) {
+func (a *API) getBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "bazaarID")
+	bazaarID, err := getIntVar(r, "bazaarID")
 	if err != nil {
 		err = errors.Wrap(err, "bazaarID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	bazaar, err := a.bazaarRepo.Get(id)
+	bazaar := &model.Bazaar{
+		ID: bazaarID,
+	}
+	err = a.bazaarRepo.Get(bazaar, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, bazaar, http.StatusOK)
+	content = bazaar
 	return
 }
 
-func (a *API) createBazaar(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	bazaar := &model.Bazaar{}
 	err = decodeBody(r, bazaar)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.bazaarRepo.Create(bazaar)
+	err = a.bazaarRepo.Create(bazaar, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, bazaar, http.StatusCreated)
+	content = bazaar
 	return
 }
 
-func (a *API) deleteBazaar(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "bazaarID")
+	bazaarID, err := getIntVar(r, "bazaarID")
 	if err != nil {
 		err = errors.Wrap(err, "bazaarID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	err = a.bazaarRepo.Delete(id)
+	bazaar := &model.Bazaar{
+		ID: bazaarID,
+	}
+
+	err = a.bazaarRepo.Delete(bazaar, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = bazaar
 	return
 }
 
-func (a *API) editBazaar(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "bazaarID")
+	bazaarID, err := getIntVar(r, "bazaarID")
 	if err != nil {
 		err = errors.Wrap(err, "bazaarID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -139,26 +119,24 @@ func (a *API) editBazaar(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, bazaar)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-
-	err = a.bazaarRepo.Edit(id, bazaar)
+	bazaar.ID = bazaarID
+	err = a.bazaarRepo.Edit(bazaar, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, bazaar, http.StatusOK)
+	content = bazaar
 	return
 }
 
-func (a *API) listBazaar(w http.ResponseWriter, r *http.Request) {
-	bazaars, err := a.bazaarRepo.List()
+func (a *API) listBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+	bazaars, err := a.bazaarRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, bazaars, http.StatusOK)
+	content = bazaars
 	return
+
 }

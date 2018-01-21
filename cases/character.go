@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -10,7 +11,8 @@ import (
 
 //CharacterRepository handles CharacterRepository cases and is a gateway to storage
 type CharacterRepository struct {
-	stor storage.Storage
+	stor       storage.Storage
+	globalRepo *GlobalRepository
 }
 
 func (c *CharacterRepository) isStorageInitialized() (err error) {
@@ -28,33 +30,56 @@ func (c *CharacterRepository) Initialize(stor storage.Storage) (err error) {
 		return
 	}
 	c.stor = stor
+	c.globalRepo = &GlobalRepository{}
+	err = c.globalRepo.Initialize(stor)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize global repository")
+		return
+	}
 	return
 }
 
 //Get handles logic
-func (c *CharacterRepository) Get(characterID int64) (character *model.Character, err error) {
-	if characterID == 0 {
-		err = fmt.Errorf("Invalid Character ID")
-		return
-	}
+func (c *CharacterRepository) Get(character *model.Character, user *model.User) (err error) {
+
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
-	character, err = c.stor.GetCharacter(characterID)
+	err = c.stor.GetCharacter(character)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get character")
+		return
+	}
+
+	err = c.prepare(character, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare character")
+		return
+	}
 	return
 }
 
 //GetByName handles logic
-func (c *CharacterRepository) GetByName(name string) (character *model.Character, err error) {
+func (c *CharacterRepository) GetByName(character *model.Character, user *model.User) (err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
-	character, err = c.stor.GetCharacterByName(name)
+	err = c.stor.GetCharacterByName(character)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get character")
+		return
+	}
+	err = c.prepare(character, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare character")
+		return
+	}
+
 	return
 }
 
 //Create handles logic
-func (c *CharacterRepository) Create(character *model.Character) (err error) {
+func (c *CharacterRepository) Create(character *model.Character, user *model.User) (err error) {
 	if character == nil {
 		err = fmt.Errorf("Empty character")
 		return
@@ -93,25 +118,39 @@ func (c *CharacterRepository) Create(character *model.Character) (err error) {
 	}
 	err = c.stor.CreateCharacter(character)
 	if err != nil {
+		err = errors.Wrap(err, "failed to create character")
+		return
+	}
+	err = c.prepare(character, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare character")
 		return
 	}
 	return
 }
 
 //Search handles logic
-func (c *CharacterRepository) Search(search string) (characters []*model.Character, err error) {
+func (c *CharacterRepository) SearchByName(character *model.Character, user *model.User) (characters []*model.Character, err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
-	characters, err = c.stor.SearchCharacter(search)
+	characters, err = c.stor.SearchCharacterByName(character)
 	if err != nil {
+		err = errors.Wrap(err, "failed to search character")
 		return
+	}
+	for _, character := range characters {
+		err = c.prepare(character, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare character")
+			return
+		}
 	}
 	return
 }
 
 //Edit handles logic
-func (c *CharacterRepository) Edit(characterID int64, character *model.Character) (err error) {
+func (c *CharacterRepository) Edit(character *model.Character, user *model.User) (err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
@@ -136,19 +175,24 @@ func (c *CharacterRepository) Edit(characterID int64, character *model.Character
 		return
 	}
 
-	err = c.stor.EditCharacter(characterID, character)
+	err = c.stor.EditCharacter(character)
 	if err != nil {
+		return
+	}
+	err = c.prepare(character, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare character")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *CharacterRepository) Delete(characterID int64) (err error) {
+func (c *CharacterRepository) Delete(character *model.Character, user *model.User) (err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
-	err = c.stor.DeleteCharacter(characterID)
+	err = c.stor.DeleteCharacter(character)
 	if err != nil {
 		return
 	}
@@ -156,55 +200,139 @@ func (c *CharacterRepository) Delete(characterID int64) (err error) {
 }
 
 //List handles logic
-func (c *CharacterRepository) List() (characters []*model.Character, err error) {
+func (c *CharacterRepository) List(user *model.User) (characters []*model.Character, err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
 	characters, err = c.stor.ListCharacter()
 	if err != nil {
+		err = errors.Wrap(err, "failed to list characters")
 		return
+	}
+	for _, character := range characters {
+		err = c.prepare(character, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare character")
+			return
+		}
 	}
 	return
 }
 
 //ListByRanking handles logic
-func (c *CharacterRepository) ListByRanking() (characters []*model.Character, err error) {
+func (c *CharacterRepository) ListByRanking(user *model.User) (characters []*model.Character, err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
 	characters, err = c.stor.ListCharacterByRanking()
 	if err != nil {
+		if err != nil {
+			err = errors.Wrap(err, "failed to list characters")
+			return
+		}
 		return
 	}
+	for _, character := range characters {
+		err = c.prepare(character, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare character")
+			return
+		}
+		/*
+			//needs to be moved to inside detail call
+				character.Base = &model.Base{
+					Level: character.Level,
+					Class: character.ClassID,
+				}
+				err = s.GetBase(character.Base)
+				if err != nil {
+					err = errors.Wrap(err, "failed to get base data")
+					return
+				}*/
+
+		character.Inventory, err = c.stor.ListItemByCharacter(character)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get inventory")
+			return
+		}
+	}
+
 	return
 }
 
 //ListByOnline handles logic
-func (c *CharacterRepository) ListByOnline() (characters []*model.Character, err error) {
+func (c *CharacterRepository) ListByOnline(user *model.User) (characters []*model.Character, err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
 	characters, err = c.stor.ListCharacterByOnline()
 	if err != nil {
+		err = errors.Wrap(err, "failed to list characters")
 		return
+	}
+	for _, character := range characters {
+		err = c.prepare(character, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare character")
+			return
+		}
 	}
 	return
 }
 
 //ListByAccount handles logic
-func (c *CharacterRepository) ListByAccount(accountID int64) (characters []*model.Character, err error) {
+func (c *CharacterRepository) ListByAccount(account *model.Account, user *model.User) (characters []*model.Character, err error) {
 	if err = c.isStorageInitialized(); err != nil {
 		return
 	}
-	characters, err = c.stor.ListCharacterByAccount(accountID)
+	characters, err = c.stor.ListCharacterByAccount(account)
 	if err != nil {
+		err = errors.Wrap(err, "failed to list characters")
 		return
 	}
+	for _, character := range characters {
+		err = c.prepare(character, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare character")
+			return
+		}
+	}
 	return
+
 }
 
-func (c *CharacterRepository) prepare(character *model.Character) (err error) {
-	character.ClassName = className(character.Class)
+func (c *CharacterRepository) prepare(character *model.Character, user *model.User) (err error) {
+
+	character.Class, err = c.globalRepo.GetClass(character.ClassID, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get class of character")
+		return
+	}
+
+	character.Race, err = c.globalRepo.GetRace(character.RaceID, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get race of character")
+		return
+	}
+
+	zoneRepo := &ZoneRepository{}
+	if err = zoneRepo.Initialize(c.stor); err != nil {
+		err = errors.Wrap(err, "Failed to initialize zone of character")
+		return
+	}
+
+	character.Zone, err = c.globalRepo.GetZone(character.ZoneID, user)
+	if err != nil {
+		err = errors.Wrap(err, "Failed to get zone of character")
+		return
+	}
+
+	character.AASpent = c.aaSpent(character)
+	if len(character.Inventory) > 0 && character.Base != nil { //don't bother calculating hp if no inventory known
+		character.TotalHP = c.totalHP(character)
+		character.TotalMana = c.totalMana(character)
+	}
+
 	return
 }
 
@@ -256,4 +384,106 @@ func (c *CharacterRepository) getSchemaProperty(field string) (prop model.Schema
 	}
 
 	return
+}
+
+func (c *CharacterRepository) aaSpent(character *model.Character) int64 {
+	return 0
+}
+
+//TotalHP returns total HP
+func (c *CharacterRepository) totalHP(character *model.Character) int64 {
+	var nd float64
+	nd = 10000
+
+	maxHp := c.baseHP(character) + c.itemBonusHP(character)
+
+	//The AA desc clearly says it only applies to base hp..
+	//but the actual effect sent on live causes the client
+	//to apply it to (basehp + itemhp).. I will oblige to the client's whims over
+	//the aa description
+	nd += float64(c.aABonusMaxHP(character))   //Natural Durability, Physical Enhancement, Planar Durability
+	maxHp = int64(float64(maxHp) * nd / 10000) //this is to fix the HP-above-495k issue
+	//not needed for unbuffed?
+	//maxHp += c.SpellBonusHP + AABonusHP
+	maxHp += c.groupLeadershipBonusHP(character) //GroupLeadershipAAHealthEnhancement();
+	//maxHp += maxHp * ((spellbonuses.MaxHPChange + itembonuses.MaxHPChange) / 10000.0f);
+
+	return maxHp
+}
+
+//ItemBonusHP returns the total HP bonus from items
+func (c *CharacterRepository) itemBonusHP(character *model.Character) int64 {
+	var hp int64
+	for _, item := range character.Inventory {
+		if item.SlotID >= 0 && item.SlotID < 21 { //charm to one less than ammo
+			hp += item.Hp
+		}
+		if item.SlotID == 22 { //powersource
+			hp += item.Hp
+		}
+		//todo: tribute
+	}
+	return hp
+}
+
+//AABonusMaxHP returns bonus of HP from AAs
+func (c *CharacterRepository) aABonusMaxHP(character *model.Character) int64 {
+	return 0
+}
+
+//GroupLeadershipBonusHP returns how much hp bonus is being received from hp
+func (c *CharacterRepository) groupLeadershipBonusHP(character *model.Character) int64 {
+	return 0
+}
+
+//BaseHP on source
+func (c *CharacterRepository) baseHP(character *model.Character) int64 {
+	var baseHP int64
+	stats := character.Sta
+
+	if stats > 255 {
+		stats = (stats - 255) / 2
+		stats += 255
+	}
+	baseHP = 5
+
+	if character.Base != nil {
+		baseHP += int64(character.Base.Hp) + (int64(character.Base.HpFac) * stats)
+		baseHP += (c.heroicSTA(character) * 10)
+	}
+
+	return baseHP
+}
+
+//HeroicSTA is based on GetHeroicSTA on source
+func (c *CharacterRepository) heroicSTA(character *model.Character) int64 {
+	return 0
+}
+
+//TotalMana returns mana
+func (c *CharacterRepository) totalMana(character *model.Character) int64 {
+	mana := character.Mana
+	return mana
+}
+
+//ATK returns player attack
+func (c *CharacterRepository) aTK(character *model.Character) int64 {
+	atk := character.Dex
+	return atk
+}
+
+//AC returns total AC
+func (c *CharacterRepository) aC(character *model.Character) int64 {
+	ac := character.Agi
+	return ac
+}
+
+//HPRegen returns total hp regeneration
+func (c *CharacterRepository) hPRegen(character *model.Character) int64 {
+	return 0
+}
+
+//ManaRegen returns total mana regeneration
+func (c *CharacterRepository) manaRegen(character *model.Character) int64 {
+	return 0
 }

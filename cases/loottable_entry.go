@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,14 +25,22 @@ func (c *LootTableEntryRepository) Initialize(stor storage.Storage) (err error) 
 }
 
 //Get handles logic
-func (c *LootTableEntryRepository) Get(lootTableID int64, lootDropID int64) (lootTableEntry *model.LootTableEntry, err error) {
-
-	lootTableEntry, err = c.stor.GetLootTableEntry(lootTableID, lootDropID)
+func (c *LootTableEntryRepository) Get(lootTableEntry *model.LootTableEntry, user *model.User) (err error) {
+	err = c.stor.GetLootTableEntry(lootTableEntry)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot table entry")
+		return
+	}
+	err = c.prepare(lootTableEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare loot table")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *LootTableEntryRepository) Create(lootTableEntry *model.LootTableEntry) (err error) {
+func (c *LootTableEntryRepository) Create(lootTableEntry *model.LootTableEntry, user *model.User) (err error) {
 	if lootTableEntry == nil {
 		err = fmt.Errorf("Empty lootTableEntry")
 		return
@@ -60,11 +69,16 @@ func (c *LootTableEntryRepository) Create(lootTableEntry *model.LootTableEntry) 
 	if err != nil {
 		return
 	}
+	err = c.prepare(lootTableEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare loot table")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *LootTableEntryRepository) Edit(lootTableID int64, lootDropID int64, lootTableEntry *model.LootTableEntry) (err error) {
+func (c *LootTableEntryRepository) Edit(lootTableEntry *model.LootTableEntry, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -86,16 +100,21 @@ func (c *LootTableEntryRepository) Edit(lootTableID int64, lootDropID int64, loo
 		return
 	}
 
-	err = c.stor.EditLootTableEntry(lootTableID, lootDropID, lootTableEntry)
+	err = c.stor.EditLootTableEntry(lootTableEntry)
 	if err != nil {
+		return
+	}
+	err = c.prepare(lootTableEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare loot table")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *LootTableEntryRepository) Delete(lootTableID int64, lootDropID int64) (err error) {
-	err = c.stor.DeleteLootTableEntry(lootTableID, lootDropID)
+func (c *LootTableEntryRepository) Delete(lootTableEntry *model.LootTableEntry, user *model.User) (err error) {
+	err = c.stor.DeleteLootTableEntry(lootTableEntry)
 	if err != nil {
 		return
 	}
@@ -103,15 +122,22 @@ func (c *LootTableEntryRepository) Delete(lootTableID int64, lootDropID int64) (
 }
 
 //List handles logic
-func (c *LootTableEntryRepository) List(lootTableID int64) (lootTableEntrys []*model.LootTableEntry, err error) {
-	lootTableEntrys, err = c.stor.ListLootTableEntry(lootTableID)
+func (c *LootTableEntryRepository) ListByLootTable(lootTable *model.LootTable, user *model.User) (lootTableEntrys []*model.LootTableEntry, err error) {
+	lootTableEntrys, err = c.stor.ListLootTableEntryByLootTable(lootTable)
 	if err != nil {
 		return
+	}
+	for _, lootTableEntry := range lootTableEntrys {
+		err = c.prepare(lootTableEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare loot table")
+			return
+		}
 	}
 	return
 }
 
-func (c *LootTableEntryRepository) prepare(lootTableEntry *model.LootTableEntry) (err error) {
+func (c *LootTableEntryRepository) prepare(lootTableEntry *model.LootTableEntry, user *model.User) (err error) {
 
 	return
 }

@@ -1,8 +1,8 @@
 package web
 
 import (
+	"html/template"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -13,21 +13,20 @@ func (a *Web) activityRoutes() (routes []*route) {
 		{
 			"ListActivity",
 			"GET",
-			"/task/{taskID}",
+			"/task/{taskID:[0-9]+}",
 			a.listActivity,
 		},
 		{
 			"GetActivity",
 			"GET",
-			"/task/{taskID}/{activityID}",
+			"/task/{taskID}:[0-9]+/activity/{activityID:[0-9]+}",
 			a.getActivity,
 		},
 	}
 	return
 }
 
-func (a *Web) listActivity(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) listActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
@@ -39,56 +38,47 @@ func (a *Web) listActivity(w http.ResponseWriter, r *http.Request) {
 	site.Page = "activity"
 	site.Title = "Activity"
 
-	if strings.ToLower(getVar(r, "taskID")) == "create" {
-		a.createTask(w, r)
-		return
-	}
-
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
 		err = errors.Wrap(err, "taskID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	activitys, err := a.activityRepo.List(taskID)
+	task := &model.Task{
+		ID: taskID,
+	}
+	activitys, err := a.activityRepo.ListByTask(task, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	task, err := a.taskRepo.Get(taskID)
+	err = a.taskRepo.Get(task, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	content := Content{
+	content = Content{
 		Site:      site,
 		Activitys: activitys,
 		Task:      task,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "activity/list.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("activity", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }
 
-func (a *Web) getActivity(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *Web) getActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -96,35 +86,33 @@ func (a *Web) getActivity(w http.ResponseWriter, r *http.Request) {
 		Task     *model.Task
 	}
 
-	if strings.ToLower(getVar(r, "activityID")) == "details" {
-		a.getTask(w, r)
-		return
-	}
-
 	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
 		err = errors.Wrap(err, "activityID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
 		err = errors.Wrap(err, "taskID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	activity, err := a.activityRepo.Get(taskID, activityID)
+	activity := &model.Activity{
+		ActivityID: activityID,
+		TaskID:     taskID,
+	}
+	err = a.activityRepo.Get(activity, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
-	task, err := a.taskRepo.Get(taskID)
+	task := &model.Task{
+		ID: taskID,
+	}
+	err = a.taskRepo.Get(task, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -132,28 +120,25 @@ func (a *Web) getActivity(w http.ResponseWriter, r *http.Request) {
 	site.Page = "activity"
 	site.Title = "Activity"
 
-	content := Content{
+	content = Content{
 		Site:     site,
 		Activity: activity,
 		Task:     task,
 	}
 
-	tmp := a.getTemplate("")
+	tmp = a.getTemplate("")
 	if tmp == nil {
 		tmp, err = a.loadTemplate(nil, "body", "activity/get.tpl")
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-			a.writeError(w, r, err, http.StatusInternalServerError)
 			return
 		}
 
 		a.setTemplate("activity", tmp)
 	}
 
-	a.writeData(w, r, tmp, content, http.StatusOK)
 	return
 }

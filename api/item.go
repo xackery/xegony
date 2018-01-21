@@ -27,25 +27,25 @@ func (a *API) itemRoutes() (routes []*route) {
 		{
 			"DeleteItem",
 			"DELETE",
-			"/item/{itemID}",
+			"/item/{itemID:[0-9]+}",
 			a.deleteItem,
 		},
 		{
 			"EditItem",
 			"PUT",
-			"/item/{itemID}",
+			"/item/{itemID:[0-9]+}",
 			a.editItem,
 		},
 		{
 			"GetItem",
 			"GET",
-			"/item/{itemID}",
+			"/item/{itemID:[0-9]+}",
 			a.getItem,
 		},
 		{
 			"GetItemTooltip",
 			"GET",
-			"/item/{itemID}/tooltip",
+			"/item/{itemID:[0-9]+}/tooltip",
 			a.getItemTooltip,
 		},
 		{
@@ -58,25 +58,24 @@ func (a *API) itemRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getItem(w http.ResponseWriter, r *http.Request) {
+func (a *API) getItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "itemID")
+	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	item, err := a.itemRepo.Get(id)
+	item := &model.Item{
+		ID: itemID,
+	}
+	err = a.itemRepo.Get(item, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-	a.writeData(w, r, item, http.StatusOK)
 	return
 }
 
@@ -118,12 +117,11 @@ const tooltipTemplate = `
 
 </div>`
 
-func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request) {
+func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	id, err := getIntVar(r, "itemID")
+	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -132,20 +130,20 @@ func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 		ID      int64  `json:"id"`
 		Content string `json:"content"`
 	}
-	item, err := a.itemRepo.Get(id)
+	item := &model.Item{
+		ID: itemID,
+	}
+	err = a.itemRepo.Get(item, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			a.writeData(w, r, "", http.StatusOK)
 			return
 		}
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
 	tmp, err := template.New("tooltip").Parse(tooltipTemplate)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 	var tpl bytes.Buffer
@@ -158,7 +156,6 @@ func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 	}
 	err = tmp.Execute(&tpl, templateData)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
 
@@ -167,77 +164,55 @@ func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request) {
 		ID:      item.ID,
 		Content: tpl.String(),
 	}
+	content = itemTooltip
 
-	a.writeData(w, r, itemTooltip, http.StatusOK)
 	return
 }
 
-func (a *API) createItem(w http.ResponseWriter, r *http.Request) {
-	var err error
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
+func (a *API) createItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
 	item := &model.Item{}
 	err = decodeBody(r, item)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
-	err = a.itemRepo.Create(item)
+	err = a.itemRepo.Create(item, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-
-	a.writeData(w, r, item, http.StatusCreated)
+	content = item
 	return
 }
 
-func (a *API) deleteItem(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) deleteItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsAdmin(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "itemID")
+	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
-
-	err = a.itemRepo.Delete(id)
+	item := &model.Item{
+		ID: itemID,
+	}
+	err = a.itemRepo.Delete(item, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
-			a.writeData(w, r, nil, http.StatusNotModified)
 			return
 		default:
 			err = errors.Wrap(err, "Request failed")
-			a.writeError(w, r, err, http.StatusInternalServerError)
 		}
 		return
 	}
-	a.writeData(w, r, nil, http.StatusNoContent)
+	content = item
 	return
 }
 
-func (a *API) editItem(w http.ResponseWriter, r *http.Request) {
-	var err error
+func (a *API) editItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 
-	if err = IsModerator(r); err != nil {
-		a.writeError(w, r, err, http.StatusUnauthorized)
-		return
-	}
-
-	id, err := getIntVar(r, "itemID")
+	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
 		err = errors.Wrap(err, "itemID argument is required")
-		a.writeError(w, r, err, http.StatusBadRequest)
 		return
 	}
 
@@ -245,29 +220,28 @@ func (a *API) editItem(w http.ResponseWriter, r *http.Request) {
 	err = decodeBody(r, item)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusMethodNotAllowed)
 		return
 	}
 
-	err = a.itemRepo.Edit(id, item)
+	item.ID = itemID
+
+	err = a.itemRepo.Edit(item, user)
 	if err != nil {
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, item, http.StatusOK)
+	content = item
 	return
 }
 
-func (a *API) listItem(w http.ResponseWriter, r *http.Request) {
+func (a *API) listItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
 	pageSize := getIntParam(r, "pageSize")
 	pageNumber := getIntParam(r, "pageNumber")
 
-	items, err := a.itemRepo.List(pageSize, pageNumber)
+	items, err := a.itemRepo.List(pageSize, pageNumber, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
-		a.writeError(w, r, err, http.StatusInternalServerError)
 		return
 	}
-	a.writeData(w, r, items, http.StatusOK)
+	content = items
 	return
 }

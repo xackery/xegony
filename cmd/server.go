@@ -48,7 +48,6 @@ func init() {
 
 func runServer(cmd *cobra.Command, args []string) {
 	var err error
-
 	var stor storage.Storage
 	if dbtype == "mysql" {
 		stor = &mariadb.Storage{}
@@ -96,10 +95,10 @@ func runServer(cmd *cobra.Command, args []string) {
 }
 
 func runBot(botServer bot.Bot) {
-	err := botServer.CreateZoneMapCache()
-	if err != nil {
-		log.Fatal("Failed botserver:", err.Error())
-	}
+	//err := botServer.CreateZoneMapCache()
+	//if err != nil {
+	///log.Fatal("Failed botserver:", err.Error())
+	//}
 	/*err := botServer.CreateZoneLevelCache()
 	if err != nil {
 		log.Fatal("Failed botserver:", err.Error())

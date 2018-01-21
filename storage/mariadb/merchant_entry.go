@@ -13,11 +13,10 @@ const (
 )
 
 //GetMerchantEntry will grab data from storage
-func (s *Storage) GetMerchantEntry(merchantID int64, itemID int64) (query string, merchantEntry *model.MerchantEntry, err error) {
-	merchantEntry = &model.MerchantEntry{}
-	query = fmt.Sprintf(`SELECT merchantid, %s FROM merchantlist 
+func (s *Storage) GetMerchantEntry(merchantEntry *model.MerchantEntry) (err error) {
+	query := fmt.Sprintf(`SELECT merchantid, %s FROM merchantlist 
 		WHERE merchantlist.merchantid = ? AND merchantlist.itemid = ?`, merchantEntryFields)
-	err = s.db.Get(merchantEntry, query, merchantID, itemID)
+	err = s.db.Get(merchantEntry, query, merchantEntry.MerchantID, merchantEntry.ItemID)
 	if err != nil {
 		return
 	}
@@ -25,13 +24,13 @@ func (s *Storage) GetMerchantEntry(merchantID int64, itemID int64) (query string
 }
 
 //CreateMerchantEntry will grab data from storage
-func (s *Storage) CreateMerchantEntry(merchantEntry *model.MerchantEntry) (query string, err error) {
+func (s *Storage) CreateMerchantEntry(merchantEntry *model.MerchantEntry) (err error) {
 	if merchantEntry == nil {
 		err = fmt.Errorf("Must provide merchantEntry")
 		return
 	}
 
-	query = fmt.Sprintf(`INSERT INTO merchantlist(%s)
+	query := fmt.Sprintf(`INSERT INTO merchantlist(%s)
 		VALUES (%s)`, merchantEntryFields, merchantEntryBinds)
 	_, err = s.db.NamedExec(query, merchantEntry)
 	if err != nil {
@@ -41,9 +40,9 @@ func (s *Storage) CreateMerchantEntry(merchantEntry *model.MerchantEntry) (query
 }
 
 //ListMerchantEntry will grab data from storage
-func (s *Storage) ListMerchantEntry(merchantID int64) (query string, merchantEntrys []*model.MerchantEntry, err error) {
-	query = fmt.Sprintf(`SELECT %s FROM merchantlist WHERE merchantid = ?`, merchantEntryFields)
-	rows, err := s.db.Queryx(query, merchantID)
+func (s *Storage) ListMerchantEntryByMerchant(merchant *model.Merchant) (merchantEntrys []*model.MerchantEntry, err error) {
+	query := fmt.Sprintf(`SELECT %s FROM merchantlist WHERE merchantid = ?`, merchantEntryFields)
+	rows, err := s.db.Queryx(query, merchant.ID)
 	if err != nil {
 		return
 	}
@@ -59,12 +58,12 @@ func (s *Storage) ListMerchantEntry(merchantID int64) (query string, merchantEnt
 }
 
 //ListMerchantEntryByItem will grab data from storage
-func (s *Storage) ListMerchantEntryByItem(itemID int64) (query string, merchantEntrys []*model.MerchantEntry, err error) {
+func (s *Storage) ListMerchantEntryByItem(item *model.Item) (merchantEntrys []*model.MerchantEntry, err error) {
 
-	query = fmt.Sprintf(`SELECT merchantid, %s FROM merchantlist
+	query := fmt.Sprintf(`SELECT merchantid, %s FROM merchantlist
 	WHERE item = ? LIMIT 10`, merchantEntryFields)
 
-	rows, err := s.db.Queryx(query, itemID)
+	rows, err := s.db.Queryx(query, item.ID)
 	if err != nil {
 		return
 	}
@@ -80,11 +79,9 @@ func (s *Storage) ListMerchantEntryByItem(itemID int64) (query string, merchantE
 }
 
 //EditMerchantEntry will grab data from storage
-func (s *Storage) EditMerchantEntry(merchantID int64, itemID int64, merchantEntry *model.MerchantEntry) (query string, err error) {
+func (s *Storage) EditMerchantEntry(merchantEntry *model.MerchantEntry) (err error) {
 
-	query = fmt.Sprintf(`UPDATE merchantlist SET %s WHERE merchantlist.merchantid = ? AND merchantlist.item = ?`, merchantEntrySets)
-	merchantEntry.MerchantID = merchantID
-	merchantEntry.ItemID = itemID
+	query := fmt.Sprintf(`UPDATE merchantlist SET %s WHERE merchantlist.merchantid = ? AND merchantlist.item = ?`, merchantEntrySets)
 	result, err := s.db.NamedExec(query, merchantEntry)
 	if err != nil {
 		return
@@ -101,9 +98,9 @@ func (s *Storage) EditMerchantEntry(merchantID int64, itemID int64, merchantEntr
 }
 
 //DeleteMerchantEntry will grab data from storage
-func (s *Storage) DeleteMerchantEntry(merchantID int64, itemID int64) (query string, err error) {
-	query = `DELETE FROM merchantlist WHERE merchantid = ? AND item = ?`
-	result, err := s.db.Exec(query, merchantID, itemID)
+func (s *Storage) DeleteMerchantEntry(merchantEntry *model.MerchantEntry) (err error) {
+	query := `DELETE FROM merchantlist WHERE merchantid = ? AND item = ?`
+	result, err := s.db.Exec(query, merchantEntry.MerchantID, merchantEntry.ItemID)
 	if err != nil {
 		return
 	}

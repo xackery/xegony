@@ -3,15 +3,17 @@ package api
 import (
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/xackery/xegony/model"
 )
 
 type route struct {
 	Name        string
 	Method      string
 	Pattern     string
-	HandlerFunc http.HandlerFunc
+	HandlerFunc func(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error)
 }
 
 //ApplyRoutes applies routes to given mux router
@@ -88,14 +90,6 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 	for _, r := range newRoutes {
 		routes = append(routes, r)
 	}
-	newRoutes = a.spawnRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.spawnEntryRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
 	newRoutes = a.taskRoutes()
 	for _, r := range newRoutes {
 		routes = append(routes, r)
@@ -110,15 +104,34 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 	}
 
 	for _, route := range routes {
-		var handler http.Handler
-		handler = route.HandlerFunc
-		handler = a.logger(handler, route.Name)
 
-		router.
+		router.HandleFunc(rootPath+route.Pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
+
+			auth, err := GetAuthClaim(r)
+			user := &model.User{}
+			if err == nil {
+				user = auth.User
+			}
+
+			statusCode := http.StatusOK
+			content, err := route.HandlerFunc(w, r, auth, user, statusCode)
+			if err != nil {
+				a.writeError(w, r, err, statusCode)
+			} else {
+				a.writeData(w, r, content, statusCode)
+			}
+			a.log.Printf(
+				"%s %s -> %s %s",
+				r.Method,
+				r.RequestURI,
+				route.Name,
+				time.Since(start),
+			)
+		})).
 			Methods(route.Method).
-			Path(rootPath + route.Pattern).
-			Name(route.Name).
-			Handler(handler)
+			Name(route.Name)
 	}
+
 	return
 }

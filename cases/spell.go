@@ -11,7 +11,8 @@ import (
 
 //SpellRepository handles SpellRepository cases and is a gateway to storage
 type SpellRepository struct {
-	stor storage.Storage
+	stor       storage.Storage
+	globalRepo *GlobalRepository
 }
 
 //Initialize handles logic
@@ -21,30 +22,42 @@ func (c *SpellRepository) Initialize(stor storage.Storage) (err error) {
 		return
 	}
 	c.stor = stor
+
+	c.globalRepo = &GlobalRepository{}
+	err = c.globalRepo.Initialize(stor)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize global repository")
+		return
+	}
 	return
 }
 
 //Get handles logic
-func (c *SpellRepository) Get(spellID int64) (spell *model.Spell, err error) {
-	if spellID == 0 {
-		err = fmt.Errorf("Invalid Spell ID")
+func (c *SpellRepository) Get(spell *model.Spell, user *model.User) (err error) {
+
+	err = c.stor.GetSpell(spell)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get spell")
 		return
 	}
-	spell, err = c.stor.GetSpell(spellID)
-	if err = c.prepare(spell); err != nil {
+	err = c.prepare(spell, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spell")
 		return
 	}
 	return
 }
 
 //Search handles logic
-func (c *SpellRepository) Search(search string) (spells []*model.Spell, err error) {
-	spells, err = c.stor.SearchSpell(search)
+func (c *SpellRepository) Search(spell *model.Spell, user *model.User) (spells []*model.Spell, err error) {
+	spells, err = c.stor.SearchSpellByName(spell)
 	if err != nil {
 		return
 	}
 	for _, spell := range spells {
-		if err = c.prepare(spell); err != nil {
+		err = c.prepare(spell, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare spell")
 			return
 		}
 	}
@@ -52,7 +65,7 @@ func (c *SpellRepository) Search(search string) (spells []*model.Spell, err erro
 }
 
 //Create handles logic
-func (c *SpellRepository) Create(spell *model.Spell) (err error) {
+func (c *SpellRepository) Create(spell *model.Spell, user *model.User) (err error) {
 	if spell == nil {
 		err = fmt.Errorf("Empty spell")
 		return
@@ -81,14 +94,16 @@ func (c *SpellRepository) Create(spell *model.Spell) (err error) {
 	if err != nil {
 		return
 	}
-	if err = c.prepare(spell); err != nil {
+	err = c.prepare(spell, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spell")
 		return
 	}
 	return
 }
 
 //Edit handles logic
-func (c *SpellRepository) Edit(spellID int64, spell *model.Spell) (err error) {
+func (c *SpellRepository) Edit(spellID int64, spell *model.Spell, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -110,16 +125,18 @@ func (c *SpellRepository) Edit(spellID int64, spell *model.Spell) (err error) {
 		return
 	}
 
-	err = c.stor.EditSpell(spellID, spell)
+	err = c.stor.EditSpell(spell)
+	err = c.prepare(spell, user)
 	if err != nil {
+		err = errors.Wrap(err, "failed to prepare spell")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *SpellRepository) Delete(spellID int64) (err error) {
-	err = c.stor.DeleteSpell(spellID)
+func (c *SpellRepository) Delete(spell *model.Spell, user *model.User) (err error) {
+	err = c.stor.DeleteSpell(spell)
 	if err != nil {
 		return
 	}
@@ -127,7 +144,7 @@ func (c *SpellRepository) Delete(spellID int64) (err error) {
 }
 
 //List handles logic
-func (c *SpellRepository) List(pageSize int64, pageNumber int64) (spells []*model.Spell, err error) {
+func (c *SpellRepository) List(pageSize int64, pageNumber int64, user *model.User) (spells []*model.Spell, err error) {
 	if pageSize < 1 {
 		pageSize = 25
 	}
@@ -141,8 +158,9 @@ func (c *SpellRepository) List(pageSize int64, pageNumber int64) (spells []*mode
 		return
 	}
 	for _, spell := range spells {
-		err = c.prepare(spell)
+		err = c.prepare(spell, user)
 		if err != nil {
+			err = errors.Wrap(err, "failed to prepare spell")
 			return
 		}
 	}
@@ -150,7 +168,7 @@ func (c *SpellRepository) List(pageSize int64, pageNumber int64) (spells []*mode
 }
 
 //ListCount handles logic
-func (c *SpellRepository) ListCount() (count int64, err error) {
+func (c *SpellRepository) ListCount(user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListSpellCount()
 	if err != nil {
@@ -159,7 +177,7 @@ func (c *SpellRepository) ListCount() (count int64, err error) {
 	return
 }
 
-func (c *SpellRepository) prepare(spell *model.Spell) (err error) {
+func (c *SpellRepository) prepare(spell *model.Spell, user *model.User) (err error) {
 	var ok bool
 	spell.ClassesList = spellClassesList(spell)
 	spell.LowestLevel = spellLowestLevel(spell)
@@ -168,13 +186,10 @@ func (c *SpellRepository) prepare(spell *model.Spell) (err error) {
 	if !ok {
 		spell.TypeName = fmt.Sprintf("Uknown (%d)", spell.Spellgroup)
 	}*/
-	skillRepo := &SkillRepository{}
-	if err = skillRepo.Initialize(c.stor); err != nil {
-		err = errors.Wrap(err, "Failed to initialize spell skill")
-		return
-	}
-	if spell.Skill, err = skillRepo.Get(spell.SkillID); err != nil {
-		err = errors.Wrap(err, "Failed to get spell skill")
+
+	spell.Skill, err = c.globalRepo.GetSkill(spell.SkillID, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get spell skill")
 		return
 	}
 	if spell.CastTime > 0 {
@@ -216,37 +231,40 @@ func (c *SpellRepository) prepare(spell *model.Spell) (err error) {
 		return
 	}
 
-	var item *model.Item
-	var reagents = []int64{
-		spell.Noexpendreagent1,
-		spell.Noexpendreagent2,
-		spell.Noexpendreagent3,
-		spell.Noexpendreagent4,
-	}
-	for _, reagent := range reagents {
-		if reagent > 0 {
-			if item, err = itemRepo.Get(reagent); err != nil {
-				err = errors.Wrap(err, "Failed to get reagent item")
-				return
-			}
-			spell.NoExpendReagents = append(spell.NoExpendReagents, item)
+	/*
+		This needs to be moved away from business logic
+		var item *model.Item
+		var reagents = []int64{
+			spell.Noexpendreagent1,
+			spell.Noexpendreagent2,
+			spell.Noexpendreagent3,
+			spell.Noexpendreagent4,
 		}
-	}
-	reagents = []int64{
-		spell.Components1,
-		spell.Components2,
-		spell.Components3,
-		spell.Components4,
-	}
-	for _, reagent := range reagents {
-		if reagent > 0 {
-			if item, err = itemRepo.Get(reagent); err != nil {
-				err = errors.Wrap(err, "Failed to get reagent item")
-				return
+		for _, reagent := range reagents {
+			if reagent > 0 {
+				if item, err = itemRepo.Get(reagent, user); err != nil {
+					err = errors.Wrap(err, "Failed to get reagent item")
+					return
+				}
+				spell.NoExpendReagents = append(spell.NoExpendReagents, item)
 			}
-			spell.Reagents = append(spell.Reagents, item)
 		}
-	}
+		reagents = []int64{
+			spell.Components1,
+			spell.Components2,
+			spell.Components3,
+			spell.Components4,
+		}
+		for _, reagent := range reagents {
+			if reagent > 0 {
+				if item, err = itemRepo.Get(reagent, user); err != nil {
+					err = errors.Wrap(err, "Failed to get reagent item")
+					return
+				}
+				spell.Reagents = append(spell.Reagents, item)
+			}
+		}
+	*/
 
 	type spellEffectFields struct {
 		ID        int64
@@ -752,51 +770,79 @@ func spellLowestLevel(s *model.Spell) int64 {
 
 //ClassesList returns a list of human readable classes
 func spellClassesList(s *model.Spell) string {
-	classes := ""
+	classList := ""
+	var ok bool
+	class := &model.Class{}
 
 	if s.Classes1 > 0 && s.Classes1 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(1), s.Classes1)
+		if class, ok = classes[1]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes1)
+		}
 	}
 	if s.Classes2 > 0 && s.Classes2 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(2), s.Classes2)
+		if class, ok = classes[2]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes2)
+		}
 	}
 	if s.Classes3 > 0 && s.Classes3 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(3), s.Classes3)
+		if class, ok = classes[3]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes3)
+		}
 	}
 	if s.Classes4 > 0 && s.Classes4 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(4), s.Classes4)
+		if class, ok = classes[4]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes4)
+		}
 	}
 	if s.Classes5 > 0 && s.Classes5 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(5), s.Classes5)
+		if class, ok = classes[5]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes5)
+		}
 	}
 	if s.Classes6 > 0 && s.Classes6 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(6), s.Classes6)
+		if class, ok = classes[6]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes6)
+		}
 	}
 	if s.Classes7 > 0 && s.Classes7 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(7), s.Classes7)
+		if class, ok = classes[7]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes7)
+		}
 	}
 	if s.Classes8 > 0 && s.Classes8 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(8), s.Classes8)
+		if class, ok = classes[8]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes8)
+		}
 	}
 	if s.Classes9 > 0 && s.Classes9 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(9), s.Classes9)
+		if class, ok = classes[9]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes9)
+		}
 	}
 	if s.Classes10 > 0 && s.Classes10 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(10), s.Classes10)
+		if class, ok = classes[10]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes10)
+		}
 	}
 	if s.Classes11 > 0 && s.Classes11 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(11), s.Classes11)
+		if class, ok = classes[11]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes11)
+		}
 	}
 	if s.Classes12 > 0 && s.Classes12 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(12), s.Classes12)
+		if class, ok = classes[12]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes12)
+		}
 	}
 	if s.Classes13 > 0 && s.Classes13 < 255 {
-		classes += fmt.Sprintf("%s (%d), ", className(13), s.Classes13)
+		if class, ok = classes[13]; ok {
+			classList += fmt.Sprintf("%s (%d), ", class.Name, s.Classes13)
+		}
 	}
-	if len(classes) > 3 {
-		classes = classes[0 : len(classes)-2]
+	if len(classList) > 3 {
+		classList = classList[0 : len(classList)-2]
 	}
-	return classes
+	return classList
 }
 
 var spellEffects = map[int64]*model.SpellEffect{

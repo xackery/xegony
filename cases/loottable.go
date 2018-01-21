@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,25 @@ func (c *LootTableRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *LootTableRepository) Get(lootTableID int64) (lootTable *model.LootTable, err error) {
-	if lootTableID == 0 {
-		err = fmt.Errorf("Invalid LootTable ID")
+func (c *LootTableRepository) Get(lootTable *model.LootTable, user *model.User) (err error) {
+
+	err = c.stor.GetLootTable(lootTable)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot table")
 		return
 	}
-	lootTable, err = c.stor.GetLootTable(lootTableID)
+
+	err = c.prepare(lootTable, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot table")
+		return
+	}
+
 	return
 }
 
 //Create handles logic
-func (c *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
+func (c *LootTableRepository) Create(lootTable *model.LootTable, user *model.User) (err error) {
 	if lootTable == nil {
 		err = fmt.Errorf("Empty lootTable")
 		return
@@ -64,11 +73,16 @@ func (c *LootTableRepository) Create(lootTable *model.LootTable) (err error) {
 	if err != nil {
 		return
 	}
+	err = c.prepare(lootTable, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot table")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *LootTableRepository) Edit(lootTableID int64, lootTable *model.LootTable) (err error) {
+func (c *LootTableRepository) Edit(lootTable *model.LootTable, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -90,16 +104,21 @@ func (c *LootTableRepository) Edit(lootTableID int64, lootTable *model.LootTable
 		return
 	}
 
-	err = c.stor.EditLootTable(lootTableID, lootTable)
+	err = c.stor.EditLootTable(lootTable)
 	if err != nil {
+		return
+	}
+	err = c.prepare(lootTable, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot table")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *LootTableRepository) Delete(lootTableID int64) (err error) {
-	err = c.stor.DeleteLootTable(lootTableID)
+func (c *LootTableRepository) Delete(lootTable *model.LootTable, user *model.User) (err error) {
+	err = c.stor.DeleteLootTable(lootTable)
 	if err != nil {
 		return
 	}
@@ -107,16 +126,33 @@ func (c *LootTableRepository) Delete(lootTableID int64) (err error) {
 }
 
 //List handles logic
-func (c *LootTableRepository) List() (lootTables []*model.LootTable, err error) {
+func (c *LootTableRepository) List(user *model.User) (lootTables []*model.LootTable, err error) {
 	lootTables, err = c.stor.ListLootTable()
 	if err != nil {
 		return
 	}
+	for _, lootTable := range lootTables {
+		err = c.prepare(lootTable, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get loot table")
+			return
+		}
+	}
 	return
 }
 
-func (c *LootTableRepository) prepare(lootTable *model.LootTable) (err error) {
+func (c *LootTableRepository) prepare(lootTable *model.LootTable, user *model.User) (err error) {
 
+	lootTable.Entries, err = c.stor.ListLootTableEntryByLootTable(lootTable)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot table entries")
+		return
+	}
+	lootTable.Npcs, err = c.stor.ListNpcByLootTable(lootTable)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot table npcs")
+		return
+	}
 	return
 }
 

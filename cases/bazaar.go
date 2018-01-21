@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,17 +25,24 @@ func (c *BazaarRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *BazaarRepository) Get(bazaarID int64) (bazaar *model.Bazaar, err error) {
-	if bazaarID == 0 {
-		err = fmt.Errorf("Invalid Bazaar ID")
+func (c *BazaarRepository) Get(bazaar *model.Bazaar, user *model.User) (err error) {
+	err = c.stor.GetBazaar(bazaar)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get bazaar")
 		return
 	}
-	bazaar, err = c.stor.GetBazaar(bazaarID)
+
+	err = c.prepare(bazaar, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare bazaar")
+		return
+	}
+
 	return
 }
 
 //Create handles logic
-func (c *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
+func (c *BazaarRepository) Create(bazaar *model.Bazaar, user *model.User) (err error) {
 	if bazaar == nil {
 		err = fmt.Errorf("Empty bazaar")
 		return
@@ -61,13 +69,19 @@ func (c *BazaarRepository) Create(bazaar *model.Bazaar) (err error) {
 	}
 	err = c.stor.CreateBazaar(bazaar)
 	if err != nil {
+		err = errors.Wrap(err, "failed to create bazaar")
+		return
+	}
+	err = c.prepare(bazaar, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare bazaar")
 		return
 	}
 	return
 }
 
 //Edit handles logic
-func (c *BazaarRepository) Edit(bazaarID int64, bazaar *model.Bazaar) (err error) {
+func (c *BazaarRepository) Edit(bazaar *model.Bazaar, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"price", "accountID", "itemID"}, nil)
 	if err != nil {
 		return
@@ -89,32 +103,46 @@ func (c *BazaarRepository) Edit(bazaarID int64, bazaar *model.Bazaar) (err error
 		return
 	}
 
-	err = c.stor.EditBazaar(bazaarID, bazaar)
+	err = c.stor.EditBazaar(bazaar)
 	if err != nil {
+		err = errors.Wrap(err, "failed to edit bazaar")
+		return
+	}
+	err = c.prepare(bazaar, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare bazaar")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *BazaarRepository) Delete(bazaarID int64) (err error) {
-	err = c.stor.DeleteBazaar(bazaarID)
+func (c *BazaarRepository) Delete(bazaar *model.Bazaar, user *model.User) (err error) {
+	err = c.stor.DeleteBazaar(bazaar)
 	if err != nil {
+		err = errors.Wrap(err, "failed to delete bazaar")
 		return
 	}
 	return
 }
 
 //List handles logic
-func (c *BazaarRepository) List() (bazaars []*model.Bazaar, err error) {
+func (c *BazaarRepository) List(user *model.User) (bazaars []*model.Bazaar, err error) {
 	bazaars, err = c.stor.ListBazaar()
 	if err != nil {
 		return
 	}
+	for _, bazaar := range bazaars {
+		err = c.prepare(bazaar, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare bazaar")
+			return
+		}
+	}
 	return
 }
 
-func (c *BazaarRepository) prepare(bazaar *model.Bazaar) (err error) {
+func (c *BazaarRepository) prepare(bazaar *model.Bazaar, user *model.User) (err error) {
 
 	return
 }

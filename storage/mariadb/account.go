@@ -7,9 +7,9 @@ import (
 )
 
 //GetAccount will grab data from storage
-func (s *Storage) GetAccount(accountID int64) (account *model.Account, err error) {
+func (s *Storage) GetAccount(account *model.Account) (err error) {
 	account = &model.Account{}
-	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE id = ?", accountID)
+	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE id = ?", account.ID)
 	if err != nil {
 		return
 	}
@@ -17,9 +17,9 @@ func (s *Storage) GetAccount(accountID int64) (account *model.Account, err error
 }
 
 //GetAccountByName will grab data from storage
-func (s *Storage) GetAccountByName(name string) (account *model.Account, err error) {
+func (s *Storage) GetAccountByName(account *model.Account) (err error) {
 	account = &model.Account{}
-	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE name = ?", name)
+	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE name = ?", account.Name)
 	if err != nil {
 		return
 	}
@@ -64,8 +64,7 @@ func (s *Storage) ListAccount() (accounts []*model.Account, err error) {
 }
 
 //EditAccount will grab data from storage
-func (s *Storage) EditAccount(accountID int64, account *model.Account) (err error) {
-	account.ID = accountID
+func (s *Storage) EditAccount(account *model.Account) (err error) {
 	result, err := s.db.NamedExec(`UPDATE account SET name=:name, status=:status WHERE id = :id`, account)
 	if err != nil {
 		return
@@ -82,8 +81,8 @@ func (s *Storage) EditAccount(accountID int64, account *model.Account) (err erro
 }
 
 //DeleteAccount will grab data from storage
-func (s *Storage) DeleteAccount(accountID int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM account WHERE id = ?`, accountID)
+func (s *Storage) DeleteAccount(account *model.Account) (err error) {
+	result, err := s.db.Exec(`DELETE FROM account WHERE id = ?`, account.ID)
 	if err != nil {
 		return
 	}

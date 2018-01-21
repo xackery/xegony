@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -51,13 +52,18 @@ func (c *VariableRepository) rebuildCache() (err error) {
 }
 
 //Get handler
-func (c *VariableRepository) Get(variableName string) (variable *model.Variable, err error) {
-	variable = c.variableCache[variableName]
+func (c *VariableRepository) GetByName(variable *model.Variable, user *model.User) (err error) {
+	variable = c.variableCache[variable.Name]
+	err = c.prepare(variable, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare variable")
+		return
+	}
 	return
 }
 
 //Create handler
-func (c *VariableRepository) Create(variable *model.Variable) (err error) {
+func (c *VariableRepository) Create(variable *model.Variable, user *model.User) (err error) {
 	if variable == nil {
 		err = fmt.Errorf("Empty variable")
 		return
@@ -88,11 +94,16 @@ func (c *VariableRepository) Create(variable *model.Variable) (err error) {
 	}
 	c.isVariableCacheLoaded = false
 	c.rebuildCache()
+	err = c.prepare(variable, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare variable")
+		return
+	}
 	return
 }
 
 //Edit handler
-func (c *VariableRepository) Edit(variableName string, variable *model.Variable) (err error) {
+func (c *VariableRepository) Edit(variable *model.Variable, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -114,18 +125,23 @@ func (c *VariableRepository) Edit(variableName string, variable *model.Variable)
 		return
 	}
 
-	if err = c.stor.EditVariable(variableName, variable); err != nil {
+	if err = c.stor.EditVariable(variable); err != nil {
 		return
 	}
 	if err = c.rebuildCache(); err != nil {
+		return
+	}
+	err = c.prepare(variable, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare variable")
 		return
 	}
 	return
 }
 
 //Delete handler
-func (c *VariableRepository) Delete(variableName string) (err error) {
-	err = c.stor.DeleteVariable(variableName)
+func (c *VariableRepository) Delete(variable *model.Variable, user *model.User) (err error) {
+	err = c.stor.DeleteVariable(variable)
 	if err != nil {
 		return
 	}
@@ -143,14 +159,20 @@ func (c *VariableRepository) list() (variables []*model.Variable, err error) {
 }
 
 //List handler
-func (c *VariableRepository) List() (variables []*model.Variable, err error) {
+func (c *VariableRepository) List(user *model.User) (variables []*model.Variable, err error) {
 	for _, variable := range c.variableCache {
+		err = c.prepare(variable, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare variable")
+			return
+		}
 		variables = append(variables, variable)
 	}
+
 	return
 }
 
-func (c *VariableRepository) prepare(variable *model.Variable) (err error) {
+func (c *VariableRepository) prepare(variable *model.Variable, user *model.User) (err error) {
 
 	return
 }

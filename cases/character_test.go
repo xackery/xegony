@@ -7,7 +7,7 @@ import (
 )
 
 func TestCharacterInitialize(t *testing.T) {
-	var err error
+
 	charRepo := &CharacterRepository{}
 	err = charRepo.Initialize(nil)
 	assert.EqualError(t, err, "Invalid storage type")

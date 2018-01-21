@@ -3,6 +3,7 @@ package cases
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
@@ -24,14 +25,23 @@ func (c *LootDropEntryRepository) Initialize(stor storage.Storage) (err error) {
 }
 
 //Get handles logic
-func (c *LootDropEntryRepository) Get(lootDropID int64, itemID int64) (lootDropEntry *model.LootDropEntry, err error) {
+func (c *LootDropEntryRepository) Get(lootDropEntry *model.LootDropEntry, user *model.User) (err error) {
 
-	lootDropEntry, err = c.stor.GetLootDropEntry(lootDropID, itemID)
+	err = c.stor.GetLootDropEntry(lootDropEntry)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot drop entry")
+		return
+	}
+	err = c.prepare(lootDropEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare loot drop entry")
+		return
+	}
 	return
 }
 
 //Create handles logic
-func (c *LootDropEntryRepository) Create(lootDropEntry *model.LootDropEntry) (err error) {
+func (c *LootDropEntryRepository) Create(lootDropEntry *model.LootDropEntry, user *model.User) (err error) {
 	if lootDropEntry == nil {
 		err = fmt.Errorf("Empty lootDropEntry")
 		return
@@ -60,11 +70,16 @@ func (c *LootDropEntryRepository) Create(lootDropEntry *model.LootDropEntry) (er
 	if err != nil {
 		return
 	}
+	err = c.prepare(lootDropEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare loot drop entry")
+		return
+	}
 	return
 }
 
 //Edit handles logic
-func (c *LootDropEntryRepository) Edit(lootDropID int64, itemID int64, lootDropEntry *model.LootDropEntry) (err error) {
+func (c *LootDropEntryRepository) Edit(lootDropEntry *model.LootDropEntry, user *model.User) (err error) {
 	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
@@ -86,16 +101,21 @@ func (c *LootDropEntryRepository) Edit(lootDropID int64, itemID int64, lootDropE
 		return
 	}
 
-	err = c.stor.EditLootDropEntry(lootDropID, itemID, lootDropEntry)
+	err = c.stor.EditLootDropEntry(lootDropEntry)
 	if err != nil {
+		return
+	}
+	err = c.prepare(lootDropEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare loot drop entry")
 		return
 	}
 	return
 }
 
 //Delete handles logic
-func (c *LootDropEntryRepository) Delete(lootDropID int64, itemID int64) (err error) {
-	err = c.stor.DeleteLootDropEntry(lootDropID, itemID)
+func (c *LootDropEntryRepository) Delete(lootDropEntry *model.LootDropEntry, user *model.User) (err error) {
+	err = c.stor.DeleteLootDropEntry(lootDropEntry)
 	if err != nil {
 		return
 	}
@@ -103,15 +123,22 @@ func (c *LootDropEntryRepository) Delete(lootDropID int64, itemID int64) (err er
 }
 
 //List handles logic
-func (c *LootDropEntryRepository) List(lootDropID int64) (lootDropEntrys []*model.LootDropEntry, err error) {
-	lootDropEntrys, err = c.stor.ListLootDropEntry(lootDropID)
+func (c *LootDropEntryRepository) ListByLootDrop(lootDrop *model.LootDrop, user *model.User) (lootDropEntrys []*model.LootDropEntry, err error) {
+	lootDropEntrys, err = c.stor.ListLootDropEntryByLootDrop(lootDrop)
 	if err != nil {
 		return
+	}
+	for _, lootDropEntry := range lootDropEntrys {
+		err = c.prepare(lootDropEntry, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to prepare loot drop entry")
+			return
+		}
 	}
 	return
 }
 
-func (c *LootDropEntryRepository) prepare(lootDropEntry *model.LootDropEntry) (err error) {
+func (c *LootDropEntryRepository) prepare(lootDropEntry *model.LootDropEntry, user *model.User) (err error) {
 
 	return
 }

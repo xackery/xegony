@@ -7,7 +7,12 @@ type Character struct {
 	//Used by ranking system
 	Base      *Base   `json:"base"`
 	Inventory []*Item `json:"inventory"`
-	ClassName string  `json:"className"`
+	Zone      *Zone   `json:"zone"`
+	Race      *Race   `json:"race"`
+	Class     *Class  `json:"class"`
+	AASpent   int64   `json:"aaSpent"`
+	TotalHP   int64   `json:"totalHP"`
+	TotalMana int64   `json:"totalMana"`
 
 	ID                    int64   `json:"id" db:"id"`                                         //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	AccountID             int64   `json:"accountID" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
@@ -22,8 +27,8 @@ type Character struct {
 	Z                     float64 `json:"z" db:"z"`                                           //`z` float NOT NULL DEFAULT '0',
 	Heading               float64 `json:"heading" db:"heading"`                               //`heading` float NOT NULL DEFAULT '0',
 	Gender                int64   `json:"gender" db:"gender"`                                 //`gender` tinyint(11) unsigned NOT NULL DEFAULT '0',
-	Race                  int64   `json:"race" db:"race"`                                     //`race` smallint(11) unsigned NOT NULL DEFAULT '0',
-	Class                 int64   `json:"class" db:"class"`                                   //`class` tinyint(11) unsigned NOT NULL DEFAULT '0',
+	RaceID                int64   `json:"raceID" db:"race"`                                   //`race` smallint(11) unsigned NOT NULL DEFAULT '0',
+	ClassID               int64   `json:"classID" db:"class"`                                 //`class` tinyint(11) unsigned NOT NULL DEFAULT '0',
 	Level                 int64   `json:"level" db:"level"`                                   //`level` int(11) unsigned NOT NULL DEFAULT '0',
 	Deity                 int64   `json:"deity" db:"deity"`                                   //`deity` int(11) unsigned NOT NULL DEFAULT '0',
 	Birthday              int64   `json:"birthday" db:"birthday"`                             //`birthday` int(11) unsigned NOT NULL DEFAULT '0',
@@ -110,127 +115,4 @@ type Character struct {
 	AaPointsSpentOld      int64   `json:"aaPointsSpentOld" db:"aa_points_spent_old"`          //`aa_points_spent_old` int(11) unsigned NOT NULL DEFAULT '0',
 	AaPointsOld           int64   `json:"aaPointsOld" db:"aa_points_old"`                     //`aa_points_old` int(11) unsigned NOT NULL DEFAULT '0',
 	ELastInvsnapshot      int64   `json:"eLastInvsnapshot" db:"e_last_invsnapshot"`           //`e_last_invsnapshot` int(11) unsigned NOT NULL DEFAULT '0',
-}
-
-//ZoneName returns a zone name
-func (c *Character) ZoneName() string {
-	return ZoneName(c.ZoneID)
-}
-
-//RaceIcon returns xa-icon form icon
-func (c *Character) RaceIcon() string {
-	return RaceIcon(c.Race)
-}
-
-//ClassIcon returns xa-icon form icon
-func (c *Character) ClassIcon() string {
-	return ClassIcon(c.Class)
-}
-
-//AA returns number of AAs spent
-func (c *Character) AA() int64 {
-	return 0
-}
-
-//TotalHP returns total HP
-func (c *Character) TotalHP() int64 {
-	var nd float64
-	nd = 10000
-
-	maxHp := c.BaseHP() + c.ItemBonusHP()
-
-	//The AA desc clearly says it only applies to base hp..
-	//but the actual effect sent on live causes the client
-	//to apply it to (basehp + itemhp).. I will oblige to the client's whims over
-	//the aa description
-	nd += float64(c.AABonusMaxHP())            //Natural Durability, Physical Enhancement, Planar Durability
-	maxHp = int64(float64(maxHp) * nd / 10000) //this is to fix the HP-above-495k issue
-	//not needed for unbuffed?
-	//maxHp += c.SpellBonusHP + AABonusHP
-	maxHp += c.GroupLeadershipBonusHP() //GroupLeadershipAAHealthEnhancement();
-	//maxHp += maxHp * ((spellbonuses.MaxHPChange + itembonuses.MaxHPChange) / 10000.0f);
-
-	return maxHp
-}
-
-//ItemBonusHP returns the total HP bonus from items
-func (c *Character) ItemBonusHP() int64 {
-	var hp int64
-	for _, item := range c.Inventory {
-		if item.SlotID >= 0 && item.SlotID < 21 { //charm to one less than ammo
-			hp += item.Hp
-		}
-		if item.SlotID == 22 { //powersource
-			hp += item.Hp
-		}
-		//todo: tribute
-	}
-	return hp
-}
-
-//AABonusMaxHP returns bonus of HP from AAs
-func (c *Character) AABonusMaxHP() int64 {
-	return 0
-}
-
-//GroupLeadershipBonusHP returns how much hp bonus is being received from hp
-func (c *Character) GroupLeadershipBonusHP() int64 {
-	return 0
-}
-
-//BaseHP on source
-func (c *Character) BaseHP() int64 {
-	var baseHP int64
-	stats := c.Sta
-
-	if stats > 255 {
-		stats = (stats - 255) / 2
-		stats += 255
-	}
-	baseHP = 5
-
-	if c.Base != nil {
-		baseHP += int64(c.Base.Hp) + (int64(c.Base.HpFac) * stats)
-		baseHP += (c.HeroicSTA() * 10)
-	}
-
-	return baseHP
-}
-
-//HeroicSTA is based on GetHeroicSTA on source
-func (c *Character) HeroicSTA() int64 {
-	return 0
-}
-
-//TotalMana returns mana
-func (c *Character) TotalMana() int64 {
-	mana := c.Mana
-	return mana
-}
-
-//ATK returns player attack
-func (c *Character) ATK() int64 {
-	atk := c.Dex
-	return atk
-}
-
-//AC returns total AC
-func (c *Character) AC() int64 {
-	ac := c.Agi
-	return ac
-}
-
-//HPRegen returns total hp regeneration
-func (c *Character) HPRegen() int64 {
-	return 0
-}
-
-//ManaRegen returns total mana regeneration
-func (c *Character) ManaRegen() int64 {
-	return 0
-}
-
-//RaceName returns sanitized race name
-func (c *Character) RaceName() string {
-	return RaceName(c.Race)
 }

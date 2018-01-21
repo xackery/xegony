@@ -13,9 +13,9 @@ const (
 )
 
 //GetBase will grab data from storage
-func (s *Storage) GetBase(level int64, class int64) (base *model.Base, err error) {
+func (s *Storage) GetBase(base *model.Base) (err error) {
 	base = &model.Base{}
-	err = s.db.Get(base, fmt.Sprintf("SELECT %s FROM base_data WHERE level = ? AND class = ?", baseFields), level, class)
+	err = s.db.Get(base, fmt.Sprintf("SELECT %s FROM base_data WHERE level = ? AND class = ?", baseFields), base.Level, base.Class)
 	if err != nil {
 		return
 	}
@@ -56,7 +56,7 @@ func (s *Storage) ListBase() (bases []*model.Base, err error) {
 }
 
 //EditBase will grab data from storage
-func (s *Storage) EditBase(level int64, class int64, base *model.Base) (err error) {
+func (s *Storage) EditBase(base *model.Base) (err error) {
 	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE base_data SET %s WHERE level = :level AND class = :class`, baseSets), base)
 	if err != nil {
 		return
@@ -73,8 +73,8 @@ func (s *Storage) EditBase(level int64, class int64, base *model.Base) (err erro
 }
 
 //DeleteBase will grab data from storage
-func (s *Storage) DeleteBase(level int64, class int64) (err error) {
-	result, err := s.db.Exec(`DELETE FROM base_data WHERE level = ? AND class = ?`, level, class)
+func (s *Storage) DeleteBase(base *model.Base) (err error) {
+	result, err := s.db.Exec(`DELETE FROM base_data WHERE level = ? AND class = ?`, base.Level, base.Class)
 	if err != nil {
 		return
 	}
