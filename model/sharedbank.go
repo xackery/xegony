@@ -5,6 +5,7 @@ import (
 )
 
 //SharedBank represents the sharedbank table, used for npcs
+// swagger:response
 type SharedBank struct {
 	AccountID  int64          `json:"acctid" db:"acctid"`         //`acctid` int(11) unsigned DEFAULT '0',
 	SlotID     int64          `json:"slotid" db:"slotid"`         //`slotid` mediumint(7) unsigned DEFAULT '0',

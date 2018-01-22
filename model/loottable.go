@@ -3,6 +3,7 @@ package model
 import ()
 
 //LootTable is the parent of loottableentry
+// swagger:response
 type LootTable struct {
 	ID      int64  `json:"id" db:"id"`           //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	Name    string `json:"name" db:"name"`       //`name` varchar(255) NOT NULL DEFAULT '',

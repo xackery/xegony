@@ -5,6 +5,7 @@ import (
 )
 
 //AuthClaim wraps all token data
+// swagger:response
 type AuthClaim struct {
 	IsAdmin      bool               `json:"isAdmin,omitempty"`
 	IsModerator  bool               `json:"isModerator,omitempty"`

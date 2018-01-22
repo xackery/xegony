@@ -3,6 +3,7 @@ package model
 import ()
 
 //SpellAnimationType stores details about a spell animation
+// swagger:response
 type SpellAnimationType struct {
 	ID   int64
 	Type string

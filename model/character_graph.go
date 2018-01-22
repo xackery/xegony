@@ -5,6 +5,7 @@ import (
 )
 
 //CharacterGraph holds data about players performance, it primarily uses character_graph table
+// swagger:response
 type CharacterGraph struct {
 	ID           int64     `json:"id" db:"id"`                      //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	CharacterID  int64     `json:"characterId" db:"character_id"`   //`character_id` int(11) DEFAULT NULL,

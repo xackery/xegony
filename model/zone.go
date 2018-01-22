@@ -5,7 +5,8 @@ import (
 	"sort"
 )
 
-//Zone represents the zone table, Everquest is split into zones.
+//Zone represents the zone table, Everquest is split into zones
+// swagger:response
 type Zone struct {
 	Levels   int64   `json:"levels" db:"levels"`
 	Modifier float64 `json:"modifier"`

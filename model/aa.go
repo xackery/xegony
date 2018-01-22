@@ -2,7 +2,8 @@ package model
 
 import ()
 
-//Aa represents the spawn2 table, used for npcs
+// Aa represents the root objects of Alternate Abilities
+// swagger:response
 type Aa struct {
 
 	//aa_ability

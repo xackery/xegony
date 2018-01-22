@@ -3,6 +3,7 @@ package model
 import ()
 
 //Faction represents everquest factions
+// swagger:response
 type Faction struct {
 	ID        int64  `json:"id"`
 	Base      int64  `json:"base"`

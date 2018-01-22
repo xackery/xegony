@@ -3,6 +3,7 @@ package model
 import ()
 
 //Fishing represents items inside everquest
+// swagger:response
 type Fishing struct {
 	Item *Item
 	Zone *Zone

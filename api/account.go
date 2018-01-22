@@ -28,12 +28,50 @@ func (a *API) accountRoutes() (routes []*route) {
 			"/account/{accountID}:[0-9]+",
 			a.editAccount,
 		},
+		// swagger:route GET /account/{accountID} account getAccount
+		//
+		// Get an account
+		//
+		// This will get an individual account available accounts by default.
+		//     Security:
+		//       api_key:
+		//       oauth: read, write
+		//
+		//     Responses:
+		//       default: genericError
+		//       200: account
+		//       422: validationError
+		// swagger:parameters getAccount
+		// in: query
 		{
 			"GetAccount",
 			"GET",
 			"/account/{accountID}:[0-9]+",
 			a.getAccount,
 		},
+		// swagger:route GET /account account listAccount
+		//
+		// Lists accounts
+		//
+		// This will show all available accounts by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Security:
+		//       api_key:
+		//       oauth: read, write
+		//
+		//     Responses:
+		//       default: genericError
+		//       200: someResponse
+		//       422: validationError
 		{
 			"ListAccount",
 			"GET",
@@ -132,7 +170,6 @@ func (a *API) editAccount(w http.ResponseWriter, r *http.Request, auth *model.Au
 }
 
 func (a *API) listAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
-
 	accounts, err := a.accountRepo.List(auth.User)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

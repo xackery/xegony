@@ -3,6 +3,7 @@ package model
 import ()
 
 //Base is an everquest base data table representation
+// swagger:response
 type Base struct {
 	Level   int64   `json:"level" db:"level"`      //`level` int(10) unsigned NOT NULL,
 	Class   int64   `json:"class" db:"class"`      //`class` int(10) unsigned NOT NULL,

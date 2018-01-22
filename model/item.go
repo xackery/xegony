@@ -7,6 +7,7 @@ import (
 )
 
 //Item represents items inside everquest
+// swagger:response
 type Item struct {
 	//Reference is used when listing from npc
 	Reference  string        `json:"reference"`

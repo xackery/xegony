@@ -7,9 +7,9 @@ import (
 )
 
 const (
-	errorSets   = `scope=:scope, url=:url, message=:message, severity=:severity, create_date=:create_date`
-	errorFields = `scope, url, message, severity, create_date`
-	errorBinds  = `:scope, :url, :message, :severity, :create_date`
+	errorSets   = `scope=:scope, url=:url, message=:message, severity=:severity`
+	errorFields = `scope, url, message, severity`
+	errorBinds  = `:scope, :url, :message, :severity`
 )
 
 //GetError will grab data from storage
@@ -50,7 +50,7 @@ func (s *Storage) ListErrorCount() (count int64, err error) {
 
 //ListError will grab data from storage
 func (s *Storage) ListError(pageSize int64, pageNumber int64) (errors []*model.Error, err error) {
-	query := fmt.Sprintf(`SELECT xegony_error.id, %s 
+	query := fmt.Sprintf(`SELECT xegony_error.id, create_date,  %s 
 		FROM xegony_error ORDER BY create_date DESC LIMIT %d OFFSET %d`, errorFields, pageSize, pageSize*pageNumber)
 	rows, err := s.db.Queryx(query)
 	if err != nil {
@@ -70,7 +70,7 @@ func (s *Storage) ListError(pageSize int64, pageNumber int64) (errors []*model.E
 //ListErrorByScope will grab data from storage
 func (s *Storage) ListErrorByScope(errStruct *model.Error) (errors []*model.Error, err error) {
 
-	query := fmt.Sprintf(`SELECT xegony_error.id, %s 
+	query := fmt.Sprintf(`SELECT xegony_error.id, create_date, %s 
 		FROM xegony_error WHERE xegony_error.scope = ? ORDER BY create_date DESC`, errorFields)
 	rows, err := s.db.Queryx(query, errStruct.Scope)
 	if err != nil {
@@ -89,7 +89,7 @@ func (s *Storage) ListErrorByScope(errStruct *model.Error) (errors []*model.Erro
 
 //SearchError will grab data from storage
 func (s *Storage) SearchErrorByMessage(errStruct *model.Error) (errors []*model.Error, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM errors 
+	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, create_date, %s FROM errors 
 		WHERE name like ? ORDER BY id DESC`, errorFields), "%"+errStruct.Message+"%")
 	if err != nil {
 		return

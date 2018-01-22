@@ -73,51 +73,53 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 				"/zonemap",
 				a.zoneMapCreate,
 			},
-
-			//CharacterGraph
-			{
-				"CharacterGraphStatus",
-				"GET",
-				"/charactergraph",
-				a.characterGraphStatus,
-			},
-			{
-				"CharacterGraphCreate",
-				"POST",
-				"/charactergraph",
-				a.characterGraphCreate,
-			},
 		*/
+		//CharacterGraph
+		{
+			"GetCharacterGraph",
+			"GET",
+			"/charactergraph",
+			a.characterGraphStatus,
+		},
+		{
+			"CreateCharacterGraph",
+			"POST",
+			"/charactergraph",
+			a.characterGraphCreate,
+		},
 	}
 
 	for _, route := range routes {
 
-		router.HandleFunc(rootPath+route.Pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			start := time.Now()
-
-			auth, err := api.GetAuthClaim(r)
-			user := &model.User{}
-			if err == nil {
-				user = auth.User
-			}
-
-			statusCode := http.StatusOK
-			content, err := route.HandlerFunc(w, r, auth, user, statusCode)
-			if err != nil {
-				a.writeError(w, r, err, statusCode)
-			} else {
-				a.writeData(w, r, content, statusCode)
-			}
-			a.log.Printf(
-				"%s %s -> %s %s",
-				r.Method,
-				r.RequestURI,
-				route.Name,
-				time.Since(start),
-			)
-		})).
+		router.
 			Methods(route.Method).
-			Name(route.Name)
+			Path(rootPath + route.Pattern).
+			Name(route.Name).
+			Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				start := time.Now()
+
+				auth, err := api.GetAuthClaim(r)
+				user := &model.User{}
+				if err == nil {
+					user = auth.User
+				}
+
+				statusCode := http.StatusOK
+				content, err := route.HandlerFunc(w, r, auth, user, statusCode)
+				if err != nil {
+					a.writeError(w, r, err, statusCode)
+				} else {
+					a.writeData(w, r, content, statusCode)
+				}
+				a.log.Printf(
+					"%s %s -> %s %s",
+					r.Method,
+					r.RequestURI,
+					route.Name,
+					time.Since(start),
+				)
+			}))
+
 	}
 	return
 }

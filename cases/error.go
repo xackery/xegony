@@ -62,13 +62,15 @@ func (c *ErrorRepository) Create(errorStruct *model.Error, user *model.User) (er
 		err = fmt.Errorf("Empty error")
 		return
 	}
-	schema, err := c.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema(nil, nil)
 	if err != nil {
+		err = errors.Wrap(err, "failed to build schema")
 		return
 	}
 	errorStruct.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(errorStruct))
 	if err != nil {
+		err = errors.Wrap(err, "failed to build validator")
 		return
 	}
 	if !result.Valid() {
@@ -84,6 +86,7 @@ func (c *ErrorRepository) Create(errorStruct *model.Error, user *model.User) (er
 	}
 	err = c.stor.CreateError(errorStruct)
 	if err != nil {
+		err = errors.Wrap(err, "failed to create")
 		return
 	}
 	err = c.prepare(errorStruct, user)
@@ -96,7 +99,7 @@ func (c *ErrorRepository) Create(errorStruct *model.Error, user *model.User) (er
 
 //Edit handles logic
 func (c *ErrorRepository) Edit(errorStruct *model.Error, user *model.User) (err error) {
-	schema, err := c.newSchema([]string{"name"}, nil)
+	schema, err := c.newSchema(nil, nil)
 	if err != nil {
 		return
 	}

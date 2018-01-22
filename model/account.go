@@ -6,8 +6,10 @@ import (
 	"time"
 )
 
-//Account holds together characters inside Everquest's design
+// Account ties characters together, and represents login information to everquest
+// swagger:response
 type Account struct {
+	//ID of user
 	ID             int64         `json:"id" db:"id"`                         //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name           string        `json:"name" db:"name"`                     //`name` varchar(30) NOT NULL DEFAULT '',
 	Charname       string        `json:"charname" db:"charname"`             //`charname` varchar(64) NOT NULL DEFAULT '',

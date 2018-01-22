@@ -39,7 +39,7 @@ type Endpoint struct {
 }
 
 func initializeServer(t *testing.T) {
-
+	var err error
 	s := &mariadb.Storage{}
 	err = s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", ioutil.Discard)
 	assert.Nil(t, err)
@@ -74,7 +74,7 @@ func getURL() string {
 }
 
 func doHTTPTest(t *testing.T, test Endpoint) string {
-
+	var err error
 	var req *http.Request
 	client := &http.Client{}
 	url := getURL()
@@ -181,7 +181,7 @@ func getAuthKey(t *testing.T) {
 }
 
 func TestIndex(t *testing.T) {
-
+	var err error
 	s := &mariadb.Storage{}
 	s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", ioutil.Discard)
 	assert.Nil(t, err)

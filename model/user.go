@@ -2,7 +2,9 @@ package model
 
 import ()
 
-//User is a login authentication created by Xegony, binding an account ID
+// User represents the user for this application, and binds to accountID
+//
+// swagger:response
 type User struct {
 	Status int64 `json:"status"`
 

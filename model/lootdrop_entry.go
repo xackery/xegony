@@ -3,6 +3,7 @@ package model
 import ()
 
 //LootDropEntry groups together items that npcs drop
+// swagger:response
 type LootDropEntry struct {
 	LootdropID     int64   `json:"lootdropId" db:"lootdrop_id"`         //`lootdrop_id` int(11) unsigned NOT NULL DEFAULT '0',
 	ItemID         int64   `json:"itemID" db:"item_id"`                 //`item_id` int(11) NOT NULL DEFAULT '0',

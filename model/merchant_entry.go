@@ -3,6 +3,7 @@ package model
 import ()
 
 //MerchantEntry group together loot drops for npc drops
+// swagger:response
 type MerchantEntry struct {
 	Item     *Item
 	Merchant *Merchant

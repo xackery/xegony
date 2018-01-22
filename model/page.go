@@ -6,6 +6,7 @@ import (
 )
 
 //Page represents pagination
+// swagger:response
 type Page struct {
 	PageNumber int64
 	PageSize   int64

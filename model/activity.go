@@ -2,7 +2,8 @@ package model
 
 import ()
 
-//Activity is used by Tasks to break down which activities are involved in a provided task
+// Activity represents entries to Tasks
+// swagger:response
 type Activity struct {
 	Zone *Zone `json:"zone"`
 

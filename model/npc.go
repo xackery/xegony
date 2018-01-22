@@ -5,6 +5,7 @@ import (
 )
 
 //Npc represents Non player characters in everquest
+// swagger:response
 type Npc struct {
 	Class                *Class            `json:"class"`
 	Race                 *Race             `json:"race"`

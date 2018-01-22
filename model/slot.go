@@ -3,6 +3,7 @@ package model
 import ()
 
 //Slot represents item slots
+// swagger:response
 type Slot struct {
 	ID        int64  `json:"ID"`
 	BitID     int64  `json:"bitID"`
