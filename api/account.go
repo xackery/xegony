@@ -79,7 +79,7 @@ func (a *API) accountRoutes() (routes []*route) {
 		{
 			"GetAccount",
 			"GET",
-			"/account/{accountID}:[0-9]+",
+			"/account/{accountID:[0-9]+}",
 			a.getAccount,
 		},
 		// swagger:route PUT /account/{accountID} account editAccount
@@ -100,7 +100,7 @@ func (a *API) accountRoutes() (routes []*route) {
 		{
 			"EditAccount",
 			"PUT",
-			"/account/{accountID}:[0-9]+",
+			"/account/{accountID:[0-9]+}",
 			a.editAccount,
 		},
 		// swagger:route DELETE /account/{accountID} account deleteAccount

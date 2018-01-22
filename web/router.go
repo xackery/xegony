@@ -137,33 +137,12 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		routes = append(routes, r)
 	}
 
-	for _, route := range routes {
-		a.log.Println("Adding route", rootPath+route.Pattern)
-		router.
-			Methods(route.Method).
-			Path(rootPath + route.Pattern).
-			Name(route.Name).
-			Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				start := time.Now()
+	for i, _ := range routes {
+		route := routes[i]
+		a.log.Println("path:", route.Pattern)
 
-				auth, err := api.GetAuthClaim(r)
-				user := &model.User{}
-				if err == nil {
-					user = auth.User
-				}
-				statusCode := http.StatusOK
-				route.HandlerFunc(w, r, auth, user, statusCode)
-				a.log.Printf(
-					"%s %s -> %s %s",
-					r.Method,
-					r.RequestURI,
-					route.Name,
-					time.Since(start),
-				)
-			}))
-	}
+		router.HandleFunc(rootPath+route.Pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-	/*		router.HandleFunc(rootPath+route.Pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			start := time.Now()
 
 			auth, err := api.GetAuthClaim(r)
@@ -171,8 +150,15 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			if err == nil {
 				user = auth.User
 			}
+
+			tmp := &template.Template{}
 			statusCode := http.StatusOK
-			route.HandlerFunc(w, r, auth, user, statusCode)
+			content, tmp, err := route.HandlerFunc(w, r, auth, user, statusCode)
+			if err != nil {
+				a.writeError(w, r, err, statusCode)
+			} else {
+				a.writeData(w, r, tmp, content, statusCode)
+			}
 			a.log.Printf(
 				"%s %s -> %s %s",
 				r.Method,
@@ -185,7 +171,6 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 			Name(route.Name)
 
 	}
-	*/
 
 	router.NotFoundHandler = http.HandlerFunc(a.notFound)
 	return

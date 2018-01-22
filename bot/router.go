@@ -89,8 +89,8 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 		},
 	}
 
-	for _, route := range routes {
-
+	for i, _ := range routes {
+		route := routes[i]
 		router.
 			Methods(route.Method).
 			Path(rootPath + route.Pattern).

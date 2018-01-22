@@ -80,13 +80,13 @@ func runServer(cmd *cobra.Command, args []string) {
 	if err = apiServer.Initialize(stor, connection, nil); err != nil {
 		log.Fatal("Failed to initialize apiServer:", err.Error())
 	}
-	//apiServer.ApplyRoutes(router)
+	apiServer.ApplyRoutes(router)
 
 	webServer := web.Web{}
 	if err = webServer.Initialize(stor, connection, nil); err != nil {
 		log.Fatal("Failed to initialize webServer:", err.Error())
 	}
-	//webServer.ApplyRoutes(router)
+	webServer.ApplyRoutes(router)
 
 	router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
 		url, _ := route.URL()

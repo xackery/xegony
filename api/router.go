@@ -103,8 +103,9 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 		routes = append(routes, r)
 	}
 
-	for _, route := range routes {
-
+	for i, _ := range routes {
+		route := routes[i]
+		a.log.Println(route)
 		router.
 			Methods(route.Method).
 			Name(route.Name).

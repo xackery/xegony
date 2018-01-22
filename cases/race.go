@@ -51,7 +51,11 @@ func (c *RaceRepository) rebuildCache() (err error) {
 
 //Get handler
 func (c *RaceRepository) Get(race *model.Race, user *model.User) (err error) {
-	race = c.raceCache[race.ID]
+
+	race, ok := c.raceCache[race.ID]
+	if !ok {
+		return
+	}
 	//race, err = c.stor.GetRace(raceID)
 	return
 }

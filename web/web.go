@@ -282,6 +282,7 @@ func (a *Web) index(w http.ResponseWriter, r *http.Request, auth *model.AuthClai
 }
 
 func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
+	a.log.Println(r.URL, "404 Not Found")
 	var err error
 	path := "www/" + r.URL.Path[1:]
 
@@ -289,13 +290,17 @@ func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, path)
 		return
 	}
+
 	var bData []byte
-	if bData, err = box.ReadFile(path); err != nil {
-		//box open
+	if bData, err = box.ReadFile(path); err == nil {
+		reader := bytes.NewReader(bData)
+		http.ServeContent(w, r, path, time.Now(), reader)
 		return
 	}
-	reader := bytes.NewReader(bData)
-	http.ServeContent(w, r, path, time.Now(), reader)
+
+	//All failed, this is a true 404
+	err = fmt.Errorf("404 - Not Found: %s", r.URL)
+	a.writeError(w, r, err, http.StatusNotFound)
 	return
 }
 
@@ -315,11 +320,12 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 	//Figure out scope based on URL
 
 	a.logErr.Println(err.Error())
-	if cErr := a.errorRepo.Create(&model.Error{
+	cErr := a.errorRepo.Create(&model.Error{
 		URL:     r.URL.String(),
 		Scope:   "unknown",
 		Message: err.Error(),
-	}, nil); cErr != nil {
+	}, nil)
+	if cErr != nil {
 		log.Println("Failed to create error", cErr.Error())
 	}
 
@@ -349,7 +355,8 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 			}
 		}
 		site.Title = "404 - Not Found"
-	case http.StatusInternalServerError: //500
+	default: //500
+		statusCode = http.StatusInternalServerError
 		if tmp == nil {
 			tmp, tErr = a.loadTemplate(nil, "500", "500.tpl")
 			if tErr != nil {
