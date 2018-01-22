@@ -2,7 +2,7 @@ package model
 
 import ()
 
-// swagger:response
+// swagger:model
 type ItemAttribute struct {
 	Icon string
 }

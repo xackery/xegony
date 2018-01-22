@@ -3,7 +3,7 @@ package model
 import ()
 
 //Post are topic entries for forums
-// swagger:response
+// swagger:model
 type Post struct {
 	ID      int64  `json:"id"`
 	Body    string `json:"body"`

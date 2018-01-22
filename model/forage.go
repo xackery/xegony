@@ -3,7 +3,7 @@ package model
 import ()
 
 //Forage represents items inside everquest
-// swagger:response
+// swagger:model
 type Forage struct {
 	Item *Item
 	Zone *Zone

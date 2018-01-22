@@ -3,7 +3,7 @@ package model
 import ()
 
 //RecipeEntry group together loot drops for npc drops
-// swagger:response
+// swagger:model
 type RecipeEntry struct {
 	Item   *Item   `json:"item"`
 	Recipe *Recipe `json:"recipe"`

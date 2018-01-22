@@ -5,7 +5,7 @@ import (
 )
 
 //Rule represents the zone table, Everquest is split into zones.
-// swagger:response
+// swagger:model
 type Rule struct {
 	ValueFloat float64 `json:"valueFloat"`
 	ValueInt   int64   `json:"valueInt"`

@@ -5,7 +5,7 @@ import (
 )
 
 //Spawn represents the spawn2 table, used for npcs
-// swagger:response
+// swagger:model
 type Spawn struct {
 	XScaled float64 `json:"xScaled"`
 	YScaled float64 `json:"yScaled"`

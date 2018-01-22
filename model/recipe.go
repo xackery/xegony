@@ -7,7 +7,7 @@ import (
 )
 
 //Recipe represents tradeskill recipes inside everquest
-// swagger:response
+// swagger:model
 type Recipe struct {
 	Entrys []*RecipeEntry `json:"entrys"`
 

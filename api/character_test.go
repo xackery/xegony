@@ -194,7 +194,7 @@ func TestCharacterEndpoints(t *testing.T) {
 	})
 	//This should be a 304 / no content response
 	doHTTPTest(t, Endpoint{
-		name:         "NoContentEditCharacter",
+		name:         "ErrNoContentEditCharacter",
 		path:         "/api/character/1",
 		method:       "PUT",
 		body:         `{"id":1,"name":"TestTwo","image":"http://lfg.link/image.png","thumbnail":"http://lfg.link/thumbnail.png"}`,

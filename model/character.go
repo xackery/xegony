@@ -3,7 +3,7 @@ package model
 import ()
 
 //Character holds data about players inside Everquest, it primarily uses character_data table
-// swagger:response
+// swagger:model
 type Character struct {
 	//Used by ranking system
 	Base      *Base   `json:"base"`

@@ -2,7 +2,7 @@ package model
 
 import ()
 
-// swagger:response
+// swagger:model
 type ItemCategory struct {
 	ID   int64
 	Name string

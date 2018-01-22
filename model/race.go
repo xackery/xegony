@@ -3,7 +3,7 @@ package model
 import ()
 
 //Race holds data about races (including models)
-// swagger:response
+// swagger:model
 type Race struct {
 	ID      int64  `json:"id"`
 	Name    string `json:"name"`

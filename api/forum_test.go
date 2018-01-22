@@ -150,7 +150,7 @@ func TestForumEndpoints(t *testing.T) {
 		useAuth:      true,
 	})
 	doHTTPTest(t, Endpoint{
-		name:         "NoContentEditForum",
+		name:         "ErrNoContentEditForum",
 		path:         "/api/forum/2",
 		method:       "PUT",
 		body:         `{"id":2,"status":0,"name":"TestTwo"}`,

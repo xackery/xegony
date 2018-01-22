@@ -1,16 +1,8 @@
 // Package api Xegony API.
 //
-//
-// This should demonstrate all the possible comment annotations
-// that are available to turn go code into a fully compliant swagger 2.0 spec
-//
-// Terms Of Service:
-//
-// there are no TOS at this moment, use at your own risk we take no responsibility
-//
-//     Schemes: http, https
-//     Host: localhost
-//     BasePath: /v2
+//     Schemes: http
+//     Host: localhost:8080
+//     BasePath: /api
 //     Version: 0.0.1
 //     License: MIT http://opensource.org/licenses/MIT
 //     Contact: Xackery<xackery@gmail.com>
@@ -21,23 +13,16 @@
 //     Produces:
 //     - application/json
 //     - application/xml
+//     - application/yaml
 //
 //     Security:
-//     - api_key:
+//     - apiKey:
 //
 //     SecurityDefinitions:
-//     api_key:
+//     apiKey:
 //          type: apiKey
-//          name: KEY
+//          name: Authorization
 //          in: header
-//     oauth2:
-//         type: oauth2
-//         authorizationUrl: /oauth2/auth
-//         tokenUrl: /oauth2/token
-//         in: header
-//         scopes:
-//           bar: foo
-//         flow: accessCode
 //
 //     Extensions:
 //     x-meta-value: value
@@ -303,6 +288,7 @@ func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 
 	switch tErr := errors.Cause(err).(type) {
 	case *model.ErrNoContent:
+		statusCode = http.StatusNoContent
 		return
 	case *model.ErrValidation:
 		content.Fields = map[string]string{}
@@ -316,6 +302,8 @@ func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 		statusCode = http.StatusBadRequest
 	case *model.ErrPermission:
 		statusCode = http.StatusUnauthorized
+	default:
+		statusCode = http.StatusInternalServerError
 	}
 
 	return

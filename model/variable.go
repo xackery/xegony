@@ -5,7 +5,7 @@ import (
 )
 
 //Variable represents the zone table, Everquest is split into zones.
-// swagger:response
+// swagger:model
 type Variable struct {
 	Name        string    `json:"name" db:"varname"`            //`varname` varchar(25) NOT NULL DEFAULT '',
 	Value       string    `json:"value" db:"value"`             //`value` text NOT NULL,

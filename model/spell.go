@@ -5,7 +5,7 @@ import (
 )
 
 //Spell represents items inside everquest
-// swagger:response
+// swagger:model
 type Spell struct {
 	Skill            *Skill         `json:"skill"`
 	TypeName         string         `json:"typeName"`

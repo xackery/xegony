@@ -3,7 +3,7 @@ package model
 import ()
 
 //Skill represents skills inside everquest
-// swagger:response
+// swagger:model
 type Skill struct {
 	ID   int64  `json:"ID" db:"id"`
 	Name string `json:"name" db:"name"`

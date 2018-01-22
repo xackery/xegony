@@ -7,7 +7,7 @@ import (
 )
 
 //Hacker represents hacker reports inside everquest
-// swagger:response
+// swagger:model
 type Hacker struct {
 	Zone      *Zone
 	Account   *Account

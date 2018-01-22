@@ -3,7 +3,7 @@ package model
 import ()
 
 // Aa represents the root objects of Alternate Abilities
-// swagger:response
+// swagger:model
 type Aa struct {
 
 	//aa_ability

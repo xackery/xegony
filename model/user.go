@@ -4,7 +4,7 @@ import ()
 
 // User represents the user for this application, and binds to accountID
 //
-// swagger:response
+// swagger:model
 type User struct {
 	Status int64 `json:"status"`
 

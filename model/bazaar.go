@@ -5,7 +5,7 @@ import (
 )
 
 //Bazaar is an item store on the website
-// swagger:response
+// swagger:model
 type Bazaar struct {
 	Item       *Item
 	ID         int64     `json:"id" db:"id"`

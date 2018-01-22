@@ -5,7 +5,7 @@ import (
 )
 
 //Task is an everquest entry, grouping the Activities entries
-// swagger:response
+// swagger:model
 type Task struct {
 	ID           int64  `json:"id" db:"id"`                     //`id` int(11) unsigned NOT NULL DEFAULT '0',
 	Duration     int64  `json:"duration" db:"duration"`         //`duration` int(11) unsigned NOT NULL DEFAULT '0',

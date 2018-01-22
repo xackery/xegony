@@ -3,7 +3,7 @@ package model
 import ()
 
 //Schema represents http://json-schema.org/latest/json-schema-validation.html#anchor111
-// swagger:response
+// swagger:model
 type Schema struct {
 	//Schema      string   `json:"$schema,omitempty"`
 	Type              string            `json:"string,omitempty"` //integer, string, object

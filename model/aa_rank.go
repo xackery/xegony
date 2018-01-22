@@ -3,7 +3,7 @@ package model
 import ()
 
 // AaRank represents the root objects of Alternate Abilities
-// swagger:response
+// swagger:model
 type AaRank struct {
 
 	//aa_ranks

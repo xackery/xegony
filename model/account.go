@@ -6,8 +6,12 @@ import (
 	"time"
 )
 
+// Accounts is an array of account
+// swagger:model
+type Accounts []*Account
+
 // Account ties characters together, and represents login information to everquest
-// swagger:response
+// swagger:model
 type Account struct {
 	//ID of user
 	ID             int64         `json:"id" db:"id"`                         //`id` int(11) NOT NULL AUTO_INCREMENT,

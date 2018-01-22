@@ -3,7 +3,7 @@ package model
 import ()
 
 //Forum is the parent of topics, which groups posts together into sections
-// swagger:response
+// swagger:model
 type Forum struct {
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`

@@ -2,7 +2,7 @@ package model
 
 import ()
 
-// swagger:response
+// swagger:model
 type SpawnGroup struct {
 	ID int64 `json:"id" db:"id"`
 }

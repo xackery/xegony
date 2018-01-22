@@ -3,7 +3,7 @@ package model
 import ()
 
 //Topic is the entries inside forum, grouping posts
-// swagger:response
+// swagger:model
 type Topic struct {
 	ID      int64  `json:"id"`
 	Title   string `json:"title"`

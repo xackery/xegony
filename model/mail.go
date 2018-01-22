@@ -3,7 +3,7 @@ package model
 import ()
 
 //Mail represents mail inside everquest
-// swagger:response
+// swagger:model
 type Mail struct {
 	ID          int64  `json:"ID" db:"msgid"`            //`msgid` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	CharacterID int64  `json:"characterID" db:"charid"`  //`charid` int(10) unsigned NOT NULL DEFAULT '0',

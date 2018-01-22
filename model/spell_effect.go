@@ -3,7 +3,7 @@ package model
 import ()
 
 //SpellEffect stores details about a spell's effects
-// swagger:response
+// swagger:model
 type SpellEffect struct {
 	ID       int64
 	Type     int64

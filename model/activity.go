@@ -2,8 +2,12 @@ package model
 
 import ()
 
+// Activities is an array of activity
+// swagger:model
+type Activities []*Activity
+
 // Activity represents entries to Tasks
-// swagger:response
+// swagger:model
 type Activity struct {
 	Zone *Zone `json:"zone"`
 

@@ -5,7 +5,7 @@ import (
 )
 
 //Error is used for Xegony Error handling
-// swagger:response
+// swagger:model
 type Error struct {
 	ID         int64  `json:"id" db:"id"`                  //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	URL        string `json:"url" db:"url"`                //`url` varchar(32) NOT NULL DEFAULT '',
@@ -15,18 +15,27 @@ type Error struct {
 	CreateDate int64  `json:"createDate" db:"create_date"` //`create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 }
 
-// ErrNoContent is an error that is used when no content should be displayed
-// swagger:response ErrNoContent
+// ErrNoContent is an is used when no content should be displayed
+// swagger:model ErrNoContent
 type ErrNoContent struct {
 }
 
-//Error wraps the error message to satisfy the error type interface
 func (e *ErrNoContent) Error() string {
-	return "No content provided"
+	return ""
+}
+
+// ErrInternal is an internal server error
+// swagger:model
+type ErrInternal struct {
+	Message string
+}
+
+func (e *ErrInternal) Error() string {
+	return e.Message
 }
 
 //ErrDecodeBody is a failure to decode a request body
-// swagger:response
+// swagger:model
 type ErrDecodeBody struct {
 }
 
@@ -36,7 +45,7 @@ func (e *ErrDecodeBody) Error() string {
 }
 
 //ErrInvalidArguments means arguments being passed in a request were invalid
-// swagger:response
+// swagger:model
 type ErrInvalidArguments struct {
 }
 
@@ -46,7 +55,7 @@ func (e *ErrInvalidArguments) Error() string {
 }
 
 //ErrValidation has many errors represented as Key/Value pairs of Field:Description inside REasons
-// swagger:response
+// swagger:model
 type ErrValidation struct {
 	Message string
 	Reasons map[string]string
@@ -63,7 +72,7 @@ type StackTracer interface {
 }
 
 //ErrPermission is a permission denied generic error
-// swagger:response
+// swagger:model
 type ErrPermission struct {
 	Message string
 }

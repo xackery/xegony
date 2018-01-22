@@ -138,7 +138,7 @@ func TestBazaarEndpoints(t *testing.T) {
 		useAuth:      true,
 	})
 	doHTTPTest(t, Endpoint{
-		name:   "NoContentEditBazaar",
+		name:   "ErrNoContentEditBazaar",
 		path:   "/api/bazaar/2",
 		method: "PUT",
 		body: &model.Bazaar{

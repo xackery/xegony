@@ -139,7 +139,7 @@ func TestAccountEndpoints(t *testing.T) {
 		useAuth:      true,
 	})
 	doHTTPTest(t, Endpoint{
-		name:         "NoContentEditAccount",
+		name:         "ErrNoContentEditAccount",
 		path:         "/api/account/2",
 		method:       "PUT",
 		body:         `{"id":2,"status":0,"name":"TestTwo"}`,
