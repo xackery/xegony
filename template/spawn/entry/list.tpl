@@ -19,8 +19,8 @@
 				<div class="panel-body">
 				<table class="table table-striped">
 					<tbody>
-					<tr><td>SpawngroupID</td><td>{{.Spawn.SpawngroupID}}</td></tr>
-					<tr><td>Zone</td><td>{{.Spawn.Zone.String}}</td></tr>
+					<tr><td>ID</td><td>{{.Spawn.ID}}</td></tr>
+					<tr><td>Zone</td><td>{{.Spawn.Zone.Name}}</td></tr>
 					{{if .Spawn.Version}}<tr><td>Version</td><td>{{.Spawn.Version}}</td></tr>{{end}}
 					<tr><td>X</td><td>{{.Spawn.X}}</td></tr>
 					<tr><td>Y</td><td>{{.Spawn.Y}}</td></tr>

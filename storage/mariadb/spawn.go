@@ -40,7 +40,7 @@ func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
 
 //ListSpawn will grab data from storage
 func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
-	query := fmt.Sprintf(`SELECT id, %s FROM %s ORDER BY id DESC`, spawnFields, spawnTable)
+	query := fmt.Sprintf(`SELECT id, %s FROM %s ORDER BY id DESC LIMIT 50`, spawnFields, spawnTable)
 	rows, err := s.db.Queryx(query)
 	if err != nil {
 		return

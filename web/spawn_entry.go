@@ -1,10 +1,8 @@
 package web
 
-/*
 import (
-	"net/http"
 	"html/template"
-	"strings"
+	"net/http"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -12,18 +10,17 @@ import (
 
 func (a *Web) spawnEntryRoutes() (routes []*route) {
 	routes = []*route{
-
 		//SpawnEntry
 		{
 			"ListSpawnEntry",
 			"GET",
-			"/spawn/{spawnGroupID}",
+			"/spawn/{spawnID:[0-9]+}/entry",
 			a.listSpawnEntry,
 		},
 		{
 			"GetSpawnEntry",
 			"GET",
-			"/spawn/{spawnGroupID}/{npcID}",
+			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
 			a.getSpawnEntry,
 		},
 	}
@@ -32,35 +29,39 @@ func (a *Web) spawnEntryRoutes() (routes []*route) {
 
 func (a *Web) listSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
-
-	spawnGroupID, err := getIntVar(r, "spawnGroupID")
-	if err != nil {
-		err = errors.Wrap(err, "spawnEntryID argument is required")
-				return
-	}
-
-	type Content struct {
+	type Out struct {
 		Site        site
 		Spawn       *model.Spawn
 		SpawnEntrys []*model.SpawnEntry
 	}
 
 	site := a.newSite(r)
-	site.Page = "spawnentry"
-	site.Title = "spawnentry"
-	site.Section = "spawnentry"
+	site.Page = "spawnEntry"
+	site.Title = "SpawnEntry"
+	site.Section = "spawnEntry"
 
-	spawnEntrys, _, err := a.spawnEntryRepo.List(spawnGroupID)
+	spawnID, err := getIntVar(r, "spawnID")
 	if err != nil {
-				return
+		err = errors.Wrap(err, "spawnID argument is required")
+		return
 	}
 
-	spawn, err := a.spawnRepo.Get(spawnGroupID)
-	if err != nil {
-				return
+	spawn := &model.Spawn{
+		ID: spawnID,
 	}
 
-	content = Content{
+	err = a.spawnRepo.Get(spawn, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get spawn")
+		return
+	}
+
+	spawnEntrys, err := a.spawnEntryRepo.ListBySpawn(spawn, user)
+	if err != nil {
+		return
+	}
+
+	out := &Out{
 		Site:        site,
 		SpawnEntrys: spawnEntrys,
 		Spawn:       spawn,
@@ -68,82 +69,66 @@ func (a *Web) listSpawnEntry(w http.ResponseWriter, r *http.Request, user *model
 
 	tmp = a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "spawnentry/list.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "spawn/entry/list.tpl")
 		if err != nil {
-						return
+			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-						return
+			return
 		}
 
-		a.setTemplate("spawnentry", tmp)
+		a.setTemplate("spawnEntry", tmp)
 	}
 
-		return
+	content = out
+	return
 }
 
 func (a *Web) getSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
-
 	type Content struct {
 		Site       site
 		SpawnEntry *model.SpawnEntry
-		Npc        *model.Npc
 	}
 
-	spawnGroupID, err := getIntVar(r, "spawnGroupID")
+	spawnEntryID, err := getIntVar(r, "spawnEntryID")
 	if err != nil {
 		err = errors.Wrap(err, "spawnEntryID argument is required")
-				return
+		return
 	}
-
-	if strings.ToLower(getVar(r, "npcID")) == "details" {
-		a.getSpawn(w, r)
+	spawnEntry := &model.SpawnEntry{
+		ID: spawnEntryID,
+	}
+	err = a.spawnEntryRepo.Get(spawnEntry, user)
+	if err != nil {
+		err = errors.Wrap(err, "Request error")
 		return
 	}
 
-	npcID, err := getIntVar(r, "npcID")
-	if err != nil {
-		err = errors.Wrap(err, "npcID argument is required")
-				return
-	}
-	spawnEntry, _, err := a.spawnEntryRepo.Get(spawnGroupID, npcID)
-	if err != nil {
-		err = errors.Wrap(err, "Request error")
-				return
-	}
-
-	npc, err := a.npcRepo.Get(npcID)
-	if err != nil {
-		err = errors.Wrap(err, "Request error for npc")
-				return
-	}
 	site := a.newSite(r)
-	site.Page = "spawnentry"
-	site.Title = "spawnentry"
-	site.Section = "spawnentry"
+	site.Page = "spawnEntry"
+	site.Title = "SpawnEntry"
+	site.Section = "spawnEntry"
 
 	content = Content{
 		Site:       site,
 		SpawnEntry: spawnEntry,
-		Npc:        npc,
 	}
 
 	tmp = a.getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "spawnentry/get.tpl")
+		tmp, err = a.loadTemplate(nil, "body", "spawn/entry/get.tpl")
 		if err != nil {
-						return
+			return
 		}
 		tmp, err = a.loadStandardTemplate(tmp)
 		if err != nil {
-						return
+			return
 		}
 
-		a.setTemplate("spawnentry", tmp)
+		a.setTemplate("spawnEntry", tmp)
 	}
 
-		return
+	return
 }
-*/

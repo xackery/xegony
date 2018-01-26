@@ -1,6 +1,5 @@
 package cases
 
-/*
 import (
 	"fmt"
 
@@ -27,38 +26,32 @@ func (c *SpawnEntryRepository) Initialize(stor storage.Storage) (err error) {
 
 //Get handles logic
 func (c *SpawnEntryRepository) Get(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
-
 	err = c.stor.GetSpawnEntry(spawnEntry)
 	if err != nil {
-		err = errors.Wrap(err, "failed to get spawn entry")
+		err = errors.Wrap(err, "failed to get spawnEntry")
 		return
 	}
+
 	err = c.prepare(spawnEntry, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare spawn entry")
+		err = errors.Wrap(err, "failed to prepare spawnEntry")
 		return
 	}
+
 	return
 }
 
 //Create handles logic
 func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
 	if spawnEntry == nil {
-		err = fmt.Errorf("Empty SpawnEntry")
+		err = fmt.Errorf("Empty spawnEntry")
 		return
 	}
-	if spawnEntry.SpawngroupID == 0 {
-		err = fmt.Errorf("Invalid SpawnGroup ID")
-		return
-	}
-	if spawnEntry.NpcID == 0 {
-		err = fmt.Errorf("Invalid Npc ID")
-		return
-	}
-	schema, err := c.newSchema(nil, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
+	spawnEntry.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(spawnEntry))
 	if err != nil {
 		return
@@ -80,7 +73,7 @@ func (c *SpawnEntryRepository) Create(spawnEntry *model.SpawnEntry, user *model.
 	}
 	err = c.prepare(spawnEntry, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare spawn entry")
+		err = errors.Wrap(err, "failed to prepare spawnEntry")
 		return
 	}
 	return
@@ -115,7 +108,7 @@ func (c *SpawnEntryRepository) Edit(spawnEntry *model.SpawnEntry, user *model.Us
 	}
 	err = c.prepare(spawnEntry, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare spawn entry")
+		err = errors.Wrap(err, "failed to prepare spawnEntry")
 		return
 	}
 	return
@@ -131,47 +124,31 @@ func (c *SpawnEntryRepository) Delete(spawnEntry *model.SpawnEntry, user *model.
 }
 
 //List handles logic
-func (c *SpawnEntryRepository) ListBySpawnGroup(spawnGroup *model.SpawnGroup, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
-	spawnEntrys, err = c.stor.ListSpawnEntryBySpawnGroup(spawnGroup)
+func (c *SpawnEntryRepository) List(user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
+	spawnEntrys, err = c.stor.ListSpawnEntry()
 	if err != nil {
 		return
 	}
 	for _, spawnEntry := range spawnEntrys {
 		err = c.prepare(spawnEntry, user)
 		if err != nil {
-			err = errors.Wrap(err, "failed to prepare spawn entry")
+			err = errors.Wrap(err, "failed to prepare spawnEntry")
 			return
 		}
 	}
 	return
 }
 
-//ListByNpc handles logic
-func (c *SpawnEntryRepository) ListByNpc(npc *model.Npc, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
-	spawnEntrys, err = c.stor.ListSpawnEntryByNpc(npc)
+//List handles logic
+func (c *SpawnEntryRepository) ListBySpawn(spawn *model.Spawn, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
+	spawnEntrys, err = c.stor.ListSpawnEntryBySpawn(spawn)
 	if err != nil {
 		return
 	}
 	for _, spawnEntry := range spawnEntrys {
 		err = c.prepare(spawnEntry, user)
 		if err != nil {
-			err = errors.Wrap(err, "failed to prepare spawn entry")
-			return
-		}
-	}
-	return
-}
-
-//ListByZone handles logic
-func (c *SpawnEntryRepository) ListByZone(zone *model.Zone, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
-	spawnEntrys, err = c.stor.ListSpawnEntryByZone(zone)
-	if err != nil {
-		return
-	}
-	for _, spawnEntry := range spawnEntrys {
-		err = c.prepare(spawnEntry, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed to prepare spawn entry")
+			err = errors.Wrap(err, "failed to prepare spawnEntry")
 			return
 		}
 	}
@@ -212,13 +189,20 @@ func (c *SpawnEntryRepository) newSchema(requiredFields []string, optionalFields
 
 func (c *SpawnEntryRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
 	switch field {
+	case "status":
+		prop.Type = "integer"
+		prop.Minimum = 1
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
+	case "name":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 30
+		prop.Pattern = "^[a-zA-Z]*$"
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}
 
 	return
 }
-*/

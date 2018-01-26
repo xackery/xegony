@@ -120,6 +120,10 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 	for _, r := range newRoutes {
 		routes = append(routes, r)
 	}
+	newRoutes = a.spawnEntryRoutes()
+	for _, r := range newRoutes {
+		routes = append(routes, r)
+	}
 	newRoutes = a.spellRoutes()
 	for _, r := range newRoutes {
 		routes = append(routes, r)

@@ -94,6 +94,7 @@ type API struct {
 	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
 	spawnRepo          *cases.SpawnRepository
+	spawnEntryRepo     *cases.SpawnEntryRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
@@ -175,12 +176,14 @@ func (a *API) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.postRepo.Initialize(s); err != nil {
 		return
 	}
-
 	a.spawnRepo = &cases.SpawnRepository{}
 	if err = a.spawnRepo.Initialize(s); err != nil {
 		return
 	}
-
+	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
+	if err = a.spawnEntryRepo.Initialize(s); err != nil {
+		return
+	}
 	a.taskRepo = &cases.TaskRepository{}
 	if err = a.taskRepo.Initialize(s); err != nil {
 		return

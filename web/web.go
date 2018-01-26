@@ -61,15 +61,15 @@ type Web struct {
 	recipeEntryRepo    *cases.RecipeEntryRepository
 	ruleRepo           *cases.RuleRepository
 	skillRepo          *cases.SkillRepository
-	//spawnEntryRepo     *cases.SpawnEntryRepository
-	spawnRepo     *cases.SpawnRepository
-	spellRepo     *cases.SpellRepository
-	taskRepo      *cases.TaskRepository
-	topicRepo     *cases.TopicRepository
-	userRepo      *cases.UserRepository
-	variableRepo  *cases.VariableRepository
-	zoneLevelRepo *cases.ZoneLevelRepository
-	zoneRepo      *cases.ZoneRepository
+	spawnRepo          *cases.SpawnRepository
+	spawnEntryRepo     *cases.SpawnEntryRepository
+	spellRepo          *cases.SpellRepository
+	taskRepo           *cases.TaskRepository
+	topicRepo          *cases.TopicRepository
+	userRepo           *cases.UserRepository
+	variableRepo       *cases.VariableRepository
+	zoneLevelRepo      *cases.ZoneLevelRepository
+	zoneRepo           *cases.ZoneRepository
 }
 
 func (a *Web) newSite(r *http.Request) (data site) {
@@ -213,10 +213,10 @@ func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.spawnRepo.Initialize(s); err != nil {
 		return
 	}
-	/*a.spawnEntryRepo = &cases.SpawnEntryRepository{}
+	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
 	if err = a.spawnEntryRepo.Initialize(s); err != nil {
 		return
-	}*/
+	}
 	a.spellRepo = &cases.SpellRepository{}
 	if err = a.spellRepo.Initialize(s); err != nil {
 		return
