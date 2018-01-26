@@ -68,7 +68,7 @@ func (s *Storage) ListSpellCount() (count int64, err error) {
 	return
 }
 
-//SearchSpell will grab data from storage
+//SearchSpellByName will grab data from storage
 func (s *Storage) SearchSpellByName(spell *model.Spell) (spells []*model.Spell, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM spells_new 
 		WHERE name like ? ORDER BY id DESC`, spellFields), "%"+spell.Name.String+"%")

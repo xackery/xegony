@@ -126,7 +126,7 @@ func (c *RecipeEntryRepository) Delete(recipeEntry *model.RecipeEntry, user *mod
 	return
 }
 
-//List handles logic
+//ListByRecipe handles logic
 func (c *RecipeEntryRepository) ListByRecipe(recipe *model.Recipe, user *model.User) (recipeEntrys []*model.RecipeEntry, err error) {
 	recipeEntrys, err = c.stor.ListRecipeEntryByRecipe(recipe)
 	if err != nil {

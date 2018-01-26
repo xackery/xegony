@@ -129,7 +129,7 @@ func (c *MerchantEntryRepository) Delete(merchantEntry *model.MerchantEntry, use
 	return
 }
 
-//List handles logic
+//ListByMerchant handles logic
 func (c *MerchantEntryRepository) ListByMerchant(merchant *model.Merchant, user *model.User) (merchantEntrys []*model.MerchantEntry, err error) {
 	merchantEntrys, err = c.stor.ListMerchantEntryByMerchant(merchant)
 	if err != nil {

@@ -41,7 +41,7 @@ func (s *Storage) CreateCharacterGraph(characterGraph *model.CharacterGraph) (er
 	return
 }
 
-//ListCharacterGraph will grab data from storage
+//ListCharacterGraphByCharacter will grab data from storage
 func (s *Storage) ListCharacterGraphByCharacter(character *model.Character) (characterGraphs []*model.CharacterGraph, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM character_graph WHERE character_id = ? ORDER BY create_date DESC`, characterGraphFields), character.ID)
 	if err != nil {

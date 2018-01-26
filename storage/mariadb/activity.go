@@ -58,7 +58,7 @@ func (s *Storage) CreateActivity(activity *model.Activity) (err error) {
 	return
 }
 
-//ListActivity will grab data from storage
+//ListActivityByTask will grab data from storage
 func (s *Storage) ListActivityByTask(task *model.Task) (activitys []*model.Activity, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM activities WHERE taskid = ? ORDER BY activityid DESC`, activityFields), task.ID)
 	if err != nil {

@@ -41,7 +41,7 @@ func (s *Storage) CreateRecipe(recipe *model.Recipe) (err error) {
 	return
 }
 
-//ListRecipeByTradeskill will grab data from storage
+//ListRecipeBySkill will grab data from storage
 func (s *Storage) ListRecipeBySkill(skill *model.Skill, pageSize int64, pageNumber int64) (recipes []*model.Recipe, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM tradeskill_recipe 
 		WHERE tradeskill = ? ORDER BY trivial ASC LIMIT %d OFFSET %d`, recipeFields, pageSize, pageSize*pageNumber), skill.ID)
@@ -59,7 +59,7 @@ func (s *Storage) ListRecipeBySkill(skill *model.Skill, pageSize int64, pageNumb
 	return
 }
 
-//ListRecipeByTradeskillCount will grab data from storage
+//ListRecipeBySkillCount will grab data from storage
 func (s *Storage) ListRecipeBySkillCount(skill *model.Skill) (count int64, err error) {
 	err = s.db.Get(&count, `SELECT count(id) FROM tradeskill_recipe WHERE tradeskill = ?`, skill.ID)
 	if err != nil {
@@ -95,7 +95,7 @@ func (s *Storage) ListRecipeCount() (count int64, err error) {
 	return
 }
 
-//SearchRecipe will grab data from storage
+//SearchRecipeByName will grab data from storage
 func (s *Storage) SearchRecipeByName(recipe *model.Recipe) (recipes []*model.Recipe, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM tradeskill_recipe 
 		WHERE name like ? ORDER BY id DESC`, recipeFields), "%"+recipe.Name+"%")

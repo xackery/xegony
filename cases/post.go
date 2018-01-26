@@ -121,7 +121,7 @@ func (c *PostRepository) Delete(post *model.Post, user *model.User) (err error) 
 	return
 }
 
-//List handles logic
+//ListByTopic handles logic
 func (c *PostRepository) ListByTopic(topic *model.Topic, user *model.User) (posts []*model.Post, err error) {
 	posts, err = c.stor.ListPostByTopic(topic)
 	if err != nil {

@@ -69,7 +69,7 @@ func (s *Storage) ListSpawnNpcBySpawn(spawn *model.Spawn) (spawnNpcs []*model.Sp
 	return
 }
 
-//ListSpawnNpcBySpawn will grab data from storage
+//ListSpawnNpcByNpc will grab data from storage
 func (s *Storage) ListSpawnNpcByNpc(npc *model.Npc) (spawnNpcs []*model.SpawnNpc, err error) {
 	query := fmt.Sprintf(`SELECT %s FROM %s WHERE npcid = ? ORDER BY spawngroupid DESC`, spawnNpcFields, spawnNpcTable)
 	rows, err := s.db.Queryx(query, npc.ID)

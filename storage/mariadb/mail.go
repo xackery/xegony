@@ -69,7 +69,7 @@ func (s *Storage) ListMailCount() (count int64, err error) {
 	return
 }
 
-//SearchMail will grab data from storage
+//SearchMailByBody will grab data from storage
 func (s *Storage) SearchMailByBody(mail *model.Mail) (mails []*model.Mail, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT msgid, %s FROM mail
 		WHERE body like ? ORDER BY msgid DESC`, mailFields), "%"+mail.Body+"%")

@@ -37,7 +37,7 @@ func (s *Storage) CreateNpcLoot(npcLoot *model.NpcLoot) (err error) {
 	return
 }
 
-//ListNpcLoot will grab data from storage
+//ListNpcLootByNpc will grab data from storage
 func (s *Storage) ListNpcLootByNpc(npc *model.Npc) (npcLoots []*model.NpcLoot, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s, %s FROM npc_loot_cache
 	WHERE npc_loot_cache.npc_id = ?`, npcLootFields, itemFields), npc.ID)

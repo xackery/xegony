@@ -35,7 +35,7 @@ func (s *Storage) CreateTopic(topic *model.Topic) (err error) {
 	return
 }
 
-//ListTopic will grab data from storage
+//ListTopicByForum will grab data from storage
 func (s *Storage) ListTopicByForum(forum *model.Forum) (topics []*model.Topic, err error) {
 	rows, err := s.db.Queryx(`SELECT id, title, icon, forum_id FROM topic WHERE forum_id = ? ORDER BY id DESC`, forum.ID)
 	if err != nil {

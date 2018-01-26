@@ -121,7 +121,7 @@ func (c *LootTableEntryRepository) Delete(lootTableEntry *model.LootTableEntry, 
 	return
 }
 
-//List handles logic
+//ListByLootTable handles logic
 func (c *LootTableEntryRepository) ListByLootTable(lootTable *model.LootTable, user *model.User) (lootTableEntrys []*model.LootTableEntry, err error) {
 	lootTableEntrys, err = c.stor.ListLootTableEntryByLootTable(lootTable)
 	if err != nil {

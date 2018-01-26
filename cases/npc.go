@@ -90,7 +90,7 @@ func (c *NpcRepository) Create(npc *model.Npc, user *model.User) (err error) {
 	return
 }
 
-//Search handles logic
+//SearchByName handles logic
 func (c *NpcRepository) SearchByName(npc *model.Npc, user *model.User) (npcs []*model.Npc, err error) {
 	npc.Name = strings.Replace(npc.Name, " ", "_", -1)
 	npcs, err = c.stor.SearchNpcByName(npc)

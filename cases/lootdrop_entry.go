@@ -122,7 +122,7 @@ func (c *LootDropEntryRepository) Delete(lootDropEntry *model.LootDropEntry, use
 	return
 }
 
-//List handles logic
+//ListByLootDrop handles logic
 func (c *LootDropEntryRepository) ListByLootDrop(lootDrop *model.LootDrop, user *model.User) (lootDropEntrys []*model.LootDropEntry, err error) {
 	lootDropEntrys, err = c.stor.ListLootDropEntryByLootDrop(lootDrop)
 	if err != nil {

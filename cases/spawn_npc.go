@@ -138,7 +138,7 @@ func (c *SpawnNpcRepository) List(user *model.User) (spawnNpcs []*model.SpawnNpc
 	return
 }
 
-//List handles logic
+//ListBySpawn handles logic
 func (c *SpawnNpcRepository) ListBySpawn(spawn *model.Spawn, user *model.User) (spawnNpcs []*model.SpawnNpc, err error) {
 	spawnNpcs, err = c.stor.ListSpawnNpcBySpawn(spawn)
 	if err != nil {

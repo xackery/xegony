@@ -157,7 +157,7 @@ func (s *Storage) DeleteCharacter(character *model.Character) (err error) {
 	return
 }
 
-//SearchCharacter will grab data from storage
+//SearchCharacterByName will grab data from storage
 func (s *Storage) SearchCharacterByName(character *model.Character) (characters []*model.Character, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM character_data WHERE name like ? ORDER BY id DESC`, characterFields), "%"+character.Name+"%")
 	if err != nil {

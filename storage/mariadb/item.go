@@ -68,7 +68,7 @@ func (s *Storage) ListItemCount() (count int64, err error) {
 	return
 }
 
-//SearchItem will grab data from storage
+//SearchItemByName will grab data from storage
 func (s *Storage) SearchItemByName(item *model.Item) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 
 		WHERE name like ? ORDER BY id DESC`, itemFields), "%"+item.Name+"%")
@@ -136,7 +136,7 @@ func (s *Storage) ListItemByCharacter(character *model.Character) (items []*mode
 	return
 }
 
-//ListItemBySlot will grab data from storage
+//ListItemByItemCategory will grab data from storage
 func (s *Storage) ListItemByItemCategory(itemCategory *model.ItemCategory) (items []*model.Item, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM items 		
 		WHERE items.itemtype = ? ORDER BY damage/delay DESC`, itemFields), itemCategory.ID)

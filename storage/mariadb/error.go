@@ -87,7 +87,7 @@ func (s *Storage) ListErrorByScope(errStruct *model.Error) (errors []*model.Erro
 	return
 }
 
-//SearchError will grab data from storage
+//SearchErrorByMessage will grab data from storage
 func (s *Storage) SearchErrorByMessage(errStruct *model.Error) (errors []*model.Error, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, create_date, %s FROM errors 
 		WHERE name like ? ORDER BY id DESC`, errorFields), "%"+errStruct.Message+"%")

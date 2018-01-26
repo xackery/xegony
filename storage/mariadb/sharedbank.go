@@ -36,7 +36,7 @@ func (s *Storage) CreateSharedBank(sharedBank *model.SharedBank) (err error) {
 	return
 }
 
-//ListSharedBank will grab data from storage
+//ListSharedBankByAccount will grab data from storage
 func (s *Storage) ListSharedBankByAccount(account *model.Account, pageSize int64, pageNumber int64) (sharedBanks []*model.SharedBank, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM sharedbank
 		WHERE acctid = ? 
@@ -55,7 +55,7 @@ func (s *Storage) ListSharedBankByAccount(account *model.Account, pageSize int64
 	return
 }
 
-//ListSharedBankCount will grab data from storage
+//ListSharedBankByAccountCount will grab data from storage
 func (s *Storage) ListSharedBankByAccountCount(account *model.Account) (count int64, err error) {
 	err = s.db.Get(&count, `SELECT count(id) FROM sharedbank WHERE acctid = ?`, account.ID)
 	if err != nil {
@@ -64,7 +64,7 @@ func (s *Storage) ListSharedBankByAccountCount(account *model.Account) (count in
 	return
 }
 
-//ListSharedBankByItem will grab data from storage
+//ListSharedBankByAccountAndItem will grab data from storage
 func (s *Storage) ListSharedBankByAccountAndItem(account *model.Account, item *model.Item) (sharedBanks []*model.SharedBank, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM sharedbank		
 		WHERE acctid = ? AND itemid = ? ORDER BY slotid ASC`, sharedBankFields), account.ID, item.ID)

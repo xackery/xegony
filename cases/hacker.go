@@ -41,7 +41,7 @@ func (c *HackerRepository) Get(hacker *model.Hacker, user *model.User) (err erro
 	return
 }
 
-//Search handles logic
+//SearchByMessage handles logic
 func (c *HackerRepository) SearchByMessage(hacker *model.Hacker, user *model.User) (hackers []*model.Hacker, err error) {
 	hackers, err = c.stor.SearchHackerByMessage(hacker)
 	if err != nil {

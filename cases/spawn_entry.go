@@ -139,7 +139,7 @@ func (c *SpawnEntryRepository) List(user *model.User) (spawnEntrys []*model.Spaw
 	return
 }
 
-//List handles logic
+//ListBySpawn handles logic
 func (c *SpawnEntryRepository) ListBySpawn(spawn *model.Spawn, user *model.User) (spawnEntrys []*model.SpawnEntry, err error) {
 	spawnEntrys, err = c.stor.ListSpawnEntryBySpawn(spawn)
 	if err != nil {

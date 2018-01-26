@@ -51,7 +51,7 @@ func (c *VariableRepository) rebuildCache() (err error) {
 	return
 }
 
-//Get handler
+//GetByName handler
 func (c *VariableRepository) GetByName(variable *model.Variable, user *model.User) (err error) {
 	variable = c.variableCache[variable.Name]
 	err = c.prepare(variable, user)

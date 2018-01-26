@@ -68,7 +68,7 @@ func (s *Storage) ListHackerCount() (count int64, err error) {
 	return
 }
 
-//SearchHacker will grab data from storage
+//SearchHackerByMessage will grab data from storage
 func (s *Storage) SearchHackerByMessage(hacker *model.Hacker) (hackers []*model.Hacker, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM hackers 
 		WHERE name like ? ORDER BY id DESC`, hackerFields), "%"+hacker.Hacked+"%")

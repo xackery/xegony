@@ -122,7 +122,7 @@ func (c *TopicRepository) Delete(topic *model.Topic, user *model.User) (err erro
 	return
 }
 
-//List handles logic
+//ListByForum handles logic
 func (c *TopicRepository) ListByForum(forum *model.Forum, user *model.User) (topics []*model.Topic, err error) {
 	topics, err = c.stor.ListTopicByForum(forum)
 	if err != nil {

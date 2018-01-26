@@ -39,7 +39,7 @@ func (s *Storage) CreateRecipeEntry(recipeEntry *model.RecipeEntry) (err error) 
 	return
 }
 
-//ListRecipeEntry will grab data from storage
+//ListRecipeEntryByRecipe will grab data from storage
 func (s *Storage) ListRecipeEntryByRecipe(recipe *model.Recipe) (recipeEntrys []*model.RecipeEntry, err error) {
 	query := fmt.Sprintf(`SELECT %s FROM tradeskill_recipe_entries WHERE recipe_id = ?`, recipeEntryFields)
 	rows, err := s.db.Queryx(query, recipe.ID)

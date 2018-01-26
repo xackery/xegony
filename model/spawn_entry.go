@@ -17,7 +17,7 @@ type SpawnEntry struct {
 
 	ID            int64          `json:"id" db:"id"`                   //`id` int(11) NOT NULL AUTO_INCREMENT,
 	SpawnID       int64          `json:"spawnID" db:"spawngroupID"`    //`spawngroupID` int(11) NOT NULL DEFAULT '0',
-	ZoneShortName sql.NullString `json:"zone" db:"zone"`               //`zone` varchar(32) DEFAULT NULL,
+	ZoneShortName sql.NullString `json:"zoneShortName" db:"zone"`      //`zone` varchar(32) DEFAULT NULL,
 	Version       int64          `json:"version" db:"version"`         //`version` smallint(5) unsigned NOT NULL DEFAULT '0',
 	X             float64        `json:"x" db:"x"`                     //`x` float(14,6) NOT NULL DEFAULT '0.000000',
 	Y             float64        `json:"y" db:"y"`                     //`y` float(14,6) NOT NULL DEFAULT '0.000000',

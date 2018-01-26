@@ -121,7 +121,7 @@ func (c *SharedBankRepository) Delete(sharedBank *model.SharedBank, user *model.
 	return
 }
 
-//List handles logic
+//ListByAccount handles logic
 func (c *SharedBankRepository) ListByAccount(account *model.Account, pageSize int64, pageNumber int64, user *model.User) (sharedBanks []*model.SharedBank, err error) {
 	if pageSize < 1 {
 		pageSize = 25
@@ -145,7 +145,7 @@ func (c *SharedBankRepository) ListByAccount(account *model.Account, pageSize in
 	return
 }
 
-//ListCount handles logic
+//ListCountByAccount handles logic
 func (c *SharedBankRepository) ListCountByAccount(account *model.Account, user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListSharedBankByAccountCount(account)

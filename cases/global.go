@@ -85,6 +85,7 @@ func (c *GlobalRepository) GetRace(raceID int64, user *model.User) (race *model.
 	return
 }
 
+//GetRule gets a rule
 func (c *GlobalRepository) GetRule(name string, user *model.User) (rule *model.Rule, err error) {
 	rule = &model.Rule{
 		Name: name,
@@ -97,6 +98,7 @@ func (c *GlobalRepository) GetRule(name string, user *model.User) (rule *model.R
 	return
 }
 
+//GetSkill gets a skill
 func (c *GlobalRepository) GetSkill(skillID int64, user *model.User) (skill *model.Skill, err error) {
 	skill = &model.Skill{
 		ID: skillID,
@@ -109,6 +111,7 @@ func (c *GlobalRepository) GetSkill(skillID int64, user *model.User) (skill *mod
 	return
 }
 
+//GetZone gets a zone
 func (c *GlobalRepository) GetZone(zoneID int64, user *model.User) (zone *model.Zone, err error) {
 	zone = &model.Zone{
 		ZoneIDNumber: zoneID,

@@ -35,7 +35,7 @@ func (c *ItemCategoryRepository) Get(itemCategoryID int64, item *model.Item, use
 	return
 }
 
-//Get handles logic
+//GetByItem handles logic
 func (c *ItemCategoryRepository) GetByItem(item *model.Item, user *model.User) (itemCategory *model.ItemCategory, err error) {
 
 	var ok bool

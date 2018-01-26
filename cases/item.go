@@ -53,7 +53,7 @@ func (c *ItemRepository) Get(item *model.Item, user *model.User) (err error) {
 	return
 }
 
-//Search handles logic
+//SearchByName handles logic
 func (c *ItemRepository) SearchByName(item *model.Item, user *model.User) (items []*model.Item, err error) {
 	items, err = c.stor.SearchItemByName(item)
 	if err != nil {
@@ -263,7 +263,7 @@ func (c *ItemRepository) ListBySpell(spell *model.Spell, user *model.User) (item
 	return
 }
 
-//GetBySlot handles logic
+//GetByItemCategory handles logic
 func (c *ItemRepository) GetByItemCategory(itemCategory *model.ItemCategory, user *model.User) (items []*model.Item, err error) {
 	items, err = c.stor.ListItemByItemCategory(itemCategory)
 	if err != nil {

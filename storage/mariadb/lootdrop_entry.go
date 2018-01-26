@@ -37,7 +37,7 @@ func (s *Storage) CreateLootDropEntry(lootDropEntry *model.LootDropEntry) (err e
 	return
 }
 
-//ListLootDropEntry will grab data from storage
+//ListLootDropEntryByLootDrop will grab data from storage
 func (s *Storage) ListLootDropEntryByLootDrop(lootDrop *model.LootDrop) (lootDropEntrys []*model.LootDropEntry, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT %s FROM lootdrop_entries WHERE lootdrop_id = ?`, lootDropEntryFields), lootDrop.ID)
 	if err != nil {

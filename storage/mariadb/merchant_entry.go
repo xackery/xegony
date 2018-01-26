@@ -39,7 +39,7 @@ func (s *Storage) CreateMerchantEntry(merchantEntry *model.MerchantEntry) (err e
 	return
 }
 
-//ListMerchantEntry will grab data from storage
+//ListMerchantEntryByMerchant will grab data from storage
 func (s *Storage) ListMerchantEntryByMerchant(merchant *model.Merchant) (merchantEntrys []*model.MerchantEntry, err error) {
 	query := fmt.Sprintf(`SELECT %s FROM merchantlist WHERE merchantid = ?`, merchantEntryFields)
 	rows, err := s.db.Queryx(query, merchant.ID)

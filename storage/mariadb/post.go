@@ -35,7 +35,7 @@ func (s *Storage) CreatePost(post *model.Post) (err error) {
 	return
 }
 
-//ListPost will grab data from storage
+//ListPostByTopic will grab data from storage
 func (s *Storage) ListPostByTopic(topic *model.Topic) (posts []*model.Post, err error) {
 	rows, err := s.db.Queryx(`SELECT id, body, topic_id FROM post WHERE topic_id = ? ORDER BY id DESC`, topic.ID)
 	if err != nil {

@@ -216,7 +216,7 @@ func (s *Storage) DeleteNpc(npc *model.Npc) (err error) {
 	return
 }
 
-//SearchNpc will grab data from storage
+//SearchNpcByName will grab data from storage
 func (s *Storage) SearchNpcByName(npc *model.Npc) (npcs []*model.Npc, err error) {
 	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT id, %s FROM npc_types WHERE name like ? ORDER BY id DESC`, npcFields), "%"+npc.Name+"%")
 	if err != nil {

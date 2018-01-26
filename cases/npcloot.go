@@ -127,7 +127,7 @@ func (c *NpcLootRepository) Delete(npcLoot *model.NpcLoot, user *model.User) (er
 	return
 }
 
-//List handles logic
+//ListByNpc handles logic
 func (c *NpcLootRepository) ListByNpc(npc *model.Npc, user *model.User) (npcLoots []*model.NpcLoot, err error) {
 	npcLoots, err = c.stor.ListNpcLootByNpc(npc)
 	if err != nil {

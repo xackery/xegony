@@ -40,7 +40,7 @@ func (c *RecipeRepository) Get(recipe *model.Recipe, user *model.User) (err erro
 	return
 }
 
-//Search handles logic
+//SearchByName handles logic
 func (c *RecipeRepository) SearchByName(recipe *model.Recipe, user *model.User) (recipes []*model.Recipe, err error) {
 	recipes, err = c.stor.SearchRecipeByName(recipe)
 	if err != nil {
@@ -136,7 +136,7 @@ func (c *RecipeRepository) Delete(recipe *model.Recipe, user *model.User) (err e
 	return
 }
 
-//ListByTradeskill handles logic
+//ListBySkill handles logic
 func (c *RecipeRepository) ListBySkill(skill *model.Skill, pageSize int64, pageNumber int64, user *model.User) (recipes []*model.Recipe, err error) {
 	if pageSize < 1 {
 		pageSize = 25
@@ -160,7 +160,7 @@ func (c *RecipeRepository) ListBySkill(skill *model.Skill, pageSize int64, pageN
 	return
 }
 
-//ListByTradeskillCount handles logic
+//ListBySkillCount handles logic
 func (c *RecipeRepository) ListBySkillCount(skill *model.Skill, user *model.User) (count int64, err error) {
 
 	count, err = c.stor.ListRecipeBySkillCount(skill)
