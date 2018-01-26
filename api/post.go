@@ -12,7 +12,7 @@ func (a *API) postRoutes() (routes []*route) {
 	routes = []*route{}
 	return
 }
-func (a *API) getPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getPost(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	postID, err := getIntVar(r, "postID")
 	if err != nil {
@@ -34,7 +34,7 @@ func (a *API) getPost(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *API) createPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createPost(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	post := &model.Post{}
 	err = decodeBody(r, post)
@@ -49,7 +49,7 @@ func (a *API) createPost(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) deletePost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deletePost(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	postID, err := getIntVar(r, "postID")
 	if err != nil {
@@ -75,7 +75,7 @@ func (a *API) deletePost(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) editPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editPost(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	postID, err := getIntVar(r, "postID")
 	if err != nil {
@@ -99,7 +99,7 @@ func (a *API) editPost(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *API) listPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listPost(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
 		err = errors.Wrap(err, "topicID argument is required")

@@ -19,7 +19,7 @@ func (a *Web) dashboardRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) getDashboard(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getDashboard(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site

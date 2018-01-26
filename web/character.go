@@ -68,7 +68,7 @@ func (a *Web) characterRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -106,7 +106,7 @@ func (a *Web) listCharacter(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *Web) searchCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) searchCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -154,7 +154,7 @@ func (a *Web) searchCharacter(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *Web) listCharacterByRanking(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listCharacterByRanking(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -192,7 +192,7 @@ func (a *Web) listCharacterByRanking(w http.ResponseWriter, r *http.Request, aut
 	return
 }
 
-func (a *Web) listCharacterByOnline(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listCharacterByOnline(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -230,7 +230,7 @@ func (a *Web) listCharacterByOnline(w http.ResponseWriter, r *http.Request, auth
 	return
 }
 
-func (a *Web) listCharacterByAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listCharacterByAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	accountID, err := getIntVar(r, "accountID")
 	if err != nil {
@@ -277,7 +277,7 @@ func (a *Web) listCharacterByAccount(w http.ResponseWriter, r *http.Request, aut
 	return
 }
 
-func (a *Web) getCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site

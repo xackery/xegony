@@ -13,7 +13,7 @@ func (a *Web) bazaarRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site
@@ -50,7 +50,7 @@ func (a *Web) listBazaar(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *Web) getBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getBazaar(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site

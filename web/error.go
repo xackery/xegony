@@ -32,7 +32,7 @@ func (a *Web) errorRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listError(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listError(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
@@ -82,7 +82,7 @@ func (a *Web) listError(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *Web) getError(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getError(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -130,7 +130,7 @@ func (a *Web) getError(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *Web) searchError(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) searchError(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site

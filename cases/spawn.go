@@ -1,6 +1,5 @@
 package cases
 
-/*
 import (
 	"fmt"
 
@@ -27,17 +26,18 @@ func (c *SpawnRepository) Initialize(stor storage.Storage) (err error) {
 
 //Get handles logic
 func (c *SpawnRepository) Get(spawn *model.Spawn, user *model.User) (err error) {
-
 	err = c.stor.GetSpawn(spawn)
 	if err != nil {
 		err = errors.Wrap(err, "failed to get spawn")
 		return
 	}
+
 	err = c.prepare(spawn, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare spawn")
 		return
 	}
+
 	return
 }
 
@@ -47,10 +47,11 @@ func (c *SpawnRepository) Create(spawn *model.Spawn, user *model.User) (err erro
 		err = fmt.Errorf("Empty spawn")
 		return
 	}
-	schema, err := c.newSchema([]string{"shortName"}, nil)
+	schema, err := c.newSchema([]string{"name"}, nil)
 	if err != nil {
 		return
 	}
+	spawn.ID = 0 //strip ID
 	result, err := schema.Validate(gojsonschema.NewGoLoader(spawn))
 	if err != nil {
 		return
@@ -138,22 +139,6 @@ func (c *SpawnRepository) List(user *model.User) (spawns []*model.Spawn, err err
 	return
 }
 
-//ListBySpawnGroup handles logic
-func (c *SpawnRepository) ListBySpawnGroup(spawnGroup *model.SpawnGroup, user *model.User) (spawns []*model.Spawn, err error) {
-	spawns, err = c.stor.ListSpawnBySpawnGroup(spawnGroup)
-	if err != nil {
-		return
-	}
-	for _, spawn := range spawns {
-		err = c.prepare(spawn, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed to prepare spawn")
-			return
-		}
-	}
-	return
-}
-
 func (c *SpawnRepository) prepare(spawn *model.Spawn, user *model.User) (err error) {
 
 	return
@@ -188,13 +173,16 @@ func (c *SpawnRepository) newSchema(requiredFields []string, optionalFields []st
 
 func (c *SpawnRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
 	switch field {
+	case "status":
+		prop.Type = "integer"
+		prop.Minimum = 1
 	case "id":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "shortName":
+	case "name":
 		prop.Type = "string"
 		prop.MinLength = 3
-		prop.MaxLength = 32
+		prop.MaxLength = 30
 		prop.Pattern = "^[a-zA-Z]*$"
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
@@ -202,4 +190,3 @@ func (c *SpawnRepository) getSchemaProperty(field string) (prop model.Schema, er
 
 	return
 }
-*/

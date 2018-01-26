@@ -28,7 +28,7 @@ func (a *Web) recipeEntryRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	recipeID, err := getIntVar(r, "recipeID")
 	if err != nil {
@@ -90,7 +90,7 @@ func (a *Web) listRecipeEntry(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *Web) getRecipeEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getRecipeEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site        site

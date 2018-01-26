@@ -39,7 +39,7 @@ func (a *Web) zoneRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -77,7 +77,7 @@ func (a *Web) listZone(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *Web) listZoneByLevels(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listZoneByLevels(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -116,7 +116,7 @@ func (a *Web) listZoneByLevels(w http.ResponseWriter, r *http.Request, auth *mod
 	return
 }
 
-func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -154,7 +154,7 @@ func (a *Web) listZoneByHotzone(w http.ResponseWriter, r *http.Request, auth *mo
 	return
 }
 
-func (a *Web) getZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
@@ -202,7 +202,7 @@ func (a *Web) getZone(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *Web) listZoneByExpansion(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listZoneByExpansion(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site

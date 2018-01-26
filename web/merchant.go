@@ -27,7 +27,7 @@ func (a *Web) merchantRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listMerchant(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listMerchant(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site         site
@@ -94,7 +94,7 @@ func (a *Web) listMerchant(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *Web) getMerchant(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getMerchant(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site

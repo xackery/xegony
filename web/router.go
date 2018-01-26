@@ -15,7 +15,7 @@ type route struct {
 	Name        string
 	Method      string
 	Pattern     string
-	HandlerFunc func(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error)
+	HandlerFunc func(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error)
 }
 
 //ApplyRoutes applies routes to given mux router
@@ -116,6 +116,10 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 	for _, r := range newRoutes {
 		routes = append(routes, r)
 	}
+	newRoutes = a.spawnRoutes()
+	for _, r := range newRoutes {
+		routes = append(routes, r)
+	}
 	newRoutes = a.spellRoutes()
 	for _, r := range newRoutes {
 		routes = append(routes, r)
@@ -137,9 +141,9 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 		routes = append(routes, r)
 	}
 
-	for i, _ := range routes {
+	for i := range routes {
 		route := routes[i]
-		a.log.Println("path:", route.Pattern)
+		//		a.log.Println("path:", route.Pattern)
 
 		router.HandleFunc(rootPath+route.Pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -153,7 +157,7 @@ func (a *Web) ApplyRoutes(router *mux.Router) {
 
 			tmp := &template.Template{}
 			statusCode := http.StatusOK
-			content, tmp, err := route.HandlerFunc(w, r, auth, user, statusCode)
+			content, tmp, err := route.HandlerFunc(w, r, user, statusCode)
 			if err != nil {
 				a.writeError(w, r, err, statusCode)
 			} else {

@@ -13,7 +13,7 @@ type route struct {
 	Name        string
 	Method      string
 	Pattern     string
-	HandlerFunc func(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error)
+	HandlerFunc func(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error)
 }
 
 //ApplyRoutes applies routes to given mux router
@@ -90,6 +90,10 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 	for _, r := range newRoutes {
 		routes = append(routes, r)
 	}
+	newRoutes = a.spawnRoutes()
+	for _, r := range newRoutes {
+		routes = append(routes, r)
+	}
 	newRoutes = a.taskRoutes()
 	for _, r := range newRoutes {
 		routes = append(routes, r)
@@ -105,7 +109,6 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 
 	for i, _ := range routes {
 		route := routes[i]
-		a.log.Println(route)
 		router.
 			Methods(route.Method).
 			Name(route.Name).
@@ -121,7 +124,7 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 				}
 
 				statusCode := http.StatusOK
-				content, err := route.HandlerFunc(w, r, auth, user, statusCode)
+				content, err := route.HandlerFunc(w, r, user, statusCode)
 				if err != nil {
 					a.writeError(w, r, err, statusCode)
 				} else {

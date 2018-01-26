@@ -33,7 +33,7 @@ func (a *API) taskRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
@@ -55,7 +55,7 @@ func (a *API) getTask(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *API) createTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	task := &model.Task{}
 	err = decodeBody(r, task)
@@ -70,7 +70,7 @@ func (a *API) createTask(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) deleteTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
@@ -95,7 +95,7 @@ func (a *API) deleteTask(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) editTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {
@@ -118,7 +118,7 @@ func (a *API) editTask(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *API) listTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	tasks, err := a.taskRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

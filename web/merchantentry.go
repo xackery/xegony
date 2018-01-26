@@ -27,7 +27,7 @@ func (a *Web) merchantEntryRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listMerchantEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listMerchantEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	merchantID, err := getIntVar(r, "merchantID")
 	if err != nil {
@@ -96,7 +96,7 @@ func (a *Web) listMerchantEntry(w http.ResponseWriter, r *http.Request, auth *mo
 	return
 }
 
-func (a *Web) getMerchantEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getMerchantEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site          site

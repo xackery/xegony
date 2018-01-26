@@ -26,7 +26,7 @@ func (a *Web) activityRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listActivity(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
@@ -78,7 +78,7 @@ func (a *Web) listActivity(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *Web) getActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getActivity(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site

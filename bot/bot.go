@@ -238,7 +238,7 @@ func (a *Bot) Initialize(s storage.Storage, config string, w io.Writer) (err err
 }
 
 // Index handles the root endpoint of /api/
-func (a *Bot) index(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *Bot) index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	type Content struct {
 		Message string `json:"message"`
 	}

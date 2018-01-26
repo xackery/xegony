@@ -33,7 +33,7 @@ func (a *Web) fishingRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listFishing(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listFishing(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site        site
@@ -112,7 +112,7 @@ func (a *Web) listFishing(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *Web) listFishingByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listFishingByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -149,7 +149,7 @@ func (a *Web) listFishingByZone(w http.ResponseWriter, r *http.Request, auth *mo
 	return
 }
 
-func (a *Web) getFishingByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getFishingByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -203,7 +203,7 @@ func (a *Web) getFishingByZone(w http.ResponseWriter, r *http.Request, auth *mod
 	return
 }
 
-func (a *Web) getFishing(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getFishing(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site

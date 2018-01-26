@@ -30,7 +30,7 @@ func (a *Web) spawnEntryRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 
 	spawnGroupID, err := getIntVar(r, "spawnGroupID")
@@ -83,7 +83,7 @@ func (a *Web) listSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model
 		return
 }
 
-func (a *Web) getSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 
 	type Content struct {

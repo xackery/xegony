@@ -13,7 +13,7 @@ func (a *API) lootDropEntryRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getLootDropEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getLootDropEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
@@ -43,7 +43,7 @@ func (a *API) getLootDropEntry(w http.ResponseWriter, r *http.Request, auth *mod
 	return
 }
 
-func (a *API) createLootDropEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createLootDropEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootDropEntry := &model.LootDropEntry{}
 	err = decodeBody(r, lootDropEntry)
@@ -58,7 +58,7 @@ func (a *API) createLootDropEntry(w http.ResponseWriter, r *http.Request, auth *
 	return
 }
 
-func (a *API) deleteLootDropEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteLootDropEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
@@ -90,7 +90,7 @@ func (a *API) deleteLootDropEntry(w http.ResponseWriter, r *http.Request, auth *
 	return
 }
 
-func (a *API) editLootDropEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editLootDropEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {
@@ -121,7 +121,7 @@ func (a *API) editLootDropEntry(w http.ResponseWriter, r *http.Request, auth *mo
 	return
 }
 
-func (a *API) listLootDropEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listLootDropEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootDropID, err := getIntVar(r, "lootDropID")
 	if err != nil {

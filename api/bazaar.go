@@ -44,7 +44,7 @@ func (a *API) bazaarRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getBazaar(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	bazaarID, err := getIntVar(r, "bazaarID")
 	if err != nil {
@@ -66,7 +66,7 @@ func (a *API) getBazaar(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *API) createBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createBazaar(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	bazaar := &model.Bazaar{}
 	err = decodeBody(r, bazaar)
@@ -81,7 +81,7 @@ func (a *API) createBazaar(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *API) deleteBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteBazaar(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	bazaarID, err := getIntVar(r, "bazaarID")
 	if err != nil {
@@ -107,7 +107,7 @@ func (a *API) deleteBazaar(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *API) editBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editBazaar(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	bazaarID, err := getIntVar(r, "bazaarID")
 	if err != nil {
@@ -130,7 +130,7 @@ func (a *API) editBazaar(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) listBazaar(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listBazaar(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	bazaars, err := a.bazaarRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

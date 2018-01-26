@@ -12,7 +12,7 @@ func (a *API) lootTableRoutes() (routes []*route) {
 	routes = []*route{}
 	return
 }
-func (a *API) getLootTable(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getLootTable(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
@@ -34,7 +34,7 @@ func (a *API) getLootTable(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *API) createLootTable(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createLootTable(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTable := &model.LootTable{}
 	err = decodeBody(r, lootTable)
@@ -49,7 +49,7 @@ func (a *API) createLootTable(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *API) deleteLootTable(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteLootTable(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
@@ -74,7 +74,7 @@ func (a *API) deleteLootTable(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *API) editLootTable(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editLootTable(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
@@ -98,7 +98,7 @@ func (a *API) editLootTable(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *API) listLootTable(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listLootTable(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	lootTables, err := a.lootTableRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

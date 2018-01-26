@@ -34,7 +34,7 @@ func (a *Web) spellRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listSpell(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listSpell(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
@@ -93,7 +93,7 @@ func (a *Web) listSpell(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *Web) getSpell(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getSpell(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -157,7 +157,7 @@ func (a *Web) getSpell(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *Web) searchSpell(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) searchSpell(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site

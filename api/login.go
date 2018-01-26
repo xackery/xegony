@@ -22,7 +22,7 @@ func (a *API) loginRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) postLogin(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) postLogin(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	type loginRequest struct {
 		*model.User

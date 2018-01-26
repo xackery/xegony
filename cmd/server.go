@@ -88,12 +88,6 @@ func runServer(cmd *cobra.Command, args []string) {
 	}
 	webServer.ApplyRoutes(router)
 
-	router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
-		url, _ := route.URL()
-		path, _ := route.GetPathRegexp()
-		log.Println(path, url, route.GetName())
-		return nil
-	})
 	//go runBot(botServer)
 	log.Println("Listening on", listen)
 	err = http.ListenAndServe(listen, router)

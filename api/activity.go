@@ -126,7 +126,7 @@ func (a *API) activityRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getActivity(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
@@ -155,7 +155,7 @@ func (a *API) getActivity(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *API) createActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createActivity(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	activity := &model.Activity{}
 	err = decodeBody(r, activity)
@@ -170,7 +170,7 @@ func (a *API) createActivity(w http.ResponseWriter, r *http.Request, auth *model
 	return
 }
 
-func (a *API) deleteActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteActivity(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
@@ -202,7 +202,7 @@ func (a *API) deleteActivity(w http.ResponseWriter, r *http.Request, auth *model
 	return
 }
 
-func (a *API) editActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editActivity(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	activityID, err := getIntVar(r, "activityID")
 	if err != nil {
@@ -225,7 +225,7 @@ func (a *API) editActivity(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *API) listActivity(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listActivity(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	taskID, err := getIntVar(r, "taskID")
 	if err != nil {

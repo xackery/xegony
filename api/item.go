@@ -58,7 +58,7 @@ func (a *API) itemRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
@@ -117,7 +117,7 @@ const tooltipTemplate = `
 
 </div>`
 
-func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
@@ -169,7 +169,7 @@ func (a *API) getItemTooltip(w http.ResponseWriter, r *http.Request, auth *model
 	return
 }
 
-func (a *API) createItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	item := &model.Item{}
 	err = decodeBody(r, item)
@@ -184,7 +184,7 @@ func (a *API) createItem(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) deleteItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
@@ -208,7 +208,7 @@ func (a *API) deleteItem(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) editItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	itemID, err := getIntVar(r, "itemID")
 	if err != nil {
@@ -233,7 +233,7 @@ func (a *API) editItem(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *API) listItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	pageSize := getIntParam(r, "pageSize")
 	pageNumber := getIntParam(r, "pageNumber")
 

@@ -272,19 +272,9 @@ type Storage interface {
 	//Spawn
 	GetSpawn(spawn *model.Spawn) (err error)
 	CreateSpawn(spawn *model.Spawn) (err error)
-	ListSpawnBySpawnGroup(spawnGroup *model.SpawnGroup) (spawns []*model.Spawn, err error)
 	ListSpawn() (spawns []*model.Spawn, err error)
 	EditSpawn(spawn *model.Spawn) (err error)
 	DeleteSpawn(spawn *model.Spawn) (err error)
-
-	//SpawnEntry
-	GetSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
-	CreateSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
-	ListSpawnEntryBySpawnGroup(spawnGroup *model.SpawnGroup) (spawnEntrys []*model.SpawnEntry, err error)
-	ListSpawnEntryByZone(zone *model.Zone) (spawnEntrys []*model.SpawnEntry, err error)
-	ListSpawnEntryByNpc(npc *model.Npc) (spawnEntrys []*model.SpawnEntry, err error)
-	EditSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
-	DeleteSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
 
 	//Spell
 	GetSpell(spell *model.Spell) (err error)

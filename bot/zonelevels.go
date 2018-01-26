@@ -11,7 +11,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	type Content struct {
 		Message     string
@@ -35,7 +35,7 @@ func (a *Bot) zoneLevelsStatus(w http.ResponseWriter, r *http.Request, auth *mod
 		return
 }
 
-func (a *Bot) zoneLevelsCreate(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *Bot) zoneLevelsCreate(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	type Content struct {
 		Message string

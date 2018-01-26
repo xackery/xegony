@@ -127,7 +127,7 @@ func (a *API) accountRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	accountReq := &AccountParams{}
 
 	accountReq.AccountID, err = getIntVar(r, "accountID")
@@ -150,7 +150,7 @@ func (a *API) getAccount(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) createAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	account := &model.Account{}
 	err = decodeBody(r, account)
@@ -165,7 +165,7 @@ func (a *API) createAccount(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	accountReq := &AccountParams{}
 	accountReq.AccountID, err = getIntVar(r, "accountID")
 	if err != nil {
@@ -176,7 +176,7 @@ func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request, auth *model.
 		ID: accountReq.AccountID,
 	}
 
-	err = a.accountRepo.Delete(account, auth.User)
+	err = a.accountRepo.Delete(account, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -189,7 +189,7 @@ func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *API) editAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	accountReq := &AccountParams{}
 	accountReq.AccountID, err = getIntVar(r, "accountID")
 	if err != nil {
@@ -206,7 +206,7 @@ func (a *API) editAccount(w http.ResponseWriter, r *http.Request, auth *model.Au
 		return
 	}
 
-	err = a.accountRepo.Edit(account, auth.User)
+	err = a.accountRepo.Edit(account, user)
 	if err != nil {
 		return
 	}
@@ -214,8 +214,8 @@ func (a *API) editAccount(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *API) listAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
-	accounts, err := a.accountRepo.List(auth.User)
+func (a *API) listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	accounts, err := a.accountRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return

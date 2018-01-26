@@ -27,7 +27,7 @@ func (a *Web) postRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listPost(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -89,7 +89,7 @@ func (a *Web) listPost(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *Web) getPost(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getPost(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site

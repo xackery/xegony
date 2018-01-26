@@ -29,8 +29,8 @@
 					<tbody>
 					{{range $key, $value := .Spawns}}
 					<tr>
-						<td><a href="/spawn/{{$value.SpawngroupID}}">{{$value.Name}}</a></td>
-						<td>{{$value.Zone.String}}</td>
+						<td><a href="/spawn/{{$value.ID}}">{{$value.Name}}</a></td>
+						<td>N/A</td>
 						<td>{{$value.Delay}}</td>
 						<td>{{$value.Mindelay}}</td>
 					</tr>

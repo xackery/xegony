@@ -13,7 +13,7 @@ func (a *API) zoneRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
@@ -35,7 +35,7 @@ func (a *API) getZone(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *API) createZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	zone := &model.Zone{}
 	err = decodeBody(r, zone)
@@ -51,7 +51,7 @@ func (a *API) createZone(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) deleteZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
@@ -76,7 +76,7 @@ func (a *API) deleteZone(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) editZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
@@ -99,7 +99,7 @@ func (a *API) editZone(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *API) listZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	zones, err := a.zoneRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

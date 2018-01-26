@@ -45,7 +45,7 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	spawnGroupID, err := getIntVar(r, "spawnGroupID")
 	if err != nil {
@@ -73,7 +73,7 @@ func (a *API) getSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.
 		return
 }
 
-func (a *API) createSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	if err = IsAdmin(r); err != nil {
 				return
@@ -92,7 +92,7 @@ func (a *API) createSpawnEntry(w http.ResponseWriter, r *http.Request, auth *mod
 		return
 }
 
-func (a *API) deleteSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 
 	if err = IsAdmin(r); err != nil {
@@ -128,7 +128,7 @@ func (a *API) deleteSpawnEntry(w http.ResponseWriter, r *http.Request, auth *mod
 		return
 }
 
-func (a *API) editSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 
 	if err = IsModerator(r); err != nil {
@@ -160,7 +160,7 @@ func (a *API) editSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model
 		return
 }
 
-func (a *API) listSpawnEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listSpawnEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	spawnID, err := getIntVar(r, "spawnID")
 	if err != nil {

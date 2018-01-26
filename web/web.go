@@ -62,7 +62,7 @@ type Web struct {
 	ruleRepo           *cases.RuleRepository
 	skillRepo          *cases.SkillRepository
 	//spawnEntryRepo     *cases.SpawnEntryRepository
-	//spawnRepo          *cases.SpawnRepository
+	spawnRepo     *cases.SpawnRepository
 	spellRepo     *cases.SpellRepository
 	taskRepo      *cases.TaskRepository
 	topicRepo     *cases.TopicRepository
@@ -209,11 +209,11 @@ func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	if err = a.skillRepo.Initialize(s); err != nil {
 		return
 	}
-	/*a.spawnRepo = &cases.SpawnRepository{}
+	a.spawnRepo = &cases.SpawnRepository{}
 	if err = a.spawnRepo.Initialize(s); err != nil {
 		return
 	}
-	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
+	/*a.spawnEntryRepo = &cases.SpawnEntryRepository{}
 	if err = a.spawnEntryRepo.Initialize(s); err != nil {
 		return
 	}*/
@@ -249,7 +249,7 @@ func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err err
 	return
 }
 
-func (a *Web) index(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site

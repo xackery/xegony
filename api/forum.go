@@ -44,7 +44,7 @@ func (a *API) forumRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getForum(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
@@ -66,7 +66,7 @@ func (a *API) getForum(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *API) createForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createForum(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	forum := &model.Forum{}
 
@@ -84,7 +84,7 @@ func (a *API) createForum(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *API) deleteForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteForum(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
@@ -108,7 +108,7 @@ func (a *API) deleteForum(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *API) editForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editForum(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
@@ -133,7 +133,7 @@ func (a *API) editForum(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *API) listForum(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listForum(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	forums, err := a.forumRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

@@ -11,7 +11,7 @@ import (
 )
 
 
-func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	type Content struct {
 		Message     string
@@ -35,7 +35,7 @@ func (a *Bot) npcLootStatus(w http.ResponseWriter, r *http.Request, auth *model.
 		return
 }
 
-func (a *Bot) npcLootCreate(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *Bot) npcLootCreate(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	type Content struct {
 		Message string

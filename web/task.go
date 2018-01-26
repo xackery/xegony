@@ -33,7 +33,7 @@ func (a *Web) taskRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -70,7 +70,7 @@ func (a *Web) listTask(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *Web) getTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
@@ -117,7 +117,7 @@ func (a *Web) getTask(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *Web) createTask(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) createTask(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site

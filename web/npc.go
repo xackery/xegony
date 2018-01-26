@@ -52,7 +52,7 @@ func (a *Web) npcRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site
@@ -103,7 +103,7 @@ func (a *Web) listNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *Web) searchNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) searchNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
@@ -151,7 +151,7 @@ func (a *Web) searchNpc(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *Web) listNpcByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listNpcByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -189,7 +189,7 @@ func (a *Web) listNpcByZone(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *Web) getNpcByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getNpcByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	zoneID, err := getIntVar(r, "zoneID")
 	if err != nil {
@@ -236,7 +236,7 @@ func (a *Web) getNpcByZone(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *Web) listNpcByFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listNpcByFaction(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -274,7 +274,7 @@ func (a *Web) listNpcByFaction(w http.ResponseWriter, r *http.Request, auth *mod
 	return
 }
 
-func (a *Web) getNpcByFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getNpcByFaction(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
@@ -328,7 +328,7 @@ func (a *Web) getNpcByFaction(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *Web) getNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site

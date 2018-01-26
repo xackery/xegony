@@ -93,6 +93,7 @@ type API struct {
 	npcLootRepo        *cases.NpcLootRepository
 	npcRepo            *cases.NpcRepository
 	postRepo           *cases.PostRepository
+	spawnRepo          *cases.SpawnRepository
 	taskRepo           *cases.TaskRepository
 	topicRepo          *cases.TopicRepository
 	userRepo           *cases.UserRepository
@@ -175,6 +176,11 @@ func (a *API) Initialize(s storage.Storage, config string, w io.Writer) (err err
 		return
 	}
 
+	a.spawnRepo = &cases.SpawnRepository{}
+	if err = a.spawnRepo.Initialize(s); err != nil {
+		return
+	}
+
 	a.taskRepo = &cases.TaskRepository{}
 	if err = a.taskRepo.Initialize(s); err != nil {
 		return
@@ -212,7 +218,7 @@ func (a *API) indexRoutes() (routes []*route) {
 }
 
 // Index handles the root endpoint of /api/
-func (a *API) index(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	type Content struct {
 		Message string `json:"message"`
 	}

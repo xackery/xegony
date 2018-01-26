@@ -7,20 +7,16 @@ import (
 )
 
 const (
-	spawn2Sets       = `zone=:zone, version=:version, x=:x, y=:y, z=:z, heading=:heading, respawntime=:respawntime, variance=:variance, pathgrid=:pathgrid, _condition=:_condition, cond_value=:cond_value, enabled=:enabled, animation=:animation`
-	spawn2Fields     = `spawngroupID, zone, version, x, y, z, heading, respawntime, variance, pathgrid, _condition, cond_value, enabled, animation`
-	spawn2Binds      = `:spawngroupID, :zone, :version, :x, :y, :z, :heading, :respawntime, :variance, :pathgrid, :_condition, :cond_value, :enabled, :animation`
-	spawnGroupSets   = `name=:name, spawn_limit=:spawn_limit, dist=:dist, max_x=:max_x, min_x=:min_x, max_y=:max_y, min_y=:min_y, delay=:delay, mindelay=:mindelay, despawn=:despawn, despawn_timer=:despawn_timer`
-	spawnGroupFields = `name, spawn_limit, dist, max_x, min_x, max_y, min_y, delay, mindelay, despawn, despawn_timer`
-	spawnGroupBinds  = `:name, :spawn_limit, :dist, :max_x, :min_x, :max_y, :min_y, :delay, :mindelay, :despawn, :despawn_timer`
+	spawnFields = `name,spawn_limit,dist,max_x,min_x,max_y,min_y,delay,mindelay,despawn,despawn_timer`
+	spawnBinds  = `:name,:spawn_limit,:dist,:max_x,:min_x,:max_y,:min_y,:delay,:mindelay,:despawn,:despawn_timer`
+	spawnSets   = `name=:name,spawn_limit=:spawn_limit,dist=:dist,max_x=:max_x,min_x=:min_x,max_y=:max_y,min_y,delay=:delay,mindelay=:mindelay,despawn,despawn_timer=:despawn_timer`
+	spawnTable  = `spawngroup`
 )
 
 //GetSpawn will grab data from storage
 func (s *Storage) GetSpawn(spawn *model.Spawn) (err error) {
-	spawn = &model.Spawn{}
-	err = s.db.Get(spawn, fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
-		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupid
-		WHERE spawngroup.id = ?`, spawn2Fields, spawnGroupFields), spawn.SpawngroupID)
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE id = ?", spawnFields, spawnTable)
+	err = s.db.Get(spawn, query, spawn.ID)
 	if err != nil {
 		return
 	}
@@ -29,13 +25,8 @@ func (s *Storage) GetSpawn(spawn *model.Spawn) (err error) {
 
 //CreateSpawn will grab data from storage
 func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
-	if spawn == nil {
-		err = fmt.Errorf("Must provide spawn")
-		return
-	}
-
-	result, err := s.db.NamedExec(fmt.Sprintf(`INSERT INTO spawn2(%s)
-		VALUES (%s)`, spawn2Fields, spawn2Binds), spawn)
+	query := fmt.Sprintf("INSERT INTO %s(%s) VALUES (%s)", spawnTable, spawnFields, spawnBinds)
+	result, err := s.db.NamedExec(query, spawn)
 	if err != nil {
 		return
 	}
@@ -43,44 +34,14 @@ func (s *Storage) CreateSpawn(spawn *model.Spawn) (err error) {
 	if err != nil {
 		return
 	}
-	spawn.SpawngroupID = spawnID
-
-	result, err = s.db.NamedExec(fmt.Sprintf(`INSERT INTO spawngroup(%s)
-		VALUES (%s)`, spawnGroupFields, spawnGroupBinds), spawn)
-	if err != nil {
-		return
-	}
-	_, err = result.LastInsertId()
-	if err != nil {
-		return
-	}
-	return
-}
-
-//ListSpawnBySpawnGroup will grab data from storage
-func (s *Storage) ListSpawnBySpawnGroup(spawnGroup *model.SpawnGroup) (spawns []*model.Spawn, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
-		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID
-		WHERE spawngroupid = ?`, spawn2Fields, spawnGroupFields), spawnGroup.ID)
-	if err != nil {
-		return
-	}
-
-	for rows.Next() {
-		spawn := model.Spawn{}
-		if err = rows.StructScan(&spawn); err != nil {
-			return
-		}
-		spawns = append(spawns, &spawn)
-	}
+	spawn.ID = spawnID
 	return
 }
 
 //ListSpawn will grab data from storage
 func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT spawngroup.id spawngroupID, %s, %s FROM spawn2 
-		INNER JOIN spawngroup ON spawngroup.id = spawn2.spawngroupID
-		`, spawn2Fields, spawnGroupFields))
+	query := fmt.Sprintf(`SELECT id, %s FROM %s ORDER BY id DESC`, spawnFields, spawnTable)
+	rows, err := s.db.Queryx(query)
 	if err != nil {
 		return
 	}
@@ -97,24 +58,12 @@ func (s *Storage) ListSpawn() (spawns []*model.Spawn, err error) {
 
 //EditSpawn will grab data from storage
 func (s *Storage) EditSpawn(spawn *model.Spawn) (err error) {
-	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE spawn2 SET %s WHERE spawn2.spawngroupID = :spawn2.spawngroupID`, spawn2Sets), spawn)
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = :id", spawnTable, spawnSets)
+	result, err := s.db.NamedExec(query, spawn)
 	if err != nil {
 		return
 	}
 	affected, err := result.RowsAffected()
-	if err != nil {
-		return
-	}
-	if affected < 1 {
-		err = &model.ErrNoContent{}
-		return
-	}
-
-	result, err = s.db.NamedExec(fmt.Sprintf(`UPDATE spawngroup SET %s WHERE spawn2.spawngroupID = :spawn2.spawngroupID`, spawnGroupSets), spawn)
-	if err != nil {
-		return
-	}
-	affected, err = result.RowsAffected()
 	if err != nil {
 		return
 	}
@@ -127,7 +76,8 @@ func (s *Storage) EditSpawn(spawn *model.Spawn) (err error) {
 
 //DeleteSpawn will grab data from storage
 func (s *Storage) DeleteSpawn(spawn *model.Spawn) (err error) {
-	result, err := s.db.Exec(`DELETE FROM spawn2 WHERE spawngroupid = ?`, spawn.SpawngroupID)
+	query := fmt.Sprintf("DELETE FROM %s WHERE id = ?", spawnTable)
+	result, err := s.db.Exec(query, spawn.ID)
 	if err != nil {
 		return
 	}
@@ -139,18 +89,29 @@ func (s *Storage) DeleteSpawn(spawn *model.Spawn) (err error) {
 		err = &model.ErrNoContent{}
 		return
 	}
+	return
+}
 
-	result, err = s.db.Exec(`DELETE FROM spawngroup WHERE id = ?`, spawn.ID)
+//createTableSpawn will grab data from storage
+func (s *Storage) createTableSpawn() (err error) {
+	_, err = s.db.Exec(`
+CREATE TABLE spawngroup (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(50) NOT NULL DEFAULT '',
+  spawn_limit tinyint(4) NOT NULL DEFAULT '0',
+  dist float NOT NULL DEFAULT '0',
+  max_x float NOT NULL DEFAULT '0',
+  min_x float NOT NULL DEFAULT '0',
+  max_y float NOT NULL DEFAULT '0',
+  min_y float NOT NULL DEFAULT '0',
+  delay int(11) NOT NULL DEFAULT '45000',
+  mindelay int(11) NOT NULL DEFAULT '15000',
+  despawn tinyint(3) NOT NULL DEFAULT '0',
+  despawn_timer int(11) NOT NULL DEFAULT '100',
+  PRIMARY KEY (id),
+  UNIQUE KEY name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;`)
 	if err != nil {
-		return
-	}
-
-	affected, err = result.RowsAffected()
-	if err != nil {
-		return
-	}
-	if affected < 1 {
-		err = &model.ErrNoContent{}
 		return
 	}
 	return

@@ -12,7 +12,7 @@ func (a *API) lootTableEntryRoutes() (routes []*route) {
 	routes = []*route{}
 	return
 }
-func (a *API) getLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getLootTableEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
@@ -41,7 +41,7 @@ func (a *API) getLootTableEntry(w http.ResponseWriter, r *http.Request, auth *mo
 	return
 }
 
-func (a *API) createLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createLootTableEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableEntry := &model.LootTableEntry{}
 	err = decodeBody(r, lootTableEntry)
@@ -56,7 +56,7 @@ func (a *API) createLootTableEntry(w http.ResponseWriter, r *http.Request, auth 
 	return
 }
 
-func (a *API) deleteLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteLootTableEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
@@ -88,7 +88,7 @@ func (a *API) deleteLootTableEntry(w http.ResponseWriter, r *http.Request, auth 
 	return
 }
 
-func (a *API) editLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editLootTableEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {
@@ -119,7 +119,7 @@ func (a *API) editLootTableEntry(w http.ResponseWriter, r *http.Request, auth *m
 	return
 }
 
-func (a *API) listLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listLootTableEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	lootTableID, err := getIntVar(r, "lootTableID")
 	if err != nil {

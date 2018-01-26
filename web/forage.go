@@ -28,7 +28,7 @@ func (a *Web) forageRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listForage(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listForage(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -98,7 +98,7 @@ func (a *Web) listForage(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *Web) listForageByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listForageByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -135,7 +135,7 @@ func (a *Web) listForageByZone(w http.ResponseWriter, r *http.Request, auth *mod
 	return
 }
 
-func (a *Web) getForageByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getForageByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -194,7 +194,7 @@ func (a *Web) getForageByZone(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *Web) getForage(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getForage(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site

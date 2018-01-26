@@ -21,7 +21,7 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 		Name        string
 		Method      string
 		Pattern     string
-		HandlerFunc func(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error)
+		HandlerFunc func(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error)
 	}
 
 	routes := []Route{
@@ -105,7 +105,7 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 				}
 
 				statusCode := http.StatusOK
-				content, err := route.HandlerFunc(w, r, auth, user, statusCode)
+				content, err := route.HandlerFunc(w, r, user, statusCode)
 				if err != nil {
 					a.writeError(w, r, err, statusCode)
 				} else {

@@ -44,7 +44,7 @@ func (a *API) factionRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getFaction(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
@@ -66,7 +66,7 @@ func (a *API) getFaction(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) createFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createFaction(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	faction := &model.Faction{}
 	err = decodeBody(r, faction)
@@ -81,7 +81,7 @@ func (a *API) createFaction(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *API) deleteFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteFaction(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
@@ -106,7 +106,7 @@ func (a *API) deleteFaction(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *API) editFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editFaction(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	factionID, err := getIntVar(r, "factionID")
 	if err != nil {
@@ -130,7 +130,7 @@ func (a *API) editFaction(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *API) listFaction(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listFaction(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	factions, err := a.factionRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

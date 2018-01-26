@@ -27,7 +27,7 @@ type line struct {
 	y2 float64
 }
 
-func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	type Content struct {
 		Message     string
@@ -51,7 +51,7 @@ func (a *Bot) zoneMapStatus(w http.ResponseWriter, r *http.Request, auth *model.
 		return
 }
 
-func (a *Bot) zoneMapCreate(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *Bot) zoneMapCreate(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	type Content struct {
 		Message string

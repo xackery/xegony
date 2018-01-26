@@ -13,7 +13,7 @@ func (a *API) npcRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
@@ -35,7 +35,7 @@ func (a *API) getNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthCla
 	return
 }
 
-func (a *API) createNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	npc := &model.Npc{}
 	err = decodeBody(r, npc)
@@ -50,7 +50,7 @@ func (a *API) createNpc(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
@@ -75,7 +75,7 @@ func (a *API) deleteNpc(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *API) editNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	npcID, err := getIntVar(r, "npcID")
 	if err != nil {
@@ -98,7 +98,7 @@ func (a *API) editNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *API) listNpc(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	npcs, err := a.npcRepo.List(20, 0, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

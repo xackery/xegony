@@ -13,7 +13,7 @@ func (a *Web) lootTableEntryRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listLootTableEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site            site
@@ -60,7 +60,7 @@ func (a *Web) listLootTableEntry(w http.ResponseWriter, r *http.Request, auth *m
 	return
 }
 
-func (a *Web) getLootTableEntry(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getLootTableEntry(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site           site

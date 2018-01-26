@@ -38,7 +38,7 @@ func (a *API) goalRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getGoal(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	listID, err := getIntVar(r, "listID")
 	if err != nil {
@@ -67,7 +67,7 @@ func (a *API) getGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *API) createGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createGoal(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	goal := &model.Goal{}
 	err = decodeBody(r, goal)
@@ -82,7 +82,7 @@ func (a *API) createGoal(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) deleteGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteGoal(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	listID, err := getIntVar(r, "listID")
 	if err != nil {
@@ -114,7 +114,7 @@ func (a *API) deleteGoal(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *API) editGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editGoal(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	listID, err := getIntVar(r, "listID")
 	if err != nil {
@@ -139,7 +139,7 @@ func (a *API) editGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *API) listGoal(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listGoal(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	goals, err := a.goalRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

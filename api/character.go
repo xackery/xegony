@@ -50,7 +50,7 @@ func (a *API) characterRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
@@ -72,7 +72,7 @@ func (a *API) getCharacter(w http.ResponseWriter, r *http.Request, auth *model.A
 	return
 }
 
-func (a *API) getCharacterByName(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getCharacterByName(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	name := getVar(r, "name")
 
@@ -92,7 +92,7 @@ func (a *API) getCharacterByName(w http.ResponseWriter, r *http.Request, auth *m
 	return
 }
 
-func (a *API) createCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	character := &model.Character{}
 	err = decodeBody(r, character)
@@ -107,7 +107,7 @@ func (a *API) createCharacter(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *API) deleteCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
@@ -133,7 +133,7 @@ func (a *API) deleteCharacter(w http.ResponseWriter, r *http.Request, auth *mode
 	return
 }
 
-func (a *API) editCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
@@ -157,7 +157,7 @@ func (a *API) editCharacter(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *API) listCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	characters, err := a.characterRepo.List(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

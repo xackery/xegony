@@ -64,7 +64,7 @@ func (a *Web) itemRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -114,7 +114,7 @@ func (a *Web) listItem(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *Web) listItemByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listItemByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -151,7 +151,7 @@ func (a *Web) listItemByZone(w http.ResponseWriter, r *http.Request, auth *model
 	return
 }
 
-func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site     site
@@ -200,7 +200,7 @@ func (a *Web) getItemByZone(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	characterID, err := getIntVar(r, "characterID")
 	if err != nil {
@@ -260,7 +260,7 @@ func (a *Web) listItemByCharacter(w http.ResponseWriter, r *http.Request, auth *
 	return
 }
 
-func (a *Web) listItemBySlot(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listItemBySlot(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site  site
@@ -300,7 +300,7 @@ func (a *Web) listItemBySlot(w http.ResponseWriter, r *http.Request, auth *model
 	return
 }
 
-func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site
@@ -349,7 +349,7 @@ func (a *Web) getItemBySlot(w http.ResponseWriter, r *http.Request, auth *model.
 	return
 }
 
-func (a *Web) getItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site      site
@@ -477,7 +477,7 @@ func (a *Web) getItem(w http.ResponseWriter, r *http.Request, auth *model.AuthCl
 	return
 }
 
-func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site
@@ -531,7 +531,7 @@ func (a *Web) searchItemByAccount(w http.ResponseWriter, r *http.Request, auth *
 	return
 }
 
-func (a *Web) searchItem(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) searchItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site   site

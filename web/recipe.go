@@ -34,7 +34,7 @@ func (a *Web) recipeRoutes() (routes []*route) {
 	return
 }
 
-func (a *Web) listRecipe(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listRecipe(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -102,7 +102,7 @@ func (a *Web) listRecipe(w http.ResponseWriter, r *http.Request, auth *model.Aut
 	return
 }
 
-func (a *Web) listRecipeByTradeskill(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) listRecipeByTradeskill(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site        site
@@ -142,7 +142,7 @@ func (a *Web) listRecipeByTradeskill(w http.ResponseWriter, r *http.Request, aut
 	return
 }
 
-func (a *Web) getRecipeByTradeskill(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getRecipeByTradeskill(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site       site
@@ -225,7 +225,7 @@ func (a *Web) getRecipeByTradeskill(w http.ResponseWriter, r *http.Request, auth
 	return
 }
 
-func (a *Web) getRecipe(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) getRecipe(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site         site
@@ -280,7 +280,7 @@ func (a *Web) getRecipe(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *Web) searchRecipe(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func (a *Web) searchRecipe(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site    site

@@ -38,7 +38,7 @@ func (a *API) topicRoutes() (routes []*route) {
 	return
 }
 
-func (a *API) getTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) getTopic(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
@@ -60,7 +60,7 @@ func (a *API) getTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthC
 	return
 }
 
-func (a *API) createTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) createTopic(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	topic := &model.Topic{}
 	err = decodeBody(r, topic)
@@ -75,7 +75,7 @@ func (a *API) createTopic(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *API) deleteTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) deleteTopic(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
@@ -101,7 +101,7 @@ func (a *API) deleteTopic(w http.ResponseWriter, r *http.Request, auth *model.Au
 	return
 }
 
-func (a *API) editTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) editTopic(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	topicID, err := getIntVar(r, "topicID")
 	if err != nil {
@@ -125,7 +125,7 @@ func (a *API) editTopic(w http.ResponseWriter, r *http.Request, auth *model.Auth
 	return
 }
 
-func (a *API) listTopic(w http.ResponseWriter, r *http.Request, auth *model.AuthClaim, user *model.User, statusCode int) (content interface{}, err error) {
+func (a *API) listTopic(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	forumID, err := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")
