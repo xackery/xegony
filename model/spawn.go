@@ -5,8 +5,6 @@ import ()
 // Spawn represents the spawn_group table
 // swagger:model
 type Spawn struct {
-	SpawnNpcs []*SpawnNpc `json:"spawnNpcs"`
-
 	ID           int64   `json:"id" db:"id"`
 	Name         string  `json:"name" db:"name"`                  //`name` varchar(50) NOT NULL DEFAULT '',
 	SpawnLimit   int64   `json:"spawnLimit" db:"spawn_limit"`     //`spawn_limit` tinyint(4) NOT NULL DEFAULT '0',

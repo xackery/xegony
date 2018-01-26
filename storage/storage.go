@@ -284,6 +284,15 @@ type Storage interface {
 	EditSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
 	DeleteSpawnEntry(spawnEntry *model.SpawnEntry) (err error)
 
+	//SpawnNpc
+	GetSpawnNpc(spawnNpc *model.SpawnNpc) (err error)
+	CreateSpawnNpc(spawnNpc *model.SpawnNpc) (err error)
+	ListSpawnNpc() (spawnNpcs []*model.SpawnNpc, err error)
+	ListSpawnNpcBySpawn(spawn *model.Spawn) (spawnNpcs []*model.SpawnNpc, err error)
+	ListSpawnNpcByNpc(npc *model.Npc) (spawnNpcs []*model.SpawnNpc, err error)
+	EditSpawnNpc(spawnNpc *model.SpawnNpc) (err error)
+	DeleteSpawnNpc(spawnNpc *model.SpawnNpc) (err error)
+
 	//Spell
 	GetSpell(spell *model.Spell) (err error)
 	CreateSpell(spell *model.Spell) (err error)

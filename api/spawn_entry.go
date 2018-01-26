@@ -32,10 +32,10 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"ListSpawn",
+			"ListSpawnEntry",
 			"GET",
 			"/spawn/{spawnID:[0-9]+}/entry",
-			a.listSpawn,
+			a.listSpawnEntry,
 		},
 		// swagger:route POST /spawn/{spawnID}/entry spawn createSpawn
 		//
@@ -52,10 +52,10 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"CreateSpawn",
+			"CreateSpawnEntry",
 			"POST",
 			"/spawn/{spawnID:[0-9]+}/entry",
-			a.createSpawn,
+			a.createSpawnEntry,
 		},
 		// swagger:route GET /spawn/{spawnID}/entry/{spawnEntryID} spawn getSpawn
 		//
@@ -69,10 +69,10 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"GetSpawn",
+			"GetSpawnEntry",
 			"GET",
 			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
-			a.getSpawn,
+			a.getSpawnEntry,
 		},
 		// swagger:route PUT /spawn/{spawnID}/entry/{spawnEntryID} spawn editSpawn
 		//
@@ -90,10 +90,10 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"EditSpawn",
+			"EditSpawnEntry",
 			"PUT",
 			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
-			a.editSpawn,
+			a.editSpawnEntry,
 		},
 		// swagger:route DELETE /spawn/{spawnID}/entry/{spawnEntryID} spawn deleteSpawn
 		//
@@ -110,10 +110,10 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"DeleteSpawn",
+			"DeleteSpawnEntry",
 			"DELETE",
 			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
-			a.deleteSpawn,
+			a.deleteSpawnEntry,
 		},
 	}
 	return
