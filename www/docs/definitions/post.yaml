@@ -1,9 +1,0 @@
-properties:
-  id:
-    type: integer
-  body:
-    type: string
-  topicID:
-    type: integer
-  ownerId:
-    type: integer

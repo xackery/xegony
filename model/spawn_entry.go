@@ -4,6 +4,10 @@ import (
 	"database/sql"
 )
 
+// SpawnEntrys is an array of SpawnEntry
+// swagger:model
+type SpawnEntrys []*SpawnEntry
+
 // SpawnEntry represents the spawn2 table
 // swagger:model
 type SpawnEntry struct {

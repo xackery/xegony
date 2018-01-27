@@ -1,5 +1,0 @@
-properties:
-  listID:
-    type: integer
-  entryID:
-    type: integer

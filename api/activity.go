@@ -8,6 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+// ActivityParams is a list of parameters for activity
 // swagger:parameters deleteActivity editActivity getActivity
 type ActivityParams struct {
 	//ActivityID to get information about

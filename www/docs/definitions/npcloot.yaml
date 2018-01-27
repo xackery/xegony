@@ -1,7 +1,0 @@
-properties:
-  npcID:
-    type: integer
-  itemID:
-    type: integer
-  npcName:
-    type: string

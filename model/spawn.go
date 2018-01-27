@@ -2,6 +2,10 @@ package model
 
 import ()
 
+// Spawns is an array of Spawn
+// swagger:model
+type Spawns []*Spawn
+
 // Spawn represents the spawn_group table
 // swagger:model
 type Spawn struct {

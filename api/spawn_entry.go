@@ -11,7 +11,7 @@ import (
 func (a *API) spawnEntryRoutes() (routes []*route) {
 
 	routes = []*route{
-		// swagger:route GET /spawn/{spawnID}/entry spawn listSpawn
+		// swagger:route GET /spawn/{spawnID}/entry spawn listSpawnEntry
 		//
 		// Lists spawns
 		//
@@ -37,7 +37,7 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 			"/spawn/{spawnID:[0-9]+}/entry",
 			a.listSpawnEntry,
 		},
-		// swagger:route POST /spawn/{spawnID}/entry spawn createSpawn
+		// swagger:route POST /spawn/{spawnID}/entry spawn createSpawnEntry
 		//
 		// Create an spawn
 		//
@@ -57,7 +57,7 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 			"/spawn/{spawnID:[0-9]+}/entry",
 			a.createSpawnEntry,
 		},
-		// swagger:route GET /spawn/{spawnID}/entry/{spawnEntryID} spawn getSpawn
+		// swagger:route GET /spawn/{spawnID}/entry/{spawnEntryID} spawn getSpawnEntry
 		//
 		// Get an spawn
 		//
@@ -74,7 +74,7 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
 			a.getSpawnEntry,
 		},
-		// swagger:route PUT /spawn/{spawnID}/entry/{spawnEntryID} spawn editSpawn
+		// swagger:route PUT /spawn/{spawnID}/entry/{spawnEntryID} spawn editSpawnEntry
 		//
 		// Edit an spawn
 		//
@@ -95,7 +95,7 @@ func (a *API) spawnEntryRoutes() (routes []*route) {
 			"/spawn/{spawnID:[0-9]+}/entry/{spawnEntryID:[0-9]+}",
 			a.editSpawnEntry,
 		},
-		// swagger:route DELETE /spawn/{spawnID}/entry/{spawnEntryID} spawn deleteSpawn
+		// swagger:route DELETE /spawn/{spawnID}/entry/{spawnEntryID} spawn deleteSpawnEntry
 		//
 		// Delete an spawn
 		//

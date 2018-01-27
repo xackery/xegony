@@ -1,9 +1,0 @@
-properties:
-  id:
-    type: integer
-  title:
-    type: string
-  forumID:
-    type: integer
-  icon:
-    type: string

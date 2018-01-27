@@ -1,7 +1,0 @@
-properties:
-  id:
-    type: integer
-  itemID:
-    type: integer
-  name:
-    type: string

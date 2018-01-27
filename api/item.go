@@ -12,47 +12,126 @@ import (
 
 func (a *API) itemRoutes() (routes []*route) {
 	routes = []*route{
+		// swagger:route GET /item item listItem
+		//
+		// Lists items
+		//
+		// This will show all available items by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: Items
+		//       400: ErrValidation
+		//		 401: ErrPermission
 		{
 			"ListItem",
 			"GET",
 			"/item",
 			a.listItem,
 		},
+		// swagger:route POST /item item createItem
+		//
+		// Create an item
+		//
+		// This will create an item
+		//
+		//     Security:
+		//       apiKey:
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       204: ErrNoContent
+		//       400: ErrValidation
+		//		 401: ErrPermission
 		{
 			"CreateItem",
 			"POST",
 			"/item",
 			a.createItem,
 		},
-		{
-			"DeleteItem",
-			"DELETE",
-			"/item/{itemID:[0-9]+}",
-			a.deleteItem,
-		},
-		{
-			"EditItem",
-			"PUT",
-			"/item/{itemID:[0-9]+}",
-			a.editItem,
-		},
+		// swagger:route GET /item/{itemID} item getItem
+		//
+		// Get an item
+		//
+		// This will get an individual item available items by default.
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: Item
+		//       400: ErrValidation
+		//		 401: ErrPermission
 		{
 			"GetItem",
 			"GET",
 			"/item/{itemID:[0-9]+}",
 			a.getItem,
 		},
+		// swagger:route GET /item/{itemID}/tooltip item getItemTooltip
+		//
+		// Get an item tooltip
+		//
+		// Used for AJAX calls, a baked item tooltip request
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: Item
+		//       400: ErrValidation
+		//		 401: ErrPermission
 		{
 			"GetItemTooltip",
 			"GET",
 			"/item/{itemID:[0-9]+}/tooltip",
 			a.getItemTooltip,
 		},
+		// swagger:route PUT /item/{itemID} item editItem
+		//
+		// Edit an item
+		//
+		// This will edit an item
+		//
+		//     Security:
+		//       apiKey:
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//		 200: ErrNoContent
+		//       204: ErrNoContent
+		//       400: ErrValidation
+		//		 401: ErrPermission
 		{
-			"ListItem",
-			"GET",
-			"/item",
-			a.listItem,
+			"EditItem",
+			"PUT",
+			"/item/{itemID:[0-9]+}",
+			a.editItem,
+		},
+		// swagger:route DELETE /item/{itemID} item deleteItem
+		//
+		// Delete an item
+		//
+		// This will delete an item
+		//
+		//     Security:
+		//       apiKey:
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       204: ErrNoContent
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"DeleteItem",
+			"DELETE",
+			"/item/{itemID:[0-9]+}",
+			a.deleteItem,
 		},
 	}
 	return

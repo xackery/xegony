@@ -8,6 +8,7 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+// AccountParams is a list of parameters used for account
 // swagger:parameters deleteAccount editAccount getAccount
 type AccountParams struct {
 	//AccountID to get information about

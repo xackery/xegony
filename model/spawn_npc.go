@@ -2,6 +2,10 @@ package model
 
 import ()
 
+// SpawnNpcs is an array of SpawnNpc
+// swagger:model
+type SpawnNpcs []*SpawnNpc
+
 // SpawnNpc represents the spawnentry table. This is a pivot
 // swagger:model
 type SpawnNpc struct {

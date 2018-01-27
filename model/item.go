@@ -6,7 +6,11 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-//Item represents items inside everquest
+// Item contains an array of item
+// swagger:model
+type Items []*Item
+
+// Item represents items inside everquest
 // swagger:model
 type Item struct {
 	//Reference is used when listing from npc
