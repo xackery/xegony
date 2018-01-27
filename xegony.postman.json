@@ -1,0 +1,1024 @@
+{
+  "info": {
+    "name": "Xegony API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "account",
+      "item": [
+        {
+          "name": "Lists accounts",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/account",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "account"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an account",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/account",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "account"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an account",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/account/:accountID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "account",
+                ":accountID"
+              ],
+              "variable": [
+                {
+                  "id": "accountID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an account",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/account/:accountID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "account",
+                ":accountID"
+              ],
+              "variable": [
+                {
+                  "id": "accountID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an account",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/account/:accountID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "account",
+                ":accountID"
+              ],
+              "variable": [
+                {
+                  "id": "accountID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "activity",
+      "item": [
+        {
+          "name": "Lists activities",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/activity",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "activity"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an activity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/activity",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "activity"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an activity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/activity/:activityID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "activity",
+                ":activityID"
+              ],
+              "variable": [
+                {
+                  "id": "activityID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an activity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/activity/:activityID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "activity",
+                ":activityID"
+              ],
+              "variable": [
+                {
+                  "id": "activityID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an activity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/activity/:activityID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "activity",
+                ":activityID"
+              ],
+              "variable": [
+                {
+                  "id": "activityID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "item": [
+        {
+          "name": "Lists items",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/item",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "item"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an item",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/item",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "item"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an item",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/item/:itemID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "item",
+                ":itemID"
+              ],
+              "variable": [
+                {
+                  "id": "itemID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an item",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/item/:itemID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "item",
+                ":itemID"
+              ],
+              "variable": [
+                {
+                  "id": "itemID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an item",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/item/:itemID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "item",
+                ":itemID"
+              ],
+              "variable": [
+                {
+                  "id": "itemID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an item tooltip",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/item/:itemID/tooltip",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "item",
+                ":itemID",
+                "tooltip"
+              ],
+              "variable": [
+                {
+                  "id": "itemID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "spawn",
+      "item": [
+        {
+          "name": "Lists spawns",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Lists spawns",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/:spawnEntryID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                ":spawnEntryID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "spawnEntryID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/:spawnEntryID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                ":spawnEntryID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "spawnEntryID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/:spawnEntryID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                ":spawnEntryID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "spawnEntryID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Lists spawn Npcs",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/npc",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "npc"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an npc spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/npc",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "npc"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get a npc spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/npc/:spawnNpcID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "npc",
+                ":spawnNpcID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "spawnNpcID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an npc spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/npc/:spawnNpcID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "npc",
+                ":spawnNpcID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "spawnNpcID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spawn",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/npc/:spawnNpcID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "npc",
+                ":spawnNpcID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "spawnNpcID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    }
+  ]
+}
