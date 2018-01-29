@@ -5,19 +5,91 @@ import (
 	"net/http"
 
 	"github.com/pkg/errors"
+	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 )
 
-// AccountParams is a list of parameters used for account
+// AccountRequest is a list of parameters used for account
 // swagger:parameters deleteAccount editAccount getAccount
-type AccountParams struct {
-	//AccountID to get information about
+type AccountRequest struct {
+	// ID to get information about
 	// in: path
-	AccountID int64 `json:"accountID"`
-	//todo: pagination
+	// example: 74887
+	ID int64 `json:"ID"`
 }
 
-func (a *API) accountRoutes() (routes []*route) {
+// AccountResponse is what endpoints respond with
+// swagger:response
+type AccountResponse struct {
+	Account *model.Account `json:"account"`
+}
+
+// AccountCreateRequest is the body parameters for creating an account
+// swagger:parameters createAccount
+type AccountCreateRequest struct {
+	// Account details to create
+	// in: body
+	Account *model.Account `json:"account"`
+}
+
+// AccountEditRequest is the body parameters for creating an account
+// swagger:parameters editAccount
+type AccountEditRequest struct {
+	// ID to get information about
+	// in: path
+	// example: 74887
+	ID int64 `json:"ID"`
+	// Account details to edit
+	// in: body
+	Account *model.Account `json:"account"`
+}
+
+// AccountsRequest is a list of parameters used for account
+// swagger:parameters listAccount
+type AccountsRequest struct {
+	// Offset is pagination, offset*limit
+	// example: 0
+	// in: query
+	Offset int64 `json:"offset"`
+	// Limit to how many items per page
+	// example: 10
+	// in: query
+	Limit int64 `json:"limit"`
+}
+
+// AccountsResponse is a general response to a request
+// swagger:response
+type AccountsResponse struct {
+	Page     *model.Page    `json:"page"`
+	Accounts model.Accounts `json:"accounts"`
+}
+
+// AccountsBySearchRequest is a list of parameters used for account
+// swagger:parameters listAccountBySearch
+type AccountsBySearchRequest struct {
+	// Name is which account to get information about
+	// example: xackery
+	// in: query
+	Name string `json:"name"`
+	// Offset is pagination, offset*limit
+	// example: 0
+	// in: query
+	Offset int64 `json:"offset"`
+	// Limit to how many items per page
+	// example: 10
+	// in: query
+	Limit int64 `json:"limit"`
+}
+
+// AccountsBySearchResponse is a general response to a request
+// swagger:response listAccountBySearch
+type AccountsBySearchResponse struct {
+	Search   *model.Account `json:"search"`
+	Page     *model.Page    `json:"page"`
+	Accounts model.Accounts `json:"accounts"`
+}
+
+func accountRoutes() (routes []*route) {
 
 	routes = []*route{
 		// swagger:route GET /account account listAccount
@@ -37,14 +109,40 @@ func (a *API) accountRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: Accounts
+		//       200: AccountsResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
 			"ListAccount",
 			"GET",
 			"/account",
-			a.listAccount,
+			listAccount,
+		},
+		// swagger:route GET /account/search account listAccountBySearch
+		//
+		// Search accounts by name
+		//
+		// This will show all available accounts by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: AccountsBySearchResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"ListAccountBySearch",
+			"GET",
+			"/account/search",
+			listAccountBySearch,
 		},
 		// swagger:route POST /account account createAccount
 		//
@@ -57,6 +155,7 @@ func (a *API) accountRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
+		//		 200: AccountResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
@@ -64,9 +163,9 @@ func (a *API) accountRoutes() (routes []*route) {
 			"CreateAccount",
 			"POST",
 			"/account",
-			a.createAccount,
+			createAccount,
 		},
-		// swagger:route GET /account/{accountID} account getAccount
+		// swagger:route GET /account/{ID} account getAccount
 		//
 		// Get an account
 		//
@@ -74,16 +173,16 @@ func (a *API) accountRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: Account
+		//       200: AccountResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
 			"GetAccount",
 			"GET",
-			"/account/{accountID:[0-9]+}",
-			a.getAccount,
+			"/account/{ID:[0-9]+}",
+			getAccount,
 		},
-		// swagger:route PUT /account/{accountID} account editAccount
+		// swagger:route PUT /account/{ID} account editAccount
 		//
 		// Edit an account
 		//
@@ -94,17 +193,17 @@ func (a *API) accountRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//		 200: ErrNoContent
+		//		 200: AccountResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
 			"EditAccount",
 			"PUT",
-			"/account/{accountID:[0-9]+}",
-			a.editAccount,
+			"/account/{ID:[0-9]+}",
+			editAccount,
 		},
-		// swagger:route DELETE /account/{accountID} account deleteAccount
+		// swagger:route DELETE /account/{ID} account deleteAccount
 		//
 		// Delete an account
 		//
@@ -121,25 +220,23 @@ func (a *API) accountRoutes() (routes []*route) {
 		{
 			"DeleteAccount",
 			"DELETE",
-			"/account/{accountID:[0-9]+}",
-			a.deleteAccount,
+			"/account/{ID:[0-9]+}",
+			deleteAccount,
 		},
 	}
 	return
 }
 
-func (a *API) getAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	accountReq := &AccountParams{}
+func getAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &AccountRequest{
+		ID: getIntVar(r, "ID"),
+	}
 
-	accountReq.AccountID, err = getIntVar(r, "accountID")
-	if err != nil {
-		err = errors.Wrap(err, "accountID argument is required")
-		return
-	}
 	account := &model.Account{
-		ID: accountReq.AccountID,
+		ID: request.ID,
 	}
-	err = a.accountRepo.Get(account, user)
+
+	err = cases.GetAccount(account, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return
@@ -147,37 +244,40 @@ func (a *API) getAccount(w http.ResponseWriter, r *http.Request, user *model.Use
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	content = account
+	response := &AccountResponse{
+		Account: account,
+	}
+	content = response
 	return
 }
 
-func (a *API) createAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-
+func createAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	account := &model.Account{}
 	err = decodeBody(r, account)
 	if err != nil {
 		return
 	}
-	err = a.accountRepo.Create(account, user)
+	err = cases.CreateAccount(account, user)
 	if err != nil {
 		return
 	}
-	content = account
+	response := &AccountResponse{
+		Account: account,
+	}
+	content = response
 	return
 }
 
-func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	accountReq := &AccountParams{}
-	accountReq.AccountID, err = getIntVar(r, "accountID")
-	if err != nil {
-		err = errors.Wrap(err, "accountID argument is required")
-		return
-	}
-	account := &model.Account{
-		ID: accountReq.AccountID,
+func deleteAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &AccountRequest{
+		ID: getIntVar(r, "ID"),
 	}
 
-	err = a.accountRepo.Delete(account, user)
+	account := &model.Account{
+		ID: request.ID,
+	}
+
+	err = cases.DeleteAccount(account, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -190,37 +290,72 @@ func (a *API) deleteAccount(w http.ResponseWriter, r *http.Request, user *model.
 	return
 }
 
-func (a *API) editAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	accountReq := &AccountParams{}
-	accountReq.AccountID, err = getIntVar(r, "accountID")
-	if err != nil {
-		err = errors.Wrap(err, "accountID argument is required")
-		return
+func editAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &AccountEditRequest{
+		ID: getIntVar(r, "ID"),
 	}
 
 	account := &model.Account{
-		ID: accountReq.AccountID,
+		ID: request.ID,
 	}
+
 	err = decodeBody(r, account)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
 
-	err = a.accountRepo.Edit(account, user)
+	err = cases.EditAccount(account, user)
 	if err != nil {
 		return
 	}
-	content = account
+	response := &AccountResponse{
+		Account: account,
+	}
+	content = response
 	return
 }
 
-func (a *API) listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	accounts, err := a.accountRepo.List(user)
+func listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+
+	page := &model.Page{
+		Offset: getIntQuery(r, "offset"),
+		Limit:  getIntQuery(r, "limit"),
+	}
+	accounts, err := cases.ListAccount(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	content = accounts
+	log.Println(accounts)
+	response := &AccountsResponse{
+		Page:     page,
+		Accounts: accounts,
+	}
+	content = response
+	return
+}
+
+func listAccountBySearch(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+
+	page := &model.Page{
+		Offset: getIntQuery(r, "offset"),
+		Limit:  getIntQuery(r, "limit"),
+	}
+	account := &model.Account{
+		Name: getQuery(r, "name"),
+	}
+	accounts, err := cases.ListAccountBySearch(page, account, user)
+	if err != nil {
+		err = errors.Wrap(err, "Request error")
+		return
+	}
+	log.Println(accounts)
+	response := &AccountsBySearchResponse{
+		Page:     page,
+		Accounts: accounts,
+		Search:   account,
+	}
+	content = response
 	return
 }

@@ -5,62 +5,142 @@ import (
 	"net/http"
 
 	"github.com/pkg/errors"
+	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 )
 
-func (a *API) characterRoutes() (routes []*route) {
+// CharacterParams is a list of parameters used for character
+// swagger:parameters deleteCharacter editCharacter getCharacter
+type CharacterParams struct {
+	//CharacterID to get information about
+	// in: path
+	CharacterID int64 `json:"characterID"`
+	//todo: pagination
+}
+
+func characterRoutes() (routes []*route) {
+
 	routes = []*route{
-		{
-			"CreateCharacter",
-			"POST",
-			"/character",
-			a.createCharacter,
-		},
-		{
-			"DeleteCharacter",
-			"DELETE",
-			"/character/{characterID:[0-9]+}",
-			a.deleteCharacter,
-		},
-		{
-			"EditCharacter",
-			"PUT",
-			"/character/{characterID:[0-9]+}",
-			a.editCharacter,
-		},
-		{
-			"GetCharacter",
-			"GET",
-			"/character/{characterID:[0-9]+}",
-			a.getCharacter,
-		},
-		{
-			"GetCharacterByName",
-			"GET",
-			"/character/byname/{name:[a-zA-Z]+}",
-			a.getCharacterByName,
-		},
+		// swagger:route GET /character character listCharacter
+		//
+		// Lists characters
+		//
+		// This will show all available characters by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: Characters
+		//       400: ErrValidation
+		//		 401: ErrPermission
 		{
 			"ListCharacter",
 			"GET",
 			"/character",
-			a.listCharacter,
+			listCharacter,
+		},
+		// swagger:route POST /character character createCharacter
+		//
+		// Create an character
+		//
+		// This will create an character
+		//
+		//     Security:
+		//       apiKey:
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       204: ErrNoContent
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"CreateCharacter",
+			"POST",
+			"/character",
+			createCharacter,
+		},
+		// swagger:route GET /character/{characterID} character getCharacter
+		//
+		// Get an character
+		//
+		// This will get an individual character available characters by default.
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: Character
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"GetCharacter",
+			"GET",
+			"/character/{characterID:[0-9]+}",
+			getCharacter,
+		},
+		// swagger:route PUT /character/{characterID} character editCharacter
+		//
+		// Edit an character
+		//
+		// This will edit an character
+		//
+		//     Security:
+		//       apiKey:
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//		 200: ErrNoContent
+		//       204: ErrNoContent
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"EditCharacter",
+			"PUT",
+			"/character/{characterID:[0-9]+}",
+			editCharacter,
+		},
+		// swagger:route DELETE /character/{characterID} character deleteCharacter
+		//
+		// Delete an character
+		//
+		// This will delete an character
+		//
+		//     Security:
+		//       apiKey:
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       204: ErrNoContent
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"DeleteCharacter",
+			"DELETE",
+			"/character/{characterID:[0-9]+}",
+			deleteCharacter,
 		},
 	}
 	return
 }
 
-func (a *API) getCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+func getCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	characterReq := &CharacterParams{}
 
-	characterID, err := getIntVar(r, "characterID")
+	characterReq.CharacterID = getIntVar(r, "characterID")
 	if err != nil {
 		err = errors.Wrap(err, "characterID argument is required")
 		return
 	}
 	character := &model.Character{
-		ID: characterID,
+		ID: characterReq.CharacterID,
 	}
-	err = a.characterRepo.Get(character, user)
+	err = cases.GetCharacter(character, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return
@@ -72,34 +152,14 @@ func (a *API) getCharacter(w http.ResponseWriter, r *http.Request, user *model.U
 	return
 }
 
-func (a *API) getCharacterByName(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-
-	name := getVar(r, "name")
-
-	character := &model.Character{
-		Name: name,
-	}
-
-	err = a.characterRepo.GetByName(character, user)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return
-		}
-		err = errors.Wrap(err, "Request error")
-		return
-	}
-	content = character
-	return
-}
-
-func (a *API) createCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+func createCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	character := &model.Character{}
 	err = decodeBody(r, character)
 	if err != nil {
 		return
 	}
-	err = a.characterRepo.Create(character, user)
+	err = cases.CreateCharacter(character, user)
 	if err != nil {
 		return
 	}
@@ -107,19 +167,18 @@ func (a *API) createCharacter(w http.ResponseWriter, r *http.Request, user *mode
 	return
 }
 
-func (a *API) deleteCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-
-	characterID, err := getIntVar(r, "characterID")
+func deleteCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	characterReq := &CharacterParams{}
+	characterReq.CharacterID = getIntVar(r, "characterID")
 	if err != nil {
 		err = errors.Wrap(err, "characterID argument is required")
 		return
 	}
-
 	character := &model.Character{
-		ID: characterID,
+		ID: characterReq.CharacterID,
 	}
 
-	err = a.characterRepo.Delete(character, user)
+	err = cases.DeleteCharacter(character, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -127,29 +186,29 @@ func (a *API) deleteCharacter(w http.ResponseWriter, r *http.Request, user *mode
 		default:
 			err = errors.Wrap(err, "Request failed")
 		}
-		return
 	}
-	content = character
+	err = &model.ErrNoContent{}
 	return
 }
 
-func (a *API) editCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-
-	characterID, err := getIntVar(r, "characterID")
+func editCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	characterReq := &CharacterParams{}
+	characterReq.CharacterID = getIntVar(r, "characterID")
 	if err != nil {
 		err = errors.Wrap(err, "characterID argument is required")
 		return
 	}
 
-	character := &model.Character{}
+	character := &model.Character{
+		ID: characterReq.CharacterID,
+	}
 	err = decodeBody(r, character)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	character.ID = characterID
 
-	err = a.characterRepo.Edit(character, user)
+	err = cases.EditCharacter(character, user)
 	if err != nil {
 		return
 	}
@@ -157,8 +216,8 @@ func (a *API) editCharacter(w http.ResponseWriter, r *http.Request, user *model.
 	return
 }
 
-func (a *API) listCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	characters, err := a.characterRepo.List(user)
+func listCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	characters, err := cases.ListCharacter(user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return

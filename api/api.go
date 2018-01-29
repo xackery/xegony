@@ -41,7 +41,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"log"
+	alog "log"
 	"net/http"
 	"os"
 	"strconv"
@@ -66,6 +66,8 @@ const (
 
 var (
 	mySigningKey = []byte("øˆ∂∆ø∆12")
+	log          *alog.Logger
+	logErr       *alog.Logger
 )
 
 type loginResponse struct {
@@ -73,160 +75,51 @@ type loginResponse struct {
 	User   *model.User
 }
 
-//API wraps the api server
-type API struct {
-	log    *log.Logger
-	logErr *log.Logger
-
-	accountRepo        *cases.AccountRepository
-	activityRepo       *cases.ActivityRepository
-	bazaarRepo         *cases.BazaarRepository
-	characterRepo      *cases.CharacterRepository
-	factionRepo        *cases.FactionRepository
-	forumRepo          *cases.ForumRepository
-	goalRepo           *cases.GoalRepository
-	itemRepo           *cases.ItemRepository
-	lootDropEntryRepo  *cases.LootDropEntryRepository
-	lootDropRepo       *cases.LootDropRepository
-	lootTableEntryRepo *cases.LootTableEntryRepository
-	lootTableRepo      *cases.LootTableRepository
-	npcLootRepo        *cases.NpcLootRepository
-	npcRepo            *cases.NpcRepository
-	postRepo           *cases.PostRepository
-	spawnRepo          *cases.SpawnRepository
-	spawnEntryRepo     *cases.SpawnEntryRepository
-	spawnNpcRepo       *cases.SpawnNpcRepository
-	taskRepo           *cases.TaskRepository
-	topicRepo          *cases.TopicRepository
-	userRepo           *cases.UserRepository
-	zoneLevelRepo      *cases.ZoneLevelRepository
-	zoneRepo           *cases.ZoneRepository
-}
-
 // Initialize initializes an API endpoint with the implemented storage.
 // config can be empty, it will initialize based on environment variables
 // or by default values.
-func (a *API) Initialize(s storage.Storage, config string, w io.Writer) (err error) {
-	if s == nil {
-		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
+func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, config string, w io.Writer, wErr io.Writer) (err error) {
+	if sr == nil {
+		err = fmt.Errorf("Invalid reader type passed, must be pointer reference")
+		return
+	}
+	if sw == nil {
+		err = fmt.Errorf("Invalid writer type passed, must be pointer reference")
+		return
+	}
+	if si == nil {
+		err = fmt.Errorf("Invalid initializer type passed, must be pointer reference")
 		return
 	}
 	if w == nil {
 		w = os.Stdout
 	}
-	a.log = log.New(w, "API: ", 0)
-	a.logErr = log.New(w, "APIErr: ", 0)
+	log = alog.New(w, "API: ", 0)
+	logErr = alog.New(wErr, "APIErr: ", 0)
 
-	a.accountRepo = &cases.AccountRepository{}
-	if err = a.accountRepo.Initialize(s); err != nil {
+	err = cases.InitializeAll(sr, sw, si)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize all")
 		return
 	}
-	a.activityRepo = &cases.ActivityRepository{}
-	if err = a.activityRepo.Initialize(s); err != nil {
-		return
-	}
-	a.bazaarRepo = &cases.BazaarRepository{}
-	if err = a.bazaarRepo.Initialize(s); err != nil {
-		return
-	}
-	a.characterRepo = &cases.CharacterRepository{}
-	if err = a.characterRepo.Initialize(s); err != nil {
-		return
-	}
-	a.factionRepo = &cases.FactionRepository{}
-	if err = a.factionRepo.Initialize(s); err != nil {
-		return
-	}
-	a.forumRepo = &cases.ForumRepository{}
-	if err = a.forumRepo.Initialize(s); err != nil {
-		return
-	}
-	a.goalRepo = &cases.GoalRepository{}
-	if err = a.goalRepo.Initialize(s); err != nil {
-		return
-	}
-	a.itemRepo = &cases.ItemRepository{}
-	if err = a.itemRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootDropRepo = &cases.LootDropRepository{}
-	if err = a.lootDropRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootDropEntryRepo = &cases.LootDropEntryRepository{}
-	if err = a.lootDropEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootTableRepo = &cases.LootTableRepository{}
-	if err = a.lootTableRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootTableEntryRepo = &cases.LootTableEntryRepository{}
-	if err = a.lootTableEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.npcRepo = &cases.NpcRepository{}
-	if err = a.npcRepo.Initialize(s); err != nil {
-		return
-	}
-	a.npcLootRepo = &cases.NpcLootRepository{}
-	if err = a.npcLootRepo.Initialize(s); err != nil {
-		return
-	}
-	a.postRepo = &cases.PostRepository{}
-	if err = a.postRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnRepo = &cases.SpawnRepository{}
-	if err = a.spawnRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnNpcRepo = &cases.SpawnNpcRepository{}
-	if err = a.spawnNpcRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
-	if err = a.spawnEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.taskRepo = &cases.TaskRepository{}
-	if err = a.taskRepo.Initialize(s); err != nil {
-		return
-	}
-	a.topicRepo = &cases.TopicRepository{}
-	if err = a.topicRepo.Initialize(s); err != nil {
-		return
-	}
-	a.userRepo = &cases.UserRepository{}
-	if err = a.userRepo.Initialize(s); err != nil {
-		return
-	}
-	a.zoneRepo = &cases.ZoneRepository{}
-	if err = a.zoneRepo.Initialize(s); err != nil {
-		return
-	}
-	a.zoneLevelRepo = &cases.ZoneLevelRepository{}
-	if err = a.zoneLevelRepo.Initialize(s); err != nil {
-		return
-	}
-	a.log.Println("Initialized")
+	log.Println("Initialized")
 	return
 }
 
-func (a *API) indexRoutes() (routes []*route) {
+func indexRoutes() (routes []*route) {
 	routes = []*route{
 		{
 			"Index",
 			"GET",
 			"/",
-			a.index,
+			index,
 		},
 	}
 	return
 }
 
 // Index handles the root endpoint of /api/
-func (a *API) index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+func index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	type Content struct {
 		Message string `json:"message"`
 	}
@@ -238,10 +131,10 @@ func (a *API) index(w http.ResponseWriter, r *http.Request, user *model.User, st
 	return
 }
 
-func (a *API) writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
+func writeData(w http.ResponseWriter, r *http.Request, content interface{}, statusCode int) {
 	var err error
 	if w == nil || r == nil {
-		a.logErr.Println("a.writeData called with invalid writer/request")
+		logErr.Println("writeData called with invalid writer/request")
 	}
 	if content == nil {
 		w.WriteHeader(statusCode)
@@ -280,7 +173,7 @@ func (a *API) writeData(w http.ResponseWriter, r *http.Request, content interfac
 	w.Write(data)
 }
 
-func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
+func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 	type Content struct {
 		Message string            `json:"message"`
 		Fields  map[string]string `json:"fields,omitempty"`
@@ -294,16 +187,16 @@ func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 	}*/
 	//fmt.Printf("%v\n", err)
 
-	a.logErr.Println(err.Error())
-
 	content := Content{
-		Message: fmt.Sprintf("%s", err), //errors.Cause(err).Error(),
+		Message: fmt.Sprintf("%s", errors.Cause(err).Error()),
 	}
 
 	switch tErr := errors.Cause(err).(type) {
 	case *model.ErrNoContent:
 		statusCode = http.StatusNoContent
-		return
+	case *model.ErrDecodeBody:
+		statusCode = http.StatusBadRequest
+		content.Message = "failed to decode body: " + content.Message
 	case *model.ErrValidation:
 		content.Fields = map[string]string{}
 		content.Message = "Invalid fields"
@@ -314,12 +207,15 @@ func (a *API) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 			content.Fields[f] = d
 		}
 		statusCode = http.StatusBadRequest
+		err = errors.Wrap(err, content.Message)
 	case *model.ErrPermission:
 		statusCode = http.StatusUnauthorized
 	default:
 		statusCode = http.StatusInternalServerError
 	}
 
+	logErr.Println(r.URL, statusCode, err.Error())
+	writeData(w, r, content, statusCode)
 	return
 }
 
@@ -328,14 +224,16 @@ func decodeBody(r *http.Request, data interface{}) (err error) {
 	decoder := json.NewDecoder(r.Body)
 	err = decoder.Decode(data)
 	if err != nil {
-		err = &model.ErrDecodeBody{}
+		err = &model.ErrDecodeBody{
+			Message: err.Error(),
+		}
 		return
 	}
 	return
 }
 
-// getIntParam parses query parameters based on key and returns as an int64
-func getIntParam(r *http.Request, key string) int64 {
+// getIntQuery parses query parameters based on key and returns as an int64
+func getIntQuery(r *http.Request, key string) int64 {
 	var val int64
 	vals := r.URL.Query()
 	keyTypes, ok := vals[key]
@@ -348,15 +246,26 @@ func getIntParam(r *http.Request, key string) int64 {
 	return 0
 }
 
-// getIntVar parses a variable from the routing pattern and returns it as an int64
-func getIntVar(r *http.Request, key string) (val int64, err error) {
-	vars := mux.Vars(r)
-	val, err = strconv.ParseInt(vars[key], 10, 64)
-	if err != nil {
-		err = &model.ErrInvalidArguments{}
-		return
+// getQuery parses query parameters based on key and returns as a string
+func getQuery(r *http.Request, key string) string {
+	vals := r.URL.Query()
+	keyTypes, ok := vals[key]
+	if ok {
+		if len(keyTypes) > 0 {
+			return keyTypes[0]
+		}
 	}
-	return
+	return ""
+}
+
+// getIntVar parses a variable from the routing pattern and returns it as an int64
+func getIntVar(r *http.Request, key string) int64 {
+	vars := mux.Vars(r)
+	val, err := strconv.ParseInt(vars[key], 10, 64)
+	if err != nil {
+		return 0
+	}
+	return val
 }
 
 // getVar  returns with a variable inside the request based on a routing pattern assigned variable

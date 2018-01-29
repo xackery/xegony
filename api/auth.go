@@ -37,7 +37,7 @@ func generateToken(user *model.User) (tokenString string, err error) {
 	return
 }
 
-//getAuthClaim gets token authorization data from request
+//GetAuthClaim gets token authorization data from request
 func GetAuthClaim(r *http.Request) (*model.AuthClaim, error) {
 	auth := &model.AuthClaim{
 		User: &model.User{},
