@@ -3,24 +3,22 @@ package mariadb
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
+)
+
+const (
+	accountTable  = "account"
+	accountFields = "name, charname, sharedplat, password, status, lsaccount_id, gmspeed, revoked, karma, minilogin_ip, hideme, rulesflag, suspendeduntil, time_creation, expansion, ban_reason, suspend_reason"
+	accountBinds  = ":name, :charname, :sharedplat, :password, :status, :lsaccount_id, :gmspeed, :revoked, :karma, :minilogin_ip, :hideme, :rulesflag, :suspendeduntil, :time_creation, :expansion, :ban_reason, :suspend_reason"
 )
 
 //GetAccount will grab data from storage
 func (s *Storage) GetAccount(account *model.Account) (err error) {
-	account = &model.Account{}
-	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE id = ?", account.ID)
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE id = ?", accountFields, accountTable)
+	err = s.db.Get(account, query, account.ID)
 	if err != nil {
-		return
-	}
-	return
-}
-
-//GetAccountByName will grab data from storage
-func (s *Storage) GetAccountByName(account *model.Account) (err error) {
-	account = &model.Account{}
-	err = s.db.Get(account, "SELECT id, name, status FROM account WHERE name = ?", account.Name)
-	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	return
@@ -28,18 +26,15 @@ func (s *Storage) GetAccountByName(account *model.Account) (err error) {
 
 //CreateAccount will grab data from storage
 func (s *Storage) CreateAccount(account *model.Account) (err error) {
-	if account == nil {
-		err = fmt.Errorf("Must provide account")
-		return
-	}
-
-	result, err := s.db.NamedExec(`INSERT INTO account(name, status)
-		VALUES (:name, :status)`, account)
+	query := fmt.Sprintf("INSERT INTO %s(%s) VALUES (%s)", accountTable, accountFields, accountBinds)
+	result, err := s.db.NamedExec(query, account)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	accountID, err := result.LastInsertId()
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	account.ID = accountID
@@ -47,15 +42,18 @@ func (s *Storage) CreateAccount(account *model.Account) (err error) {
 }
 
 //ListAccount will grab data from storage
-func (s *Storage) ListAccount() (accounts []*model.Account, err error) {
-	rows, err := s.db.Queryx(`SELECT id, name, status FROM account ORDER BY id DESC`)
+func (s *Storage) ListAccount(page *model.Page) (accounts []*model.Account, err error) {
+	query := fmt.Sprintf("SELECT id, %s FROM %s ORDER BY id ASC LIMIT %d OFFSET %d", accountFields, accountTable, page.Limit, page.Limit*page.Offset)
+	rows, err := s.db.Queryx(query)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 
 	for rows.Next() {
 		account := model.Account{}
 		if err = rows.StructScan(&account); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
 			return
 		}
 		accounts = append(accounts, &account)
@@ -63,18 +61,176 @@ func (s *Storage) ListAccount() (accounts []*model.Account, err error) {
 	return
 }
 
+//ListAccountTotalCount will grab data from storage
+func (s *Storage) ListAccountTotalCount() (count int64, err error) {
+	query := fmt.Sprintf("SELECT count(id) FROM %s", accountTable)
+	err = s.db.Get(&count, query)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+	return
+}
+
+//ListAccountBySearch will grab data from storage
+func (s *Storage) ListAccountBySearch(page *model.Page, account *model.Account) (accounts []*model.Account, err error) {
+
+	field := ""
+
+	if len(account.Name) > 0 {
+		field += `name LIKE :name OR`
+		account.Name = fmt.Sprintf("%%%s%%", account.Name)
+	}
+
+	if len(field) == 0 {
+		err = fmt.Errorf("No parameters to search by provided")
+		return
+	} else {
+		field = field[0 : len(field)-3]
+	}
+
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE %s LIMIT %d OFFSET %d", accountFields, accountTable, field, page.Limit, page.Limit*page.Offset)
+	rows, err := s.db.NamedQuery(query, account)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+
+	for rows.Next() {
+		account := model.Account{}
+		if err = rows.StructScan(&account); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
+			return
+		}
+		accounts = append(accounts, &account)
+	}
+	return
+}
+
+//ListAccountBySearchTotalCount will grab data from storage
+func (s *Storage) ListAccountBySearchTotalCount(account *model.Account) (count int64, err error) {
+	field := ""
+	if len(account.Name) > 0 {
+		field += `name LIKE :name OR`
+	}
+
+	if len(field) == 0 {
+		err = fmt.Errorf("No parameters to search by provided")
+		return
+	} else {
+		field = field[0 : len(field)-3]
+	}
+
+	query := fmt.Sprintf("SELECT count(id) FROM %s WHERE %s", accountFields, accountTable, field)
+
+	rows, err := s.db.NamedQuery(query, account)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+
+	for rows.Next() {
+		if err = rows.Scan(&count); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
+			return
+		}
+	}
+	return
+}
+
 //EditAccount will grab data from storage
 func (s *Storage) EditAccount(account *model.Account) (err error) {
-	result, err := s.db.NamedExec(`UPDATE account SET name=:name, status=:status WHERE id = :id`, account)
+
+	prevAccount := &model.Account{
+		ID: account.ID,
+	}
+	err = s.GetAccount(prevAccount)
 	if err != nil {
+		err = errors.Wrap(err, "failed to get previous account")
+		return
+	}
+
+	field := ""
+	if len(account.Name) > 0 && prevAccount.Name != account.Name {
+		field += "name = :name, "
+	}
+
+	if len(account.Charname) > 0 && prevAccount.Charname != account.Charname {
+		field += "charname = :charname, "
+	}
+
+	if len(account.Name) > 0 && prevAccount.Name != account.Name {
+		field += "name=:name, "
+	}
+	if len(account.Charname) > 0 && prevAccount.Charname != account.Charname {
+		field += "charname=:charname, "
+	}
+	if account.Sharedplat > 0 && prevAccount.Sharedplat != account.Sharedplat {
+		field += "sharedplat=:sharedplat, "
+	}
+	if len(account.Password) > 0 && prevAccount.Password != account.Password {
+		field += "password=:password, "
+	}
+	if account.Status > 0 && prevAccount.Status != account.Status {
+		field += "status=:status, "
+	}
+	if account.LsaccountID.Int64 > 0 && prevAccount.LsaccountID != account.LsaccountID {
+		field += "lsaccount_id=:lsaccount_id, "
+	}
+	if account.Gmspeed > 0 && prevAccount.Gmspeed != account.Gmspeed {
+		field += "gmspeed=:gmspeed, "
+	}
+	if account.Revoked > 0 && prevAccount.Revoked != account.Revoked {
+		field += "revoked=:revoked, "
+	}
+	if account.Karma > 0 && prevAccount.Karma != account.Karma {
+		field += "karma=:karma, "
+	}
+	if len(account.MiniloginIP) > 0 && prevAccount.MiniloginIP != account.MiniloginIP {
+		field += "minilogin_ip=:minilogin_ip, "
+	}
+	if account.Hideme > 0 && prevAccount.Hideme != account.Hideme {
+		field += "hideme=:hideme, "
+	}
+	if account.Rulesflag > 0 && prevAccount.Rulesflag != account.Rulesflag {
+		field += "rulesflag=:rulesflag, "
+	}
+	if !account.Suspendeduntil.IsZero() && prevAccount.Suspendeduntil != account.Suspendeduntil {
+		field += "suspendeduntil=:suspendeduntil, "
+	}
+	if account.TimeCreation > 0 && prevAccount.TimeCreation != account.TimeCreation {
+		field += "time_creation=:time_creation, "
+	}
+	if account.Expansion > 0 && prevAccount.Expansion != account.Expansion {
+		field += "expansion=:expansion, "
+	}
+	if len(account.BanReason.String) > 0 && prevAccount.BanReason != account.BanReason {
+		field += "ban_reason=:ban_reason, "
+	}
+	if len(account.SuspendReason.String) > 0 && prevAccount.SuspendReason != account.SuspendReason {
+		field += "suspend_reason=:suspend_reason, "
+	}
+
+	if len(field) == 0 {
+		err = &model.ErrNoContent{}
+		return
+	} else {
+		field = field[0 : len(field)-2]
+	}
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = :id", accountTable, field)
+	result, err := s.db.NamedExec(query, account)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	affected, err := result.RowsAffected()
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	return
@@ -82,8 +238,10 @@ func (s *Storage) EditAccount(account *model.Account) (err error) {
 
 //DeleteAccount will grab data from storage
 func (s *Storage) DeleteAccount(account *model.Account) (err error) {
-	result, err := s.db.Exec(`DELETE FROM account WHERE id = ?`, account.ID)
+	query := fmt.Sprintf("DELETE FROM %s WHERE id = ?", accountTable)
+	result, err := s.db.Exec(query, account.ID)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	affected, err := result.RowsAffected()
@@ -92,6 +250,7 @@ func (s *Storage) DeleteAccount(account *model.Account) (err error) {
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	return

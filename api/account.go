@@ -327,7 +327,7 @@ func listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statu
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(accounts)
+
 	response := &AccountsResponse{
 		Page:     page,
 		Accounts: accounts,
