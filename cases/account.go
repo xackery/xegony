@@ -11,14 +11,13 @@ import (
 
 //ListAccount lists all accounts accessible by provided user
 func ListAccount(page *model.Page, user *model.User) (accounts []*model.Account, err error) {
+	err = validateOrderByAccountField(page)
+	if err != nil {
+		return
+	}
 	err = preparePage(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare page")
-		return
-	}
-
-	err = validateOrderByAccountField(page)
-	if err != nil {
 		return
 	}
 
@@ -319,6 +318,10 @@ func validateAccount(account *model.Account, required []string, optional []strin
 }
 
 func validateOrderByAccountField(page *model.Page) (err error) {
+	if len(page.OrderBy) == 0 {
+		page.OrderBy = "id"
+	}
+
 	validNames := []string{
 		"id",
 		"name",

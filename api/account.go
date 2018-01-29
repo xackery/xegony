@@ -21,7 +21,7 @@ type AccountRequest struct {
 // AccountResponse is what endpoints respond with
 // swagger:response
 type AccountResponse struct {
-	Account *model.Account `json:"account"`
+	Account *model.Account `json:"account,omitempty"`
 }
 
 // AccountCreateRequest is the body parameters for creating an account
@@ -68,8 +68,8 @@ type AccountsRequest struct {
 // AccountsResponse is a general response to a request
 // swagger:response
 type AccountsResponse struct {
-	Page     *model.Page    `json:"page"`
-	Accounts model.Accounts `json:"accounts"`
+	Page     *model.Page    `json:"page,omitempty"`
+	Accounts model.Accounts `json:"accounts,omitempty"`
 }
 
 // AccountsBySearchRequest is a list of parameters used for account
@@ -98,11 +98,11 @@ type AccountsBySearchRequest struct {
 }
 
 // AccountsBySearchResponse is a general response to a request
-// swagger:response listAccountBySearch
+// swagger:response
 type AccountsBySearchResponse struct {
-	Search   *model.Account `json:"search"`
-	Page     *model.Page    `json:"page"`
-	Accounts model.Accounts `json:"accounts"`
+	Search   *model.Account `json:"search,omitempty"`
+	Page     *model.Page    `json:"page,omitempty"`
+	Accounts model.Accounts `json:"accounts,omitempty"`
 }
 
 func accountRoutes() (routes []*route) {

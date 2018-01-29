@@ -2,12 +2,36 @@ package api
 
 import (
 	"testing"
+
+	"github.com/xackery/xegony/model"
 )
 
 func TestAccountEndpoints(t *testing.T) {
 	initializeServer(t)
 
 	doHTTPTest(t, Endpoint{
+		path:         "/api/account",
+		method:       "GET",
+		responseCode: 200,
+		response: &AccountsResponse{
+			Page: &model.Page{
+				Limit:   1,
+				OrderBy: "id",
+			},
+		},
+	})
+	/*doHTTPTest(t, Endpoint{ //invalidOrderBy
+		path:         "/api/account?orderBy=!",
+		method:       "GET",
+		responseCode: 400,
+		response: &model.ErrValidation{
+			Message: "field is not valid",
+			Reasons: map[string]string{
+				"orderBy": "field is not valid",
+			},
+		},
+	})*/
+	/*doHTTPTest(t, Endpoint{
 		name:         "CreateAccountInvalidNameReq",
 		path:         "/api/account",
 		method:       "POST",
@@ -209,5 +233,5 @@ func TestAccountEndpoints(t *testing.T) {
 		responseCode: 304,
 		response:     ``,
 		useAuth:      true,
-	})
+	})*/
 }

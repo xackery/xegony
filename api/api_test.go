@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"testing"
@@ -40,27 +41,28 @@ type Endpoint struct {
 
 func initializeServer(t *testing.T) {
 	var err error
-	s := &mariadb.Storage{}
-	err = s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", ioutil.Discard)
+	w := os.Stdout
+	db, err := mariadb.New("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", w, w)
+	assert.NoError(t, err, "failed to create mariadb")
+
 	assert.Nil(t, err)
 
-	err = s.DropTables()
+	err = db.DropTables()
 	assert.Nil(t, err)
 
-	err = s.VerifyTables()
+	err = db.VerifyTables()
 	assert.Nil(t, err)
 
-	s.InsertTestData()
+	db.InsertTestData()
 	assert.Nil(t, err)
 
 	router := mux.NewRouter().StrictSlash(true)
-	apiServer := API{}
 	config := ""
 	listen := ":8081"
-	apiServer.Initialize(s, config, ioutil.Discard)
-	assert.Nil(t, err)
+	err = Initialize(db, db, db, config, w, w)
+	assert.NoError(t, err, "failed to initialize")
 
-	apiServer.ApplyRoutes(router)
+	ApplyRoutes(router)
 	go http.ListenAndServe(listen, router)
 	return
 }
@@ -136,13 +138,16 @@ func doHTTPTest(t *testing.T, test Endpoint) string {
 		}
 		return ""
 	default:
-		bData, err = json.Marshal(v)
+		bData, err = json.Marshal(test.response)
 		if err != nil {
 			t.Fatalf("%s %s %s failed marshalling response json: %s", test.name, test.method, test.path, err.Error())
 		}
 
 		response = string(bData)
 	}
+
+	//assert.ObjectsAreEqualValues(response, actualStr)
+	//assert.EqualValues(t, response, actualStr)
 
 	assert.Equal(t, response, actualStr)
 	return actualStr
@@ -181,10 +186,6 @@ func getAuthKey(t *testing.T) {
 }
 
 func TestIndex(t *testing.T) {
-	var err error
-	s := &mariadb.Storage{}
-	s.Initialize("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", ioutil.Discard)
-	assert.Nil(t, err)
 
 	initializeServer(t)
 

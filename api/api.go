@@ -164,6 +164,7 @@ func writeData(w http.ResponseWriter, r *http.Request, content interface{}, stat
 		}
 	default: //json
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
 		if data, err = json.Marshal(content); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

@@ -9,13 +9,100 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-// CharacterParams is a list of parameters used for character
+// CharacterRequest is a list of parameters used for character
 // swagger:parameters deleteCharacter editCharacter getCharacter
-type CharacterParams struct {
-	//CharacterID to get information about
+type CharacterRequest struct {
+	// ID to get information about
 	// in: path
-	CharacterID int64 `json:"characterID"`
-	//todo: pagination
+	// example: 74887
+	ID int64 `json:"ID"`
+}
+
+// CharacterResponse is what endpoints respond with
+// swagger:response
+type CharacterResponse struct {
+	Character *model.Character `json:"character,omitempty"`
+}
+
+// CharacterCreateRequest is the body parameters for creating an character
+// swagger:parameters createCharacter
+type CharacterCreateRequest struct {
+	// Character details to create
+	// in: body
+	Character *model.Character `json:"character"`
+}
+
+// CharacterEditRequest is the body parameters for creating an character
+// swagger:parameters editCharacter
+type CharacterEditRequest struct {
+	// ID to get information about
+	// in: path
+	// example: 74887
+	ID int64 `json:"ID"`
+	// Character details to edit
+	// in: body
+	Character *model.Character `json:"character"`
+}
+
+// CharactersRequest is a list of parameters used for character
+// swagger:parameters listCharacter
+type CharactersRequest struct {
+	// Offset is pagination, offset*limit
+	// example: 0
+	// in: query
+	Offset int64 `json:"offset"`
+	// Limit to how many items per page
+	// example: 10
+	// in: query
+	Limit int64 `json:"limit"`
+	// OrderBy is which field to order a page by
+	// example: id
+	// in: query
+	OrderBy string `json:"orderBy"`
+	// IsDescending will change sort order when true
+	// example: 0
+	// in: query
+	IsDescending int64 `json:"isDescending"`
+}
+
+// CharactersResponse is a general response to a request
+// swagger:response
+type CharactersResponse struct {
+	Page       *model.Page      `json:"page,omitempty"`
+	Characters model.Characters `json:"characters,omitempty"`
+}
+
+// CharactersBySearchRequest is a list of parameters used for character
+// swagger:parameters listCharacterBySearch
+type CharactersBySearchRequest struct {
+	// Name is which character to get information about
+	// example: xackery
+	// in: query
+	Name string `json:"name"`
+	// Offset is pagination, offset*limit
+	// example: 0
+	// in: query
+	Offset int64 `json:"offset"`
+	// Limit to how many items per page
+	// example: 10
+	// in: query
+	Limit int64 `json:"limit"`
+	// OrderBy is which field to order a page by
+	// example: id
+	// in: query
+	OrderBy string `json:"orderBy"`
+	// IsDescending will change sort order when true
+	// example: 0
+	// in: query
+	IsDescending int64 `json:"isDescending"`
+}
+
+// CharactersBySearchResponse is a general response to a request
+// swagger:response
+type CharactersBySearchResponse struct {
+	Search     *model.Character `json:"search,omitempty"`
+	Page       *model.Page      `json:"page,omitempty"`
+	Characters model.Characters `json:"characters,omitempty"`
 }
 
 func characterRoutes() (routes []*route) {
@@ -38,7 +125,7 @@ func characterRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: Characters
+		//       200: CharactersResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
@@ -46,6 +133,32 @@ func characterRoutes() (routes []*route) {
 			"GET",
 			"/character",
 			listCharacter,
+		},
+		// swagger:route GET /character/search character listCharacterBySearch
+		//
+		// Search characters by name
+		//
+		// This will show all available characters by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: CharactersBySearchResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"ListCharacterBySearch",
+			"GET",
+			"/character/search",
+			listCharacterBySearch,
 		},
 		// swagger:route POST /character character createCharacter
 		//
@@ -58,6 +171,7 @@ func characterRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
+		//		 200: CharacterResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
@@ -67,7 +181,7 @@ func characterRoutes() (routes []*route) {
 			"/character",
 			createCharacter,
 		},
-		// swagger:route GET /character/{characterID} character getCharacter
+		// swagger:route GET /character/{ID} character getCharacter
 		//
 		// Get an character
 		//
@@ -75,16 +189,16 @@ func characterRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: Character
+		//       200: CharacterResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
 			"GetCharacter",
 			"GET",
-			"/character/{characterID:[0-9]+}",
+			"/character/{ID:[0-9]+}",
 			getCharacter,
 		},
-		// swagger:route PUT /character/{characterID} character editCharacter
+		// swagger:route PUT /character/{ID} character editCharacter
 		//
 		// Edit an character
 		//
@@ -95,17 +209,17 @@ func characterRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//		 200: ErrNoContent
+		//		 200: CharacterResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
 			"EditCharacter",
 			"PUT",
-			"/character/{characterID:[0-9]+}",
+			"/character/{ID:[0-9]+}",
 			editCharacter,
 		},
-		// swagger:route DELETE /character/{characterID} character deleteCharacter
+		// swagger:route DELETE /character/{ID} character deleteCharacter
 		//
 		// Delete an character
 		//
@@ -122,7 +236,7 @@ func characterRoutes() (routes []*route) {
 		{
 			"DeleteCharacter",
 			"DELETE",
-			"/character/{characterID:[0-9]+}",
+			"/character/{ID:[0-9]+}",
 			deleteCharacter,
 		},
 	}
@@ -130,16 +244,14 @@ func characterRoutes() (routes []*route) {
 }
 
 func getCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	characterReq := &CharacterParams{}
+	request := &CharacterRequest{
+		ID: getIntVar(r, "ID"),
+	}
 
-	characterReq.CharacterID = getIntVar(r, "characterID")
-	if err != nil {
-		err = errors.Wrap(err, "characterID argument is required")
-		return
-	}
 	character := &model.Character{
-		ID: characterReq.CharacterID,
+		ID: request.ID,
 	}
+
 	err = cases.GetCharacter(character, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -148,12 +260,14 @@ func getCharacter(w http.ResponseWriter, r *http.Request, user *model.User, stat
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	content = character
+	response := &CharacterResponse{
+		Character: character,
+	}
+	content = response
 	return
 }
 
 func createCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-
 	character := &model.Character{}
 	err = decodeBody(r, character)
 	if err != nil {
@@ -163,19 +277,20 @@ func createCharacter(w http.ResponseWriter, r *http.Request, user *model.User, s
 	if err != nil {
 		return
 	}
-	content = character
+	response := &CharacterResponse{
+		Character: character,
+	}
+	content = response
 	return
 }
 
 func deleteCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	characterReq := &CharacterParams{}
-	characterReq.CharacterID = getIntVar(r, "characterID")
-	if err != nil {
-		err = errors.Wrap(err, "characterID argument is required")
-		return
+	request := &CharacterRequest{
+		ID: getIntVar(r, "ID"),
 	}
+
 	character := &model.Character{
-		ID: characterReq.CharacterID,
+		ID: request.ID,
 	}
 
 	err = cases.DeleteCharacter(character, user)
@@ -192,16 +307,14 @@ func deleteCharacter(w http.ResponseWriter, r *http.Request, user *model.User, s
 }
 
 func editCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	characterReq := &CharacterParams{}
-	characterReq.CharacterID = getIntVar(r, "characterID")
-	if err != nil {
-		err = errors.Wrap(err, "characterID argument is required")
-		return
+	request := &CharacterEditRequest{
+		ID: getIntVar(r, "ID"),
 	}
 
 	character := &model.Character{
-		ID: characterReq.CharacterID,
+		ID: request.ID,
 	}
+
 	err = decodeBody(r, character)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
@@ -212,16 +325,57 @@ func editCharacter(w http.ResponseWriter, r *http.Request, user *model.User, sta
 	if err != nil {
 		return
 	}
-	content = character
+	response := &CharacterResponse{
+		Character: character,
+	}
+	content = response
 	return
 }
 
 func listCharacter(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	characters, err := cases.ListCharacter(user)
+
+	page := &model.Page{
+		Offset:       getIntQuery(r, "offset"),
+		Limit:        getIntQuery(r, "limit"),
+		OrderBy:      getQuery(r, "orderBy"),
+		IsDescending: getIntQuery(r, "isDescending"),
+	}
+	characters, err := cases.ListCharacter(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	content = characters
+
+	response := &CharactersResponse{
+		Page:       page,
+		Characters: characters,
+	}
+	content = response
+	return
+}
+
+func listCharacterBySearch(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+
+	page := &model.Page{
+		Offset:       getIntQuery(r, "offset"),
+		Limit:        getIntQuery(r, "limit"),
+		OrderBy:      getQuery(r, "orderBy"),
+		IsDescending: getIntQuery(r, "isDescending"),
+	}
+	character := &model.Character{
+		Name: getQuery(r, "name"),
+	}
+	characters, err := cases.ListCharacterBySearch(page, character, user)
+	if err != nil {
+		err = errors.Wrap(err, "Request error")
+		return
+	}
+	log.Println(characters)
+	response := &CharactersBySearchResponse{
+		Page:       page,
+		Characters: characters,
+		Search:     character,
+	}
+	content = response
 	return
 }

@@ -56,7 +56,7 @@ func (s *Storage) ListAccount(page *model.Page) (accounts []*model.Account, err 
 	}
 
 	query := fmt.Sprintf("SELECT id, %s FROM %s ORDER BY %s LIMIT %d OFFSET %d", accountFields, accountTable, orderField, page.Limit, page.Limit*page.Offset)
-	fmt.Println(query)
+
 	rows, err := s.db.Queryx(query)
 	if err != nil {
 		err = errors.Wrapf(err, "query: %s", query)
