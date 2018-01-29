@@ -1,19 +1,36 @@
 package model
 
 import (
-	"fmt"
-	"html/template"
+//"fmt"
+//"html/template"
 )
 
-//Page represents pagination
+// Page represents pagination
 // swagger:model
 type Page struct {
-	PageNumber int64
-	PageSize   int64
-	Scope      string
-	Total      int64
+	// Offset is pagination, offset*limit
+	// example: 0
+	// in: query
+	Offset int64 `json:"offset"`
+	// Limit to how many items per page
+	// example: 10
+	// in: query
+	Limit int64 `json:"limit"`
+	// Total number of results found
+	// example: 100
+	// in: query
+	Total int64 `json:"total"`
+	// OrderBy is which field to order a page by
+	// example: id
+	// in: query
+	OrderBy string `json:"orderBy"`
+	// IsDescending will change sort order when true
+	// example: 0
+	// in: query
+	IsDescending int64 `json:"isDescending"`
 }
 
+/*
 //PageList allows a site to create pagination on bottom
 func (c *Page) PageList() template.HTML {
 	page := `<div class="btn-group pull-right">`
@@ -53,3 +70,4 @@ func (c *Page) PageList() template.HTML {
 	page += "\n</div>"
 	return template.HTML(page)
 }
+*/

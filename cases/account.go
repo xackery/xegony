@@ -17,6 +17,11 @@ func ListAccount(page *model.Page, user *model.User) (accounts []*model.Account,
 		return
 	}
 
+	err = validateOrderByAccountField(page)
+	if err != nil {
+		return
+	}
+
 	reader, err := getReader("account")
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare reader for account")
@@ -50,13 +55,19 @@ func ListAccount(page *model.Page, user *model.User) (accounts []*model.Account,
 	return
 }
 
-//ListAccountByName will request any account matching the pattern of name
+//ListAccountBySearch will request any account matching the pattern of name
 func ListAccountBySearch(page *model.Page, account *model.Account, user *model.User) (accounts []*model.Account, err error) {
 	err = user.IsGuide()
 	if err != nil {
 		err = errors.Wrap(err, "can't list account by search without guide+")
 		return
 	}
+
+	err = validateOrderByAccountField(page)
+	if err != nil {
+		return
+	}
+
 	err = preparePage(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare page")
@@ -303,6 +314,41 @@ func validateAccount(account *model.Account, required []string, optional []strin
 		}
 		err = vErr
 		return
+	}
+	return
+}
+
+func validateOrderByAccountField(page *model.Page) (err error) {
+	validNames := []string{
+		"id",
+		"name",
+		"charname",
+		"sharedplat",
+		"password",
+		"status",
+		"lsaccount_id",
+		"gmspeed",
+		"revoked",
+		"karma",
+		"minilogin_ip",
+		"hideme",
+		"rulesflag",
+		"suspendeduntil",
+		"time_creation",
+		"expansion",
+	}
+
+	for _, name := range validNames {
+		if page.OrderBy == name {
+			return
+		}
+	}
+
+	err = &model.ErrValidation{
+		Message: "orderBy is invalid",
+		Reasons: map[string]string{
+			"orderBy": "field is not valid",
+		},
 	}
 	return
 }

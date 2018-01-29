@@ -55,6 +55,14 @@ type AccountsRequest struct {
 	// example: 10
 	// in: query
 	Limit int64 `json:"limit"`
+	// OrderBy is which field to order a page by
+	// example: id
+	// in: query
+	OrderBy string `json:"orderBy"`
+	// IsDescending will change sort order when true
+	// example: 0
+	// in: query
+	IsDescending int64 `json:"isDescending"`
 }
 
 // AccountsResponse is a general response to a request
@@ -79,6 +87,14 @@ type AccountsBySearchRequest struct {
 	// example: 10
 	// in: query
 	Limit int64 `json:"limit"`
+	// OrderBy is which field to order a page by
+	// example: id
+	// in: query
+	OrderBy string `json:"orderBy"`
+	// IsDescending will change sort order when true
+	// example: 0
+	// in: query
+	IsDescending int64 `json:"isDescending"`
 }
 
 // AccountsBySearchResponse is a general response to a request
@@ -319,8 +335,10 @@ func editAccount(w http.ResponseWriter, r *http.Request, user *model.User, statu
 func listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	page := &model.Page{
-		Offset: getIntQuery(r, "offset"),
-		Limit:  getIntQuery(r, "limit"),
+		Offset:       getIntQuery(r, "offset"),
+		Limit:        getIntQuery(r, "limit"),
+		OrderBy:      getQuery(r, "orderBy"),
+		IsDescending: getIntQuery(r, "isDescending"),
 	}
 	accounts, err := cases.ListAccount(page, user)
 	if err != nil {
@@ -339,8 +357,10 @@ func listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statu
 func listAccountBySearch(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	page := &model.Page{
-		Offset: getIntQuery(r, "offset"),
-		Limit:  getIntQuery(r, "limit"),
+		Offset:       getIntQuery(r, "offset"),
+		Limit:        getIntQuery(r, "limit"),
+		OrderBy:      getQuery(r, "orderBy"),
+		IsDescending: getIntQuery(r, "isDescending"),
 	}
 	account := &model.Account{
 		Name: getQuery(r, "name"),

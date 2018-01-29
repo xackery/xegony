@@ -43,7 +43,20 @@ func (s *Storage) CreateAccount(account *model.Account) (err error) {
 
 //ListAccount will grab data from storage
 func (s *Storage) ListAccount(page *model.Page) (accounts []*model.Account, err error) {
-	query := fmt.Sprintf("SELECT id, %s FROM %s ORDER BY id ASC LIMIT %d OFFSET %d", accountFields, accountTable, page.Limit, page.Limit*page.Offset)
+
+	if len(page.OrderBy) < 1 {
+		page.OrderBy = "id"
+	}
+
+	orderField := page.OrderBy
+	if page.IsDescending > 0 {
+		orderField += " DESC"
+	} else {
+		orderField += " ASC"
+	}
+
+	query := fmt.Sprintf("SELECT id, %s FROM %s ORDER BY %s LIMIT %d OFFSET %d", accountFields, accountTable, orderField, page.Limit, page.Limit*page.Offset)
+	fmt.Println(query)
 	rows, err := s.db.Queryx(query)
 	if err != nil {
 		err = errors.Wrapf(err, "query: %s", query)
@@ -85,9 +98,8 @@ func (s *Storage) ListAccountBySearch(page *model.Page, account *model.Account) 
 	if len(field) == 0 {
 		err = fmt.Errorf("No parameters to search by provided")
 		return
-	} else {
-		field = field[0 : len(field)-3]
 	}
+	field = field[0 : len(field)-3]
 
 	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE %s LIMIT %d OFFSET %d", accountFields, accountTable, field, page.Limit, page.Limit*page.Offset)
 	rows, err := s.db.NamedQuery(query, account)
@@ -117,11 +129,10 @@ func (s *Storage) ListAccountBySearchTotalCount(account *model.Account) (count i
 	if len(field) == 0 {
 		err = fmt.Errorf("No parameters to search by provided")
 		return
-	} else {
-		field = field[0 : len(field)-3]
 	}
+	field = field[0 : len(field)-3]
 
-	query := fmt.Sprintf("SELECT count(id) FROM %s WHERE %s", accountFields, accountTable, field)
+	query := fmt.Sprintf("SELECT count(id) FROM %s WHERE %s", accountTable, field)
 
 	rows, err := s.db.NamedQuery(query, account)
 	if err != nil {
@@ -214,9 +225,9 @@ func (s *Storage) EditAccount(account *model.Account) (err error) {
 	if len(field) == 0 {
 		err = &model.ErrNoContent{}
 		return
-	} else {
-		field = field[0 : len(field)-2]
 	}
+	field = field[0 : len(field)-2]
+
 	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = :id", accountTable, field)
 	result, err := s.db.NamedExec(query, account)
 	if err != nil {

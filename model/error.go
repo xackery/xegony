@@ -16,6 +16,8 @@ type Error struct {
 }
 
 // ErrNoContent is an is used when no content should be displayed
+//
+// No content, or nothing changed.
 // swagger:model ErrNoContent
 type ErrNoContent struct {
 }
@@ -27,6 +29,7 @@ func (e *ErrNoContent) Error() string {
 // ErrInternal is an internal server error
 // swagger:model
 type ErrInternal struct {
+	//example: internal server error
 	Message string
 }
 
@@ -37,11 +40,13 @@ func (e *ErrInternal) Error() string {
 //ErrDecodeBody is a failure to decode a request body
 // swagger:model
 type ErrDecodeBody struct {
+	//example: failed to decode body
+	Message string
 }
 
 //Error wraps the error message to satisfy the error type interface
 func (e *ErrDecodeBody) Error() string {
-	return "Failed to decode body"
+	return e.Message
 }
 
 //ErrInvalidArguments means arguments being passed in a request were invalid
@@ -57,7 +62,9 @@ func (e *ErrInvalidArguments) Error() string {
 //ErrValidation has many errors represented as Key/Value pairs of Field:Description inside REasons
 // swagger:model
 type ErrValidation struct {
+	// example: failed to validate
 	Message string
+	// example: test
 	Reasons map[string]string
 }
 
@@ -71,9 +78,10 @@ type StackTracer interface {
 	StackTrace() errors.StackTrace
 }
 
-//ErrPermission is a permission denied generic error
+// ErrPermission is a permission denied generic error
 // swagger:model
 type ErrPermission struct {
+	// example: permission denied
 	Message string
 }
 
