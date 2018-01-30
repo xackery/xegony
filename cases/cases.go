@@ -16,6 +16,14 @@ var (
 	initLock     = sync.RWMutex{}
 )
 
+//Initialize a specific scope
+func Initialize(scope string, sr storage.Reader, sw storage.Writer, si storage.Initializer) (err error) {
+	SetReader(scope, sr)
+	SetWriter(scope, sw)
+	SetInitializer(scope, si)
+	return
+}
+
 // InitializeAll readers, writers, and initializers
 func InitializeAll(sr storage.Reader, sw storage.Writer, si storage.Initializer) (err error) {
 	scopes := []string{
@@ -68,9 +76,10 @@ func InitializeAll(sr storage.Reader, sw storage.Writer, si storage.Initializer)
 	}
 
 	for _, scope := range scopes {
-		SetReader(scope, sr)
-		SetWriter(scope, sw)
-		SetInitializer(scope, si)
+		err = Initialize(scope, sr, sw, si)
+		if err != nil {
+			return
+		}
 	}
 	return
 }
