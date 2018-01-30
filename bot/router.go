@@ -11,7 +11,7 @@ import (
 )
 
 //ApplyRoutes applies routes to given mux router
-func (a *Bot) ApplyRoutes(router *mux.Router) {
+func ApplyRoutes(router *mux.Router) {
 	rootPath := os.Getenv("BOT_ROOT")
 	if len(rootPath) == 0 {
 		rootPath = "/bot"
@@ -29,7 +29,7 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 			"Index",
 			"GET",
 			"/",
-			a.index,
+			index,
 		},
 		/*
 			//NpcLoot
@@ -37,13 +37,13 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 				"NpcLootStatus",
 				"GET",
 				"/npcloot",
-				a.npcLootStatus,
+				npcLootStatus,
 			},
 			{
 				"NpcLootCreate",
 				"POST",
 				"/npcloot",
-				a.npcLootCreate,
+				npcLootCreate,
 			},
 
 			//ZoneLevel
@@ -51,13 +51,13 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 				"ZoneLevelsStatus",
 				"GET",
 				"/zonelevels",
-				a.zoneLevelsStatus,
+				zoneLevelsStatus,
 			},
 			{
 				"ZoneLevelsCreate",
 				"POST",
 				"/zonelevels",
-				a.zoneLevelsCreate,
+				zoneLevelsCreate,
 			},
 
 			//ZoneMap
@@ -65,31 +65,31 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 				"ZoneMapStatus",
 				"GET",
 				"/zonemap",
-				a.zoneMapStatus,
+				zoneMapStatus,
 			},
 			{
 				"ZoneMapCreate",
 				"POST",
 				"/zonemap",
-				a.zoneMapCreate,
+				zoneMapCreate,
 			},
 		*/
-		//CharacterGraph
+		/*//CharacterGraph
 		{
 			"GetCharacterGraph",
 			"GET",
 			"/charactergraph",
-			a.characterGraphStatus,
+			characterGraphStatus,
 		},
 		{
 			"CreateCharacterGraph",
 			"POST",
 			"/charactergraph",
-			a.characterGraphCreate,
-		},
+			characterGraphCreate,
+		},*/
 	}
 
-	for i, _ := range routes {
+	for i := range routes {
 		route := routes[i]
 		router.
 			Methods(route.Method).
@@ -107,11 +107,11 @@ func (a *Bot) ApplyRoutes(router *mux.Router) {
 				statusCode := http.StatusOK
 				content, err := route.HandlerFunc(w, r, user, statusCode)
 				if err != nil {
-					a.writeError(w, r, err, statusCode)
+					writeError(w, r, err, statusCode)
 				} else {
-					a.writeData(w, r, content, statusCode)
+					writeData(w, r, content, statusCode)
 				}
-				a.log.Printf(
+				log.Printf(
 					"%s %s -> %s %s",
 					r.Method,
 					r.RequestURI,

@@ -17,7 +17,7 @@ type route struct {
 }
 
 //ApplyRoutes applies routes to given mux router
-func (a *API) ApplyRoutes(router *mux.Router) {
+func ApplyRoutes(router *mux.Router) {
 	rootPath := os.Getenv("API_ROOT")
 	if len(rootPath) == 0 {
 		rootPath = "/api"
@@ -26,88 +26,87 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 	var routes []*route
 	var newRoutes []*route
 
-	newRoutes = a.indexRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.accountRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.activityRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.bazaarRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.characterRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.factionRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.forumRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.goalRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.itemRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.loginRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.lootDropRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.lootDropEntryRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.lootTableRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.lootTableEntryRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.npcRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.postRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.spawnRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.taskRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.topicRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-	newRoutes = a.zoneRoutes()
+	newRoutes = indexRoutes()
 	for _, r := range newRoutes {
 		routes = append(routes, r)
 	}
 
-	for i, _ := range routes {
+	routes = append(routes, accountRoutes()...)
+	routes = append(routes, characterRoutes()...)
+	/*	newRoutes = activityRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = bazaarRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = characterRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = factionRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = forumRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = goalRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = itemRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = loginRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = lootDropRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = lootDropEntryRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = lootTableRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = lootTableEntryRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = npcRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = postRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = spawnRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = taskRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = topicRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+		newRoutes = zoneRoutes()
+		for _, r := range newRoutes {
+			routes = append(routes, r)
+		}
+	*/
+	for i := range routes {
 		route := routes[i]
 		router.
 			Methods(route.Method).
@@ -126,11 +125,11 @@ func (a *API) ApplyRoutes(router *mux.Router) {
 				statusCode := http.StatusOK
 				content, err := route.HandlerFunc(w, r, user, statusCode)
 				if err != nil {
-					a.writeError(w, r, err, statusCode)
+					writeError(w, r, err, statusCode)
 				} else {
-					a.writeData(w, r, content, statusCode)
+					writeData(w, r, content, statusCode)
 				}
-				a.log.Printf(
+				log.Printf(
 					"%s %s: %s in %s",
 					r.Method,
 					r.RequestURI,

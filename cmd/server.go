@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"log"
+	alog "log"
 	"net/http"
 	"os"
 
@@ -38,6 +38,8 @@ var serverCmd = &cobra.Command{
 
 var connection string
 var dbtype string
+var log *alog.Logger
+var logErr *alog.Logger
 
 func init() {
 	rootCmd.AddCommand(serverCmd)
@@ -48,17 +50,32 @@ func init() {
 
 func runServer(cmd *cobra.Command, args []string) {
 	var err error
-	var stor storage.Storage
-	if dbtype == "mysql" {
-		stor = &mariadb.Storage{}
-	}
+	var sw storage.Writer
+	var sr storage.Reader
+	var si storage.Initializer
+	w := os.Stdout
+	wErr := os.Stderr
+
+	log = alog.New(w, "Main: ", 0)
+	logErr = alog.New(wErr, "MainErr: ", 0)
 
 	if connection == "eqemuconfig" {
 		connection = ""
 	}
-	stor.Initialize(connection, nil)
+	if dbtype == "mysql" {
+		var db *mariadb.Storage
+		db, err = mariadb.New(connection, nil, nil)
+		if err != nil {
+			log.Fatal("Failed to create mariadb:", err.Error())
+		}
+		sw = db
+		sr = db
+		si = db
+	} else {
+		log.Fatal("unsupported db type:", dbtype)
+	}
 
-	err = stor.VerifyTables()
+	err = si.VerifyTables()
 	if err != nil {
 		log.Fatal("Failed to verify tables: ", err.Error())
 	}
@@ -70,41 +87,22 @@ func runServer(cmd *cobra.Command, args []string) {
 
 	router := mux.NewRouter().StrictSlash(true)
 
-	botServer := bot.Bot{}
-	if err = botServer.Initialize(stor, connection, nil); err != nil {
+	if err = bot.Initialize(sr, sw, si, connection, w, wErr); err != nil {
 		log.Fatal("Failed to initialize botServer:", err.Error())
 	}
-	botServer.ApplyRoutes(router)
+	bot.ApplyRoutes(router)
 
-	apiServer := api.API{}
-	if err = apiServer.Initialize(stor, connection, nil); err != nil {
+	if err = api.Initialize(sr, sw, si, connection, w, wErr); err != nil {
 		log.Fatal("Failed to initialize apiServer:", err.Error())
 	}
-	apiServer.ApplyRoutes(router)
+	api.ApplyRoutes(router)
 
-	webServer := web.Web{}
-	if err = webServer.Initialize(stor, connection, nil); err != nil {
+	if err = web.Initialize(sr, sw, si, connection, w, wErr); err != nil {
 		log.Fatal("Failed to initialize webServer:", err.Error())
 	}
-	webServer.ApplyRoutes(router)
+	web.ApplyRoutes(router)
 
-	//go runBot(botServer)
 	log.Println("Listening on", listen)
 	err = http.ListenAndServe(listen, router)
 	log.Println(err)
-}
-
-func runBot(botServer bot.Bot) {
-	//err := botServer.CreateZoneMapCache()
-	//if err != nil {
-	///log.Fatal("Failed botserver:", err.Error())
-	//}
-	/*err := botServer.CreateZoneLevelCache()
-	if err != nil {
-		log.Fatal("Failed botserver:", err.Error())
-	}*/
-	/*err := botServer.CreateNpcDropsCache()
-	if err != nil {
-		log.Fatal("Failed botserver:", err.Error())
-	}*/
 }
