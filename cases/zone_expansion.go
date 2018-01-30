@@ -5,75 +5,82 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
+	"github.com/xackery/xegony/storage/file"
 	"github.com/xackery/xegony/storage/memory"
 	"github.com/xeipuuv/gojsonschema"
 )
 
-//LoadZoneFromDBToMemory is ran during initialization
-func LoadZoneFromDBToMemory() (err error) {
-	fmt.Printf("Loading zones...")
+//LoadZoneExpansionFromFileToMemory is ran during initialization
+func LoadZoneExpansionFromFileToMemory() (err error) {
+	fmt.Printf("Loading zoneExpansions...")
+
+	fr, err := file.New("config", "zoneExpansion.yml", nil, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to create new file")
+		return
+	}
+
+	err = Initialize("zoneExpansion-file", fr, fr, fr)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize zoneExpansion-file")
+		return
+	}
+
 	mr, err := memory.New("", nil, nil)
 	if err != nil {
 		err = errors.Wrap(err, "failed to create new memory")
 		return
 	}
 
-	err = Initialize("zone-memory", mr, mr, mr)
+	err = Initialize("zoneExpansion-memory", mr, mr, mr)
 	if err != nil {
-		err = errors.Wrap(err, "failed to initialize zone-memory")
+		err = errors.Wrap(err, "failed to initialize zoneExpansion-memory")
 		return
 	}
 
-	dbReader, err := getReader("zone")
+	fileReader, err := getReader("zoneExpansion-file")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get zone reader")
+		err = errors.Wrap(err, "failed to get zoneExpansion-file reader")
 		return
 	}
 
-	memWriter, err := getWriter("zone-memory")
+	memWriter, err := getWriter("zoneExpansion-memory")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get zone-memory writer")
+		err = errors.Wrap(err, "failed to get zoneExpansion-memory writer")
 		return
 	}
 
 	page := &model.Page{
 		Limit: 100,
 	}
-	page.Total, err = dbReader.ListZoneTotalCount()
+	page.Total, err = fileReader.ListZoneExpansionTotalCount()
 	if err != nil {
-		err = errors.Wrap(err, "failed to get list zone count")
+		err = errors.Wrap(err, "failed to get list zoneExpansion count")
 		return
 	}
-	var totalZones []*model.Zone
-	var zones []*model.Zone
-	for {
-		zones, err = dbReader.ListZone(page)
-		if err != nil {
-			err = errors.Wrap(err, "failed to list zones")
-			return
-		}
-		totalZones = append(totalZones, zones...)
-		if int64(len(totalZones)) >= page.Total {
-			break
-		}
-		page.Offset++
+	page.Limit = page.Total
+
+	zoneExpansions, err := fileReader.ListZoneExpansion(page)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list zoneExpansions")
+		return
 	}
 
-	for _, zone := range totalZones {
-		err = memWriter.CreateZone(zone)
+	for _, zoneExpansion := range zoneExpansions {
+		err = memWriter.CreateZoneExpansion(zoneExpansion)
 		if err != nil {
-			err = errors.Wrap(err, "failed to create zone")
+			err = errors.Wrap(err, "failed to create zoneExpansion")
 			return
 		}
 	}
 
-	fmt.Printf(" (%d)\n", len(totalZones))
+	fmt.Printf(" (%d)\n", len(zoneExpansions))
 	return
 }
 
-//ListZone lists all zones accessible by provided user
-func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err error) {
-	err = validateOrderByZoneField(page)
+//ListZoneExpansion lists all zoneExpansions accessible by provided user
+func ListZoneExpansion(page *model.Page, user *model.User) (zoneExpansions []*model.ZoneExpansion, err error) {
+	err = validateOrderByZoneExpansionField(page)
 	if err != nil {
 		return
 	}
@@ -83,27 +90,27 @@ func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err erro
 		return
 	}
 
-	reader, err := getReader("zone-memory")
+	reader, err := getReader("zoneExpansion-memory")
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare reader for zone")
+		err = errors.Wrap(err, "failed to prepare reader for zoneExpansion")
 		return
 	}
 
-	page.Total, err = reader.ListZoneTotalCount()
+	page.Total, err = reader.ListZoneExpansionTotalCount()
 	if err != nil {
-		err = errors.Wrap(err, "failed to list zone toal count")
+		err = errors.Wrap(err, "failed to list zoneExpansion toal count")
 		return
 	}
 
-	zones, err = reader.ListZone(page)
+	zoneExpansions, err = reader.ListZoneExpansion(page)
 	if err != nil {
-		err = errors.Wrap(err, "failed to list zone")
+		err = errors.Wrap(err, "failed to list zoneExpansion")
 		return
 	}
-	for i, zone := range zones {
-		err = sanitizeZone(zone, user)
+	for i, zoneExpansion := range zoneExpansions {
+		err = sanitizeZoneExpansion(zoneExpansion, user)
 		if err != nil {
-			err = errors.Wrapf(err, "failed to sanitize zone element %d", i)
+			err = errors.Wrapf(err, "failed to sanitize zoneExpansion element %d", i)
 			return
 		}
 	}
@@ -116,15 +123,15 @@ func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err erro
 	return
 }
 
-//ListZoneBySearch will request any zone matching the pattern of name
-func ListZoneBySearch(page *model.Page, zone *model.Zone, user *model.User) (zones []*model.Zone, err error) {
+//ListZoneExpansionBySearch will request any zoneExpansion matching the pattern of name
+func ListZoneExpansionBySearch(page *model.Page, zoneExpansion *model.ZoneExpansion, user *model.User) (zoneExpansions []*model.ZoneExpansion, err error) {
 	/*err = user.IsGuide()
 	if err != nil {
-		err = errors.Wrap(err, "can't list zone by search without guide+")
+		err = errors.Wrap(err, "can't list zoneExpansion by search without guide+")
 		return
 	}
 	*/
-	err = validateOrderByZoneField(page)
+	err = validateOrderByZoneExpansionField(page)
 	if err != nil {
 		return
 	}
@@ -135,42 +142,42 @@ func ListZoneBySearch(page *model.Page, zone *model.Zone, user *model.User) (zon
 		return
 	}
 
-	err = prepareZone(zone, user)
+	err = prepareZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepre zone")
+		err = errors.Wrap(err, "failed to prepre zoneExpansion")
 		return
 	}
 
-	err = validateZone(zone, nil, []string{ //optional
+	err = validateZoneExpansion(zoneExpansion, nil, []string{ //optional
 		"shortName",
 	})
 	if err != nil {
-		err = errors.Wrap(err, "failed to validate zone")
+		err = errors.Wrap(err, "failed to validate zoneExpansion")
 		return
 	}
-	reader, err := getReader("zone-memory")
+	reader, err := getReader("zoneExpansion")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get zone reader")
+		err = errors.Wrap(err, "failed to get zoneExpansion reader")
 		return
 	}
 
-	zones, err = reader.ListZoneBySearch(page, zone)
+	zoneExpansions, err = reader.ListZoneExpansionBySearch(page, zoneExpansion)
 	if err != nil {
-		err = errors.Wrap(err, "failed to list zone by search")
+		err = errors.Wrap(err, "failed to list zoneExpansion by search")
 		return
 	}
 
-	for _, zone := range zones {
-		err = sanitizeZone(zone, user)
+	for _, zoneExpansion := range zoneExpansions {
+		err = sanitizeZoneExpansion(zoneExpansion, user)
 		if err != nil {
-			err = errors.Wrap(err, "failed to sanitize zone")
+			err = errors.Wrap(err, "failed to sanitize zoneExpansion")
 			return
 		}
 	}
 
-	err = sanitizeZone(zone, user)
+	err = sanitizeZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to sanitize search zone")
+		err = errors.Wrap(err, "failed to sanitize search zoneExpansion")
 		return
 	}
 
@@ -182,105 +189,93 @@ func ListZoneBySearch(page *model.Page, zone *model.Zone, user *model.User) (zon
 	return
 }
 
-//CreateZone will create an zone using provided information
-func CreateZone(zone *model.Zone, user *model.User) (err error) {
+//CreateZoneExpansion will create an zoneExpansion using provided information
+func CreateZoneExpansion(zoneExpansion *model.ZoneExpansion, user *model.User) (err error) {
 	err = user.IsGuide()
 	if err != nil {
-		err = errors.Wrap(err, "can't list zone by search without guide+")
+		err = errors.Wrap(err, "can't list zoneExpansion by search without guide+")
 		return
 	}
-	err = prepareZone(zone, user)
+	err = prepareZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare zone")
-		return
-	}
-
-	err = validateZone(zone, []string{"name"}, nil)
-	if err != nil {
-		err = errors.Wrap(err, "failed to validate zone")
-		return
-	}
-	zone.ID = 0
-	//zone.TimeCreation = time.Now().Unix()
-	writer, err := getWriter("zone")
-	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for zone")
-		return
-	}
-	err = writer.CreateZone(zone)
-	if err != nil {
-		err = errors.Wrap(err, "failed to create zone")
+		err = errors.Wrap(err, "failed to prepare zoneExpansion")
 		return
 	}
 
-	memWriter, err := getWriter("zone-memory")
+	err = validateZoneExpansion(zoneExpansion, []string{"name"}, nil)
 	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for zone-memory")
+		err = errors.Wrap(err, "failed to validate zoneExpansion")
 		return
 	}
-	err = memWriter.CreateZone(zone)
+	zoneExpansion.ID = 0
+	//zoneExpansion.TimeCreation = time.Now().Unix()
+	writer, err := getWriter("zoneExpansion")
 	if err != nil {
-		err = errors.Wrap(err, "failed to edit zone-memory")
+		err = errors.Wrap(err, "failed to get writer for zoneExpansion")
 		return
 	}
-
-	err = sanitizeZone(zone, user)
+	err = writer.CreateZoneExpansion(zoneExpansion)
 	if err != nil {
-		err = errors.Wrap(err, "failed to sanitize zone")
+		err = errors.Wrap(err, "failed to create zoneExpansion")
+		return
+	}
+	err = sanitizeZoneExpansion(zoneExpansion, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize zoneExpansion")
 		return
 	}
 	return
 }
 
-//GetZone gets an zone by provided zoneID
-func GetZone(zone *model.Zone, user *model.User) (err error) {
-	err = prepareZone(zone, user)
+//GetZoneExpansion gets an zoneExpansion by provided zoneExpansionID
+func GetZoneExpansion(zoneExpansion *model.ZoneExpansion, user *model.User) (err error) {
+	err = prepareZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare zone")
+		err = errors.Wrap(err, "failed to prepare zoneExpansion")
 		return
 	}
 
-	err = validateZone(zone, []string{"ID"}, nil)
+	err = validateZoneExpansion(zoneExpansion, []string{"ID"}, nil)
 	if err != nil {
-		err = errors.Wrap(err, "failed to validate zone")
+		err = errors.Wrap(err, "failed to validate zoneExpansion")
 		return
 	}
 
-	reader, err := getReader("zone-memory")
+	reader, err := getReader("zoneExpansion")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get zone reader")
+		err = errors.Wrap(err, "failed to get zoneExpansion reader")
 		return
 	}
 
-	err = reader.GetZone(zone)
+	err = reader.GetZoneExpansion(zoneExpansion)
 	if err != nil {
-		err = errors.Wrap(err, "failed to get zone")
+		err = errors.Wrap(err, "failed to get zoneExpansion")
 		return
 	}
 
-	err = sanitizeZone(zone, user)
+	err = sanitizeZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to sanitize zone")
+		err = errors.Wrap(err, "failed to sanitize zoneExpansion")
 		return
 	}
 
 	return
 }
 
-//EditZone edits an existing zone
-func EditZone(zone *model.Zone, user *model.User) (err error) {
+//EditZoneExpansion edits an existing zoneExpansion
+func EditZoneExpansion(zoneExpansion *model.ZoneExpansion, user *model.User) (err error) {
 	err = user.IsGuide()
 	if err != nil {
-		err = errors.Wrap(err, "can't list zone by search without guide+")
+		err = errors.Wrap(err, "can't list zoneExpansion by search without guide+")
 		return
 	}
-	err = prepareZone(zone, user)
+	err = prepareZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare zone")
+		err = errors.Wrap(err, "failed to prepare zoneExpansion")
 		return
 	}
 
-	err = validateZone(zone,
+	err = validateZoneExpansion(zoneExpansion,
 		[]string{"ID"}, //required
 		[]string{ //optional
 			"name",
@@ -288,7 +283,7 @@ func EditZone(zone *model.Zone, user *model.User) (err error) {
 			"sharedplat",
 			"password",
 			"status",
-			"lszoneID",
+			"lszoneExpansionID",
 			"gmspeed",
 			"revoked",
 			"karma",
@@ -302,84 +297,61 @@ func EditZone(zone *model.Zone, user *model.User) (err error) {
 			"suspendReason"},
 	)
 	if err != nil {
-		err = errors.Wrap(err, "failed to validate zone")
+		err = errors.Wrap(err, "failed to validate zoneExpansion")
 		return
 	}
-	writer, err := getWriter("zone")
+	writer, err := getWriter("zoneExpansion")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for zone")
+		err = errors.Wrap(err, "failed to get writer for zoneExpansion")
 		return
 	}
-	err = writer.EditZone(zone)
+	err = writer.EditZoneExpansion(zoneExpansion)
 	if err != nil {
-		err = errors.Wrap(err, "failed to edit zone")
+		err = errors.Wrap(err, "failed to edit zoneExpansion")
 		return
 	}
-
-	memWriter, err := getWriter("zone-memory")
+	err = sanitizeZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for zone-memory")
-		return
-	}
-	err = memWriter.EditZone(zone)
-	if err != nil {
-		err = errors.Wrap(err, "failed to edit zone-memory")
-		return
-	}
-
-	err = sanitizeZone(zone, user)
-	if err != nil {
-		err = errors.Wrap(err, "failed to sanitize zone")
+		err = errors.Wrap(err, "failed to sanitize zoneExpansion")
 		return
 	}
 	return
 }
 
-//DeleteZone deletes an zone by provided zoneID
-func DeleteZone(zone *model.Zone, user *model.User) (err error) {
+//DeleteZoneExpansion deletes an zoneExpansion by provided zoneExpansionID
+func DeleteZoneExpansion(zoneExpansion *model.ZoneExpansion, user *model.User) (err error) {
 	err = user.IsAdmin()
 	if err != nil {
-		err = errors.Wrap(err, "can't delete zone without admin+")
+		err = errors.Wrap(err, "can't delete zoneExpansion without admin+")
 		return
 	}
-	err = prepareZone(zone, user)
+	err = prepareZoneExpansion(zoneExpansion, user)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare zone")
-		return
-	}
-
-	err = validateZone(zone, []string{"ID"}, nil)
-	if err != nil {
-		err = errors.Wrap(err, "failed to validate zone")
-		return
-	}
-	writer, err := getWriter("zone")
-	if err != nil {
-		err = errors.Wrap(err, "failed to get zone writer")
-		return
-	}
-	err = writer.DeleteZone(zone)
-	if err != nil {
-		err = errors.Wrap(err, "failed to delete zone")
+		err = errors.Wrap(err, "failed to prepare zoneExpansion")
 		return
 	}
 
-	memWriter, err := getWriter("zone-memory")
+	err = validateZoneExpansion(zoneExpansion, []string{"ID"}, nil)
 	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for zone-memory")
+		err = errors.Wrap(err, "failed to validate zoneExpansion")
 		return
 	}
-	err = memWriter.DeleteZone(zone)
+	writer, err := getWriter("zoneExpansion")
 	if err != nil {
-		err = errors.Wrap(err, "failed to delete zone-memory")
+		err = errors.Wrap(err, "failed to get zoneExpansion writer")
+		return
+	}
+	err = writer.DeleteZoneExpansion(zoneExpansion)
+	if err != nil {
+		err = errors.Wrap(err, "failed to delete zoneExpansion")
 		return
 	}
 	return
 }
 
-func prepareZone(zone *model.Zone, user *model.User) (err error) {
-	if zone == nil {
-		err = fmt.Errorf("empty zone")
+func prepareZoneExpansion(zoneExpansion *model.ZoneExpansion, user *model.User) (err error) {
+	if zoneExpansion == nil {
+		err = fmt.Errorf("empty zoneExpansion")
 		return
 	}
 	if user == nil {
@@ -389,13 +361,13 @@ func prepareZone(zone *model.Zone, user *model.User) (err error) {
 	return
 }
 
-func validateZone(zone *model.Zone, required []string, optional []string) (err error) {
-	schema, err := newSchemaZone(required, optional)
+func validateZoneExpansion(zoneExpansion *model.ZoneExpansion, required []string, optional []string) (err error) {
+	schema, err := newSchemaZoneExpansion(required, optional)
 	if err != nil {
 		return
 	}
 
-	result, err := schema.Validate(gojsonschema.NewGoLoader(zone))
+	result, err := schema.Validate(gojsonschema.NewGoLoader(zoneExpansion))
 	if err != nil {
 		return
 	}
@@ -414,15 +386,15 @@ func validateZone(zone *model.Zone, required []string, optional []string) (err e
 	return
 }
 
-func validateOrderByZoneField(page *model.Page) (err error) {
+func validateOrderByZoneExpansionField(page *model.Page) (err error) {
 	if len(page.OrderBy) == 0 {
-		page.OrderBy = "shortName"
+		page.OrderBy = "id"
 	}
 
 	validNames := []string{
 		"id",
 		"short_name",
-		"zoneidnumber",
+		"zoneExpansionidnumber",
 		"long_name",
 	}
 
@@ -445,7 +417,7 @@ func validateOrderByZoneField(page *model.Page) (err error) {
 	return
 }
 
-func sanitizeZone(zone *model.Zone, user *model.User) (err error) {
+func sanitizeZoneExpansion(zoneExpansion *model.ZoneExpansion, user *model.User) (err error) {
 	err = user.IsGuide()
 	if err != nil {
 		err = nil
@@ -453,7 +425,7 @@ func sanitizeZone(zone *model.Zone, user *model.User) (err error) {
 	return
 }
 
-func newSchemaZone(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+func newSchemaZoneExpansion(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"
 	s.Required = requiredFields
@@ -461,13 +433,13 @@ func newSchemaZone(requiredFields []string, optionalFields []string) (schema *go
 	var field string
 	var prop model.Schema
 	for _, field = range requiredFields {
-		if prop, err = getSchemaPropertyZone(field); err != nil {
+		if prop, err = getSchemaPropertyZoneExpansion(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
 	}
 	for _, field := range optionalFields {
-		if prop, err = getSchemaPropertyZone(field); err != nil {
+		if prop, err = getSchemaPropertyZoneExpansion(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
@@ -480,7 +452,7 @@ func newSchemaZone(requiredFields []string, optionalFields []string) (schema *go
 	return
 }
 
-func getSchemaPropertyZone(field string) (prop model.Schema, err error) {
+func getSchemaPropertyZoneExpansion(field string) (prop model.Schema, err error) {
 	switch field {
 
 	case "shortName":
@@ -520,13 +492,13 @@ func getSchemaPropertyZone(field string) (prop model.Schema, err error) {
 	case "minStatus":
 		prop.Type = "integer"
 		prop.Minimum = 0
-	case "zoneIDNumber":
+	case "zoneExpansionIDNumber":
 		prop.Type = "integer"
 		prop.Minimum = 0
 	case "version":
 		prop.Type = "integer"
 		prop.Minimum = 0
-	case "timezone":
+	case "timezoneExpansion":
 		prop.Type = "integer"
 		prop.Minimum = 0
 	case "maxClients":
@@ -569,7 +541,7 @@ func getSchemaPropertyZone(field string) (prop model.Schema, err error) {
 	case "zType":
 		prop.Type = "integer"
 		prop.Minimum = 0
-	case "zoneExpMultiplier":
+	case "zoneExpansionExpMultiplier":
 		prop.Type = "float"
 		prop.Minimum = 0
 	case "walkSpeed":
@@ -657,7 +629,7 @@ func getSchemaPropertyZone(field string) (prop model.Schema, err error) {
 	case "castOutdoor":
 		prop.Type = "integer"
 		prop.Minimum = 0
-	case "hotZone":
+	case "hotZoneExpansion":
 		prop.Type = "integer"
 		prop.Minimum = 0
 	case "instType":
@@ -666,7 +638,7 @@ func getSchemaPropertyZone(field string) (prop model.Schema, err error) {
 	case "shutdownDelay":
 		prop.Type = "integer"
 		prop.Minimum = 0
-	case "peqZone":
+	case "peqZoneExpansion":
 		prop.Type = "integer"
 		prop.Minimum = 0
 	case "expansion":

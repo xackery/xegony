@@ -6,7 +6,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-// Item contains an array of item
+// Items contains an array of item
 // swagger:model
 type Items []*Item
 

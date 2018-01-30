@@ -26,10 +26,21 @@ type Writer interface {
 	EditCharacter(character *model.Character) (err error)
 	DeleteCharacter(character *model.Character) (err error)
 
+	//Race
+	CreateRace(race *model.Race) (err error)
+	EditRace(race *model.Race) (err error)
+	DeleteRace(race *model.Race) (err error)
+
 	//Zone
 	CreateZone(zone *model.Zone) (err error)
 	EditZone(zone *model.Zone) (err error)
 	DeleteZone(zone *model.Zone) (err error)
+
+	//ZoneExpansion
+	CreateZoneExpansion(zoneExpansion *model.ZoneExpansion) (err error)
+	EditZoneExpansion(zoneExpansion *model.ZoneExpansion) (err error)
+	DeleteZoneExpansion(zoneExpansion *model.ZoneExpansion) (err error)
+
 	/*
 		//Activity
 		CreateActivity(activity *model.Activity) (err error)

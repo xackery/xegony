@@ -33,7 +33,9 @@ func ApplyRoutes(router *mux.Router) {
 
 	routes = append(routes, accountRoutes()...)
 	routes = append(routes, characterRoutes()...)
+	routes = append(routes, raceRoutes()...)
 	routes = append(routes, zoneRoutes()...)
+	routes = append(routes, zoneExpansionRoutes()...)
 
 	for i := range routes {
 		route := routes[i]

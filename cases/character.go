@@ -447,7 +447,18 @@ func validateOrderByCharacterField(page *model.Page) (err error) {
 }
 
 func sanitizeCharacter(character *model.Character, user *model.User) (err error) {
+	if character.ZoneID > 0 {
 
+		character.Zone = &model.Zone{
+			ID: character.ZoneID,
+		}
+
+		err = GetZone(character.Zone, user)
+		if err != nil {
+			err = errors.Wrap(err, "Failed to get zone from character.zoneID")
+			return
+		}
+	}
 	return
 }
 

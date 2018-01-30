@@ -28,12 +28,26 @@ type Reader interface {
 	ListCharacterBySearch(page *model.Page, character *model.Character) (characters []*model.Character, err error)
 	ListCharacterBySearchTotalCount(character *model.Character) (count int64, err error)
 
+	//Race
+	GetRace(race *model.Race) (err error)
+	ListRace(page *model.Page) (races []*model.Race, err error)
+	ListRaceTotalCount() (count int64, err error)
+	ListRaceBySearch(page *model.Page, race *model.Race) (races []*model.Race, err error)
+	ListRaceBySearchTotalCount(race *model.Race) (count int64, err error)
+
 	//Zone
 	GetZone(zone *model.Zone) (err error)
 	ListZone(page *model.Page) (zones []*model.Zone, err error)
 	ListZoneTotalCount() (count int64, err error)
 	ListZoneBySearch(page *model.Page, zone *model.Zone) (zones []*model.Zone, err error)
 	ListZoneBySearchTotalCount(zone *model.Zone) (count int64, err error)
+
+	//ZoneExpansion
+	GetZoneExpansion(zoneExpansion *model.ZoneExpansion) (err error)
+	ListZoneExpansion(page *model.Page) (zoneExpansions []*model.ZoneExpansion, err error)
+	ListZoneExpansionTotalCount() (count int64, err error)
+	ListZoneExpansionBySearch(page *model.Page, zoneExpansion *model.ZoneExpansion) (zoneExpansions []*model.ZoneExpansion, err error)
+	ListZoneExpansionBySearchTotalCount(zoneExpansion *model.ZoneExpansion) (count int64, err error)
 
 	/*
 		//Activity

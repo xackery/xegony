@@ -103,9 +103,21 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 		return
 	}
 
-	err = cases.LoadZoneToMemory()
+	err = cases.LoadRaceFromFileToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load zone to memory")
+		return
+	}
+
+	err = cases.LoadZoneFromDBToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zone to memory")
+		return
+	}
+
+	err = cases.LoadZoneExpansionFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zoneExpansion to memory")
 		return
 	}
 
