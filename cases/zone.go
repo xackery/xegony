@@ -5,8 +5,64 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
+	"github.com/xackery/xegony/storage/memory"
 	"github.com/xeipuuv/gojsonschema"
 )
+
+//LoadZoneToMemory is ran during initialization
+func LoadZoneToMemory() (err error) {
+	fmt.Printf("Loading zones...")
+	mr, err := memory.New("", nil, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to create new memory")
+		return
+	}
+
+	err = Initialize("zone-memory", mr, mr, mr)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize zone-memory")
+		return
+	}
+
+	dbReader, err := getReader("zone")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone reader")
+		return
+	}
+	page := &model.Page{
+		Limit: 100,
+	}
+	page.Total, err = dbReader.ListZoneTotalCount()
+	if err != nil {
+		err = errors.Wrap(err, "failed to get list zone count")
+		return
+	}
+	var totalZones []*model.Zone
+	var zones []*model.Zone
+	for {
+		zones, err = dbReader.ListZone(page)
+		if err != nil {
+			err = errors.Wrap(err, "failed to list zones")
+			return
+		}
+		totalZones = append(totalZones, zones...)
+		if int64(len(totalZones)) >= page.Total {
+			break
+		}
+		page.Offset++
+	}
+
+	for _, zone := range totalZones {
+		err = mr.CreateZone(zone)
+		if err != nil {
+			err = errors.Wrap(err, "failed to create zone")
+			return
+		}
+	}
+
+	fmt.Printf(" (%d)\n", len(totalZones))
+	return
+}
 
 //ListZone lists all zones accessible by provided user
 func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err error) {
@@ -20,7 +76,7 @@ func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err erro
 		return
 	}
 
-	reader, err := getReader("zone")
+	reader, err := getReader("zone-memory")
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare reader for zone")
 		return

@@ -102,6 +102,13 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 		err = errors.Wrap(err, "failed to initialize all")
 		return
 	}
+
+	err = cases.LoadZoneToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zone to memory")
+		return
+	}
+
 	log.Println("Initialized")
 	return
 }

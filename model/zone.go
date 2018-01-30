@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"sort"
 )
 
 // Zones is an array of zone
@@ -96,38 +95,6 @@ type Zone struct {
 	Gravity           float64        `json:"gravity,omitempty" db:"gravity"`                       //gravity` float NOT NULL DEFAULT '0.4',
 	Type              int64          `json:"type,omitempty" db:"type"`                             //type` int(3) NOT NULL DEFAULT '0',
 	Skylock           int64          `json:"skylock,omitempty" db:"skylock"`                       //skylock` tinyint(4) NOT NULL DEFAULT '0',
-}
-
-//ZoneBy is used for sorting zones based on a context
-type ZoneBy func(z1, z2 *Zone) bool
-
-//Sort implements the sort interface
-func (by ZoneBy) Sort(zones []Zone) {
-	zs := &zoneSorter{
-		zones: zones,
-		by:    by,
-	}
-	sort.Sort(zs)
-}
-
-type zoneSorter struct {
-	zones []Zone
-	by    func(z1, z2 *Zone) bool
-}
-
-//Len implements the sort interface
-func (s *zoneSorter) Len() int {
-	return len(s.zones)
-}
-
-//Swap implements the sort interface
-func (s *zoneSorter) Swap(i, j int) {
-	s.zones[i], s.zones[j] = s.zones[j], s.zones[i]
-}
-
-//Less implements the sort interface
-func (s *zoneSorter) Less(i, j int) bool {
-	return s.by(&s.zones[i], &s.zones[j])
 }
 
 //GetMinStatusName converts the MinStatus field to the human readable name
