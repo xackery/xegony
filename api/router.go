@@ -33,79 +33,8 @@ func ApplyRoutes(router *mux.Router) {
 
 	routes = append(routes, accountRoutes()...)
 	routes = append(routes, characterRoutes()...)
-	/*	newRoutes = activityRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = bazaarRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = characterRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = factionRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = forumRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = goalRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = itemRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = loginRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootDropRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootDropEntryRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootTableRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootTableEntryRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = npcRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = postRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = spawnRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = taskRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = topicRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = zoneRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-	*/
+	routes = append(routes, zoneRoutes()...)
+
 	for i := range routes {
 		route := routes[i]
 		router.

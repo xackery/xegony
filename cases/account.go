@@ -341,14 +341,19 @@ func validateOrderByAccountField(page *model.Page) (err error) {
 		"expansion",
 	}
 
+	possibleNames := ""
 	for _, name := range validNames {
 		if page.OrderBy == name {
 			return
 		}
+		possibleNames += name + ", "
+	}
+	if len(possibleNames) > 0 {
+		possibleNames = possibleNames[0 : len(possibleNames)-2]
 	}
 
 	err = &model.ErrValidation{
-		Message: "orderBy is invalid",
+		Message: "orderBy is invalid. Possible fields: " + possibleNames,
 		Reasons: map[string]string{
 			"orderBy": "field is not valid",
 		},

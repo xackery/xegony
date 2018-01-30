@@ -3,22 +3,22 @@ package mariadb
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
 )
 
 const (
-	zoneSets   = `zone.short_name=:short_name, zone.file_name=:file_name, zone.long_name=:long_name, zone.map_file_name=:map_file_name, zone.safe_x=:safe_x, zone.safe_y=:safe_y, zone.safe_z=:safe_z, zone.graveyard_id=:graveyard_id, zone.min_level=:min_level, zone.min_status=:min_status, zone.zoneidnumber=:zoneidnumber, zone.version=:version, zone.timezone=:timezone, zone.maxclients=:maxclients, zone.ruleset=:ruleset, zone.note=:note, zone.underworld=:underworld, zone.minclip=:minclip, zone.maxclip=:maxclip, zone.fog_minclip=:fog_minclip, zone.fog_maxclip=:fog_maxclip, zone.fog_blue=:fog_blue, zone.fog_red=:fog_red, zone.fog_green=:fog_green, zone.sky=:sky, zone.ztype=:ztype, zone.zone_exp_multiplier=:zone_exp_multiplier, zone.walkspeed=:walkspeed, zone.time_type=:time_type, zone.fog_red1=:fog_red1, zone.fog_green1=:fog_green1, zone.fog_blue1=:fog_blue1, zone.fog_minclip1=:fog_minclip1, zone.fog_maxclip1=:fog_maxclip1, zone.fog_red2=:fog_red2, zone.fog_green2=:fog_green2, zone.fog_blue2=:fog_blue2, zone.fog_minclip2=:fog_minclip2, zone.fog_maxclip2=:fog_maxclip2, zone.fog_red3=:fog_red3, zone.fog_green3=:fog_green3, zone.fog_blue3=:fog_blue3, zone.fog_minclip3=:fog_minclip3, zone.fog_maxclip3=:fog_maxclip3, zone.fog_red4=:fog_red4, zone.fog_green4=:fog_green4, zone.fog_blue4=:fog_blue4, zone.fog_minclip4=:fog_minclip4, zone.fog_maxclip4=:fog_maxclip4, zone.fog_density=:fog_density, zone.flag_needed=:flag_needed, zone.canbind=:canbind, zone.cancombat=:cancombat, zone.canlevitate=:canlevitate, zone.castoutdoor=:castoutdoor, zone.hotzone=:hotzone, zone.insttype=:insttype, zone.shutdowndelay=:shutdowndelay, zone.peqzone=:peqzone, zone.expansion=:expansion, zone.suspendbuffs=:suspendbuffs, zone.rain_chance1=:rain_chance1, zone.rain_chance2=:rain_chance2, zone.rain_chance3=:rain_chance3, zone.rain_chance4=:rain_chance4, zone.rain_duration1=:rain_duration1, zone.rain_duration2=:rain_duration2, zone.rain_duration3=:rain_duration3, zone.rain_duration4=:rain_duration4, zone.snow_chance1=:snow_chance1, zone.snow_chance2=:snow_chance2, zone.snow_chance3=:snow_chance3, zone.snow_chance4=:snow_chance4, zone.snow_duration1=:snow_duration1, zone.snow_duration2=:snow_duration2, zone.snow_duration3=:snow_duration3, zone.snow_duration4=:snow_duration4, zone.gravity=:gravity, zone.type=:type, zone.skylock=:skylock`
-	zoneFields = `zone.short_name, zone.file_name, zone.long_name, zone.map_file_name, zone.safe_x, zone.safe_y, zone.safe_z, zone.graveyard_id, zone.min_level, zone.min_status, zone.zoneidnumber, zone.version, zone.timezone, zone.maxclients, zone.ruleset, zone.note, zone.underworld, zone.minclip, zone.maxclip, zone.fog_minclip, zone.fog_maxclip, zone.fog_blue, zone.fog_red, zone.fog_green, zone.sky, zone.ztype, zone.zone_exp_multiplier, zone.walkspeed, zone.time_type, zone.fog_red1, zone.fog_green1, zone.fog_blue1, zone.fog_minclip1, zone.fog_maxclip1, zone.fog_red2, zone.fog_green2, zone.fog_blue2, zone.fog_minclip2, zone.fog_maxclip2, zone.fog_red3, zone.fog_green3, zone.fog_blue3, zone.fog_minclip3, zone.fog_maxclip3, zone.fog_red4, zone.fog_green4, zone.fog_blue4, zone.fog_minclip4, zone.fog_maxclip4, zone.fog_density, zone.flag_needed, zone.canbind, zone.cancombat, zone.canlevitate, zone.castoutdoor, zone.hotzone, zone.insttype, zone.shutdowndelay, zone.peqzone, zone.expansion, zone.suspendbuffs, zone.rain_chance1, zone.rain_chance2, zone.rain_chance3, zone.rain_chance4, zone.rain_duration1, zone.rain_duration2, zone.rain_duration3, zone.rain_duration4, zone.snow_chance1, zone.snow_chance2, zone.snow_chance3, zone.snow_chance4, zone.snow_duration1, zone.snow_duration2, zone.snow_duration3, zone.snow_duration4, zone.gravity, zone.type, zone.skylock`
-	zoneBinds  = `:short_name, :file_name, :long_name, :map_file_name, :safe_x, :safe_y, :safe_z, :graveyard_id, :min_level, :min_status, :zoneidnumber, :version, :timezone, :maxclients, :ruleset, :note, :underworld, :minclip, :maxclip, :fog_minclip, :fog_maxclip, :fog_blue, :fog_red, :fog_green, :sky, :ztype, :zone_exp_multiplier, :walkspeed, :time_type, :fog_red1, :fog_green1, :fog_blue1, :fog_minclip1, :fog_maxclip1, :fog_red2, :fog_green2, :fog_blue2, :fog_minclip2, :fog_maxclip2, :fog_red3, :fog_green3, :fog_blue3, :fog_minclip3, :fog_maxclip3, :fog_red4, :fog_green4, :fog_blue4, :fog_minclip4, :fog_maxclip4, :fog_density, :flag_needed, :canbind, :cancombat, :canlevitate, :castoutdoor, :hotzone, :insttype, :shutdowndelay, :peqzone, :expansion, :suspendbuffs, :rain_chance1, :rain_chance2, :rain_chance3, :rain_chance4, :rain_duration1, :rain_duration2, :rain_duration3, :rain_duration4, :snow_chance1, :snow_chance2, :snow_chance3, :snow_chance4, :snow_duration1, :snow_duration2, :snow_duration3, :snow_duration4, :gravity, :type, :skylock`
+	zoneTable  = "zone"
+	zoneFields = "short_name, file_name, long_name, map_file_name, safe_x, safe_y, safe_z, graveyard_id, min_level, min_status, zoneidnumber, version, timezone, maxclients, ruleset, note, underworld, minclip, maxclip, fog_minclip, fog_maxclip, fog_blue, fog_red, fog_green, sky, ztype, zone_exp_multiplier, walkspeed, time_type, fog_red1, fog_green1, fog_blue1, fog_minclip1, fog_maxclip1, fog_red2, fog_green2, fog_blue2, fog_minclip2, fog_maxclip2, fog_red3, fog_green3, fog_blue3, fog_minclip3, fog_maxclip3, fog_red4, fog_green4, fog_blue4, fog_minclip4, fog_maxclip4, fog_density, flag_needed, canbind, cancombat, canlevitate, castoutdoor, hotzone, insttype, shutdowndelay, peqzone, expansion, suspendbuffs, rain_chance1, rain_chance2, rain_chance3, rain_chance4, rain_duration1, rain_duration2, rain_duration3, rain_duration4, snow_chance1, snow_chance2, snow_chance3, snow_chance4, snow_duration1, snow_duration2, snow_duration3, snow_duration4, gravity, type, skylock"
+	zoneBinds  = ":short_name, :file_name, :long_name, :map_file_name, :safe_x, :safe_y, :safe_z, :graveyard_id, :min_level, :min_status, :zoneidnumber, :version, :timezone, :maxclients, :ruleset, :note, :underworld, :minclip, :maxclip, :fog_minclip, :fog_maxclip, :fog_blue, :fog_red, :fog_green, :sky, :ztype, :zone_exp_multiplier, :walkspeed, :time_type, :fog_red1, :fog_green1, :fog_blue1, :fog_minclip1, :fog_maxclip1, :fog_red2, :fog_green2, :fog_blue2, :fog_minclip2, :fog_maxclip2, :fog_red3, :fog_green3, :fog_blue3, :fog_minclip3, :fog_maxclip3, :fog_red4, :fog_green4, :fog_blue4, :fog_minclip4, :fog_maxclip4, :fog_density, :flag_needed, :canbind, :cancombat, :canlevitate, :castoutdoor, :hotzone, :insttype, :shutdowndelay, :peqzone, :expansion, :suspendbuffs, :rain_chance1, :rain_chance2, :rain_chance3, :rain_chance4, :rain_duration1, :rain_duration2, :rain_duration3, :rain_duration4, :snow_chance1, :snow_chance2, :snow_chance3, :snow_chance4, :snow_duration1, :snow_duration2, :snow_duration3, :snow_duration4, :gravity, :type, :skylock"
 )
 
 //GetZone will grab data from storage
 func (s *Storage) GetZone(zone *model.Zone) (err error) {
-	err = s.db.Get(zone, fmt.Sprintf(`SELECT zone_level_cache.levels, zone.id, %s 
-		FROM zone 
-		INNER JOIN zone_level_cache.zone_id = zone.zoneidnumber 
-		WHERE zoneidnumber = ?`, zoneFields), zone.ID)
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE id = ?", zoneFields, zoneTable)
+	err = s.db.Get(zone, query, zone.ID)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	return
@@ -26,18 +26,15 @@ func (s *Storage) GetZone(zone *model.Zone) (err error) {
 
 //CreateZone will grab data from storage
 func (s *Storage) CreateZone(zone *model.Zone) (err error) {
-	if zone == nil {
-		err = fmt.Errorf("Must provide zone")
-		return
-	}
-
-	result, err := s.db.NamedExec(fmt.Sprintf(`INSERT INTO zone(%s)
-		VALUES (%s)`, zoneFields, zoneBinds), zone)
+	query := fmt.Sprintf("INSERT INTO %s(%s) VALUES (%s)", zoneTable, zoneFields, zoneBinds)
+	result, err := s.db.NamedExec(query, zone)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	zoneID, err := result.LastInsertId()
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	zone.ID = zoneID
@@ -45,17 +42,31 @@ func (s *Storage) CreateZone(zone *model.Zone) (err error) {
 }
 
 //ListZone will grab data from storage
-func (s *Storage) ListZone() (zones []*model.Zone, err error) {
-	query := fmt.Sprintf(`SELECT zone.id, %s 
-		FROM zone ORDER BY long_name ASC`, zoneFields)
+func (s *Storage) ListZone(page *model.Page) (zones []*model.Zone, err error) {
+
+	if len(page.OrderBy) < 1 {
+		page.OrderBy = "zoneidnumber"
+	}
+
+	orderField := page.OrderBy
+	if page.IsDescending > 0 {
+		orderField += " DESC"
+	} else {
+		orderField += " ASC"
+	}
+
+	query := fmt.Sprintf("SELECT id, %s FROM %s ORDER BY %s LIMIT %d OFFSET %d", zoneFields, zoneTable, orderField, page.Limit, page.Limit*page.Offset)
+
 	rows, err := s.db.Queryx(query)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 
 	for rows.Next() {
 		zone := model.Zone{}
 		if err = rows.StructScan(&zone); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
 			return
 		}
 		zones = append(zones, &zone)
@@ -63,36 +74,176 @@ func (s *Storage) ListZone() (zones []*model.Zone, err error) {
 	return
 }
 
-//ListZoneByHotzone will grab data from storage
-func (s *Storage) ListZoneByHotzone() (zones []*model.Zone, err error) {
-	rows, err := s.db.Queryx(fmt.Sprintf(`SELECT zone.id, %s FROM zone 
-		WHERE hotzone = 1 ORDER BY zone_exp_multiplier DESC`, zoneFields))
+//ListZoneTotalCount will grab data from storage
+func (s *Storage) ListZoneTotalCount() (count int64, err error) {
+	query := fmt.Sprintf("SELECT count(id) FROM %s", zoneTable)
+	err = s.db.Get(&count, query)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
+	return
+}
+
+//ListZoneBySearch will grab data from storage
+func (s *Storage) ListZoneBySearch(page *model.Page, zone *model.Zone) (zones []*model.Zone, err error) {
+
+	field := ""
+
+	if len(zone.ShortName.String) > 0 {
+		field += `short_name LIKE :short_name OR`
+		zone.ShortName.String = fmt.Sprintf("%%%s%%", zone.ShortName.String)
+		zone.ShortName.Valid = true
+	}
+
+	if len(field) == 0 {
+		err = fmt.Errorf("No parameters to search by provided")
+		return
+	}
+	field = field[0 : len(field)-3]
+
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE %s LIMIT %d OFFSET %d", zoneFields, zoneTable, field, page.Limit, page.Limit*page.Offset)
+	rows, err := s.db.NamedQuery(query, zone)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+	fmt.Println(query)
 
 	for rows.Next() {
 		zone := model.Zone{}
 		if err = rows.StructScan(&zone); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
 			return
 		}
 		zones = append(zones, &zone)
+	}
+	return
+}
+
+//ListZoneBySearchTotalCount will grab data from storage
+func (s *Storage) ListZoneBySearchTotalCount(zone *model.Zone) (count int64, err error) {
+	field := ""
+	if len(zone.ShortName.String) > 0 {
+		field += `name LIKE :name OR`
+	}
+
+	if len(field) == 0 {
+		err = fmt.Errorf("No parameters to search by provided")
+		return
+	}
+	field = field[0 : len(field)-3]
+
+	query := fmt.Sprintf("SELECT count(id) FROM %s WHERE %s", zoneTable, field)
+
+	rows, err := s.db.NamedQuery(query, zone)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+
+	for rows.Next() {
+		if err = rows.Scan(&count); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
+			return
+		}
 	}
 	return
 }
 
 //EditZone will grab data from storage
 func (s *Storage) EditZone(zone *model.Zone) (err error) {
-	result, err := s.db.NamedExec(fmt.Sprintf(`UPDATE zone SET %s WHERE zoneidnumber = :zoneidnumber`, zoneSets), zone)
+
+	prevZone := &model.Zone{
+		ID: zone.ID,
+	}
+	err = s.GetZone(prevZone)
 	if err != nil {
+		err = errors.Wrap(err, "failed to get previous zone")
+		return
+	}
+
+	field := ""
+	/*	if len(zone.Name) > 0 && prevZone.Name != zone.Name {
+			field += "name = :name, "
+		}
+
+		if len(zone.Charname) > 0 && prevZone.Charname != zone.Charname {
+			field += "charname = :charname, "
+		}
+
+		if len(zone.Name) > 0 && prevZone.Name != zone.Name {
+			field += "name=:name, "
+		}
+		if len(zone.Charname) > 0 && prevZone.Charname != zone.Charname {
+			field += "charname=:charname, "
+		}
+		if zone.Sharedplat > 0 && prevZone.Sharedplat != zone.Sharedplat {
+			field += "sharedplat=:sharedplat, "
+		}
+		if len(zone.Password) > 0 && prevZone.Password != zone.Password {
+			field += "password=:password, "
+		}
+		if zone.Status > 0 && prevZone.Status != zone.Status {
+			field += "status=:status, "
+		}
+		if zone.LszoneID.Int64 > 0 && prevZone.LszoneID != zone.LszoneID {
+			field += "lszone_id=:lszone_id, "
+		}
+		if zone.Gmspeed > 0 && prevZone.Gmspeed != zone.Gmspeed {
+			field += "gmspeed=:gmspeed, "
+		}
+		if zone.Revoked > 0 && prevZone.Revoked != zone.Revoked {
+			field += "revoked=:revoked, "
+		}
+		if zone.Karma > 0 && prevZone.Karma != zone.Karma {
+			field += "karma=:karma, "
+		}
+		if len(zone.MiniloginIP) > 0 && prevZone.MiniloginIP != zone.MiniloginIP {
+			field += "minilogin_ip=:minilogin_ip, "
+		}
+		if zone.Hideme > 0 && prevZone.Hideme != zone.Hideme {
+			field += "hideme=:hideme, "
+		}
+		if zone.Rulesflag > 0 && prevZone.Rulesflag != zone.Rulesflag {
+			field += "rulesflag=:rulesflag, "
+		}
+		if !zone.Suspendeduntil.IsZero() && prevZone.Suspendeduntil != zone.Suspendeduntil {
+			field += "suspendeduntil=:suspendeduntil, "
+		}
+		if zone.TimeCreation > 0 && prevZone.TimeCreation != zone.TimeCreation {
+			field += "time_creation=:time_creation, "
+		}
+		if zone.Expansion > 0 && prevZone.Expansion != zone.Expansion {
+			field += "expansion=:expansion, "
+		}
+		if len(zone.BanReason.String) > 0 && prevZone.BanReason != zone.BanReason {
+			field += "ban_reason=:ban_reason, "
+		}
+		if len(zone.SuspendReason.String) > 0 && prevZone.SuspendReason != zone.SuspendReason {
+			field += "suspend_reason=:suspend_reason, "
+		}
+	*/
+	if len(field) == 0 {
+		err = &model.ErrNoContent{}
+		return
+	}
+	field = field[0 : len(field)-2]
+
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE id = :id", zoneTable, field)
+	result, err := s.db.NamedExec(query, zone)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	affected, err := result.RowsAffected()
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	return
@@ -100,8 +251,10 @@ func (s *Storage) EditZone(zone *model.Zone) (err error) {
 
 //DeleteZone will grab data from storage
 func (s *Storage) DeleteZone(zone *model.Zone) (err error) {
-	result, err := s.db.Exec(`DELETE FROM zone WHERE zoneidnumber = ?`, zone.ID)
+	query := fmt.Sprintf("DELETE FROM %s WHERE id = ?", zoneTable)
+	result, err := s.db.Exec(query, zone.ID)
 	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	affected, err := result.RowsAffected()
@@ -110,6 +263,7 @@ func (s *Storage) DeleteZone(zone *model.Zone) (err error) {
 	}
 	if affected < 1 {
 		err = &model.ErrNoContent{}
+		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
 	return
@@ -117,7 +271,8 @@ func (s *Storage) DeleteZone(zone *model.Zone) (err error) {
 
 //createTableZone will grab data from storage
 func (s *Storage) createTableZone() (err error) {
-	_, err = s.db.Exec(`CREATE TABLE zone (
+	_, err = s.db.Exec(`
+CREATE TABLE zone (
   short_name varchar(32) DEFAULT NULL,
   id int(10) NOT NULL AUTO_INCREMENT,
   file_name varchar(16) DEFAULT NULL,

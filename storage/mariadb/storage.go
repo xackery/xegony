@@ -3,7 +3,7 @@ package mariadb
 import (
 	"fmt"
 	"io"
-	"log"
+	alog "log"
 	"os"
 
 	"github.com/go-sql-driver/mysql"
@@ -14,20 +14,22 @@ import (
 //Storage implements the storage interface
 type Storage struct {
 	db     *sqlx.DB
-	log    *log.Logger
-	logErr *log.Logger
+	log    *alog.Logger
+	logErr *alog.Logger
 }
 
-//Initialize will grab data from storage
-func (s *Storage) Initialize(config string, w io.Writer) (err error) {
-	if s.db != nil {
-		return
-	}
+// New creates a new storage entry
+func New(config string, w io.Writer, wErr io.Writer) (db *Storage, err error) {
 	if w == nil {
 		w = os.Stdout
 	}
-	s.log = log.New(w, "SQL: ", 0)
-	s.logErr = log.New(w, "SQLErr: ", 0)
+	if wErr == nil {
+		wErr = os.Stderr
+	}
+	db = &Storage{
+		log:    alog.New(w, "SQL: ", 0),
+		logErr: alog.New(w, "SQLErr: ", 0),
+	}
 
 	if config == "" {
 		user := os.Getenv("API_DB_USERNAME")
@@ -52,7 +54,7 @@ func (s *Storage) Initialize(config string, w io.Writer) (err error) {
 		}
 		config = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=true", user, pass, host, port, dbname)
 	}
-	if s.db, err = sqlx.Open("mysql", config); err != nil {
+	if db.db, err = sqlx.Open("mysql", config); err != nil {
 		return
 	}
 	return
@@ -78,7 +80,6 @@ func (s *Storage) InsertTestData() (err error) {
 
 //DropTables will grab data from storage
 func (s *Storage) DropTables() (err error) {
-
 	_, err = s.db.Exec(`SET FOREIGN_KEY_CHECKS = 0`)
 	if err != nil {
 		return
@@ -131,15 +132,15 @@ func (s *Storage) VerifyTables() (err error) {
 	}
 
 	tables := []TableCheck{
-		{
+		/*{
 			Func: s.createTableActivity,
 			Name: "Activity",
-		},
+		},*/
 		{
 			Func: s.createTableAccount,
 			Name: "Account",
 		},
-		{
+		/*{
 			Func: s.createTableBazaar,
 			Name: "Bazaar",
 		},
@@ -182,7 +183,7 @@ func (s *Storage) VerifyTables() (err error) {
 		{
 			Func: s.createTableZoneLevel,
 			Name: "ZoneLevel",
-		},
+		},*/
 	}
 
 	for _, table := range tables {

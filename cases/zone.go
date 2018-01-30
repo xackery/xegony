@@ -5,183 +5,303 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
-	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
 )
 
-var (
-	hotzone = func(z1, z2 *model.Zone) bool {
-		return z1.Modifier > z2.Modifier
-	}
-
-	levels = func(z1, z2 *model.Zone) bool {
-		if z1.Levels&1 == 1 && z2.Levels&1 == 0 {
-			return true
-		}
-		if z1.Levels&2 == 2 && z2.Levels&2 == 0 {
-			return true
-		}
-		if z1.Levels&4 == 4 && z2.Levels&4 == 0 {
-			return true
-		}
-		if z1.Levels&8 == 8 && z2.Levels&8 == 0 {
-			return true
-		}
-		if z1.Levels&16 == 16 && z2.Levels&16 == 0 {
-			return true
-		}
-		if z1.Levels&32 == 32 && z2.Levels&32 == 0 {
-			return true
-		}
-		if z1.Levels&64 == 64 && z2.Levels&64 == 0 {
-			return true
-		}
-		if z1.Levels&128 == 128 && z2.Levels&128 == 0 {
-			return true
-		}
-		if z1.Levels&256 == 256 && z2.Levels&256 == 0 {
-			return true
-		}
-		if z1.Levels&512 == 512 && z2.Levels&512 == 0 {
-			return true
-		}
-		if z1.Levels&1024 == 1024 && z2.Levels&1024 == 0 {
-			return true
-		}
-		if z1.Levels&2048 == 2048 && z2.Levels&2048 == 0 {
-			return true
-		}
-		if z1.Levels&4096 == 4096 && z2.Levels&4096 == 0 {
-			return true
-		}
-		if z1.Levels&8192 == 8192 && z2.Levels&8192 == 0 {
-			return true
-		}
-		if z1.Levels&16384 == 16384 && z2.Levels&16384 == 0 {
-			return true
-		}
-		if z1.Levels&32768 == 32768 && z2.Levels&32768 == 0 {
-			return true
-		}
-		if z1.Levels&65536 == 65536 && z2.Levels&65536 == 0 {
-			return true
-		}
-		return false
-	}
-
-	expansions = func(z1, z2 *model.Zone) bool {
-		return z1.Expansion > z2.Expansion
-	}
-)
-
-//ZoneRepository handles ZoneRepository cases and is a gateway to storage
-type ZoneRepository struct {
-	stor              storage.Storage
-	zoneCache         map[int64]*model.Zone
-	isZoneCacheLoaded bool
-	globalRepository  *GlobalRepository
-}
-
-//Initialize handler
-func (c *ZoneRepository) Initialize(stor storage.Storage) (err error) {
-	if stor == nil {
-		err = fmt.Errorf("Invalid storage type")
-		return
-	}
-
-	c.stor = stor
-	c.isZoneCacheLoaded = false
-	if err = c.rebuildCache(nil); err != nil {
-		return
-	}
-
-	c.globalRepository = &GlobalRepository{}
-	err = c.globalRepository.Initialize(stor)
+//ListZone lists all zones accessible by provided user
+func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err error) {
+	err = validateOrderByZoneField(page)
 	if err != nil {
-		err = errors.Wrap(err, "failed to initialize global repository")
 		return
 	}
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
+		return
+	}
+
+	reader, err := getReader("zone")
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare reader for zone")
+		return
+	}
+
+	page.Total, err = reader.ListZoneTotalCount()
+	if err != nil {
+		err = errors.Wrap(err, "failed to list zone toal count")
+		return
+	}
+
+	zones, err = reader.ListZone(page)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list zone")
+		return
+	}
+	for i, zone := range zones {
+		err = sanitizeZone(zone, user)
+		if err != nil {
+			err = errors.Wrapf(err, "failed to sanitize zone element %d", i)
+			return
+		}
+	}
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
+
 	return
 }
 
-func (c *ZoneRepository) rebuildCache(user *model.User) (err error) {
-	if c.isZoneCacheLoaded {
+//ListZoneBySearch will request any zone matching the pattern of name
+func ListZoneBySearch(page *model.Page, zone *model.Zone, user *model.User) (zones []*model.Zone, err error) {
+	/*err = user.IsGuide()
+	if err != nil {
+		err = errors.Wrap(err, "can't list zone by search without guide+")
 		return
 	}
-	c.isZoneCacheLoaded = true
-	c.zoneCache = make(map[int64]*model.Zone)
-	zones, err := c.list()
+	*/
+	err = validateOrderByZoneField(page)
 	if err != nil {
 		return
 	}
 
-	zoneLevelRepo := &ZoneLevelRepository{}
-	if err = zoneLevelRepo.Initialize(c.stor); err != nil {
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
 		return
 	}
 
-	zoneLevels, err := zoneLevelRepo.List(user)
+	err = prepareZone(zone, user)
 	if err != nil {
+		err = errors.Wrap(err, "failed to prepre zone")
+		return
+	}
+
+	err = validateZone(zone, nil, []string{ //optional
+		"shortName",
+	})
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate zone")
+		return
+	}
+	reader, err := getReader("zone")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone reader")
+		return
+	}
+
+	zones, err = reader.ListZoneBySearch(page, zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list zone by search")
 		return
 	}
 
 	for _, zone := range zones {
-		for _, zoneLevel := range zoneLevels {
-			if zoneLevel.ZoneID == zone.ZoneIDNumber {
-				zone.Levels = zoneLevel.Levels
-				break
-
-			}
-		}
-		c.zoneCache[zone.ZoneIDNumber] = zone
-	}
-	fmt.Println("Rebuilt Zone Cache")
-	return
-}
-
-//Get handler
-func (c *ZoneRepository) Get(zone *model.Zone, user *model.User) (err error) {
-
-	zone = c.zoneCache[zone.ID]
-	//zone, err = c.stor.GetZone(zoneID)
-	return
-}
-
-//GetByShortname gets a zone by it's short name
-func (c *ZoneRepository) GetByShortname(zone *model.Zone, user *model.User) (err error) {
-	for _, zoneC := range c.zoneCache {
-		if zoneC.ShortName.String == zone.ShortName.String {
-			zone = zoneC
+		err = sanitizeZone(zone, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to sanitize zone")
 			return
 		}
 	}
+
+	err = sanitizeZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize search zone")
+		return
+	}
+
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
 	return
 }
 
-//Create handler
-func (c *ZoneRepository) Create(zone *model.Zone, user *model.User) (err error) {
+//CreateZone will create an zone using provided information
+func CreateZone(zone *model.Zone, user *model.User) (err error) {
+	err = user.IsGuide()
+	if err != nil {
+		err = errors.Wrap(err, "can't list zone by search without guide+")
+		return
+	}
+	err = prepareZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare zone")
+		return
+	}
+
+	err = validateZone(zone, []string{"name"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate zone")
+		return
+	}
+	zone.ID = 0
+	//zone.TimeCreation = time.Now().Unix()
+	writer, err := getWriter("zone")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get writer for zone")
+		return
+	}
+	err = writer.CreateZone(zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to create zone")
+		return
+	}
+	err = sanitizeZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize zone")
+		return
+	}
+	return
+}
+
+//GetZone gets an zone by provided zoneID
+func GetZone(zone *model.Zone, user *model.User) (err error) {
+	err = prepareZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare zone")
+		return
+	}
+
+	err = validateZone(zone, []string{"ID"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate zone")
+		return
+	}
+
+	reader, err := getReader("zone")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone reader")
+		return
+	}
+
+	err = reader.GetZone(zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone")
+		return
+	}
+
+	err = sanitizeZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize zone")
+		return
+	}
+
+	return
+}
+
+//EditZone edits an existing zone
+func EditZone(zone *model.Zone, user *model.User) (err error) {
+	err = user.IsGuide()
+	if err != nil {
+		err = errors.Wrap(err, "can't list zone by search without guide+")
+		return
+	}
+	err = prepareZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare zone")
+		return
+	}
+
+	err = validateZone(zone,
+		[]string{"ID"}, //required
+		[]string{ //optional
+			"name",
+			"charname",
+			"sharedplat",
+			"password",
+			"status",
+			"lszoneID",
+			"gmspeed",
+			"revoked",
+			"karma",
+			"miniloginIp",
+			"hideme",
+			"rulesflag",
+			"suspendeduntil",
+			"timeCreation",
+			"expansion",
+			"banReason",
+			"suspendReason"},
+	)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate zone")
+		return
+	}
+	writer, err := getWriter("zone")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get writer for zone")
+		return
+	}
+	err = writer.EditZone(zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to edit zone")
+		return
+	}
+	err = sanitizeZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize zone")
+		return
+	}
+	return
+}
+
+//DeleteZone deletes an zone by provided zoneID
+func DeleteZone(zone *model.Zone, user *model.User) (err error) {
+	err = user.IsAdmin()
+	if err != nil {
+		err = errors.Wrap(err, "can't delete zone without admin+")
+		return
+	}
+	err = prepareZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare zone")
+		return
+	}
+
+	err = validateZone(zone, []string{"ID"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate zone")
+		return
+	}
+	writer, err := getWriter("zone")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone writer")
+		return
+	}
+	err = writer.DeleteZone(zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to delete zone")
+		return
+	}
+	return
+}
+
+func prepareZone(zone *model.Zone, user *model.User) (err error) {
 	if zone == nil {
-		err = fmt.Errorf("Empty zone")
+		err = fmt.Errorf("empty zone")
 		return
 	}
-	schema, err := c.newSchema([]string{"shortName"}, nil)
+	if user == nil {
+		err = fmt.Errorf("empty user")
+		return
+	}
+	return
+}
+
+func validateZone(zone *model.Zone, required []string, optional []string) (err error) {
+	schema, err := newSchemaZone(required, optional)
 	if err != nil {
 		return
 	}
-	if zone.ZoneIDNumber < 1 {
-		vErr := &model.ErrValidation{
-			Message: "invalid",
-		}
-		vErr.Reasons = map[string]string{}
-		vErr.Reasons["accountID"] = "Account ID must be greater than 0"
-		err = vErr
-		return
-	}
-	zone.ID = 0 //strip ID
+
 	result, err := schema.Validate(gojsonschema.NewGoLoader(zone))
 	if err != nil {
 		return
 	}
+
 	if !result.Valid() {
 		vErr := &model.ErrValidation{
 			Message: "invalid",
@@ -193,108 +313,49 @@ func (c *ZoneRepository) Create(zone *model.Zone, user *model.User) (err error) 
 		err = vErr
 		return
 	}
-	err = c.stor.CreateZone(zone)
-	if err != nil {
-		return
-	}
-	//c.isZoneCacheLoaded = false
-	//c.rebuildCache(nil)
 	return
 }
 
-//Edit handler
-func (c *ZoneRepository) Edit(zone *model.Zone, user *model.User) (err error) {
-	schema, err := c.newSchema([]string{"name"}, nil)
-	if err != nil {
-		return
+func validateOrderByZoneField(page *model.Page) (err error) {
+	if len(page.OrderBy) == 0 {
+		page.OrderBy = "shortName"
 	}
 
-	result, err := schema.Validate(gojsonschema.NewGoLoader(zone))
-	if err != nil {
-		return
+	validNames := []string{
+		"id",
+		"short_name",
+		"zoneidnumber",
+		"long_name",
 	}
-	if !result.Valid() {
-		vErr := &model.ErrValidation{
-			Message: "invalid",
+
+	possibleNames := ""
+	for _, name := range validNames {
+		if page.OrderBy == name {
+			return
 		}
-		vErr.Reasons = map[string]string{}
-		for _, res := range result.Errors() {
-			vErr.Reasons[res.Field()] = res.Description()
-		}
-		err = vErr
-		return
+		possibleNames += name + ", "
 	}
-
-	if err = c.stor.EditZone(zone); err != nil {
-		return
+	if len(possibleNames) > 0 {
+		possibleNames = possibleNames[0 : len(possibleNames)-2]
 	}
-	//if err = c.rebuildCache(user); err != nil {
-	//	return
-	//}
+	err = &model.ErrValidation{
+		Message: "orderBy is invalid. Possible fields: " + possibleNames,
+		Reasons: map[string]string{
+			"orderBy": "field is not valid",
+		},
+	}
 	return
 }
 
-//Delete handler
-func (c *ZoneRepository) Delete(zone *model.Zone, user *model.User) (err error) {
-	err = c.stor.DeleteZone(zone)
+func sanitizeZone(zone *model.Zone, user *model.User) (err error) {
+	err = user.IsGuide()
 	if err != nil {
-		return
-	}
-	//if err = c.rebuildCache(user); err != nil {
-	//	return
-	//}
-	return
-}
-
-func (c *ZoneRepository) list() (zones []*model.Zone, err error) {
-	if zones, err = c.stor.ListZone(); err != nil {
-		return
+		err = nil
 	}
 	return
 }
 
-//List handler
-func (c *ZoneRepository) List(user *model.User) (zones []*model.Zone, err error) {
-	for _, zone := range c.zoneCache {
-		zones = append(zones, zone)
-	}
-	return
-}
-
-//ListByHotzone handler
-func (c *ZoneRepository) ListByHotzone(user *model.User) (zones []model.Zone, err error) {
-
-	for _, zonePtr := range c.zoneCache {
-		zone := *zonePtr
-		zones = append(zones, zone)
-	}
-	model.ZoneBy(hotzone).Sort(zones)
-	return
-}
-
-func (c *ZoneRepository) prepare(zone *model.Zone, user *model.User) (err error) {
-
-	hotZoneRule, err := c.globalRepository.GetRule("Zone:HotZoneBonus", user)
-	if err != nil {
-		err = errors.Wrap(err, "failed to get hot zone bonus")
-		return
-	}
-	zone.Modifier = zone.ZoneExpMultiplier + 1
-	if zone.Hotzone == 1 && hotZoneRule.ValueFloat > 0 {
-		zone.Modifier *= hotZoneRule.ValueFloat
-	}
-
-	return
-}
-
-//Modifier does calculations of HotZone + ZEM
-func (c *ZoneRepository) zoneModifier(zone *model.Zone, user *model.User) (mod float64, err error) {
-
-	return
-}
-
-//newSchema handler
-func (c *ZoneRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+func newSchemaZone(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"
 	s.Required = requiredFields
@@ -302,13 +363,13 @@ func (c *ZoneRepository) newSchema(requiredFields []string, optionalFields []str
 	var field string
 	var prop model.Schema
 	for _, field = range requiredFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
+		if prop, err = getSchemaPropertyZone(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
 	}
 	for _, field := range optionalFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
+		if prop, err = getSchemaPropertyZone(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
@@ -321,17 +382,258 @@ func (c *ZoneRepository) newSchema(requiredFields []string, optionalFields []str
 	return
 }
 
-//getSchemaProperty handler
-func (c *ZoneRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+func getSchemaPropertyZone(field string) (prop model.Schema, err error) {
 	switch field {
-	case "id":
-		prop.Type = "integer"
-		prop.Minimum = 1
+
 	case "shortName":
 		prop.Type = "string"
 		prop.MinLength = 3
-		prop.MaxLength = 32
-		prop.Pattern = "^[a-zA-Z]*$"
+		prop.MaxLength = 64
+	case "ID":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fileName":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 64
+	case "longName":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 64
+	case "mapFileName":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 64
+	case "safeX":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "safeY":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "safeZ":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "graveyardID":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "minLevel":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "minStatus":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "zoneIDNumber":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "version":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "timezone":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "maxClients":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "ruleset":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "note":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 64
+	case "underworld":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "MinClip":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "MaxClip":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogMinClip":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogMaxClip":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogBlue":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogRed":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogGreen":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "sky":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "zType":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "zoneExpMultiplier":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "walkSpeed":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "timeType":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogRed1":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogGreen1":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogBlue1":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogMinClip1":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogMaxClip1":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogRed2":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogGreen2":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogBlue2":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogMinClip2":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogMaxClip2":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogRed3":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogGreen3":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogBlue3":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogMinClip3":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogMaxClip3":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogRed4":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogGreen4":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogBlue4":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "fogMinClip4":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogMaxClip4":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "fogDensity":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "flagNeeded":
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 64
+	case "canBind":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "canCombat":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "canLevitate":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "castOutdoor":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "hotZone":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "instType":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "shutdownDelay":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "peqZone":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "expansion":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "suspendBuffs":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainChance1":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainChance2":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainChance3":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainChance4":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainDuration1":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainDuration2":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainDuration3":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "rainDuration4":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowChance1":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowChance2":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowChance3":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowChance4":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowDuration1":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowDuration2":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowDuration3":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "snowDuration4":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "gravity":
+		prop.Type = "float"
+		prop.Minimum = 0
+	case "type":
+		prop.Type = "integer"
+		prop.Minimum = 0
+	case "skylock":
+		prop.Type = "integer"
+		prop.Minimum = 0
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

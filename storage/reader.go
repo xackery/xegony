@@ -28,6 +28,13 @@ type Reader interface {
 	ListCharacterBySearch(page *model.Page, character *model.Character) (characters []*model.Character, err error)
 	ListCharacterBySearchTotalCount(character *model.Character) (count int64, err error)
 
+	//Zone
+	GetZone(zone *model.Zone) (err error)
+	ListZone(page *model.Page) (zones []*model.Zone, err error)
+	ListZoneTotalCount() (count int64, err error)
+	ListZoneBySearch(page *model.Page, zone *model.Zone) (zones []*model.Zone, err error)
+	ListZoneBySearchTotalCount(zone *model.Zone) (count int64, err error)
+
 	/*
 		//Activity
 		GetActivity(activity *model.Activity) (err error)

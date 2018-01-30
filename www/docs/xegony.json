@@ -42,12 +42,46 @@
         ],
         "summary": "Lists accounts",
         "operationId": "listAccount",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Accounts",
-            "schema": {
-              "$ref": "#/definitions/Accounts"
-            }
+            "$ref": "#/responses/AccountsResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -81,7 +115,21 @@
             "apiKey": []
           }
         ],
+        "parameters": [
+          {
+            "x-go-name": "Account",
+            "description": "Account details to create",
+            "name": "account",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        ],
         "responses": {
+          "200": {
+            "$ref": "#/responses/AccountResponse"
+          },
           "204": {
             "description": "ErrNoContent",
             "schema": {
@@ -109,7 +157,93 @@
         }
       }
     },
-    "/account/{accountID}": {
+    "/account/search": {
+      "get": {
+        "description": "This will show all available accounts by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "account"
+        ],
+        "summary": "Search accounts by name",
+        "operationId": "listAccountBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which account to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/AccountsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/account/{ID}": {
       "get": {
         "description": "This will get an individual account available accounts by default.",
         "tags": [
@@ -121,19 +255,16 @@
           {
             "type": "integer",
             "format": "int64",
-            "x-go-name": "AccountID",
-            "description": "AccountID to get information about",
-            "name": "accountID",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
             "in": "path",
             "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "Account",
-            "schema": {
-              "$ref": "#/definitions/Account"
-            }
+            "$ref": "#/responses/AccountResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -171,19 +302,25 @@
           {
             "type": "integer",
             "format": "int64",
-            "x-go-name": "AccountID",
-            "description": "AccountID to get information about",
-            "name": "accountID",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
             "in": "path",
             "required": true
+          },
+          {
+            "x-go-name": "Account",
+            "description": "Account details to edit",
+            "name": "account",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/AccountResponse"
           },
           "204": {
             "description": "ErrNoContent",
@@ -227,9 +364,9 @@
           {
             "type": "integer",
             "format": "int64",
-            "x-go-name": "AccountID",
-            "description": "AccountID to get information about",
-            "name": "accountID",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
             "in": "path",
             "required": true
           }
@@ -262,9 +399,9 @@
         }
       }
     },
-    "/activity": {
+    "/character": {
       "get": {
-        "description": "This will show all available activities by default.",
+        "description": "This will show all available characters by default.",
         "consumes": [
           "application/json"
         ],
@@ -274,16 +411,50 @@
           "application/yaml"
         ],
         "tags": [
-          "activity"
+          "character"
         ],
-        "summary": "Lists activities",
-        "operationId": "listActivity",
+        "summary": "Lists characters",
+        "operationId": "listCharacter",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Activities",
-            "schema": {
-              "$ref": "#/definitions/Activities"
-            }
+            "$ref": "#/responses/CharactersResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -306,98 +477,12 @@
         }
       },
       "post": {
-        "description": "This will create an activity",
+        "description": "This will create an character",
         "tags": [
-          "activity"
+          "character"
         ],
-        "summary": "Create an activity",
-        "operationId": "createActivity",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/activity/{activityID}": {
-      "get": {
-        "description": "This will get an individual activity available activitys by default.",
-        "tags": [
-          "activity"
-        ],
-        "summary": "Get an activity",
-        "operationId": "getActivity",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "x-go-name": "ActivityID",
-            "description": "ActivityID to get information about",
-            "name": "activityID",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Activity",
-            "schema": {
-              "$ref": "#/definitions/Activity"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "This will edit an activity",
-        "tags": [
-          "activity"
-        ],
-        "summary": "Edit an activity",
-        "operationId": "editActivity",
+        "summary": "Create an character",
+        "operationId": "createCharacter",
         "security": [
           {
             "apiKey": []
@@ -405,21 +490,18 @@
         ],
         "parameters": [
           {
-            "type": "integer",
-            "format": "int64",
-            "x-go-name": "ActivityID",
-            "description": "ActivityID to get information about",
-            "name": "activityID",
-            "in": "path",
-            "required": true
+            "x-go-name": "Character",
+            "description": "Character details to create",
+            "name": "character",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Character"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/CharacterResponse"
           },
           "204": {
             "description": "ErrNoContent",
@@ -446,14 +528,144 @@
             }
           }
         }
-      },
-      "delete": {
-        "description": "This will delete an activity",
-        "tags": [
-          "activity"
+      }
+    },
+    "/character/search": {
+      "get": {
+        "description": "This will show all available characters by default.",
+        "consumes": [
+          "application/json"
         ],
-        "summary": "Delete an activity",
-        "operationId": "deleteActivity",
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "character"
+        ],
+        "summary": "Search characters by name",
+        "operationId": "listCharacterBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which character to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/CharactersBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/character/{ID}": {
+      "get": {
+        "description": "This will get an individual character available characters by default.",
+        "tags": [
+          "character"
+        ],
+        "summary": "Get an character",
+        "operationId": "getCharacter",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/CharacterResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an character",
+        "tags": [
+          "character"
+        ],
+        "summary": "Edit an character",
+        "operationId": "editCharacter",
         "security": [
           {
             "apiKey": []
@@ -463,9 +675,71 @@
           {
             "type": "integer",
             "format": "int64",
-            "x-go-name": "ActivityID",
-            "description": "ActivityID to get information about",
-            "name": "activityID",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Character",
+            "description": "Character details to edit",
+            "name": "character",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Character"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/CharacterResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an character",
+        "tags": [
+          "character"
+        ],
+        "summary": "Delete an character",
+        "operationId": "deleteCharacter",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
             "in": "path",
             "required": true
           }
@@ -498,9 +772,9 @@
         }
       }
     },
-    "/item": {
+    "/zone": {
       "get": {
-        "description": "This will show all available items by default.",
+        "description": "This will show all available zones by default.",
         "consumes": [
           "application/json"
         ],
@@ -510,16 +784,50 @@
           "application/yaml"
         ],
         "tags": [
-          "item"
+          "zone"
         ],
-        "summary": "Lists items",
-        "operationId": "listItem",
+        "summary": "Lists zones",
+        "operationId": "listZone",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Items",
-            "schema": {
-              "$ref": "#/definitions/Items"
-            }
+            "$ref": "#/responses/ZonesResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -542,18 +850,32 @@
         }
       },
       "post": {
-        "description": "This will create an item",
+        "description": "This will create an zone",
         "tags": [
-          "item"
+          "zone"
         ],
-        "summary": "Create an item",
-        "operationId": "createItem",
+        "summary": "Create an zone",
+        "operationId": "createZone",
         "security": [
           {
             "apiKey": []
           }
         ],
+        "parameters": [
+          {
+            "x-go-name": "Zone",
+            "description": "Zone details to create",
+            "name": "zone",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Zone"
+            }
+          }
+        ],
         "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneResponse"
+          },
           "204": {
             "description": "ErrNoContent",
             "schema": {
@@ -581,20 +903,114 @@
         }
       }
     },
-    "/item/{itemID}": {
+    "/zone/search": {
       "get": {
-        "description": "This will get an individual item available items by default.",
-        "tags": [
-          "item"
+        "description": "This will show all available zones by default.",
+        "consumes": [
+          "application/json"
         ],
-        "summary": "Get an item",
-        "operationId": "getItem",
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zone"
+        ],
+        "summary": "Search zones by name",
+        "operationId": "listZoneBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "ShortName",
+            "description": "ShortName is which zone to get information about",
+            "name": "shortName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Item",
+            "$ref": "#/responses/ZonesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
             "schema": {
-              "$ref": "#/definitions/Item"
+              "$ref": "#/definitions/ErrValidation"
             }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zone/{ID}": {
+      "get": {
+        "description": "This will get an individual zone available zones by default.",
+        "tags": [
+          "zone"
+        ],
+        "summary": "Get an zone",
+        "operationId": "getZone",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -617,23 +1033,40 @@
         }
       },
       "put": {
-        "description": "This will edit an item",
+        "description": "This will edit an zone",
         "tags": [
-          "item"
+          "zone"
         ],
-        "summary": "Edit an item",
-        "operationId": "editItem",
+        "summary": "Edit an zone",
+        "operationId": "editZone",
         "security": [
           {
             "apiKey": []
           }
         ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Zone",
+            "description": "Zone details to edit",
+            "name": "zone",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Zone"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ZoneResponse"
           },
           "204": {
             "description": "ErrNoContent",
@@ -662,660 +1095,26 @@
         }
       },
       "delete": {
-        "description": "This will delete an item",
+        "description": "This will delete an zone",
         "tags": [
-          "item"
+          "zone"
         ],
-        "summary": "Delete an item",
-        "operationId": "deleteItem",
+        "summary": "Delete an zone",
+        "operationId": "deleteZone",
         "security": [
           {
             "apiKey": []
           }
         ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/item/{itemID}/tooltip": {
-      "get": {
-        "description": "Used for AJAX calls, a baked item tooltip request",
-        "tags": [
-          "item"
-        ],
-        "summary": "Get an item tooltip",
-        "operationId": "getItemTooltip",
-        "responses": {
-          "200": {
-            "description": "Item",
-            "schema": {
-              "$ref": "#/definitions/Item"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/spawn": {
-      "get": {
-        "description": "This will show all available spawns by default.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml",
-          "application/yaml"
-        ],
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Lists spawns",
-        "operationId": "listSpawn",
-        "responses": {
-          "200": {
-            "description": "Spawns",
-            "schema": {
-              "$ref": "#/definitions/Spawns"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "This will create an spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Create an spawn",
-        "operationId": "createSpawn",
-        "security": [
+        "parameters": [
           {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/spawn/{spawnID}": {
-      "get": {
-        "description": "This will get an individual spawn available spawns by default.",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Get an spawn",
-        "operationId": "getSpawn",
-        "responses": {
-          "200": {
-            "description": "Spawn",
-            "schema": {
-              "$ref": "#/definitions/Spawn"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "This will edit an spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Edit an spawn",
-        "operationId": "editSpawn",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "This will delete an spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Delete an spawn",
-        "operationId": "deleteSpawn",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/spawn/{spawnID}/entry": {
-      "get": {
-        "description": "This will show all available spawns by default.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml",
-          "application/yaml"
-        ],
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Lists spawns",
-        "operationId": "listSpawnEntry",
-        "responses": {
-          "200": {
-            "description": "Spawns",
-            "schema": {
-              "$ref": "#/definitions/Spawns"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "This will create an spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Create an spawn",
-        "operationId": "createSpawnEntry",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/spawn/{spawnID}/entry/{spawnEntryID}": {
-      "get": {
-        "description": "This will get an individual spawn available spawns by default.",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Get an spawn",
-        "operationId": "getSpawnEntry",
-        "responses": {
-          "200": {
-            "description": "Spawn",
-            "schema": {
-              "$ref": "#/definitions/Spawn"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "This will edit an spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Edit an spawn",
-        "operationId": "editSpawnEntry",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "This will delete an spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Delete an spawn",
-        "operationId": "deleteSpawnEntry",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/spawn/{spawnID}/npc": {
-      "get": {
-        "description": "This will show all available npcs for a spawns by default.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml",
-          "application/yaml"
-        ],
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Lists spawn Npcs",
-        "operationId": "listSpawnNpc",
-        "responses": {
-          "200": {
-            "description": "SpawnNpcs",
-            "schema": {
-              "$ref": "#/definitions/SpawnNpcs"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "This will create an npc spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Create an npc spawn",
-        "operationId": "createSpawnNpc",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/spawn/{spawnID}/npc/{spawnNpcID}": {
-      "get": {
-        "description": "This will get an individual npc in a spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Get a npc spawn",
-        "operationId": "getSpawnNpc",
-        "responses": {
-          "200": {
-            "description": "SpawnNpc",
-            "schema": {
-              "$ref": "#/definitions/SpawnNpc"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "This will edit an npc spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Edit an npc spawn",
-        "operationId": "editSpawnNpc",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "This will delete an spawn",
-        "tags": [
-          "spawn"
-        ],
-        "summary": "Delete an spawn",
-        "operationId": "deleteSpawn",
-        "security": [
-          {
-            "apiKey": []
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
           }
         ],
         "responses": {
@@ -1494,89 +1293,104 @@
     "Account": {
       "description": "Account ties characters together, and represents login information to everquest",
       "type": "object",
+      "required": [
+        "name"
+      ],
       "properties": {
+        "ID": {
+          "description": "ID of user",
+          "type": "integer",
+          "format": "int64",
+          "example": 74887
+        },
         "banReason": {
-          "type": "string",
-          "x-go-name": "BanReason"
+          "$ref": "#/definitions/NullString"
         },
         "charname": {
           "type": "string",
-          "x-go-name": "Charname"
+          "x-go-name": "Charname",
+          "example": "Shin"
         },
         "expansion": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Expansion"
+          "x-go-name": "Expansion",
+          "example": 0
         },
         "gmspeed": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Gmspeed"
+          "x-go-name": "Gmspeed",
+          "example": 0
         },
         "hideme": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Hideme"
-        },
-        "id": {
-          "description": "ID of user",
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
+          "x-go-name": "Hideme",
+          "example": 0
         },
         "karma": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Karma"
+          "x-go-name": "Karma",
+          "example": 0
         },
         "lsaccountID": {
           "$ref": "#/definitions/NullInt64"
         },
         "miniloginIp": {
           "type": "string",
-          "x-go-name": "MiniloginIP"
+          "x-go-name": "MiniloginIP",
+          "example": "127.0.0.1"
         },
         "name": {
           "type": "string",
-          "x-go-name": "Name"
+          "x-go-name": "Name",
+          "example": "xackery"
         },
         "password": {
           "type": "string",
-          "x-go-name": "Password"
+          "x-go-name": "Password",
+          "example": "miniloginPassword"
         },
         "revoked": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Revoked"
+          "x-go-name": "Revoked",
+          "example": 0
         },
         "rulesflag": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Rulesflag"
+          "x-go-name": "Rulesflag",
+          "example": 0
         },
         "sharedplat": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Sharedplat"
+          "x-go-name": "Sharedplat",
+          "example": 1
         },
         "status": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Status"
+          "x-go-name": "Status",
+          "example": 250
         },
         "suspendReason": {
-          "type": "string",
-          "x-go-name": "SuspendReason"
+          "$ref": "#/definitions/NullString"
         },
         "suspendeduntil": {
           "type": "string",
           "format": "date-time",
-          "x-go-name": "Suspendeduntil"
+          "x-go-name": "Suspendeduntil",
+          "example": "0001-01-01T00:00:00Z"
         },
         "timeCreation": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "TimeCreation"
+          "x-go-name": "TimeCreation",
+          "example": 1451818675
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -1817,6 +1631,10 @@
       "description": "Character holds data about players inside Everquest, it primarily uses character_data table",
       "type": "object",
       "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
         "RestTimer": {
           "type": "integer",
           "format": "int64",
@@ -1846,11 +1664,6 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "AaPointsSpentOld"
-        },
-        "aaSpent": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "AASpent"
         },
         "abilityNumber": {
           "type": "integer",
@@ -1902,9 +1715,6 @@
           "format": "int64",
           "x-go-name": "AutosplitEnabled"
         },
-        "base": {
-          "$ref": "#/definitions/Base"
-        },
         "beard": {
           "type": "integer",
           "format": "int64",
@@ -1929,9 +1739,6 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Cha"
-        },
-        "class": {
-          "$ref": "#/definitions/Class"
         },
         "classID": {
           "type": "integer",
@@ -2068,11 +1875,6 @@
           "format": "int64",
           "x-go-name": "HungerLevel"
         },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
         "int": {
           "type": "integer",
           "format": "int64",
@@ -2082,13 +1884,6 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Intoxication"
-        },
-        "inventory": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Item"
-          },
-          "x-go-name": "Inventory"
         },
         "lastLogin": {
           "type": "integer",
@@ -2222,9 +2017,6 @@
           "format": "int64",
           "x-go-name": "PvpWorstDeathStreak"
         },
-        "race": {
-          "$ref": "#/definitions/Race"
-        },
         "raceID": {
           "type": "integer",
           "format": "int64",
@@ -2278,16 +2070,6 @@
           "type": "string",
           "x-go-name": "Title"
         },
-        "totalHP": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "TotalHP"
-        },
-        "totalMana": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "TotalMana"
-        },
         "toxicity": {
           "type": "integer",
           "format": "int64",
@@ -2332,9 +2114,6 @@
           "type": "number",
           "format": "double",
           "x-go-name": "Z"
-        },
-        "zone": {
-          "$ref": "#/definitions/Zone"
         },
         "zoneChangeCount": {
           "type": "integer",
@@ -2386,6 +2165,14 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Characters": {
+      "description": "Characters is an array of character",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Character"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "Class": {
       "description": "Class represents classes in EQ",
       "type": "object",
@@ -2418,6 +2205,12 @@
     "ErrDecodeBody": {
       "description": "ErrDecodeBody is a failure to decode a request body",
       "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string",
+          "example": "failed to decode body"
+        }
+      },
       "x-go-package": "github.com/xackery/xegony/model"
     },
     "ErrInternal": {
@@ -2425,7 +2218,8 @@
       "type": "object",
       "properties": {
         "Message": {
-          "type": "string"
+          "type": "string",
+          "example": "internal server error"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -2436,8 +2230,9 @@
       "x-go-package": "github.com/xackery/xegony/model"
     },
     "ErrNoContent": {
-      "description": "ErrNoContent is an is used when no content should be displayed",
+      "description": "No content, or nothing changed.",
       "type": "object",
+      "title": "ErrNoContent is an is used when no content should be displayed",
       "x-go-package": "github.com/xackery/xegony/model"
     },
     "ErrPermission": {
@@ -2445,7 +2240,8 @@
       "type": "object",
       "properties": {
         "Message": {
-          "type": "string"
+          "type": "string",
+          "example": "permission denied"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -2455,13 +2251,15 @@
       "type": "object",
       "properties": {
         "Message": {
-          "type": "string"
+          "type": "string",
+          "example": "failed to validate"
         },
         "Reasons": {
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          }
+          },
+          "example": "test"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -4225,7 +4023,7 @@
       "x-go-package": "github.com/xackery/xegony/model"
     },
     "Items": {
-      "description": "Item contains an array of item",
+      "description": "Items contains an array of item",
       "type": "array",
       "items": {
         "$ref": "#/definitions/Item"
@@ -5146,20 +4944,39 @@
       "description": "Page represents pagination",
       "type": "object",
       "properties": {
-        "PageNumber": {
+        "isDescending": {
+          "description": "IsDescending will change sort order when true",
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "x-go-name": "IsDescending",
+          "example": 0
         },
-        "PageSize": {
+        "limit": {
+          "description": "Limit to how many items per page",
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "x-go-name": "Limit",
+          "example": 10
         },
-        "Scope": {
-          "type": "string"
-        },
-        "Total": {
+        "offset": {
+          "description": "Offset is pagination, offset*limit",
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "x-go-name": "Offset",
+          "example": 0
+        },
+        "orderBy": {
+          "description": "OrderBy is which field to order a page by",
+          "type": "string",
+          "x-go-name": "OrderBy",
+          "example": "id"
+        },
+        "total": {
+          "description": "Total number of results found",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Total",
+          "example": 100
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -7245,25 +7062,37 @@
       "description": "Zone represents the zone table, Everquest is split into zones",
       "type": "object",
       "properties": {
-        "canbind": {
+        "ID": {
           "type": "integer",
-          "format": "int64",
-          "x-go-name": "Canbind"
+          "format": "int64"
         },
-        "cancombat": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Cancombat"
+        "MaxClip": {
+          "type": "number",
+          "format": "double"
         },
-        "canlevitate": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Canlevitate"
+        "MinClip": {
+          "type": "number",
+          "format": "double"
         },
-        "castoutdoor": {
+        "canBind": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Castoutdoor"
+          "x-go-name": "CanBind"
+        },
+        "canCombat": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CanCombat"
+        },
+        "canLevitate": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CanLevitate"
+        },
+        "castOutdoor": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CastOutdoor"
         },
         "expansion": {
           "type": "integer",
@@ -7332,55 +7161,55 @@
           "format": "int64",
           "x-go-name": "FogGreen4"
         },
-        "fogMaxclip": {
+        "fogMaxClip": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMaxclip"
+          "x-go-name": "FogMaxClip"
         },
-        "fogMaxclip1": {
+        "fogMaxClip1": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMaxclip1"
+          "x-go-name": "FogMaxClip1"
         },
-        "fogMaxclip2": {
+        "fogMaxClip2": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMaxclip2"
+          "x-go-name": "FogMaxClip2"
         },
-        "fogMaxclip3": {
+        "fogMaxClip3": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMaxclip3"
+          "x-go-name": "FogMaxClip3"
         },
-        "fogMaxclip4": {
+        "fogMaxClip4": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMaxclip4"
+          "x-go-name": "FogMaxClip4"
         },
-        "fogMinclip": {
+        "fogMinClip": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMinclip"
+          "x-go-name": "FogMinClip"
         },
-        "fogMinclip1": {
+        "fogMinClip1": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMinclip1"
+          "x-go-name": "FogMinClip1"
         },
-        "fogMinclip2": {
+        "fogMinClip2": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMinclip2"
+          "x-go-name": "FogMinClip2"
         },
-        "fogMinclip3": {
+        "fogMinClip3": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMinclip3"
+          "x-go-name": "FogMinClip3"
         },
-        "fogMinclip4": {
+        "fogMinClip4": {
           "type": "number",
           "format": "double",
-          "x-go-name": "FogMinclip4"
+          "x-go-name": "FogMinClip4"
         },
         "fogRed": {
           "type": "integer",
@@ -7417,25 +7246,15 @@
           "format": "double",
           "x-go-name": "Gravity"
         },
-        "hotzone": {
+        "hotZone": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Hotzone"
+          "x-go-name": "HotZone"
         },
-        "id": {
+        "instType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ID"
-        },
-        "insttype": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Insttype"
-        },
-        "levels": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Levels"
+          "x-go-name": "InstType"
         },
         "longName": {
           "type": "string",
@@ -7444,15 +7263,10 @@
         "mapFileName": {
           "$ref": "#/definitions/NullString"
         },
-        "maxclients": {
+        "maxClients": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "MaxClients"
-        },
-        "maxclip": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Maxclip"
         },
         "minLevel": {
           "type": "integer",
@@ -7464,23 +7278,13 @@
           "format": "int64",
           "x-go-name": "MinStatus"
         },
-        "minclip": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Minclip"
-        },
-        "modifier": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Modifier"
-        },
         "note": {
           "$ref": "#/definitions/NullString"
         },
-        "peqzone": {
+        "peqZone": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Peqzone"
+          "x-go-name": "PeqZone"
         },
         "rainChance1": {
           "type": "integer",
@@ -7545,10 +7349,10 @@
         "shortName": {
           "$ref": "#/definitions/NullString"
         },
-        "shutdowndelay": {
+        "shutdownDelay": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Shutdowndelay"
+          "x-go-name": "ShutdownDelay"
         },
         "sky": {
           "type": "integer",
@@ -7600,10 +7404,10 @@
           "format": "int64",
           "x-go-name": "SnowDuration4"
         },
-        "suspendbuffs": {
+        "suspendBuffs": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Suspendbuffs"
+          "x-go-name": "SuspendBuffs"
         },
         "timeType": {
           "type": "integer",
@@ -7630,25 +7434,25 @@
           "format": "int64",
           "x-go-name": "Version"
         },
-        "walkspeed": {
+        "walkSpeed": {
           "type": "number",
           "format": "double",
-          "x-go-name": "Walkspeed"
+          "x-go-name": "WalkSpeed"
+        },
+        "zType": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ZType"
         },
         "zoneExpMultiplier": {
           "type": "number",
           "format": "double",
           "x-go-name": "ZoneExpMultiplier"
         },
-        "zoneidnumber": {
+        "zoneIDNumber": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "ZoneIDNumber"
-        },
-        "ztype": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Ztype"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -7685,9 +7489,109 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Zones": {
+      "description": "Zones is an array of zone",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Zone"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "zoneSorter": {
       "type": "object",
       "x-go-package": "github.com/xackery/xegony/model"
+    }
+  },
+  "responses": {
+    "AccountResponse": {
+      "description": "AccountResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Account"
+      },
+      "headers": {
+        "account": {}
+      }
+    },
+    "AccountsBySearchResponse": {
+      "description": "AccountsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Accounts"
+      },
+      "headers": {
+        "accounts": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "AccountsResponse": {
+      "description": "AccountsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Accounts"
+      },
+      "headers": {
+        "accounts": {},
+        "page": {}
+      }
+    },
+    "CharacterResponse": {
+      "description": "CharacterResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Character"
+      },
+      "headers": {
+        "character": {}
+      }
+    },
+    "CharactersBySearchResponse": {
+      "description": "CharactersBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Characters"
+      },
+      "headers": {
+        "characters": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "CharactersResponse": {
+      "description": "CharactersResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Characters"
+      },
+      "headers": {
+        "characters": {},
+        "page": {}
+      }
+    },
+    "ZoneResponse": {
+      "description": "ZoneResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Zone"
+      },
+      "headers": {
+        "zone": {}
+      }
+    },
+    "ZonesBySearchResponse": {
+      "description": "ZonesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Zones"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "zones": {}
+      }
+    },
+    "ZonesResponse": {
+      "description": "ZonesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Zones"
+      },
+      "headers": {
+        "page": {},
+        "zones": {}
+      }
     }
   },
   "securityDefinitions": {
