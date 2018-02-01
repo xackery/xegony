@@ -125,7 +125,9 @@ func (s *Storage) ListZoneBySearch(page *model.Page, zone *model.Zone) (zones []
 func (s *Storage) ListZoneBySearchTotalCount(zone *model.Zone) (count int64, err error) {
 	field := ""
 	if len(zone.ShortName.String) > 0 {
-		field += `name LIKE :name OR`
+		field += `short_name LIKE :short_name OR`
+		zone.ShortName.String = fmt.Sprintf("%%%s%%", zone.ShortName.String)
+		zone.ShortName.Valid = true
 	}
 
 	if len(field) == 0 {

@@ -124,6 +124,7 @@ func (s *Storage) ListCharacterBySearchTotalCount(character *model.Character) (c
 	field := ""
 	if len(character.Name) > 0 {
 		field += `name LIKE :name OR`
+		character.Name = fmt.Sprintf("%%%s%%", character.Name)
 	}
 
 	if len(field) == 0 {

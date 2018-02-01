@@ -35,6 +35,13 @@ type Reader interface {
 	ListRaceBySearch(page *model.Page, race *model.Race) (races []*model.Race, err error)
 	ListRaceBySearchTotalCount(race *model.Race) (count int64, err error)
 
+	//User
+	GetUser(user *model.User) (err error)
+	ListUser(page *model.Page) (users []*model.User, err error)
+	ListUserTotalCount() (count int64, err error)
+	ListUserBySearch(page *model.Page, user *model.User) (users []*model.User, err error)
+	ListUserBySearchTotalCount(user *model.User) (count int64, err error)
+
 	//Zone
 	GetZone(zone *model.Zone) (err error)
 	ListZone(page *model.Page) (zones []*model.Zone, err error)

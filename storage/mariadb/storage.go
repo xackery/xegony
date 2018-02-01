@@ -143,35 +143,35 @@ func (s *Storage) VerifyTables() (err error) {
 		/*{
 			Func: s.createTableBazaar,
 			Name: "Bazaar",
-		},
+		},*/
 		{
 			Func: s.createTableCharacter,
 			Name: "Character",
-		},
-		{
-			Func: s.createTableError,
-			Name: "Error",
-		},
-		{
-			Func: s.createTableForum,
-			Name: "Forum",
-		},
-		{
-			Func: s.createTableNpcLoot,
-			Name: "NpcLoot",
-		},
-		{
-			Func: s.createTablePost,
-			Name: "Post",
-		},
-		{
-			Func: s.createTableTask,
-			Name: "Task",
-		},
-		{
-			Func: s.createTableTopic,
-			Name: "Topic",
-		},
+		}, /*
+			{
+				Func: s.createTableError,
+				Name: "Error",
+			},
+			{
+				Func: s.createTableForum,
+				Name: "Forum",
+			},
+			{
+				Func: s.createTableNpcLoot,
+				Name: "NpcLoot",
+			},
+			{
+				Func: s.createTablePost,
+				Name: "Post",
+			},
+			{
+				Func: s.createTableTask,
+				Name: "Task",
+			},
+			{
+				Func: s.createTableTopic,
+				Name: "Topic",
+			},*/
 		{
 			Func: s.createTableUser,
 			Name: "User",
@@ -179,11 +179,11 @@ func (s *Storage) VerifyTables() (err error) {
 		{
 			Func: s.createTableZone,
 			Name: "Zone",
-		},
-		{
-			Func: s.createTableZoneLevel,
-			Name: "ZoneLevel",
-		},*/
+		}, /*
+			{
+				Func: s.createTableZoneLevel,
+				Name: "ZoneLevel",
+			},*/
 	}
 
 	for _, table := range tables {

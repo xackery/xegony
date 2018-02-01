@@ -31,6 +31,11 @@ type Writer interface {
 	EditRace(race *model.Race) (err error)
 	DeleteRace(race *model.Race) (err error)
 
+	//User
+	CreateUser(user *model.User) (err error)
+	EditUser(user *model.User) (err error)
+	DeleteUser(user *model.User) (err error)
+
 	//Zone
 	CreateZone(zone *model.Zone) (err error)
 	EditZone(zone *model.Zone) (err error)

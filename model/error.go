@@ -59,6 +59,18 @@ func (e *ErrInvalidArguments) Error() string {
 	return "Invalid arguments provided"
 }
 
+//ErrRedirect means arguments being passed in a request were invalid
+// swagger:model
+type ErrRedirect struct {
+	// example: http//google.signon.com
+	Message string
+}
+
+//Error wraps the error message to satisfy the error type interface
+func (e *ErrRedirect) Error() string {
+	return "Redirecting you to new location"
+}
+
 //ErrValidation has many errors represented as Key/Value pairs of Field:Description inside REasons
 // swagger:model
 type ErrValidation struct {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/xackery/xegony/oauth"
 	"github.com/xackery/xegony/storage"
 )
 
@@ -14,6 +15,8 @@ var (
 	writeLock    = sync.RWMutex{}
 	initializers = make(map[string]storage.Initializer)
 	initLock     = sync.RWMutex{}
+	oauths       = make(map[string]oauth.Wrapper)
+	oauthLock    = sync.RWMutex{}
 )
 
 //Initialize a specific scope
@@ -92,5 +95,23 @@ func SetInitializer(scope string, si storage.Initializer) {
 	initLock.Lock()
 	initializers[scope] = si
 	initLock.Unlock()
+	return
+}
+
+func getOauth(scope string) (ow oauth.Wrapper, err error) {
+	writeLock.RLock()
+	ow, ok := oauths[scope]
+	if !ok {
+		err = fmt.Errorf("Not initialized")
+	}
+	writeLock.RUnlock()
+	return
+}
+
+// SetOauth sets an oauth with scope
+func SetOauth(scope string, ow oauth.Wrapper) {
+	writeLock.Lock()
+	oauths[scope] = ow
+	writeLock.Unlock()
 	return
 }

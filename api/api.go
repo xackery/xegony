@@ -49,6 +49,7 @@ import (
 
 	"github.com/go-yaml/yaml"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
@@ -68,6 +69,7 @@ var (
 	mySigningKey = []byte("øˆ∂∆ø∆12")
 	log          *alog.Logger
 	logErr       *alog.Logger
+	cookieStore  *sessions.CookieStore
 )
 
 type loginResponse struct {
@@ -96,6 +98,8 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 	}
 	log = alog.New(w, "API: ", 0)
 	logErr = alog.New(wErr, "APIErr: ", 0)
+
+	cookieStore = sessions.NewCookieStore([]byte("™£ˆø®™£ˆ∆®lewifjwofij"))
 
 	err = cases.InitializeAll(sr, sw, si)
 	if err != nil {

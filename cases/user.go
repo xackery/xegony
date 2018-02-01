@@ -5,56 +5,308 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
-	"github.com/xackery/xegony/storage"
 	"github.com/xeipuuv/gojsonschema"
 )
 
-//UserRepository handles UserRepository cases and is a gateway to storage
-type UserRepository struct {
-	stor storage.Storage
-}
-
-// Initialize handles functions
-func (c *UserRepository) Initialize(stor storage.Storage) (err error) {
-	if stor == nil {
-		err = fmt.Errorf("Invalid storage type")
+//ListUser lists all users accessible by provided user
+func ListUser(page *model.Page, user *model.User) (users []*model.User, err error) {
+	err = validateOrderByUserField(page)
+	if err != nil {
 		return
 	}
-	c.stor = stor
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
+		return
+	}
+
+	reader, err := getReader("user")
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare reader for user")
+		return
+	}
+
+	page.Total, err = reader.ListUserTotalCount()
+	if err != nil {
+		err = errors.Wrap(err, "failed to list user toal count")
+		return
+	}
+
+	users, err = reader.ListUser(page)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list user")
+		return
+	}
+	for i, focusUser := range users {
+		err = sanitizeUser(focusUser, user)
+		if err != nil {
+			err = errors.Wrapf(err, "failed to sanitize user element %d", i)
+			return
+		}
+	}
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
+
 	return
 }
 
-// Get handles functions
-func (c *UserRepository) Get(user *model.User, authUser *model.User) (err error) {
+//ListUserBySearch will request any user matching the pattern of name
+func ListUserBySearch(page *model.Page, focusUser *model.User, user *model.User) (users []*model.User, err error) {
+	err = user.IsGuide()
+	if err != nil {
+		err = errors.Wrap(err, "can't list user by search without guide+")
+		return
+	}
 
-	err = c.stor.GetUser(user)
+	err = validateOrderByUserField(page)
+	if err != nil {
+		return
+	}
+
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
+		return
+	}
+
+	err = prepareUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepre user")
+		return
+	}
+
+	err = validateUser(focusUser, nil, []string{ //optional
+		"name",
+	})
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate user")
+		return
+	}
+	reader, err := getReader("user")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get user reader")
+		return
+	}
+
+	users, err = reader.ListUserBySearch(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list user by search")
+		return
+	}
+
+	for _, tmpUser := range users {
+		err = sanitizeUser(tmpUser, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to sanitize user")
+			return
+		}
+	}
+
+	err = sanitizeUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize search user")
+		return
+	}
+
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
+	return
+}
+
+//CreateUser will create an user using provided information
+func CreateUser(focusUser *model.User, user *model.User) (err error) {
+	err = user.IsGuide()
+	if err != nil {
+		err = errors.Wrap(err, "can't list user by search without guide+")
+		return
+	}
+	err = prepareUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare user")
+		return
+	}
+
+	err = validateUser(focusUser, []string{"name"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate user")
+		return
+	}
+	focusUser.ID = 0
+	writer, err := getWriter("user")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get writer for user")
+		return
+	}
+	err = writer.CreateUser(focusUser)
+	if err != nil {
+		err = errors.Wrap(err, "failed to create user")
+		return
+	}
+	err = sanitizeUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize user")
+		return
+	}
+	return
+}
+
+//GetUser gets an user by provided userID
+func GetUser(focusUser *model.User, user *model.User) (err error) {
+	err = prepareUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare user")
+		return
+	}
+
+	err = validateUser(focusUser, []string{"ID"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate user")
+		return
+	}
+
+	reader, err := getReader("user")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get user reader")
+		return
+	}
+
+	err = reader.GetUser(focusUser)
 	if err != nil {
 		err = errors.Wrap(err, "failed to get user")
 		return
 	}
-	err = c.prepare(user)
+
+	err = sanitizeUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize user")
+		return
+	}
+
+	return
+}
+
+//GetUserGoogleStart begins an oauth login exchange
+func GetUserGoogleStart(state string) (redirectURL string, err error) {
+
+	return
+}
+
+//EditUser edits an existing user
+func EditUser(focusUser *model.User, user *model.User) (err error) {
+	err = user.IsGuide()
+	if err != nil {
+		err = errors.Wrap(err, "can't list user by search without guide+")
+		return
+	}
+	err = prepareUser(focusUser, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare user")
+		return
+	}
+
+	err = validateUser(focusUser,
+		[]string{"ID"}, //required
+		[]string{ //optional
+			"name",
+			"charname",
+			"sharedplat",
+			"password",
+			"status",
+			"lsuserID",
+			"gmspeed",
+			"revoked",
+			"karma",
+			"miniloginIp",
+			"hideme",
+			"rulesflag",
+			"suspendeduntil",
+			"timeCreation",
+			"expansion",
+			"banReason",
+			"suspendReason"},
+	)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate user")
+		return
+	}
+	writer, err := getWriter("user")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get writer for user")
+		return
+	}
+	err = writer.EditUser(focusUser)
+	if err != nil {
+		err = errors.Wrap(err, "failed to edit user")
+		return
+	}
+	err = sanitizeUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize user")
 		return
 	}
 	return
 }
 
-// Create handles functions
-func (c *UserRepository) Create(user *model.User, authUser *model.User) (err error) {
+//DeleteUser deletes an user by provided userID
+func DeleteUser(focusUser *model.User, user *model.User) (err error) {
+	err = user.IsAdmin()
+	if err != nil {
+		err = errors.Wrap(err, "can't delete user without admin+")
+		return
+	}
+	err = prepareUser(focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare user")
+		return
+	}
+
+	err = validateUser(focusUser, []string{"ID"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate user")
+		return
+	}
+	writer, err := getWriter("user")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get user writer")
+		return
+	}
+	err = writer.DeleteUser(focusUser)
+	if err != nil {
+		err = errors.Wrap(err, "failed to delete user")
+		return
+	}
+	return
+}
+
+func prepareUser(focusUser *model.User, user *model.User) (err error) {
+	if focusUser == nil {
+		err = fmt.Errorf("empty focus user")
+		return
+	}
 	if user == nil {
-		err = fmt.Errorf("Empty user")
+		err = fmt.Errorf("empty user")
 		return
 	}
-	schema, err := c.newSchema([]string{"name", "password", "email", "accountID"}, nil)
+	return
+}
+
+func validateUser(user *model.User, required []string, optional []string) (err error) {
+	schema, err := newSchemaUser(required, optional)
 	if err != nil {
 		return
 	}
-	user.ID = 0 //strip ID
+
 	result, err := schema.Validate(gojsonschema.NewGoLoader(user))
 	if err != nil {
 		return
 	}
+
 	if !result.Valid() {
 		vErr := &model.ErrValidation{
 			Message: "invalid",
@@ -66,120 +318,51 @@ func (c *UserRepository) Create(user *model.User, authUser *model.User) (err err
 		err = vErr
 		return
 	}
-	err = c.stor.CreateUser(user)
-	if err != nil {
-		return
-	}
-	err = c.prepare(user)
-	if err != nil {
-		err = errors.Wrap(err, "failed to prepare user")
-		return
-	}
 	return
 }
 
-// Login handles functions
-func (c *UserRepository) Login(user *model.User, passwordConfirm string) (err error) {
-	schema, err := c.newSchema([]string{"name", "password"}, nil)
-	if err != nil {
-		return
-	}
-	result, err := schema.Validate(gojsonschema.NewGoLoader(user))
-	if err != nil {
-		return
-	}
-	if !result.Valid() {
-		vErr := &model.ErrValidation{
-			Message: "invalid",
-		}
-		vErr.Reasons = map[string]string{}
-		for _, res := range result.Errors() {
-			vErr.Reasons[res.Field()] = res.Description()
-		}
-		err = vErr
-		return
-	}
-	err = c.stor.LoginUser(user, passwordConfirm)
-	if err != nil {
-		return
-	}
-	err = c.prepare(user)
-	if err != nil {
-		err = errors.Wrap(err, "failed to prepare user")
-		return
+func validateOrderByUserField(page *model.Page) (err error) {
+	if len(page.OrderBy) == 0 {
+		page.OrderBy = "id"
 	}
 
-	return
-}
-
-// Edit handles functions
-func (c *UserRepository) Edit(user *model.User, authIser *model.User) (err error) {
-	schema, err := c.newSchema([]string{"name"}, nil)
-	if err != nil {
-		return
+	validNames := []string{
+		"id",
+		"display_name",
+		"email",
 	}
 
-	result, err := schema.Validate(gojsonschema.NewGoLoader(user))
-	if err != nil {
-		return
-	}
-	if !result.Valid() {
-		vErr := &model.ErrValidation{
-			Message: "invalid",
-		}
-		vErr.Reasons = map[string]string{}
-		for _, res := range result.Errors() {
-			vErr.Reasons[res.Field()] = res.Description()
-		}
-		err = vErr
-		return
-	}
-
-	err = c.stor.EditUser(user)
-	if err != nil {
-		return
-	}
-	err = c.prepare(user)
-	if err != nil {
-		err = errors.Wrap(err, "failed to prepare user")
-		return
-	}
-	return
-}
-
-// Delete handles functions
-func (c *UserRepository) Delete(user *model.User, authUser *model.User) (err error) {
-	err = c.stor.DeleteUser(user)
-	if err != nil {
-		return
-	}
-	return
-}
-
-// List handles functions
-func (c *UserRepository) List(user *model.User) (users []*model.User, err error) {
-	users, err = c.stor.ListUser()
-	if err != nil {
-		return
-	}
-	for _, user := range users {
-		err = c.prepare(user)
-		if err != nil {
-			err = errors.Wrap(err, "failed to prepare user")
+	possibleNames := ""
+	for _, name := range validNames {
+		if page.OrderBy == name {
 			return
 		}
+		possibleNames += name + ", "
+	}
+	if len(possibleNames) > 0 {
+		possibleNames = possibleNames[0 : len(possibleNames)-2]
+	}
+
+	err = &model.ErrValidation{
+		Message: "orderBy is invalid. Possible fields: " + possibleNames,
+		Reasons: map[string]string{
+			"orderBy": "field is not valid",
+		},
 	}
 	return
 }
 
-func (c *UserRepository) prepare(user *model.User) (err error) {
+func sanitizeUser(focusUser *model.User, user *model.User) (err error) {
+	focusUser.Password = ""
+	err = user.IsGuide()
+	if err != nil {
 
-	user.Password = ""
+		err = nil
+	}
 	return
 }
 
-// newSchema handles functions
-func (c *UserRepository) newSchema(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
+func newSchemaUser(requiredFields []string, optionalFields []string) (schema *gojsonschema.Schema, err error) {
 	s := model.Schema{}
 	s.Type = "object"
 	s.Required = requiredFields
@@ -187,13 +370,13 @@ func (c *UserRepository) newSchema(requiredFields []string, optionalFields []str
 	var field string
 	var prop model.Schema
 	for _, field = range requiredFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
+		if prop, err = getSchemaPropertyUser(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
 	}
 	for _, field := range optionalFields {
-		if prop, err = c.getSchemaProperty(field); err != nil {
+		if prop, err = getSchemaPropertyUser(field); err != nil {
 			return
 		}
 		s.Properties[field] = prop
@@ -206,32 +389,34 @@ func (c *UserRepository) newSchema(requiredFields []string, optionalFields []str
 	return
 }
 
-// getSchemaProperty handles functions
-func (c *UserRepository) getSchemaProperty(field string) (prop model.Schema, err error) {
+func getSchemaPropertyUser(field string) (prop model.Schema, err error) {
 	switch field {
-	case "id":
+
+	case "ID":
 		prop.Type = "integer"
 		prop.Minimum = 1
-	case "name":
+	case "displayName":
 		prop.Type = "string"
 		prop.MinLength = 3
-		prop.MaxLength = 32
-		prop.Pattern = "^[a-zA-Z' ]*$"
-	case "password":
-		prop.Type = "string"
-		prop.MinLength = 6
-		prop.MaxLength = 32
-		prop.Pattern = `^[a-zA-Z]\w{3,14}$`
-	case "passwordConfirm":
-		prop.Type = "string"
-		prop.MinLength = 6
-		prop.MaxLength = 32
-		prop.Pattern = `^[a-zA-Z]\w{3,14}$`
-	case "email":
-		prop.Type = "email"
-	case "accountID":
+		prop.MaxLength = 30
+		prop.Pattern = "^[a-zA-Z]*$"
+	case "primaryAccountID": //int64 `json:"
 		prop.Type = "integer"
 		prop.Minimum = 1
+	case "primaryCharacterID": //int64 `json:"
+		prop.Type = "integer"
+		prop.Minimum = 1
+	case "email": //string `json:"
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 64
+		prop.Pattern = "^[a-zA-Z]*$"
+	case "password": //string `json:"
+		prop.Type = "string"
+		prop.MinLength = 3
+		prop.MaxLength = 30
+	case "googleToken": //int64 `json:"
+
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

@@ -124,6 +124,7 @@ func (s *Storage) ListAccountBySearchTotalCount(account *model.Account) (count i
 	field := ""
 	if len(account.Name) > 0 {
 		field += `name LIKE :name OR`
+		account.Name = fmt.Sprintf("%%%s%%", account.Name)
 	}
 
 	if len(field) == 0 {
