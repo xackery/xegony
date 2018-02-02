@@ -989,7 +989,7 @@
         }
       }
     },
-    "/config/{Key}": {
+    "/config/{key}": {
       "get": {
         "description": "This will get an individual config available configs by default.",
         "tags": [
@@ -1486,6 +1486,821 @@
             "example": 74887,
             "description": "ID to get information about",
             "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/rule": {
+      "get": {
+        "description": "This will show all available rules by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "rule"
+        ],
+        "summary": "Lists rules",
+        "operationId": "listRule",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RulesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an rule",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Create an rule",
+        "operationId": "createRule",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Rule",
+            "description": "Rule details to create",
+            "name": "rule",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Rule"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/rule/search": {
+      "get": {
+        "description": "This will show all available rules by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "rule"
+        ],
+        "summary": "Search rules by name",
+        "operationId": "listRuleBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "ShortName",
+            "description": "ShortName is which rule to get information about",
+            "name": "shortName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RulesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/rule/{ID}": {
+      "get": {
+        "description": "This will get an individual rule available rules by default.",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Get an rule",
+        "operationId": "getRule",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an rule",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Edit an rule",
+        "operationId": "editRule",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Rule",
+            "description": "Rule details to edit",
+            "name": "rule",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Rule"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an rule",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Delete an rule",
+        "operationId": "deleteRule",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/rule/{ruleID}/entry": {
+      "get": {
+        "description": "This will show all available ruleEntrys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "rule"
+        ],
+        "summary": "Lists ruleEntrys",
+        "operationId": "listRuleEntry",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "RuleID",
+            "description": "RuleID to get information about",
+            "name": "ruleID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleEntrysResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/rule/{ruleID}/entry/search": {
+      "get": {
+        "description": "This will show all available ruleEntrys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "rule"
+        ],
+        "summary": "Search ruleEntrys by name",
+        "operationId": "listRuleEntryBySearch",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "RuleID",
+            "description": "RuleID to get information about",
+            "name": "ruleID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "example": "AA:ExpPerPoint",
+            "x-go-name": "Name",
+            "description": "Name is which ruleEntry to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleEntrysBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/rule/{ruleID}/entry/{Name}": {
+      "get": {
+        "description": "This will get an individual ruleEntry available ruleEntrys by default.",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Get an ruleEntry",
+        "operationId": "getRuleEntry",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "RuleID",
+            "description": "RuleID to get information about",
+            "name": "ruleID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "example": "AA:ExpPerPoint",
+            "x-go-name": "Name",
+            "description": "Name to get information about",
+            "name": "name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleEntryResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an ruleEntry",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Edit an ruleEntry",
+        "operationId": "editRuleEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "RuleID",
+            "description": "RuleID to get information about",
+            "name": "ruleID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "RuleID to get information about",
+            "name": "RuleID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "example": "AA:ExpPerPoint",
+            "x-go-name": "Name",
+            "description": "name to get information about",
+            "name": "name",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "RuleEntry",
+            "description": "RuleEntry details to edit",
+            "name": "ruleEntry",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/RuleEntry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleEntryResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an ruleEntry",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Create an ruleEntry",
+        "operationId": "createRuleEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "RuleID",
+            "description": "RuleID to get information about",
+            "name": "ruleID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "RuleEntry",
+            "description": "RuleEntry details to create",
+            "name": "ruleEntry",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/RuleEntry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RuleEntryResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an ruleEntry",
+        "tags": [
+          "rule"
+        ],
+        "summary": "Delete an ruleEntry",
+        "operationId": "deleteRuleEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "RuleID",
+            "description": "RuleID to get information about",
+            "name": "ruleID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "example": "AA:ExpPerPoint",
+            "x-go-name": "Name",
+            "description": "Name to get information about",
+            "name": "name",
             "in": "path",
             "required": true
           }
@@ -2022,6 +2837,50 @@
         }
       }
     },
+    "/user/google/callback": {
+      "get": {
+        "description": "Creates a single sign on for google chain",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Works with a callback from google oauth",
+        "operationId": "getUserGoogleCallback",
+        "responses": {
+          "302": {
+            "description": "ErrRedirect",
+            "schema": {
+              "$ref": "#/definitions/ErrRedirect"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/user/google/start": {
       "get": {
         "description": "Creates a single sign on for google chain",
@@ -2449,6 +3308,379 @@
         }
       }
     },
+    "/zone/expansion": {
+      "get": {
+        "description": "This will show all available zoneExpansions by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zone"
+        ],
+        "summary": "Lists zoneExpansions",
+        "operationId": "listZoneExpansion",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an zoneExpansion",
+        "tags": [
+          "zone"
+        ],
+        "summary": "Create an zoneExpansion",
+        "operationId": "createZoneExpansion",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "ZoneExpansion",
+            "description": "ZoneExpansion details to create",
+            "name": "zoneExpansion",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ZoneExpansion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zone/expansion/search": {
+      "get": {
+        "description": "This will show all available zoneExpansions by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zone"
+        ],
+        "summary": "Search zoneExpansions by name",
+        "operationId": "listZoneExpansionBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "ShortName",
+            "description": "ShortName is which zoneExpansion to get information about",
+            "name": "shortName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zone/expansion/{ID}": {
+      "get": {
+        "description": "This will get an individual zoneExpansion available zoneExpansions by default.",
+        "tags": [
+          "zone"
+        ],
+        "summary": "Get an zoneExpansion",
+        "operationId": "getZoneExpansion",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an zoneExpansion",
+        "tags": [
+          "zone"
+        ],
+        "summary": "Edit an zoneExpansion",
+        "operationId": "editZoneExpansion",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "ZoneExpansion",
+            "description": "ZoneExpansion details to edit",
+            "name": "zoneExpansion",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ZoneExpansion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an zoneExpansion",
+        "tags": [
+          "zone"
+        ],
+        "summary": "Delete an zoneExpansion",
+        "operationId": "deleteZoneExpansion",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/zone/search": {
       "get": {
         "description": "This will show all available zones by default.",
@@ -2468,7 +3700,7 @@
         "parameters": [
           {
             "type": "string",
-            "example": "xackery",
+            "example": "qeynos",
             "x-go-name": "ShortName",
             "description": "ShortName is which zone to get information about",
             "name": "shortName",
@@ -2547,7 +3779,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 101,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -2594,7 +3826,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 101,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -2656,380 +3888,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
-            "description": "ID to get information about",
-            "name": "ID",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/zoneExpansion": {
-      "get": {
-        "description": "This will show all available zoneExpansions by default.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml",
-          "application/yaml"
-        ],
-        "tags": [
-          "zoneExpansion"
-        ],
-        "summary": "Lists zoneExpansions",
-        "operationId": "listZoneExpansion",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 0,
-            "x-go-name": "Offset",
-            "description": "Offset is pagination, offset*limit",
-            "name": "offset",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 10,
-            "x-go-name": "Limit",
-            "description": "Limit to how many items per page",
-            "name": "limit",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "example": "short_name",
-            "x-go-name": "OrderBy",
-            "description": "OrderBy is which field to order a page by",
-            "name": "orderBy",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 0,
-            "x-go-name": "IsDescending",
-            "description": "IsDescending will change sort order when true",
-            "name": "isDescending",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/ZoneExpansionsResponse"
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "This will create an zoneExpansion",
-        "tags": [
-          "zoneExpansion"
-        ],
-        "summary": "Create an zoneExpansion",
-        "operationId": "createZoneExpansion",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "parameters": [
-          {
-            "x-go-name": "ZoneExpansion",
-            "description": "ZoneExpansion details to create",
-            "name": "zoneExpansion",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/ZoneExpansion"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/ZoneExpansionResponse"
-          },
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/zoneExpansion/search": {
-      "get": {
-        "description": "This will show all available zoneExpansions by default.",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json",
-          "application/xml",
-          "application/yaml"
-        ],
-        "tags": [
-          "zoneExpansion"
-        ],
-        "summary": "Search zoneExpansions by name",
-        "operationId": "listZoneExpansionBySearch",
-        "parameters": [
-          {
-            "type": "string",
-            "example": "xackery",
-            "x-go-name": "ShortName",
-            "description": "ShortName is which zoneExpansion to get information about",
-            "name": "shortName",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 0,
-            "x-go-name": "Offset",
-            "description": "Offset is pagination, offset*limit",
-            "name": "offset",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 10,
-            "x-go-name": "Limit",
-            "description": "Limit to how many items per page",
-            "name": "limit",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "example": "short_name",
-            "x-go-name": "OrderBy",
-            "description": "OrderBy is which field to order a page by",
-            "name": "orderBy",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 0,
-            "x-go-name": "IsDescending",
-            "description": "IsDescending will change sort order when true",
-            "name": "isDescending",
-            "in": "query"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/ZoneExpansionsBySearchResponse"
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      }
-    },
-    "/zoneExpansion/{ID}": {
-      "get": {
-        "description": "This will get an individual zoneExpansion available zoneExpansions by default.",
-        "tags": [
-          "zoneExpansion"
-        ],
-        "summary": "Get an zoneExpansion",
-        "operationId": "getZoneExpansion",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 74887,
-            "description": "ID to get information about",
-            "name": "ID",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/ZoneExpansionResponse"
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "put": {
-        "description": "This will edit an zoneExpansion",
-        "tags": [
-          "zoneExpansion"
-        ],
-        "summary": "Edit an zoneExpansion",
-        "operationId": "editZoneExpansion",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 74887,
-            "description": "ID to get information about",
-            "name": "ID",
-            "in": "path",
-            "required": true
-          },
-          {
-            "x-go-name": "ZoneExpansion",
-            "description": "ZoneExpansion details to edit",
-            "name": "zoneExpansion",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/ZoneExpansion"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/ZoneExpansionResponse"
-          },
-          "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
-          },
-          "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
-          },
-          "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
-          },
-          "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "This will delete an zoneExpansion",
-        "tags": [
-          "zoneExpansion"
-        ],
-        "summary": "Delete an zoneExpansion",
-        "operationId": "deleteZoneExpansion",
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "example": 74887,
+            "example": 101,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -7235,25 +8094,40 @@
       "type": "object",
       "title": "Rule represents the zone table, Everquest is split into zones.",
       "properties": {
-        "notes": {
-          "$ref": "#/definitions/NullString"
+        "ID": {
+          "type": "integer",
+          "format": "int64"
         },
         "ruleName": {
           "type": "string",
           "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "RuleEntry": {
+      "type": "object",
+      "title": "Rule represents the zone table, Everquest is split into zones.",
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/NullString"
         },
-        "ruleValue": {
+        "name": {
           "type": "string",
-          "x-go-name": "Value"
+          "x-go-name": "Name"
         },
-        "rulesetID": {
+        "ruleID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "RulesetID"
+          "x-go-name": "RuleID"
         },
         "scope": {
           "type": "string",
           "x-go-name": "Scope"
+        },
+        "value": {
+          "type": "string",
+          "x-go-name": "Value"
         },
         "valueFloat": {
           "type": "number",
@@ -7265,6 +8139,22 @@
           "format": "int64",
           "x-go-name": "ValueInt"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "RuleEntrys": {
+      "description": "RuleEntrys is an array of ruleEntry",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RuleEntry"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Rules": {
+      "description": "Rules is an array of rule",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Rule"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -9113,6 +10003,12 @@
           "format": "int64",
           "x-go-name": "MinStatus"
         },
+        "modifier": {
+          "description": "Levels   int64   `json:\"levels,omitempty\"`",
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Modifier"
+        },
         "note": {
           "$ref": "#/definitions/NullString"
         },
@@ -9486,6 +10382,69 @@
         "races": {}
       }
     },
+    "RuleEntryResponse": {
+      "description": "RuleEntryResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/RuleEntry"
+      },
+      "headers": {
+        "rule": {},
+        "ruleEntry": {}
+      }
+    },
+    "RuleEntrysBySearchResponse": {
+      "description": "RuleEntrysBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/RuleEntrys"
+      },
+      "headers": {
+        "page": {},
+        "rule": {},
+        "ruleEntrys": {},
+        "search": {}
+      }
+    },
+    "RuleEntrysResponse": {
+      "description": "RuleEntrysResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/RuleEntrys"
+      },
+      "headers": {
+        "page": {},
+        "rule": {},
+        "ruleEntrys": {}
+      }
+    },
+    "RuleResponse": {
+      "description": "RuleResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Rule"
+      },
+      "headers": {
+        "rule": {}
+      }
+    },
+    "RulesBySearchResponse": {
+      "description": "RulesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Rules"
+      },
+      "headers": {
+        "page": {},
+        "rules": {},
+        "search": {}
+      }
+    },
+    "RulesResponse": {
+      "description": "RulesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Rules"
+      },
+      "headers": {
+        "page": {},
+        "rules": {}
+      }
+    },
     "SpellResponse": {
       "description": "SpellResponse is what endpoints respond with",
       "schema": {
@@ -9514,6 +10473,14 @@
       "headers": {
         "page": {},
         "spells": {}
+      }
+    },
+    "UserGoogleCallbackResponse": {
+      "description": "UserGoogleCallbackResponse is what endpoints respond with. Typically this is just a 302 redirect.",
+      "headers": {
+        "redirectURL": {
+          "type": "string"
+        }
       }
     },
     "UserGoogleStartResponse": {

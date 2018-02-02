@@ -2,10 +2,10 @@ package api
 
 import (
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 )
 
@@ -18,10 +18,7 @@ type route struct {
 
 //ApplyRoutes applies routes to given mux router
 func ApplyRoutes(router *mux.Router) {
-	rootPath := os.Getenv("API_ROOT")
-	if len(rootPath) == 0 {
-		rootPath = "/api"
-	}
+	rootPath := cases.GetConfigValue("apiSuffix")
 
 	var routes []*route
 	var newRoutes []*route
@@ -35,6 +32,8 @@ func ApplyRoutes(router *mux.Router) {
 	routes = append(routes, characterRoutes()...)
 	routes = append(routes, configRoutes()...)
 	routes = append(routes, raceRoutes()...)
+	routes = append(routes, ruleRoutes()...)
+	routes = append(routes, ruleEntryRoutes()...)
 	routes = append(routes, spellRoutes()...)
 	routes = append(routes, userRoutes()...)
 	routes = append(routes, zoneRoutes()...)

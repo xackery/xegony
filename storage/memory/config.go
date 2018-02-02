@@ -70,6 +70,8 @@ func (s *Storage) ListConfig(page *model.Page) (configs []*model.Config, err err
 
 //ListConfigTotalCount will grab data from storage
 func (s *Storage) ListConfigTotalCount() (count int64, err error) {
+	configLock.RLock()
+	defer configLock.RUnlock()
 	count = int64(len(configsDatabase))
 	return
 }

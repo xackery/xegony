@@ -12,7 +12,7 @@ type Zones []*Zone
 // swagger:model
 type Zone struct {
 	//Levels   int64   `json:"levels,omitempty"`
-	//Modifier float64 `json:"modifier,omitempty"`
+	Modifier float64 `json:"modifier,omitempty"`
 
 	ShortName         sql.NullString `json:"shortName,omitempty" db:"short_name"`                  //short_name` varchar(32) DEFAULT NULL,
 	ID                int64          `json:"ID,omitempty" db:"id"`                                 //id` int(10) NOT NULL AUTO_INCREMENT,

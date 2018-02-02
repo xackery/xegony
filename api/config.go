@@ -181,7 +181,7 @@ func configRoutes() (routes []*route) {
 			"/config",
 			createConfig,
 		},
-		// swagger:route GET /config/{Key} config getConfig
+		// swagger:route GET /config/{key} config getConfig
 		//
 		// Get an config
 		//
@@ -195,10 +195,10 @@ func configRoutes() (routes []*route) {
 		{
 			"GetConfig",
 			"GET",
-			"/config/{Key:[0-9]+}",
+			"/config/{key:[a-zA-Z]+}",
 			getConfig,
 		},
-		// swagger:route PUT /config/{Key} config editConfig
+		// swagger:route PUT /config/{key} config editConfig
 		//
 		// Edit an config
 		//
@@ -216,10 +216,10 @@ func configRoutes() (routes []*route) {
 		{
 			"EditConfig",
 			"PUT",
-			"/config/{Key:[0-9]+}",
+			"/config/{key:[a-zA-Z]+}",
 			editConfig,
 		},
-		// swagger:route DELETE /config/{Key} config deleteConfig
+		// swagger:route DELETE /config/{key} config deleteConfig
 		//
 		// Delete an config
 		//
@@ -236,7 +236,7 @@ func configRoutes() (routes []*route) {
 		{
 			"DeleteConfig",
 			"DELETE",
-			"/config/{Key:[0-9]+}",
+			"/config/{key:[a-zA-Z]+}",
 			deleteConfig,
 		},
 	}

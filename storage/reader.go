@@ -42,6 +42,20 @@ type Reader interface {
 	ListRaceBySearch(page *model.Page, race *model.Race) (races []*model.Race, err error)
 	ListRaceBySearchTotalCount(race *model.Race) (count int64, err error)
 
+	//Rule
+	GetRule(rule *model.Rule) (err error)
+	ListRule(page *model.Page) (rules []*model.Rule, err error)
+	ListRuleTotalCount() (count int64, err error)
+	ListRuleBySearch(page *model.Page, rule *model.Rule) (rules []*model.Rule, err error)
+	ListRuleBySearchTotalCount(rule *model.Rule) (count int64, err error)
+
+	//RuleEntry
+	GetRuleEntry(rule *model.Rule, ruleEntry *model.RuleEntry) (err error)
+	ListRuleEntry(page *model.Page, rule *model.Rule) (ruleEntrys []*model.RuleEntry, err error)
+	ListRuleEntryTotalCount(rule *model.Rule) (count int64, err error)
+	ListRuleEntryBySearch(page *model.Page, rule *model.Rule, ruleEntry *model.RuleEntry) (ruleEntrys []*model.RuleEntry, err error)
+	ListRuleEntryBySearchTotalCount(rule *model.Rule, ruleEntry *model.RuleEntry) (count int64, err error)
+
 	//Spell
 	GetSpell(spell *model.Spell) (err error)
 	ListSpell(page *model.Page) (spells []*model.Spell, err error)

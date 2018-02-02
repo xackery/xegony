@@ -36,6 +36,16 @@ type Writer interface {
 	EditRace(race *model.Race) (err error)
 	DeleteRace(race *model.Race) (err error)
 
+	//Rule
+	CreateRule(rule *model.Rule) (err error)
+	EditRule(rule *model.Rule) (err error)
+	DeleteRule(rule *model.Rule) (err error)
+
+	//RuleEntry
+	CreateRuleEntry(rule *model.Rule, ruleEntry *model.RuleEntry) (err error)
+	EditRuleEntry(rule *model.Rule, ruleEntry *model.RuleEntry) (err error)
+	DeleteRuleEntry(rule *model.Rule, ruleEntry *model.RuleEntry) (err error)
+
 	//Spell
 	CreateSpell(spell *model.Spell) (err error)
 	EditSpell(spell *model.Spell) (err error)

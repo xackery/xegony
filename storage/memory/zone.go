@@ -70,6 +70,8 @@ func (s *Storage) ListZone(page *model.Page) (zones []*model.Zone, err error) {
 
 //ListZoneTotalCount will grab data from storage
 func (s *Storage) ListZoneTotalCount() (count int64, err error) {
+	configLock.RLock()
+	defer configLock.RUnlock()
 	count = int64(len(zonesDatabase))
 	return
 }

@@ -483,7 +483,7 @@
           "name": "Get an config",
           "request": {
             "url": {
-              "raw": "http://{{url}}/api/config/:Key",
+              "raw": "http://{{url}}/api/config/:key",
               "protocol": "http",
               "auth": null,
               "host": [
@@ -492,11 +492,11 @@
               "path": [
                 "api",
                 "config",
-                ":Key"
+                ":key"
               ],
               "variable": [
                 {
-                  "id": "Key"
+                  "id": "key"
                 }
               ]
             },
@@ -514,7 +514,7 @@
           "name": "Edit an config",
           "request": {
             "url": {
-              "raw": "http://{{url}}/api/config/:Key",
+              "raw": "http://{{url}}/api/config/:key",
               "protocol": "http",
               "auth": null,
               "host": [
@@ -523,11 +523,11 @@
               "path": [
                 "api",
                 "config",
-                ":Key"
+                ":key"
               ],
               "variable": [
                 {
-                  "id": "Key"
+                  "id": "key"
                 }
               ]
             },
@@ -545,7 +545,7 @@
           "name": "Delete an config",
           "request": {
             "url": {
-              "raw": "http://{{url}}/api/config/:Key",
+              "raw": "http://{{url}}/api/config/:key",
               "protocol": "http",
               "auth": null,
               "host": [
@@ -554,11 +554,11 @@
               "path": [
                 "api",
                 "config",
-                ":Key"
+                ":key"
               ],
               "variable": [
                 {
-                  "id": "Key"
+                  "id": "key"
                 }
               ]
             },
@@ -749,6 +749,421 @@
               "variable": [
                 {
                   "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "rule",
+      "item": [
+        {
+          "name": "Lists rules",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an rule",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search rules by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an rule",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an rule",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an rule",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Lists ruleEntrys",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ruleID/entry",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ruleID",
+                "entry"
+              ],
+              "variable": [
+                {
+                  "id": "ruleID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search ruleEntrys by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ruleID/entry/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ruleID",
+                "entry",
+                "search"
+              ],
+              "variable": [
+                {
+                  "id": "ruleID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an ruleEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ruleID/entry/:Name",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ruleID",
+                "entry",
+                ":Name"
+              ],
+              "variable": [
+                {
+                  "id": "ruleID"
+                },
+                {
+                  "id": "Name"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an ruleEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ruleID/entry/:Name",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ruleID",
+                "entry",
+                ":Name"
+              ],
+              "variable": [
+                {
+                  "id": "ruleID"
+                },
+                {
+                  "id": "Name"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an ruleEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ruleID/entry/:Name",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ruleID",
+                "entry",
+                ":Name"
+              ],
+              "variable": [
+                {
+                  "id": "ruleID"
+                },
+                {
+                  "id": "Name"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an ruleEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/rule/:ruleID/entry/:Name",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "rule",
+                ":ruleID",
+                "entry",
+                ":Name"
+              ],
+              "variable": [
+                {
+                  "id": "ruleID"
+                },
+                {
+                  "id": "Name"
                 }
               ]
             },
@@ -1016,6 +1431,41 @@
           }
         },
         {
+          "name": "Works with a callback from google oauth",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/google/callback",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "google",
+                "callback"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
           "name": "Start a google single sign on process",
           "request": {
             "url": {
@@ -1241,6 +1691,197 @@
           }
         },
         {
+          "name": "Lists zoneExpansions",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/zone/expansion",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "zone",
+                "expansion"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an zoneExpansion",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/zone/expansion",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "zone",
+                "expansion"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search zoneExpansions by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/zone/expansion/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "zone",
+                "expansion",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an zoneExpansion",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/zone/expansion/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "zone",
+                "expansion",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an zoneExpansion",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/zone/expansion/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "zone",
+                "expansion",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an zoneExpansion",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/zone/expansion/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "zone",
+                "expansion",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
           "name": "Search zones by name",
           "request": {
             "url": {
@@ -1349,196 +1990,6 @@
               "path": [
                 "api",
                 "zone",
-                ":ID"
-              ],
-              "variable": [
-                {
-                  "id": "ID"
-                }
-              ]
-            },
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authorization}}"
-              }
-            ],
-            "body": {}
-          }
-        }
-      ]
-    },
-    {
-      "name": "zoneExpansion",
-      "item": [
-        {
-          "name": "Lists zoneExpansions",
-          "request": {
-            "url": {
-              "raw": "http://{{url}}/api/zoneExpansion",
-              "protocol": "http",
-              "auth": null,
-              "host": [
-                "{{url}}"
-              ],
-              "path": [
-                "api",
-                "zoneExpansion"
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authorization}}"
-              }
-            ],
-            "body": {}
-          }
-        },
-        {
-          "name": "Create an zoneExpansion",
-          "request": {
-            "url": {
-              "raw": "http://{{url}}/api/zoneExpansion",
-              "protocol": "http",
-              "auth": null,
-              "host": [
-                "{{url}}"
-              ],
-              "path": [
-                "api",
-                "zoneExpansion"
-              ]
-            },
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authorization}}"
-              }
-            ],
-            "body": {}
-          }
-        },
-        {
-          "name": "Search zoneExpansions by name",
-          "request": {
-            "url": {
-              "raw": "http://{{url}}/api/zoneExpansion/search",
-              "protocol": "http",
-              "auth": null,
-              "host": [
-                "{{url}}"
-              ],
-              "path": [
-                "api",
-                "zoneExpansion",
-                "search"
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              },
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authorization}}"
-              }
-            ],
-            "body": {}
-          }
-        },
-        {
-          "name": "Get an zoneExpansion",
-          "request": {
-            "url": {
-              "raw": "http://{{url}}/api/zoneExpansion/:ID",
-              "protocol": "http",
-              "auth": null,
-              "host": [
-                "{{url}}"
-              ],
-              "path": [
-                "api",
-                "zoneExpansion",
-                ":ID"
-              ],
-              "variable": [
-                {
-                  "id": "ID"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authorization}}"
-              }
-            ],
-            "body": {}
-          }
-        },
-        {
-          "name": "Edit an zoneExpansion",
-          "request": {
-            "url": {
-              "raw": "http://{{url}}/api/zoneExpansion/:ID",
-              "protocol": "http",
-              "auth": null,
-              "host": [
-                "{{url}}"
-              ],
-              "path": [
-                "api",
-                "zoneExpansion",
-                ":ID"
-              ],
-              "variable": [
-                {
-                  "id": "ID"
-                }
-              ]
-            },
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authorization}}"
-              }
-            ],
-            "body": {}
-          }
-        },
-        {
-          "name": "Delete an zoneExpansion",
-          "request": {
-            "url": {
-              "raw": "http://{{url}}/api/zoneExpansion/:ID",
-              "protocol": "http",
-              "auth": null,
-              "host": [
-                "{{url}}"
-              ],
-              "path": [
-                "api",
-                "zoneExpansion",
                 ":ID"
               ],
               "variable": [

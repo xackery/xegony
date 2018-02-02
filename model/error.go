@@ -23,7 +23,7 @@ type ErrNoContent struct {
 }
 
 func (e *ErrNoContent) Error() string {
-	return ""
+	return "No Content"
 }
 
 // ErrInternal is an internal server error

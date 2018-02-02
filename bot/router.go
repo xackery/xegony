@@ -2,20 +2,17 @@ package bot
 
 import (
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/xackery/xegony/api"
+	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 )
 
 //ApplyRoutes applies routes to given mux router
 func ApplyRoutes(router *mux.Router) {
-	rootPath := os.Getenv("BOT_ROOT")
-	if len(rootPath) == 0 {
-		rootPath = "/bot"
-	}
+	rootPath := cases.GetConfigValue("botSuffix")
 
 	type Route struct {
 		Name        string

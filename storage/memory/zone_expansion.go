@@ -77,6 +77,8 @@ func (s *Storage) ListZoneExpansion(page *model.Page) (zoneExpansions []*model.Z
 
 //ListZoneExpansionTotalCount will grab data from storage
 func (s *Storage) ListZoneExpansionTotalCount() (count int64, err error) {
+	configLock.RLock()
+	defer configLock.RUnlock()
 	count = int64(len(zoneExpansionsDatabase))
 	return
 }

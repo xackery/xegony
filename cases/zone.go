@@ -450,6 +450,12 @@ func sanitizeZone(zone *model.Zone, user *model.User) (err error) {
 	if err != nil {
 		err = nil
 	}
+
+	hotZoneModifier := GetRuleEntryValueFloat(zone.Ruleset, "Zone:HotZoneBonus")
+	zone.Modifier = zone.ZoneExpMultiplier + 1
+	if zone.HotZone == 1 && hotZoneModifier > 0 {
+		zone.Modifier *= hotZoneModifier
+	}
 	return
 }
 

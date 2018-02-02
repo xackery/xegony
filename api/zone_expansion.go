@@ -14,7 +14,7 @@ import (
 type ZoneExpansionRequest struct {
 	// ID to get information about
 	// in: path
-	// example: 74887
+	// example: 1
 	ID int64 `json:"ID"`
 }
 
@@ -37,7 +37,7 @@ type ZoneExpansionCreateRequest struct {
 type ZoneExpansionEditRequest struct {
 	// ID to get information about
 	// in: path
-	// example: 74887
+	// example: 1
 	ID int64 `json:"ID"`
 	// ZoneExpansion details to edit
 	// in: body
@@ -108,7 +108,7 @@ type ZoneExpansionsBySearchResponse struct {
 func zoneExpansionRoutes() (routes []*route) {
 
 	routes = []*route{
-		// swagger:route GET /zoneExpansion zoneExpansion listZoneExpansion
+		// swagger:route GET /zone/expansion zone listZoneExpansion
 		//
 		// Lists zoneExpansions
 		//
@@ -131,10 +131,10 @@ func zoneExpansionRoutes() (routes []*route) {
 		{
 			"ListZoneExpansion",
 			"GET",
-			"/zoneExpansion",
+			"/zone/expansion",
 			listZoneExpansion,
 		},
-		// swagger:route GET /zoneExpansion/search zoneExpansion listZoneExpansionBySearch
+		// swagger:route GET /zone/expansion/search zone listZoneExpansionBySearch
 		//
 		// Search zoneExpansions by name
 		//
@@ -157,10 +157,10 @@ func zoneExpansionRoutes() (routes []*route) {
 		{
 			"ListZoneExpansionBySearch",
 			"GET",
-			"/zoneExpansion/search",
+			"/zone/expansion/search",
 			listZoneExpansionBySearch,
 		},
-		// swagger:route POST /zoneExpansion zoneExpansion createZoneExpansion
+		// swagger:route POST /zone/expansion zone createZoneExpansion
 		//
 		// Create an zoneExpansion
 		//
@@ -178,10 +178,10 @@ func zoneExpansionRoutes() (routes []*route) {
 		{
 			"CreateZoneExpansion",
 			"POST",
-			"/zoneExpansion",
+			"/zone/expansion",
 			createZoneExpansion,
 		},
-		// swagger:route GET /zoneExpansion/{ID} zoneExpansion getZoneExpansion
+		// swagger:route GET /zone/expansion/{ID} zone getZoneExpansion
 		//
 		// Get an zoneExpansion
 		//
@@ -195,10 +195,10 @@ func zoneExpansionRoutes() (routes []*route) {
 		{
 			"GetZoneExpansion",
 			"GET",
-			"/zoneExpansion/{ID:[0-9]+}",
+			"/zone/expansion/{ID:[0-9]+}",
 			getZoneExpansion,
 		},
-		// swagger:route PUT /zoneExpansion/{ID} zoneExpansion editZoneExpansion
+		// swagger:route PUT /zone/expansion/{ID} zone editZoneExpansion
 		//
 		// Edit an zoneExpansion
 		//
@@ -216,10 +216,10 @@ func zoneExpansionRoutes() (routes []*route) {
 		{
 			"EditZoneExpansion",
 			"PUT",
-			"/zoneExpansion/{ID:[0-9]+}",
+			"/zone/expansion/{ID:[0-9]+}",
 			editZoneExpansion,
 		},
-		// swagger:route DELETE /zoneExpansion/{ID} zoneExpansion deleteZoneExpansion
+		// swagger:route DELETE /zone/expansion/{ID} zone deleteZoneExpansion
 		//
 		// Delete an zoneExpansion
 		//
@@ -236,7 +236,7 @@ func zoneExpansionRoutes() (routes []*route) {
 		{
 			"DeleteZoneExpansion",
 			"DELETE",
-			"/zoneExpansion/{ID:[0-9]+}",
+			"/zone/expansion/{ID:[0-9]+}",
 			deleteZoneExpansion,
 		},
 	}

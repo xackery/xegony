@@ -3,11 +3,11 @@ package web
 import (
 	"html/template"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/xackery/xegony/api"
+	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 )
 
@@ -20,10 +20,7 @@ type route struct {
 
 //ApplyRoutes applies routes to given mux router
 func ApplyRoutes(router *mux.Router) {
-	rootPath := os.Getenv("WEB_ROOT")
-	if len(rootPath) == 0 {
-		rootPath = ""
-	}
+	rootPath := cases.GetConfigValue("webSuffix")
 
 	var routes []*route
 	var newRoutes []*route

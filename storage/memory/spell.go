@@ -70,6 +70,8 @@ func (s *Storage) ListSpell(page *model.Page) (spells []*model.Spell, err error)
 
 //ListSpellTotalCount will grab data from storage
 func (s *Storage) ListSpellTotalCount() (count int64, err error) {
+	configLock.RLock()
+	defer configLock.RUnlock()
 	count = int64(len(spellsDatabase))
 	return
 }

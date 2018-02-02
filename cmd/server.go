@@ -53,7 +53,15 @@ func init() {
 }
 
 func runServer(cmd *cobra.Command, args []string) {
-	var err error
+
+	err := startServer(cmd, args)
+	if err != nil {
+		fmt.Println("fail during startserver:", err)
+	}
+}
+
+func startServer(cmd *cobra.Command, args []string) (err error) {
+
 	var sw storage.Writer
 	var sr storage.Reader
 	var si storage.Initializer
@@ -106,6 +114,18 @@ func runServer(cmd *cobra.Command, args []string) {
 		err = errors.Wrap(err, "failed to load zone to memory")
 		return
 	}
+
+	err = cases.LoadRuleFromDBToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load rule to memory")
+		return
+	}
+
+	err = cases.LoadRuleEntryFromDBToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load ruleEntry to memory")
+		return
+	}
 	err = cases.LoadZoneFromDBToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load zone to memory")
@@ -126,11 +146,6 @@ func runServer(cmd *cobra.Command, args []string) {
 		totalMemoryInUse = 0
 	}
 
-	listen := os.Getenv("API_LISTEN")
-	if len(listen) == 0 {
-		listen = ":8080"
-	}
-
 	router := mux.NewRouter().StrictSlash(true)
 
 	if err = api.Initialize(sr, sw, si, connection, w, wErr); err != nil {
@@ -148,9 +163,9 @@ func runServer(cmd *cobra.Command, args []string) {
 	}
 	web.ApplyRoutes(router)
 
-	log.Println("Listening on", listen)
+	log.Println("Listening on", cases.GetConfigForHTTP())
 
 	fmt.Printf("Using %s of memory for data in memory, %s total\n", humanize.Bytes(totalMemoryInUse), humanize.Bytes(m.TotalAlloc))
-	err = http.ListenAndServe(listen, router)
-	log.Println(err)
+	err = http.ListenAndServe(cases.GetConfigForHTTP(), router)
+	return
 }

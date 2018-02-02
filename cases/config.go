@@ -252,8 +252,15 @@ func GetConfigValue(key string) (value string) {
 	return
 }
 
+//GetConfigForMySQL returns a connection string for use of establishing a connection for MySQL
 func GetConfigForMySQL() (value string) {
 	value = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=true", GetConfigValue("mysqlUsername"), GetConfigValue("mysqlPassword"), GetConfigValue("mysqlHostname"), GetConfigValue("mysqlPort"), GetConfigValue("mysqlDatabase"))
+	return
+}
+
+//GetConfigForHTTP returns a listen path for http.Listen
+func GetConfigForHTTP() (value string) {
+	value = fmt.Sprintf("%s:%s", GetConfigValue("httpHostname"), GetConfigValue("httpPort"))
 	return
 }
 

@@ -9,44 +9,44 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-// ZoneRequest is a list of parameters used for zone
-// swagger:parameters deleteZone editZone getZone
-type ZoneRequest struct {
+// RuleRequest is a list of parameters used for rule
+// swagger:parameters deleteRule editRule getRule
+type RuleRequest struct {
 	// ID to get information about
 	// in: path
-	// example: 101
+	// example: 74887
 	ID int64 `json:"ID"`
 }
 
-// ZoneResponse is what endpoints respond with
+// RuleResponse is what endpoints respond with
 // swagger:response
-type ZoneResponse struct {
-	Zone *model.Zone `json:"zone,omitempty"`
+type RuleResponse struct {
+	Rule *model.Rule `json:"rule,omitempty"`
 }
 
-// ZoneCreateRequest is the body parameters for creating an zone
-// swagger:parameters createZone
-type ZoneCreateRequest struct {
-	// Zone details to create
+// RuleCreateRequest is the body parameters for creating an rule
+// swagger:parameters createRule
+type RuleCreateRequest struct {
+	// Rule details to create
 	// in: body
-	Zone *model.Zone `json:"zone"`
+	Rule *model.Rule `json:"rule"`
 }
 
-// ZoneEditRequest is the body parameters for creating an zone
-// swagger:parameters editZone
-type ZoneEditRequest struct {
+// RuleEditRequest is the body parameters for creating an rule
+// swagger:parameters editRule
+type RuleEditRequest struct {
 	// ID to get information about
 	// in: path
-	// example: 101
+	// example: 74887
 	ID int64 `json:"ID"`
-	// Zone details to edit
+	// Rule details to edit
 	// in: body
-	Zone *model.Zone `json:"zone"`
+	Rule *model.Rule `json:"rule"`
 }
 
-// ZonesRequest is a list of parameters used for zone
-// swagger:parameters listZone
-type ZonesRequest struct {
+// RulesRequest is a list of parameters used for rule
+// swagger:parameters listRule
+type RulesRequest struct {
 	// Offset is pagination, offset*limit
 	// example: 0
 	// in: query
@@ -56,7 +56,7 @@ type ZonesRequest struct {
 	// in: query
 	Limit int64 `json:"limit"`
 	// OrderBy is which field to order a page by
-	// example: short_name
+	// example: name
 	// in: query
 	OrderBy string `json:"orderBy"`
 	// IsDescending will change sort order when true
@@ -65,18 +65,18 @@ type ZonesRequest struct {
 	IsDescending int64 `json:"isDescending"`
 }
 
-// ZonesResponse is a general response to a request
+// RulesResponse is a general response to a request
 // swagger:response
-type ZonesResponse struct {
+type RulesResponse struct {
 	Page  *model.Page `json:"page,omitempty"`
-	Zones model.Zones `json:"zones,omitempty"`
+	Rules model.Rules `json:"rules,omitempty"`
 }
 
-// ZonesBySearchRequest is a list of parameters used for zone
-// swagger:parameters listZoneBySearch
-type ZonesBySearchRequest struct {
-	// ShortName is which zone to get information about
-	// example: qeynos
+// RulesBySearchRequest is a list of parameters used for rule
+// swagger:parameters listRuleBySearch
+type RulesBySearchRequest struct {
+	// ShortName is which rule to get information about
+	// example: xackery
 	// in: query
 	ShortName string `json:"shortName"`
 	// Offset is pagination, offset*limit
@@ -97,48 +97,22 @@ type ZonesBySearchRequest struct {
 	IsDescending int64 `json:"isDescending"`
 }
 
-// ZonesBySearchResponse is a general response to a request
+// RulesBySearchResponse is a general response to a request
 // swagger:response
-type ZonesBySearchResponse struct {
-	Search *model.Zone `json:"search,omitempty"`
+type RulesBySearchResponse struct {
+	Search *model.Rule `json:"search,omitempty"`
 	Page   *model.Page `json:"page,omitempty"`
-	Zones  model.Zones `json:"zones,omitempty"`
+	Rules  model.Rules `json:"rules,omitempty"`
 }
 
-func zoneRoutes() (routes []*route) {
+func ruleRoutes() (routes []*route) {
 
 	routes = []*route{
-		// swagger:route GET /zone zone listZone
+		// swagger:route GET /rule rule listRule
 		//
-		// Lists zones
+		// Lists rules
 		//
-		// This will show all available zones by default.
-		//
-		//     Consumes:
-		//     - application/json
-		//
-		//     Produces:
-		//     - application/json
-		//     - application/xml
-		//     - application/yaml
-		//
-		//
-		//     Responses:
-		//       default: ErrInternal
-		//       200: ZonesResponse
-		//       400: ErrValidation
-		//		 401: ErrPermission
-		{
-			"ListZone",
-			"GET",
-			"/zone",
-			listZone,
-		},
-		// swagger:route GET /zone/search zone listZoneBySearch
-		//
-		// Search zones by name
-		//
-		// This will show all available zones by default.
+		// This will show all available rules by default.
 		//
 		//     Consumes:
 		//     - application/json
@@ -151,79 +125,105 @@ func zoneRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: ZonesBySearchResponse
+		//       200: RulesResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"ListZoneBySearch",
+			"ListRule",
 			"GET",
-			"/zone/search",
-			listZoneBySearch,
+			"/rule",
+			listRule,
 		},
-		// swagger:route POST /zone zone createZone
+		// swagger:route GET /rule/search rule listRuleBySearch
 		//
-		// Create an zone
+		// Search rules by name
 		//
-		// This will create an zone
+		// This will show all available rules by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: RulesBySearchResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"ListRuleBySearch",
+			"GET",
+			"/rule/search",
+			listRuleBySearch,
+		},
+		// swagger:route POST /rule rule createRule
+		//
+		// Create an rule
+		//
+		// This will create an rule
 		//
 		//     Security:
 		//       apiKey:
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//		 200: ZoneResponse
+		//		 200: RuleResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"CreateZone",
+			"CreateRule",
 			"POST",
-			"/zone",
-			createZone,
+			"/rule",
+			createRule,
 		},
-		// swagger:route GET /zone/{ID} zone getZone
+		// swagger:route GET /rule/{ID} rule getRule
 		//
-		// Get an zone
+		// Get an rule
 		//
-		// This will get an individual zone available zones by default.
+		// This will get an individual rule available rules by default.
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: ZoneResponse
+		//       200: RuleResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"GetZone",
+			"GetRule",
 			"GET",
-			"/zone/{ID:[0-9]+}",
-			getZone,
+			"/rule/{ID:[0-9]+}",
+			getRule,
 		},
-		// swagger:route PUT /zone/{ID} zone editZone
+		// swagger:route PUT /rule/{ID} rule editRule
 		//
-		// Edit an zone
+		// Edit an rule
 		//
-		// This will edit an zone
+		// This will edit an rule
 		//
 		//     Security:
 		//       apiKey:
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//		 200: ZoneResponse
+		//		 200: RuleResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"EditZone",
+			"EditRule",
 			"PUT",
-			"/zone/{ID:[0-9]+}",
-			editZone,
+			"/rule/{ID:[0-9]+}",
+			editRule,
 		},
-		// swagger:route DELETE /zone/{ID} zone deleteZone
+		// swagger:route DELETE /rule/{ID} rule deleteRule
 		//
-		// Delete an zone
+		// Delete an rule
 		//
-		// This will delete an zone
+		// This will delete an rule
 		//
 		//     Security:
 		//       apiKey:
@@ -234,25 +234,25 @@ func zoneRoutes() (routes []*route) {
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"DeleteZone",
+			"DeleteRule",
 			"DELETE",
-			"/zone/{ID:[0-9]+}",
-			deleteZone,
+			"/rule/{ID:[0-9]+}",
+			deleteRule,
 		},
 	}
 	return
 }
 
-func getZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	request := &ZoneRequest{
+func getRule(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &RuleRequest{
 		ID: getIntVar(r, "ID"),
 	}
 
-	zone := &model.Zone{
+	rule := &model.Rule{
 		ID: request.ID,
 	}
 
-	err = cases.GetZone(zone, user)
+	err = cases.GetRule(rule, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return
@@ -260,40 +260,40 @@ func getZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCod
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	response := &ZoneResponse{
-		Zone: zone,
+	response := &RuleResponse{
+		Rule: rule,
 	}
 	content = response
 	return
 }
 
-func createZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	zone := &model.Zone{}
-	err = decodeBody(r, zone)
+func createRule(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	rule := &model.Rule{}
+	err = decodeBody(r, rule)
 	if err != nil {
 		return
 	}
-	err = cases.CreateZone(zone, user)
+	err = cases.CreateRule(rule, user)
 	if err != nil {
 		return
 	}
-	response := &ZoneResponse{
-		Zone: zone,
+	response := &RuleResponse{
+		Rule: rule,
 	}
 	content = response
 	return
 }
 
-func deleteZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	request := &ZoneRequest{
+func deleteRule(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &RuleRequest{
 		ID: getIntVar(r, "ID"),
 	}
 
-	zone := &model.Zone{
+	rule := &model.Rule{
 		ID: request.ID,
 	}
 
-	err = cases.DeleteZone(zone, user)
+	err = cases.DeleteRule(rule, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -306,33 +306,33 @@ func deleteZone(w http.ResponseWriter, r *http.Request, user *model.User, status
 	return
 }
 
-func editZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	request := &ZoneEditRequest{
+func editRule(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &RuleEditRequest{
 		ID: getIntVar(r, "ID"),
 	}
 
-	zone := &model.Zone{
+	rule := &model.Rule{
 		ID: request.ID,
 	}
 
-	err = decodeBody(r, zone)
+	err = decodeBody(r, rule)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
 
-	err = cases.EditZone(zone, user)
+	err = cases.EditRule(rule, user)
 	if err != nil {
 		return
 	}
-	response := &ZoneResponse{
-		Zone: zone,
+	response := &RuleResponse{
+		Rule: rule,
 	}
 	content = response
 	return
 }
 
-func listZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+func listRule(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	page := &model.Page{
 		Offset:       getIntQuery(r, "offset"),
@@ -340,21 +340,21 @@ func listZone(w http.ResponseWriter, r *http.Request, user *model.User, statusCo
 		OrderBy:      getQuery(r, "orderBy"),
 		IsDescending: getIntQuery(r, "isDescending"),
 	}
-	zones, err := cases.ListZone(page, user)
+	rules, err := cases.ListRule(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
 
-	response := &ZonesResponse{
+	response := &RulesResponse{
 		Page:  page,
-		Zones: zones,
+		Rules: rules,
 	}
 	content = response
 	return
 }
 
-func listZoneBySearch(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+func listRuleBySearch(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	page := &model.Page{
 		Offset:       getIntQuery(r, "offset"),
@@ -362,18 +362,18 @@ func listZoneBySearch(w http.ResponseWriter, r *http.Request, user *model.User, 
 		OrderBy:      getQuery(r, "orderBy"),
 		IsDescending: getIntQuery(r, "isDescending"),
 	}
-	zone := &model.Zone{}
-	zone.ShortName.String = getQuery(r, "shortName")
-	zones, err := cases.ListZoneBySearch(page, zone, user)
+	rule := &model.Rule{}
+	rule.Name = getQuery(r, "name")
+	rules, err := cases.ListRuleBySearch(page, rule, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(zones)
-	response := &ZonesBySearchResponse{
+	log.Println(rules)
+	response := &RulesBySearchResponse{
 		Page:   page,
-		Zones:  zones,
-		Search: zone,
+		Rules:  rules,
+		Search: rule,
 	}
 	content = response
 	return

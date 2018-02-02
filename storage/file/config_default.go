@@ -7,6 +7,36 @@ import (
 func loadConfigDefault() model.Configs {
 	return model.Configs{
 		{
+			Category:    "API",
+			Key:         "httpPort",
+			Value:       "8080",
+			Description: "Port to listen for HTTP routing.",
+		},
+		{
+			Category:    "API",
+			Key:         "httpHostname",
+			Value:       "127.0.0.1",
+			Description: "Hostname for HTTP routing. Used for redirects. Supports DNS.",
+		},
+		{
+			Category:    "API",
+			Key:         "apiSuffix",
+			Value:       "/api",
+			Description: "API Suffix is appended to all API endpoints (default: /api/)",
+		},
+		{
+			Category:    "WEB",
+			Key:         "webSuffix",
+			Value:       "/",
+			Description: "Web Suffix is appended to all WEB endpoints (default: /)",
+		},
+		{
+			Category:    "BOT",
+			Key:         "botSuffix",
+			Value:       "/bot",
+			Description: "Bot Suffix is appended to all bOT endpoints (default: /bot/)",
+		},
+		{
 			Category:    "Google",
 			Key:         "googleSecret",
 			Value:       "",

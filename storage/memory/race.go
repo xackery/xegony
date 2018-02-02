@@ -70,6 +70,8 @@ func (s *Storage) ListRace(page *model.Page) (races []*model.Race, err error) {
 
 //ListRaceTotalCount will grab data from storage
 func (s *Storage) ListRaceTotalCount() (count int64, err error) {
+	configLock.RLock()
+	defer configLock.RUnlock()
 	count = int64(len(racesDatabase))
 	return
 }
