@@ -4,6 +4,10 @@ import (
 	"database/sql"
 )
 
+// Spells is an array of Spell
+// swagger:model
+type Spells []*Spell
+
 //Spell represents items inside everquest
 // swagger:model
 type Spell struct {
