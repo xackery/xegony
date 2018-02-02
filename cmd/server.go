@@ -20,6 +20,7 @@ import (
 	"net/http"
 	"os"
 	"runtime"
+	"time"
 
 	"github.com/dustin/go-humanize"
 	"github.com/gorilla/mux"
@@ -61,7 +62,7 @@ func runServer(cmd *cobra.Command, args []string) {
 }
 
 func startServer(cmd *cobra.Command, args []string) (err error) {
-
+	start := time.Now()
 	var sw storage.Writer
 	var sr storage.Reader
 	var si storage.Initializer
@@ -165,7 +166,7 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 
 	log.Println("Listening on", cases.GetConfigForHTTP())
 
-	fmt.Printf("Using %s of memory for data in memory, %s total\n", humanize.Bytes(totalMemoryInUse), humanize.Bytes(m.TotalAlloc))
+	log.Printf("Started in %s. Using %s for data in memory, %s total\n", time.Since(start), humanize.Bytes(totalMemoryInUse), humanize.Bytes(m.TotalAlloc))
 	err = http.ListenAndServe(cases.GetConfigForHTTP(), router)
 	return
 }

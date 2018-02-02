@@ -77,7 +77,7 @@ func LoadRuleEntryFromDBToMemory() (err error) {
 		}
 	}
 
-	fmt.Printf("%d ruleEntrys, ", len(totalRuleEntrys))
+	fmt.Printf("%d rule entries, ", len(totalRuleEntrys))
 	return
 }
 

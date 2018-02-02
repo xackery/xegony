@@ -191,12 +191,6 @@ func GetUser(focusUser *model.User, user *model.User) (err error) {
 	return
 }
 
-//GetUserGoogleStart begins an oauth login exchange
-func GetUserGoogleStart(state string) (redirectURL string, err error) {
-
-	return
-}
-
 //EditUser edits an existing user
 func EditUser(focusUser *model.User, user *model.User) (err error) {
 	err = user.IsGuide()

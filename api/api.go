@@ -100,7 +100,7 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 
 	cookieStore = sessions.NewCookieStore([]byte("™£ˆø®™£ˆ∆®lewifjwofij"))
 
-	log.Println("Loaded successfully.")
+	log.Println("Initialized")
 	return
 }
 
