@@ -52,7 +52,7 @@ func (u *User) IsGuide() (err error) {
 			highestStatus = account.Status
 		}
 	}
-	if u.PrimaryAccount.Status > highestStatus {
+	if u.PrimaryAccount != nil && u.PrimaryAccount.Status > highestStatus {
 		highestStatus = u.PrimaryAccount.Status
 	}
 	if highestStatus < 100 {
