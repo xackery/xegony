@@ -35,7 +35,7 @@ type UserGoogleStartRequest struct {
 	ReturnURL string `json:"returnURL"`
 }
 
-// UserResponse is what endpoints respond with
+// UserGoogleStartResponse is what endpoints respond with
 // swagger:response
 type UserGoogleStartResponse struct {
 	RedirectURL string `json:"redirectURL"`

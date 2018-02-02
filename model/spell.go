@@ -58,7 +58,7 @@ type Spell struct {
 	Mana                  int64          `json:"mana,omitempty" db:"mana"`                                 //`mana` int(11) NOT NULL DEFAULT '0',
 	UnusedIconID          int64          `json:"unusuedIconID,omitempty" db:"icon"`                        //`icon` int(11) NOT NULL DEFAULT '0',
 	OldIconID             int64          `json:"oldIconID,omitempty" db:"memicon"`                         //`memicon` int(11) NOT NULL DEFAULT '0',
-	LightTypeID           int64          `json:"lightType,omitempty" db:"LightType"`                       //`LightType` int(11) NOT NULL DEFAULT '0',
+	LightTypeID           int64          `json:"lightTypeID,omitempty" db:"LightType"`                     //`LightType` int(11) NOT NULL DEFAULT '0',
 	EffectCategoryID      int64          `json:"effectCategoryID,omitempty" db:"goodEffect"`               //`goodEffect` int(11) NOT NULL DEFAULT '0',
 	Activated             int64          `json:"activated,omitempty" db:"Activated"`                       //`Activated` int(11) NOT NULL DEFAULT '0',
 	ResistTypeID          int64          `json:"resistTypeID,omitempty" db:"resisttype"`                   //`resisttype` int(11) NOT NULL DEFAULT '0',

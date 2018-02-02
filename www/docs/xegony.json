@@ -1145,6 +1145,806 @@
         }
       }
     },
+    "/spell": {
+      "get": {
+        "description": "This will show all available spells by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spell"
+        ],
+        "summary": "Lists spells",
+        "operationId": "listSpell",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spell",
+        "tags": [
+          "spell"
+        ],
+        "summary": "Create an spell",
+        "operationId": "createSpell",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Spell",
+            "description": "Spell details to create",
+            "name": "spell",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Spell"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/search": {
+      "get": {
+        "description": "This will show all available spells by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spell"
+        ],
+        "summary": "Search spells by name",
+        "operationId": "listSpellBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "ShortName",
+            "description": "ShortName is which spell to get information about",
+            "name": "shortName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/{ID}": {
+      "get": {
+        "description": "This will get an individual spell available spells by default.",
+        "tags": [
+          "spell"
+        ],
+        "summary": "Get an spell",
+        "operationId": "getSpell",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spell",
+        "tags": [
+          "spell"
+        ],
+        "summary": "Edit an spell",
+        "operationId": "editSpell",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Spell",
+            "description": "Spell details to edit",
+            "name": "spell",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Spell"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spell",
+        "tags": [
+          "spell"
+        ],
+        "summary": "Delete an spell",
+        "operationId": "deleteSpell",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "description": "This will show all available users by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Lists users",
+        "operationId": "listUser",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UsersResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an user",
+        "tags": [
+          "user"
+        ],
+        "summary": "Create an user",
+        "operationId": "createUser",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "User",
+            "description": "User details to create",
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/user/google/start": {
+      "get": {
+        "description": "Creates a single sign on for google chain",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Start a google single sign on process",
+        "operationId": "getUserGoogleStart",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "http://everzek.com",
+            "x-go-name": "ReturnURL",
+            "description": "ReturnURL is the URL to return once Oauth completes",
+            "name": "returnURL",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "ErrRedirect",
+            "schema": {
+              "$ref": "#/definitions/ErrRedirect"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/user/search": {
+      "get": {
+        "description": "This will show all available users by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Search users by name",
+        "operationId": "listUserBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "ShortName",
+            "description": "ShortName is which user to get information about",
+            "name": "shortName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UsersBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/user/{ID}": {
+      "get": {
+        "description": "This will get an individual user available users by default.",
+        "tags": [
+          "user"
+        ],
+        "summary": "Get an user",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an user",
+        "tags": [
+          "user"
+        ],
+        "summary": "Edit an user",
+        "operationId": "editUser",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "User",
+            "description": "User details to edit",
+            "name": "user",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an user",
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete an user",
+        "operationId": "deleteUser",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/zone": {
       "get": {
         "description": "This will show all available zones by default.",
@@ -2861,6 +3661,9 @@
           "format": "double",
           "x-go-name": "Z"
         },
+        "zone": {
+          "$ref": "#/definitions/Zone"
+        },
         "zoneChangeCount": {
           "type": "integer",
           "format": "int64",
@@ -2948,6 +3751,65 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "DBStr": {
+      "type": "object",
+      "title": "DBStr represents the dbstr_us.txt file.",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "type": {
+          "$ref": "#/definitions/DBStrType"
+        },
+        "typeID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TypeID"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "DBStrType": {
+      "description": "http://wiki.eqemulator.org/p?dbstr_us.txt",
+      "type": "object",
+      "title": "DBStrType represents the category types found inside dbstr, and is refered to in entries.",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "EnvironmentType": {
+      "description": "Used by spells.",
+      "type": "object",
+      "title": "EnvironmentType describes the type of environment this value works in.",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "ErrDecodeBody": {
       "description": "ErrDecodeBody is a failure to decode a request body",
       "type": "object",
@@ -2988,6 +3850,17 @@
         "Message": {
           "type": "string",
           "example": "permission denied"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "ErrRedirect": {
+      "description": "ErrRedirect means arguments being passed in a request were invalid",
+      "type": "object",
+      "properties": {
+        "Message": {
+          "type": "string",
+          "example": "http//google.signon.com"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -4776,6 +5649,25 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "LightType": {
+      "type": "object",
+      "title": "LightType is used to determine the type of light emission an item or spell should cause.",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "LootDrop": {
       "description": "LootDrop is the parent of loot drop entries",
       "type": "object",
@@ -5757,6 +6649,10 @@
       "description": "Race holds data about races (including models)",
       "type": "object",
       "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
         "female": {
           "type": "string",
           "x-go-name": "Female"
@@ -5764,11 +6660,6 @@
         "icon": {
           "type": "string",
           "x-go-name": "Icon"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
         },
         "male": {
           "type": "string",
@@ -5908,6 +6799,26 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Successcount"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "ResistType": {
+      "description": "Used by spells and items.\nhttps://github.com/Shendare/EQArchitect/blob/master/lists/resistance_types.csv",
+      "type": "object",
+      "title": "ResistType is used to describe resist type.",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -6393,139 +7304,19 @@
       "description": "Spell represents items inside everquest",
       "type": "object",
       "properties": {
-        "AEDuration": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Aeduration"
-        },
-        "Activated": {
+        "ID": {
           "type": "integer",
           "format": "int64"
         },
-        "CastRestriction": {
+        "aEDuration": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Castrestriction"
+          "x-go-name": "AEDuration"
         },
-        "CastingAnim": {
+        "activated": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Castinganim"
-        },
-        "ConeStartAngle": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Conestartangle"
-        },
-        "ConeStopAngle": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Conestopangle"
-        },
-        "EndurCost": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Endurcost"
-        },
-        "EndurTimerIndex": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Endurtimerindex"
-        },
-        "EndurUpkeep": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Endurupkeep"
-        },
-        "EnvironmentType": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Environmenttype"
-        },
-        "HateAdded": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Hateadded"
-        },
-        "InCombat": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Incombat"
-        },
-        "IsDiscipline": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Isdiscipline"
-        },
-        "LightType": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Lighttype"
-        },
-        "MaxResist": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Maxresist"
-        },
-        "MinResist": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Minresist"
-        },
-        "NoexpendReagent1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Noexpendreagent1"
-        },
-        "NoexpendReagent2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Noexpendreagent2"
-        },
-        "NoexpendReagent3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Noexpendreagent3"
-        },
-        "NoexpendReagent4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Noexpendreagent4"
-        },
-        "OutofCombat": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Outofcombat"
-        },
-        "RecourseLink": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Recourselink"
-        },
-        "ResistDiff": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Resistdiff"
-        },
-        "SpellAffectIndex": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Spellaffectindex"
-        },
-        "TargetAnim": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Targetanim"
-        },
-        "TimeOfDay": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Timeofday"
-        },
-        "TravelType": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Traveltype"
+          "x-go-name": "Activated"
         },
         "aemaxtargets": {
           "type": "integer",
@@ -6535,34 +7326,41 @@
         "allowrest": {
           "$ref": "#/definitions/NullInt64"
         },
-        "aoerange": {
+        "animation": {
+          "$ref": "#/definitions/SpellAnimation"
+        },
+        "animationID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Aoerange"
+          "x-go-name": "AnimationID"
         },
-        "basediff": {
+        "aoeRange": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Basediff"
+          "x-go-name": "AoeRange"
         },
-        "bonushate": {
+        "bonusHate": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bonushate"
+          "x-go-name": "BonusHate"
         },
-        "buffDurationName": {
-          "type": "string",
-          "x-go-name": "BuffDurationName"
+        "buffDurationFormula": {
+          "$ref": "#/definitions/SpellFormula"
+        },
+        "buffDurationFormulaID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "BuffDurationFormulaID"
         },
         "buffduration": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "BuffDuration"
         },
-        "buffdurationformula": {
+        "canDelete": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "BuffDurationFormula"
+          "x-go-name": "CanDelete"
         },
         "canMgb": {
           "type": "integer",
@@ -6580,233 +7378,76 @@
         "castOnYou": {
           "$ref": "#/definitions/NullString"
         },
+        "castRestriction": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Castrestriction"
+        },
         "castTime": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "CastTime"
         },
-        "castTimeName": {
-          "type": "string",
-          "x-go-name": "CastTimeName"
+        "castingAnimation": {
+          "$ref": "#/definitions/SpellAnimation"
         },
-        "classes1": {
+        "castingAnimationID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes1"
+          "x-go-name": "CastingAnimationID"
         },
-        "classes10": {
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SpellComponent"
+          },
+          "x-go-name": "Components"
+        },
+        "coneStartAngle": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes10"
+          "x-go-name": "Conestartangle"
         },
-        "classes11": {
+        "coneStopAngle": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes11"
+          "x-go-name": "Conestopangle"
         },
-        "classes12": {
+        "dBStr": {
+          "$ref": "#/definitions/DBStr"
+        },
+        "dBStrEffect1": {
+          "$ref": "#/definitions/DBStr"
+        },
+        "dBStrEffect2": {
+          "$ref": "#/definitions/DBStr"
+        },
+        "dBStrEffect2ID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes12"
+          "x-go-name": "DBStrEffect2ID"
         },
-        "classes13": {
+        "dBStrEffectID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes13"
+          "x-go-name": "DBStrEffectID"
         },
-        "classes14": {
+        "dBStrID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes14"
+          "x-go-name": "DBStrID"
         },
-        "classes15": {
+        "dBStrTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes15"
+          "x-go-name": "DBStrTypeID"
         },
-        "classes16": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes16"
-        },
-        "classes2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes2"
-        },
-        "classes3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes3"
-        },
-        "classes4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes4"
-        },
-        "classes5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes5"
-        },
-        "classes6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes6"
-        },
-        "classes7": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes7"
-        },
-        "classes8": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes8"
-        },
-        "classes9": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes9"
-        },
-        "classesList": {
-          "type": "string",
-          "x-go-name": "ClassesList"
-        },
-        "componentCounts1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ComponentCounts1"
-        },
-        "componentCounts2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ComponentCounts2"
-        },
-        "componentCounts3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ComponentCounts3"
-        },
-        "componentCounts4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ComponentCounts4"
-        },
-        "components1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Components1"
-        },
-        "components2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Components2"
-        },
-        "components3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Components3"
-        },
-        "components4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Components4"
-        },
-        "deities0": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities0"
-        },
-        "deities1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities1"
-        },
-        "deities10": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities10"
-        },
-        "deities11": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities11"
-        },
-        "deities12": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities12"
-        },
-        "deities13": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities13"
-        },
-        "deities14": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities14"
-        },
-        "deities15": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities15"
-        },
-        "deities16": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities16"
-        },
-        "deities2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities2"
-        },
-        "deities3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities3"
-        },
-        "deities4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities4"
-        },
-        "deities5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities5"
-        },
-        "deities6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities6"
-        },
-        "deities7": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities7"
-        },
-        "deities8": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities8"
-        },
-        "deities9": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities9"
-        },
-        "deleteable": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deleteable"
-        },
-        "descnum": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Descnum"
+        "deities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SpellDeity"
+          },
+          "x-go-name": "Deitys"
         },
         "disallowSit": {
           "type": "integer",
@@ -6818,195 +7459,13 @@
           "format": "int64",
           "x-go-name": "DotStackingExempt"
         },
-        "effectBaseValue1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue1"
+        "effectCategory": {
+          "$ref": "#/definitions/SpellEffectCategory"
         },
-        "effectBaseValue10": {
+        "effectCategoryID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "EffectBaseValue10"
-        },
-        "effectBaseValue11": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue11"
-        },
-        "effectBaseValue12": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue12"
-        },
-        "effectBaseValue2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue2"
-        },
-        "effectBaseValue3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue3"
-        },
-        "effectBaseValue4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue4"
-        },
-        "effectBaseValue5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue5"
-        },
-        "effectBaseValue6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue6"
-        },
-        "effectBaseValue7": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue7"
-        },
-        "effectBaseValue8": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue8"
-        },
-        "effectBaseValue9": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectBaseValue9"
-        },
-        "effectLimitValue1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue1"
-        },
-        "effectLimitValue10": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue10"
-        },
-        "effectLimitValue11": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue11"
-        },
-        "effectLimitValue12": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue12"
-        },
-        "effectLimitValue2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue2"
-        },
-        "effectLimitValue3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue3"
-        },
-        "effectLimitValue4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue4"
-        },
-        "effectLimitValue5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue5"
-        },
-        "effectLimitValue6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue6"
-        },
-        "effectLimitValue7": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue7"
-        },
-        "effectLimitValue8": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue8"
-        },
-        "effectLimitValue9": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectLimitValue9"
-        },
-        "effectdescnum": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectdescnum"
-        },
-        "effectdescnum2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectdescnum2"
-        },
-        "effectid1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid1"
-        },
-        "effectid10": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid10"
-        },
-        "effectid11": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid11"
-        },
-        "effectid12": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid12"
-        },
-        "effectid2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid2"
-        },
-        "effectid3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid3"
-        },
-        "effectid4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid4"
-        },
-        "effectid5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid5"
-        },
-        "effectid6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid6"
-        },
-        "effectid7": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid7"
-        },
-        "effectid8": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid8"
-        },
-        "effectid9": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Effectid9"
+          "x-go-name": "EffectCategoryID"
         },
         "effects": {
           "type": "array",
@@ -7014,6 +7473,29 @@
             "$ref": "#/definitions/SpellEffect"
           },
           "x-go-name": "Effects"
+        },
+        "endurCost": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Endurcost"
+        },
+        "endurTimerIndex": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Endurtimerindex"
+        },
+        "endurUpkeep": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Endurupkeep"
+        },
+        "environmentType": {
+          "$ref": "#/definitions/EnvironmentType"
+        },
+        "environmentTypeID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EnvironmentTypeID"
         },
         "field142": {
           "type": "integer",
@@ -7161,155 +7643,51 @@
           "format": "int64",
           "x-go-name": "Field236"
         },
-        "formula1": {
+        "fizzleDifficulty": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Formula1"
+          "x-go-name": "FizzleDifficulty"
         },
-        "formula10": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula10"
+        "group": {
+          "$ref": "#/definitions/SpellGroup"
         },
-        "formula11": {
+        "hateAdded": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Formula11"
-        },
-        "formula12": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula12"
-        },
-        "formula2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula2"
-        },
-        "formula3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula3"
-        },
-        "formula4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula4"
-        },
-        "formula5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula5"
-        },
-        "formula6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula6"
-        },
-        "formula7": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula7"
-        },
-        "formula8": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula8"
-        },
-        "formula9": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Formula9"
-        },
-        "goodEffect": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Goodeffect"
+          "x-go-name": "Hateadded"
         },
         "icon": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Icon"
+          "x-go-name": "IconID"
         },
-        "id": {
+        "inCombat": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ID"
+          "x-go-name": "Incombat"
+        },
+        "isDiscipline": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Isdiscipline"
         },
         "ldonTrap": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "LdonTrap"
         },
-        "lowestLevel": {
+        "lightType": {
+          "$ref": "#/definitions/LightType"
+        },
+        "lightTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LowestLevel"
+          "x-go-name": "LightTypeID"
         },
         "mana": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Mana"
-        },
-        "max1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max1"
-        },
-        "max10": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max10"
-        },
-        "max11": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max11"
-        },
-        "max12": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max12"
-        },
-        "max2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max2"
-        },
-        "max3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max3"
-        },
-        "max4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max4"
-        },
-        "max5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max5"
-        },
-        "max6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max6"
-        },
-        "max7": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max7"
-        },
-        "max8": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max8"
-        },
-        "max9": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max9"
         },
         "maxDist": {
           "type": "number",
@@ -7321,13 +7699,13 @@
           "format": "double",
           "x-go-name": "MaxDistMod"
         },
-        "maxtargets": {
-          "$ref": "#/definitions/NullInt64"
-        },
-        "memicon": {
+        "maxResist": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Memicon"
+          "x-go-name": "MaxResist"
+        },
+        "maxtargets": {
+          "$ref": "#/definitions/NullInt64"
         },
         "minDist": {
           "type": "number",
@@ -7344,40 +7722,36 @@
           "format": "int64",
           "x-go-name": "MinRange"
         },
+        "minResist": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinResist"
+        },
         "name": {
           "$ref": "#/definitions/NullString"
         },
-        "newIcon": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "NewIcon"
+        "nimbus": {
+          "$ref": "#/definitions/SpellNimbus"
         },
-        "nimbuseffect": {
+        "nimbusEffectID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Nimbuseffect"
+          "x-go-name": "NimbusEffectID"
         },
         "noBlock": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "NoBlock"
         },
-        "noExpendReagents": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Item"
-          },
-          "x-go-name": "NoExpendReagents"
+        "noDispell": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NoDispell"
         },
         "noPartialResist": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "NoPartialResist"
-        },
-        "nodispell": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Nodispell"
         },
         "notExtendable": {
           "type": "integer",
@@ -7399,23 +7773,36 @@
           "format": "int64",
           "x-go-name": "NpcUsefulness"
         },
-        "numhits": {
+        "numHits": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Numhits"
+          "x-go-name": "NumHits"
         },
-        "numhitstype": {
+        "numHitsType": {
+          "$ref": "#/definitions/SpellNumHitsType"
+        },
+        "numHitsTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Numhitstype"
+          "x-go-name": "NumHitsTypeID"
+        },
+        "oldIconID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OldIconID"
         },
         "otherCasts": {
           "$ref": "#/definitions/NullString"
         },
-        "pcnpcOnlyFlag": {
+        "outofCombat": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "PcnpcOnlyFlag"
+          "x-go-name": "Outofcombat"
+        },
+        "pcNpcOnlyFlag": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PcNpcOnlyFlag"
         },
         "persistdeath": {
           "$ref": "#/definitions/NullInt64"
@@ -7423,30 +7810,30 @@
         "player1": {
           "$ref": "#/definitions/NullString"
         },
-        "pushback": {
+        "pushBack": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Pushback"
+          "x-go-name": "PushBack"
         },
-        "pushup": {
+        "pushUp": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Pushup"
+          "x-go-name": "PushUp"
         },
-        "pvpresistbase": {
+        "pvpResistBase": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Pvpresistbase"
+          "x-go-name": "PvpResistBase"
         },
-        "pvpresistcalc": {
+        "pvpResistCalc": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Pvpresistcalc"
+          "x-go-name": "PvpResistCalc"
         },
-        "pvpresistcap": {
+        "pvpResistCap": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Pvpresistcap"
+          "x-go-name": "PvpResistCap"
         },
         "range": {
           "type": "integer",
@@ -7461,7 +7848,7 @@
         "reagents": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Item"
+            "$ref": "#/definitions/SpellReagent"
           },
           "x-go-name": "Reagents"
         },
@@ -7470,37 +7857,36 @@
           "format": "int64",
           "x-go-name": "RecastTime"
         },
-        "recastTimeName": {
-          "type": "string",
-          "x-go-name": "RecastTimeName"
+        "recourseLinkSpell": {
+          "$ref": "#/definitions/Spell"
+        },
+        "recourseLinkSpellID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RecourseLinkSpellID"
         },
         "recoveryTime": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "RecoveryTime"
         },
-        "recoveryTimeName": {
-          "type": "string",
-          "x-go-name": "RecoveryTimeName"
-        },
         "reflectable": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Reflectable"
         },
-        "resistTypeName": {
-          "type": "string",
-          "x-go-name": "ResistTypeName"
-        },
-        "resisttype": {
+        "resistDifference": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ResistType"
+          "x-go-name": "ResistDifference"
         },
-        "shortBuffBox": {
+        "resistType": {
+          "$ref": "#/definitions/ResistType"
+        },
+        "resistTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ShortBuffBox"
+          "x-go-name": "ResistTypeID"
         },
         "skill": {
           "$ref": "#/definitions/Skill"
@@ -7518,6 +7904,11 @@
         "songcap": {
           "$ref": "#/definitions/NullInt64"
         },
+        "spellAffectID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SpellAffectID"
+        },
         "spellCategory": {
           "type": "integer",
           "format": "int64",
@@ -7526,42 +7917,64 @@
         "spellFades": {
           "$ref": "#/definitions/NullString"
         },
-        "spellanim": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Spellanim"
-        },
-        "spellgroup": {
+        "spellGroup": {
           "$ref": "#/definitions/NullInt64"
+        },
+        "spellIcon": {
+          "$ref": "#/definitions/SpellIcon"
+        },
+        "spellOldIcon": {
+          "$ref": "#/definitions/SpellOldIcon"
         },
         "suspendable": {
           "$ref": "#/definitions/NullInt64"
         },
-        "targetTypeName": {
-          "type": "string",
-          "x-go-name": "TargetTypeName"
+        "targetAnimation": {
+          "$ref": "#/definitions/SpellAnimation"
         },
-        "targettype": {
+        "targetAnimationID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Targettype"
+          "x-go-name": "TargetAnimationID"
+        },
+        "targetType": {
+          "$ref": "#/definitions/SpellTargetType"
+        },
+        "targetTypeID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TargetTypeID"
         },
         "teleportZone": {
+          "$ref": "#/definitions/Zone"
+        },
+        "teleportZoneShortName": {
           "$ref": "#/definitions/NullString"
         },
-        "typeName": {
-          "type": "string",
-          "x-go-name": "TypeName"
-        },
-        "typedescnum": {
+        "timeOfDay": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Typedescnum"
+          "x-go-name": "TimeOfDay"
+        },
+        "travelTypeID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TravelTypeID"
         },
         "uninterruptable": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Uninterruptable"
+        },
+        "unusuedIconID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UnusedIconID"
+        },
+        "useShortBuffBox": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UseShortBuffBox"
         },
         "viralRange": {
           "type": "integer",
@@ -7581,7 +7994,7 @@
         "youCast": {
           "$ref": "#/definitions/NullString"
         },
-        "zonetype": {
+        "zoneType": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Zonetype"
@@ -7589,8 +8002,8 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "SpellAnimationType": {
-      "description": "SpellAnimationType stores details about a spell animation",
+    "SpellAnimation": {
+      "description": "SpellAnimation represents animations on spells\nhttp://www.eqemulator.org/forums/showthread.php?t=30731",
       "type": "object",
       "properties": {
         "ID": {
@@ -7606,34 +8019,268 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "SpellEffect": {
-      "description": "SpellEffect stores details about a spell's effects",
+    "SpellClass": {
+      "description": "SpellClass stores minimum levels of each class\nranges 1 to 60",
       "type": "object",
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellComponent": {
+      "description": "ranges from 1 to 4",
+      "type": "object",
+      "title": "SpellComponent represents items required or utilized for the spell.",
       "properties": {
-        "BaseValue": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "Description": {
-          "type": "string"
-        },
-        "FormulaName": {
-          "type": "string"
-        },
         "ID": {
           "type": "integer",
           "format": "int64"
         },
-        "Name": {
-          "type": "string"
+        "count": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Count"
         },
-        "Type": {
+        "spellID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SpellID"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellDeity": {
+      "description": "There is a range of 0 to 16 to represent deities",
+      "type": "object",
+      "title": "SpellDeity represents the deities field inside spells_new.",
+      "properties": {
+        "ID": {
           "type": "integer",
           "format": "int64"
         },
-        "TypeName": {
-          "type": "string"
+        "deity": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Deity"
+        },
+        "spellID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SpellID"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffect": {
+      "description": "SpellEffect stores details about a spell's effects\nThere is 1 to 12 range of effects per spell",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "baseValue": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base"
+        },
+        "class": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Class"
+        },
+        "effectID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID"
+        },
+        "formula": {
+          "$ref": "#/definitions/SpellFormula"
+        },
+        "formulaID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID"
+        },
+        "limitValue": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit"
+        },
+        "max": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max"
+        },
+        "spellID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SpellID"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffectCategory": {
+      "description": "SpellEffectCategory determines the type of effect, used by spells. e.g. beneficial\nhttp://wiki.eqemulator.org/p?spells_new",
+      "type": "object",
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffectType": {
+      "description": "SpellEffectType is the effect id type, e.g. SE_CURRENT_HP_ONCE\nhttp://wiki.eqemulator.org/p?Spell_Effect_IDs",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellFormula": {
+      "description": "SpellFormula is used in various areas to represent spells",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellGroup": {
+      "description": "http://wiki.eqemulator.org/p?Spell_Groups\u0026frm=spells_new",
+      "type": "object",
+      "title": "SpellGroup is used to group together spells of similar types.",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellIcon": {
+      "description": "SpellIcon is used by spells to describe an icon",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellNimbus": {
+      "description": "SpellNimbus is used to describe spell nimbus effects",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellNumHitsType": {
+      "description": "SpellNumHitsType describes the type of numhits on a spell\nhttp://wiki.eqemulator.org/p?Numhit_Types\u0026frm=spells_new",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellOldIcon": {
+      "description": "SpellOldIcon is used by spells to describe an icon for older clients (pre luclin)",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellReagent": {
+      "description": "Ranges from 1 to 4",
+      "type": "object",
+      "title": "SpellReagent represents the no expend spell reagents used for a spell.",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "itemID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ItemID"
+        },
+        "spellID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SpellID"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellTargetType": {
+      "description": "SpellTargetType is used to identify who are valid targets for a spell\nhttp://wiki.eqemulator.org/p?Target_Types\u0026frm=spells_new",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellTravelType": {
+      "description": "SpellTravelType identifies the type of travel a spell uses",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Spells": {
+      "description": "Spells is an array of Spell",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Spell"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -7753,38 +8400,64 @@
       "description": "User represents the user for this application, and binds to accountID",
       "type": "object",
       "properties": {
-        "accountID": {
+        "ID": {
           "type": "integer",
-          "format": "int64",
-          "x-go-name": "AccountID"
+          "format": "int64"
         },
-        "characterID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "CharacterID"
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Account"
+          },
+          "x-go-name": "Accounts"
+        },
+        "characters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Character"
+          },
+          "x-go-name": "Characters"
+        },
+        "displayName": {
+          "type": "string",
+          "x-go-name": "DisplayName"
         },
         "email": {
           "type": "string",
           "x-go-name": "Email"
         },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "name": {
+        "googleToken": {
           "type": "string",
-          "x-go-name": "Name"
+          "x-go-name": "GoogleToken"
         },
         "password": {
           "type": "string",
           "x-go-name": "Password"
         },
-        "status": {
+        "primaryAccount": {
+          "$ref": "#/definitions/Account"
+        },
+        "primaryAccountID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Status"
+          "x-go-name": "PrimaryAccountID"
+        },
+        "primaryCharacter": {
+          "$ref": "#/definitions/Character"
+        },
+        "primaryCharacterID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PrimaryCharacterID"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Users": {
+      "description": "Users is an array of account",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/User"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -8373,6 +9046,74 @@
       "headers": {
         "page": {},
         "races": {}
+      }
+    },
+    "SpellResponse": {
+      "description": "SpellResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Spell"
+      },
+      "headers": {
+        "spell": {}
+      }
+    },
+    "SpellsBySearchResponse": {
+      "description": "SpellsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Spells"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spells": {}
+      }
+    },
+    "SpellsResponse": {
+      "description": "SpellsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Spells"
+      },
+      "headers": {
+        "page": {},
+        "spells": {}
+      }
+    },
+    "UserGoogleStartResponse": {
+      "description": "UserGoogleStartResponse is what endpoints respond with",
+      "headers": {
+        "redirectURL": {
+          "type": "string"
+        }
+      }
+    },
+    "UserResponse": {
+      "description": "UserResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/User"
+      },
+      "headers": {
+        "user": {}
+      }
+    },
+    "UsersBySearchResponse": {
+      "description": "UsersBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Users"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "users": {}
+      }
+    },
+    "UsersResponse": {
+      "description": "UsersResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Users"
+      },
+      "headers": {
+        "page": {},
+        "users": {}
       }
     },
     "ZoneExpansionResponse": {

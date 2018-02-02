@@ -2,7 +2,7 @@ package model
 
 import ()
 
-// Spell Animation represents animations on spells
+// SpellAnimation represents animations on spells
 // http://www.eqemulator.org/forums/showthread.php?t=30731
 // swagger:model
 type SpellAnimation struct {

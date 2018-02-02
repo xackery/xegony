@@ -575,6 +575,421 @@
       ]
     },
     {
+      "name": "spell",
+      "item": [
+        {
+          "name": "Lists spells",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spell",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spells by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spell",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spell",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spell",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "Lists users",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an user",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Start a google single sign on process",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/google/start",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "google",
+                "start"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search users by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an user",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an user",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an user",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
       "name": "zone",
       "item": [
         {
