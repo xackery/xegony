@@ -12,7 +12,6 @@ import (
 
 //LoadRaceFromFileToMemory is ran during initialization
 func LoadRaceFromFileToMemory() (err error) {
-	fmt.Printf("Loading races...")
 
 	fr, err := file.New("config", "race.yml", nil, nil)
 	if err != nil {
@@ -74,7 +73,7 @@ func LoadRaceFromFileToMemory() (err error) {
 		}
 	}
 
-	fmt.Printf(" (%d)\n", len(races))
+	fmt.Printf("%d races, ", len(races))
 	return
 }
 

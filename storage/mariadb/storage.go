@@ -32,27 +32,8 @@ func New(config string, w io.Writer, wErr io.Writer) (db *Storage, err error) {
 	}
 
 	if config == "" {
-		user := os.Getenv("API_DB_USERNAME")
-		if len(user) == 0 {
-			user = "eqemu"
-		}
-		pass := os.Getenv("API_DB_PASSWORD")
-		if len(pass) == 0 {
-			pass = "eqemu"
-		}
-		host := os.Getenv("API_DB_HOSTNAME")
-		if len(host) == 0 {
-			host = "127.0.0.1"
-		}
-		port := os.Getenv("API_DB_PORT")
-		if len(port) == 0 {
-			port = "3306"
-		}
-		dbname := os.Getenv("API_DB_NAME")
-		if len(dbname) == 0 {
-			dbname = "eqemu"
-		}
-		config = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=true", user, pass, host, port, dbname)
+		err = fmt.Errorf("Invalid configuration passed (empty)")
+		return
 	}
 	if db.db, err = sqlx.Open("mysql", config); err != nil {
 		return

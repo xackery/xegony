@@ -12,7 +12,6 @@ import (
 
 //LoadZoneExpansionFromFileToMemory is ran during initialization
 func LoadZoneExpansionFromFileToMemory() (err error) {
-	fmt.Printf("Loading zoneExpansions...")
 
 	fr, err := file.New("config", "zoneExpansion.yml", nil, nil)
 	if err != nil {
@@ -74,7 +73,7 @@ func LoadZoneExpansionFromFileToMemory() (err error) {
 		}
 	}
 
-	fmt.Printf(" (%d)\n", len(zoneExpansions))
+	fmt.Printf("%d zone expansions", len(zoneExpansions))
 	return
 }
 

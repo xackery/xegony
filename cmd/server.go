@@ -15,14 +15,19 @@
 package cmd
 
 import (
+	"fmt"
 	alog "log"
 	"net/http"
 	"os"
+	"runtime"
 
+	"github.com/dustin/go-humanize"
 	"github.com/gorilla/mux"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/bot"
+	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/storage"
 	"github.com/xackery/xegony/storage/mariadb"
 	"github.com/xackery/xegony/web"
@@ -44,7 +49,6 @@ var logErr *alog.Logger
 func init() {
 	rootCmd.AddCommand(serverCmd)
 
-	serverCmd.PersistentFlags().StringVarP(&connection, "connection", "", "eqemuconfig", "connection settings to connect to database, leave default for eqemu_connection")
 	serverCmd.PersistentFlags().StringVarP(&dbtype, "dbtype", "", "mysql", "type of database to connect to")
 }
 
@@ -59,12 +63,23 @@ func runServer(cmd *cobra.Command, args []string) {
 	log = alog.New(w, "Main: ", 0)
 	logErr = alog.New(wErr, "MainErr: ", 0)
 
-	if connection == "eqemuconfig" {
-		connection = ""
+	log.Printf("Loading data to memory...")
+	m := &runtime.MemStats{}
+	runtime.ReadMemStats(m)
+	var totalMemoryInUse uint64
+	totalMemoryInUse = m.Alloc
+
+	//We start with the config, since other endpoints utilize this information.
+	err = cases.LoadConfigFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load config to memory")
+		return
 	}
+
+	//parse arguments now that we have config info
 	if dbtype == "mysql" {
 		var db *mariadb.Storage
-		db, err = mariadb.New(connection, nil, nil)
+		db, err = mariadb.New(cases.GetConfigForMySQL(), nil, nil)
 		if err != nil {
 			log.Fatal("Failed to create mariadb:", err.Error())
 		}
@@ -80,6 +95,37 @@ func runServer(cmd *cobra.Command, args []string) {
 		log.Fatal("Failed to verify tables: ", err.Error())
 	}
 
+	err = cases.InitializeAll(sr, sw, si)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize all")
+		return
+	}
+
+	err = cases.LoadRaceFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zone to memory")
+		return
+	}
+	err = cases.LoadZoneFromDBToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zone to memory")
+		return
+	}
+
+	err = cases.LoadZoneExpansionFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zoneExpansion to memory")
+		return
+	}
+
+	fmt.Printf("\n")
+	runtime.ReadMemStats(m)
+	if m.Alloc > totalMemoryInUse {
+		totalMemoryInUse = m.Alloc - totalMemoryInUse
+	} else {
+		totalMemoryInUse = 0
+	}
+
 	listen := os.Getenv("API_LISTEN")
 	if len(listen) == 0 {
 		listen = ":8080"
@@ -87,22 +133,24 @@ func runServer(cmd *cobra.Command, args []string) {
 
 	router := mux.NewRouter().StrictSlash(true)
 
-	if err = bot.Initialize(sr, sw, si, connection, w, wErr); err != nil {
-		log.Fatal("Failed to initialize botServer:", err.Error())
-	}
-	bot.ApplyRoutes(router)
-
 	if err = api.Initialize(sr, sw, si, connection, w, wErr); err != nil {
-		log.Fatal("Failed to initialize apiServer:", err.Error())
+		log.Fatal("Failed to initialize api:", err.Error())
 	}
 	api.ApplyRoutes(router)
 
+	if err = bot.Initialize(sr, sw, si, connection, w, wErr); err != nil {
+		log.Fatal("Failed to initialize bot:", err.Error())
+	}
+	bot.ApplyRoutes(router)
+
 	if err = web.Initialize(sr, sw, si, connection, w, wErr); err != nil {
-		log.Fatal("Failed to initialize webServer:", err.Error())
+		log.Fatal("Failed to initialize web:", err.Error())
 	}
 	web.ApplyRoutes(router)
 
 	log.Println("Listening on", listen)
+
+	fmt.Printf("Using %s of memory for data in memory, %s total\n", humanize.Bytes(totalMemoryInUse), humanize.Bytes(m.TotalAlloc))
 	err = http.ListenAndServe(listen, router)
 	log.Println(err)
 }

@@ -51,7 +51,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
 	"github.com/pkg/errors"
-	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 )
@@ -101,31 +100,7 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 
 	cookieStore = sessions.NewCookieStore([]byte("™£ˆø®™£ˆ∆®lewifjwofij"))
 
-	err = cases.InitializeAll(sr, sw, si)
-	if err != nil {
-		err = errors.Wrap(err, "failed to initialize all")
-		return
-	}
-
-	err = cases.LoadRaceFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load zone to memory")
-		return
-	}
-
-	err = cases.LoadZoneFromDBToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load zone to memory")
-		return
-	}
-
-	err = cases.LoadZoneExpansionFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load zoneExpansion to memory")
-		return
-	}
-
-	log.Println("Initialized")
+	log.Println("Loaded successfully.")
 	return
 }
 

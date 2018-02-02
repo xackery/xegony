@@ -772,6 +772,379 @@
         }
       }
     },
+    "/config": {
+      "get": {
+        "description": "This will show all available configs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "config"
+        ],
+        "summary": "Lists configs",
+        "operationId": "listConfig",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ConfigsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an config",
+        "tags": [
+          "config"
+        ],
+        "summary": "Create an config",
+        "operationId": "createConfig",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Config",
+            "description": "Config details to create",
+            "name": "config",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Config"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ConfigResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/config/search": {
+      "get": {
+        "description": "This will show all available configs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "config"
+        ],
+        "summary": "Search configs by name",
+        "operationId": "listConfigBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "googleToken",
+            "x-go-name": "Key",
+            "description": "Key is which config to get information about",
+            "name": "key",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "key",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ConfigsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/config/{Key}": {
+      "get": {
+        "description": "This will get an individual config available configs by default.",
+        "tags": [
+          "config"
+        ],
+        "summary": "Get an config",
+        "operationId": "getConfig",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "74887",
+            "x-go-name": "Key",
+            "description": "Key to get information about",
+            "name": "key",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ConfigResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an config",
+        "tags": [
+          "config"
+        ],
+        "summary": "Edit an config",
+        "operationId": "editConfig",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "example": "googleToken",
+            "x-go-name": "Key",
+            "description": "Key to get information about",
+            "name": "key",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Config",
+            "description": "Config details to edit",
+            "name": "config",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Config"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ConfigResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an config",
+        "tags": [
+          "config"
+        ],
+        "summary": "Delete an config",
+        "operationId": "deleteConfig",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "example": "74887",
+            "x-go-name": "Key",
+            "description": "Key to get information about",
+            "name": "key",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/race": {
       "get": {
         "description": "This will show all available races by default.",
@@ -3748,6 +4121,41 @@
           "type": "string",
           "x-go-name": "ShortName"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Config": {
+      "description": "Config holds settings and configuration options",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "x-go-name": "Category"
+        },
+        "description": {
+          "type": "string",
+          "x-go-name": "Description"
+        },
+        "icon": {
+          "type": "string",
+          "x-go-name": "Icon"
+        },
+        "key": {
+          "type": "string",
+          "x-go-name": "Key"
+        },
+        "value": {
+          "type": "string",
+          "x-go-name": "Value"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Configs": {
+      "description": "Configs is an array of Config",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Config"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -9015,6 +9423,36 @@
       },
       "headers": {
         "characters": {},
+        "page": {}
+      }
+    },
+    "ConfigResponse": {
+      "description": "ConfigResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Config"
+      },
+      "headers": {
+        "config": {}
+      }
+    },
+    "ConfigsBySearchResponse": {
+      "description": "ConfigsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Configs"
+      },
+      "headers": {
+        "configs": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "ConfigsResponse": {
+      "description": "ConfigsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Configs"
+      },
+      "headers": {
+        "configs": {},
         "page": {}
       }
     },

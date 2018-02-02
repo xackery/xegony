@@ -11,7 +11,7 @@ import (
 
 //LoadZoneFromDBToMemory is ran during initialization
 func LoadZoneFromDBToMemory() (err error) {
-	fmt.Printf("Loading zones...")
+
 	mr, err := memory.New("", nil, nil)
 	if err != nil {
 		err = errors.Wrap(err, "failed to create new memory")
@@ -67,7 +67,7 @@ func LoadZoneFromDBToMemory() (err error) {
 		}
 	}
 
-	fmt.Printf(" (%d)\n", len(totalZones))
+	fmt.Printf("%d zones, ", len(totalZones))
 	return
 }
 

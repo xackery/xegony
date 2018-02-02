@@ -28,6 +28,13 @@ type Reader interface {
 	ListCharacterBySearch(page *model.Page, character *model.Character) (characters []*model.Character, err error)
 	ListCharacterBySearchTotalCount(character *model.Character) (count int64, err error)
 
+	//Config
+	GetConfig(config *model.Config) (err error)
+	ListConfig(page *model.Page) (configs []*model.Config, err error)
+	ListConfigTotalCount() (count int64, err error)
+	ListConfigBySearch(page *model.Page, config *model.Config) (configs []*model.Config, err error)
+	ListConfigBySearchTotalCount(config *model.Config) (count int64, err error)
+
 	//Race
 	GetRace(race *model.Race) (err error)
 	ListRace(page *model.Page) (races []*model.Race, err error)

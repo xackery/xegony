@@ -77,8 +77,8 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 	if w == nil {
 		w = os.Stdout
 	}
-	log = alog.New(w, "web: ", 0)
-	logErr = alog.New(w, "webError: ", 0)
+	log = alog.New(w, "WEB: ", 0)
+	logErr = alog.New(w, "WEBError: ", 0)
 
 	err = cases.InitializeAll(sr, sw, si)
 	if err != nil {

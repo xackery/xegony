@@ -26,6 +26,11 @@ type Writer interface {
 	EditCharacter(character *model.Character) (err error)
 	DeleteCharacter(character *model.Character) (err error)
 
+	//Config
+	CreateConfig(config *model.Config) (err error)
+	EditConfig(config *model.Config) (err error)
+	DeleteConfig(config *model.Config) (err error)
+
 	//Race
 	CreateRace(race *model.Race) (err error)
 	EditRace(race *model.Race) (err error)
