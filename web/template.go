@@ -15,44 +15,44 @@ type Template struct {
 	template *template.Template
 }
 
-func (w *Web) loadStandardTemplate(oldTemplate *template.Template) (tmp *template.Template, err error) {
+func loadStandardTemplate(oldTemplate *template.Template) (tmp *template.Template, err error) {
 	tmp = oldTemplate
-	tmp, err = w.loadTemplate(tmp, "navmenu", "navmenu.tpl")
+	tmp, err = loadTemplate(tmp, "navmenu", "navmenu.tpl")
 	if err != nil {
 		return
 	}
-	tmp, err = w.loadTemplate(tmp, "navigation", "navigation.tpl")
+	tmp, err = loadTemplate(tmp, "navigation", "navigation.tpl")
 	if err != nil {
 		return
 	}
-	tmp, err = w.loadTemplate(tmp, "header", "header.tpl")
+	tmp, err = loadTemplate(tmp, "header", "header.tpl")
 	if err != nil {
 		return
 	}
-	tmp, err = w.loadTemplate(tmp, "root", "root.tpl")
+	tmp, err = loadTemplate(tmp, "root", "root.tpl")
 	if err != nil {
 		return
 	}
 	return
 }
 
-func (w *Web) getTemplate(key string) (value *template.Template) {
+func getTemplate(key string) (value *template.Template) {
 
-	if tmp, ok := w.templates[key]; ok {
+	if tmp, ok := templates[key]; ok {
 		value = tmp.template
 		return
 	}
 	return
 }
 
-func (w *Web) setTemplate(key string, value *template.Template) {
+func setTemplate(key string, value *template.Template) {
 	tmp := &Template{
 		template: value,
 	}
-	w.templates[key] = tmp
+	templates[key] = tmp
 }
 
-func (w *Web) loadTemplate(oldTemplate *template.Template, key string, path string) (tmp *template.Template, err error) {
+func loadTemplate(oldTemplate *template.Template, key string, path string) (tmp *template.Template, err error) {
 	var bData []byte
 
 	//First, we try to use local file

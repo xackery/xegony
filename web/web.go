@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"log"
+	alog "log"
 	"net/http"
 	"os"
 	"strconv"
@@ -19,6 +19,12 @@ import (
 	"github.com/xackery/xegony/storage"
 )
 
+var (
+	templates = make(map[string]*Template)
+	log       *alog.Logger
+	logErr    *alog.Logger
+)
+
 type site struct {
 	Title       string //Title of site
 	Name        string
@@ -30,50 +36,7 @@ type site struct {
 	User        *model.User
 }
 
-//Web struct wraps all webServer related methods
-type Web struct {
-	templates map[string]*Template
-	log       *log.Logger
-	logErr    *log.Logger
-
-	accountRepo        *cases.AccountRepository
-	activityRepo       *cases.ActivityRepository
-	bazaarRepo         *cases.BazaarRepository
-	characterRepo      *cases.CharacterRepository
-	characterGraphRepo *cases.CharacterGraphRepository
-	errorRepo          *cases.ErrorRepository
-	factionRepo        *cases.FactionRepository
-	fishingRepo        *cases.FishingRepository
-	forageRepo         *cases.ForageRepository
-	forumRepo          *cases.ForumRepository
-	hackerRepo         *cases.HackerRepository
-	itemRepo           *cases.ItemRepository
-	lootDropEntryRepo  *cases.LootDropEntryRepository
-	lootDropRepo       *cases.LootDropRepository
-	lootTableEntryRepo *cases.LootTableEntryRepository
-	lootTableRepo      *cases.LootTableRepository
-	merchantRepo       *cases.MerchantRepository
-	merchantEntryRepo  *cases.MerchantEntryRepository
-	npcLootRepo        *cases.NpcLootRepository
-	npcRepo            *cases.NpcRepository
-	postRepo           *cases.PostRepository
-	recipeRepo         *cases.RecipeRepository
-	recipeEntryRepo    *cases.RecipeEntryRepository
-	ruleRepo           *cases.RuleRepository
-	skillRepo          *cases.SkillRepository
-	spawnRepo          *cases.SpawnRepository
-	spawnEntryRepo     *cases.SpawnEntryRepository
-	spawnNpcRepo       *cases.SpawnNpcRepository
-	spellRepo          *cases.SpellRepository
-	taskRepo           *cases.TaskRepository
-	topicRepo          *cases.TopicRepository
-	userRepo           *cases.UserRepository
-	variableRepo       *cases.VariableRepository
-	zoneLevelRepo      *cases.ZoneLevelRepository
-	zoneRepo           *cases.ZoneRepository
-}
-
-func (a *Web) newSite(r *http.Request) (data site) {
+func newSite(r *http.Request) (data site) {
 	data = site{
 		Name:        "Xegony",
 		Title:       "Xegony",
@@ -83,185 +46,57 @@ func (a *Web) newSite(r *http.Request) (data site) {
 	return
 }
 
-func (a *Web) indexRoutes() (routes []*route) {
+func indexRoutes() (routes []*route) {
 	routes = []*route{
 		{
 			"Index",
 			"GET",
 			"/",
-			a.listForum,
+			index,
 		},
 	}
 	return
 }
 
-//Initialize creates a new web instance
-func (a *Web) Initialize(s storage.Storage, config string, w io.Writer) (err error) {
-	a.templates = map[string]*Template{}
-
+// Initialize initializes Web endpoint with the implemented storage.
+// config can be empty, it will initialize based on environment variables
+// or by default values.
+func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, config string, w io.Writer, wErr io.Writer) (err error) {
+	if sr == nil {
+		err = fmt.Errorf("Invalid reader type passed, must be pointer reference")
+		return
+	}
+	if sw == nil {
+		err = fmt.Errorf("Invalid writer type passed, must be pointer reference")
+		return
+	}
+	if si == nil {
+		err = fmt.Errorf("Invalid initializer type passed, must be pointer reference")
+		return
+	}
 	if w == nil {
 		w = os.Stdout
 	}
-	a.log = log.New(w, "WEB: ", 0)
-	a.logErr = log.New(w, "WEBErr: ", 0)
+	log = alog.New(w, "web: ", 0)
+	logErr = alog.New(w, "webError: ", 0)
 
-	if s == nil {
-		err = fmt.Errorf("Invalid storage type passed, must be pointer reference")
+	err = cases.InitializeAll(sr, sw, si)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize all")
 		return
 	}
-
-	a.accountRepo = &cases.AccountRepository{}
-	if err = a.accountRepo.Initialize(s); err != nil {
-		return
-	}
-	a.activityRepo = &cases.ActivityRepository{}
-	if err = a.activityRepo.Initialize(s); err != nil {
-		return
-	}
-	a.bazaarRepo = &cases.BazaarRepository{}
-	if err = a.bazaarRepo.Initialize(s); err != nil {
-		return
-	}
-	a.characterRepo = &cases.CharacterRepository{}
-	if err = a.characterRepo.Initialize(s); err != nil {
-		return
-	}
-	a.characterGraphRepo = &cases.CharacterGraphRepository{}
-	if err = a.characterGraphRepo.Initialize(s); err != nil {
-		return
-	}
-	a.errorRepo = &cases.ErrorRepository{}
-	if err = a.errorRepo.Initialize(s); err != nil {
-		return
-	}
-	a.factionRepo = &cases.FactionRepository{}
-	if err = a.factionRepo.Initialize(s); err != nil {
-		return
-	}
-	a.fishingRepo = &cases.FishingRepository{}
-	if err = a.fishingRepo.Initialize(s); err != nil {
-		return
-	}
-	a.forageRepo = &cases.ForageRepository{}
-	if err = a.forageRepo.Initialize(s); err != nil {
-		return
-	}
-	a.forumRepo = &cases.ForumRepository{}
-	if err = a.forumRepo.Initialize(s); err != nil {
-		return
-	}
-	a.hackerRepo = &cases.HackerRepository{}
-	if err = a.hackerRepo.Initialize(s); err != nil {
-		return
-	}
-	a.itemRepo = &cases.ItemRepository{}
-	if err = a.itemRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootDropRepo = &cases.LootDropRepository{}
-	if err = a.lootDropRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootDropEntryRepo = &cases.LootDropEntryRepository{}
-	if err = a.lootDropEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootTableRepo = &cases.LootTableRepository{}
-	if err = a.lootTableRepo.Initialize(s); err != nil {
-		return
-	}
-	a.lootTableEntryRepo = &cases.LootTableEntryRepository{}
-	if err = a.lootTableEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.merchantRepo = &cases.MerchantRepository{}
-	if err = a.merchantRepo.Initialize(s); err != nil {
-		return
-	}
-	a.merchantEntryRepo = &cases.MerchantEntryRepository{}
-	if err = a.merchantEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.npcRepo = &cases.NpcRepository{}
-	if err = a.npcRepo.Initialize(s); err != nil {
-		return
-	}
-	a.npcLootRepo = &cases.NpcLootRepository{}
-	if err = a.npcLootRepo.Initialize(s); err != nil {
-		return
-	}
-	a.postRepo = &cases.PostRepository{}
-	if err = a.postRepo.Initialize(s); err != nil {
-		return
-	}
-	a.recipeRepo = &cases.RecipeRepository{}
-	if err = a.recipeRepo.Initialize(s); err != nil {
-		return
-	}
-	a.recipeEntryRepo = &cases.RecipeEntryRepository{}
-	if err = a.recipeEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.ruleRepo = &cases.RuleRepository{}
-	if err = a.ruleRepo.Initialize(s); err != nil {
-		return
-	}
-	a.skillRepo = &cases.SkillRepository{}
-	if err = a.skillRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnRepo = &cases.SpawnRepository{}
-	if err = a.spawnRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnEntryRepo = &cases.SpawnEntryRepository{}
-	if err = a.spawnEntryRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spawnNpcRepo = &cases.SpawnNpcRepository{}
-	if err = a.spawnNpcRepo.Initialize(s); err != nil {
-		return
-	}
-	a.spellRepo = &cases.SpellRepository{}
-	if err = a.spellRepo.Initialize(s); err != nil {
-		return
-	}
-	a.taskRepo = &cases.TaskRepository{}
-	if err = a.taskRepo.Initialize(s); err != nil {
-		return
-	}
-	a.topicRepo = &cases.TopicRepository{}
-	if err = a.topicRepo.Initialize(s); err != nil {
-		return
-	}
-	a.userRepo = &cases.UserRepository{}
-	if err = a.userRepo.Initialize(s); err != nil {
-		return
-	}
-	a.variableRepo = &cases.VariableRepository{}
-	if err = a.variableRepo.Initialize(s); err != nil {
-		return
-	}
-	a.zoneRepo = &cases.ZoneRepository{}
-	if err = a.zoneRepo.Initialize(s); err != nil {
-		return
-	}
-	a.zoneLevelRepo = &cases.ZoneLevelRepository{}
-	if err = a.zoneLevelRepo.Initialize(s); err != nil {
-		return
-	}
-	a.log.Println("Initialized")
+	log.Println("Initialized")
 	return
 }
 
-func (a *Web) index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+func index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
 		Site site
 		Host string
 	}
 
-	site := a.newSite(r)
+	site := newSite(r)
 	site.Page = "forum"
 	site.Title = "Xegony"
 
@@ -269,25 +104,25 @@ func (a *Web) index(w http.ResponseWriter, r *http.Request, user *model.User, st
 		Site: site,
 	}
 
-	tmp = a.getTemplate("")
+	tmp = getTemplate("")
 	if tmp == nil {
-		tmp, err = a.loadTemplate(nil, "body", "index.tpl")
+		tmp, err = loadTemplate(nil, "body", "index.tpl")
 		if err != nil {
 			return
 		}
-		tmp, err = a.loadStandardTemplate(tmp)
+		tmp, err = loadStandardTemplate(tmp)
 		if err != nil {
 			return
 		}
 
-		a.setTemplate("index", tmp)
+		setTemplate("index", tmp)
 	}
 
 	return
 }
 
-func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
-	a.log.Println(r.URL, "404 Not Found")
+func notFound(w http.ResponseWriter, r *http.Request) {
+	log.Println(r.URL, "404 Not Found")
 	var err error
 	path := "www/" + r.URL.Path[1:]
 
@@ -305,40 +140,40 @@ func (a *Web) notFound(w http.ResponseWriter, r *http.Request) {
 
 	//All failed, this is a true 404
 	err = fmt.Errorf("404 - Not Found: %s", r.URL)
-	a.writeError(w, r, err, http.StatusNotFound)
+	writeError(w, r, err, http.StatusNotFound)
 	return
 }
 
-func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
+func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode int) {
 
 	type Content struct {
 		Site    site
 		Message string
 		URL     string
 	}
-	site := a.newSite(r)
+	site := newSite(r)
 	site.Page = fmt.Sprintf("%d", statusCode)
 	site.Title = "Error"
 
-	tmp := a.getTemplate("")
+	tmp := getTemplate("")
 
 	//Figure out scope based on URL
 
-	a.logErr.Println(err.Error())
-	cErr := a.errorRepo.Create(&model.Error{
+	logErr.Println(err.Error())
+	/*cErr := errorRepo.Create(&model.Error{
 		URL:     r.URL.String(),
 		Scope:   "unknown",
 		Message: err.Error(),
 	}, nil)
 	if cErr != nil {
 		log.Println("Failed to create error", cErr.Error())
-	}
+	}*/
 
 	var tErr error
 	switch statusCode {
 	case http.StatusUnauthorized:
 		if tmp == nil {
-			tmp, tErr = a.loadTemplate(nil, "401", "401.tpl")
+			tmp, tErr = loadTemplate(nil, "401", "401.tpl")
 			if tErr != nil {
 				err = errors.Wrap(err, tErr.Error())
 			}
@@ -346,7 +181,7 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 		site.Title = "401 - Unauthorized"
 	case http.StatusBadRequest:
 		if tmp == nil {
-			tmp, tErr = a.loadTemplate(nil, "400", "400.tpl")
+			tmp, tErr = loadTemplate(nil, "400", "400.tpl")
 			if tErr != nil {
 				err = errors.Wrap(err, tErr.Error())
 			}
@@ -354,7 +189,7 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 		site.Title = "400 - Bad Request"
 	case http.StatusNotFound: //404
 		if tmp == nil {
-			tmp, tErr = a.loadTemplate(nil, "404", "404.tpl")
+			tmp, tErr = loadTemplate(nil, "404", "404.tpl")
 			if tErr != nil {
 				err = errors.Wrap(err, tErr.Error())
 			}
@@ -363,7 +198,7 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 	default: //500
 		statusCode = http.StatusInternalServerError
 		if tmp == nil {
-			tmp, tErr = a.loadTemplate(nil, "500", "500.tpl")
+			tmp, tErr = loadTemplate(nil, "500", "500.tpl")
 			if tErr != nil {
 				err = errors.Wrap(err, tErr.Error())
 			}
@@ -378,18 +213,18 @@ func (a *Web) writeError(w http.ResponseWriter, r *http.Request, err error, stat
 	if r != nil {
 		content.URL = r.URL.String()
 	}
-	a.writeData(w, r, tmp, content, statusCode)
+	writeData(w, r, tmp, content, statusCode)
 }
 
-func (a *Web) writeData(w http.ResponseWriter, r *http.Request, tmp *template.Template, content interface{}, statusCode int) {
+func writeData(w http.ResponseWriter, r *http.Request, tmp *template.Template, content interface{}, statusCode int) {
 	var err error
 	w.WriteHeader(statusCode)
 	if tmp == nil {
-		a.logErr.Println("Failed to load template", content)
+		logErr.Println("Failed to load template", content)
 		return
 	}
 	if err = tmp.Execute(w, content); err != nil {
-		a.logErr.Println("Failed to execute template:", err.Error())
+		logErr.Println("Failed to execute template:", err.Error())
 		return
 	}
 }
