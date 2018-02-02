@@ -2,14 +2,16 @@ package model
 
 import ()
 
-//SpellAnimationType stores details about a spell animation
+// Spell Animation represents animations on spells
+// http://www.eqemulator.org/forums/showthread.php?t=30731
 // swagger:model
-type SpellAnimationType struct {
+type SpellAnimation struct {
 	ID   int64
 	Type string
 	Name string
 }
 
+/*
 var spellAnimationTypes = map[int64]*SpellAnimationType{
 	-1: &SpellAnimationType{
 		ID:   -1,
@@ -2387,3 +2389,4 @@ var spellAnimationTypes = map[int64]*SpellAnimationType{
 		Name: `Firework of History`,
 	},
 }
+*/
