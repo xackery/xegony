@@ -772,6 +772,379 @@
         }
       }
     },
+    "/race": {
+      "get": {
+        "description": "This will show all available races by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "race"
+        ],
+        "summary": "Lists races",
+        "operationId": "listRace",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RacesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an race",
+        "tags": [
+          "race"
+        ],
+        "summary": "Create an race",
+        "operationId": "createRace",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Race",
+            "description": "Race details to create",
+            "name": "race",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Race"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RaceResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/race/search": {
+      "get": {
+        "description": "This will show all available races by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "race"
+        ],
+        "summary": "Search races by name",
+        "operationId": "listRaceBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which race to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RacesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/race/{ID}": {
+      "get": {
+        "description": "This will get an individual race available races by default.",
+        "tags": [
+          "race"
+        ],
+        "summary": "Get an race",
+        "operationId": "getRace",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RaceResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an race",
+        "tags": [
+          "race"
+        ],
+        "summary": "Edit an race",
+        "operationId": "editRace",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Race",
+            "description": "Race details to edit",
+            "name": "race",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Race"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/RaceResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an race",
+        "tags": [
+          "race"
+        ],
+        "summary": "Delete an race",
+        "operationId": "deleteRace",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/zone": {
       "get": {
         "description": "This will show all available zones by default.",
@@ -1101,6 +1474,379 @@
         ],
         "summary": "Delete an zone",
         "operationId": "deleteZone",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zoneExpansion": {
+      "get": {
+        "description": "This will show all available zoneExpansions by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zoneExpansion"
+        ],
+        "summary": "Lists zoneExpansions",
+        "operationId": "listZoneExpansion",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an zoneExpansion",
+        "tags": [
+          "zoneExpansion"
+        ],
+        "summary": "Create an zoneExpansion",
+        "operationId": "createZoneExpansion",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "ZoneExpansion",
+            "description": "ZoneExpansion details to create",
+            "name": "zoneExpansion",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ZoneExpansion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zoneExpansion/search": {
+      "get": {
+        "description": "This will show all available zoneExpansions by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zoneExpansion"
+        ],
+        "summary": "Search zoneExpansions by name",
+        "operationId": "listZoneExpansionBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "ShortName",
+            "description": "ShortName is which zoneExpansion to get information about",
+            "name": "shortName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zoneExpansion/{ID}": {
+      "get": {
+        "description": "This will get an individual zoneExpansion available zoneExpansions by default.",
+        "tags": [
+          "zoneExpansion"
+        ],
+        "summary": "Get an zoneExpansion",
+        "operationId": "getZoneExpansion",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an zoneExpansion",
+        "tags": [
+          "zoneExpansion"
+        ],
+        "summary": "Edit an zoneExpansion",
+        "operationId": "editZoneExpansion",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "ZoneExpansion",
+            "description": "ZoneExpansion details to edit",
+            "name": "zoneExpansion",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ZoneExpansion"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneExpansionResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an zoneExpansion",
+        "tags": [
+          "zoneExpansion"
+        ],
+        "summary": "Delete an zoneExpansion",
+        "operationId": "deleteZoneExpansion",
         "security": [
           {
             "apiKey": []
@@ -5039,6 +5785,14 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Races": {
+      "description": "Races is an array of Race",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Race"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "Recipe": {
       "description": "Recipe represents tradeskill recipes inside everquest",
       "type": "object",
@@ -7457,6 +8211,38 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "ZoneExpansion": {
+      "description": "ZoneExpansion represents the zoneExpansion table, Everquest is split into zoneExpansions",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "bit": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Bit"
+        },
+        "longName": {
+          "type": "string",
+          "x-go-name": "LongName"
+        },
+        "shortName": {
+          "type": "string",
+          "x-go-name": "ShortName"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "ZoneExpansions": {
+      "description": "ZoneExpansions is an array of zoneExpansion",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ZoneExpansion"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "ZoneLevel": {
       "description": "ZoneLevel is a cache table used to get levels a zone is available for",
       "type": "object",
@@ -7495,10 +8281,6 @@
       "items": {
         "$ref": "#/definitions/Zone"
       },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "zoneSorter": {
-      "type": "object",
       "x-go-package": "github.com/xackery/xegony/model"
     }
   },
@@ -7561,6 +8343,66 @@
       "headers": {
         "characters": {},
         "page": {}
+      }
+    },
+    "RaceResponse": {
+      "description": "RaceResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Race"
+      },
+      "headers": {
+        "race": {}
+      }
+    },
+    "RacesBySearchResponse": {
+      "description": "RacesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Races"
+      },
+      "headers": {
+        "page": {},
+        "races": {},
+        "search": {}
+      }
+    },
+    "RacesResponse": {
+      "description": "RacesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Races"
+      },
+      "headers": {
+        "page": {},
+        "races": {}
+      }
+    },
+    "ZoneExpansionResponse": {
+      "description": "ZoneExpansionResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/ZoneExpansion"
+      },
+      "headers": {
+        "zoneExpansion": {}
+      }
+    },
+    "ZoneExpansionsBySearchResponse": {
+      "description": "ZoneExpansionsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/ZoneExpansions"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "zoneExpansions": {}
+      }
+    },
+    "ZoneExpansionsResponse": {
+      "description": "ZoneExpansionsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/ZoneExpansions"
+      },
+      "headers": {
+        "page": {},
+        "zoneExpansions": {}
       }
     },
     "ZoneResponse": {
