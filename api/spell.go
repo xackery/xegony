@@ -363,7 +363,7 @@ func listSpellBySearch(w http.ResponseWriter, r *http.Request, user *model.User,
 		IsDescending: getIntQuery(r, "isDescending"),
 	}
 	spell := &model.Spell{}
-	spell.ShortName.String = getQuery(r, "shortName")
+	spell.Name.String = getQuery(r, "shortName")
 	spells, err := cases.ListSpellBySearch(page, spell, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
