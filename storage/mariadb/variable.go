@@ -108,7 +108,6 @@ func (s *Storage) ListVariableBySearch(page *model.Page, variable *model.Variabl
 		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
-	fmt.Println(query)
 
 	for rows.Next() {
 		variable := model.Variable{}

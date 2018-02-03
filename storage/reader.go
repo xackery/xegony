@@ -63,6 +63,20 @@ type Reader interface {
 	ListSpellBySearch(page *model.Page, spell *model.Spell) (spells []*model.Spell, err error)
 	ListSpellBySearchTotalCount(spell *model.Spell) (count int64, err error)
 
+	//SpellAnimation
+	GetSpellAnimation(spellAnimation *model.SpellAnimation) (err error)
+	ListSpellAnimation(page *model.Page) (spellAnimations []*model.SpellAnimation, err error)
+	ListSpellAnimationTotalCount() (count int64, err error)
+	ListSpellAnimationBySearch(page *model.Page, spellAnimation *model.SpellAnimation) (spellAnimations []*model.SpellAnimation, err error)
+	ListSpellAnimationBySearchTotalCount(spellAnimation *model.SpellAnimation) (count int64, err error)
+
+	//SpellAnimationType
+	GetSpellAnimationType(spellAnimationType *model.SpellAnimationType) (err error)
+	ListSpellAnimationType(page *model.Page) (spellAnimationTypes []*model.SpellAnimationType, err error)
+	ListSpellAnimationTypeTotalCount() (count int64, err error)
+	ListSpellAnimationTypeBySearch(page *model.Page, spellAnimationType *model.SpellAnimationType) (spellAnimationTypes []*model.SpellAnimationType, err error)
+	ListSpellAnimationTypeBySearchTotalCount(spellAnimationType *model.SpellAnimationType) (count int64, err error)
+
 	//User
 	GetUser(user *model.User) (err error)
 	ListUser(page *model.Page) (users []*model.User, err error)

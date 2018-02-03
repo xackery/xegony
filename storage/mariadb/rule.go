@@ -107,7 +107,6 @@ func (s *Storage) ListRuleBySearch(page *model.Page, rule *model.Rule) (rules []
 		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
-	fmt.Println(query)
 
 	for rows.Next() {
 		rule := model.Rule{}

@@ -1370,6 +1370,404 @@
       ]
     },
     {
+      "name": "spellAnimation",
+      "item": [
+        {
+          "name": "Lists spellAnimations",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spellAnimation",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spellAnimations by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spellAnimation",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spellAnimation",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spellAnimation",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "spellAnimationType",
+      "item": [
+        {
+          "name": "Lists spellAnimationTypes",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                "type"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spellAnimationType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                "type"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spellAnimationTypes by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/type/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                "type",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spellAnimationType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spellAnimationType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spellAnimationType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/animation/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "animation",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
       "name": "user",
       "item": [
         {

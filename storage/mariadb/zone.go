@@ -108,7 +108,6 @@ func (s *Storage) ListZoneBySearch(page *model.Page, zone *model.Zone) (zones []
 		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
-	fmt.Println(query)
 
 	for rows.Next() {
 		zone := model.Zone{}

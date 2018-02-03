@@ -22,7 +22,7 @@ type Spell struct {
 	EffectCategory      *SpellEffectCategory `json:"effectCategory,omitempty"`
 	Effects             []*SpellEffect       `json:"effects,omitempty"`
 	EnvironmentType     *EnvironmentType     `json:"environmentType,omitempty"`
-	Group               *SpellGroup          `json:"group"`
+	Group               *SpellGroup          `json:"group,omitempty"`
 	Icon                *SpellIcon           `json:"spellIcon,omitempty"`
 	LightType           *LightType           `json:"lightType,omitempty"`
 	NumHitsType         *SpellNumHitsType    `json:"numHitsType,omitempty"`
@@ -33,8 +33,8 @@ type Spell struct {
 	Skill               *Skill               `json:"skill,omitempty"`
 	TargetAnimation     *SpellAnimation      `json:"targetAnimation,omitempty"`
 	TargetType          *SpellTargetType     `json:"targetType,omitempty"`
-	TeleportZone        *Zone                `json:"teleportZone"`
-	Nimbus              *SpellNimbus         `json:"nimbus"`
+	TeleportZone        *Zone                `json:"teleportZone,omitempty"`
+	Nimbus              *SpellNimbus         `json:"nimbus,omitempty"`
 
 	ID                    int64          `json:"ID,omitempty" db:"id"`                                     //`id` int(11) NOT NULL DEFAULT '0',
 	Name                  sql.NullString `json:"name,omitempty" db:"name"`                                 //`name` varchar(64) DEFAULT NULL,

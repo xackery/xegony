@@ -108,7 +108,6 @@ func (s *Storage) ListSpellBySearch(page *model.Page, spell *model.Spell) (spell
 		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
-	fmt.Println(query)
 
 	for rows.Next() {
 		spell := model.Spell{}

@@ -75,10 +75,10 @@ type SpellsResponse struct {
 // SpellsBySearchRequest is a list of parameters used for spell
 // swagger:parameters listSpellBySearch
 type SpellsBySearchRequest struct {
-	// ShortName is which spell to get information about
-	// example: xackery
+	// Name is which spell to get information about
+	// example: heal
 	// in: query
-	ShortName string `json:"shortName"`
+	Name string `json:"name"`
 	// Offset is pagination, offset*limit
 	// example: 0
 	// in: query
@@ -363,7 +363,7 @@ func listSpellBySearch(w http.ResponseWriter, r *http.Request, user *model.User,
 		IsDescending: getIntQuery(r, "isDescending"),
 	}
 	spell := &model.Spell{}
-	spell.Name.String = getQuery(r, "shortName")
+	spell.Name.String = getQuery(r, "name")
 	spells, err := cases.ListSpellBySearch(page, spell, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")

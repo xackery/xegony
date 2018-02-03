@@ -97,6 +97,12 @@ func ListSpellBySearch(page *model.Page, spell *model.Spell, user *model.User) (
 		return
 	}
 
+	page.Total, err = reader.ListSpellBySearchTotalCount(spell)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get page total")
+		return
+	}
+
 	for _, spell := range spells {
 		err = sanitizeSpell(spell, user)
 		if err != nil {
@@ -370,6 +376,18 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 	if err != nil {
 		err = nil
 	}
+
+	if spell.AnimationID > 0 {
+		spell.Animation = &model.SpellAnimation{
+			ID: spell.AnimationID,
+		}
+		err = GetSpellAnimation(spell.Animation, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell animation during sanitize spell")
+			return
+		}
+	}
+
 	return
 }
 

@@ -51,6 +51,16 @@ type Writer interface {
 	EditSpell(spell *model.Spell) (err error)
 	DeleteSpell(spell *model.Spell) (err error)
 
+	//SpellAnimation
+	CreateSpellAnimation(spellAnimation *model.SpellAnimation) (err error)
+	EditSpellAnimation(spellAnimation *model.SpellAnimation) (err error)
+	DeleteSpellAnimation(spellAnimation *model.SpellAnimation) (err error)
+
+	//SpellAnimationType
+	CreateSpellAnimationType(spellAnimationType *model.SpellAnimationType) (err error)
+	EditSpellAnimationType(spellAnimationType *model.SpellAnimationType) (err error)
+	DeleteSpellAnimationType(spellAnimationType *model.SpellAnimationType) (err error)
+
 	//User
 	CreateUser(user *model.User) (err error)
 	EditUser(user *model.User) (err error)

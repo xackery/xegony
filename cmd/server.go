@@ -128,6 +128,18 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 		return
 	}
 
+	err = cases.LoadSpellAnimationFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load spellAnimation to memory")
+		return
+	}
+
+	err = cases.LoadSpellAnimationTypeFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load spellAnimationType to memory")
+		return
+	}
+
 	err = cases.LoadVariableFromDBToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load variable to memory")

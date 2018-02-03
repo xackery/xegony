@@ -2464,6 +2464,752 @@
         }
       }
     },
+    "/spell/animation": {
+      "get": {
+        "description": "This will show all available spellAnimations by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellAnimation"
+        ],
+        "summary": "Lists spellAnimations",
+        "operationId": "listSpellAnimation",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spellAnimation",
+        "tags": [
+          "spellAnimation"
+        ],
+        "summary": "Create an spellAnimation",
+        "operationId": "createSpellAnimation",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "SpellAnimation",
+            "description": "SpellAnimation details to create",
+            "name": "spellAnimation",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellAnimation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/animation/search": {
+      "get": {
+        "description": "This will show all available spellAnimations by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellAnimation"
+        ],
+        "summary": "Search spellAnimations by name",
+        "operationId": "listSpellAnimationBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which spellAnimation to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/animation/type": {
+      "get": {
+        "description": "This will show all available spellAnimationTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellAnimationType"
+        ],
+        "summary": "Lists spellAnimationTypes",
+        "operationId": "listSpellAnimationType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationTypesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spellAnimationType",
+        "tags": [
+          "spellAnimationType"
+        ],
+        "summary": "Create an spellAnimationType",
+        "operationId": "createSpellAnimationType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "SpellAnimationType",
+            "description": "SpellAnimationType details to create",
+            "name": "spellAnimationType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellAnimationType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/animation/type/search": {
+      "get": {
+        "description": "This will show all available spellAnimationTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellAnimationType"
+        ],
+        "summary": "Search spellAnimationTypes by name",
+        "operationId": "listSpellAnimationTypeBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which spellAnimationType to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationTypesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/animation/type/{ID}": {
+      "get": {
+        "description": "This will get an individual spellAnimationType available spellAnimationTypes by default.",
+        "tags": [
+          "spellAnimationType"
+        ],
+        "summary": "Get an spellAnimationType",
+        "operationId": "getSpellAnimationType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationTypeResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spellAnimationType",
+        "tags": [
+          "spellAnimationType"
+        ],
+        "summary": "Edit an spellAnimationType",
+        "operationId": "editSpellAnimationType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpellAnimationType",
+            "description": "SpellAnimationType details to edit",
+            "name": "spellAnimationType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellAnimationType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spellAnimationType",
+        "tags": [
+          "spellAnimationType"
+        ],
+        "summary": "Delete an spellAnimationType",
+        "operationId": "deleteSpellAnimationType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/animation/{ID}": {
+      "get": {
+        "description": "This will get an individual spellAnimation available spellAnimations by default.",
+        "tags": [
+          "spellAnimation"
+        ],
+        "summary": "Get an spellAnimation",
+        "operationId": "getSpellAnimation",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spellAnimation",
+        "tags": [
+          "spellAnimation"
+        ],
+        "summary": "Edit an spellAnimation",
+        "operationId": "editSpellAnimation",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpellAnimation",
+            "description": "SpellAnimation details to edit",
+            "name": "spellAnimation",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellAnimation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellAnimationResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spellAnimation",
+        "tags": [
+          "spellAnimation"
+        ],
+        "summary": "Delete an spellAnimation",
+        "operationId": "deleteSpellAnimation",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/spell/search": {
       "get": {
         "description": "This will show all available spells by default.",
@@ -2483,10 +3229,10 @@
         "parameters": [
           {
             "type": "string",
-            "example": "xackery",
-            "x-go-name": "ShortName",
-            "description": "ShortName is which spell to get information about",
-            "name": "shortName",
+            "example": "heal",
+            "x-go-name": "Name",
+            "description": "Name is which spell to get information about",
+            "name": "name",
             "in": "query"
           },
           {
@@ -9681,12 +10427,53 @@
           "type": "integer",
           "format": "int64"
         },
-        "Name": {
-          "type": "string"
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
         },
-        "Type": {
-          "type": "string"
+        "type": {
+          "$ref": "#/definitions/SpellAnimationType"
+        },
+        "typeID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TypeID"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellAnimationType": {
+      "description": "SpellAnimationType represents animation types on spells\nhttp://www.eqemulator.org/forums/showthread.php?t=30731",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "shortName": {
+          "type": "string",
+          "x-go-name": "ShortName"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellAnimationTypes": {
+      "description": "SpellAnimationTypes is an array of spellAnimationType",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpellAnimationType"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellAnimations": {
+      "description": "SpellAnimations is an array of spellAnimation",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpellAnimation"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -10824,6 +11611,66 @@
       "headers": {
         "page": {},
         "rules": {}
+      }
+    },
+    "SpellAnimationResponse": {
+      "description": "SpellAnimationResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpellAnimation"
+      },
+      "headers": {
+        "spellAnimation": {}
+      }
+    },
+    "SpellAnimationTypeResponse": {
+      "description": "SpellAnimationTypeResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpellAnimationType"
+      },
+      "headers": {
+        "spellAnimationType": {}
+      }
+    },
+    "SpellAnimationTypesBySearchResponse": {
+      "description": "SpellAnimationTypesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellAnimationTypes"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spellAnimationTypes": {}
+      }
+    },
+    "SpellAnimationTypesResponse": {
+      "description": "SpellAnimationTypesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellAnimationTypes"
+      },
+      "headers": {
+        "page": {},
+        "spellAnimationTypes": {}
+      }
+    },
+    "SpellAnimationsBySearchResponse": {
+      "description": "SpellAnimationsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellAnimations"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spellAnimations": {}
+      }
+    },
+    "SpellAnimationsResponse": {
+      "description": "SpellAnimationsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellAnimations"
+      },
+      "headers": {
+        "page": {},
+        "spellAnimations": {}
       }
     },
     "SpellResponse": {
