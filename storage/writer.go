@@ -56,6 +56,11 @@ type Writer interface {
 	EditUser(user *model.User) (err error)
 	DeleteUser(user *model.User) (err error)
 
+	//Variable
+	CreateVariable(variable *model.Variable) (err error)
+	EditVariable(variable *model.Variable) (err error)
+	DeleteVariable(variable *model.Variable) (err error)
+
 	//Zone
 	CreateZone(zone *model.Zone) (err error)
 	EditZone(zone *model.Zone) (err error)

@@ -127,6 +127,13 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 		err = errors.Wrap(err, "failed to load ruleEntry to memory")
 		return
 	}
+
+	err = cases.LoadVariableFromDBToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load variable to memory")
+		return
+	}
+
 	err = cases.LoadZoneFromDBToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load zone to memory")

@@ -3177,6 +3177,379 @@
         }
       }
     },
+    "/variable": {
+      "get": {
+        "description": "This will show all available variables by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "variable"
+        ],
+        "summary": "Lists variables",
+        "operationId": "listVariable",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/VariablesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an variable",
+        "tags": [
+          "variable"
+        ],
+        "summary": "Create an variable",
+        "operationId": "createVariable",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Variable",
+            "description": "Variable details to create",
+            "name": "variable",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Variable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/VariableResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/variable/search": {
+      "get": {
+        "description": "This will show all available variables by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "variable"
+        ],
+        "summary": "Search variables by name",
+        "operationId": "listVariableBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "ShortName",
+            "description": "ShortName is which variable to get information about",
+            "name": "shortName",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "short_name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/VariablesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/variable/{name}": {
+      "get": {
+        "description": "This will get an individual variable available variables by default.",
+        "tags": [
+          "variable"
+        ],
+        "summary": "Get an variable",
+        "operationId": "getVariable",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "74887",
+            "x-go-name": "Name",
+            "description": "Name to get information about",
+            "name": "name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/VariableResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an variable",
+        "tags": [
+          "variable"
+        ],
+        "summary": "Edit an variable",
+        "operationId": "editVariable",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "example": "74887",
+            "x-go-name": "Name",
+            "description": "Name to get information about",
+            "name": "name",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Variable",
+            "description": "Variable details to edit",
+            "name": "variable",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Variable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/VariableResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an variable",
+        "tags": [
+          "variable"
+        ],
+        "summary": "Delete an variable",
+        "operationId": "deleteVariable",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "example": "74887",
+            "x-go-name": "Name",
+            "description": "Name to get information about",
+            "name": "name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/zone": {
       "get": {
         "description": "This will show all available zones by default.",
@@ -8107,7 +8480,7 @@
     },
     "RuleEntry": {
       "type": "object",
-      "title": "Rule represents the zone table, Everquest is split into zones.",
+      "title": "RuleEntry represents a rule entry.",
       "properties": {
         "description": {
           "$ref": "#/definitions/NullString"
@@ -9763,23 +10136,31 @@
       "type": "object",
       "title": "Variable represents the zone table, Everquest is split into zones.",
       "properties": {
-        "information": {
+        "description": {
           "type": "string",
-          "x-go-name": "Information"
+          "x-go-name": "Description"
+        },
+        "modifiedDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "ModifiedDate"
         },
         "name": {
           "type": "string",
           "x-go-name": "Name"
         },
-        "ts": {
-          "type": "string",
-          "format": "date-time",
-          "x-go-name": "Ts"
-        },
         "value": {
           "type": "string",
           "x-go-name": "Value"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Variables": {
+      "description": "Variables is an array of variable",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Variable"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -10519,6 +10900,36 @@
       "headers": {
         "page": {},
         "users": {}
+      }
+    },
+    "VariableResponse": {
+      "description": "VariableResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Variable"
+      },
+      "headers": {
+        "variable": {}
+      }
+    },
+    "VariablesBySearchResponse": {
+      "description": "VariablesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Variables"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "variables": {}
+      }
+    },
+    "VariablesResponse": {
+      "description": "VariablesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Variables"
+      },
+      "headers": {
+        "page": {},
+        "variables": {}
       }
     },
     "ZoneExpansionResponse": {

@@ -230,6 +230,7 @@ func CreateRuleEntry(rule *model.Rule, ruleEntry *model.RuleEntry, user *model.U
 	return
 }
 
+//GetRuleEntryValueFloat returns a float value
 func GetRuleEntryValueFloat(ruleID int64, name string) (value float64) {
 	valStr := GetRuleEntryValue(ruleID, name)
 	if len(valStr) == 0 {

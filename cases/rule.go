@@ -400,7 +400,7 @@ func validateRule(rule *model.Rule, required []string, optional []string) (err e
 
 func validateOrderByRuleField(page *model.Page) (err error) {
 	if len(page.OrderBy) == 0 {
-		page.OrderBy = "shortName"
+		page.OrderBy = "name"
 	}
 
 	validNames := []string{

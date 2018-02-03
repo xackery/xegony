@@ -70,6 +70,13 @@ type Reader interface {
 	ListUserBySearch(page *model.Page, user *model.User) (users []*model.User, err error)
 	ListUserBySearchTotalCount(user *model.User) (count int64, err error)
 
+	//Variable
+	GetVariable(variable *model.Variable) (err error)
+	ListVariable(page *model.Page) (variables []*model.Variable, err error)
+	ListVariableTotalCount() (count int64, err error)
+	ListVariableBySearch(page *model.Page, variable *model.Variable) (variables []*model.Variable, err error)
+	ListVariableBySearchTotalCount(variable *model.Variable) (count int64, err error)
+
 	//Zone
 	GetZone(zone *model.Zone) (err error)
 	ListZone(page *model.Page) (zones []*model.Zone, err error)

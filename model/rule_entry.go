@@ -8,7 +8,7 @@ import (
 // swagger:model
 type RuleEntrys []*RuleEntry
 
-//Rule represents the zone table, Everquest is split into zones.
+//RuleEntry represents a rule entry.
 // swagger:model
 type RuleEntry struct {
 	ValueFloat float64 `json:"valueFloat,omitempty"`

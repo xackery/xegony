@@ -37,6 +37,7 @@ func ApplyRoutes(router *mux.Router) {
 	routes = append(routes, spellRoutes()...)
 	routes = append(routes, userRoutes()...)
 	routes = append(routes, userGoogleRoutes()...)
+	routes = append(routes, variableRoutes()...)
 	routes = append(routes, zoneRoutes()...)
 	routes = append(routes, zoneExpansionRoutes()...)
 
