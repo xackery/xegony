@@ -2370,7 +2370,7 @@
           },
           {
             "type": "string",
-            "example": "short_name",
+            "example": "name",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -2509,7 +2509,7 @@
           },
           {
             "type": "string",
-            "example": "short_name",
+            "example": "name",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -2562,7 +2562,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 12,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -2609,7 +2609,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 12,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -2671,7 +2671,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 12,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",

@@ -5,71 +5,8 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
-	"github.com/xackery/xegony/storage/memory"
 	"github.com/xeipuuv/gojsonschema"
 )
-
-//LoadSpellFromDBToMemory is ran during initialization
-func LoadSpellFromDBToMemory() (err error) {
-	fmt.Printf("Loading spells...")
-	mr, err := memory.New("", nil, nil)
-	if err != nil {
-		err = errors.Wrap(err, "failed to create new memory")
-		return
-	}
-
-	err = Initialize("spell-memory", mr, mr, mr)
-	if err != nil {
-		err = errors.Wrap(err, "failed to initialize spell-memory")
-		return
-	}
-
-	dbReader, err := getReader("spell")
-	if err != nil {
-		err = errors.Wrap(err, "failed to get spell reader")
-		return
-	}
-
-	memWriter, err := getWriter("spell-memory")
-	if err != nil {
-		err = errors.Wrap(err, "failed to get spell-memory writer")
-		return
-	}
-
-	page := &model.Page{
-		Limit: 100,
-	}
-	page.Total, err = dbReader.ListSpellTotalCount()
-	if err != nil {
-		err = errors.Wrap(err, "failed to get list spell count")
-		return
-	}
-	var totalSpells []*model.Spell
-	var spells []*model.Spell
-	for {
-		spells, err = dbReader.ListSpell(page)
-		if err != nil {
-			err = errors.Wrap(err, "failed to list spells")
-			return
-		}
-		totalSpells = append(totalSpells, spells...)
-		if int64(len(totalSpells)) >= page.Total {
-			break
-		}
-		page.Offset++
-	}
-
-	for _, spell := range totalSpells {
-		err = memWriter.CreateSpell(spell)
-		if err != nil {
-			err = errors.Wrap(err, "failed to create spell")
-			return
-		}
-	}
-
-	fmt.Printf(" (%d)\n", len(totalSpells))
-	return
-}
 
 //ListSpell lists all spells accessible by provided user
 func ListSpell(page *model.Page, user *model.User) (spells []*model.Spell, err error) {
@@ -83,7 +20,7 @@ func ListSpell(page *model.Page, user *model.User) (spells []*model.Spell, err e
 		return
 	}
 
-	reader, err := getReader("spell-memory")
+	reader, err := getReader("spell")
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare reader for spell")
 		return
@@ -142,13 +79,13 @@ func ListSpellBySearch(page *model.Page, spell *model.Spell, user *model.User) (
 	}
 
 	err = validateSpell(spell, nil, []string{ //optional
-		"shortName",
+		"name",
 	})
 	if err != nil {
 		err = errors.Wrap(err, "failed to validate spell")
 		return
 	}
-	reader, err := getReader("spell-memory")
+	reader, err := getReader("spell")
 	if err != nil {
 		err = errors.Wrap(err, "failed to get spell reader")
 		return
@@ -213,14 +150,14 @@ func CreateSpell(spell *model.Spell, user *model.User) (err error) {
 		return
 	}
 
-	memWriter, err := getWriter("spell-memory")
+	memWriter, err := getWriter("spell")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for spell-memory")
+		err = errors.Wrap(err, "failed to get writer for spell")
 		return
 	}
 	err = memWriter.CreateSpell(spell)
 	if err != nil {
-		err = errors.Wrap(err, "failed to edit spell-memory")
+		err = errors.Wrap(err, "failed to edit spell")
 		return
 	}
 
@@ -246,7 +183,7 @@ func GetSpell(spell *model.Spell, user *model.User) (err error) {
 		return
 	}
 
-	reader, err := getReader("spell-memory")
+	reader, err := getReader("spell")
 	if err != nil {
 		err = errors.Wrap(err, "failed to get spell reader")
 		return
@@ -284,22 +221,7 @@ func EditSpell(spell *model.Spell, user *model.User) (err error) {
 		[]string{"ID"}, //required
 		[]string{ //optional
 			"name",
-			"charname",
-			"sharedplat",
-			"password",
-			"status",
-			"lsspellID",
-			"gmspeed",
-			"revoked",
-			"karma",
-			"miniloginIp",
-			"hideme",
-			"rulesflag",
-			"suspendeduntil",
-			"timeCreation",
-			"expansion",
-			"banReason",
-			"suspendReason"},
+		},
 	)
 	if err != nil {
 		err = errors.Wrap(err, "failed to validate spell")
@@ -316,14 +238,14 @@ func EditSpell(spell *model.Spell, user *model.User) (err error) {
 		return
 	}
 
-	memWriter, err := getWriter("spell-memory")
+	memWriter, err := getWriter("spell")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for spell-memory")
+		err = errors.Wrap(err, "failed to get writer for spell")
 		return
 	}
 	err = memWriter.EditSpell(spell)
 	if err != nil {
-		err = errors.Wrap(err, "failed to edit spell-memory")
+		err = errors.Wrap(err, "failed to edit spell")
 		return
 	}
 
@@ -364,14 +286,14 @@ func DeleteSpell(spell *model.Spell, user *model.User) (err error) {
 		return
 	}
 
-	memWriter, err := getWriter("spell-memory")
+	memWriter, err := getWriter("spell")
 	if err != nil {
-		err = errors.Wrap(err, "failed to get writer for spell-memory")
+		err = errors.Wrap(err, "failed to get writer for spell")
 		return
 	}
 	err = memWriter.DeleteSpell(spell)
 	if err != nil {
-		err = errors.Wrap(err, "failed to delete spell-memory")
+		err = errors.Wrap(err, "failed to delete spell")
 		return
 	}
 	return
@@ -416,14 +338,12 @@ func validateSpell(spell *model.Spell, required []string, optional []string) (er
 
 func validateOrderBySpellField(page *model.Page) (err error) {
 	if len(page.OrderBy) == 0 {
-		page.OrderBy = "shortName"
+		page.OrderBy = "name"
 	}
 
 	validNames := []string{
 		"id",
-		"short_name",
-		"spellidnumber",
-		"long_name",
+		"name",
 	}
 
 	possibleNames := ""
@@ -483,255 +403,10 @@ func newSchemaSpell(requiredFields []string, optionalFields []string) (schema *g
 func getSchemaPropertySpell(field string) (prop model.Schema, err error) {
 	switch field {
 
-	case "shortName":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 64
 	case "ID":
 		prop.Type = "integer"
 		prop.Minimum = 0
-	case "fileName":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 64
-	case "longName":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 64
-	case "mapFileName":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 64
-	case "safeX":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "safeY":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "safeZ":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "graveyardID":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "minLevel":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "minStatus":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "spellIDNumber":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "version":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "timespell":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "maxClients":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "ruleset":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "note":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 64
-	case "underworld":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "MinClip":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "MaxClip":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogMinClip":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogMaxClip":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogBlue":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogRed":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogGreen":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "sky":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "zType":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "spellExpMultiplier":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "walkSpeed":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "timeType":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogRed1":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogGreen1":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogBlue1":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogMinClip1":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogMaxClip1":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogRed2":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogGreen2":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogBlue2":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogMinClip2":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogMaxClip2":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogRed3":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogGreen3":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogBlue3":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogMinClip3":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogMaxClip3":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogRed4":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogGreen4":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogBlue4":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "fogMinClip4":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogMaxClip4":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "fogDensity":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "flagNeeded":
-		prop.Type = "string"
-		prop.MinLength = 3
-		prop.MaxLength = 64
-	case "canBind":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "canCombat":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "canLevitate":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "castOutdoor":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "hotSpell":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "instType":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "shutdownDelay":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "peqSpell":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "expansion":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "suspendBuffs":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainChance1":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainChance2":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainChance3":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainChance4":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainDuration1":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainDuration2":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainDuration3":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "rainDuration4":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowChance1":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowChance2":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowChance3":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowChance4":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowDuration1":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowDuration2":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowDuration3":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "snowDuration4":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "gravity":
-		prop.Type = "float"
-		prop.Minimum = 0
-	case "type":
-		prop.Type = "integer"
-		prop.Minimum = 0
-	case "skylock":
-		prop.Type = "integer"
-		prop.Minimum = 0
+	case "name":
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

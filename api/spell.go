@@ -14,7 +14,7 @@ import (
 type SpellRequest struct {
 	// ID to get information about
 	// in: path
-	// example: 74887
+	// example: 12
 	ID int64 `json:"ID"`
 }
 
@@ -37,7 +37,7 @@ type SpellCreateRequest struct {
 type SpellEditRequest struct {
 	// ID to get information about
 	// in: path
-	// example: 74887
+	// example: 12
 	ID int64 `json:"ID"`
 	// Spell details to edit
 	// in: body
@@ -56,7 +56,7 @@ type SpellsRequest struct {
 	// in: query
 	Limit int64 `json:"limit"`
 	// OrderBy is which field to order a page by
-	// example: short_name
+	// example: name
 	// in: query
 	OrderBy string `json:"orderBy"`
 	// IsDescending will change sort order when true
@@ -88,7 +88,7 @@ type SpellsBySearchRequest struct {
 	// in: query
 	Limit int64 `json:"limit"`
 	// OrderBy is which field to order a page by
-	// example: short_name
+	// example: name
 	// in: query
 	OrderBy string `json:"orderBy"`
 	// IsDescending will change sort order when true

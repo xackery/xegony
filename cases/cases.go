@@ -32,6 +32,7 @@ func InitializeAll(sr storage.Reader, sw storage.Writer, si storage.Initializer)
 	scopes := []string{
 		"account",
 		"character",
+		"spell",
 		"rule",
 		"ruleEntry",
 		"variable",
