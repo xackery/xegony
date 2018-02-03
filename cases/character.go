@@ -459,6 +459,23 @@ func sanitizeCharacter(character *model.Character, user *model.User) (err error)
 			return
 		}
 	}
+	character.Class = &model.Class{
+		ID: character.ClassID,
+	}
+	err = GetClass(character.Class, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get class from character.ClassID")
+		return
+	}
+
+	character.Race = &model.Race{
+		ID: character.RaceID,
+	}
+	err = GetRace(character.Race, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get race from character.RaceID")
+		return
+	}
 	return
 }
 

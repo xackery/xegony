@@ -110,6 +110,12 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 		return
 	}
 
+	err = cases.LoadClassFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zone to memory")
+		return
+	}
+
 	err = cases.LoadRaceFromFileToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load zone to memory")

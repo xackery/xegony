@@ -146,8 +146,17 @@ func writeData(w http.ResponseWriter, r *http.Request, content interface{}, stat
 		}
 	}
 
+	accept := strings.ToLower(r.Header.Get("accept"))
+	if len(accept) == 0 {
+		accept = format
+	} else {
+		if strings.Index(accept, "application/") >= 0 {
+			accept = accept[strings.Index(accept, "application/")+12:]
+		}
+	}
 	var data []byte
-	switch strings.ToLower(format) {
+
+	switch accept {
 	case XML:
 		w.Header().Set("Content-Type", "application/xml; charset=UTF-8")
 		if data, err = xml.Marshal(content); err != nil {

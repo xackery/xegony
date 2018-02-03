@@ -772,6 +772,379 @@
         }
       }
     },
+    "/class": {
+      "get": {
+        "description": "This will show all available classs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "class"
+        ],
+        "summary": "Lists classs",
+        "operationId": "listClass",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ClasssResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an class",
+        "tags": [
+          "class"
+        ],
+        "summary": "Create an class",
+        "operationId": "createClass",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Class",
+            "description": "Class details to create",
+            "name": "class",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Class"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ClassResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/class/search": {
+      "get": {
+        "description": "This will show all available classs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "class"
+        ],
+        "summary": "Search classs by name",
+        "operationId": "listClassBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which class to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ClasssBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/class/{ID}": {
+      "get": {
+        "description": "This will get an individual class available classs by default.",
+        "tags": [
+          "class"
+        ],
+        "summary": "Get an class",
+        "operationId": "getClass",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ClassResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an class",
+        "tags": [
+          "class"
+        ],
+        "summary": "Edit an class",
+        "operationId": "editClass",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Class",
+            "description": "Class details to edit",
+            "name": "class",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Class"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ClassResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an class",
+        "tags": [
+          "class"
+        ],
+        "summary": "Delete an class",
+        "operationId": "deleteClass",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/config": {
       "get": {
         "description": "This will show all available configs by default.",
@@ -5637,6 +6010,9 @@
           "format": "int64",
           "x-go-name": "Cha"
         },
+        "class": {
+          "$ref": "#/definitions/Class"
+        },
         "classID": {
           "type": "integer",
           "format": "int64",
@@ -5914,6 +6290,9 @@
           "format": "int64",
           "x-go-name": "PvpWorstDeathStreak"
         },
+        "race": {
+          "$ref": "#/definitions/Race"
+        },
         "raceID": {
           "type": "integer",
           "format": "int64",
@@ -6077,6 +6456,10 @@
       "description": "Class represents classes in EQ",
       "type": "object",
       "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
         "bit": {
           "type": "integer",
           "format": "int64",
@@ -6086,11 +6469,6 @@
           "type": "string",
           "x-go-name": "Icon"
         },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
         "name": {
           "type": "string",
           "x-go-name": "Name"
@@ -6099,6 +6477,14 @@
           "type": "string",
           "x-go-name": "ShortName"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Classs": {
+      "description": "Classs is an array of class",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Class"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -11487,6 +11873,36 @@
       },
       "headers": {
         "characters": {},
+        "page": {}
+      }
+    },
+    "ClassResponse": {
+      "description": "ClassResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Class"
+      },
+      "headers": {
+        "class": {}
+      }
+    },
+    "ClasssBySearchResponse": {
+      "description": "ClasssBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Classs"
+      },
+      "headers": {
+        "classs": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "ClasssResponse": {
+      "description": "ClasssResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Classs"
+      },
+      "headers": {
+        "classs": {},
         "page": {}
       }
     },

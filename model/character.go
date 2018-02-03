@@ -9,13 +9,15 @@ type Characters []*Character
 //Character holds data about players inside Everquest, it primarily uses character_data table
 // swagger:model
 type Character struct {
-	Zone *Zone `json:"zone,omitempty"`
+	Zone  *Zone  `json:"zone,omitempty"`
+	Race  *Race  `json:"race,omitempty"`
+	Class *Class `json:"class,omitempty"`
+
 	/*Account   *Account `json:"account,omitempty"`
 	Base      *Base    `json:"base,omitempty"`
 	Inventory []*Item  `json:"inventory,omitempty"`
 	Zone      *Zone    `json:"zone,omitempty"`
-	Race      *Race    `json:"race,omitempty"`
-	Class     *Class   `json:"class,omitempty"`
+
 	AASpent   int64    `json:"aaSpent,omitempty"`
 	TotalHP   int64    `json:"totalHP,omitempty"`
 	TotalMana int64    `json:"totalMana,omitempty"`*/

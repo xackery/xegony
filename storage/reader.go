@@ -28,6 +28,13 @@ type Reader interface {
 	ListCharacterBySearch(page *model.Page, character *model.Character) (characters []*model.Character, err error)
 	ListCharacterBySearchTotalCount(character *model.Character) (count int64, err error)
 
+	//Class
+	GetClass(class *model.Class) (err error)
+	ListClass(page *model.Page) (classs []*model.Class, err error)
+	ListClassTotalCount() (count int64, err error)
+	ListClassBySearch(page *model.Page, class *model.Class) (classs []*model.Class, err error)
+	ListClassBySearchTotalCount(class *model.Class) (count int64, err error)
+
 	//Config
 	GetConfig(config *model.Config) (err error)
 	ListConfig(page *model.Page) (configs []*model.Config, err error)
@@ -36,11 +43,11 @@ type Reader interface {
 	ListConfigBySearchTotalCount(config *model.Config) (count int64, err error)
 
 	//Race
-	GetRace(race *model.Race) (err error)
-	ListRace(page *model.Page) (races []*model.Race, err error)
+	GetRace(class *model.Race) (err error)
+	ListRace(page *model.Page) (classs []*model.Race, err error)
 	ListRaceTotalCount() (count int64, err error)
-	ListRaceBySearch(page *model.Page, race *model.Race) (races []*model.Race, err error)
-	ListRaceBySearchTotalCount(race *model.Race) (count int64, err error)
+	ListRaceBySearch(page *model.Page, class *model.Race) (classs []*model.Race, err error)
+	ListRaceBySearchTotalCount(class *model.Race) (count int64, err error)
 
 	//Rule
 	GetRule(rule *model.Rule) (err error)

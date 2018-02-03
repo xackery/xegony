@@ -385,6 +385,196 @@
       ]
     },
     {
+      "name": "class",
+      "item": [
+        {
+          "name": "Lists classs",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/class",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "class"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an class",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/class",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "class"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search classs by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/class/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "class",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an class",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/class/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "class",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an class",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/class/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "class",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an class",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/class/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "class",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
       "name": "config",
       "item": [
         {
