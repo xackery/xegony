@@ -772,6 +772,39 @@
         }
       }
     },
+    "/character/{ID}/inventory": {
+      "get": {
+        "description": "This will get an individual character as well as inventory",
+        "tags": [
+          "character"
+        ],
+        "summary": "Get a character's inventory",
+        "operationId": "getCharacterInventory",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/CharacterInventoryResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/class": {
       "get": {
         "description": "This will show all available classs by default.",
@@ -1486,6 +1519,379 @@
             "x-go-name": "Key",
             "description": "Key to get information about",
             "name": "key",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/item": {
+      "get": {
+        "description": "This will show all available items by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "item"
+        ],
+        "summary": "Lists items",
+        "operationId": "listItem",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ItemsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an item",
+        "tags": [
+          "item"
+        ],
+        "summary": "Create an item",
+        "operationId": "createItem",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Item",
+            "description": "Item details to create",
+            "name": "item",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ItemResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/item/search": {
+      "get": {
+        "description": "This will show all available items by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "item"
+        ],
+        "summary": "Search items by name",
+        "operationId": "listItemBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which item to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ItemsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/item/{ID}": {
+      "get": {
+        "description": "This will get an individual item available items by default.",
+        "tags": [
+          "item"
+        ],
+        "summary": "Get an item",
+        "operationId": "getItem",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ItemResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an item",
+        "tags": [
+          "item"
+        ],
+        "summary": "Edit an item",
+        "operationId": "editItem",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Item",
+            "description": "Item details to edit",
+            "name": "item",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ItemResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an item",
+        "tags": [
+          "item"
+        ],
+        "summary": "Delete an item",
+        "operationId": "deleteItem",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
             "in": "path",
             "required": true
           }
@@ -6899,6 +7305,9 @@
       "description": "Item represents items inside everquest",
       "type": "object",
       "properties": {
+        "IDFile": {
+          "type": "string"
+        },
         "UNK012": {
           "type": "integer",
           "format": "int64",
@@ -7106,50 +7515,25 @@
           "format": "int64",
           "x-go-name": "Unk241"
         },
-        "aagi": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Aagi"
-        },
-        "ac": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Ac"
-        },
         "accuracy": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Accuracy"
         },
-        "acha": {
+        "agility": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Acha"
+          "x-go-name": "Agility"
         },
-        "adex": {
+        "armorClass": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Adex"
+          "x-go-name": "ArmorClass"
         },
-        "aint": {
+        "artifactFlag": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Aint"
-        },
-        "artifactflag": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Artifactflag"
-        },
-        "asta": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Asta"
-        },
-        "astr": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Astr"
+          "x-go-name": "ArtifactFlag"
         },
         "attack": {
           "type": "integer",
@@ -7161,380 +7545,345 @@
           "format": "int64",
           "x-go-name": "Attuneable"
         },
-        "augdistiller": {
+        "augDistiller": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augdistiller"
+          "x-go-name": "AugDistiller"
         },
-        "augrestrict": {
+        "augRestrictionBit": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augrestrict"
+          "x-go-name": "AugRestrictionBit"
         },
-        "augslot1": {
+        "augSlot1Type": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot1"
+          "x-go-name": "AugSlot1TypeID"
         },
-        "augslot1type": {
+        "augSlot1Unk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot1type"
+          "x-go-name": "AugSlot1Unk2"
         },
-        "augslot1unk2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot1unk2"
-        },
-        "augslot1visible": {
+        "augSlot1Visible": {
           "$ref": "#/definitions/NullInt64"
         },
-        "augslot2": {
+        "augSlot2Type": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot2"
+          "x-go-name": "AugSlot2TypeID"
         },
-        "augslot2type": {
+        "augSlot2Unk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot2type"
+          "x-go-name": "AugSlot2Unk2"
         },
-        "augslot2unk2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot2unk2"
-        },
-        "augslot2visible": {
+        "augSlot2Visible": {
           "$ref": "#/definitions/NullInt64"
         },
-        "augslot3": {
+        "augSlot3Type": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot3"
+          "x-go-name": "AugSlot3TypeID"
         },
-        "augslot3type": {
+        "augSlot3Unk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot3type"
+          "x-go-name": "AugSlot3Unk2"
         },
-        "augslot3unk2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot3unk2"
-        },
-        "augslot3visible": {
+        "augSlot3Visible": {
           "$ref": "#/definitions/NullInt64"
         },
-        "augslot4": {
+        "augSlot4Type": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot4"
+          "x-go-name": "AugSlot4TypeID"
         },
-        "augslot4type": {
+        "augSlot4Unk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot4type"
+          "x-go-name": "AugSlot4Unk2"
         },
-        "augslot4unk2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot4unk2"
-        },
-        "augslot4visible": {
+        "augSlot4Visible": {
           "$ref": "#/definitions/NullInt64"
         },
-        "augslot5": {
+        "augSlot5Type": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot5"
+          "x-go-name": "AugSlot5TypeID"
         },
-        "augslot5type": {
+        "augSlot5Unk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot5type"
+          "x-go-name": "AugSlot5Unk2"
         },
-        "augslot5unk2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot5unk2"
-        },
-        "augslot5visible": {
+        "augSlot5Visible": {
           "$ref": "#/definitions/NullInt64"
         },
-        "augslot6": {
+        "augSlot6Type": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot6"
+          "x-go-name": "AugSlot6TypeID"
         },
-        "augslot6type": {
+        "augSlot6Unk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot6type"
+          "x-go-name": "AugSlot6Unk2"
         },
-        "augslot6unk2": {
+        "augSlot6Visible": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot6unk2"
+          "x-go-name": "AugSlot6Visible"
         },
-        "augslot6visible": {
+        "augTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Augslot6visible"
-        },
-        "augtype": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augtype"
+          "x-go-name": "AugTypeID"
         },
         "avoidance": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Avoidance"
         },
-        "awis": {
+        "backstabDamage": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Awis"
+          "x-go-name": "BackstabDamage"
         },
-        "backstabdmg": {
+        "bagSizeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Backstabdmg"
+          "x-go-name": "BagSizeID"
         },
-        "bagsize": {
+        "bagSlotCount": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bagsize"
+          "x-go-name": "BagSlotCount"
         },
-        "bagslots": {
+        "bagTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bagslots"
+          "x-go-name": "BagTypeID"
         },
-        "bagtype": {
+        "bagWeightReduction": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bagtype"
+          "x-go-name": "BagWeightReduction"
         },
-        "bagwr": {
+        "baneDamageBodyAmount": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bagwr"
+          "x-go-name": "BaneDamageBodyAmount"
         },
-        "banedmgamt": {
+        "baneDamageBodyID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Banedmgamt"
+          "x-go-name": "BaneDamageBodyID"
         },
-        "banedmgbody": {
+        "baneDamageRaceAmount": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Banedmgbody"
+          "x-go-name": "BaneDamageRaceAmonut"
         },
-        "banedmgrace": {
+        "baneDamageRaceID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Banedmgrace"
+          "x-go-name": "BaneDamageRaceID"
         },
-        "banedmgraceamt": {
+        "bardEffect": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Banedmgraceamt"
+          "x-go-name": "BardEffect"
         },
-        "bardeffect": {
+        "bardEffectType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardeffect"
+          "x-go-name": "BardEffectType"
         },
-        "bardeffecttype": {
+        "bardLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardeffecttype"
+          "x-go-name": "BardLevel"
         },
-        "bardlevel": {
+        "bardLevel2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardlevel"
+          "x-go-name": "BardLevel2"
         },
-        "bardlevel2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Bardlevel2"
-        },
-        "bardname": {
+        "bardName": {
           "type": "string",
-          "x-go-name": "Bardname"
+          "x-go-name": "BardName"
         },
-        "bardtype": {
+        "bardTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardtype"
+          "x-go-name": "BardTypeID"
         },
-        "bardunk1": {
+        "bardUnk1": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardunk1"
+          "x-go-name": "BardUnk1"
         },
-        "bardunk2": {
+        "bardUnk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardunk2"
+          "x-go-name": "BardUnk2"
         },
-        "bardunk3": {
+        "bardUnk3": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardunk3"
+          "x-go-name": "BardUnk3"
         },
-        "bardunk4": {
+        "bardUnk4": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardunk4"
+          "x-go-name": "BardUnk4"
         },
-        "bardunk5": {
+        "bardUnk5": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardunk5"
+          "x-go-name": "BardUnk5"
         },
-        "bardunk7": {
+        "bardUnk7": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardunk7"
+          "x-go-name": "BardUnk7"
         },
-        "bardvalue": {
+        "bardValue": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bardvalue"
+          "x-go-name": "BardValue"
         },
-        "benefitflag": {
+        "benefitFlag": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Benefitflag"
+          "x-go-name": "BenefitFlag"
         },
         "book": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Book"
         },
-        "booktype": {
+        "bookType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Booktype"
+          "x-go-name": "BookType"
         },
-        "casttime": {
+        "castTime": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Casttime"
+          "x-go-name": "CastTime"
         },
-        "casttime_": {
+        "castTime2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Casttime2"
+          "x-go-name": "CastTime2"
         },
-        "character": {
-          "$ref": "#/definitions/Character"
-        },
-        "charges": {
+        "charisma": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Charges"
+          "x-go-name": "Charisma"
         },
-        "charid": {
-          "description": "inventory added details",
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "CharID"
-        },
-        "charmfile": {
+        "charmFile": {
           "type": "string",
-          "x-go-name": "Charmfile"
+          "x-go-name": "CharmFile"
         },
-        "charmfileid": {
+        "charmFileID": {
           "type": "string",
-          "x-go-name": "Charmfileid"
+          "x-go-name": "CharmFileID"
         },
         "clairvoyance": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Clairvoyance"
         },
-        "classes": {
+        "classBit": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Classes"
+          "x-go-name": "ClassBit"
         },
-        "clickeffect": {
+        "classs": {
+          "$ref": "#/definitions/Classs"
+        },
+        "clickEffect": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Clickeffect"
+          "x-go-name": "ClickEffect"
         },
-        "clicklevel": {
+        "clickLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Clicklevel"
+          "x-go-name": "ClickLevel"
         },
-        "clicklevel2": {
+        "clickLevel2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Clicklevel2"
+          "x-go-name": "ClickLevel2"
         },
-        "clickname": {
+        "clickName": {
           "type": "string",
-          "x-go-name": "Clickname"
+          "x-go-name": "ClickName"
         },
-        "clicktype": {
+        "clickType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Clicktype"
+          "x-go-name": "ClickType"
         },
-        "clickunk5": {
+        "clickUnk5": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Clickunk5"
+          "x-go-name": "ClickUnk5"
         },
-        "clickunk6": {
+        "clickUnk6": {
           "type": "string",
-          "x-go-name": "Clickunk6"
+          "x-go-name": "ClickUnk6"
         },
-        "clickunk7": {
+        "clickUnk7": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Clickunk7"
+          "x-go-name": "ClickUnk7"
+        },
+        "coldResistance": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ColdResistance"
         },
         "color": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Color"
         },
-        "combateffects": {
+        "combatEffectAmount": {
           "type": "string",
-          "x-go-name": "Combateffects"
+          "x-go-name": "CombatEffectAmount"
         },
         "comment": {
           "type": "string",
           "x-go-name": "Comment"
         },
-        "cr": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Cr"
-        },
         "created": {
           "type": "string",
           "x-go-name": "Created"
-        },
-        "customData": {
-          "type": "string",
-          "x-go-name": "CustomData"
         },
         "damage": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Damage"
         },
-        "damageshield": {
+        "damageOverTimeShielding": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Damageshield"
+          "x-go-name": "DamageOverTimeShielding"
+        },
+        "damageShieldAmount": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DamageShieldAmount"
+        },
+        "damageShieldMitigation": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DamageShieldMitigation"
         },
         "deity": {
           "type": "integer",
@@ -7546,297 +7895,292 @@
           "format": "int64",
           "x-go-name": "Delay"
         },
-        "dotshielding": {
+        "dexterity": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Dotshielding"
+          "x-go-name": "Dexterity"
         },
-        "dr": {
+        "diseaseResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Dr"
+          "x-go-name": "DiseaseResistance"
         },
-        "dsmitigation": {
+        "elementalDamageAmount": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Dsmitigation"
+          "x-go-name": "ElementalDamageAmount"
         },
-        "elemdmgamt": {
+        "elementalDamageTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Elemdmgamt"
+          "x-go-name": "ElementalDamageTypeID"
         },
-        "elemdmgtype": {
+        "eliteMaterial": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Elemdmgtype"
+          "x-go-name": "EliteMaterial"
         },
-        "elitematerial": {
+        "endurance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Elitematerial"
+          "x-go-name": "Endurance"
         },
-        "endur": {
+        "enduranceRegen": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Endur"
+          "x-go-name": "EnduranceRegen"
         },
-        "enduranceregen": {
+        "epicItem": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Enduranceregen"
+          "x-go-name": "EpicItem"
         },
-        "epicitem": {
+        "evolvingID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Epicitem"
+          "x-go-name": "EvolvingID"
         },
-        "evoid": {
+        "evolvingItemID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Evoid"
+          "x-go-name": "EvolvingItemID"
         },
-        "evoitem": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Evoitem"
-        },
-        "evolvinglevel": {
+        "evolvingLevel": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Evolvinglevel"
         },
-        "evomax": {
+        "evovlingMax": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Evomax"
+          "x-go-name": "EvolvingMax"
         },
-        "expendablearrow": {
+        "expendableArrow": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Expendablearrow"
+          "x-go-name": "ExpendableArrow"
         },
-        "extradmgamt": {
+        "extraDamageAmount": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Extradmgamt"
+          "x-go-name": "ExtraDamageAmount"
         },
-        "extradmgskill": {
+        "extraDamageSkill": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Extradmgskill"
+          "x-go-name": "ExtraDamageSkill"
         },
-        "factionamt1": {
+        "factionAmount1": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionamt1"
+          "x-go-name": "FactionAmount1"
         },
-        "factionamt2": {
+        "factionAmount2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionamt2"
+          "x-go-name": "FactionAmount2"
         },
-        "factionamt3": {
+        "factionAmount3": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionamt3"
+          "x-go-name": "FactionAmount3"
         },
-        "factionamt4": {
+        "factionAmount4": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionamt4"
+          "x-go-name": "FactionAmount4"
         },
         "factionmod1": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionmod1"
+          "x-go-name": "FactionModifer1"
         },
         "factionmod2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionmod2"
+          "x-go-name": "FactionModifier2"
         },
         "factionmod3": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionmod3"
+          "x-go-name": "FactionModifer3"
         },
         "factionmod4": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Factionmod4"
+          "x-go-name": "FactionModifer4"
         },
         "favor": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Favor"
         },
-        "filename": {
+        "fileName": {
           "type": "string",
-          "x-go-name": "Filename"
+          "x-go-name": "FileName"
         },
-        "focuseffect": {
+        "fireResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focuseffect"
+          "x-go-name": "FireResistance"
         },
-        "focuslevel": {
+        "firionaVieNoDrop": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focuslevel"
+          "x-go-name": "FirionaVieNoDrop"
         },
-        "focuslevel2": {
+        "focusEffect": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focuslevel2"
+          "x-go-name": "FocusEffect"
         },
-        "focusname": {
+        "focusLevel": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FocusLevel"
+        },
+        "focusLevel2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FocusLevel2"
+        },
+        "focusName": {
           "type": "string",
-          "x-go-name": "Focusname"
+          "x-go-name": "FocusName"
         },
-        "focustype": {
+        "focusType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focustype"
+          "x-go-name": "FocusType"
         },
-        "focusunk1": {
+        "focusUnk1": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focusunk1"
+          "x-go-name": "FocusUnk1"
         },
-        "focusunk2": {
+        "focusUnk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focusunk2"
+          "x-go-name": "FocusUnk2"
         },
-        "focusunk3": {
+        "focusUnk3": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focusunk3"
+          "x-go-name": "FocusUnk3"
         },
-        "focusunk4": {
+        "focusUnk4": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focusunk4"
+          "x-go-name": "FocusUnk4"
         },
-        "focusunk5": {
+        "focusUnk5": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focusunk5"
+          "x-go-name": "FocusUnk5"
         },
-        "focusunk6": {
+        "focusUnk6": {
           "type": "string",
-          "x-go-name": "Focusunk6"
+          "x-go-name": "FocusUnk6"
         },
-        "focusunk7": {
+        "focusUnk7": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Focusunk7"
+          "x-go-name": "FocusUnk7"
         },
-        "fr": {
+        "guildFavor": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Fr"
-        },
-        "fvnodrop": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Fvnodrop"
-        },
-        "guildfavor": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Guildfavor"
+          "x-go-name": "GuildFavor"
         },
         "haste": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Haste"
         },
-        "healamt": {
+        "healAmount": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Healamt"
+          "x-go-name": "HealAmount"
         },
         "heirloom": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Heirloom"
         },
-        "heroicAgi": {
+        "heroForgeModel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicAgi"
+          "x-go-name": "HeroForgeModel"
         },
-        "heroicCha": {
+        "heroicAgility": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicCha"
+          "x-go-name": "HeroicAgility"
         },
-        "heroicCr": {
+        "heroicCharisma": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicCr"
+          "x-go-name": "HeroicCharisma"
         },
-        "heroicDex": {
+        "heroicColdResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicDex"
+          "x-go-name": "HeroicColdResistance"
         },
-        "heroicDr": {
+        "heroicDexterity": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicDr"
+          "x-go-name": "HeroicDexterity"
         },
-        "heroicFr": {
+        "heroicDiseaseResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicFr"
+          "x-go-name": "HeroicDiseaseResistance"
         },
-        "heroicInt": {
+        "heroicFireResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicInt"
+          "x-go-name": "HeroicFireResistance"
         },
-        "heroicMr": {
+        "heroicIntelligence": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicMr"
+          "x-go-name": "HeroicIntelligence"
         },
-        "heroicPr": {
+        "heroicMagicResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicPr"
+          "x-go-name": "HeroicMagicResistance"
         },
-        "heroicSta": {
+        "heroicPoisonResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicSta"
+          "x-go-name": "HeroicPoisonResistance"
         },
-        "heroicStr": {
+        "heroicStamina": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicStr"
+          "x-go-name": "HeroicStamina"
+        },
+        "heroicStrength": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "HeroicStrength"
         },
         "heroicSvcorrup": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "HeroicSvcorrup"
         },
-        "heroicWis": {
+        "heroicWisdom": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "HeroicWis"
+          "x-go-name": "HeroicWisdom"
         },
-        "herosforgemodel": {
+        "hitpoint": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Herosforgemodel"
-        },
-        "hp": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Hp"
+          "x-go-name": "Hitpoint"
         },
         "icon": {
           "type": "integer",
@@ -7849,57 +8193,40 @@
           "format": "int64",
           "x-go-name": "ID"
         },
-        "idfile": {
-          "type": "string",
-          "x-go-name": "Idfile"
-        },
-        "instnodrop": {
+        "intelligence": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Instnodrop"
+          "x-go-name": "Intelligence"
         },
-        "invcolor": {
+        "itemClass": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "InvColor"
+          "x-go-name": "ItemClass"
         },
-        "itemCategory": {
-          "$ref": "#/definitions/ItemCategory"
-        },
-        "itemclass": {
+        "itemType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Itemclass"
+          "x-go-name": "ItemType"
         },
-        "itemid": {
+        "ldonPrice": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ItemID"
+          "x-go-name": "LdonPrice"
         },
-        "itemtype": {
+        "ldonSellBackRate": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Itemtype"
+          "x-go-name": "LdonSellBackRate"
         },
-        "ldonprice": {
+        "ldonSold": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Ldonprice"
+          "x-go-name": "LdonSold"
         },
-        "ldonsellbackrate": {
+        "ldonTheme": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Ldonsellbackrate"
-        },
-        "ldonsold": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Ldonsold"
-        },
-        "ldontheme": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Ldontheme"
+          "x-go-name": "LdonTheme"
         },
         "light": {
           "type": "integer",
@@ -7910,29 +8237,34 @@
           "type": "string",
           "x-go-name": "Lore"
         },
-        "lorefile": {
+        "loreFile": {
           "type": "string",
-          "x-go-name": "Lorefile"
+          "x-go-name": "LoreFile"
         },
         "loregroup": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Loregroup"
+          "x-go-name": "LoreGroup"
         },
         "magic": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Magic"
         },
+        "magicResistance": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MagicResistance"
+        },
         "mana": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Mana"
         },
-        "manaregen": {
+        "manaRegen": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Manaregen"
+          "x-go-name": "ManaRegen"
         },
         "material": {
           "type": "integer",
@@ -7942,272 +8274,255 @@
         "maxcharges": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Maxcharges"
-        },
-        "mr": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Mr"
+          "x-go-name": "MaxCharges"
         },
         "name": {
           "type": "string",
           "x-go-name": "Name"
         },
-        "nodrop": {
+        "noDrop": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Nodrop"
+          "x-go-name": "NoDrop"
         },
-        "nopet": {
+        "noPet": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Nopet"
+          "x-go-name": "NoPet"
         },
-        "norent": {
+        "noRent": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Norent"
+          "x-go-name": "NoRent"
         },
-        "notransfer": {
+        "noTransfer": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Notransfer"
+          "x-go-name": "NoTransfer"
         },
-        "ornamentHeroModel": {
+        "pendingLoreFlag": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "OrnamentHeroModel"
-        },
-        "ornamenticon": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Ornamenticon"
-        },
-        "ornamentidfile": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Ornamentidfile"
-        },
-        "pendingloreflag": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Pendingloreflag"
+          "x-go-name": "PendingLoreFlag"
         },
         "placeable": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Placeable"
         },
-        "pointtype": {
+        "pointType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Pointtype"
+          "x-go-name": "PointType"
         },
-        "potionbelt": {
+        "poisonResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Potionbelt"
+          "x-go-name": "PoisonResistance"
         },
-        "potionbeltslots": {
+        "potionBelt": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Potionbeltslots"
+          "x-go-name": "PotionBelt"
         },
-        "powersourcecapacity": {
+        "potionBeltSlots": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Powersourcecapacity"
+          "x-go-name": "PotionBeltSlots"
         },
-        "pr": {
+        "powerSourceCapacity": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Pr"
+          "x-go-name": "PowerSourceCapacity"
         },
         "price": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Price"
         },
-        "proceffect": {
+        "procEffect": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Proceffect"
+          "x-go-name": "ProcEffect"
         },
-        "proclevel": {
+        "procLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Proclevel"
+          "x-go-name": "ProcLevel"
         },
-        "proclevel2": {
+        "procLevel2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Proclevel2"
+          "x-go-name": "ProcLevel2"
         },
-        "procname": {
+        "procName": {
           "type": "string",
-          "x-go-name": "Procname"
+          "x-go-name": "ProcName"
         },
-        "procrate": {
+        "procRate": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Procrate"
+          "x-go-name": "ProcRate"
         },
-        "proctype": {
+        "procType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Proctype"
+          "x-go-name": "ProcType"
         },
-        "procunk1": {
+        "procUnk1": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Procunk1"
+          "x-go-name": "ProcUnk1"
         },
-        "procunk2": {
+        "procUnk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Procunk2"
+          "x-go-name": "ProcUnk2"
         },
-        "procunk3": {
+        "procUnk3": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Procunk3"
+          "x-go-name": "ProcUnk3"
         },
-        "procunk4": {
+        "procUnk4": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Procunk4"
+          "x-go-name": "ProcUnk4"
         },
-        "procunk6": {
+        "procUnk6": {
           "type": "string",
-          "x-go-name": "Procunk6"
+          "x-go-name": "ProcUnk6"
         },
-        "procunk7": {
+        "procUnk7": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Procunk7"
+          "x-go-name": "ProcUnk7"
         },
         "purity": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Purity"
         },
-        "questitemflag": {
+        "questItemFlag": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Questitemflag"
+          "x-go-name": "QuestItemFlag"
+        },
+        "raceBit": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RaceBit"
         },
         "races": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Races"
+          "$ref": "#/definitions/Races"
         },
         "range": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Range"
         },
-        "recastdelay": {
+        "recLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Recastdelay"
+          "x-go-name": "RecLevel"
         },
-        "recasttype": {
+        "recSkill": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Recasttype"
+          "x-go-name": "RecSkill"
         },
-        "reclevel": {
+        "recastDelay": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Reclevel"
+          "x-go-name": "RecastDelay"
         },
-        "recskill": {
+        "recastType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Recskill"
-        },
-        "reference": {
-          "description": "Reference is used when listing from npc",
-          "type": "string",
-          "x-go-name": "Reference"
+          "x-go-name": "RecastType"
         },
         "regen": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Regen"
         },
-        "reqlevel": {
+        "reqLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Reqlevel"
+          "x-go-name": "ReqLevel"
         },
-        "scriptfileid": {
+        "saveCorruption": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scriptfileid"
+          "x-go-name": "SaveCorruption"
         },
-        "scrolleffect": {
+        "scriptFileID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrolleffect"
+          "x-go-name": "ScriptFileid"
         },
-        "scrolllevel": {
+        "scrollEffect": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrolllevel"
+          "x-go-name": "ScrollEffect"
         },
-        "scrolllevel2": {
+        "scrollLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrolllevel2"
+          "x-go-name": "ScrollLevel"
         },
-        "scrollname": {
+        "scrollLevel2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ScrollLevel2"
+        },
+        "scrollName": {
           "type": "string",
-          "x-go-name": "Scrollname"
+          "x-go-name": "ScrollName"
         },
-        "scrolltype": {
+        "scrollType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrolltype"
+          "x-go-name": "ScrollType"
         },
-        "scrollunk1": {
+        "scrollUnk1": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrollunk1"
+          "x-go-name": "ScrollUnk1"
         },
-        "scrollunk2": {
+        "scrollUnk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrollunk2"
+          "x-go-name": "ScrollUnk2"
         },
-        "scrollunk3": {
+        "scrollUnk3": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrollunk3"
+          "x-go-name": "ScrollUnk3"
         },
-        "scrollunk4": {
+        "scrollUnk4": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrollunk4"
+          "x-go-name": "ScrollUnk4"
         },
-        "scrollunk5": {
+        "scrollUnk5": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrollunk5"
+          "x-go-name": "ScrollUnk5"
         },
-        "scrollunk6": {
+        "scrollUnk6": {
           "type": "string",
-          "x-go-name": "Scrollunk6"
+          "x-go-name": "ScrollUnk6"
         },
-        "scrollunk7": {
+        "scrollUnk7": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scrollunk7"
+          "x-go-name": "ScrollUnk7"
         },
-        "sellrate": {
+        "sellRate": {
           "type": "number",
           "format": "double",
-          "x-go-name": "Sellrate"
+          "x-go-name": "SellRate"
         },
         "serialization": {
           "$ref": "#/definitions/NullString"
@@ -8220,99 +8535,84 @@
           "format": "int64",
           "x-go-name": "Shielding"
         },
-        "size": {
+        "sizeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Size"
+          "x-go-name": "SizeID"
         },
-        "sizeName": {
-          "type": "string",
-          "x-go-name": "SizeName"
-        },
-        "skillmodmax": {
+        "skillModifierMax": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Skillmodmax"
+          "x-go-name": "SkillModifierMax"
         },
-        "skillmodtype": {
+        "skillModifierType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Skillmodtype"
+          "x-go-name": "SkillModifierType"
         },
-        "skillmodvalue": {
+        "skillModifierValue": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Skillmodvalue"
+          "x-go-name": "SkillModifierValue"
         },
-        "slot": {
-          "$ref": "#/definitions/Slot"
-        },
-        "slotList": {
-          "type": "string",
-          "x-go-name": "SlotList"
-        },
-        "slotid": {
+        "slotBit": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "SlotID"
-        },
-        "slots": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Slots"
+          "x-go-name": "SlotBit"
         },
         "source": {
           "type": "string",
           "x-go-name": "Source"
         },
-        "spelldmg": {
+        "spellDamage": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Spelldmg"
+          "x-go-name": "SpellDamage"
         },
-        "spellshield": {
+        "spellShield": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Spellshield"
+          "x-go-name": "SpellShield"
+        },
+        "stackSize": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StackSize"
         },
         "stackable": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Stackable"
         },
-        "stacksize": {
+        "stamina": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Stacksize"
+          "x-go-name": "Stamina"
         },
-        "strikethrough": {
+        "strength": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Strikethrough"
+          "x-go-name": "Strength"
         },
-        "stunresist": {
+        "strikeThrough": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Stunresist"
+          "x-go-name": "StrikeThrough"
         },
-        "styleColor": {
-          "type": "string",
-          "x-go-name": "StyleColor"
-        },
-        "summonedflag": {
+        "stunResist": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Summonedflag"
+          "x-go-name": "StunResist"
         },
-        "svcorruption": {
+        "summonedFlag": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Svcorruption"
+          "x-go-name": "SummonedFlag"
         },
-        "tradeskills": {
+        "tradeSkills": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Tradeskills"
+          "x-go-name": "TradeSkills"
         },
         "updated": {
           "$ref": "#/definitions/NullTime"
@@ -8325,63 +8625,68 @@
           "format": "int64",
           "x-go-name": "Weight"
         },
-        "worneffect": {
+        "wisdom": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Worneffect"
+          "x-go-name": "Wisdom"
         },
-        "wornlevel": {
+        "wornEffect": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornlevel"
+          "x-go-name": "WornEffect"
         },
-        "wornlevel2": {
+        "wornLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornlevel2"
+          "x-go-name": "WornLevel"
         },
-        "wornname": {
+        "wornLevel2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "WornLevel2"
+        },
+        "wornName": {
           "type": "string",
-          "x-go-name": "Wornname"
+          "x-go-name": "WornName"
         },
-        "worntype": {
+        "wornType": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Worntype"
+          "x-go-name": "WornType"
         },
-        "wornunk1": {
+        "wornUnk1": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornunk1"
+          "x-go-name": "WornUnk1"
         },
-        "wornunk2": {
+        "wornUnk2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornunk2"
+          "x-go-name": "WornUnk2"
         },
-        "wornunk3": {
+        "wornUnk3": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornunk3"
+          "x-go-name": "WornUnk3"
         },
-        "wornunk4": {
+        "wornUnk4": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornunk4"
+          "x-go-name": "WornUnk4"
         },
-        "wornunk5": {
+        "wornUnk5": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornunk5"
+          "x-go-name": "WornUnk5"
         },
-        "wornunk6": {
+        "wornUnk6": {
           "type": "string",
-          "x-go-name": "Wornunk6"
+          "x-go-name": "WornUnk6"
         },
-        "wornunk7": {
+        "wornUnk7": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Wornunk7"
+          "x-go-name": "WornUnk7"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -10866,6 +11171,18 @@
     "SpellClass": {
       "description": "SpellClass stores minimum levels of each class\nranges 1 to 60",
       "type": "object",
+      "properties": {
+        "classID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Level"
+        }
+      },
       "x-go-package": "github.com/xackery/xegony/model"
     },
     "SpellComponent": {
@@ -11846,6 +12163,16 @@
         "page": {}
       }
     },
+    "CharacterInventoryResponse": {
+      "description": "CharacterInventoryResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Items"
+      },
+      "headers": {
+        "character": {},
+        "items": {}
+      }
+    },
     "CharacterResponse": {
       "description": "CharacterResponse is what endpoints respond with",
       "schema": {
@@ -11933,6 +12260,36 @@
       },
       "headers": {
         "configs": {},
+        "page": {}
+      }
+    },
+    "ItemResponse": {
+      "description": "ItemResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Item"
+      },
+      "headers": {
+        "item": {}
+      }
+    },
+    "ItemsBySearchResponse": {
+      "description": "ItemsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Items"
+      },
+      "headers": {
+        "items": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "ItemsResponse": {
+      "description": "ItemsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Items"
+      },
+      "headers": {
+        "items": {},
         "page": {}
       }
     },

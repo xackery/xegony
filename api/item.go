@@ -9,44 +9,44 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
-// RaceRequest is a list of parameters used for race
-// swagger:parameters deleteRace editRace getRace
-type RaceRequest struct {
+// ItemRequest is a list of parameters used for item
+// swagger:parameters deleteItem editItem getItem
+type ItemRequest struct {
 	// ID to get information about
 	// in: path
 	// example: 74887
 	ID int64 `json:"ID"`
 }
 
-// RaceResponse is what endpoints respond with
+// ItemResponse is what endpoints respond with
 // swagger:response
-type RaceResponse struct {
-	Race *model.Race `json:"race,omitempty"`
+type ItemResponse struct {
+	Item *model.Item `json:"item,omitempty"`
 }
 
-// RaceCreateRequest is the body parameters for creating an race
-// swagger:parameters createRace
-type RaceCreateRequest struct {
-	// Race details to create
+// ItemCreateRequest is the body parameters for creating an item
+// swagger:parameters createItem
+type ItemCreateRequest struct {
+	// Item details to create
 	// in: body
-	Race *model.Race `json:"race"`
+	Item *model.Item `json:"item"`
 }
 
-// RaceEditRequest is the body parameters for creating an race
-// swagger:parameters editRace
-type RaceEditRequest struct {
+// ItemEditRequest is the body parameters for creating an item
+// swagger:parameters editItem
+type ItemEditRequest struct {
 	// ID to get information about
 	// in: path
 	// example: 74887
 	ID int64 `json:"ID"`
-	// Race details to edit
+	// Item details to edit
 	// in: body
-	Race *model.Race `json:"race"`
+	Item *model.Item `json:"item"`
 }
 
-// RacesRequest is a list of parameters used for race
-// swagger:parameters listRace
-type RacesRequest struct {
+// ItemsRequest is a list of parameters used for item
+// swagger:parameters listItem
+type ItemsRequest struct {
 	// Offset is pagination, offset*limit
 	// example: 0
 	// in: query
@@ -65,17 +65,17 @@ type RacesRequest struct {
 	IsDescending int64 `json:"isDescending"`
 }
 
-// RacesResponse is a general response to a request
+// ItemsResponse is a general response to a request
 // swagger:response
-type RacesResponse struct {
+type ItemsResponse struct {
 	Page  *model.Page `json:"page,omitempty"`
-	Races model.Races `json:"races,omitempty"`
+	Items model.Items `json:"items,omitempty"`
 }
 
-// RacesBySearchRequest is a list of parameters used for race
-// swagger:parameters listRaceBySearch
-type RacesBySearchRequest struct {
-	// Name is which race to get information about
+// ItemsBySearchRequest is a list of parameters used for item
+// swagger:parameters listItemBySearch
+type ItemsBySearchRequest struct {
+	// Name is which item to get information about
 	// example: xackery
 	// in: query
 	Name string `json:"name"`
@@ -97,48 +97,22 @@ type RacesBySearchRequest struct {
 	IsDescending int64 `json:"isDescending"`
 }
 
-// RacesBySearchResponse is a general response to a request
+// ItemsBySearchResponse is a general response to a request
 // swagger:response
-type RacesBySearchResponse struct {
-	Search *model.Race `json:"search,omitempty"`
+type ItemsBySearchResponse struct {
+	Search *model.Item `json:"search,omitempty"`
 	Page   *model.Page `json:"page,omitempty"`
-	Races  model.Races `json:"races,omitempty"`
+	Items  model.Items `json:"items,omitempty"`
 }
 
-func raceRoutes() (routes []*route) {
+func itemRoutes() (routes []*route) {
 
 	routes = []*route{
-		// swagger:route GET /race race listRace
+		// swagger:route GET /item item listItem
 		//
-		// Lists races
+		// Lists items
 		//
-		// This will show all available races by default.
-		//
-		//     Consumes:
-		//     - application/json
-		//
-		//     Produces:
-		//     - application/json
-		//     - application/xml
-		//     - application/yaml
-		//
-		//
-		//     Responses:
-		//       default: ErrInternal
-		//       200: RacesResponse
-		//       400: ErrValidation
-		//		 401: ErrPermission
-		{
-			"ListRace",
-			"GET",
-			"/race",
-			listRace,
-		},
-		// swagger:route GET /race/search race listRaceBySearch
-		//
-		// Search races by name
-		//
-		// This will show all available races by default.
+		// This will show all available items by default.
 		//
 		//     Consumes:
 		//     - application/json
@@ -151,79 +125,105 @@ func raceRoutes() (routes []*route) {
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: RacesBySearchResponse
+		//       200: ItemsResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"ListRaceBySearch",
+			"ListItem",
 			"GET",
-			"/race/search",
-			listRaceBySearch,
+			"/item",
+			listItem,
 		},
-		// swagger:route POST /race race createRace
+		// swagger:route GET /item/search item listItemBySearch
 		//
-		// Create an race
+		// Search items by name
 		//
-		// This will create an race
+		// This will show all available items by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: ItemsBySearchResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"ListItemBySearch",
+			"GET",
+			"/item/search",
+			listItemBySearch,
+		},
+		// swagger:route POST /item item createItem
+		//
+		// Create an item
+		//
+		// This will create an item
 		//
 		//     Security:
 		//       apiKey:
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//		 200: RaceResponse
+		//		 200: ItemResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"CreateRace",
+			"CreateItem",
 			"POST",
-			"/race",
-			createRace,
+			"/item",
+			createItem,
 		},
-		// swagger:route GET /race/{ID} race getRace
+		// swagger:route GET /item/{ID} item getItem
 		//
-		// Get an race
+		// Get an item
 		//
-		// This will get an individual race available races by default.
+		// This will get an individual item available items by default.
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//       200: RaceResponse
+		//       200: ItemResponse
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"GetRace",
+			"GetItem",
 			"GET",
-			"/race/{ID:[0-9]+}",
-			getRace,
+			"/item/{ID:[0-9]+}",
+			getItem,
 		},
-		// swagger:route PUT /race/{ID} race editRace
+		// swagger:route PUT /item/{ID} item editItem
 		//
-		// Edit an race
+		// Edit an item
 		//
-		// This will edit an race
+		// This will edit an item
 		//
 		//     Security:
 		//       apiKey:
 		//
 		//     Responses:
 		//       default: ErrInternal
-		//		 200: RaceResponse
+		//		 200: ItemResponse
 		//       204: ErrNoContent
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"EditRace",
+			"EditItem",
 			"PUT",
-			"/race/{ID:[0-9]+}",
-			editRace,
+			"/item/{ID:[0-9]+}",
+			editItem,
 		},
-		// swagger:route DELETE /race/{ID} race deleteRace
+		// swagger:route DELETE /item/{ID} item deleteItem
 		//
-		// Delete an race
+		// Delete an item
 		//
-		// This will delete an race
+		// This will delete an item
 		//
 		//     Security:
 		//       apiKey:
@@ -234,25 +234,25 @@ func raceRoutes() (routes []*route) {
 		//       400: ErrValidation
 		//		 401: ErrPermission
 		{
-			"DeleteRace",
+			"DeleteItem",
 			"DELETE",
-			"/race/{ID:[0-9]+}",
-			deleteRace,
+			"/item/{ID:[0-9]+}",
+			deleteItem,
 		},
 	}
 	return
 }
 
-func getRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	request := &RaceRequest{
+func getItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &ItemRequest{
 		ID: getIntVar(r, "ID"),
 	}
 
-	race := &model.Race{
+	item := &model.Item{
 		ID: request.ID,
 	}
 
-	err = cases.GetRace(race, user)
+	err = cases.GetItem(item, user)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return
@@ -260,40 +260,40 @@ func getRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCod
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	response := &RaceResponse{
-		Race: race,
+	response := &ItemResponse{
+		Item: item,
 	}
 	content = response
 	return
 }
 
-func createRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	race := &model.Race{}
-	err = decodeBody(r, race)
+func createItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	item := &model.Item{}
+	err = decodeBody(r, item)
 	if err != nil {
 		return
 	}
-	err = cases.CreateRace(race, user)
+	err = cases.CreateItem(item, user)
 	if err != nil {
 		return
 	}
-	response := &RaceResponse{
-		Race: race,
+	response := &ItemResponse{
+		Item: item,
 	}
 	content = response
 	return
 }
 
-func deleteRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	request := &RaceRequest{
+func deleteItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &ItemRequest{
 		ID: getIntVar(r, "ID"),
 	}
 
-	race := &model.Race{
+	item := &model.Item{
 		ID: request.ID,
 	}
 
-	err = cases.DeleteRace(race, user)
+	err = cases.DeleteItem(item, user)
 	if err != nil {
 		switch errors.Cause(err).(type) {
 		case *model.ErrNoContent:
@@ -306,33 +306,33 @@ func deleteRace(w http.ResponseWriter, r *http.Request, user *model.User, status
 	return
 }
 
-func editRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	request := &RaceEditRequest{
+func editItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &ItemEditRequest{
 		ID: getIntVar(r, "ID"),
 	}
 
-	race := &model.Race{
+	item := &model.Item{
 		ID: request.ID,
 	}
 
-	err = decodeBody(r, race)
+	err = decodeBody(r, item)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
 
-	err = cases.EditRace(race, user)
+	err = cases.EditItem(item, user)
 	if err != nil {
 		return
 	}
-	response := &RaceResponse{
-		Race: race,
+	response := &ItemResponse{
+		Item: item,
 	}
 	content = response
 	return
 }
 
-func listRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+func listItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	page := &model.Page{
 		Offset:       getIntQuery(r, "offset"),
@@ -340,23 +340,21 @@ func listRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCo
 		OrderBy:      getQuery(r, "orderBy"),
 		IsDescending: getIntQuery(r, "isDescending"),
 	}
-	races, err := cases.ListRace(page, user)
+	items, err := cases.ListItem(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
 
-	
-
-	response := &RacesResponse{
+	response := &ItemsResponse{
 		Page:  page,
-		Races: races,
+		Items: items,
 	}
 	content = response
 	return
 }
 
-func listRaceBySearch(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+func listItemBySearch(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 
 	page := &model.Page{
 		Offset:       getIntQuery(r, "offset"),
@@ -364,19 +362,19 @@ func listRaceBySearch(w http.ResponseWriter, r *http.Request, user *model.User, 
 		OrderBy:      getQuery(r, "orderBy"),
 		IsDescending: getIntQuery(r, "isDescending"),
 	}
-	race := &model.Race{
+	item := &model.Item{
 		Name: getQuery(r, "name"),
 	}
-	races, err := cases.ListRaceBySearch(page, race, user)
+	items, err := cases.ListItemBySearch(page, item, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(races)
-	response := &RacesBySearchResponse{
+	log.Println(items)
+	response := &ItemsBySearchResponse{
 		Page:   page,
-		Races:  races,
-		Search: race,
+		Items:  items,
+		Search: item,
 	}
 	content = response
 	return

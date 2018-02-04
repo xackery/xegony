@@ -24,6 +24,13 @@ type CharacterResponse struct {
 	Character *model.Character `json:"character,omitempty"`
 }
 
+// CharacterInventoryResponse is what endpoints respond with
+// swagger:response
+type CharacterInventoryResponse struct {
+	Character *model.Character `json:"character,omitempty"`
+	Items     model.Items      `json:"items,omitempty"`
+}
+
 // CharacterCreateRequest is the body parameters for creating an character
 // swagger:parameters createCharacter
 type CharacterCreateRequest struct {
@@ -198,6 +205,23 @@ func characterRoutes() (routes []*route) {
 			"/character/{ID:[0-9]+}",
 			getCharacter,
 		},
+		// swagger:route GET /character/{ID}/inventory character getCharacterInventory
+		//
+		// Get a character's inventory
+		//
+		// This will get an individual character as well as inventory
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: CharacterInventoryResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"GetCharacter",
+			"GET",
+			"/character/{ID:[0-9]+}/inventory",
+			getCharacterInventory,
+		},
 		// swagger:route PUT /character/{ID} character editCharacter
 		//
 		// Edit an character
@@ -260,6 +284,37 @@ func getCharacter(w http.ResponseWriter, r *http.Request, user *model.User, stat
 		err = errors.Wrap(err, "Request error")
 		return
 	}
+	response := &CharacterResponse{
+		Character: character,
+	}
+	content = response
+	return
+}
+
+func getCharacterInventory(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &CharacterRequest{
+		ID: getIntVar(r, "ID"),
+	}
+
+	character := &model.Character{
+		ID: request.ID,
+	}
+
+	err = cases.GetCharacter(character, user)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return
+		}
+		err = errors.Wrap(err, "Request error")
+		return
+	}
+	
+
+	/*err = cases.ListItemByCharacter(character, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get inventory")
+		return
+	}*/
 	response := &CharacterResponse{
 		Character: character,
 	}

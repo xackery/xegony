@@ -13,15 +13,6 @@ type Character struct {
 	Race  *Race  `json:"race,omitempty"`
 	Class *Class `json:"class,omitempty"`
 
-	/*Account   *Account `json:"account,omitempty"`
-	Base      *Base    `json:"base,omitempty"`
-	Inventory []*Item  `json:"inventory,omitempty"`
-	Zone      *Zone    `json:"zone,omitempty"`
-
-	AASpent   int64    `json:"aaSpent,omitempty"`
-	TotalHP   int64    `json:"totalHP,omitempty"`
-	TotalMana int64    `json:"totalMana,omitempty"`*/
-
 	ID                    int64   `json:"ID,omitempty" db:"id"`                                         //`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	AccountID             int64   `json:"accountID,omitempty" db:"account_id"`                          //`account_id` int(11) NOT NULL DEFAULT '0',
 	Name                  string  `json:"name,omitempty" db:"name"`                                     //`name` varchar(64) NOT NULL DEFAULT '',

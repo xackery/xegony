@@ -36,6 +36,11 @@ type Writer interface {
 	EditConfig(config *model.Config) (err error)
 	DeleteConfig(config *model.Config) (err error)
 
+	//Item
+	CreateItem(item *model.Item) (err error)
+	EditItem(item *model.Item) (err error)
+	DeleteItem(item *model.Item) (err error)
+
 	//Race
 	CreateRace(race *model.Race) (err error)
 	EditRace(race *model.Race) (err error)

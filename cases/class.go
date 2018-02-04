@@ -188,6 +188,53 @@ func ListClassBySearch(page *model.Page, class *model.Class, user *model.User) (
 	return
 }
 
+//ListClassByBit lists all classs that match a bitmask
+func ListClassByBit(page *model.Page, class *model.Class, user *model.User) (classs []*model.Class, err error) {
+	err = validateOrderByClassField(page)
+	if err != nil {
+		return
+	}
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
+		return
+	}
+
+	/*reader, err := getReader("class-memory")
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare reader for class")
+		return
+	}
+
+	page.Total, err = reader.ListClassByBitTotalCount()
+	if err != nil {
+		err = errors.Wrap(err, "failed to list class toal count")
+		return
+	}
+
+	classs, err = reader.ListClassByBit(class, page)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list class")
+		return
+	}
+	
+	for i, class := range classs {
+		err = sanitizeClass(class, user)
+		if err != nil {
+			err = errors.Wrapf(err, "failed to sanitize class element %d", i)
+			return
+		}
+	}
+	*/
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
+
+	return
+}
+
 //CreateClass will create an class using provided information
 func CreateClass(class *model.Class, user *model.User) (err error) {
 	err = user.IsGuide()

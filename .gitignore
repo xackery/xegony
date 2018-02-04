@@ -3,7 +3,7 @@
 /xa/node_modules/
 /font/
 /config/
-
+debug
 #Map related rendered documents
 /map/
 /www/images/maps/
@@ -30,3 +30,4 @@ go/tmp/
 
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
+debug

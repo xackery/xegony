@@ -42,6 +42,13 @@ type Reader interface {
 	ListConfigBySearch(page *model.Page, config *model.Config) (configs []*model.Config, err error)
 	ListConfigBySearchTotalCount(config *model.Config) (count int64, err error)
 
+	//Item
+	GetItem(item *model.Item) (err error)
+	ListItem(page *model.Page) (items []*model.Item, err error)
+	ListItemTotalCount() (count int64, err error)
+	ListItemBySearch(page *model.Page, item *model.Item) (items []*model.Item, err error)
+	ListItemBySearchTotalCount(item *model.Item) (count int64, err error)
+
 	//Race
 	GetRace(class *model.Race) (err error)
 	ListRace(page *model.Page) (classs []*model.Race, err error)
