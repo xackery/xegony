@@ -76,6 +76,56 @@ func (s *Storage) ListRaceTotalCount() (count int64, err error) {
 	return
 }
 
+//ListRaceByBit will grab data from storage
+func (s *Storage) ListRaceByBit(page *model.Page, race *model.Race) (races []*model.Race, err error) {
+	raceLock.RLock()
+	defer raceLock.RUnlock()
+
+	for i := range racesDatabase {
+		if racesDatabase[i].Bit < 1 || race.Bit < 1 {
+			continue
+		}
+
+		if race.Bit&racesDatabase[i].Bit == racesDatabase[i].Bit {
+			races = append(races, racesDatabase[i])
+		}
+	}
+
+	switch page.OrderBy {
+	case "name":
+		sort.Slice(races, func(i, j int) bool {
+			return races[i].Name < races[j].Name
+		})
+	default:
+		err = fmt.Errorf("Unsupported sort name")
+		return
+	}
+
+	//if page.IsDescending > 0 {
+	//	sort.Sort(sort.Reverse(races))
+	//}
+	return
+}
+
+//ListRaceByBitTotalCount will grab data from storage
+func (s *Storage) ListRaceByBitTotalCount(race *model.Race) (count int64, err error) {
+	raceLock.RLock()
+	defer raceLock.RUnlock()
+
+	races := []*model.Race{}
+	for i := range racesDatabase {
+		if race.Bit < 1 || racesDatabase[i].Bit < 1 {
+			continue
+		}
+		if race.Bit&racesDatabase[i].Bit == racesDatabase[i].Bit {
+			races = append(races, racesDatabase[i])
+		}
+	}
+
+	count = int64(len(races))
+	return
+}
+
 //ListRaceBySearch will grab data from storage
 func (s *Storage) ListRaceBySearch(page *model.Page, race *model.Race) (races []*model.Race, err error) {
 	raceLock.RLock()

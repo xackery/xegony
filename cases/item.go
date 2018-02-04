@@ -384,23 +384,28 @@ func sanitizeItem(item *model.Item, user *model.User) (err error) {
 			return
 		}
 	}
-	/*class := &model.Class{
+	page := &model.Page{
+		OrderBy: "name",
+	}
+
+	class := &model.Class{
 		Bit: item.ClassBit,
 	}
-	item.Classs, err = ListClassByBit(class, user)
+
+	item.Classs, err = ListClassByBit(page, class, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to get class from item.ClassID")
 		return
 	}
 
 	race := &model.Race{
-		item.RaceBit,
+		Bit: item.RaceBit,
 	}
-	item.Races, err = ListRaceByBit(race, user)
+	item.Races, err = ListRaceByBit(page, race, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to get race from item.RaceID")
 		return
-	}*/
+	}
 	return
 }
 

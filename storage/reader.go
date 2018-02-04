@@ -32,6 +32,8 @@ type Reader interface {
 	GetClass(class *model.Class) (err error)
 	ListClass(page *model.Page) (classs []*model.Class, err error)
 	ListClassTotalCount() (count int64, err error)
+	ListRaceByBit(page *model.Page, race *model.Race) (races []*model.Race, err error)
+	ListRaceByBitTotalCount(race *model.Race) (count int64, err error)
 	ListClassBySearch(page *model.Page, class *model.Class) (classs []*model.Class, err error)
 	ListClassBySearchTotalCount(class *model.Class) (count int64, err error)
 
@@ -53,6 +55,8 @@ type Reader interface {
 	GetRace(class *model.Race) (err error)
 	ListRace(page *model.Page) (classs []*model.Race, err error)
 	ListRaceTotalCount() (count int64, err error)
+	ListClassByBit(page *model.Page, class *model.Class) (classs []*model.Class, err error)
+	ListClassByBitTotalCount(class *model.Class) (count int64, err error)
 	ListRaceBySearch(page *model.Page, class *model.Race) (classs []*model.Race, err error)
 	ListRaceBySearchTotalCount(class *model.Race) (count int64, err error)
 

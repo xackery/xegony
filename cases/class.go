@@ -195,19 +195,19 @@ func ListClassByBit(page *model.Page, class *model.Class, user *model.User) (cla
 		return
 	}
 
-	/*reader, err := getReader("class-memory")
+	reader, err := getReader("class-memory")
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare reader for class")
 		return
 	}
 
-	page.Total, err = reader.ListClassByBitTotalCount()
+	page.Total, err = reader.ListClassByBitTotalCount(class)
 	if err != nil {
 		err = errors.Wrap(err, "failed to list class toal count")
 		return
 	}
 
-	classs, err = reader.ListClassByBit(class, page)
+	classs, err = reader.ListClassByBit(page, class)
 	if err != nil {
 		err = errors.Wrap(err, "failed to list class")
 		return
@@ -220,7 +220,7 @@ func ListClassByBit(page *model.Page, class *model.Class, user *model.User) (cla
 			return
 		}
 	}
-	*/
+
 	err = sanitizePage(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to sanitize page")
@@ -457,6 +457,7 @@ func validateOrderByClassField(page *model.Page) (err error) {
 	validNames := []string{
 		"id",
 		"name",
+		"bit",
 	}
 
 	possibleNames := ""

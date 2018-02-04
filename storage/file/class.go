@@ -103,6 +103,18 @@ func (s *Storage) ListClassTotalCount() (count int64, err error) {
 	return
 }
 
+//ListClassByBit will grab data from storage
+func (s *Storage) ListClassByBit(page *model.Page, class *model.Class) (classs []*model.Class, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
+//ListClassByBitTotalCount will grab data from storage
+func (s *Storage) ListClassByBitTotalCount(class *model.Class) (count int64, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
 //ListClassBySearch will grab data from storage
 func (s *Storage) ListClassBySearch(page *model.Page, class *model.Class) (classs []*model.Class, err error) {
 	classLock.Lock()

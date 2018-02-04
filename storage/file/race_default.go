@@ -8,6 +8,7 @@ func loadRaceDefault() model.Races {
 	return model.Races{
 		{
 			ID:     1,
+			Bit:    1,
 			Name:   "Human",
 			Male:   "HUM",
 			Female: "HUF",
@@ -15,6 +16,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     2,
+			Bit:    2,
 			Name:   "Barbarian",
 			Male:   "BAM",
 			Female: "BAF",
@@ -23,6 +25,7 @@ func loadRaceDefault() model.Races {
 
 		{
 			ID:     3,
+			Bit:    4,
 			Name:   "Erudite",
 			Male:   "ERM",
 			Female: "ERF",
@@ -30,6 +33,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     4,
+			Bit:    8,
 			Name:   "Wood Elf",
 			Male:   "ELM",
 			Female: "ELF",
@@ -37,6 +41,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     5,
+			Bit:    16,
 			Name:   "High Elf",
 			Male:   "HIM",
 			Female: "HIF",
@@ -44,6 +49,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     6,
+			Bit:    32,
 			Name:   "Dark Elf",
 			Male:   "DAM",
 			Female: "DAF",
@@ -51,6 +57,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     7,
+			Bit:    64,
 			Name:   "Half Elf",
 			Male:   "HAM",
 			Female: "HAF",
@@ -58,6 +65,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     8,
+			Bit:    128,
 			Name:   "Dwarf",
 			Male:   "DWM",
 			Female: "DWF",
@@ -65,6 +73,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     9,
+			Bit:    256,
 			Name:   "Troll",
 			Male:   "TRM",
 			Female: "TRF",
@@ -72,6 +81,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     10,
+			Bit:    512,
 			Name:   "Ogre",
 			Male:   "OGM",
 			Female: "OGF",
@@ -79,6 +89,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     11,
+			Bit:    1024,
 			Name:   "Halfling",
 			Male:   "HOM",
 			Female: "HOF",
@@ -86,6 +97,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     12,
+			Bit:    2048,
 			Name:   "Gnome",
 			Male:   "GNM",
 			Female: "GNF",
@@ -166,6 +178,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:      26,
+			Bit:     16384,
 			Name:    "Froglok",
 			Neutral: "FRO",
 			Icon:    "xa-water-drop",
@@ -708,6 +721,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     128,
+			Bit:    4096,
 			Name:   "Iksar",
 			Male:   "IKM",
 			Female: "IKF",
@@ -2699,6 +2713,7 @@ func loadRaceDefault() model.Races {
 		},
 		{
 			ID:     522,
+			Bit:    32768,
 			Name:   "Drakkin",
 			Male:   "DKM",
 			Female: "DKF",

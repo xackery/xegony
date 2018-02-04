@@ -76,6 +76,53 @@ func (s *Storage) ListClassTotalCount() (count int64, err error) {
 	return
 }
 
+//ListClassByBit will grab data from storage
+func (s *Storage) ListClassByBit(page *model.Page, class *model.Class) (classs []*model.Class, err error) {
+	classLock.RLock()
+	defer classLock.RUnlock()
+
+	for i := range classsDatabase {
+		if class.Bit < 1 || classsDatabase[i].Bit < 1 {
+			continue
+		}
+		if class.Bit&classsDatabase[i].Bit == classsDatabase[i].Bit {
+			classs = append(classs, classsDatabase[i])
+		}
+	}
+	switch page.OrderBy {
+	case "name":
+		sort.Slice(classs, func(i, j int) bool {
+			return classs[i].Name < classs[j].Name
+		})
+	default:
+		err = fmt.Errorf("Unsupported sort name")
+		return
+	}
+
+	//if page.IsDescending > 0 {
+	//	sort.Sort(sort.Reverse(classs))
+	//}
+	return
+}
+
+//ListClassByBitTotalCount will grab data from storage
+func (s *Storage) ListClassByBitTotalCount(class *model.Class) (count int64, err error) {
+	classLock.RLock()
+	defer classLock.RUnlock()
+
+	classs := []*model.Class{}
+	for i := range classsDatabase {
+		if class.Bit < 1 || classsDatabase[i].Bit < 1 {
+			continue
+		}
+		if class.Bit&classsDatabase[i].Bit == classsDatabase[i].Bit {
+			classs = append(classs, classsDatabase[i])
+		}
+	}
+	count = int64(len(classs))
+	return
+}
+
 //ListClassBySearch will grab data from storage
 func (s *Storage) ListClassBySearch(page *model.Page, class *model.Class) (classs []*model.Class, err error) {
 	classLock.RLock()

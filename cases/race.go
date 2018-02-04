@@ -122,6 +122,60 @@ func ListRace(page *model.Page, user *model.User) (races []*model.Race, err erro
 	return
 }
 
+//ListRaceByBit will request any race matching the pattern of name
+func ListRaceByBit(page *model.Page, race *model.Race, user *model.User) (races []*model.Race, err error) {
+
+	err = validateOrderByRaceField(page)
+	if err != nil {
+		return
+	}
+
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
+		return
+	}
+
+	err = prepareRace(race, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepre race")
+		return
+	}
+
+	reader, err := getReader("race-memory")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get race-memory reader")
+		return
+	}
+
+	races, err = reader.ListRaceByBit(page, race)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list race by bit")
+		return
+	}
+
+	for _, race := range races {
+		err = sanitizeRace(race, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to sanitize race")
+			return
+		}
+	}
+
+	err = sanitizeRace(race, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize search race")
+		return
+	}
+
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
+	return
+}
+
 //ListRaceBySearch will request any race matching the pattern of name
 func ListRaceBySearch(page *model.Page, race *model.Race, user *model.User) (races []*model.Race, err error) {
 
@@ -410,6 +464,7 @@ func validateOrderByRaceField(page *model.Page) (err error) {
 	validNames := []string{
 		"id",
 		"name",
+		"bit",
 	}
 
 	possibleNames := ""

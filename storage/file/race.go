@@ -103,6 +103,18 @@ func (s *Storage) ListRaceTotalCount() (count int64, err error) {
 	return
 }
 
+//ListRaceByBit will grab data from storage
+func (s *Storage) ListRaceByBit(page *model.Page, race *model.Race) (races []*model.Race, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
+//ListRaceByBitTotalCount will grab data from storage
+func (s *Storage) ListRaceByBitTotalCount(race *model.Race) (count int64, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
 //ListRaceBySearch will grab data from storage
 func (s *Storage) ListRaceBySearch(page *model.Page, race *model.Race) (races []*model.Race, err error) {
 	raceLock.Lock()
