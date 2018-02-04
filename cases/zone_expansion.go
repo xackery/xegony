@@ -124,12 +124,7 @@ func ListZoneExpansion(page *model.Page, user *model.User) (zoneExpansions []*mo
 
 //ListZoneExpansionBySearch will request any zoneExpansion matching the pattern of name
 func ListZoneExpansionBySearch(page *model.Page, zoneExpansion *model.ZoneExpansion, user *model.User) (zoneExpansions []*model.ZoneExpansion, err error) {
-	/*err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list zoneExpansion by search without guide+")
-		return
-	}
-	*/
+
 	err = validateOrderByZoneExpansionField(page)
 	if err != nil {
 		return

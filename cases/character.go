@@ -56,11 +56,6 @@ func ListCharacter(page *model.Page, user *model.User) (characters []*model.Char
 
 //ListCharacterBySearch will request any character matching the pattern of name
 func ListCharacterBySearch(page *model.Page, character *model.Character, user *model.User) (characters []*model.Character, err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list character by search without guide+")
-		return
-	}
 
 	err = validateOrderByCharacterField(page)
 	if err != nil {

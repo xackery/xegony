@@ -370,7 +370,7 @@ func listSpellAnimationTypeBySearch(w http.ResponseWriter, r *http.Request, user
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(spellAnimationTypes)
+
 	response := &SpellAnimationTypesBySearchResponse{
 		Page:                page,
 		SpellAnimationTypes: spellAnimationTypes,

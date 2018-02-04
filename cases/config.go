@@ -124,11 +124,6 @@ func ListConfig(page *model.Page, user *model.User) (configs []*model.Config, er
 
 //ListConfigBySearch will request any config matching the pattern of name
 func ListConfigBySearch(page *model.Page, config *model.Config, user *model.User) (configs []*model.Config, err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list config by search without guide+")
-		return
-	}
 
 	err = validateOrderByConfigField(page)
 	if err != nil {

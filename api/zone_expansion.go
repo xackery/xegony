@@ -369,7 +369,7 @@ func listZoneExpansionBySearch(w http.ResponseWriter, r *http.Request, user *mod
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(zoneExpansions)
+
 	response := &ZoneExpansionsBySearchResponse{
 		Page:           page,
 		ZoneExpansions: zoneExpansions,

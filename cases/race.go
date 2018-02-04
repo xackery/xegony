@@ -124,11 +124,6 @@ func ListRace(page *model.Page, user *model.User) (races []*model.Race, err erro
 
 //ListRaceBySearch will request any race matching the pattern of name
 func ListRaceBySearch(page *model.Page, race *model.Race, user *model.User) (races []*model.Race, err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list race by search without guide+")
-		return
-	}
 
 	err = validateOrderByRaceField(page)
 	if err != nil {

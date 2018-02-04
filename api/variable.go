@@ -369,7 +369,7 @@ func listVariableBySearch(w http.ResponseWriter, r *http.Request, user *model.Us
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(variables)
+
 	response := &VariablesBySearchResponse{
 		Page:      page,
 		Variables: variables,

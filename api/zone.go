@@ -369,7 +369,7 @@ func listZoneBySearch(w http.ResponseWriter, r *http.Request, user *model.User, 
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(zones)
+
 	response := &ZonesBySearchResponse{
 		Page:   page,
 		Zones:  zones,

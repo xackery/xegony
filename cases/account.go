@@ -56,11 +56,6 @@ func ListAccount(page *model.Page, user *model.User) (accounts []*model.Account,
 
 //ListAccountBySearch will request any account matching the pattern of name
 func ListAccountBySearch(page *model.Page, account *model.Account, user *model.User) (accounts []*model.Account, err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list account by search without guide+")
-		return
-	}
 
 	err = validateOrderByAccountField(page)
 	if err != nil {

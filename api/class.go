@@ -370,7 +370,7 @@ func listClassBySearch(w http.ResponseWriter, r *http.Request, user *model.User,
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(classs)
+
 	response := &ClasssBySearchResponse{
 		Page:   page,
 		Classs: classs,

@@ -346,8 +346,6 @@ func listRace(w http.ResponseWriter, r *http.Request, user *model.User, statusCo
 		return
 	}
 
-	
-
 	response := &RacesResponse{
 		Page:  page,
 		Races: races,
@@ -372,7 +370,7 @@ func listRaceBySearch(w http.ResponseWriter, r *http.Request, user *model.User, 
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(races)
+
 	response := &RacesBySearchResponse{
 		Page:   page,
 		Races:  races,

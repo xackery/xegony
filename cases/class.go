@@ -124,11 +124,6 @@ func ListClass(page *model.Page, user *model.User) (classs []*model.Class, err e
 
 //ListClassBySearch will request any class matching the pattern of name
 func ListClassBySearch(page *model.Page, class *model.Class, user *model.User) (classs []*model.Class, err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list class by search without guide+")
-		return
-	}
 
 	err = validateOrderByClassField(page)
 	if err != nil {
@@ -217,7 +212,7 @@ func ListClassByBit(page *model.Page, class *model.Class, user *model.User) (cla
 		err = errors.Wrap(err, "failed to list class")
 		return
 	}
-	
+
 	for i, class := range classs {
 		err = sanitizeClass(class, user)
 		if err != nil {

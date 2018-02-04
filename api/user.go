@@ -370,7 +370,7 @@ func listUserBySearch(w http.ResponseWriter, r *http.Request, user *model.User, 
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(users)
+
 	response := &UsersBySearchResponse{
 		Page:   page,
 		Users:  users,

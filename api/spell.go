@@ -369,7 +369,7 @@ func listSpellBySearch(w http.ResponseWriter, r *http.Request, user *model.User,
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(spells)
+
 	response := &SpellsBySearchResponse{
 		Page:   page,
 		Spells: spells,

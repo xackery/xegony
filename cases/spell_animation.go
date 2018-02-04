@@ -124,11 +124,6 @@ func ListSpellAnimation(page *model.Page, user *model.User) (spellAnimations []*
 
 //ListSpellAnimationBySearch will request any spellAnimation matching the pattern of name
 func ListSpellAnimationBySearch(page *model.Page, spellAnimation *model.SpellAnimation, user *model.User) (spellAnimations []*model.SpellAnimation, err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list spellAnimation by search without guide+")
-		return
-	}
 
 	err = validateOrderBySpellAnimationField(page)
 	if err != nil {

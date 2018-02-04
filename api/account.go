@@ -370,7 +370,7 @@ func listAccountBySearch(w http.ResponseWriter, r *http.Request, user *model.Use
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(accounts)
+
 	response := &AccountsBySearchResponse{
 		Page:     page,
 		Accounts: accounts,

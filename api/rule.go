@@ -369,7 +369,7 @@ func listRuleBySearch(w http.ResponseWriter, r *http.Request, user *model.User, 
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(rules)
+
 	response := &RulesBySearchResponse{
 		Page:   page,
 		Rules:  rules,

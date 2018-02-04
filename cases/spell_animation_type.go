@@ -124,11 +124,6 @@ func ListSpellAnimationType(page *model.Page, user *model.User) (spellAnimationT
 
 //ListSpellAnimationTypeBySearch will request any spellAnimationType matching the pattern of name
 func ListSpellAnimationTypeBySearch(page *model.Page, spellAnimationType *model.SpellAnimationType, user *model.User) (spellAnimationTypes []*model.SpellAnimationType, err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list spellAnimationType by search without guide+")
-		return
-	}
 
 	err = validateOrderBySpellAnimationTypeField(page)
 	if err != nil {

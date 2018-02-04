@@ -330,7 +330,57 @@ func sanitizeItem(item *model.Item, user *model.User) (err error) {
 		}
 		err = GetSpell(item.ProcEffect, user)
 		if err != nil {
-			err = errors.Wrap(err, "failed to get spell")
+			err = errors.Wrap(err, "failed to get spell for proceffect")
+			return
+		}
+	}
+	if item.FocusEffectSpellID > 0 {
+		item.FocusEffect = &model.Spell{
+			ID: item.FocusEffectSpellID,
+		}
+		err = GetSpell(item.FocusEffect, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell for focuseffect")
+			return
+		}
+	}
+	if item.ClickEffectSpellID > 0 {
+		item.ClickEffect = &model.Spell{
+			ID: item.ClickEffectSpellID,
+		}
+		err = GetSpell(item.ClickEffect, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell for Clickeffect")
+			return
+		}
+	}
+	if item.ScrollEffectSpellID > 0 {
+		item.ScrollEffect = &model.Spell{
+			ID: item.ScrollEffectSpellID,
+		}
+		err = GetSpell(item.ScrollEffect, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell for Scrolleffect")
+			return
+		}
+	}
+	if item.BardEffectSpellID > 0 {
+		item.BardEffect = &model.Spell{
+			ID: item.BardEffectSpellID,
+		}
+		err = GetSpell(item.BardEffect, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell for Bardeffect")
+			return
+		}
+	}
+	if item.WornEffectSpellID > 0 {
+		item.WornEffect = &model.Spell{
+			ID: item.WornEffectSpellID,
+		}
+		err = GetSpell(item.WornEffect, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell for Worneffect")
 			return
 		}
 	}

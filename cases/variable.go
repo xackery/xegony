@@ -119,12 +119,7 @@ func ListVariable(page *model.Page, user *model.User) (variables []*model.Variab
 
 //ListVariableBySearch will request any variable matching the pattern of name
 func ListVariableBySearch(page *model.Page, variable *model.Variable, user *model.User) (variables []*model.Variable, err error) {
-	/*err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list variable by search without guide+")
-		return
-	}
-	*/
+
 	err = validateOrderByVariableField(page)
 	if err != nil {
 		return

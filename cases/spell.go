@@ -55,12 +55,7 @@ func ListSpell(page *model.Page, user *model.User) (spells []*model.Spell, err e
 
 //ListSpellBySearch will request any spell matching the pattern of name
 func ListSpellBySearch(page *model.Page, spell *model.Spell, user *model.User) (spells []*model.Spell, err error) {
-	/*err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list spell by search without guide+")
-		return
-	}
-	*/
+
 	err = validateOrderBySpellField(page)
 	if err != nil {
 		return

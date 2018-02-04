@@ -308,7 +308,6 @@ func getCharacterInventory(w http.ResponseWriter, r *http.Request, user *model.U
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	
 
 	/*err = cases.ListItemByCharacter(character, user)
 	if err != nil {
@@ -425,7 +424,7 @@ func listCharacterBySearch(w http.ResponseWriter, r *http.Request, user *model.U
 		err = errors.Wrap(err, "Request error")
 		return
 	}
-	log.Println(characters)
+
 	response := &CharactersBySearchResponse{
 		Page:       page,
 		Characters: characters,

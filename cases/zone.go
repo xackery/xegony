@@ -118,12 +118,7 @@ func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err erro
 
 //ListZoneBySearch will request any zone matching the pattern of name
 func ListZoneBySearch(page *model.Page, zone *model.Zone, user *model.User) (zones []*model.Zone, err error) {
-	/*err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list zone by search without guide+")
-		return
-	}
-	*/
+
 	err = validateOrderByZoneField(page)
 	if err != nil {
 		return

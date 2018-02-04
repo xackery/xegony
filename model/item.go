@@ -13,9 +13,14 @@ type Items []*Item
 // Item represents items inside everquest
 // swagger:model
 type Item struct {
-	Classs     Classs `json:"classs,omitempty"`
-	Races      Races  `json:"races,omitempty"`
-	ProcEffect *Spell `json:"procEffect,omitempty`
+	Classs       Classs `json:"classs,omitempty"`
+	Races        Races  `json:"races,omitempty"`
+	ProcEffect   *Spell `json:"procEffect,omitempty"`
+	FocusEffect  *Spell `json:"focusEffect,omitempty"`
+	ClickEffect  *Spell `json:"clickEffect,omitempty"`
+	BardEffect   *Spell `json:"bardEffect,omitempty"`
+	WornEffect   *Spell `json:"wornEffect,omitempty"`
+	ScrollEffect *Spell `json:"scrollEffect,omitempty"`
 	//Reference is used when listing from npc
 	/*Reference  string        `json:"reference,omitempty"`
 	SizeName   string        `json:"sizeName,omitempty"`
@@ -106,7 +111,7 @@ type Item struct {
 	FactionModifer3         int64          `json:"factionmod3,omitempty" db:"factionmod3"`                 //
 	FactionModifer4         int64          `json:"factionmod4,omitempty" db:"factionmod4"`                 //
 	FileName                string         `json:"fileName,omitempty" db:"filename"`                       //
-	FocusEffect             int64          `json:"focusEffect,omitempty" db:"focuseffect"`                 //
+	FocusEffectSpellID      int64          `json:"focusEffectSpellID,omitempty" db:"focuseffect"`          //
 	FireResistance          int64          `json:"fireResistance,omitempty" db:"fr"`                       //
 	FirionaVieNoDrop        int64          `json:"firionaVieNoDrop,omitempty" db:"fvnodrop"`               //
 	Haste                   int64          `json:"haste,omitempty" db:"haste"`                             //
@@ -147,7 +152,7 @@ type Item struct {
 	SkillModifierType       int64          `json:"skillModifierType,omitempty" db:"skillmodtype"`          //
 	SkillModifierValue      int64          `json:"skillModifierValue,omitempty" db:"skillmodvalue"`        //
 	SlotBit                 int64          `json:"slotBit,omitempty" db:"slots"`                           //
-	ClickEffect             int64          `json:"clickEffect,omitempty" db:"clickeffect"`                 //
+	ClickEffectSpellID      int64          `json:"clickEffectSpellID,omitempty" db:"clickeffect"`          //
 	SpellShield             int64          `json:"spellShield,omitempty" db:"spellshield"`                 //
 	StrikeThrough           int64          `json:"strikeThrough,omitempty" db:"strikethrough"`             //
 	StunResist              int64          `json:"stunResist,omitempty" db:"stunresist"`                   //
@@ -184,7 +189,7 @@ type Item struct {
 	ProcLevel2              int64          `json:"procLevel2,omitempty" db:"proclevel2"`                   //
 	ProcLevel               int64          `json:"procLevel,omitempty" db:"proclevel"`                     //
 	Unk142                  int64          `json:"UNK142,omitempty" db:"UNK142"`                           //
-	WornEffect              int64          `json:"wornEffect,omitempty" db:"worneffect"`                   //
+	WornEffectSpellID       int64          `json:"wornEffectSpellID,omitempty" db:"worneffect"`            //
 	WornType                int64          `json:"wornType,omitempty" db:"worntype"`                       //
 	WornLevel2              int64          `json:"wornLevel2,omitempty" db:"wornlevel2"`                   //
 	WornLevel               int64          `json:"wornLevel,omitempty" db:"wornlevel"`                     //
@@ -193,7 +198,7 @@ type Item struct {
 	FocusLevel2             int64          `json:"focusLevel2,omitempty" db:"focuslevel2"`                 //
 	FocusLevel              int64          `json:"focusLevel,omitempty" db:"focuslevel"`                   //
 	Unk152                  int64          `json:"UNK152,omitempty" db:"UNK152"`                           //
-	ScrollEffect            int64          `json:"scrollEffect,omitempty" db:"scrolleffect"`               //
+	ScrollEffectSpellID     int64          `json:"scrollEffectSpellID,omitempty" db:"scrolleffect"`        //
 	ScrollType              int64          `json:"scrollType,omitempty" db:"scrolltype"`                   //
 	ScrollLevel2            int64          `json:"scrollLevel2,omitempty" db:"scrolllevel2"`               //
 	ScrollLevel             int64          `json:"scrollLevel,omitempty" db:"scrolllevel"`                 //
@@ -283,7 +288,7 @@ type Item struct {
 	ScriptFileid            int64          `json:"scriptFileID,omitempty" db:"scriptfileid"`               //
 	ExpendableArrow         int64          `json:"expendableArrow,omitempty" db:"expendablearrow"`         //
 	PowerSourceCapacity     int64          `json:"powerSourceCapacity,omitempty" db:"powersourcecapacity"` //
-	BardEffect              int64          `json:"bardEffect,omitempty" db:"bardeffect"`                   //
+	BardEffectSpellID       int64          `json:"bardEffectSpellID,omitempty" db:"bardeffect"`            //
 	BardEffectType          int64          `json:"bardEffectType,omitempty" db:"bardeffecttype"`           //
 	BardLevel2              int64          `json:"bardLevel2,omitempty" db:"bardlevel2"`                   //
 	BardLevel               int64          `json:"bardLevel,omitempty" db:"bardlevel"`                     //
