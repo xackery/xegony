@@ -32,6 +32,7 @@ type Spell struct {
 	TargetAnimation     *SpellAnimation       `json:"targetAnimation,omitempty"`
 	TargetType          *SpellTargetType      `json:"targetType,omitempty"`
 	TeleportZone        *Zone                 `json:"teleportZone,omitempty"`
+	TravelType          *SpellTravelType      `json:"travelType,omitempty"`
 	Nimbus              *SpellNimbus          `json:"nimbus,omitempty"`
 	Formula1            *SpellEffectFormula   `json:"formula1,omitempty"`
 	Formula2            *SpellEffectFormula   `json:"formula2,omitempty"`

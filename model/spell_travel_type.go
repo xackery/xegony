@@ -1,6 +1,8 @@
 package model
 
-import ()
+// SpellTravelTypes is an array of SpellTravelType
+// swagger:model
+type SpellTravelTypes []*SpellTravelType
 
 // SpellTravelType identifies the type of travel a spell uses
 // swagger:model

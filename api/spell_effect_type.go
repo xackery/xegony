@@ -108,7 +108,7 @@ type SpellEffectTypesBySearchResponse struct {
 func spellEffectTypeRoutes() (routes []*route) {
 
 	routes = []*route{
-		// swagger:route GET /spell/animation/type spellEffectType listSpellEffectType
+		// swagger:route GET /spell/effect/type spellEffectType listSpellEffectType
 		//
 		// Lists spellEffectTypes
 		//
@@ -131,10 +131,10 @@ func spellEffectTypeRoutes() (routes []*route) {
 		{
 			"ListSpellEffectType",
 			"GET",
-			"/spell/animation/type",
+			"/spell/effect/type",
 			listSpellEffectType,
 		},
-		// swagger:route GET /spell/animation/type/search spellEffectType listSpellEffectTypeBySearch
+		// swagger:route GET /spell/effect/type/search spellEffectType listSpellEffectTypeBySearch
 		//
 		// Search spellEffectTypes by name
 		//
@@ -157,10 +157,10 @@ func spellEffectTypeRoutes() (routes []*route) {
 		{
 			"ListSpellEffectTypeBySearch",
 			"GET",
-			"/spell/animation/type/search",
+			"/spell/effect/type/search",
 			listSpellEffectTypeBySearch,
 		},
-		// swagger:route POST /spell/animation/type spellEffectType createSpellEffectType
+		// swagger:route POST /spell/effect/type spellEffectType createSpellEffectType
 		//
 		// Create an spellEffectType
 		//
@@ -178,10 +178,10 @@ func spellEffectTypeRoutes() (routes []*route) {
 		{
 			"CreateSpellEffectType",
 			"POST",
-			"/spell/animation/type",
+			"/spell/effect/type",
 			createSpellEffectType,
 		},
-		// swagger:route GET /spell/animation/type/{ID} spellEffectType getSpellEffectType
+		// swagger:route GET /spell/effect/type/{ID} spellEffectType getSpellEffectType
 		//
 		// Get an spellEffectType
 		//
@@ -195,10 +195,10 @@ func spellEffectTypeRoutes() (routes []*route) {
 		{
 			"GetSpellEffectType",
 			"GET",
-			"/spell/animation/type/{ID:[0-9]+}",
+			"/spell/effect/type/{ID:[0-9]+}",
 			getSpellEffectType,
 		},
-		// swagger:route PUT /spell/animation/type/{ID} spellEffectType editSpellEffectType
+		// swagger:route PUT /spell/effect/type/{ID} spellEffectType editSpellEffectType
 		//
 		// Edit an spellEffectType
 		//
@@ -216,10 +216,10 @@ func spellEffectTypeRoutes() (routes []*route) {
 		{
 			"EditSpellEffectType",
 			"PUT",
-			"/spell/animation/type/{ID:[0-9]+}",
+			"/spell/effect/type/{ID:[0-9]+}",
 			editSpellEffectType,
 		},
-		// swagger:route DELETE /spell/animation/type/{ID} spellEffectType deleteSpellEffectType
+		// swagger:route DELETE /spell/effect/type/{ID} spellEffectType deleteSpellEffectType
 		//
 		// Delete an spellEffectType
 		//
@@ -236,7 +236,7 @@ func spellEffectTypeRoutes() (routes []*route) {
 		{
 			"DeleteSpellEffectType",
 			"DELETE",
-			"/spell/animation/type/{ID:[0-9]+}",
+			"/spell/effect/type/{ID:[0-9]+}",
 			deleteSpellEffectType,
 		},
 	}

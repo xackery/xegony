@@ -373,6 +373,17 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 		err = nil
 	}
 
+	if spell.TravelTypeID > 0 {
+		spell.TravelType = &model.SpellTravelType{
+			ID: spell.TravelTypeID,
+		}
+		err = GetSpellTravelType(spell.TravelType, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell travel type during sanitize spell")
+			return
+		}
+	}
+
 	if spell.AnimationID > 0 {
 		spell.Animation = &model.SpellAnimation{
 			ID: spell.AnimationID,
