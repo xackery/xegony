@@ -126,6 +126,13 @@ type Reader interface {
 	ListSpellEffectTypeBySearch(page *model.Page, spellEffectType *model.SpellEffectType) (spellEffectTypes []*model.SpellEffectType, err error)
 	ListSpellEffectTypeBySearchTotalCount(spellEffectType *model.SpellEffectType) (count int64, err error)
 
+	//SpellTargetType
+	GetSpellTargetType(spellTargetType *model.SpellTargetType) (err error)
+	ListSpellTargetType(page *model.Page) (spellTargetTypes []*model.SpellTargetType, err error)
+	ListSpellTargetTypeTotalCount() (count int64, err error)
+	ListSpellTargetTypeBySearch(page *model.Page, spellTargetType *model.SpellTargetType) (spellTargetTypes []*model.SpellTargetType, err error)
+	ListSpellTargetTypeBySearchTotalCount(spellTargetType *model.SpellTargetType) (count int64, err error)
+
 	//SpellTravelType
 	GetSpellTravelType(spellTravelType *model.SpellTravelType) (err error)
 	ListSpellTravelType(page *model.Page) (spellTravelTypes []*model.SpellTravelType, err error)

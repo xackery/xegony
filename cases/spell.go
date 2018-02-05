@@ -384,6 +384,17 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 		}
 	}
 
+	if spell.TargetTypeID > 0 {
+		spell.TargetType = &model.SpellTargetType{
+			ID: spell.TargetTypeID,
+		}
+		err = GetSpellTargetType(spell.TargetType, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get spell target type during sanitize spell")
+			return
+		}
+	}
+
 	if spell.AnimationID > 0 {
 		spell.Animation = &model.SpellAnimation{
 			ID: spell.AnimationID,

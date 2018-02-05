@@ -170,6 +170,12 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 		return
 	}
 
+	err = cases.LoadSpellTargetTypeFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load spellTargetType to memory")
+		return
+	}
+
 	err = cases.LoadSpellTravelTypeFromFileToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load spellTravelType to memory")
