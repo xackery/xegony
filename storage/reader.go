@@ -84,6 +84,20 @@ type Reader interface {
 	ListRuleEntryBySearch(page *model.Page, rule *model.Rule, ruleEntry *model.RuleEntry) (ruleEntrys []*model.RuleEntry, err error)
 	ListRuleEntryBySearchTotalCount(rule *model.Rule, ruleEntry *model.RuleEntry) (count int64, err error)
 
+	//Spawn
+	GetSpawn(spawn *model.Spawn) (err error)
+	ListSpawn(page *model.Page) (spawns []*model.Spawn, err error)
+	ListSpawnTotalCount() (count int64, err error)
+	ListSpawnBySearch(page *model.Page, spawn *model.Spawn) (spawns []*model.Spawn, err error)
+	ListSpawnBySearchTotalCount(spawn *model.Spawn) (count int64, err error)
+
+	//SpawnNpc
+	GetSpawnNpc(spawn *model.Spawn, spawnNpc *model.SpawnNpc) (err error)
+	ListSpawnNpc(page *model.Page, spawn *model.Spawn) (spawnNpcs []*model.SpawnNpc, err error)
+	ListSpawnNpcTotalCount(spawn *model.Spawn) (count int64, err error)
+	ListSpawnNpcBySearch(page *model.Page, spawn *model.Spawn, spawnNpc *model.SpawnNpc) (spawnNpcs []*model.SpawnNpc, err error)
+	ListSpawnNpcBySearchTotalCount(spawn *model.Spawn, spawnNpc *model.SpawnNpc) (count int64, err error)
+
 	//Spell
 	GetSpell(spell *model.Spell) (err error)
 	ListSpell(page *model.Page) (spells []*model.Spell, err error)

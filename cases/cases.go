@@ -151,6 +151,8 @@ func InitializeAllDatabaseStorage(sr storage.Reader, sw storage.Writer, si stora
 		"item",
 		"rule",
 		"ruleEntry",
+		"spawn",
+		"spawnNpc",
 		"spell",
 		"user",
 		"variable",

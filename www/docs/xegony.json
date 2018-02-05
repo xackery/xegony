@@ -3485,6 +3485,825 @@
         }
       }
     },
+    "/spawn": {
+      "get": {
+        "description": "This will show all available spawns by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Lists spawns",
+        "operationId": "listSpawn",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spawn",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Create an spawn",
+        "operationId": "createSpawn",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Spawn",
+            "description": "Spawn details to create",
+            "name": "spawn",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Spawn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spawn/search": {
+      "get": {
+        "description": "This will show all available spawns by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Search spawns by name",
+        "operationId": "listSpawnBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "heal",
+            "x-go-name": "Name",
+            "description": "Name is which spawn to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spawn/{ID}": {
+      "get": {
+        "description": "This will get an individual spawn available spawns by default.",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Get an spawn",
+        "operationId": "getSpawn",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spawn",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Edit an spawn",
+        "operationId": "editSpawn",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Spawn",
+            "description": "Spawn details to edit",
+            "name": "spawn",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Spawn"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spawn",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Delete an spawn",
+        "operationId": "deleteSpawn",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spawn/{spawnID}/npc": {
+      "get": {
+        "description": "This will show all available spawnNpcs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Lists spawnNpcs",
+        "operationId": "listSpawnNpc",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "SpawnID",
+            "description": "SpawnID to get information about",
+            "name": "spawnID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnNpcsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spawn/{spawnID}/npc/search": {
+      "get": {
+        "description": "This will show all available spawnNpcs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Search spawnNpcs by name",
+        "operationId": "listSpawnNpcBySearch",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "SpawnID",
+            "description": "SpawnID to get information about",
+            "name": "spawnID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "NpcID",
+            "description": "NpcID is which spawnNpc to get information about",
+            "name": "npcID",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnNpcsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spawn/{spawnID}/npc/{npcID}": {
+      "get": {
+        "description": "This will get an individual spawnNpc available spawnNpcs by default.",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Get an spawnNpc",
+        "operationId": "getSpawnNpc",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "SpawnID",
+            "description": "SpawnID to get information about",
+            "name": "spawnID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "NpcID",
+            "description": "NpcID to get information about",
+            "name": "npcID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnNpcResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spawnNpc",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Edit an spawnNpc",
+        "operationId": "editSpawnNpc",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "SpawnID",
+            "description": "SpawnID to get information about",
+            "name": "spawnID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "SpawnID to get information about",
+            "name": "SpawnID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "NpcID",
+            "description": "name to get information about",
+            "name": "npcID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpawnNpc",
+            "description": "SpawnNpc details to edit",
+            "name": "spawnNpc",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpawnNpc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnNpcResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spawnNpc",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Create an spawnNpc",
+        "operationId": "createSpawnNpc",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "SpawnID",
+            "description": "SpawnID to get information about",
+            "name": "spawnID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpawnNpc",
+            "description": "SpawnNpc details to create",
+            "name": "spawnNpc",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpawnNpc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpawnNpcResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spawnNpc",
+        "tags": [
+          "spawn"
+        ],
+        "summary": "Delete an spawnNpc",
+        "operationId": "deleteSpawnNpc",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "SpawnID",
+            "description": "SpawnID to get information about",
+            "name": "spawnID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "NpcID",
+            "description": "NpcID to get information about",
+            "name": "npcID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/spell": {
       "get": {
         "description": "This will show all available spells by default.",
@@ -12103,6 +12922,10 @@
       "description": "Spawn represents the spawn_group table",
       "type": "object",
       "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
         "delay": {
           "type": "integer",
           "format": "int64",
@@ -12123,11 +12946,6 @@
           "format": "double",
           "x-go-name": "Dist"
         },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
         "maxX": {
           "type": "number",
           "format": "double",
@@ -12138,6 +12956,11 @@
           "format": "double",
           "x-go-name": "MaxY"
         },
+        "minDelay": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinDelay"
+        },
         "minX": {
           "type": "number",
           "format": "double",
@@ -12147,11 +12970,6 @@
           "type": "number",
           "format": "double",
           "x-go-name": "MinY"
-        },
-        "mindelay": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Mindelay"
         },
         "name": {
           "type": "string",
@@ -12281,6 +13099,9 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Chance"
+        },
+        "npc": {
+          "$ref": "#/definitions/Npc"
         },
         "npcID": {
           "type": "integer",
@@ -14833,6 +15654,69 @@
       "headers": {
         "page": {},
         "rules": {}
+      }
+    },
+    "SpawnNpcResponse": {
+      "description": "SpawnNpcResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpawnNpc"
+      },
+      "headers": {
+        "spawn": {},
+        "spawnNpc": {}
+      }
+    },
+    "SpawnNpcsBySearchResponse": {
+      "description": "SpawnNpcsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpawnNpcs"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spawn": {},
+        "spawnNpcs": {}
+      }
+    },
+    "SpawnNpcsResponse": {
+      "description": "SpawnNpcsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpawnNpcs"
+      },
+      "headers": {
+        "page": {},
+        "spawn": {},
+        "spawnNpcs": {}
+      }
+    },
+    "SpawnResponse": {
+      "description": "SpawnResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Spawn"
+      },
+      "headers": {
+        "spawn": {}
+      }
+    },
+    "SpawnsBySearchResponse": {
+      "description": "SpawnsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Spawns"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spawns": {}
+      }
+    },
+    "SpawnsResponse": {
+      "description": "SpawnsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Spawns"
+      },
+      "headers": {
+        "page": {},
+        "spawns": {}
       }
     },
     "SpellAnimationResponse": {
