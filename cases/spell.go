@@ -505,6 +505,127 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 		}
 	}
 
+	if spell.EffectID1 > 0 {
+		spell.Effect1 = &model.SpellEffectType{
+			ID: spell.EffectID1,
+		}
+		err = GetSpellEffectType(spell.Effect1, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 1")
+			return
+		}
+	}
+	if spell.EffectID2 > 0 {
+		spell.Effect2 = &model.SpellEffectType{
+			ID: spell.EffectID2,
+		}
+		err = GetSpellEffectType(spell.Effect2, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 2")
+			return
+		}
+	}
+	if spell.EffectID3 > 0 {
+		spell.Effect3 = &model.SpellEffectType{
+			ID: spell.EffectID3,
+		}
+		err = GetSpellEffectType(spell.Effect3, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 3")
+			return
+		}
+	}
+	if spell.EffectID4 > 0 {
+		spell.Effect4 = &model.SpellEffectType{
+			ID: spell.EffectID4,
+		}
+		err = GetSpellEffectType(spell.Effect4, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 4")
+			return
+		}
+	}
+	if spell.EffectID5 > 0 {
+		spell.Effect5 = &model.SpellEffectType{
+			ID: spell.EffectID5,
+		}
+		err = GetSpellEffectType(spell.Effect5, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 5")
+			return
+		}
+	}
+	if spell.EffectID6 > 0 {
+		spell.Effect6 = &model.SpellEffectType{
+			ID: spell.EffectID6,
+		}
+		err = GetSpellEffectType(spell.Effect6, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 6")
+			return
+		}
+	}
+	if spell.EffectID7 > 0 {
+		spell.Effect7 = &model.SpellEffectType{
+			ID: spell.EffectID7,
+		}
+		err = GetSpellEffectType(spell.Effect7, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 7")
+			return
+		}
+	}
+	if spell.EffectID8 > 0 {
+		spell.Effect8 = &model.SpellEffectType{
+			ID: spell.EffectID8,
+		}
+		err = GetSpellEffectType(spell.Effect8, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 8")
+			return
+		}
+	}
+	if spell.EffectID9 > 0 {
+		spell.Effect9 = &model.SpellEffectType{
+			ID: spell.EffectID9,
+		}
+		err = GetSpellEffectType(spell.Effect9, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 9")
+			return
+		}
+	}
+	if spell.EffectID10 > 0 {
+		spell.Effect10 = &model.SpellEffectType{
+			ID: spell.EffectID10,
+		}
+		err = GetSpellEffectType(spell.Effect10, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 10")
+			return
+		}
+	}
+	if spell.EffectID11 > 0 {
+		spell.Effect11 = &model.SpellEffectType{
+			ID: spell.EffectID11,
+		}
+		err = GetSpellEffectType(spell.Effect11, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 11")
+			return
+		}
+	}
+	if spell.EffectID12 > 0 {
+		spell.Effect12 = &model.SpellEffectType{
+			ID: spell.EffectID12,
+		}
+		err = GetSpellEffectType(spell.Effect12, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on effect 12")
+			return
+		}
+	}
+
 	return
 }
 
