@@ -2168,10 +2168,10 @@
       ]
     },
     {
-      "name": "spellEffectType",
+      "name": "spellAnimationType",
       "item": [
         {
-          "name": "Lists spellEffectTypes",
+          "name": "Lists spellAnimationTypes",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type",
@@ -2206,7 +2206,7 @@
           }
         },
         {
-          "name": "Create an spellEffectType",
+          "name": "Create an spellAnimationType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type",
@@ -2233,7 +2233,7 @@
           }
         },
         {
-          "name": "Search spellEffectTypes by name",
+          "name": "Search spellAnimationTypes by name",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/search",
@@ -2269,7 +2269,7 @@
           }
         },
         {
-          "name": "Get an spellEffectType",
+          "name": "Get an spellAnimationType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/:ID",
@@ -2302,7 +2302,7 @@
           }
         },
         {
-          "name": "Edit an spellEffectType",
+          "name": "Edit an spellAnimationType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/:ID",
@@ -2335,7 +2335,7 @@
           }
         },
         {
-          "name": "Delete an spellEffectType",
+          "name": "Delete an spellAnimationType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/:ID",
@@ -2551,6 +2551,612 @@
                 "spell",
                 "effect",
                 "formula",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "spellEffectType",
+      "item": [
+        {
+          "name": "Lists spellEffectTypes",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "type"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spellEffectType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "type"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spellEffectTypes by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/type/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "type",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spellEffectType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spellEffectType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spellEffectType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "spellTargetType",
+      "item": [
+        {
+          "name": "Lists spellTargetTypes",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/target/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "target",
+                "type"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spellTargetType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/target/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "target",
+                "type"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spellTargetTypes by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/target/type/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "target",
+                "type",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spellTargetType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/target/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "target",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spellTargetType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/target/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "target",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spellTargetType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/target/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "target",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
+      "name": "spellTravelType",
+      "item": [
+        {
+          "name": "Lists spellTravelTypes",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/travel/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "travel",
+                "type"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spellTravelType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/travel/type",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "travel",
+                "type"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spellTravelTypes by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/travel/type/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "travel",
+                "type",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spellTravelType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/travel/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "travel",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spellTravelType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/travel/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "travel",
+                "type",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spellTravelType",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/travel/type/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "travel",
+                "type",
                 ":ID"
               ],
               "variable": [

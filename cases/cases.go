@@ -36,6 +36,7 @@ func InitializeAll(sr storage.Reader, sw storage.Writer, si storage.Initializer)
 		"rule",
 		"ruleEntry",
 		"spell",
+		"user",
 		"variable",
 		"zone",
 	}

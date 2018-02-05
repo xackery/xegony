@@ -3835,7 +3835,7 @@
     },
     "/spell/animation/type": {
       "get": {
-        "description": "This will show all available spellEffectTypes by default.",
+        "description": "This will show all available spellAnimationTypes by default.",
         "consumes": [
           "application/json"
         ],
@@ -3845,10 +3845,10 @@
           "application/yaml"
         ],
         "tags": [
-          "spellEffectType"
+          "spellAnimationType"
         ],
-        "summary": "Lists spellEffectTypes",
-        "operationId": "listSpellEffectType",
+        "summary": "Lists spellAnimationTypes",
+        "operationId": "listSpellAnimationType",
         "parameters": [
           {
             "type": "integer",
@@ -3888,7 +3888,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellEffectTypesResponse"
+            "$ref": "#/responses/SpellAnimationTypesResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -3911,12 +3911,12 @@
         }
       },
       "post": {
-        "description": "This will create an spellEffectType",
+        "description": "This will create an spellAnimationType",
         "tags": [
-          "spellEffectType"
+          "spellAnimationType"
         ],
-        "summary": "Create an spellEffectType",
-        "operationId": "createSpellEffectType",
+        "summary": "Create an spellAnimationType",
+        "operationId": "createSpellAnimationType",
         "security": [
           {
             "apiKey": []
@@ -3924,18 +3924,18 @@
         ],
         "parameters": [
           {
-            "x-go-name": "SpellEffectType",
-            "description": "SpellEffectType details to create",
-            "name": "spellEffectType",
+            "x-go-name": "SpellAnimationType",
+            "description": "SpellAnimationType details to create",
+            "name": "spellAnimationType",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/SpellEffectType"
+              "$ref": "#/definitions/SpellAnimationType"
             }
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellEffectTypeResponse"
+            "$ref": "#/responses/SpellAnimationTypeResponse"
           },
           "204": {
             "description": "ErrNoContent",
@@ -3966,7 +3966,7 @@
     },
     "/spell/animation/type/search": {
       "get": {
-        "description": "This will show all available spellEffectTypes by default.",
+        "description": "This will show all available spellAnimationTypes by default.",
         "consumes": [
           "application/json"
         ],
@@ -3976,16 +3976,16 @@
           "application/yaml"
         ],
         "tags": [
-          "spellEffectType"
+          "spellAnimationType"
         ],
-        "summary": "Search spellEffectTypes by name",
-        "operationId": "listSpellEffectTypeBySearch",
+        "summary": "Search spellAnimationTypes by name",
+        "operationId": "listSpellAnimationTypeBySearch",
         "parameters": [
           {
             "type": "string",
             "example": "xackery",
             "x-go-name": "Name",
-            "description": "Name is which spellEffectType to get information about",
+            "description": "Name is which spellAnimationType to get information about",
             "name": "name",
             "in": "query"
           },
@@ -4027,7 +4027,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellEffectTypesBySearchResponse"
+            "$ref": "#/responses/SpellAnimationTypesBySearchResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -4052,17 +4052,17 @@
     },
     "/spell/animation/type/{ID}": {
       "get": {
-        "description": "This will get an individual spellEffectType available spellEffectTypes by default.",
+        "description": "This will get an individual spellAnimationType available spellAnimationTypes by default.",
         "tags": [
-          "spellEffectType"
+          "spellAnimationType"
         ],
-        "summary": "Get an spellEffectType",
-        "operationId": "getSpellEffectType",
+        "summary": "Get an spellAnimationType",
+        "operationId": "getSpellAnimationType",
         "parameters": [
           {
             "type": "integer",
             "format": "int64",
-            "example": 1,
+            "example": 74887,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -4071,7 +4071,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellEffectTypeResponse"
+            "$ref": "#/responses/SpellAnimationTypeResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -4094,12 +4094,12 @@
         }
       },
       "put": {
-        "description": "This will edit an spellEffectType",
+        "description": "This will edit an spellAnimationType",
         "tags": [
-          "spellEffectType"
+          "spellAnimationType"
         ],
-        "summary": "Edit an spellEffectType",
-        "operationId": "editSpellEffectType",
+        "summary": "Edit an spellAnimationType",
+        "operationId": "editSpellAnimationType",
         "security": [
           {
             "apiKey": []
@@ -4109,25 +4109,25 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 1,
+            "example": 74887,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
             "required": true
           },
           {
-            "x-go-name": "SpellEffectType",
-            "description": "SpellEffectType details to edit",
-            "name": "spellEffectType",
+            "x-go-name": "SpellAnimationType",
+            "description": "SpellAnimationType details to edit",
+            "name": "spellAnimationType",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/SpellEffectType"
+              "$ref": "#/definitions/SpellAnimationType"
             }
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellEffectTypeResponse"
+            "$ref": "#/responses/SpellAnimationTypeResponse"
           },
           "204": {
             "description": "ErrNoContent",
@@ -4156,12 +4156,12 @@
         }
       },
       "delete": {
-        "description": "This will delete an spellEffectType",
+        "description": "This will delete an spellAnimationType",
         "tags": [
-          "spellEffectType"
+          "spellAnimationType"
         ],
-        "summary": "Delete an spellEffectType",
-        "operationId": "deleteSpellEffectType",
+        "summary": "Delete an spellAnimationType",
+        "operationId": "deleteSpellAnimationType",
         "security": [
           {
             "apiKey": []
@@ -4171,7 +4171,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 1,
+            "example": 74887,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -4735,6 +4735,379 @@
         }
       }
     },
+    "/spell/effect/type": {
+      "get": {
+        "description": "This will show all available spellEffectTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellEffectType"
+        ],
+        "summary": "Lists spellEffectTypes",
+        "operationId": "listSpellEffectType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectTypesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spellEffectType",
+        "tags": [
+          "spellEffectType"
+        ],
+        "summary": "Create an spellEffectType",
+        "operationId": "createSpellEffectType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "SpellEffectType",
+            "description": "SpellEffectType details to create",
+            "name": "spellEffectType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellEffectType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/effect/type/search": {
+      "get": {
+        "description": "This will show all available spellEffectTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellEffectType"
+        ],
+        "summary": "Search spellEffectTypes by name",
+        "operationId": "listSpellEffectTypeBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which spellEffectType to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectTypesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/effect/type/{ID}": {
+      "get": {
+        "description": "This will get an individual spellEffectType available spellEffectTypes by default.",
+        "tags": [
+          "spellEffectType"
+        ],
+        "summary": "Get an spellEffectType",
+        "operationId": "getSpellEffectType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectTypeResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spellEffectType",
+        "tags": [
+          "spellEffectType"
+        ],
+        "summary": "Edit an spellEffectType",
+        "operationId": "editSpellEffectType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpellEffectType",
+            "description": "SpellEffectType details to edit",
+            "name": "spellEffectType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellEffectType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spellEffectType",
+        "tags": [
+          "spellEffectType"
+        ],
+        "summary": "Delete an spellEffectType",
+        "operationId": "deleteSpellEffectType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/spell/search": {
       "get": {
         "description": "This will show all available spells by default.",
@@ -4799,6 +5172,752 @@
         "responses": {
           "200": {
             "$ref": "#/responses/SpellsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/target/type": {
+      "get": {
+        "description": "This will show all available spellTargetTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellTargetType"
+        ],
+        "summary": "Lists spellTargetTypes",
+        "operationId": "listSpellTargetType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTargetTypesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spellTargetType",
+        "tags": [
+          "spellTargetType"
+        ],
+        "summary": "Create an spellTargetType",
+        "operationId": "createSpellTargetType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "SpellTargetType",
+            "description": "SpellTargetType details to create",
+            "name": "spellTargetType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellTargetType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTargetTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/target/type/search": {
+      "get": {
+        "description": "This will show all available spellTargetTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellTargetType"
+        ],
+        "summary": "Search spellTargetTypes by name",
+        "operationId": "listSpellTargetTypeBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which spellTargetType to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTargetTypesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/target/type/{ID}": {
+      "get": {
+        "description": "This will get an individual spellTargetType available spellTargetTypes by default.",
+        "tags": [
+          "spellTargetType"
+        ],
+        "summary": "Get an spellTargetType",
+        "operationId": "getSpellTargetType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTargetTypeResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spellTargetType",
+        "tags": [
+          "spellTargetType"
+        ],
+        "summary": "Edit an spellTargetType",
+        "operationId": "editSpellTargetType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpellTargetType",
+            "description": "SpellTargetType details to edit",
+            "name": "spellTargetType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellTargetType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTargetTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spellTargetType",
+        "tags": [
+          "spellTargetType"
+        ],
+        "summary": "Delete an spellTargetType",
+        "operationId": "deleteSpellTargetType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/travel/type": {
+      "get": {
+        "description": "This will show all available spellTravelTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellTravelType"
+        ],
+        "summary": "Lists spellTravelTypes",
+        "operationId": "listSpellTravelType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTravelTypesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spellTravelType",
+        "tags": [
+          "spellTravelType"
+        ],
+        "summary": "Create an spellTravelType",
+        "operationId": "createSpellTravelType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "SpellTravelType",
+            "description": "SpellTravelType details to create",
+            "name": "spellTravelType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellTravelType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTravelTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/travel/type/search": {
+      "get": {
+        "description": "This will show all available spellTravelTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellTravelType"
+        ],
+        "summary": "Search spellTravelTypes by name",
+        "operationId": "listSpellTravelTypeBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which spellTravelType to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTravelTypesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/travel/type/{ID}": {
+      "get": {
+        "description": "This will get an individual spellTravelType available spellTravelTypes by default.",
+        "tags": [
+          "spellTravelType"
+        ],
+        "summary": "Get an spellTravelType",
+        "operationId": "getSpellTravelType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTravelTypeResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spellTravelType",
+        "tags": [
+          "spellTravelType"
+        ],
+        "summary": "Edit an spellTravelType",
+        "operationId": "editSpellTravelType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpellTravelType",
+            "description": "SpellTravelType details to edit",
+            "name": "spellTravelType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellTravelType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellTravelTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spellTravelType",
+        "tags": [
+          "spellTravelType"
+        ],
+        "summary": "Delete an spellTravelType",
+        "operationId": "deleteSpellTravelType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
           },
           "400": {
             "description": "ErrValidation",
@@ -12368,6 +13487,9 @@
           "format": "int64",
           "x-go-name": "TimeOfDay"
         },
+        "travelType": {
+          "$ref": "#/definitions/SpellTravelType"
+        },
         "travelTypeID": {
           "type": "integer",
           "format": "int64",
@@ -12703,6 +13825,14 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "SpellTargetTypes": {
+      "description": "SpellTargetTypes is an array of SpellTargetType",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpellTargetType"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "SpellTravelType": {
       "description": "SpellTravelType identifies the type of travel a spell uses",
       "type": "object",
@@ -12715,6 +13845,14 @@
           "type": "string",
           "x-go-name": "Name"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellTravelTypes": {
+      "description": "SpellTravelTypes is an array of SpellTravelType",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpellTravelType"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -13854,6 +14992,66 @@
       },
       "headers": {
         "spell": {}
+      }
+    },
+    "SpellTargetTypeResponse": {
+      "description": "SpellTargetTypeResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpellTargetType"
+      },
+      "headers": {
+        "spellTargetType": {}
+      }
+    },
+    "SpellTargetTypesBySearchResponse": {
+      "description": "SpellTargetTypesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellTargetTypes"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spellTargetTypes": {}
+      }
+    },
+    "SpellTargetTypesResponse": {
+      "description": "SpellTargetTypesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellTargetTypes"
+      },
+      "headers": {
+        "page": {},
+        "spellTargetTypes": {}
+      }
+    },
+    "SpellTravelTypeResponse": {
+      "description": "SpellTravelTypeResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpellTravelType"
+      },
+      "headers": {
+        "spellTravelType": {}
+      }
+    },
+    "SpellTravelTypesBySearchResponse": {
+      "description": "SpellTravelTypesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellTravelTypes"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spellTravelTypes": {}
+      }
+    },
+    "SpellTravelTypesResponse": {
+      "description": "SpellTravelTypesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellTravelTypes"
+      },
+      "headers": {
+        "page": {},
+        "spellTravelTypes": {}
       }
     },
     "SpellsBySearchResponse": {
