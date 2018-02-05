@@ -14,7 +14,6 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/box"
-	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage"
 )
@@ -80,11 +79,6 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 	log = alog.New(w, "WEB: ", 0)
 	logErr = alog.New(w, "WEBError: ", 0)
 
-	err = cases.InitializeAll(sr, sw, si)
-	if err != nil {
-		err = errors.Wrap(err, "failed to initialize all")
-		return
-	}
 	log.Println("Initialized")
 	return
 }

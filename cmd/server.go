@@ -104,99 +104,15 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 		log.Fatal("Failed to verify tables: ", err.Error())
 	}
 
-	err = cases.InitializeAll(sr, sw, si)
+	err = cases.InitializeAllDatabaseStorage(sr, sw, si)
 	if err != nil {
 		err = errors.Wrap(err, "failed to initialize all")
 		return
 	}
 
-	err = cases.LoadClassFromFileToMemory()
+	err = cases.InitializeAllMemoryStorage()
 	if err != nil {
-		err = errors.Wrap(err, "failed to load zone to memory")
-		return
-	}
-
-	err = cases.LoadDeityFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load zone to memory")
-		return
-	}
-
-	err = cases.LoadRaceFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load zone to memory")
-		return
-	}
-
-	err = cases.LoadRuleFromDBToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load rule to memory")
-		return
-	}
-
-	err = cases.LoadRuleEntryFromDBToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load ruleEntry to memory")
-		return
-	}
-
-	err = cases.LoadSpellAnimationFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load spellAnimation to memory")
-		return
-	}
-
-	err = cases.LoadSpellAnimationTypeFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load spellAnimationType to memory")
-		return
-	}
-
-	err = cases.LoadSpellDurationFormulaFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load spellDurationFormula to memory")
-		return
-	}
-
-	err = cases.LoadSpellEffectFormulaFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load spellEffectFormula to memory")
-		return
-	}
-
-	err = cases.LoadSpellEffectTypeFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load spellEffectType to memory")
-		return
-	}
-
-	err = cases.LoadSpellTargetTypeFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load spellTargetType to memory")
-		return
-	}
-
-	err = cases.LoadSpellTravelTypeFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load spellTravelType to memory")
-		return
-	}
-
-	err = cases.LoadVariableFromDBToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load variable to memory")
-		return
-	}
-
-	err = cases.LoadZoneFromDBToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load zone to memory")
-		return
-	}
-
-	err = cases.LoadZoneExpansionFromFileToMemory()
-	if err != nil {
-		err = errors.Wrap(err, "failed to load zoneExpansion to memory")
+		err = errors.Wrap(err, "failed to initialize memory story")
 		return
 	}
 

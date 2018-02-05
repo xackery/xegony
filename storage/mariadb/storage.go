@@ -43,10 +43,11 @@ func New(config string, w io.Writer, wErr io.Writer) (db *Storage, err error) {
 
 //InsertTestData will grab data from storage
 func (s *Storage) InsertTestData() (err error) {
-	_, err = s.db.Exec(`INSERT INTO user (id, name, email, password, account_id, character_id)
+	_, err = s.db.Exec(`INSERT INTO user (id, display_name, email, password)
 	   VALUES
-	   	(1, 'Test', '', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC', 1, 1);`)
+	   	(1, 'Test', 'test@test.com', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC');`)
 	if err != nil {
+		err = errors.Wrap(err, "failed to insert user data")
 		return
 	}
 
@@ -54,6 +55,7 @@ func (s *Storage) InsertTestData() (err error) {
 	   VALUES
 	   	(1, 'Shin', 200);`)
 	if err != nil {
+		err = errors.Wrap(err, "failed to insert account data")
 		return
 	}
 	return

@@ -13,6 +13,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
+	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/storage/mariadb"
 )
 
@@ -44,7 +45,7 @@ func initializeServer(t *testing.T) {
 	w := os.Stdout
 	db, err := mariadb.New("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", w, w)
 	assert.NoError(t, err, "failed to create mariadb")
-	
+
 	assert.Nil(t, err)
 
 	err = db.DropTables()
@@ -53,7 +54,15 @@ func initializeServer(t *testing.T) {
 	err = db.VerifyTables()
 	assert.Nil(t, err)
 
-	db.InsertTestData()
+	err = db.InsertTestData()
+	assert.Nil(t, err)
+
+	err = cases.FlushStorage()
+	assert.Nil(t, err)
+
+	err = cases.InitializeAllDatabaseStorage(db, db, db)
+	assert.Nil(t, err)
+	err = cases.InitializeAllMemoryStorage()
 	assert.Nil(t, err)
 
 	router := mux.NewRouter().StrictSlash(true)
