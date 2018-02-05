@@ -44,6 +44,16 @@ type Reader interface {
 	ListConfigBySearch(page *model.Page, config *model.Config) (configs []*model.Config, err error)
 	ListConfigBySearchTotalCount(config *model.Config) (count int64, err error)
 
+	//Deity
+	GetDeity(deity *model.Deity) (err error)
+	GetDeityBySpell(spell *model.Spell, deity *model.Deity) (err error)
+	ListDeity(page *model.Page) (deitys []*model.Deity, err error)
+	ListDeityTotalCount() (count int64, err error)
+	ListDeityByBit(page *model.Page, deity *model.Deity) (races []*model.Deity, err error)
+	ListDeityByBitTotalCount(deity *model.Deity) (count int64, err error)
+	ListDeityBySearch(page *model.Page, deity *model.Deity) (deitys []*model.Deity, err error)
+	ListDeityBySearchTotalCount(deity *model.Deity) (count int64, err error)
+
 	//Item
 	GetItem(item *model.Item) (err error)
 	ListItem(page *model.Page) (items []*model.Item, err error)

@@ -15,7 +15,6 @@ type Spell struct {
 	BuffDurationFormula *SpellDurationFormula `json:"buffDurationFormula,omitempty"`
 	CastingAnimation    *SpellAnimation       `json:"castingAnimation,omitempty"`
 	Components          []*SpellComponent     `json:"components,omitempty"`
-	Deitys              []*SpellDeity         `json:"deities,omitempty"`
 	DBStr               *DBStr                `json:"dBStr,omitempty"`
 	DBStrEffect1        *DBStr                `json:"dBStrEffect1,omitempty"`
 	DBStrEffect2        *DBStr                `json:"dBStrEffect2,omitempty"`
@@ -58,6 +57,23 @@ type Spell struct {
 	Effect10            *SpellEffectType      `json:"effect10,omitempty"`
 	Effect11            *SpellEffectType      `json:"effect11,omitempty"`
 	Effect12            *SpellEffectType      `json:"effect12,omitempty"`
+	Deity0              *Deity                `json:"deity0,omitempty"`
+	Deity1              *Deity                `json:"deity1,omitempty"`
+	Deity2              *Deity                `json:"deity2,omitempty"`
+	Deity3              *Deity                `json:"deity3,omitempty"`
+	Deity4              *Deity                `json:"deity4,omitempty"`
+	Deity5              *Deity                `json:"deity5,omitempty"`
+	Deity6              *Deity                `json:"deity6,omitempty"`
+	Deity7              *Deity                `json:"deity7,omitempty"`
+	Deity8              *Deity                `json:"deity8,omitempty"`
+	Deity9              *Deity                `json:"deity9,omitempty"`
+	Deity10             *Deity                `json:"deity10,omitempty"`
+	Deity11             *Deity                `json:"deity11,omitempty"`
+	Deity12             *Deity                `json:"deity12,omitempty"`
+	Deity13             *Deity                `json:"deity13,omitempty"`
+	Deity14             *Deity                `json:"deity14,omitempty"`
+	Deity15             *Deity                `json:"deity15,omitempty"`
+	Deity16             *Deity                `json:"deity16,omitempty"`
 
 	ID                    int64          `json:"ID,omitempty" db:"id"`                                     //`id` int(11) NOT NULL DEFAULT '0',
 	Name                  sql.NullString `json:"name,omitempty" db:"name"`                                 //`name` varchar(64) DEFAULT NULL,
@@ -252,6 +268,24 @@ type Spell struct {
 	Limit12     int64 `json:"limitValue12,omitempty" db:"effect_limit_value12"` //`effect_limit_value12` int(11) NOT NULL DEFAULT '0',
 	Max12       int64 `json:"max12,omitempty" db:"max12"`                       //`max12` int(11) NOT NULL DEFAULT '0',
 	EffectID12  int64 `json:"effectID12,omitempty" db:"effectid12"`             //`effectid12` int(11) NOT NULL DEFAULT '254',
+
+	DeityID0  int64 `json:"deityID0,omitempty" db:"deities0"`   //`deities0` int(11) NOT NULL DEFAULT '0',
+	DeityID1  int64 `json:"deityID1,omitempty" db:"deities1"`   //`deities1` int(11) NOT NULL DEFAULT '0',
+	DeityID2  int64 `json:"deityID2,omitempty" db:"deities2"`   //`deities2` int(11) NOT NULL DEFAULT '0',
+	DeityID3  int64 `json:"deityID3,omitempty" db:"deities3"`   //`deities3` int(11) NOT NULL DEFAULT '0',
+	DeityID4  int64 `json:"deityID4,omitempty" db:"deities4"`   //`deities4` int(11) NOT NULL DEFAULT '0',
+	DeityID5  int64 `json:"deityID5,omitempty" db:"deities5"`   //`deities5` int(11) NOT NULL DEFAULT '0',
+	DeityID6  int64 `json:"deityID6,omitempty" db:"deities6"`   //`deities6` int(11) NOT NULL DEFAULT '0',
+	DeityID7  int64 `json:"deityID7,omitempty" db:"deities7"`   //`deities7` int(11) NOT NULL DEFAULT '0',
+	DeityID8  int64 `json:"deityID8,omitempty" db:"deities8"`   //`deities8` int(11) NOT NULL DEFAULT '0',
+	DeityID9  int64 `json:"deityID9,omitempty" db:"deities9"`   //`deities9` int(11) NOT NULL DEFAULT '0',
+	DeityID10 int64 `json:"deityID10,omitempty" db:"deities10"` //`deities10` int(11) NOT NULL DEFAULT '0',
+	DeityID11 int64 `json:"deityID11,omitempty" db:"deities11"` //`deities11` int(11) NOT NULL DEFAULT '0',
+	DeityID12 int64 `json:"deityID12,omitempty" db:"deities12"` //`deities12` int(12) NOT NULL DEFAULT '0',
+	DeityID13 int64 `json:"deityID13,omitempty" db:"deities13"` //`deities13` int(11) NOT NULL DEFAULT '0',
+	DeityID14 int64 `json:"deityID14,omitempty" db:"deities14"` //`deities14` int(11) NOT NULL DEFAULT '0',
+	DeityID15 int64 `json:"deityID15,omitempty" db:"deities15"` //`deities15` int(11) NOT NULL DEFAULT '0',
+	DeityID16 int64 `json:"deityID16,omitempty" db:"deities16"` //`deities16` int(11) NOT NULL DEFAULT '0',
 
 }
 

@@ -27,6 +27,11 @@ type Writer interface {
 	EditConfig(config *model.Config) (err error)
 	DeleteConfig(config *model.Config) (err error)
 
+	//Deity
+	CreateDeity(deity *model.Deity) (err error)
+	EditDeity(deity *model.Deity) (err error)
+	DeleteDeity(deity *model.Deity) (err error)
+
 	//Item
 	CreateItem(item *model.Item) (err error)
 	EditItem(item *model.Item) (err error)

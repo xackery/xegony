@@ -1551,6 +1551,379 @@
         }
       }
     },
+    "/deity": {
+      "get": {
+        "description": "This will show all available deitys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "deity"
+        ],
+        "summary": "Lists deitys",
+        "operationId": "listDeity",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/DeitysResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an deity",
+        "tags": [
+          "deity"
+        ],
+        "summary": "Create an deity",
+        "operationId": "createDeity",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Deity",
+            "description": "Deity details to create",
+            "name": "deity",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Deity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/DeityResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/deity/search": {
+      "get": {
+        "description": "This will show all available deitys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "deity"
+        ],
+        "summary": "Search deitys by name",
+        "operationId": "listDeityBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which deity to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/DeitysBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/deity/{ID}": {
+      "get": {
+        "description": "This will get an individual deity available deitys by default.",
+        "tags": [
+          "deity"
+        ],
+        "summary": "Get an deity",
+        "operationId": "getDeity",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/DeityResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an deity",
+        "tags": [
+          "deity"
+        ],
+        "summary": "Edit an deity",
+        "operationId": "editDeity",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Deity",
+            "description": "Deity details to edit",
+            "name": "deity",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Deity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/DeityResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an deity",
+        "tags": [
+          "deity"
+        ],
+        "summary": "Delete an deity",
+        "operationId": "deleteDeity",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/item": {
       "get": {
         "description": "This will show all available items by default.",
@@ -1701,7 +2074,7 @@
         "parameters": [
           {
             "type": "string",
-            "example": "xackery",
+            "example": "singing short sword",
             "x-go-name": "Name",
             "description": "Name is which item to get information about",
             "name": "name",
@@ -3462,7 +3835,7 @@
     },
     "/spell/animation/type": {
       "get": {
-        "description": "This will show all available spellAnimationTypes by default.",
+        "description": "This will show all available spellEffectTypes by default.",
         "consumes": [
           "application/json"
         ],
@@ -3472,10 +3845,10 @@
           "application/yaml"
         ],
         "tags": [
-          "spellAnimationType"
+          "spellEffectType"
         ],
-        "summary": "Lists spellAnimationTypes",
-        "operationId": "listSpellAnimationType",
+        "summary": "Lists spellEffectTypes",
+        "operationId": "listSpellEffectType",
         "parameters": [
           {
             "type": "integer",
@@ -3515,7 +3888,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellAnimationTypesResponse"
+            "$ref": "#/responses/SpellEffectTypesResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -3538,12 +3911,12 @@
         }
       },
       "post": {
-        "description": "This will create an spellAnimationType",
+        "description": "This will create an spellEffectType",
         "tags": [
-          "spellAnimationType"
+          "spellEffectType"
         ],
-        "summary": "Create an spellAnimationType",
-        "operationId": "createSpellAnimationType",
+        "summary": "Create an spellEffectType",
+        "operationId": "createSpellEffectType",
         "security": [
           {
             "apiKey": []
@@ -3551,18 +3924,18 @@
         ],
         "parameters": [
           {
-            "x-go-name": "SpellAnimationType",
-            "description": "SpellAnimationType details to create",
-            "name": "spellAnimationType",
+            "x-go-name": "SpellEffectType",
+            "description": "SpellEffectType details to create",
+            "name": "spellEffectType",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/SpellAnimationType"
+              "$ref": "#/definitions/SpellEffectType"
             }
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellAnimationTypeResponse"
+            "$ref": "#/responses/SpellEffectTypeResponse"
           },
           "204": {
             "description": "ErrNoContent",
@@ -3593,7 +3966,7 @@
     },
     "/spell/animation/type/search": {
       "get": {
-        "description": "This will show all available spellAnimationTypes by default.",
+        "description": "This will show all available spellEffectTypes by default.",
         "consumes": [
           "application/json"
         ],
@@ -3603,16 +3976,16 @@
           "application/yaml"
         ],
         "tags": [
-          "spellAnimationType"
+          "spellEffectType"
         ],
-        "summary": "Search spellAnimationTypes by name",
-        "operationId": "listSpellAnimationTypeBySearch",
+        "summary": "Search spellEffectTypes by name",
+        "operationId": "listSpellEffectTypeBySearch",
         "parameters": [
           {
             "type": "string",
             "example": "xackery",
             "x-go-name": "Name",
-            "description": "Name is which spellAnimationType to get information about",
+            "description": "Name is which spellEffectType to get information about",
             "name": "name",
             "in": "query"
           },
@@ -3654,7 +4027,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellAnimationTypesBySearchResponse"
+            "$ref": "#/responses/SpellEffectTypesBySearchResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -3679,17 +4052,17 @@
     },
     "/spell/animation/type/{ID}": {
       "get": {
-        "description": "This will get an individual spellAnimationType available spellAnimationTypes by default.",
+        "description": "This will get an individual spellEffectType available spellEffectTypes by default.",
         "tags": [
-          "spellAnimationType"
+          "spellEffectType"
         ],
-        "summary": "Get an spellAnimationType",
-        "operationId": "getSpellAnimationType",
+        "summary": "Get an spellEffectType",
+        "operationId": "getSpellEffectType",
         "parameters": [
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 1,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -3698,7 +4071,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellAnimationTypeResponse"
+            "$ref": "#/responses/SpellEffectTypeResponse"
           },
           "400": {
             "description": "ErrValidation",
@@ -3721,12 +4094,12 @@
         }
       },
       "put": {
-        "description": "This will edit an spellAnimationType",
+        "description": "This will edit an spellEffectType",
         "tags": [
-          "spellAnimationType"
+          "spellEffectType"
         ],
-        "summary": "Edit an spellAnimationType",
-        "operationId": "editSpellAnimationType",
+        "summary": "Edit an spellEffectType",
+        "operationId": "editSpellEffectType",
         "security": [
           {
             "apiKey": []
@@ -3736,25 +4109,25 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 1,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
             "required": true
           },
           {
-            "x-go-name": "SpellAnimationType",
-            "description": "SpellAnimationType details to edit",
-            "name": "spellAnimationType",
+            "x-go-name": "SpellEffectType",
+            "description": "SpellEffectType details to edit",
+            "name": "spellEffectType",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/SpellAnimationType"
+              "$ref": "#/definitions/SpellEffectType"
             }
           }
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/SpellAnimationTypeResponse"
+            "$ref": "#/responses/SpellEffectTypeResponse"
           },
           "204": {
             "description": "ErrNoContent",
@@ -3783,12 +4156,12 @@
         }
       },
       "delete": {
-        "description": "This will delete an spellAnimationType",
+        "description": "This will delete an spellEffectType",
         "tags": [
-          "spellAnimationType"
+          "spellEffectType"
         ],
-        "summary": "Delete an spellAnimationType",
-        "operationId": "deleteSpellAnimationType",
+        "summary": "Delete an spellEffectType",
+        "operationId": "deleteSpellEffectType",
         "security": [
           {
             "apiKey": []
@@ -3798,7 +4171,7 @@
           {
             "type": "integer",
             "format": "int64",
-            "example": 74887,
+            "example": 1,
             "description": "ID to get information about",
             "name": "ID",
             "in": "path",
@@ -7338,6 +7711,47 @@
           "type": "string",
           "x-go-name": "Name"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Deity": {
+      "description": "Deity represents deities in EQ",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "bit": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Bit"
+        },
+        "icon": {
+          "type": "string",
+          "x-go-name": "Icon"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "shortName": {
+          "type": "string",
+          "x-go-name": "ShortName"
+        },
+        "spellID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "SpellID"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Deitys": {
+      "description": "Deitys is an array of deity",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Deity"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -11006,12 +11420,141 @@
           "format": "int64",
           "x-go-name": "DBStrTypeID"
         },
-        "deities": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SpellDeity"
-          },
-          "x-go-name": "Deitys"
+        "deity0": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity1": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity10": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity11": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity12": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity13": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity14": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity15": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity16": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity2": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity3": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity4": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity5": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity6": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity7": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity8": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deity9": {
+          "$ref": "#/definitions/Deity"
+        },
+        "deityID0": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID0"
+        },
+        "deityID1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID1"
+        },
+        "deityID10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID10"
+        },
+        "deityID11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID11"
+        },
+        "deityID12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID12"
+        },
+        "deityID13": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID13"
+        },
+        "deityID14": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID14"
+        },
+        "deityID15": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID15"
+        },
+        "deityID16": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID16"
+        },
+        "deityID2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID2"
+        },
+        "deityID3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID3"
+        },
+        "deityID4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID4"
+        },
+        "deityID5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID5"
+        },
+        "deityID6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID6"
+        },
+        "deityID7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID7"
+        },
+        "deityID8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID8"
+        },
+        "deityID9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DeityID9"
         },
         "disallowSit": {
           "type": "integer",
@@ -11968,28 +12511,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "SpellDeity": {
-      "description": "There is a range of 0 to 16 to represent deities",
-      "type": "object",
-      "title": "SpellDeity represents the deities field inside spells_new.",
-      "properties": {
-        "ID": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "deity": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deity"
-        },
-        "spellID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "SpellID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "SpellDurationFormula": {
       "description": "SpellDurationFormula is used in various areas to represent spells",
       "type": "object",
@@ -12052,7 +12573,20 @@
         "name": {
           "type": "string",
           "x-go-name": "Name"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Type"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffectTypes": {
+      "description": "SpellEffectTypes is an array of SpellEffectType",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpellEffectType"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -13010,6 +13544,36 @@
         "page": {}
       }
     },
+    "DeityResponse": {
+      "description": "DeityResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Deity"
+      },
+      "headers": {
+        "deity": {}
+      }
+    },
+    "DeitysBySearchResponse": {
+      "description": "DeitysBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Deitys"
+      },
+      "headers": {
+        "deitys": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "DeitysResponse": {
+      "description": "DeitysResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Deitys"
+      },
+      "headers": {
+        "deitys": {},
+        "page": {}
+      }
+    },
     "ItemResponse": {
       "description": "ItemResponse is what endpoints respond with",
       "schema": {
@@ -13193,6 +13757,36 @@
         "spellAnimations": {}
       }
     },
+    "SpellDurationFormulaResponse": {
+      "description": "SpellDurationFormulaResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpellDurationFormula"
+      },
+      "headers": {
+        "spellDurationFormula": {}
+      }
+    },
+    "SpellDurationFormulasBySearchResponse": {
+      "description": "SpellDurationFormulasBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellDurationFormulas"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spellDurationFormulas": {}
+      }
+    },
+    "SpellDurationFormulasResponse": {
+      "description": "SpellDurationFormulasResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellDurationFormulas"
+      },
+      "headers": {
+        "page": {},
+        "spellDurationFormulas": {}
+      }
+    },
     "SpellEffectFormulaResponse": {
       "description": "SpellEffectFormulaResponse is what endpoints respond with",
       "schema": {
@@ -13221,6 +13815,36 @@
       "headers": {
         "page": {},
         "spellEffectFormulas": {}
+      }
+    },
+    "SpellEffectTypeResponse": {
+      "description": "SpellEffectTypeResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpellEffectType"
+      },
+      "headers": {
+        "spellEffectType": {}
+      }
+    },
+    "SpellEffectTypesBySearchResponse": {
+      "description": "SpellEffectTypesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellEffectTypes"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spellEffectTypes": {}
+      }
+    },
+    "SpellEffectTypesResponse": {
+      "description": "SpellEffectTypesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellEffectTypes"
+      },
+      "headers": {
+        "page": {},
+        "spellEffectTypes": {}
       }
     },
     "SpellResponse": {

@@ -797,6 +797,196 @@
       ]
     },
     {
+      "name": "deity",
+      "item": [
+        {
+          "name": "Lists deitys",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/deity",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "deity"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an deity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/deity",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "deity"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search deitys by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/deity/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "deity",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an deity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/deity/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "deity",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an deity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/deity/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "deity",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an deity",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/deity/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "deity",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
       "name": "item",
       "item": [
         {
@@ -1978,10 +2168,10 @@
       ]
     },
     {
-      "name": "spellAnimationType",
+      "name": "spellEffectType",
       "item": [
         {
-          "name": "Lists spellAnimationTypes",
+          "name": "Lists spellEffectTypes",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type",
@@ -2016,7 +2206,7 @@
           }
         },
         {
-          "name": "Create an spellAnimationType",
+          "name": "Create an spellEffectType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type",
@@ -2043,7 +2233,7 @@
           }
         },
         {
-          "name": "Search spellAnimationTypes by name",
+          "name": "Search spellEffectTypes by name",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/search",
@@ -2079,7 +2269,7 @@
           }
         },
         {
-          "name": "Get an spellAnimationType",
+          "name": "Get an spellEffectType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/:ID",
@@ -2112,7 +2302,7 @@
           }
         },
         {
-          "name": "Edit an spellAnimationType",
+          "name": "Edit an spellEffectType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/:ID",
@@ -2145,7 +2335,7 @@
           }
         },
         {
-          "name": "Delete an spellAnimationType",
+          "name": "Delete an spellEffectType",
           "request": {
             "url": {
               "raw": "http://{{url}}/api/spell/animation/type/:ID",

@@ -516,6 +516,177 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 		}
 	}
 
+	if spell.DeityID0 > 0 {
+		spell.Deity0 = &model.Deity{
+			SpellID: 0,
+		}
+		err = GetDeityBySpell(spell, spell.Deity0, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 0")
+			return
+		}
+	}
+	if spell.DeityID1 > 0 {
+		spell.Deity1 = &model.Deity{
+			SpellID: 1,
+		}
+		err = GetDeityBySpell(spell, spell.Deity1, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 1")
+			return
+		}
+	}
+	if spell.DeityID2 > 0 {
+		spell.Deity2 = &model.Deity{
+			SpellID: 2,
+		}
+		err = GetDeityBySpell(spell, spell.Deity2, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 2")
+			return
+		}
+	}
+	if spell.DeityID3 > 0 {
+		spell.Deity3 = &model.Deity{
+			SpellID: 3,
+		}
+		err = GetDeityBySpell(spell, spell.Deity3, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 3")
+			return
+		}
+	}
+	if spell.DeityID4 > 0 {
+		spell.Deity4 = &model.Deity{
+			SpellID: 4,
+		}
+		err = GetDeityBySpell(spell, spell.Deity4, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 4")
+			return
+		}
+	}
+	if spell.DeityID5 > 0 {
+		spell.Deity5 = &model.Deity{
+			SpellID: 5,
+		}
+		err = GetDeityBySpell(spell, spell.Deity5, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 5")
+			return
+		}
+	}
+	if spell.DeityID6 > 0 {
+		spell.Deity6 = &model.Deity{
+			SpellID: 6,
+		}
+		err = GetDeityBySpell(spell, spell.Deity6, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 6")
+			return
+		}
+	}
+	if spell.DeityID7 > 0 {
+		spell.Deity7 = &model.Deity{
+			SpellID: 7,
+		}
+		err = GetDeityBySpell(spell, spell.Deity7, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 7")
+			return
+		}
+	}
+	if spell.DeityID8 > 0 {
+		spell.Deity8 = &model.Deity{
+			SpellID: 8,
+		}
+		err = GetDeityBySpell(spell, spell.Deity8, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 8")
+			return
+		}
+	}
+	if spell.DeityID9 > 0 {
+		spell.Deity9 = &model.Deity{
+			SpellID: 9,
+		}
+		err = GetDeityBySpell(spell, spell.Deity9, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 9")
+			return
+		}
+	}
+	if spell.DeityID10 > 0 {
+		spell.Deity10 = &model.Deity{
+			SpellID: 10,
+		}
+		err = GetDeityBySpell(spell, spell.Deity10, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 10")
+			return
+		}
+	}
+	if spell.DeityID11 > 0 {
+		spell.Deity11 = &model.Deity{
+			SpellID: 11,
+		}
+		err = GetDeityBySpell(spell, spell.Deity11, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 11")
+			return
+		}
+	}
+	if spell.DeityID12 > 0 {
+		spell.Deity12 = &model.Deity{
+			SpellID: 12,
+		}
+		err = GetDeityBySpell(spell, spell.Deity12, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 12")
+			return
+		}
+	}
+	if spell.DeityID13 > 0 {
+		spell.Deity13 = &model.Deity{
+			SpellID: 13,
+		}
+		err = GetDeityBySpell(spell, spell.Deity13, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 13")
+			return
+		}
+	}
+	if spell.DeityID14 > 0 {
+		spell.Deity14 = &model.Deity{
+			SpellID: 14,
+		}
+		err = GetDeityBySpell(spell, spell.Deity14, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 14")
+			return
+		}
+	}
+	if spell.DeityID15 > 0 {
+		spell.Deity15 = &model.Deity{
+			SpellID: 15,
+		}
+		err = GetDeityBySpell(spell, spell.Deity15, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 15")
+			return
+		}
+	}
+	if spell.DeityID16 > 0 {
+		spell.Deity16 = &model.Deity{
+			SpellID: 16,
+		}
+		err = GetDeityBySpell(spell, spell.Deity16, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed on deity 16")
+			return
+		}
+	}
+
 	return
 }
 

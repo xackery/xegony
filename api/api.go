@@ -187,14 +187,6 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 		Fields  map[string]string `json:"fields,omitempty"`
 	}
 
-	//if debug mode
-	/*if err, ok := err.(model.StackTracer); ok {
-		for _, f := range err.StackTrace() {
-			fmt.Printf("%+s:%d", f)
-		}
-	}*/
-	//fmt.Printf("%v\n", err)
-
 	content := Content{
 		Message: fmt.Sprintf("%s", errors.Cause(err).Error()),
 	}
@@ -223,6 +215,7 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 	}
 
 	logErr.Println(r.URL, statusCode, err.Error())
+
 	writeData(w, r, content, statusCode)
 	return
 }
