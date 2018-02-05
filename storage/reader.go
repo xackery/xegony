@@ -32,8 +32,8 @@ type Reader interface {
 	GetClass(class *model.Class) (err error)
 	ListClass(page *model.Page) (classs []*model.Class, err error)
 	ListClassTotalCount() (count int64, err error)
-	ListRaceByBit(page *model.Page, race *model.Race) (races []*model.Race, err error)
-	ListRaceByBitTotalCount(race *model.Race) (count int64, err error)
+	ListClassByBit(page *model.Page, class *model.Class) (races []*model.Class, err error)
+	ListClassByBitTotalCount(class *model.Class) (count int64, err error)
 	ListClassBySearch(page *model.Page, class *model.Class) (classs []*model.Class, err error)
 	ListClassBySearchTotalCount(class *model.Class) (count int64, err error)
 
@@ -52,13 +52,13 @@ type Reader interface {
 	ListItemBySearchTotalCount(item *model.Item) (count int64, err error)
 
 	//Race
-	GetRace(class *model.Race) (err error)
-	ListRace(page *model.Page) (classs []*model.Race, err error)
+	GetRace(race *model.Race) (err error)
+	ListRace(page *model.Page) (races []*model.Race, err error)
 	ListRaceTotalCount() (count int64, err error)
-	ListClassByBit(page *model.Page, class *model.Class) (classs []*model.Class, err error)
-	ListClassByBitTotalCount(class *model.Class) (count int64, err error)
-	ListRaceBySearch(page *model.Page, class *model.Race) (classs []*model.Race, err error)
-	ListRaceBySearchTotalCount(class *model.Race) (count int64, err error)
+	ListRaceByBit(page *model.Page, race *model.Race) (races []*model.Race, err error)
+	ListRaceByBitTotalCount(race *model.Race) (count int64, err error)
+	ListRaceBySearch(page *model.Page, race *model.Race) (races []*model.Race, err error)
+	ListRaceBySearchTotalCount(race *model.Race) (count int64, err error)
 
 	//Rule
 	GetRule(rule *model.Rule) (err error)
@@ -94,6 +94,13 @@ type Reader interface {
 	ListSpellAnimationTypeTotalCount() (count int64, err error)
 	ListSpellAnimationTypeBySearch(page *model.Page, spellAnimationType *model.SpellAnimationType) (spellAnimationTypes []*model.SpellAnimationType, err error)
 	ListSpellAnimationTypeBySearchTotalCount(spellAnimationType *model.SpellAnimationType) (count int64, err error)
+
+	//SpellEffectFormula
+	GetSpellEffectFormula(spellEffectFormula *model.SpellEffectFormula) (err error)
+	ListSpellEffectFormula(page *model.Page) (spellEffectFormulas []*model.SpellEffectFormula, err error)
+	ListSpellEffectFormulaTotalCount() (count int64, err error)
+	ListSpellEffectFormulaBySearch(page *model.Page, spellEffectFormula *model.SpellEffectFormula) (spellEffectFormulas []*model.SpellEffectFormula, err error)
+	ListSpellEffectFormulaBySearchTotalCount(spellEffectFormula *model.SpellEffectFormula) (count int64, err error)
 
 	//User
 	GetUser(user *model.User) (err error)

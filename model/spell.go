@@ -11,30 +11,53 @@ type Spells []*Spell
 //Spell represents items inside everquest
 // swagger:model
 type Spell struct {
-	Animation           *SpellAnimation      `json:"animation,omitempty"`
-	BuffDurationFormula *SpellFormula        `json:"buffDurationFormula,omitempty"`
-	CastingAnimation    *SpellAnimation      `json:"castingAnimation,omitempty"`
-	Components          []*SpellComponent    `json:"components,omitempty"`
-	Deitys              []*SpellDeity        `json:"deities,omitempty"`
-	DBStr               *DBStr               `json:"dBStr,omitempty"`
-	DBStrEffect1        *DBStr               `json:"dBStrEffect1,omitempty"`
-	DBStrEffect2        *DBStr               `json:"dBStrEffect2,omitempty"`
-	EffectCategory      *SpellEffectCategory `json:"effectCategory,omitempty"`
-	Effects             []*SpellEffect       `json:"effects,omitempty"`
-	EnvironmentType     *EnvironmentType     `json:"environmentType,omitempty"`
-	Group               *SpellGroup          `json:"group,omitempty"`
-	Icon                *SpellIcon           `json:"spellIcon,omitempty"`
-	LightType           *LightType           `json:"lightType,omitempty"`
-	NumHitsType         *SpellNumHitsType    `json:"numHitsType,omitempty"`
-	OldIcon             *SpellOldIcon        `json:"spellOldIcon,omitempty"`
-	Reagents            []*SpellReagent      `json:"reagents,omitempty"`
-	RecourseLinkSpell   *Spell               `json:"recourseLinkSpell,omitempty"`
-	ResistType          *ResistType          `json:"resistType,omitempty"`
-	Skill               *Skill               `json:"skill,omitempty"`
-	TargetAnimation     *SpellAnimation      `json:"targetAnimation,omitempty"`
-	TargetType          *SpellTargetType     `json:"targetType,omitempty"`
-	TeleportZone        *Zone                `json:"teleportZone,omitempty"`
-	Nimbus              *SpellNimbus         `json:"nimbus,omitempty"`
+	Animation           *SpellAnimation       `json:"animation,omitempty"`
+	BuffDurationFormula *SpellDurationFormula `json:"buffDurationFormula,omitempty"`
+	CastingAnimation    *SpellAnimation       `json:"castingAnimation,omitempty"`
+	Components          []*SpellComponent     `json:"components,omitempty"`
+	Deitys              []*SpellDeity         `json:"deities,omitempty"`
+	DBStr               *DBStr                `json:"dBStr,omitempty"`
+	DBStrEffect1        *DBStr                `json:"dBStrEffect1,omitempty"`
+	DBStrEffect2        *DBStr                `json:"dBStrEffect2,omitempty"`
+	EffectCategory      *SpellEffectCategory  `json:"effectCategory,omitempty"`
+	EnvironmentType     *EnvironmentType      `json:"environmentType,omitempty"`
+	Group               *SpellGroup           `json:"group,omitempty"`
+	Icon                *SpellIcon            `json:"spellIcon,omitempty"`
+	LightType           *LightType            `json:"lightType,omitempty"`
+	NumHitsType         *SpellNumHitsType     `json:"numHitsType,omitempty"`
+	OldIcon             *SpellOldIcon         `json:"spellOldIcon,omitempty"`
+	Reagents            []*SpellReagent       `json:"reagents,omitempty"`
+	RecourseLinkSpell   *Spell                `json:"recourseLinkSpell,omitempty"`
+	ResistType          *ResistType           `json:"resistType,omitempty"`
+	Skill               *Skill                `json:"skill,omitempty"`
+	TargetAnimation     *SpellAnimation       `json:"targetAnimation,omitempty"`
+	TargetType          *SpellTargetType      `json:"targetType,omitempty"`
+	TeleportZone        *Zone                 `json:"teleportZone,omitempty"`
+	Nimbus              *SpellNimbus          `json:"nimbus,omitempty"`
+	Formula1            *SpellEffectFormula   `json:"formula1,omitempty"`
+	Formula2            *SpellEffectFormula   `json:"formula2,omitempty"`
+	Formula3            *SpellEffectFormula   `json:"formula3,omitempty"`
+	Formula4            *SpellEffectFormula   `json:"formula4,omitempty"`
+	Formula5            *SpellEffectFormula   `json:"formula5,omitempty"`
+	Formula6            *SpellEffectFormula   `json:"formula6,omitempty"`
+	Formula7            *SpellEffectFormula   `json:"formula7,omitempty"`
+	Formula8            *SpellEffectFormula   `json:"formula8,omitempty"`
+	Formula9            *SpellEffectFormula   `json:"formula9,omitempty"`
+	Formula10           *SpellEffectFormula   `json:"formula10,omitempty"`
+	Formula11           *SpellEffectFormula   `json:"formula11,omitempty"`
+	Formula12           *SpellEffectFormula   `json:"formula12,omitempty"`
+	Effect1             *SpellEffectType      `json:"effect1,omitempty"`
+	Effect2             *SpellEffectType      `json:"effect2,omitempty"`
+	Effect3             *SpellEffectType      `json:"effect3,omitempty"`
+	Effect4             *SpellEffectType      `json:"effect4,omitempty"`
+	Effect5             *SpellEffectType      `json:"effect5,omitempty"`
+	Effect6             *SpellEffectType      `json:"effect6,omitempty"`
+	Effect7             *SpellEffectType      `json:"effect7,omitempty"`
+	Effect8             *SpellEffectType      `json:"effect8,omitempty"`
+	Effect9             *SpellEffectType      `json:"effect9,omitempty"`
+	Effect10            *SpellEffectType      `json:"effect10,omitempty"`
+	Effect11            *SpellEffectType      `json:"effect11,omitempty"`
+	Effect12            *SpellEffectType      `json:"effect12,omitempty"`
 
 	ID                    int64          `json:"ID,omitempty" db:"id"`                                     //`id` int(11) NOT NULL DEFAULT '0',
 	Name                  sql.NullString `json:"name,omitempty" db:"name"`                                 //`name` varchar(64) DEFAULT NULL,
@@ -168,6 +191,68 @@ type Spell struct {
 	Field234              int64          `json:"field234,omitempty" db:"field234"`                         //`field234` int(11) NOT NULL DEFAULT '0',
 	Field235              int64          `json:"field235,omitempty" db:"field235"`                         //`field235` int(11) NOT NULL DEFAULT '0',
 	Field236              int64          `json:"field236,omitempty" db:"field236"`                         //`field236` int(11) NOT NULL DEFAULT '0',
+
+	FormulaID1  int64 `json:"formulaID1,omitempty" db:"formula1"`               //`formula1` int(11) NOT NULL DEFAULT '100',
+	Base1       int64 `json:"baseValue1,omitempty" db:"effect_base_value1"`     //`effect_base_value1` int(11) NOT NULL DEFAULT '100',
+	Limit1      int64 `json:"limitValue1,omitempty" db:"effect_limit_value1"`   //`effect_limit_value1` int(11) NOT NULL DEFAULT '0',
+	Max1        int64 `json:"max1,omitempty" db:"max1"`                         //`max1` int(11) NOT NULL DEFAULT '0',
+	EffectID1   int64 `json:"effectID1,omitempty" db:"effectid1"`               //`effectid1` int(11) NOT NULL DEFAULT '254',
+	FormulaID2  int64 `json:"formulaID2,omitempty" db:"formula2"`               //`formula2` int(11) NOT NULL DEFAULT '100',
+	Base2       int64 `json:"baseValue2,omitempty" db:"effect_base_value2"`     //`effect_base_value2` int(11) NOT NULL DEFAULT '100',
+	Limit2      int64 `json:"limitValue2,omitempty" db:"effect_limit_value2"`   //`effect_limit_value2` int(11) NOT NULL DEFAULT '0',
+	Max2        int64 `json:"max2,omitempty" db:"max2"`                         //`max2` int(11) NOT NULL DEFAULT '0',
+	EffectID2   int64 `json:"effectID2,omitempty" db:"effectid2"`               //`effectid2` int(11) NOT NULL DEFAULT '254',
+	FormulaID3  int64 `json:"formulaID3,omitempty" db:"formula3"`               //`formula3` int(11) NOT NULL DEFAULT '100',
+	Base3       int64 `json:"baseValue3,omitempty" db:"effect_base_value3"`     //`effect_base_value3` int(11) NOT NULL DEFAULT '100',
+	Limit3      int64 `json:"limitValue3,omitempty" db:"effect_limit_value3"`   //`effect_limit_value3` int(11) NOT NULL DEFAULT '0',
+	Max3        int64 `json:"max3,omitempty" db:"max3"`                         //`max3` int(11) NOT NULL DEFAULT '0',
+	EffectID3   int64 `json:"effectID3,omitempty" db:"effectid3"`               //`effectid3` int(11) NOT NULL DEFAULT '254',
+	FormulaID4  int64 `json:"formulaID4,omitempty" db:"formula4"`               //`formula4` int(11) NOT NULL DEFAULT '100',
+	Base4       int64 `json:"baseValue4,omitempty" db:"effect_base_value4"`     //`effect_base_value4` int(11) NOT NULL DEFAULT '100',
+	Limit4      int64 `json:"limitValue4,omitempty" db:"effect_limit_value4"`   //`effect_limit_value4` int(11) NOT NULL DEFAULT '0',
+	Max4        int64 `json:"max4,omitempty" db:"max4"`                         //`max4` int(11) NOT NULL DEFAULT '0',
+	EffectID4   int64 `json:"effectID4,omitempty" db:"effectid4"`               //`effectid4` int(11) NOT NULL DEFAULT '254',
+	FormulaID5  int64 `json:"formulaID5,omitempty" db:"formula5"`               //`formula5` int(11) NOT NULL DEFAULT '100',
+	Base5       int64 `json:"baseValue5,omitempty" db:"effect_base_value5"`     //`effect_base_value5` int(11) NOT NULL DEFAULT '100',
+	Limit5      int64 `json:"limitValue5,omitempty" db:"effect_limit_value5"`   //`effect_limit_value5` int(11) NOT NULL DEFAULT '0',
+	Max5        int64 `json:"max5,omitempty" db:"max5"`                         //`max5` int(11) NOT NULL DEFAULT '0',
+	EffectID5   int64 `json:"effectID5,omitempty" db:"effectid5"`               //`effectid5` int(11) NOT NULL DEFAULT '254',
+	FormulaID6  int64 `json:"formulaID6,omitempty" db:"formula6"`               //`formula6` int(11) NOT NULL DEFAULT '100',
+	Base6       int64 `json:"baseValue6,omitempty" db:"effect_base_value6"`     //`effect_base_value6` int(11) NOT NULL DEFAULT '100',
+	Limit6      int64 `json:"limitValue6,omitempty" db:"effect_limit_value6"`   //`effect_limit_value6` int(11) NOT NULL DEFAULT '0',
+	Max6        int64 `json:"max6,omitempty" db:"max6"`                         //`max6` int(11) NOT NULL DEFAULT '0',
+	EffectID6   int64 `json:"effectID6,omitempty" db:"effectid6"`               //`effectid6` int(11) NOT NULL DEFAULT '254',
+	FormulaID7  int64 `json:"formulaID7,omitempty" db:"formula7"`               //`formula7` int(11) NOT NULL DEFAULT '100',
+	Base7       int64 `json:"baseValue7,omitempty" db:"effect_base_value7"`     //`effect_base_value7` int(11) NOT NULL DEFAULT '100',
+	Limit7      int64 `json:"limitValue7,omitempty" db:"effect_limit_value7"`   //`effect_limit_value7` int(11) NOT NULL DEFAULT '0',
+	Max7        int64 `json:"max7,omitempty" db:"max7"`                         //`max7` int(11) NOT NULL DEFAULT '0',
+	EffectID7   int64 `json:"effectID7,omitempty" db:"effectid7"`               //`effectid7` int(11) NOT NULL DEFAULT '254',
+	FormulaID8  int64 `json:"formulaID8,omitempty" db:"formula8"`               //`formula8` int(11) NOT NULL DEFAULT '100',
+	Base8       int64 `json:"baseValue8,omitempty" db:"effect_base_value8"`     //`effect_base_value8` int(11) NOT NULL DEFAULT '100',
+	Limit8      int64 `json:"limitValue8,omitempty" db:"effect_limit_value8"`   //`effect_limit_value8` int(11) NOT NULL DEFAULT '0',
+	Max8        int64 `json:"max8,omitempty" db:"max8"`                         //`max8` int(11) NOT NULL DEFAULT '0',
+	EffectID8   int64 `json:"effectID8,omitempty" db:"effectid8"`               //`effectid8` int(11) NOT NULL DEFAULT '254',
+	FormulaID9  int64 `json:"formulaID9,omitempty" db:"formula9"`               //`formula9` int(11) NOT NULL DEFAULT '100',
+	Base9       int64 `json:"baseValue9,omitempty" db:"effect_base_value9"`     //`effect_base_value9` int(11) NOT NULL DEFAULT '100',
+	Limit9      int64 `json:"limitValue9,omitempty" db:"effect_limit_value9"`   //`effect_limit_value9` int(11) NOT NULL DEFAULT '0',
+	Max9        int64 `json:"max9,omitempty" db:"max9"`                         //`max9` int(11) NOT NULL DEFAULT '0',
+	EffectID9   int64 `json:"effectID9,omitempty" db:"effectid9"`               //`effectid9` int(11) NOT NULL DEFAULT '254',
+	FormulaID10 int64 `json:"formulaID10,omitempty" db:"formula10"`             //`formula10` int(11) NOT NULL DEFAULT '100',
+	Base10      int64 `json:"baseValue10,omitempty" db:"effect_base_value10"`   //`effect_base_value10` int(11) NOT NULL DEFAULT '100',
+	Limit10     int64 `json:"limitValue10,omitempty" db:"effect_limit_value10"` //`effect_limit_value10` int(11) NOT NULL DEFAULT '0',
+	Max10       int64 `json:"max10,omitempty" db:"max10"`                       //`max10` int(11) NOT NULL DEFAULT '0',
+	EffectID10  int64 `json:"effectID10,omitempty" db:"effectid10"`             //`effectid10` int(11) NOT NULL DEFAULT '254',
+	FormulaID11 int64 `json:"formulaID11,omitempty" db:"formula11"`             //`formula11` int(11) NOT NULL DEFAULT '100',
+	Base11      int64 `json:"baseValue11,omitempty" db:"effect_base_value11"`   //`effect_base_value11` int(11) NOT NULL DEFAULT '100',
+	Limit11     int64 `json:"limitValue11,omitempty" db:"effect_limit_value11"` //`effect_limit_value11` int(11) NOT NULL DEFAULT '0',
+	Max11       int64 `json:"max11,omitempty" db:"max11"`                       //`max11` int(11) NOT NULL DEFAULT '0',
+	EffectID11  int64 `json:"effectID11,omitempty" db:"effectid11"`             //`effectid11` int(11) NOT NULL DEFAULT '254',
+	FormulaID12 int64 `json:"formulaID12,omitempty" db:"formula12"`             //`formula12` int(11) NOT NULL DEFAULT '100',
+	Base12      int64 `json:"baseValue12,omitempty" db:"effect_base_value12"`   //`effect_base_value12` int(11) NOT NULL DEFAULT '100',
+	Limit12     int64 `json:"limitValue12,omitempty" db:"effect_limit_value12"` //`effect_limit_value12` int(11) NOT NULL DEFAULT '0',
+	Max12       int64 `json:"max12,omitempty" db:"max12"`                       //`max12` int(11) NOT NULL DEFAULT '0',
+	EffectID12  int64 `json:"effectID12,omitempty" db:"effectid12"`             //`effectid12` int(11) NOT NULL DEFAULT '254',
+
 }
 
 //DescriptionName returns a summary of this spell's attributes

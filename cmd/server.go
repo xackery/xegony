@@ -146,6 +146,12 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 		return
 	}
 
+	err = cases.LoadSpellEffectFormulaFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load spellEffectFormula to memory")
+		return
+	}
+
 	err = cases.LoadVariableFromDBToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load variable to memory")

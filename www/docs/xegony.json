@@ -3989,6 +3989,379 @@
         }
       }
     },
+    "/spell/effect/formula": {
+      "get": {
+        "description": "This will show all available spellEffectFormulas by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellEffectFormula"
+        ],
+        "summary": "Lists spellEffectFormulas",
+        "operationId": "listSpellEffectFormula",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectFormulasResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an spellEffectFormula",
+        "tags": [
+          "spellEffectFormula"
+        ],
+        "summary": "Create an spellEffectFormula",
+        "operationId": "createSpellEffectFormula",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "SpellEffectFormula",
+            "description": "SpellEffectFormula details to create",
+            "name": "spellEffectFormula",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellEffectFormula"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectFormulaResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/effect/formula/search": {
+      "get": {
+        "description": "This will show all available spellEffectFormulas by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "spellEffectFormula"
+        ],
+        "summary": "Search spellEffectFormulas by name",
+        "operationId": "listSpellEffectFormulaBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which spellEffectFormula to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectFormulasBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/spell/effect/formula/{ID}": {
+      "get": {
+        "description": "This will get an individual spellEffectFormula available spellEffectFormulas by default.",
+        "tags": [
+          "spellEffectFormula"
+        ],
+        "summary": "Get an spellEffectFormula",
+        "operationId": "getSpellEffectFormula",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectFormulaResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an spellEffectFormula",
+        "tags": [
+          "spellEffectFormula"
+        ],
+        "summary": "Edit an spellEffectFormula",
+        "operationId": "editSpellEffectFormula",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "SpellEffectFormula",
+            "description": "SpellEffectFormula details to edit",
+            "name": "spellEffectFormula",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/SpellEffectFormula"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SpellEffectFormulaResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an spellEffectFormula",
+        "tags": [
+          "spellEffectFormula"
+        ],
+        "summary": "Delete an spellEffectFormula",
+        "operationId": "deleteSpellEffectFormula",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/spell/search": {
       "get": {
         "description": "This will show all available spells by default.",
@@ -7691,9 +8064,12 @@
           "x-go-name": "BaneDamageRaceID"
         },
         "bardEffect": {
+          "$ref": "#/definitions/Spell"
+        },
+        "bardEffectSpellID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "BardEffect"
+          "x-go-name": "BardEffectSpellID"
         },
         "bardEffectType": {
           "type": "integer",
@@ -7806,9 +8182,12 @@
           "$ref": "#/definitions/Classs"
         },
         "clickEffect": {
+          "$ref": "#/definitions/Spell"
+        },
+        "clickEffectSpellID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ClickEffect"
+          "x-go-name": "ClickEffectSpellID"
         },
         "clickLevel": {
           "type": "integer",
@@ -8030,9 +8409,12 @@
           "x-go-name": "FirionaVieNoDrop"
         },
         "focusEffect": {
+          "$ref": "#/definitions/Spell"
+        },
+        "focusEffectSpellID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "FocusEffect"
+          "x-go-name": "FocusEffectSpellID"
         },
         "focusLevel": {
           "type": "integer",
@@ -8341,9 +8723,12 @@
           "x-go-name": "Price"
         },
         "procEffect": {
+          "$ref": "#/definitions/Spell"
+        },
+        "procEffectSpellID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ProcEffect"
+          "x-go-name": "ProcEffectSpellID"
         },
         "procLevel": {
           "type": "integer",
@@ -8462,9 +8847,12 @@
           "x-go-name": "ScriptFileid"
         },
         "scrollEffect": {
+          "$ref": "#/definitions/Spell"
+        },
+        "scrollEffectSpellID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ScrollEffect"
+          "x-go-name": "ScrollEffectSpellID"
         },
         "scrollLevel": {
           "type": "integer",
@@ -8631,9 +9019,12 @@
           "x-go-name": "Wisdom"
         },
         "wornEffect": {
+          "$ref": "#/definitions/Spell"
+        },
+        "wornEffectSpellID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "WornEffect"
+          "x-go-name": "WornEffectSpellID"
         },
         "wornLevel": {
           "type": "integer",
@@ -9730,6 +10121,11 @@
           "type": "integer",
           "format": "int64"
         },
+        "bit": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Bit"
+        },
         "female": {
           "type": "string",
           "x-go-name": "Female"
@@ -10447,13 +10843,73 @@
           "format": "int64",
           "x-go-name": "AoeRange"
         },
+        "baseValue1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base1"
+        },
+        "baseValue10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base10"
+        },
+        "baseValue11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base11"
+        },
+        "baseValue12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base12"
+        },
+        "baseValue2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base2"
+        },
+        "baseValue3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base3"
+        },
+        "baseValue4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base4"
+        },
+        "baseValue5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base5"
+        },
+        "baseValue6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base6"
+        },
+        "baseValue7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base7"
+        },
+        "baseValue8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base8"
+        },
+        "baseValue9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Base9"
+        },
         "bonusHate": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "BonusHate"
         },
         "buffDurationFormula": {
-          "$ref": "#/definitions/SpellFormula"
+          "$ref": "#/definitions/SpellDurationFormula"
         },
         "buffDurationFormulaID": {
           "type": "integer",
@@ -10567,6 +11023,42 @@
           "format": "int64",
           "x-go-name": "DotStackingExempt"
         },
+        "effect1": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect10": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect11": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect12": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect2": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect3": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect4": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect5": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect6": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect7": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect8": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
+        "effect9": {
+          "$ref": "#/definitions/SpellEffectType"
+        },
         "effectCategory": {
           "$ref": "#/definitions/SpellEffectCategory"
         },
@@ -10575,12 +11067,65 @@
           "format": "int64",
           "x-go-name": "EffectCategoryID"
         },
-        "effects": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SpellEffect"
-          },
-          "x-go-name": "Effects"
+        "effectID1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID1"
+        },
+        "effectID10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID10"
+        },
+        "effectID11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID11"
+        },
+        "effectID12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID12"
+        },
+        "effectID2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID2"
+        },
+        "effectID3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID3"
+        },
+        "effectID4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID4"
+        },
+        "effectID5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID5"
+        },
+        "effectID6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID6"
+        },
+        "effectID7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID7"
+        },
+        "effectID8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID8"
+        },
+        "effectID9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EffectID9"
         },
         "endurCost": {
           "type": "integer",
@@ -10756,6 +11301,102 @@
           "format": "int64",
           "x-go-name": "FizzleDifficulty"
         },
+        "formula1": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula10": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula11": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula12": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula2": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula3": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula4": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula5": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula6": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula7": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula8": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formula9": {
+          "$ref": "#/definitions/SpellEffectFormula"
+        },
+        "formulaID1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID1"
+        },
+        "formulaID10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID10"
+        },
+        "formulaID11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID11"
+        },
+        "formulaID12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID12"
+        },
+        "formulaID2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID2"
+        },
+        "formulaID3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID3"
+        },
+        "formulaID4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID4"
+        },
+        "formulaID5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID5"
+        },
+        "formulaID6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID6"
+        },
+        "formulaID7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID7"
+        },
+        "formulaID8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID8"
+        },
+        "formulaID9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FormulaID9"
+        },
         "group": {
           "$ref": "#/definitions/SpellGroup"
         },
@@ -10792,10 +11433,130 @@
           "format": "int64",
           "x-go-name": "LightTypeID"
         },
+        "limitValue1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit1"
+        },
+        "limitValue10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit10"
+        },
+        "limitValue11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit11"
+        },
+        "limitValue12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit12"
+        },
+        "limitValue2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit2"
+        },
+        "limitValue3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit3"
+        },
+        "limitValue4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit4"
+        },
+        "limitValue5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit5"
+        },
+        "limitValue6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit6"
+        },
+        "limitValue7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit7"
+        },
+        "limitValue8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit8"
+        },
+        "limitValue9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit9"
+        },
         "mana": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Mana"
+        },
+        "max1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max1"
+        },
+        "max10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max10"
+        },
+        "max11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max11"
+        },
+        "max12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max12"
+        },
+        "max2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max2"
+        },
+        "max3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max3"
+        },
+        "max4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max4"
+        },
+        "max5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max5"
+        },
+        "max6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max6"
+        },
+        "max7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max7"
+        },
+        "max8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max8"
+        },
+        "max9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Max9"
         },
         "maxDist": {
           "type": "number",
@@ -11229,62 +11990,8 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "SpellEffect": {
-      "description": "SpellEffect stores details about a spell's effects\nThere is 1 to 12 range of effects per spell",
-      "type": "object",
-      "properties": {
-        "ID": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "baseValue": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Base"
-        },
-        "class": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Class"
-        },
-        "effectID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EffectID"
-        },
-        "formula": {
-          "$ref": "#/definitions/SpellFormula"
-        },
-        "formulaID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "FormulaID"
-        },
-        "limitValue": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Limit"
-        },
-        "max": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Max"
-        },
-        "spellID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "SpellID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "SpellEffectCategory": {
-      "description": "SpellEffectCategory determines the type of effect, used by spells. e.g. beneficial\nhttp://wiki.eqemulator.org/p?spells_new",
-      "type": "object",
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "SpellEffectType": {
-      "description": "SpellEffectType is the effect id type, e.g. SE_CURRENT_HP_ONCE\nhttp://wiki.eqemulator.org/p?Spell_Effect_IDs",
+    "SpellDurationFormula": {
+      "description": "SpellDurationFormula is used in various areas to represent spells",
       "type": "object",
       "properties": {
         "ID": {
@@ -11298,13 +12005,53 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "SpellFormula": {
-      "description": "SpellFormula is used in various areas to represent spells",
+    "SpellDurationFormulas": {
+      "description": "SpellDurationFormulas is an array of SpellDurationFormula",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpellDurationFormula"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffectCategory": {
+      "description": "SpellEffectCategory determines the type of effect, used by spells. e.g. beneficial\nhttp://wiki.eqemulator.org/p?spells_new",
+      "type": "object",
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffectFormula": {
+      "description": "SpellEffectFormula is used in various areas to represent spells",
       "type": "object",
       "properties": {
         "ID": {
           "type": "integer",
           "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffectFormulas": {
+      "description": "SpellEffectFormulas is an array of SpellEffectFormula",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpellEffectFormula"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpellEffectType": {
+      "description": "SpellEffectType is the effect id type, e.g. SE_CURRENT_HP_ONCE\nhttp://wiki.eqemulator.org/p?Spell_Effect_IDs",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -12444,6 +13191,36 @@
       "headers": {
         "page": {},
         "spellAnimations": {}
+      }
+    },
+    "SpellEffectFormulaResponse": {
+      "description": "SpellEffectFormulaResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/SpellEffectFormula"
+      },
+      "headers": {
+        "spellEffectFormula": {}
+      }
+    },
+    "SpellEffectFormulasBySearchResponse": {
+      "description": "SpellEffectFormulasBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellEffectFormulas"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "spellEffectFormulas": {}
+      }
+    },
+    "SpellEffectFormulasResponse": {
+      "description": "SpellEffectFormulasResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/SpellEffectFormulas"
+      },
+      "headers": {
+        "page": {},
+        "spellEffectFormulas": {}
       }
     },
     "SpellResponse": {

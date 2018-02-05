@@ -2180,6 +2180,208 @@
       ]
     },
     {
+      "name": "spellEffectFormula",
+      "item": [
+        {
+          "name": "Lists spellEffectFormulas",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/formula",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "formula"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spellEffectFormula",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/formula",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "formula"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spellEffectFormulas by name",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/formula/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "formula",
+                "search"
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spellEffectFormula",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/formula/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "formula",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spellEffectFormula",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/formula/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "formula",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spellEffectFormula",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spell/effect/formula/:ID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spell",
+                "effect",
+                "formula",
+                ":ID"
+              ],
+              "variable": [
+                {
+                  "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    },
+    {
       "name": "user",
       "item": [
         {

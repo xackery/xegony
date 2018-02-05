@@ -83,6 +83,7 @@ func (s *Storage) DropTables() (err error) {
 		"lootdropentry",
 		"loottable",
 		"loottablentry",
+		"spells_new",
 		"npc",
 		"npcloot",
 		"post",
