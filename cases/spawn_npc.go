@@ -132,7 +132,7 @@ func CreateSpawnNpc(spawn *model.Spawn, spawnNpc *model.SpawnNpc, user *model.Us
 		return
 	}
 
-	err = validateSpawnNpc(spawnNpc, []string{"name"}, nil)
+	err = validateSpawnNpc(spawnNpc, []string{"npcID"}, nil)
 	if err != nil {
 		err = errors.Wrap(err, "failed to validate spawnNpc")
 		return
@@ -165,7 +165,7 @@ func GetSpawnNpc(spawn *model.Spawn, spawnNpc *model.SpawnNpc, user *model.User)
 		return
 	}
 
-	err = validateSpawnNpc(spawnNpc, []string{"name"}, nil)
+	err = validateSpawnNpc(spawnNpc, []string{"npcID"}, nil)
 	if err != nil {
 		err = errors.Wrap(err, "failed to validate spawnNpc")
 		return
@@ -206,7 +206,7 @@ func EditSpawnNpc(spawn *model.Spawn, spawnNpc *model.SpawnNpc, user *model.User
 	}
 
 	err = validateSpawnNpc(spawnNpc,
-		[]string{"npcid"}, //required
+		[]string{"npcID"}, //required
 		[]string{          //optional
 		},
 	)
@@ -245,7 +245,7 @@ func DeleteSpawnNpc(spawnNpc *model.SpawnNpc, spawn *model.Spawn, user *model.Us
 		return
 	}
 
-	err = validateSpawnNpc(spawnNpc, []string{"npcid"}, nil)
+	err = validateSpawnNpc(spawnNpc, []string{"npcID"}, nil)
 	if err != nil {
 		err = errors.Wrap(err, "failed to validate spawnNpc")
 		return
@@ -333,7 +333,12 @@ func sanitizeSpawnNpc(spawnNpc *model.SpawnNpc, user *model.User) (err error) {
 	spawnNpc.Npc = &model.Npc{
 		ID: spawnNpc.NpcID,
 	}
-	//err = GetNpc()
+
+	err = GetNpc(spawnNpc.Npc, user)
+	if err != nil {
+		err = errors.Wrapf(err, "failed to get npc %d", spawnNpc.NpcID)
+		return
+	}
 	return
 }
 
@@ -366,10 +371,10 @@ func newSchemaSpawnNpc(requiredFields []string, optionalFields []string) (schema
 
 func getSchemaPropertySpawnNpc(field string) (prop model.Schema, err error) {
 	switch field {
-	case "npcid":
+	case "npcID":
 		prop.Type = "integer"
 		prop.Minimum = 0
-	case "spawnid":
+	case "spawnID":
 		prop.Type = "integer"
 		prop.Minimum = 0
 	case "chance":

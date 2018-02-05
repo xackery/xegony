@@ -2297,6 +2297,379 @@
         }
       }
     },
+    "/npc": {
+      "get": {
+        "description": "This will show all available npcs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "npc"
+        ],
+        "summary": "Lists npcs",
+        "operationId": "listNpc",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/NpcsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an npc",
+        "tags": [
+          "npc"
+        ],
+        "summary": "Create an npc",
+        "operationId": "createNpc",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Npc",
+            "description": "Npc details to create",
+            "name": "npc",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Npc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/NpcResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/npc/search": {
+      "get": {
+        "description": "This will show all available npcs by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "npc"
+        ],
+        "summary": "Search npcs by name",
+        "operationId": "listNpcBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "heal",
+            "x-go-name": "Name",
+            "description": "Name is which npc to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/NpcsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/npc/{ID}": {
+      "get": {
+        "description": "This will get an individual npc available npcs by default.",
+        "tags": [
+          "npc"
+        ],
+        "summary": "Get an npc",
+        "operationId": "getNpc",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/NpcResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an npc",
+        "tags": [
+          "npc"
+        ],
+        "summary": "Edit an npc",
+        "operationId": "editNpc",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Npc",
+            "description": "Npc details to edit",
+            "name": "npc",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Npc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/NpcResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an npc",
+        "tags": [
+          "npc"
+        ],
+        "summary": "Delete an npc",
+        "operationId": "deleteNpc",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/race": {
       "get": {
         "description": "This will show all available races by default.",
@@ -11770,22 +12143,11 @@
       "description": "Npc represents Non player characters in everquest",
       "type": "object",
       "properties": {
-        "AC": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Ac"
-        },
-        "AGI": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Agi"
-        },
-        "ATK": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Atk"
-        },
         "Accuracy": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "Attack": {
           "type": "integer",
           "format": "int64"
         },
@@ -11793,118 +12155,68 @@
           "type": "integer",
           "format": "int64"
         },
-        "CHA": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Cha"
-        },
-        "CR": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Cr"
-        },
-        "Corrup": {
+        "PeqID": {
           "type": "integer",
           "format": "int64"
         },
-        "DEX": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Dex"
-        },
-        "DR": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Dr"
-        },
-        "FR": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Fr"
-        },
-        "INT": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Int"
-        },
-        "MR": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Mr"
-        },
-        "PR": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Pr"
-        },
-        "PhR": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Phr"
-        },
-        "STA": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Sta"
-        },
-        "STR": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Str"
-        },
-        "WIS": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Wis"
-        },
-        "adventureTemplateId": {
+        "adventureTemplateID": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "AdventureTemplateID"
         },
-        "aggroradius": {
+        "aggroRadius": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Aggroradius"
+          "x-go-name": "AggroRadius"
         },
-        "altCurrencyId": {
+        "agility": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Agility"
+        },
+        "altCurrencyID": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "AltCurrencyID"
         },
-        "ammoIdfile": {
+        "ammoIDFile": {
           "type": "string",
-          "x-go-name": "AmmoIDfile"
+          "x-go-name": "AmmoIDFile"
         },
-        "armortintBlue": {
+        "armTexture": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ArmortintBlue"
+          "x-go-name": "ArmTexture"
         },
-        "armortintGreen": {
+        "armorClass": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ArmortintGreen"
+          "x-go-name": "ArmorClass"
         },
-        "armortintId": {
+        "armorTintBlue": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ArmortintID"
+          "x-go-name": "ArmorTintBlue"
         },
-        "armortintRed": {
+        "armorTintGreen": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ArmortintRed"
+          "x-go-name": "ArmorTintGreen"
         },
-        "armtexture": {
+        "armorTintID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Armtexture"
+          "x-go-name": "ArmorTintID"
         },
-        "assistradius": {
+        "armorTintRed": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Assistradius"
+          "x-go-name": "ArmorTintRed"
+        },
+        "assistRadius": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "AssistRadius"
         },
         "attackCount": {
           "type": "integer",
@@ -11921,15 +12233,20 @@
           "format": "double",
           "x-go-name": "AttackSpeed"
         },
-        "bodytype": {
+        "bodyTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bodytype"
+          "x-go-name": "BodyTypeID"
         },
-        "bracertexture": {
+        "bracerTexture": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Bracertexture"
+          "x-go-name": "BracerTexture"
+        },
+        "charisma": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Charisma"
         },
         "class": {
           "$ref": "#/definitions/Class"
@@ -11939,9 +12256,15 @@
           "format": "int64",
           "x-go-name": "ClassID"
         },
-        "cleanName": {
-          "type": "string",
-          "x-go-name": "CleanName"
+        "coldResistance": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ColdResistance"
+        },
+        "corruptionResistance": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CorruptionResistance"
         },
         "dMeleeTexture1": {
           "type": "integer",
@@ -11952,6 +12275,16 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "DMeleeTexture2"
+        },
+        "dexterity": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Dexterity"
+        },
+        "diseaseResistance": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "DiseaseResistance"
         },
         "drakkinDetails": {
           "type": "integer",
@@ -11968,35 +12301,35 @@
           "format": "int64",
           "x-go-name": "DrakkinTattoo"
         },
-        "emoteid": {
+        "emoteID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Emoteid"
+          "x-go-name": "EmoteID"
         },
         "exclude": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Exclude"
         },
-        "experience": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Experience"
-        },
         "face": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Face"
         },
-        "feettexture": {
+        "feetTexture": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Feettexture"
+          "x-go-name": "FeetTexture"
         },
         "findable": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Findable"
+        },
+        "fireResistance": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "FireResistance"
         },
         "fixed": {
           "type": "integer",
@@ -12008,30 +12341,30 @@
           "format": "int64",
           "x-go-name": "Gender"
         },
-        "handtexture": {
+        "handTexture": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Handtexture"
+          "x-go-name": "HandTexture"
         },
-        "healscale": {
+        "healScale": {
           "type": "number",
           "format": "double",
-          "x-go-name": "Healscale"
+          "x-go-name": "HealScale"
         },
-        "helmtexture": {
+        "helmTexture": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Helmtexture"
+          "x-go-name": "HelmTexture"
         },
-        "herosforgemodel": {
+        "herosForgeModel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Herosforgemodel"
+          "x-go-name": "HerosForgeModel"
         },
-        "hp": {
+        "hitpoints": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Hp"
+          "x-go-name": "Hitpoints"
         },
         "hpRegenRate": {
           "type": "integer",
@@ -12048,23 +12381,28 @@
           "format": "int64",
           "x-go-name": "IgnoreDespawn"
         },
-        "isbot": {
+        "intelligence": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Isbot"
+          "x-go-name": "Intelligence"
         },
-        "isquest": {
+        "isBot": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Isquest"
+          "x-go-name": "IsBot"
         },
-        "lastname": {
+        "isQuest": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "IsQuest"
+        },
+        "lastName": {
           "$ref": "#/definitions/NullString"
         },
-        "legtexture": {
+        "legTexture": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Legtexture"
+          "x-go-name": "LegTexture"
         },
         "level": {
           "type": "integer",
@@ -12076,40 +12414,45 @@
           "format": "int64",
           "x-go-name": "Light"
         },
-        "loottableId": {
+        "lootTableID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LoottableID"
+          "x-go-name": "LootTableID"
         },
         "luclinBeard": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "LuclinBeard"
         },
-        "luclinBeardcolor": {
+        "luclinBeardColor": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LuclinBeardcolor"
+          "x-go-name": "LuclinBeardColor"
         },
-        "luclinEyecolor": {
+        "luclinEyeColor": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LuclinEyecolor"
+          "x-go-name": "LuclinEyeColor"
         },
-        "luclinEyecolor2": {
+        "luclinEyeColor2": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LuclinEyecolor2"
+          "x-go-name": "LuclinEyeColor2"
         },
-        "luclinHaircolor": {
+        "luclinHairColor": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LuclinHaircolor"
+          "x-go-name": "LuclinHairColor"
         },
-        "luclinHairstyle": {
+        "luclinHairStyle": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LuclinHairstyle"
+          "x-go-name": "LuclinHairStyle"
+        },
+        "magicResistance": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MagicResistance"
         },
         "mana": {
           "type": "integer",
@@ -12121,25 +12464,25 @@
           "format": "int64",
           "x-go-name": "ManaRegenRate"
         },
-        "maxdmg": {
+        "maxLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Maxdmg"
+          "x-go-name": "MaxLevel"
         },
-        "maxlevel": {
+        "maximumDamage": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Maxlevel"
+          "x-go-name": "MaximumDamage"
         },
-        "merchantId": {
+        "merchantID": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "MerchantID"
         },
-        "mindmg": {
+        "minimumDamage": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Mindmg"
+          "x-go-name": "MinimumDamage"
         },
         "name": {
           "type": "string",
@@ -12155,44 +12498,49 @@
           "format": "int64",
           "x-go-name": "NpcAggro"
         },
-        "npcFactionId": {
+        "npcFactionID": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "NpcFactionID"
         },
-        "npcSpellsEffectsId": {
+        "npcSpecialAttacks": {
+          "type": "string",
+          "x-go-name": "NpcSpecialAttacks"
+        },
+        "npcSpellsEffectsID": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "NpcSpellsEffectsID"
         },
-        "npcSpellsId": {
+        "npcSpellsID": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "NpcSpellsID"
         },
-        "npcspecialattks": {
-          "type": "string",
-          "x-go-name": "Npcspecialattks"
-        },
-        "peqid": {
+        "physicalResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Peqid"
+          "x-go-name": "PhysicalResistance"
         },
-        "primMeleeType": {
+        "poisonResistance": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "PrimMeleeType"
+          "x-go-name": "PoisonResistance"
+        },
+        "primaryMeleeTypeID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "PrimaryMeleeTypeID"
         },
         "privateCorpse": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "PrivateCorpse"
         },
-        "qglobal": {
+        "questGlobal": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Qglobal"
+          "x-go-name": "QuestGlobal"
         },
         "race": {
           "$ref": "#/definitions/Race"
@@ -12207,25 +12555,25 @@
           "format": "int64",
           "x-go-name": "RaidTarget"
         },
-        "rangedType": {
+        "rangedTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "RangedType"
+          "x-go-name": "RangedTypeID"
         },
         "runspeed": {
           "type": "number",
           "format": "double",
           "x-go-name": "Runspeed"
         },
-        "scalerate": {
+        "scaleRate": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Scalerate"
+          "x-go-name": "ScaleRate"
         },
-        "secMeleeType": {
+        "secondaryMeleeTypeID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "SecMeleeType"
+          "x-go-name": "SecondaryMeleeTypeID"
         },
         "seeHide": {
           "type": "integer",
@@ -12237,15 +12585,15 @@
           "format": "int64",
           "x-go-name": "SeeImprovedHide"
         },
-        "seeInvis": {
+        "seeInvisible": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "SeeInvis"
+          "x-go-name": "SeeInvisible"
         },
-        "seeInvisUndead": {
+        "seeInvisibleUndead": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "SeeInvisUndead"
+          "x-go-name": "SeeInvisibleUndead"
         },
         "showName": {
           "type": "integer",
@@ -12270,17 +12618,20 @@
         "specialAbilities": {
           "$ref": "#/definitions/NullString"
         },
-        "specialAbilitiesList": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-go-name": "SpecialAbilitiesList"
-        },
-        "spellscale": {
+        "spellScale": {
           "type": "number",
           "format": "double",
-          "x-go-name": "Spellscale"
+          "x-go-name": "SpellScale"
+        },
+        "stamina": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Stamina"
+        },
+        "strength": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Strength"
         },
         "texture": {
           "type": "integer",
@@ -12320,10 +12671,15 @@
           "format": "int64",
           "x-go-name": "Version"
         },
-        "walkspeed": {
+        "walkSpeed": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Walkspeed"
+          "x-go-name": "WalkSpeed"
+        },
+        "wisdom": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Wisdom"
         },
         "zone": {
           "$ref": "#/definitions/Zone"
@@ -12351,6 +12707,14 @@
           "format": "int64",
           "x-go-name": "NpcID"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Npcs": {
+      "description": "Npcs represents an array of Npc",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Npc"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -15560,6 +15924,36 @@
       },
       "headers": {
         "items": {},
+        "page": {}
+      }
+    },
+    "NpcResponse": {
+      "description": "NpcResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Npc"
+      },
+      "headers": {
+        "npc": {}
+      }
+    },
+    "NpcsBySearchResponse": {
+      "description": "NpcsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Npcs"
+      },
+      "headers": {
+        "npcs": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "NpcsResponse": {
+      "description": "NpcsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Npcs"
+      },
+      "headers": {
+        "npcs": {},
         "page": {}
       }
     },

@@ -204,6 +204,10 @@ func loadClassDefault() model.Classs {
 			Name: "Adventure Merchant",
 		},
 		{
+			ID:   62,
+			Name: "Destructable",
+		},
+		{
 			ID:   63,
 			Name: "Tribute Master",
 		},

@@ -48,7 +48,7 @@ type SpawnNpcEditRequest struct {
 	// in: path
 	// example: 1
 	SpawnID int64 `json:"SpawnID"`
-	// name to get information about
+	// NpcID to get information about
 	// in: path
 	// example: 55091
 	NpcID int64 `json:"npcID"`
@@ -73,7 +73,7 @@ type SpawnNpcsRequest struct {
 	// in: query
 	Limit int64 `json:"limit"`
 	// OrderBy is which field to order a page by
-	// example: name
+	// example: npcid
 	// in: query
 	OrderBy string `json:"orderBy"`
 	// IsDescending will change sort order when true
@@ -110,7 +110,7 @@ type SpawnNpcsBySearchRequest struct {
 	// in: query
 	Limit int64 `json:"limit"`
 	// OrderBy is which field to order a page by
-	// example: name
+	// example: npcid
 	// in: query
 	OrderBy string `json:"orderBy"`
 	// IsDescending will change sort order when true
@@ -159,7 +159,7 @@ func spawnNpcRoutes() (routes []*route) {
 		},
 		// swagger:route GET /spawn/{spawnID}/npc/search spawn listSpawnNpcBySearch
 		//
-		// Search spawnNpcs by name
+		// Search spawnNpcs by npcid
 		//
 		// This will show all available spawnNpcs by default.
 		//

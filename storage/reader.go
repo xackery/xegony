@@ -61,6 +61,13 @@ type Reader interface {
 	ListItemBySearch(page *model.Page, item *model.Item) (items []*model.Item, err error)
 	ListItemBySearchTotalCount(item *model.Item) (count int64, err error)
 
+	//Npc
+	GetNpc(npc *model.Npc) (err error)
+	ListNpc(page *model.Page) (npcs []*model.Npc, err error)
+	ListNpcTotalCount() (count int64, err error)
+	ListNpcBySearch(page *model.Page, npc *model.Npc) (npcs []*model.Npc, err error)
+	ListNpcBySearchTotalCount(npc *model.Npc) (count int64, err error)
+
 	//Race
 	GetRace(race *model.Race) (err error)
 	ListRace(page *model.Page) (races []*model.Race, err error)

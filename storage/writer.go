@@ -37,6 +37,11 @@ type Writer interface {
 	EditItem(item *model.Item) (err error)
 	DeleteItem(item *model.Item) (err error)
 
+	//Npc
+	CreateNpc(npc *model.Npc) (err error)
+	EditNpc(npc *model.Npc) (err error)
+	DeleteNpc(npc *model.Npc) (err error)
+
 	//Race
 	CreateRace(race *model.Race) (err error)
 	EditRace(race *model.Race) (err error)
