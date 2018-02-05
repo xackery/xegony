@@ -384,123 +384,13 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 		}
 	}
 
-	if spell.FormulaID1 > 0 {
-		spell.Formula1 = &model.SpellEffectFormula{
-			ID: spell.FormulaID1,
+	if spell.BuffDurationFormulaID > 0 {
+		spell.BuffDurationFormula = &model.SpellDurationFormula{
+			ID: spell.BuffDurationFormulaID,
 		}
-		err = GetSpellEffectFormula(spell.Formula1, user)
+		err = GetSpellDurationFormula(spell.BuffDurationFormula, user)
 		if err != nil {
 			err = errors.Wrap(err, "failed on formula 1")
-			return
-		}
-	}
-	if spell.FormulaID2 > 0 {
-		spell.Formula2 = &model.SpellEffectFormula{
-			ID: spell.FormulaID2,
-		}
-		err = GetSpellEffectFormula(spell.Formula2, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 2")
-			return
-		}
-	}
-	if spell.FormulaID3 > 0 {
-		spell.Formula3 = &model.SpellEffectFormula{
-			ID: spell.FormulaID3,
-		}
-		err = GetSpellEffectFormula(spell.Formula3, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 3")
-			return
-		}
-	}
-	if spell.FormulaID4 > 0 {
-		spell.Formula4 = &model.SpellEffectFormula{
-			ID: spell.FormulaID4,
-		}
-		err = GetSpellEffectFormula(spell.Formula4, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 4")
-			return
-		}
-	}
-	if spell.FormulaID5 > 0 {
-		spell.Formula5 = &model.SpellEffectFormula{
-			ID: spell.FormulaID5,
-		}
-		err = GetSpellEffectFormula(spell.Formula5, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 5")
-			return
-		}
-	}
-	if spell.FormulaID6 > 0 {
-		spell.Formula6 = &model.SpellEffectFormula{
-			ID: spell.FormulaID6,
-		}
-		err = GetSpellEffectFormula(spell.Formula6, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 6")
-			return
-		}
-	}
-	if spell.FormulaID7 > 0 {
-		spell.Formula7 = &model.SpellEffectFormula{
-			ID: spell.FormulaID7,
-		}
-		err = GetSpellEffectFormula(spell.Formula7, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 7")
-			return
-		}
-	}
-	if spell.FormulaID8 > 0 {
-		spell.Formula8 = &model.SpellEffectFormula{
-			ID: spell.FormulaID8,
-		}
-		err = GetSpellEffectFormula(spell.Formula8, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 8")
-			return
-		}
-	}
-	if spell.FormulaID9 > 0 {
-		spell.Formula9 = &model.SpellEffectFormula{
-			ID: spell.FormulaID9,
-		}
-		err = GetSpellEffectFormula(spell.Formula9, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 9")
-			return
-		}
-	}
-	if spell.FormulaID10 > 0 {
-		spell.Formula10 = &model.SpellEffectFormula{
-			ID: spell.FormulaID10,
-		}
-		err = GetSpellEffectFormula(spell.Formula10, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 10")
-			return
-		}
-	}
-	if spell.FormulaID11 > 0 {
-		spell.Formula11 = &model.SpellEffectFormula{
-			ID: spell.FormulaID11,
-		}
-		err = GetSpellEffectFormula(spell.Formula11, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 11")
-			return
-		}
-	}
-	if spell.FormulaID12 > 0 {
-		spell.Formula12 = &model.SpellEffectFormula{
-			ID: spell.FormulaID12,
-		}
-		err = GetSpellEffectFormula(spell.Formula12, user)
-		if err != nil {
-			err = errors.Wrap(err, "failed on formula 12")
 			return
 		}
 	}

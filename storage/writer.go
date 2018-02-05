@@ -67,6 +67,11 @@ type Writer interface {
 	EditSpellEffectFormula(spellEffectFormula *model.SpellEffectFormula) (err error)
 	DeleteSpellEffectFormula(spellEffectFormula *model.SpellEffectFormula) (err error)
 
+	//SpellDurationFormula
+	CreateSpellDurationFormula(spellDurationFormula *model.SpellDurationFormula) (err error)
+	EditSpellDurationFormula(spellDurationFormula *model.SpellDurationFormula) (err error)
+	DeleteSpellDurationFormula(spellDurationFormula *model.SpellDurationFormula) (err error)
+
 	//SpellEffectType
 	CreateSpellEffectType(spellEffectType *model.SpellEffectType) (err error)
 	EditSpellEffectType(spellEffectType *model.SpellEffectType) (err error)

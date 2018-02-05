@@ -76,7 +76,7 @@ type ItemsResponse struct {
 // swagger:parameters listItemBySearch
 type ItemsBySearchRequest struct {
 	// Name is which item to get information about
-	// example: xackery
+	// example: singing short sword
 	// in: query
 	Name string `json:"name"`
 	// Offset is pagination, offset*limit

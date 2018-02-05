@@ -95,6 +95,13 @@ type Reader interface {
 	ListSpellAnimationTypeBySearch(page *model.Page, spellAnimationType *model.SpellAnimationType) (spellAnimationTypes []*model.SpellAnimationType, err error)
 	ListSpellAnimationTypeBySearchTotalCount(spellAnimationType *model.SpellAnimationType) (count int64, err error)
 
+	//SpellDurationFormula
+	GetSpellDurationFormula(spellDurationFormula *model.SpellDurationFormula) (err error)
+	ListSpellDurationFormula(page *model.Page) (spellDurationFormulas []*model.SpellDurationFormula, err error)
+	ListSpellDurationFormulaTotalCount() (count int64, err error)
+	ListSpellDurationFormulaBySearch(page *model.Page, spellDurationFormula *model.SpellDurationFormula) (spellDurationFormulas []*model.SpellDurationFormula, err error)
+	ListSpellDurationFormulaBySearchTotalCount(spellDurationFormula *model.SpellDurationFormula) (count int64, err error)
+
 	//SpellEffectFormula
 	GetSpellEffectFormula(spellEffectFormula *model.SpellEffectFormula) (err error)
 	ListSpellEffectFormula(page *model.Page) (spellEffectFormulas []*model.SpellEffectFormula, err error)
