@@ -12,6 +12,8 @@ install:
   - go get golang.org/x/oauth2
   - go get -u -v github.com/axw/gocov/gocov
   - go get golang.org/x/oauth2/google
+  - go get github.com/mattn/goveralls
+  - go get golang.org/x/tools/cmd/cover
 services:
   - mysql
 before_install:
