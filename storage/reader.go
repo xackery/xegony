@@ -68,6 +68,13 @@ type Reader interface {
 	ListNpcBySearch(page *model.Page, npc *model.Npc) (npcs []*model.Npc, err error)
 	ListNpcBySearchTotalCount(npc *model.Npc) (count int64, err error)
 
+	//OauthType
+	GetOauthType(oauthType *model.OauthType) (err error)
+	ListOauthType(page *model.Page) (oauthTypes []*model.OauthType, err error)
+	ListOauthTypeTotalCount() (count int64, err error)
+	ListOauthTypeBySearch(page *model.Page, oauthType *model.OauthType) (oauthTypes []*model.OauthType, err error)
+	ListOauthTypeBySearchTotalCount(oauthType *model.OauthType) (count int64, err error)
+
 	//Race
 	GetRace(race *model.Race) (err error)
 	ListRace(page *model.Page) (races []*model.Race, err error)

@@ -49,6 +49,12 @@ func loadConfigDefault() model.Configs {
 			Description: "Google Auth Token, used for SSO/Google endpoints (by default empty)",
 		},
 		{
+			Category:    "Google",
+			Key:         "googleRedirectURL",
+			Value:       "",
+			Description: "Google Redirect URL, used for SSO/Google endpoints (by default empty)",
+		},
+		{
 			Category:    "MySQL",
 			Key:         "mysqlUsername",
 			Value:       "eqemu",

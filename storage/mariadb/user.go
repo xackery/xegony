@@ -9,8 +9,8 @@ import (
 
 const (
 	userTable  = "user"
-	userFields = "display_name, primary_account_id, primary_character_id, email, password, google_token"
-	userBinds  = ":display_name, :primary_account_id, :primary_character_id, :email, :password, :google_token,"
+	userFields = "display_name, primary_account_id, primary_character_id, email, password, google_token, google_refresh_token"
+	userBinds  = ":display_name, :primary_account_id, :primary_character_id, :email, :password, :google_token, :google_refresh_token"
 )
 
 //GetUser will grab data from storage
@@ -184,10 +184,6 @@ func (s *Storage) EditUser(user *model.User) (err error) {
 	//	field += "password = :password, "
 	//}
 
-	if len(user.GoogleToken) > 0 && prevUser.GoogleToken != user.GoogleToken {
-		field += "google_token = :google_token, "
-	}
-
 	if len(field) == 0 {
 		err = &model.ErrNoContent{}
 		return
@@ -244,6 +240,7 @@ CREATE TABLE user (
   email varchar(128) NOT NULL DEFAULT '',
   password varchar(128) NOT NULL DEFAULT '',
   google_token varchar(128) NOT NULL DEFAULT '',
+  google_refresh_token varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (id),
   UNIQUE KEY email (email)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;`)

@@ -42,6 +42,11 @@ type Writer interface {
 	EditNpc(npc *model.Npc) (err error)
 	DeleteNpc(npc *model.Npc) (err error)
 
+	//OauthType
+	CreateOauthType(oauthType *model.OauthType) (err error)
+	EditOauthType(oauthType *model.OauthType) (err error)
+	DeleteOauthType(oauthType *model.OauthType) (err error)
+
 	//Race
 	CreateRace(race *model.Race) (err error)
 	EditRace(race *model.Race) (err error)

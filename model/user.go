@@ -1,7 +1,5 @@
 package model
 
-import ()
-
 // Users is an array of account
 // swagger:model
 type Users []*User
@@ -12,6 +10,7 @@ type Users []*User
 type User struct {
 	Accounts         []*Account   `json:"accounts,omitempty"`
 	Characters       []*Character `json:"characters,omitempty"`
+	Oauths           []*UserOauth `json:"oauths,omitempty"`
 	PrimaryAccount   *Account     `json:"primaryAccount,omitempty"`
 	PrimaryCharacter *Character   `json:"primaryCharacter,omitempty"`
 
@@ -21,7 +20,6 @@ type User struct {
 	PrimaryCharacterID int64  `json:"primaryCharacterID,omitempty" db:"primary_character_id"`
 	Email              string `json:"email,omitempty" db:"email"`
 	Password           string `json:"password,omitempty" db:"password"`
-	GoogleToken        string `json:"googleToken,omitempty" db:"google_token"`
 }
 
 //IsAdmin returns an error if not admin
