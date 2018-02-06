@@ -19,5 +19,5 @@ before_install:
 addons:
   mariadb: '10.2'
 script:  
-  - $GOPATH/bin/goveralls -service=travis-ci
+  - goveralls -service=travis-ci
 
