@@ -112,6 +112,13 @@ type Reader interface {
 	ListSpawnNpcBySearch(page *model.Page, spawn *model.Spawn, spawnNpc *model.SpawnNpc) (spawnNpcs []*model.SpawnNpc, err error)
 	ListSpawnNpcBySearchTotalCount(spawn *model.Spawn, spawnNpc *model.SpawnNpc) (count int64, err error)
 
+	//SpawnEntry
+	GetSpawnEntry(spawn *model.Spawn, spawnEntry *model.SpawnEntry) (err error)
+	ListSpawnEntry(page *model.Page, spawn *model.Spawn) (spawnEntrys []*model.SpawnEntry, err error)
+	ListSpawnEntryTotalCount(spawn *model.Spawn) (count int64, err error)
+	ListSpawnEntryBySearch(page *model.Page, spawn *model.Spawn, spawnEntry *model.SpawnEntry) (spawnEntrys []*model.SpawnEntry, err error)
+	ListSpawnEntryBySearchTotalCount(spawn *model.Spawn, spawnEntry *model.SpawnEntry) (count int64, err error)
+
 	//Spell
 	GetSpell(spell *model.Spell) (err error)
 	ListSpell(page *model.Page) (spells []*model.Spell, err error)
@@ -199,6 +206,7 @@ type Reader interface {
 
 	//Zone
 	GetZone(zone *model.Zone) (err error)
+	GetZoneByShortName(zone *model.Zone) (err error)
 	ListZone(page *model.Page) (zones []*model.Zone, err error)
 	ListZoneTotalCount() (count int64, err error)
 	ListZoneBySearch(page *model.Page, zone *model.Zone) (zones []*model.Zone, err error)

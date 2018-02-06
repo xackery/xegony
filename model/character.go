@@ -1,7 +1,5 @@
 package model
 
-import ()
-
 // Characters is an array of character
 // swagger:model
 type Characters []*Character
@@ -63,13 +61,13 @@ type Character struct {
 	Mana                  int64   `json:"mana,omitempty" db:"mana"`                                     //`mana` int(11) unsigned NOT NULL DEFAULT '0',
 	Endurance             int64   `json:"endurance,omitempty" db:"endurance"`                           //`endurance` int(11) unsigned NOT NULL DEFAULT '0',
 	Intoxication          int64   `json:"intoxication,omitempty" db:"intoxication"`                     //`intoxication` int(11) unsigned NOT NULL DEFAULT '0',
-	Str                   int64   `json:"str,omitempty" db:"str"`                                       //`str` int(11) unsigned NOT NULL DEFAULT '0',
-	Sta                   int64   `json:"sta,omitempty" db:"sta"`                                       //`sta` int(11) unsigned NOT NULL DEFAULT '0',
-	Cha                   int64   `json:"cha,omitempty" db:"cha"`                                       //`cha` int(11) unsigned NOT NULL DEFAULT '0',
-	Dex                   int64   `json:"dex,omitempty" db:"dex"`                                       //`dex` int(11) unsigned NOT NULL DEFAULT '0',
-	Int                   int64   `json:"int,omitempty" db:"int"`                                       //`int` int(11) unsigned NOT NULL DEFAULT '0',
-	Agi                   int64   `json:"agi,omitempty" db:"agi"`                                       //`agi` int(11) unsigned NOT NULL DEFAULT '0',
-	Wis                   int64   `json:"wis,omitempty" db:"wis"`                                       //`wis` int(11) unsigned NOT NULL DEFAULT '0',
+	Strength              int64   `json:"strength,omitempty" db:"str"`                                  //`str` int(11) unsigned NOT NULL DEFAULT '0',
+	Stamina               int64   `json:"stamina,omitempty" db:"sta"`                                   //`sta` int(11) unsigned NOT NULL DEFAULT '0',
+	Charisma              int64   `json:"charisma,omitempty" db:"cha"`                                  //`cha` int(11) unsigned NOT NULL DEFAULT '0',
+	Dexterity             int64   `json:"dexerity,omitempty" db:"dex"`                                  //`dex` int(11) unsigned NOT NULL DEFAULT '0',
+	Intelligence          int64   `json:"intelligence,omitempty" db:"int"`                              //`int` int(11) unsigned NOT NULL DEFAULT '0',
+	Agility               int64   `json:"agility,omitempty" db:"agi"`                                   //`agi` int(11) unsigned NOT NULL DEFAULT '0',
+	Wisdom                int64   `json:"wisdom,omitempty" db:"wis"`                                    //`wis` int(11) unsigned NOT NULL DEFAULT '0',
 	ZoneChangeCount       int64   `json:"zoneChangeCount,omitempty" db:"zone_change_count"`             //`zone_change_count` int(11) unsigned NOT NULL DEFAULT '0',
 	Toxicity              int64   `json:"toxicity,omitempty" db:"toxicity"`                             //`toxicity` int(11) unsigned NOT NULL DEFAULT '0',
 	HungerLevel           int64   `json:"hungerLevel,omitempty" db:"hunger_level"`                      //`hunger_level` int(11) unsigned NOT NULL DEFAULT '0',

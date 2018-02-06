@@ -311,25 +311,25 @@ func (s *Storage) EditCharacter(character *model.Character) (err error) {
 	if character.Intoxication > 0 && prevCharacter.Intoxication != character.Intoxication {
 		field += "intoxication=:intoxication, "
 	}
-	if character.Str > 0 && prevCharacter.Str != character.Str {
+	if character.Strength > 0 && prevCharacter.Strength != character.Strength {
 		field += "str=:str, "
 	}
-	if character.Sta > 0 && prevCharacter.Sta != character.Sta {
+	if character.Stamina > 0 && prevCharacter.Stamina != character.Stamina {
 		field += "sta=:sta, "
 	}
-	if character.Cha > 0 && prevCharacter.Cha != character.Cha {
+	if character.Charisma > 0 && prevCharacter.Charisma != character.Charisma {
 		field += "cha=:cha, "
 	}
-	if character.Dex > 0 && prevCharacter.Dex != character.Dex {
+	if character.Dexterity > 0 && prevCharacter.Dexterity != character.Dexterity {
 		field += "dex=:dex, "
 	}
-	if character.Int > 0 && prevCharacter.Int != character.Int {
+	if character.Intelligence > 0 && prevCharacter.Intelligence != character.Intelligence {
 		field += "'int'=:int, "
 	}
-	if character.Agi > 0 && prevCharacter.Agi != character.Agi {
+	if character.Agility > 0 && prevCharacter.Agility != character.Agility {
 		field += "agi=:agi, "
 	}
-	if character.Wis > 0 && prevCharacter.Wis != character.Wis {
+	if character.Wisdom > 0 && prevCharacter.Wisdom != character.Wisdom {
 		field += "wis=:wis, "
 	}
 	if character.ZoneChangeCount > 0 && prevCharacter.ZoneChangeCount != character.ZoneChangeCount {

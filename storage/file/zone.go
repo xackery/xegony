@@ -12,6 +12,12 @@ func (s *Storage) GetZone(zone *model.Zone) (err error) {
 	return
 }
 
+//GetZoneByShortName will grab data from storage
+func (s *Storage) GetZoneByShortName(zone *model.Zone) (err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
 //CreateZone will grab data from storage
 func (s *Storage) CreateZone(zone *model.Zone) (err error) {
 	err = fmt.Errorf("Not implemented")

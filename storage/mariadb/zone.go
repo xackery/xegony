@@ -13,6 +13,17 @@ const (
 	zoneBinds  = ":short_name, :file_name, :long_name, :map_file_name, :safe_x, :safe_y, :safe_z, :graveyard_id, :min_level, :min_status, :zoneidnumber, :version, :timezone, :maxclients, :ruleset, :note, :underworld, :minclip, :maxclip, :fog_minclip, :fog_maxclip, :fog_blue, :fog_red, :fog_green, :sky, :ztype, :zone_exp_multiplier, :walkspeed, :time_type, :fog_red1, :fog_green1, :fog_blue1, :fog_minclip1, :fog_maxclip1, :fog_red2, :fog_green2, :fog_blue2, :fog_minclip2, :fog_maxclip2, :fog_red3, :fog_green3, :fog_blue3, :fog_minclip3, :fog_maxclip3, :fog_red4, :fog_green4, :fog_blue4, :fog_minclip4, :fog_maxclip4, :fog_density, :flag_needed, :canbind, :cancombat, :canlevitate, :castoutdoor, :hotzone, :insttype, :shutdowndelay, :peqzone, :expansion, :suspendbuffs, :rain_chance1, :rain_chance2, :rain_chance3, :rain_chance4, :rain_duration1, :rain_duration2, :rain_duration3, :rain_duration4, :snow_chance1, :snow_chance2, :snow_chance3, :snow_chance4, :snow_duration1, :snow_duration2, :snow_duration3, :snow_duration4, :gravity, :type, :skylock"
 )
 
+//GetZoneByShortName will grab data from storage
+func (s *Storage) GetZoneByShortName(zone *model.Zone) (err error) {
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE short_name = ?", zoneFields, zoneTable)
+	err = s.db.Get(zone, query, zone.ShortName.String)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+	return
+}
+
 //GetZone will grab data from storage
 func (s *Storage) GetZone(zone *model.Zone) (err error) {
 	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE id = ?", zoneFields, zoneTable)

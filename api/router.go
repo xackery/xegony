@@ -40,6 +40,7 @@ func ApplyRoutes(router *mux.Router) {
 	routes = append(routes, ruleRoutes()...)
 	routes = append(routes, ruleEntryRoutes()...)
 	routes = append(routes, spawnRoutes()...)
+	routes = append(routes, spawnEntryRoutes()...)
 	routes = append(routes, spawnNpcRoutes()...)
 	routes = append(routes, spellRoutes()...)
 	routes = append(routes, spellAnimationRoutes()...)

@@ -14,6 +14,20 @@ var (
 	zoneLock      = sync.RWMutex{}
 )
 
+//GetZoneByShortName will grab data from storage
+func (s *Storage) GetZoneByShortName(zone *model.Zone) (err error) {
+	zoneLock.RLock()
+	defer zoneLock.RUnlock()
+	for _, tmpZone := range zonesDatabase {
+		if tmpZone.ShortName.String == zone.ShortName.String {
+			*zone = *tmpZone
+			return
+		}
+	}
+	err = &model.ErrNoContent{}
+	return
+}
+
 //GetZone will grab data from storage
 func (s *Storage) GetZone(zone *model.Zone) (err error) {
 	zoneLock.RLock()

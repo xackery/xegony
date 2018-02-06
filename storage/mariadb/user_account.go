@@ -217,7 +217,8 @@ func (s *Storage) createTableUserAccount() (err error) {
 			account_id int(11) unsigned NOT NULL DEFAULT '0',
 			character_id int(11) unsigned NOT NULL DEFAULT '0',
 			create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (id)
+			PRIMARY KEY (id),
+  			UNIQUE KEY account_id (account_id)
 		  ) ENGINE=INNODB DEFAULT CHARSET=latin1;`)
 	if err != nil {
 		return

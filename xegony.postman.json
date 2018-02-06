@@ -2356,6 +2356,231 @@
           }
         },
         {
+          "name": "Lists spawnEntrys",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search spawnEntrys by entryid",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                "search"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an spawnEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/:entryID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                ":entryID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "entryID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an spawnEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/:entryID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                ":entryID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "entryID"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an spawnEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/:entryID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                ":entryID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "entryID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an spawnEntry",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/spawn/:spawnID/entry/:entryID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "spawn",
+                ":spawnID",
+                "entry",
+                ":entryID"
+              ],
+              "variable": [
+                {
+                  "id": "spawnID"
+                },
+                {
+                  "id": "entryID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
           "name": "Lists spawnNpcs",
           "request": {
             "url": {

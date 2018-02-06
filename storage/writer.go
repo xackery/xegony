@@ -72,6 +72,11 @@ type Writer interface {
 	EditSpawnNpc(spawn *model.Spawn, spawnNpc *model.SpawnNpc) (err error)
 	DeleteSpawnNpc(spawn *model.Spawn, spawnNpc *model.SpawnNpc) (err error)
 
+	//SpawnEntry
+	CreateSpawnEntry(spawn *model.Spawn, spawnEntry *model.SpawnEntry) (err error)
+	EditSpawnEntry(spawn *model.Spawn, spawnEntry *model.SpawnEntry) (err error)
+	DeleteSpawnEntry(spawn *model.Spawn, spawnEntry *model.SpawnEntry) (err error)
+
 	//Spell
 	CreateSpell(spell *model.Spell) (err error)
 	EditSpell(spell *model.Spell) (err error)

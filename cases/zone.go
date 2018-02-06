@@ -262,6 +262,41 @@ func GetZone(zone *model.Zone, user *model.User) (err error) {
 	return
 }
 
+//GetZoneByShortName gets an zone by provided shortName
+func GetZoneByShortName(zone *model.Zone, user *model.User) (err error) {
+	err = prepareZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare zone")
+		return
+	}
+
+	err = validateZone(zone, []string{"shortName"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate zone")
+		return
+	}
+
+	reader, err := getReader("zone-memory")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone reader")
+		return
+	}
+
+	err = reader.GetZoneByShortName(zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get zone")
+		return
+	}
+
+	err = sanitizeZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize zone")
+		return
+	}
+
+	return
+}
+
 //EditZone edits an existing zone
 func EditZone(zone *model.Zone, user *model.User) (err error) {
 	err = user.IsGuide()
