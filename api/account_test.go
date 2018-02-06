@@ -2,14 +2,30 @@ package api
 
 import (
 	"testing"
-
-	"github.com/xackery/xegony/model"
 )
 
 func TestAccountEndpoints(t *testing.T) {
 	initializeServer(t)
 
-	doHTTPTest(t, Endpoint{
+	//test := baloo.New("http://localhost:8081")
+	/*test.Get("/api/account").
+	SetHeader("foo", "bar").
+	Expect(t).
+	Status(http.StatusOK).
+	Type("json").
+	JSON(&AccountsResponse{
+		Page: &model.Page{
+			Limit:   1,
+			OrderBy: "id",
+		},
+		Accounts: []*model.Account{
+			{
+				ID: 1,
+			},
+		},
+	}).Done()
+	*/
+	/*doHTTPTest(t, Endpoint{
 		path:         "/api/account",
 		method:       "GET",
 		responseCode: 200,
@@ -19,7 +35,7 @@ func TestAccountEndpoints(t *testing.T) {
 				OrderBy: "id",
 			},
 		},
-	})
+	})*/
 	/*doHTTPTest(t, Endpoint{ //invalidOrderBy
 		path:         "/api/account?orderBy=!",
 		method:       "GET",

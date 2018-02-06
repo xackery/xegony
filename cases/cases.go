@@ -51,6 +51,7 @@ func FlushStorage() (err error) {
 
 //InitializeAllMemoryStorage will load all memory based points
 func InitializeAllMemoryStorage() (err error) {
+
 	err = LoadClassFromFileToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load zone to memory")
@@ -151,6 +152,7 @@ func InitializeAllMemoryStorage() (err error) {
 
 // InitializeAllDatabaseStorage readers, writers, and initializers
 func InitializeAllDatabaseStorage(sr storage.Reader, sw storage.Writer, si storage.Initializer) (err error) {
+
 	scopes := []string{
 		"account",
 		"character",

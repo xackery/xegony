@@ -2,6 +2,7 @@
 /xa/css
 /xa/node_modules/
 /font/
+/api/config/
 /config/
 debug
 #Map related rendered documents

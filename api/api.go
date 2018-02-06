@@ -118,11 +118,7 @@ func indexRoutes() (routes []*route) {
 
 // Index handles the root endpoint of /api/
 func index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
-	type Content struct {
-		Message string `json:"message"`
-	}
-
-	content = Content{
+	content = &model.ErrGeneric{
 		Message: "Please refer to documentation for more details",
 	}
 

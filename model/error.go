@@ -26,6 +26,16 @@ func (e *ErrNoContent) Error() string {
 	return "No Content"
 }
 
+// ErrGeneric is a generic message response
+// swagger:model
+type ErrGeneric struct {
+	Message string `json:"message"`
+}
+
+func (e *ErrGeneric) Error() string {
+	return e.Message
+}
+
 // ErrInternal is an internal server error
 // swagger:model
 type ErrInternal struct {

@@ -14,11 +14,14 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"github.com/xackery/xegony/cases"
+	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage/mariadb"
+	"gopkg.in/h2non/baloo.v3"
 )
 
 var (
-	apiKey string
+	apiKey   string
+	isLoaded bool
 )
 
 type resp struct {
@@ -41,6 +44,10 @@ type Endpoint struct {
 }
 
 func initializeServer(t *testing.T) {
+	if isLoaded {
+		return
+	}
+	isLoaded = true
 	var err error
 	w := os.Stdout
 	db, err := mariadb.New("root@tcp(127.0.0.1:3306)/eqemu_test?charset=utf8&parseTime=true", w, w)
@@ -58,6 +65,10 @@ func initializeServer(t *testing.T) {
 	assert.Nil(t, err)
 
 	err = cases.FlushStorage()
+	assert.Nil(t, err)
+
+	//We start with the config, since other endpoints utilize this information.
+	err = cases.LoadConfigFromFileToMemory()
 	assert.Nil(t, err)
 
 	err = cases.InitializeAllDatabaseStorage(db, db, db)
@@ -198,13 +209,14 @@ func TestIndex(t *testing.T) {
 
 	initializeServer(t)
 
-	doHTTPTest(t, Endpoint{
-		name:         "GetIndex",
-		path:         "/api/",
-		method:       "GET",
-		body:         "",
-		responseCode: 200,
-		response:     `{"message":"Please refer to documentation for more details"}`,
-		useAuth:      false,
-	})
+	test := baloo.New("http://localhost:8081")
+	test.Get("/api/").
+		SetHeader("foo", "bar").
+		Expect(t).
+		Status(http.StatusOK).
+		Type("json").
+		JSON(&model.ErrGeneric{
+			Message: "Please refer to documentation for more details",
+		}).Done()
+
 }

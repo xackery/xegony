@@ -116,58 +116,34 @@ func (s *Storage) VerifyTables() (err error) {
 	}
 
 	tables := []TableCheck{
-		/*{
-			Func: s.createTableActivity,
-			Name: "Activity",
-		},*/
 		{
 			Func: s.createTableAccount,
 			Name: "Account",
 		},
-		/*{
-			Func: s.createTableBazaar,
-			Name: "Bazaar",
-		},*/
 		{
 			Func: s.createTableCharacter,
 			Name: "Character",
-		}, /*
-			{
-				Func: s.createTableError,
-				Name: "Error",
-			},
-			{
-				Func: s.createTableForum,
-				Name: "Forum",
-			},
-			{
-				Func: s.createTableNpcLoot,
-				Name: "NpcLoot",
-			},
-			{
-				Func: s.createTablePost,
-				Name: "Post",
-			},
-			{
-				Func: s.createTableTask,
-				Name: "Task",
-			},
-			{
-				Func: s.createTableTopic,
-				Name: "Topic",
-			},*/
+		},
+		{
+			Func: s.createTableRule,
+			Name: "Rule",
+		},
+		{
+			Func: s.createTableRuleEntry,
+			Name: "RuleEntry",
+		},
 		{
 			Func: s.createTableUser,
 			Name: "User",
 		},
 		{
+			Func: s.createTableVariable,
+			Name: "Variable",
+		},
+		{
 			Func: s.createTableZone,
 			Name: "Zone",
-		}, /*
-			{
-				Func: s.createTableZoneLevel,
-				Name: "ZoneLevel",
-			},*/
+		},
 	}
 
 	for _, table := range tables {
