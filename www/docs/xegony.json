@@ -2670,6 +2670,379 @@
         }
       }
     },
+    "/oauth/type": {
+      "get": {
+        "description": "This will show all available oauthTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "oauthType"
+        ],
+        "summary": "Lists oauthTypes",
+        "operationId": "listOauthType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/OauthTypesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an oauthType",
+        "tags": [
+          "oauthType"
+        ],
+        "summary": "Create an oauthType",
+        "operationId": "createOauthType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "OauthType",
+            "description": "OauthType details to create",
+            "name": "oauthType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OauthType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/OauthTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/oauth/type/search": {
+      "get": {
+        "description": "This will show all available oauthTypes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "oauthType"
+        ],
+        "summary": "Search oauthTypes by name",
+        "operationId": "listOauthTypeBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which oauthType to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/OauthTypesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/oauth/type/{ID}": {
+      "get": {
+        "description": "This will get an individual oauthType available oauthTypes by default.",
+        "tags": [
+          "oauthType"
+        ],
+        "summary": "Get an oauthType",
+        "operationId": "getOauthType",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/OauthTypeResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an oauthType",
+        "tags": [
+          "oauthType"
+        ],
+        "summary": "Edit an oauthType",
+        "operationId": "editOauthType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "OauthType",
+            "description": "OauthType details to edit",
+            "name": "oauthType",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OauthType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/OauthTypeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an oauthType",
+        "tags": [
+          "oauthType"
+        ],
+        "summary": "Delete an oauthType",
+        "operationId": "deleteOauthType",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/race": {
       "get": {
         "description": "This will show all available races by default.",
@@ -4278,7 +4651,7 @@
           },
           {
             "type": "string",
-            "example": "name",
+            "example": "npcid",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -4333,7 +4706,7 @@
         "tags": [
           "spawn"
         ],
-        "summary": "Search spawnNpcs by name",
+        "summary": "Search spawnNpcs by npcid",
         "operationId": "listSpawnNpcBySearch",
         "parameters": [
           {
@@ -4375,7 +4748,7 @@
           },
           {
             "type": "string",
-            "example": "name",
+            "example": "npcid",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -4507,7 +4880,7 @@
             "format": "int64",
             "example": 55091,
             "x-go-name": "NpcID",
-            "description": "name to get information about",
+            "description": "NpcID to get information about",
             "name": "npcID",
             "in": "path",
             "required": true
@@ -10097,6 +10470,17 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "ErrGeneric": {
+      "description": "ErrGeneric is a generic message response",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "ErrInternal": {
       "description": "ErrInternal is an internal server error",
       "type": "object",
@@ -12155,6 +12539,10 @@
           "type": "integer",
           "format": "int64"
         },
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
         "PeqID": {
           "type": "integer",
           "format": "int64"
@@ -12370,11 +12758,6 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "HpRegenRate"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
         },
         "ignoreDespawn": {
           "type": "integer",
@@ -12680,9 +13063,6 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Wisdom"
-        },
-        "zone": {
-          "$ref": "#/definitions/Zone"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -12761,6 +13141,33 @@
         }
       },
       "x-go-package": "github.com/go-sql-driver/mysql"
+    },
+    "OauthType": {
+      "description": "OauthType identifies the type of oauth",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "shortName": {
+          "type": "string",
+          "x-go-name": "ShortName"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "OauthTypes": {
+      "description": "OauthTypes is an array of OauthType",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/OauthType"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
     },
     "Page": {
       "description": "Page represents pagination",
@@ -15191,9 +15598,12 @@
           "type": "string",
           "x-go-name": "Email"
         },
-        "googleToken": {
-          "type": "string",
-          "x-go-name": "GoogleToken"
+        "oauths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserOauth"
+          },
+          "x-go-name": "Oauths"
         },
         "password": {
           "type": "string",
@@ -15215,6 +15625,39 @@
           "format": "int64",
           "x-go-name": "PrimaryCharacterID"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "UserOauth": {
+      "description": "UserOauth represents linked oauth entities",
+      "type": "object",
+      "properties": {
+        "oauthRefreshToken": {
+          "type": "string",
+          "x-go-name": "OauthRefreshToken"
+        },
+        "oauthToken": {
+          "type": "string",
+          "x-go-name": "OauthToken"
+        },
+        "oauthTypeID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "OauthTypeID"
+        },
+        "userID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UserID"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "UserOauths": {
+      "description": "UserOauths is an array of UserOauth",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UserOauth"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -15954,6 +16397,36 @@
       },
       "headers": {
         "npcs": {},
+        "page": {}
+      }
+    },
+    "OauthTypeResponse": {
+      "description": "OauthTypeResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/OauthType"
+      },
+      "headers": {
+        "oauthType": {}
+      }
+    },
+    "OauthTypesBySearchResponse": {
+      "description": "OauthTypesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/OauthTypes"
+      },
+      "headers": {
+        "oauthTypes": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "OauthTypesResponse": {
+      "description": "OauthTypesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/OauthTypes"
+      },
+      "headers": {
+        "oauthTypes": {},
         "page": {}
       }
     },

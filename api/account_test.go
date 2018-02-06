@@ -1,52 +1,47 @@
 package api
 
 import (
+	"net/http"
 	"testing"
+
+	"github.com/xackery/xegony/model"
+	"gopkg.in/h2non/baloo.v3"
 )
 
 func TestAccountEndpoints(t *testing.T) {
 	initializeServer(t)
 
-	//test := baloo.New("http://localhost:8081")
-	/*test.Get("/api/account").
-	SetHeader("foo", "bar").
-	Expect(t).
-	Status(http.StatusOK).
-	Type("json").
-	JSON(&AccountsResponse{
-		Page: &model.Page{
-			Limit:   1,
-			OrderBy: "id",
-		},
-		Accounts: []*model.Account{
-			{
-				ID: 1,
-			},
-		},
-	}).Done()
-	*/
-	/*doHTTPTest(t, Endpoint{
-		path:         "/api/account",
-		method:       "GET",
-		responseCode: 200,
-		response: &AccountsResponse{
+	test := baloo.New("http://localhost:8081")
+	test.Get("/api/account").
+		SetHeader("foo", "bar").
+		Expect(t).
+		Status(http.StatusOK).
+		Type("json").
+		JSON(&AccountsResponse{
 			Page: &model.Page{
 				Limit:   1,
 				OrderBy: "id",
+				Total:   1,
 			},
-		},
-	})*/
-	/*doHTTPTest(t, Endpoint{ //invalidOrderBy
-		path:         "/api/account?orderBy=!",
-		method:       "GET",
-		responseCode: 400,
-		response: &model.ErrValidation{
-			Message: "field is not valid",
-			Reasons: map[string]string{
-				"orderBy": "field is not valid",
+			Accounts: []*model.Account{
+				{
+					ID: 1,
+				},
 			},
+		}).Done()
+
+	/*test.Post("/api/account").
+	Expect(t).
+	JSON(`{"accountID":1}`).
+	Status(400).
+	Type("json").
+	JSON(&model.ErrValidation{
+		Message: "String length must be greater than or equal to 3",
+		Reasons: map[string]string{
+			"name": "String length must be greater than or equal to 3",
 		},
-	})*/
+	}).Done()
+	*/
 	/*doHTTPTest(t, Endpoint{
 		name:         "CreateAccountInvalidNameReq",
 		path:         "/api/account",

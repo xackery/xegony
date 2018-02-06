@@ -1,12 +1,23 @@
 language: go
-go: master
+go: 
+  - tip
+sudo: false
+before_install:
+  - go get -u -v github.com/mattn/goveralls
 install:
   - go get -t .
   - go get github.com/stretchr/testify
+  - go get github.com/grokify/swaggman
+  - go get github.com/grokify/swaggman/postman2
+  - go get golang.org/x/oauth2
+  - go get -u -v github.com/axw/gocov/gocov
+  - go get golang.org/x/oauth2/google
 services:
   - mysql
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS eqemu_test;'
 addons:
   mariadb: '10.2'
+script:  
+  - $GOPATH/bin/goveralls -service=travis-ci
 

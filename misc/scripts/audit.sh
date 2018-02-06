@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+start=`date +%s`
+
 golint api
 golint bot
 golint box 
@@ -30,3 +32,6 @@ go tool vet storage/file
 go tool vet storage/mariadb
 go tool vet storage/memory
 go tool vet web
+end=`date +%s`
+runtime=$((end-start))
+echo "Completed in ${runtime} seconds"
