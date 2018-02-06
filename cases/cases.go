@@ -164,6 +164,8 @@ func InitializeAllDatabaseStorage(sr storage.Reader, sw storage.Writer, si stora
 		"spawnNpc",
 		"spell",
 		"user",
+		"userAccount",
+		"userLink",
 		"variable",
 		"zone",
 	}

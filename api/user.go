@@ -32,7 +32,22 @@ type UserCreateRequest struct {
 	User *model.User `json:"user"`
 }
 
-// UserEditRequest is the body parameters for creating an user
+// UserLoginRequest is the body parameters for creating an user
+// swagger:parameters postUserLogin
+type UserLoginRequest struct {
+	// User details to create
+	// in: body
+	User *model.User `json:"user"`
+}
+
+// UserLoginResponse returns a token along with user details
+// swagger:response
+type UserLoginResponse struct {
+	User  *model.User `json:"user,omitempty"`
+	Token string      `json:"token"`
+}
+
+// UserEditRequest is the body parameters for editing an user
 // swagger:parameters editUser
 type UserEditRequest struct {
 	// ID to get information about
@@ -42,6 +57,22 @@ type UserEditRequest struct {
 	// User details to edit
 	// in: body
 	User *model.User `json:"user"`
+}
+
+// UserLinkRequest is the body parameters for linking an user
+// swagger:parameters getUserLink
+type UserLinkRequest struct {
+	// link to get information about
+	// in: path
+	// example: hashCode
+	Link string `json:"link"`
+}
+
+// UserLinkResponse is a general response to a request
+// swagger:response
+type UserLinkResponse struct {
+	Account   *model.Account   `json:"account,omitempty"`
+	Character *model.Character `json:"character,omitempty"`
 }
 
 // UsersRequest is a list of parameters used for user
@@ -164,7 +195,7 @@ func userRoutes() (routes []*route) {
 		//
 		// Create an user
 		//
-		// This will create an user
+		// This will create a user
 		//
 		//     Security:
 		//       apiKey:
@@ -239,6 +270,49 @@ func userRoutes() (routes []*route) {
 			"/user/{ID:[0-9]+}",
 			deleteUser,
 		},
+		// swagger:route GET /user/link/{link} user getUserLink
+		//
+		// Get a user link
+		//
+		// Used for linking a user to an account
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: UserResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"GetUserLink",
+			"GET",
+			"/user/link/{link:[a-zA-Z0-9]+}",
+			getUserLink,
+		},
+		// swagger:route POST /user/login user postUserLogin
+		//
+		// Logs in a user
+		//
+		// Logs in a user with provided data
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: UsersResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"PostUserLogin",
+			"POST",
+			"/user/login",
+			postUserLogin,
+		},
 	}
 	return
 }
@@ -269,7 +343,7 @@ func getUser(w http.ResponseWriter, r *http.Request, user *model.User, statusCod
 
 func createUser(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
 	focusUser := &model.User{}
-	err = decodeBody(r, user)
+	err = decodeBody(r, focusUser)
 	if err != nil {
 		return
 	}
@@ -375,6 +449,54 @@ func listUserBySearch(w http.ResponseWriter, r *http.Request, user *model.User, 
 		Page:   page,
 		Users:  users,
 		Search: focusUser,
+	}
+	content = response
+	return
+}
+
+func getUserLink(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &UserLinkRequest{
+		Link: getVar(r, "link"),
+	}
+
+	userLink := &model.UserLink{
+		Link: request.Link,
+	}
+
+	err = cases.GetUserLink(userLink, user)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return
+		}
+		err = errors.Wrap(err, "Request error")
+		return
+	}
+
+	response := &UserLinkResponse{
+		Character: userLink.Character,
+		Account:   userLink.Account,
+	}
+	content = response
+	return
+}
+
+func postUserLogin(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	focusUser := &model.User{}
+	err = decodeBody(r, focusUser)
+	if err != nil {
+		return
+	}
+	err = cases.LoginUser(focusUser)
+	if err != nil {
+		return
+	}
+	token, err := generateToken(focusUser)
+	if err != nil {
+		return
+	}
+	response := &UserLoginResponse{
+		User:  focusUser,
+		Token: token,
 	}
 	content = response
 	return

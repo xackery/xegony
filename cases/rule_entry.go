@@ -238,7 +238,7 @@ func GetRuleEntryValueFloat(ruleID int64, name string) (value float64) {
 	}
 	value, err := strconv.ParseFloat(valStr, 64)
 	if err != nil {
-		fmt.Println("Failed to get float64 of rule:", ruleID, name, err.Error())
+		fmt.Println("(warning) Failed to get float64 of rule:", ruleID, name, err.Error())
 		return
 	}
 	return
@@ -256,7 +256,7 @@ func GetRuleEntryValue(ruleID int64, name string) (value string) {
 	user := &model.User{}
 	err := GetRuleEntry(rule, ruleEntry, user)
 	if err != nil {
-		fmt.Println("Failed to get rule", ruleID, name, err.Error())
+		fmt.Println("(warning) Failed to get rule", ruleID, name, err.Error())
 		return
 	}
 	value = ruleEntry.Value

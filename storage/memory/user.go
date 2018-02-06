@@ -6,6 +6,12 @@ import (
 	"github.com/xackery/xegony/model"
 )
 
+//LoginUser will grab data from storage
+func (s *Storage) LoginUser(user *model.User) (err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
 //GetUser will grab data from storage
 func (s *Storage) GetUser(user *model.User) (err error) {
 	err = fmt.Errorf("Not implemented")

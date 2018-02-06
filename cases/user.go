@@ -8,6 +8,26 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
+//LoginUser will attempt to log in a user
+func LoginUser(user *model.User) (err error) {
+	validateUser(user, []string{"email", "password"}, nil)
+	reader, err := getReader("user")
+	if err != nil {
+		return
+	}
+	err = reader.LoginUser(user)
+	if err != nil {
+		return
+	}
+
+	err = sanitizeUser(user, user)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
 //ListUser lists all users accessible by provided user
 func ListUser(page *model.Page, user *model.User) (users []*model.User, err error) {
 	err = validateOrderByUserField(page)
@@ -121,23 +141,22 @@ func ListUserBySearch(page *model.Page, focusUser *model.User, user *model.User)
 
 //CreateUser will create an user using provided information
 func CreateUser(focusUser *model.User, user *model.User) (err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = errors.Wrap(err, "can't list user by search without guide+")
-		return
-	}
+
 	err = prepareUser(focusUser, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare user")
 		return
 	}
 
-	err = validateUser(focusUser, []string{"name"}, nil)
+	err = validateUser(focusUser, []string{"displayName", "email", "password"}, nil)
 	if err != nil {
 		err = errors.Wrap(err, "failed to validate user")
 		return
 	}
 	focusUser.ID = 0
+	//We squash account/character since they haven't been linked yet.
+	focusUser.PrimaryAccountID = 0
+	focusUser.PrimaryCharacterID = 0
 	writer, err := getWriter("user")
 	if err != nil {
 		err = errors.Wrap(err, "failed to get writer for user")
@@ -193,11 +212,11 @@ func GetUser(focusUser *model.User, user *model.User) (err error) {
 
 //EditUser edits an existing user
 func EditUser(focusUser *model.User, user *model.User) (err error) {
-	err = user.IsGuide()
+	err = user.IsLoggedIn()
 	if err != nil {
-		err = errors.Wrap(err, "can't list user by search without guide+")
 		return
 	}
+
 	err = prepareUser(focusUser, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to prepare user")
@@ -208,22 +227,8 @@ func EditUser(focusUser *model.User, user *model.User) (err error) {
 		[]string{"ID"}, //required
 		[]string{ //optional
 			"name",
-			"charname",
-			"sharedplat",
-			"password",
-			"status",
-			"lsuserID",
-			"gmspeed",
-			"revoked",
-			"karma",
-			"miniloginIp",
-			"hideme",
-			"rulesflag",
-			"suspendeduntil",
-			"timeCreation",
-			"expansion",
-			"banReason",
-			"suspendReason"},
+			"primaryCharacterID",
+			"primaryAccountID"},
 	)
 	if err != nil {
 		err = errors.Wrap(err, "failed to validate user")
@@ -348,11 +353,27 @@ func validateOrderByUserField(page *model.Page) (err error) {
 
 func sanitizeUser(focusUser *model.User, user *model.User) (err error) {
 	focusUser.Password = ""
-	err = user.IsGuide()
-	if err != nil {
+	user.Password = ""
+	if user.PrimaryAccountID > 0 {
+		account := &model.Account{
+			ID: user.PrimaryAccountID,
+		}
+		err = GetAccount(account, user)
+		if err != nil {
+			err = fmt.Errorf("Failed to get account")
+			return
+		}
 
-		err = nil
+		character := &model.Character{
+			ID: user.PrimaryCharacterID,
+		}
+		err = GetCharacter(character, user)
+		if err != nil {
+			err = fmt.Errorf("Failed to get character")
+			return
+		}
 	}
+
 	return
 }
 
@@ -401,16 +422,13 @@ func getSchemaPropertyUser(field string) (prop model.Schema, err error) {
 		prop.Type = "integer"
 		prop.Minimum = 1
 	case "email": //string `json:"
-		prop.Type = "string"
+		prop.Type = "email"
 		prop.MinLength = 3
 		prop.MaxLength = 64
-		prop.Pattern = "^[a-zA-Z]*$"
 	case "password": //string `json:"
 		prop.Type = "string"
-		prop.MinLength = 3
+		prop.MinLength = 6
 		prop.MaxLength = 30
-	case "googleToken": //int64 `json:"
-
 	default:
 		err = fmt.Errorf("Invalid field passed: %s", field)
 	}

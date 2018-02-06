@@ -4110,6 +4110,72 @@
           }
         },
         {
+          "name": "Get a user link",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/link/:link",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "link",
+                ":link"
+              ],
+              "variable": [
+                {
+                  "id": "link"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Logs in a user",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/login",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                "login"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
           "name": "Search users by name",
           "request": {
             "url": {
@@ -4223,6 +4289,231 @@
               "variable": [
                 {
                   "id": "ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Lists userAccounts",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:userID/account",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":userID",
+                "account"
+              ],
+              "variable": [
+                {
+                  "id": "userID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Search userAccounts by accountid",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:userID/account/search",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":userID",
+                "account",
+                "search"
+              ],
+              "variable": [
+                {
+                  "id": "userID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Get an userAccount",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:userID/account/:accountID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":userID",
+                "account",
+                ":accountID"
+              ],
+              "variable": [
+                {
+                  "id": "userID"
+                },
+                {
+                  "id": "accountID"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Create an userAccount",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:userID/account/:accountID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":userID",
+                "account",
+                ":accountID"
+              ],
+              "variable": [
+                {
+                  "id": "userID"
+                },
+                {
+                  "id": "accountID"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Edit an userAccount",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:userID/account/:accountID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":userID",
+                "account",
+                ":accountID"
+              ],
+              "variable": [
+                {
+                  "id": "userID"
+                },
+                {
+                  "id": "accountID"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "name": "Delete an userAccount",
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/api/user/:userID/account/:accountID",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "api",
+                "user",
+                ":userID",
+                "account",
+                ":accountID"
+              ],
+              "variable": [
+                {
+                  "id": "userID"
+                },
+                {
+                  "id": "accountID"
                 }
               ]
             },

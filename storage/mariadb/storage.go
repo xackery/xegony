@@ -137,6 +137,14 @@ func (s *Storage) VerifyTables() (err error) {
 			Name: "User",
 		},
 		{
+			Func: s.createTableUserAccount,
+			Name: "UserAccount",
+		},
+		{
+			Func: s.createTableUserLink,
+			Name: "UserLink",
+		},
+		{
 			Func: s.createTableVariable,
 			Name: "Variable",
 		},

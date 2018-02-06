@@ -5,13 +5,34 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
 	userTable  = "user"
-	userFields = "display_name, primary_account_id, primary_character_id, email, password, google_token, google_refresh_token"
-	userBinds  = ":display_name, :primary_account_id, :primary_character_id, :email, :password, :google_token, :google_refresh_token"
+	userFields = "display_name, primary_account_id, primary_character_id, email, password"
+	userBinds  = ":display_name, :primary_account_id, :primary_character_id, :email, :password"
 )
+
+//LoginUser will log in a new user by comparing passwords
+func (s *Storage) LoginUser(user *model.User) (err error) {
+	prevUser := &model.User{}
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE email = ?", userFields, userTable)
+	err = s.db.Get(prevUser, query, user.Email)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+	if err = bcrypt.CompareHashAndPassword([]byte(prevUser.Password), []byte(user.Password)); err != nil {
+		nErr := fmt.Errorf("Invalid password")
+		err = errors.Wrap(nErr, err.Error())
+		return
+	}
+	user.Email = prevUser.Email
+	user.DisplayName = prevUser.DisplayName
+	user.ID = prevUser.ID
+	return
+}
 
 //GetUser will grab data from storage
 func (s *Storage) GetUser(user *model.User) (err error) {
@@ -26,6 +47,11 @@ func (s *Storage) GetUser(user *model.User) (err error) {
 
 //CreateUser will grab data from storage
 func (s *Storage) CreateUser(user *model.User) (err error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return
+	}
+	user.Password = string(hash)
 	query := fmt.Sprintf("INSERT INTO %s(%s) VALUES (%s)", userTable, userFields, userBinds)
 	result, err := s.db.NamedExec(query, user)
 	if err != nil {
@@ -239,8 +265,6 @@ CREATE TABLE user (
   primary_character_id int(11) unsigned NOT NULL DEFAULT '0',
   email varchar(128) NOT NULL DEFAULT '',
   password varchar(128) NOT NULL DEFAULT '',
-  google_token varchar(128) NOT NULL DEFAULT '',
-  google_refresh_token varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (id),
   UNIQUE KEY email (email)
 ) ENGINE=INNODB DEFAULT CHARSET=latin1;`)

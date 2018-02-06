@@ -117,6 +117,17 @@ type Writer interface {
 	EditUser(user *model.User) (err error)
 	DeleteUser(user *model.User) (err error)
 
+	//UserAccount
+	CreateUserAccount(user *model.User, userAccount *model.UserAccount) (err error)
+	EditUserAccount(user *model.User, userAccount *model.UserAccount) (err error)
+	DeleteUserAccount(user *model.User, userAccount *model.UserAccount) (err error)
+
+	//UserLink
+	CreateUserLink(userLink *model.UserLink) (err error)
+	EditUserLink(userLink *model.UserLink) (err error)
+	DeleteUserLink(userLink *model.UserLink) (err error)
+	DeleteUserLinkByAccount(account *model.Account) (err error)
+
 	//Variable
 	CreateVariable(variable *model.Variable) (err error)
 	EditVariable(variable *model.Variable) (err error)

@@ -84,22 +84,13 @@
             "$ref": "#/responses/AccountsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -131,28 +122,16 @@
             "$ref": "#/responses/AccountResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -223,22 +202,13 @@
             "$ref": "#/responses/AccountsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -267,22 +237,13 @@
             "$ref": "#/responses/AccountResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -323,28 +284,16 @@
             "$ref": "#/responses/AccountResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -373,28 +322,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -457,22 +394,13 @@
             "$ref": "#/responses/CharactersResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -504,28 +432,16 @@
             "$ref": "#/responses/CharacterResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -596,22 +512,13 @@
             "$ref": "#/responses/CharactersBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -640,22 +547,13 @@
             "$ref": "#/responses/CharacterResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -696,28 +594,16 @@
             "$ref": "#/responses/CharacterResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -746,28 +632,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -785,22 +659,13 @@
             "$ref": "#/responses/CharacterInventoryResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -863,22 +728,13 @@
             "$ref": "#/responses/ClasssResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -910,28 +766,16 @@
             "$ref": "#/responses/ClassResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1002,22 +846,13 @@
             "$ref": "#/responses/ClasssBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1046,22 +881,13 @@
             "$ref": "#/responses/ClassResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1102,28 +928,16 @@
             "$ref": "#/responses/ClassResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1152,28 +966,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1236,22 +1038,13 @@
             "$ref": "#/responses/ConfigsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1283,28 +1076,16 @@
             "$ref": "#/responses/ConfigResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1375,22 +1156,13 @@
             "$ref": "#/responses/ConfigsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1419,22 +1191,13 @@
             "$ref": "#/responses/ConfigResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1475,28 +1238,16 @@
             "$ref": "#/responses/ConfigResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1525,28 +1276,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1609,22 +1348,13 @@
             "$ref": "#/responses/DeitysResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1656,28 +1386,16 @@
             "$ref": "#/responses/DeityResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1748,22 +1466,13 @@
             "$ref": "#/responses/DeitysBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1792,22 +1501,13 @@
             "$ref": "#/responses/DeityResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1848,28 +1548,16 @@
             "$ref": "#/responses/DeityResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -1898,28 +1586,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -1982,22 +1658,13 @@
             "$ref": "#/responses/ItemsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2029,28 +1696,16 @@
             "$ref": "#/responses/ItemResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2121,22 +1776,13 @@
             "$ref": "#/responses/ItemsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2165,22 +1811,13 @@
             "$ref": "#/responses/ItemResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2221,28 +1858,16 @@
             "$ref": "#/responses/ItemResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2271,28 +1896,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2355,22 +1968,13 @@
             "$ref": "#/responses/NpcsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2402,28 +2006,16 @@
             "$ref": "#/responses/NpcResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2494,22 +2086,13 @@
             "$ref": "#/responses/NpcsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2538,22 +2121,13 @@
             "$ref": "#/responses/NpcResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2594,28 +2168,16 @@
             "$ref": "#/responses/NpcResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2644,28 +2206,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2728,22 +2278,13 @@
             "$ref": "#/responses/OauthTypesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2775,28 +2316,16 @@
             "$ref": "#/responses/OauthTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2867,22 +2396,13 @@
             "$ref": "#/responses/OauthTypesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -2911,22 +2431,13 @@
             "$ref": "#/responses/OauthTypeResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -2967,28 +2478,16 @@
             "$ref": "#/responses/OauthTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -3017,28 +2516,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3101,22 +2588,13 @@
             "$ref": "#/responses/RacesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -3148,28 +2626,16 @@
             "$ref": "#/responses/RaceResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3240,22 +2706,13 @@
             "$ref": "#/responses/RacesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3284,22 +2741,13 @@
             "$ref": "#/responses/RaceResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -3340,28 +2788,16 @@
             "$ref": "#/responses/RaceResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -3390,28 +2826,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3474,22 +2898,13 @@
             "$ref": "#/responses/RulesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -3521,28 +2936,16 @@
             "$ref": "#/responses/RuleResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3613,22 +3016,13 @@
             "$ref": "#/responses/RulesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3657,22 +3051,13 @@
             "$ref": "#/responses/RuleResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -3713,28 +3098,16 @@
             "$ref": "#/responses/RuleResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -3763,28 +3136,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3857,22 +3218,13 @@
             "$ref": "#/responses/RuleEntrysResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -3953,22 +3305,13 @@
             "$ref": "#/responses/RuleEntrysBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -4007,22 +3350,13 @@
             "$ref": "#/responses/RuleEntryResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4082,28 +3416,16 @@
             "$ref": "#/responses/RuleEntryResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4145,28 +3467,16 @@
             "$ref": "#/responses/RuleEntryResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4205,28 +3515,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -4289,22 +3587,13 @@
             "$ref": "#/responses/SpawnsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4336,28 +3625,16 @@
             "$ref": "#/responses/SpawnResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -4428,22 +3705,13 @@
             "$ref": "#/responses/SpawnsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -4472,22 +3740,13 @@
             "$ref": "#/responses/SpawnResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4528,28 +3787,16 @@
             "$ref": "#/responses/SpawnResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4578,28 +3825,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -4672,22 +3907,13 @@
             "$ref": "#/responses/SpawnNpcsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -4769,22 +3995,13 @@
             "$ref": "#/responses/SpawnNpcsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -4824,22 +4041,13 @@
             "$ref": "#/responses/SpawnNpcResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4900,28 +4108,16 @@
             "$ref": "#/responses/SpawnNpcResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -4963,28 +4159,16 @@
             "$ref": "#/responses/SpawnNpcResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5024,28 +4208,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5108,22 +4280,13 @@
             "$ref": "#/responses/SpellsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5155,28 +4318,16 @@
             "$ref": "#/responses/SpellResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5239,22 +4390,13 @@
             "$ref": "#/responses/SpellAnimationsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5286,28 +4428,16 @@
             "$ref": "#/responses/SpellAnimationResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5378,22 +4508,13 @@
             "$ref": "#/responses/SpellAnimationsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5456,22 +4577,13 @@
             "$ref": "#/responses/SpellAnimationTypesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5503,28 +4615,16 @@
             "$ref": "#/responses/SpellAnimationTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5595,22 +4695,13 @@
             "$ref": "#/responses/SpellAnimationTypesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5639,22 +4730,13 @@
             "$ref": "#/responses/SpellAnimationTypeResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5695,28 +4777,16 @@
             "$ref": "#/responses/SpellAnimationTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5745,28 +4815,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5795,22 +4853,13 @@
             "$ref": "#/responses/SpellAnimationResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5851,28 +4900,16 @@
             "$ref": "#/responses/SpellAnimationResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -5901,28 +4938,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -5985,22 +5010,13 @@
             "$ref": "#/responses/SpellEffectFormulasResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -6032,28 +5048,16 @@
             "$ref": "#/responses/SpellEffectFormulaResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6124,22 +5128,13 @@
             "$ref": "#/responses/SpellEffectFormulasBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6168,22 +5163,13 @@
             "$ref": "#/responses/SpellEffectFormulaResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -6224,28 +5210,16 @@
             "$ref": "#/responses/SpellEffectFormulaResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -6274,28 +5248,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6358,22 +5320,13 @@
             "$ref": "#/responses/SpellEffectTypesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -6405,28 +5358,16 @@
             "$ref": "#/responses/SpellEffectTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6497,22 +5438,13 @@
             "$ref": "#/responses/SpellEffectTypesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6541,22 +5473,13 @@
             "$ref": "#/responses/SpellEffectTypeResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -6597,28 +5520,16 @@
             "$ref": "#/responses/SpellEffectTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -6647,28 +5558,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6739,22 +5638,13 @@
             "$ref": "#/responses/SpellsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6817,22 +5707,13 @@
             "$ref": "#/responses/SpellTargetTypesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -6864,28 +5745,16 @@
             "$ref": "#/responses/SpellTargetTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -6956,22 +5825,13 @@
             "$ref": "#/responses/SpellTargetTypesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7000,22 +5860,13 @@
             "$ref": "#/responses/SpellTargetTypeResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -7056,28 +5907,16 @@
             "$ref": "#/responses/SpellTargetTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -7106,28 +5945,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7190,22 +6017,13 @@
             "$ref": "#/responses/SpellTravelTypesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -7237,28 +6055,16 @@
             "$ref": "#/responses/SpellTravelTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7329,22 +6135,13 @@
             "$ref": "#/responses/SpellTravelTypesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7373,22 +6170,13 @@
             "$ref": "#/responses/SpellTravelTypeResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -7429,28 +6217,16 @@
             "$ref": "#/responses/SpellTravelTypeResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -7479,28 +6255,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7529,22 +6293,13 @@
             "$ref": "#/responses/SpellResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -7585,28 +6340,16 @@
             "$ref": "#/responses/SpellResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -7635,28 +6378,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7719,27 +6450,18 @@
             "$ref": "#/responses/UsersResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
       "post": {
-        "description": "This will create an user",
+        "description": "This will create a user",
         "tags": [
           "user"
         ],
@@ -7766,28 +6488,16 @@
             "$ref": "#/responses/UserResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7810,28 +6520,16 @@
         "operationId": "getUserGoogleCallback",
         "responses": {
           "302": {
-            "description": "ErrRedirect",
-            "schema": {
-              "$ref": "#/definitions/ErrRedirect"
-            }
+            "$ref": "#/responses/ErrRedirect"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7864,28 +6562,94 @@
         ],
         "responses": {
           "302": {
-            "description": "ErrRedirect",
-            "schema": {
-              "$ref": "#/definitions/ErrRedirect"
-            }
+            "$ref": "#/responses/ErrRedirect"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      }
+    },
+    "/user/link/{link}": {
+      "get": {
+        "description": "Used for linking a user to an account",
+        "tags": [
+          "user"
+        ],
+        "summary": "Get a user link",
+        "operationId": "getUserLink",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "hashCode",
+            "x-go-name": "Link",
+            "description": "link to get information about",
+            "name": "link",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "description": "Logs in a user with provided data",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs in a user",
+        "operationId": "postUserLogin",
+        "parameters": [
+          {
+            "x-go-name": "User",
+            "description": "User details to create",
+            "name": "user",
+            "in": "body",
             "schema": {
-              "$ref": "#/definitions/ErrInternal"
+              "$ref": "#/definitions/User"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UsersResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -7956,22 +6720,13 @@
             "$ref": "#/responses/UsersBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8000,22 +6755,13 @@
             "$ref": "#/responses/UserResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8056,28 +6802,16 @@
             "$ref": "#/responses/UserResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8106,28 +6840,399 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      }
+    },
+    "/user/{userID}/account": {
+      "get": {
+        "description": "This will show all available userAccounts by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Lists userAccounts",
+        "operationId": "listUserAccount",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "UserID",
+            "description": "UserID to get information about",
+            "name": "userID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "accountid",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserAccountsResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      }
+    },
+    "/user/{userID}/account/search": {
+      "get": {
+        "description": "This will show all available userAccounts by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Search userAccounts by accountid",
+        "operationId": "listUserAccountBySearch",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "UserID",
+            "description": "UserID to get information about",
+            "name": "userID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "AccountID",
+            "description": "AccountID is which userAccount to get information about",
+            "name": "accountID",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "accountid",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserAccountsBySearchResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      }
+    },
+    "/user/{userID}/account/{accountID}": {
+      "get": {
+        "description": "This will get an individual userAccount available userAccounts by default.",
+        "tags": [
+          "user"
+        ],
+        "summary": "Get an userAccount",
+        "operationId": "getUserAccount",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "UserID",
+            "description": "UserID to get information about",
+            "name": "userID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "AccountID",
+            "description": "AccountID to get information about",
+            "name": "accountID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserAccountResponse"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an userAccount",
+        "tags": [
+          "user"
+        ],
+        "summary": "Edit an userAccount",
+        "operationId": "editUserAccount",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "UserID",
+            "description": "UserID to get information about",
+            "name": "userID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "UserID to get information about",
+            "name": "UserID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "AccountID",
+            "description": "AccountID to get information about",
+            "name": "accountID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "UserAccount",
+            "description": "UserAccount details to edit",
+            "name": "userAccount",
+            "in": "body",
             "schema": {
-              "$ref": "#/definitions/ErrInternal"
+              "$ref": "#/definitions/UserAccount"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserAccountResponse"
+          },
+          "204": {
+            "$ref": "#/responses/ErrNoContent"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an userAccount",
+        "tags": [
+          "user"
+        ],
+        "summary": "Create an userAccount",
+        "operationId": "createUserAccount",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "UserID",
+            "description": "UserID to get information about",
+            "name": "userID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "UserAccount",
+            "description": "UserAccount details to create",
+            "name": "userAccount",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UserAccount"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/UserAccountResponse"
+          },
+          "204": {
+            "$ref": "#/responses/ErrNoContent"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an userAccount",
+        "tags": [
+          "user"
+        ],
+        "summary": "Delete an userAccount",
+        "operationId": "deleteUserAccount",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "UserID",
+            "description": "UserID to get information about",
+            "name": "userID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "AccountID",
+            "description": "AccountID to get information about",
+            "name": "accountID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/ErrNoContent"
+          },
+          "400": {
+            "$ref": "#/responses/ErrValidation"
+          },
+          "401": {
+            "$ref": "#/responses/ErrPermission"
+          },
+          "default": {
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8190,22 +7295,13 @@
             "$ref": "#/responses/VariablesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8237,28 +7333,16 @@
             "$ref": "#/responses/VariableResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8329,22 +7413,13 @@
             "$ref": "#/responses/VariablesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8373,22 +7448,13 @@
             "$ref": "#/responses/VariableResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8429,28 +7495,16 @@
             "$ref": "#/responses/VariableResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8479,28 +7533,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8563,22 +7605,13 @@
             "$ref": "#/responses/ZonesResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8610,28 +7643,16 @@
             "$ref": "#/responses/ZoneResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8694,22 +7715,13 @@
             "$ref": "#/responses/ZoneExpansionsResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8741,28 +7753,16 @@
             "$ref": "#/responses/ZoneExpansionResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8833,22 +7833,13 @@
             "$ref": "#/responses/ZoneExpansionsBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -8877,22 +7868,13 @@
             "$ref": "#/responses/ZoneExpansionResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8933,28 +7915,16 @@
             "$ref": "#/responses/ZoneExpansionResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -8983,28 +7953,16 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -9075,22 +8033,13 @@
             "$ref": "#/responses/ZonesBySearchResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
@@ -9119,22 +8068,13 @@
             "$ref": "#/responses/ZoneResponse"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -9175,28 +8115,16 @@
             "$ref": "#/responses/ZoneResponse"
           },
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       },
@@ -9225,177 +8153,22 @@
         ],
         "responses": {
           "204": {
-            "description": "ErrNoContent",
-            "schema": {
-              "$ref": "#/definitions/ErrNoContent"
-            }
+            "$ref": "#/responses/ErrNoContent"
           },
           "400": {
-            "description": "ErrValidation",
-            "schema": {
-              "$ref": "#/definitions/ErrValidation"
-            }
+            "$ref": "#/responses/ErrValidation"
           },
           "401": {
-            "description": "ErrPermission",
-            "schema": {
-              "$ref": "#/definitions/ErrPermission"
-            }
+            "$ref": "#/responses/ErrPermission"
           },
           "default": {
-            "description": "ErrInternal",
-            "schema": {
-              "$ref": "#/definitions/ErrInternal"
-            }
+            "$ref": "#/responses/ErrInternal"
           }
         }
       }
     }
   },
   "definitions": {
-    "Aa": {
-      "description": "Aa represents the root objects of Alternate Abilities",
-      "type": "object",
-      "properties": {
-        "ID": {
-          "description": "aa_ability",
-          "type": "integer",
-          "format": "int64"
-        },
-        "category": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Category"
-        },
-        "charges": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Charges"
-        },
-        "classes": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Classes"
-        },
-        "deities": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Deities"
-        },
-        "drakkinHeritage": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "DrakkinHeritage"
-        },
-        "enabled": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Enabled"
-        },
-        "firstRankID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "FirstRankID"
-        },
-        "grantOnly": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "GrantOnly"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        },
-        "races": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Races"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Status"
-        },
-        "type": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Type"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "AaRank": {
-      "description": "AaRank represents the root objects of Alternate Abilities",
-      "type": "object",
-      "properties": {
-        "ID": {
-          "description": "aa_ranks",
-          "type": "integer",
-          "format": "int64"
-        },
-        "cost": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Cost"
-        },
-        "descSid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "DescSid"
-        },
-        "expansion": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Expansion"
-        },
-        "levelReq": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "LevelReq"
-        },
-        "lowerHotkeySid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "LowerHotkeySid"
-        },
-        "nextID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "NextID"
-        },
-        "prevID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "PrevID"
-        },
-        "recastTime": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "RecastTime"
-        },
-        "spell": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Spell"
-        },
-        "spellType": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "SpellType"
-        },
-        "titleSid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "TitleSid"
-        },
-        "upperHotkeySid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "UpperHotkeySid"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "Account": {
       "description": "Account ties characters together, and represents login information to everquest",
       "type": "object",
@@ -9506,230 +8279,6 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/Account"
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Activities": {
-      "description": "Activities is an array of activity",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Activity"
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Activity": {
-      "description": "Activity represents entries to Tasks",
-      "type": "object",
-      "properties": {
-        "activityID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ActivityID"
-        },
-        "activityType": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ActivityType"
-        },
-        "delivertonpc": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Delivertonpc"
-        },
-        "goalcount": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Goalcount"
-        },
-        "goalid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Goalid"
-        },
-        "goalmethod": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Goalmethod"
-        },
-        "optional": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Optional"
-        },
-        "step": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Step"
-        },
-        "taskID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "TaskID"
-        },
-        "text1": {
-          "type": "string",
-          "x-go-name": "Text1"
-        },
-        "text2": {
-          "type": "string",
-          "x-go-name": "Text2"
-        },
-        "text3": {
-          "type": "string",
-          "x-go-name": "Text3"
-        },
-        "zone": {
-          "$ref": "#/definitions/Zone"
-        },
-        "zoneid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ZoneID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "AuthClaim": {
-      "description": "AuthClaim wraps all token data",
-      "type": "object",
-      "properties": {
-        "aud": {
-          "type": "string",
-          "x-go-name": "Audience"
-        },
-        "exp": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ExpiresAt"
-        },
-        "iat": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "IssuedAt"
-        },
-        "isAdmin": {
-          "type": "boolean",
-          "x-go-name": "IsAdmin"
-        },
-        "isModerator": {
-          "type": "boolean",
-          "x-go-name": "IsModerator"
-        },
-        "iss": {
-          "type": "string",
-          "x-go-name": "Issuer"
-        },
-        "jti": {
-          "type": "string",
-          "x-go-name": "Id"
-        },
-        "nbf": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "NotBefore"
-        },
-        "ownedLobbies": {
-          "x-go-name": "OwnedLobbies"
-        },
-        "sub": {
-          "type": "string",
-          "x-go-name": "Subject"
-        },
-        "user": {
-          "$ref": "#/definitions/User"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Base": {
-      "description": "Base is an everquest base data table representation",
-      "type": "object",
-      "properties": {
-        "class": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Class"
-        },
-        "end": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "End"
-        },
-        "endFac": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "EndFac"
-        },
-        "hp": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Hp"
-        },
-        "hpFac": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "HpFac"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Level"
-        },
-        "mana": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Mana"
-        },
-        "manaFac": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "ManaFac"
-        },
-        "unk1": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Unk1"
-        },
-        "unk2": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Unk2"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Bazaar": {
-      "description": "Bazaar is an item store on the website",
-      "type": "object",
-      "properties": {
-        "Item": {
-          "$ref": "#/definitions/Item"
-        },
-        "accountID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "AccountID"
-        },
-        "createDate": {
-          "type": "string",
-          "format": "date-time",
-          "x-go-name": "CreateDate"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "itemID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "price": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Price"
-        }
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -10248,38 +8797,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "CharacterGraph": {
-      "description": "CharacterGraph holds data about players performance, it primarily uses character_graph table",
-      "type": "object",
-      "properties": {
-        "aaExperience": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "AAExperience"
-        },
-        "characterId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "CharacterID"
-        },
-        "createDate": {
-          "type": "string",
-          "format": "date-time",
-          "x-go-name": "CreateDate"
-        },
-        "experience": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Experience"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "Characters": {
       "description": "Characters is an array of character",
       "type": "array",
@@ -10455,330 +8972,6 @@
         "name": {
           "type": "string",
           "x-go-name": "Name"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrDecodeBody": {
-      "description": "ErrDecodeBody is a failure to decode a request body",
-      "type": "object",
-      "properties": {
-        "Message": {
-          "type": "string",
-          "example": "failed to decode body"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrGeneric": {
-      "description": "ErrGeneric is a generic message response",
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string",
-          "x-go-name": "Message"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrInternal": {
-      "description": "ErrInternal is an internal server error",
-      "type": "object",
-      "properties": {
-        "Message": {
-          "type": "string",
-          "example": "internal server error"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrInvalidArguments": {
-      "description": "ErrInvalidArguments means arguments being passed in a request were invalid",
-      "type": "object",
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrNoContent": {
-      "description": "No content, or nothing changed.",
-      "type": "object",
-      "title": "ErrNoContent is an is used when no content should be displayed",
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrPermission": {
-      "description": "ErrPermission is a permission denied generic error",
-      "type": "object",
-      "properties": {
-        "Message": {
-          "type": "string",
-          "example": "permission denied"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrRedirect": {
-      "description": "ErrRedirect means arguments being passed in a request were invalid",
-      "type": "object",
-      "properties": {
-        "Message": {
-          "type": "string",
-          "example": "http//google.signon.com"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ErrValidation": {
-      "description": "ErrValidation has many errors represented as Key/Value pairs of Field:Description inside REasons",
-      "type": "object",
-      "properties": {
-        "Message": {
-          "type": "string",
-          "example": "failed to validate"
-        },
-        "Reasons": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "example": "test"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Error": {
-      "description": "Error is used for Xegony Error handling",
-      "type": "object",
-      "properties": {
-        "createDate": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "CreateDate"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "message": {
-          "type": "string",
-          "x-go-name": "Message"
-        },
-        "scope": {
-          "type": "string",
-          "x-go-name": "Scope"
-        },
-        "severity": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Severity"
-        },
-        "url": {
-          "type": "string",
-          "x-go-name": "URL"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Faction": {
-      "description": "Faction represents everquest factions",
-      "type": "object",
-      "properties": {
-        "base": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Base"
-        },
-        "cleanName": {
-          "type": "string",
-          "x-go-name": "CleanName"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Fishing": {
-      "description": "Fishing represents items inside everquest",
-      "type": "object",
-      "properties": {
-        "Item": {
-          "$ref": "#/definitions/Item"
-        },
-        "Itemid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "Npc": {
-          "$ref": "#/definitions/Npc"
-        },
-        "Zone": {
-          "$ref": "#/definitions/Zone"
-        },
-        "chance": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Chance"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "npcChance": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "NpcChance"
-        },
-        "npcId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "NpcID"
-        },
-        "skillLevel": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "SkillLevel"
-        },
-        "zoneid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ZoneID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Forage": {
-      "description": "Forage represents items inside everquest",
-      "type": "object",
-      "properties": {
-        "Item": {
-          "$ref": "#/definitions/Item"
-        },
-        "Itemid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "Zone": {
-          "$ref": "#/definitions/Zone"
-        },
-        "chance": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Chance"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Level"
-        },
-        "zoneid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ZoneID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Forum": {
-      "description": "Forum is the parent of topics, which groups posts together into sections",
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string",
-          "x-go-name": "Description"
-        },
-        "icon": {
-          "type": "string",
-          "x-go-name": "Icon"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        },
-        "ownerId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "OwnerID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Frame": {
-      "type": "integer",
-      "format": "uint64",
-      "title": "Frame represents a program counter inside a stack frame.",
-      "x-go-package": "github.com/pkg/errors"
-    },
-    "Goal": {
-      "description": "Goal represnts goallist, used by the everquest Task system",
-      "type": "object",
-      "properties": {
-        "entryID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EntryID"
-        },
-        "listID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ListID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Hacker": {
-      "description": "Hacker represents hacker reports inside everquest",
-      "type": "object",
-      "properties": {
-        "Account": {
-          "$ref": "#/definitions/Account"
-        },
-        "Character": {
-          "$ref": "#/definitions/Character"
-        },
-        "ID": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "Zone": {
-          "$ref": "#/definitions/Zone"
-        },
-        "accountName": {
-          "type": "string",
-          "x-go-name": "AccountName"
-        },
-        "date": {
-          "type": "string",
-          "format": "date-time",
-          "x-go-name": "Date"
-        },
-        "hacked": {
-          "type": "string",
-          "x-go-name": "Hacked"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "CharacterName"
-        },
-        "zone": {
-          "$ref": "#/definitions/NullString"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -12191,33 +10384,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "ItemAttribute": {
-      "description": "ItemAttribute holds item attribute information",
-      "type": "object",
-      "properties": {
-        "Icon": {
-          "type": "string"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ItemCategory": {
-      "description": "ItemCategory holds item category information",
-      "type": "object",
-      "properties": {
-        "ID": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "Icon": {
-          "type": "string"
-        },
-        "Name": {
-          "type": "string"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "Items": {
       "description": "Items contains an array of item",
       "type": "array",
@@ -12241,284 +10407,6 @@
         "name": {
           "type": "string",
           "x-go-name": "Name"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "LootDrop": {
-      "description": "LootDrop is the parent of loot drop entries",
-      "type": "object",
-      "properties": {
-        "Entries": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LootDropEntry"
-          }
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "LootDropEntry": {
-      "description": "LootDropEntry groups together items that npcs drop",
-      "type": "object",
-      "properties": {
-        "chance": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Chance"
-        },
-        "disabledChance": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "DisabledChance"
-        },
-        "equipItem": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "EquipItem"
-        },
-        "itemCharges": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemCharges"
-        },
-        "itemID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "lootdropId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "LootdropID"
-        },
-        "maxlevel": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Maxlevel"
-        },
-        "minlevel": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Minlevel"
-        },
-        "multiplier": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Multiplier"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "LootTable": {
-      "description": "LootTable is the parent of loottableentry",
-      "type": "object",
-      "properties": {
-        "Entries": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LootTableEntry"
-          }
-        },
-        "Npcs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Npc"
-          }
-        },
-        "avgcoin": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Avgcoin"
-        },
-        "done": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Done"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "maxcash": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Maxcash"
-        },
-        "mincash": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Mincash"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "LootTableEntry": {
-      "description": "LootTableEntry group together loot drops for npc drops",
-      "type": "object",
-      "properties": {
-        "droplimit": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Droplimit"
-        },
-        "lootdropId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "LootdropID"
-        },
-        "loottableId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "LoottableID"
-        },
-        "mindrop": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Mindrop"
-        },
-        "multiplier": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Multiplier"
-        },
-        "probability": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Probability"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Mail": {
-      "description": "Mail represents mail inside everquest",
-      "type": "object",
-      "properties": {
-        "ID": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "body": {
-          "type": "string",
-          "x-go-name": "Body"
-        },
-        "characterID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "CharacterID"
-        },
-        "from": {
-          "type": "string",
-          "x-go-name": "From"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Status"
-        },
-        "subject": {
-          "type": "string",
-          "x-go-name": "Subject"
-        },
-        "timestamp": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Timestamp"
-        },
-        "to": {
-          "type": "string",
-          "x-go-name": "To"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Merchant": {
-      "description": "Merchant represents tradeskill merchants inside everquest",
-      "type": "object",
-      "properties": {
-        "Entrys": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/MerchantEntry"
-          }
-        },
-        "Npcs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Npc"
-          }
-        },
-        "merchantID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "MerchantEntry": {
-      "description": "MerchantEntry group together loot drops for npc drops",
-      "type": "object",
-      "properties": {
-        "Item": {
-          "$ref": "#/definitions/Item"
-        },
-        "Merchant": {
-          "$ref": "#/definitions/Merchant"
-        },
-        "altCurrencyCost": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "AltCurrencyCost"
-        },
-        "classesRequired": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ClassesRequired"
-        },
-        "factionRequired": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "FactionRequired"
-        },
-        "itemID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "levelRequired": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "LevelRequired"
-        },
-        "merchantID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "MerchantID"
-        },
-        "probability": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Probability"
-        },
-        "slot": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Slot"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -13067,29 +10955,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "NpcLoot": {
-      "description": "NpcLoot is a cache table used to speed up lookup of items for NPCs",
-      "type": "object",
-      "properties": {
-        "item": {
-          "$ref": "#/definitions/Item"
-        },
-        "itemID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "npc": {
-          "$ref": "#/definitions/Npc"
-        },
-        "npcID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "NpcID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "Npcs": {
       "description": "Npcs represents an array of Npc",
       "type": "array",
@@ -13210,32 +11075,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "Post": {
-      "description": "Post are topic entries for forums",
-      "type": "object",
-      "properties": {
-        "body": {
-          "type": "string",
-          "x-go-name": "Body"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "ownerId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "OwnerID"
-        },
-        "topicID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "TopicID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "Race": {
       "description": "Race holds data about races (including models)",
       "type": "object",
@@ -13277,125 +11116,6 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/Race"
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Recipe": {
-      "description": "Recipe represents tradeskill recipes inside everquest",
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Enabled"
-        },
-        "entrys": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RecipeEntry"
-          },
-          "x-go-name": "Entrys"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "mustLearn": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "MustLearn"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        },
-        "nofail": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Nofail"
-        },
-        "notes": {
-          "$ref": "#/definitions/NullString"
-        },
-        "quest": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Quest"
-        },
-        "replaceContainer": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ReplaceContainer"
-        },
-        "skillneeded": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Skillneeded"
-        },
-        "tradeskill": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Tradeskill"
-        },
-        "trivial": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Trivial"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "RecipeEntry": {
-      "description": "RecipeEntry group together loot drops for npc drops",
-      "type": "object",
-      "properties": {
-        "componentcount": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Componentcount"
-        },
-        "failcount": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Failcount"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "iscontainer": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Iscontainer"
-        },
-        "item": {
-          "$ref": "#/definitions/Item"
-        },
-        "itemId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "recipe": {
-          "$ref": "#/definitions/Recipe"
-        },
-        "recipeId": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "RecipeID"
-        },
-        "salvagecount": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Salvagecount"
-        },
-        "successcount": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Successcount"
-        }
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -13487,164 +11207,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "Schema": {
-      "description": "Schema represents http://json-schema.org/latest/json-schema-validation.html#anchor111",
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string",
-          "x-go-name": "Description"
-        },
-        "enum": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "x-go-name": "EnumInt"
-        },
-        "format": {
-          "type": "string",
-          "x-go-name": "Format"
-        },
-        "items": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/Schema"
-          },
-          "x-go-name": "Items"
-        },
-        "maxLength": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "MaxLength"
-        },
-        "maximum": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Maximum"
-        },
-        "maxproperties": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "MaxProperties"
-        },
-        "minLength": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "MinLength"
-        },
-        "minimum": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Minimum"
-        },
-        "minproperties": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "MinProperties"
-        },
-        "optional": {
-          "type": "boolean",
-          "x-go-name": "Optional"
-        },
-        "pattern": {
-          "type": "string",
-          "x-go-name": "Pattern"
-        },
-        "patternproperties": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/Schema"
-          },
-          "x-go-name": "PatternProperties"
-        },
-        "properties": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/Schema"
-          },
-          "x-go-name": "Properties"
-        },
-        "required": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "x-go-name": "Required"
-        },
-        "string": {
-          "description": "Schema      string   `json:\"$schema,omitempty\"`",
-          "type": "string",
-          "x-go-name": "Type"
-        },
-        "title": {
-          "type": "string",
-          "x-go-name": "Title"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "SharedBank": {
-      "description": "SharedBank represents the sharedbank table, used for npcs",
-      "type": "object",
-      "properties": {
-        "acctid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "AccountID"
-        },
-        "augslot1": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot1"
-        },
-        "augslot2": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot2"
-        },
-        "augslot3": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot3"
-        },
-        "augslot4": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot4"
-        },
-        "augslot5": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot5"
-        },
-        "augslot6": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Augslot6"
-        },
-        "charges": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Charges"
-        },
-        "customData": {
-          "$ref": "#/definitions/NullString"
-        },
-        "itemid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ItemID"
-        },
-        "slotid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "SlotID"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "Skill": {
       "description": "Skill represents skills inside everquest",
       "type": "object",
@@ -13661,30 +11223,6 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Type"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Slot": {
-      "description": "Slot represents item slots",
-      "type": "object",
-      "properties": {
-        "ID": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "bitID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "BitID"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        },
-        "shortName": {
-          "type": "string",
-          "x-go-name": "ShortName"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -13754,114 +11292,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "SpawnEntry": {
-      "description": "SpawnEntry represents the spawn2 table",
-      "type": "object",
-      "properties": {
-        "Condition": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "animation": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Animation"
-        },
-        "condValue": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "CondValue"
-        },
-        "enabled": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Enabled"
-        },
-        "heading": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Heading"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "pathgrid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Pathgrid"
-        },
-        "respawntime": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "RespawnTime"
-        },
-        "spawnID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "SpawnID"
-        },
-        "variance": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Variance"
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Version"
-        },
-        "x": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "X"
-        },
-        "xScaled": {
-          "description": "XScaled is used for scaling positions on the map",
-          "type": "number",
-          "format": "double",
-          "x-go-name": "XScaled"
-        },
-        "y": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Y"
-        },
-        "yScaled": {
-          "description": "YScaled is used for scaling positions on the map",
-          "type": "number",
-          "format": "double",
-          "x-go-name": "YScaled"
-        },
-        "z": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "Z"
-        },
-        "zScaled": {
-          "description": "ZScaled is used for scaling positions on the map",
-          "type": "number",
-          "format": "double",
-          "x-go-name": "ZScaled"
-        },
-        "zone": {
-          "$ref": "#/definitions/Zone"
-        },
-        "zoneShortName": {
-          "$ref": "#/definitions/NullString"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "SpawnEntrys": {
-      "description": "SpawnEntrys is an array of SpawnEntry",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/SpawnEntry"
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "SpawnNpc": {
       "description": "SpawnNpc represents the spawnentry table. This is a pivot",
       "type": "object",
@@ -13892,32 +11322,6 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/SpawnNpc"
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "SpawnRespawn": {
-      "description": "SpawnRespawn represents the respawn_times table",
-      "type": "object",
-      "properties": {
-        "ID": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "duration": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Duration"
-        },
-        "instanceID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "InstanceID"
-        },
-        "start": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Start"
-        }
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -15186,23 +12590,6 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "SpellClass": {
-      "description": "SpellClass stores minimum levels of each class\nranges 1 to 60",
-      "type": "object",
-      "properties": {
-        "classID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ClassID"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Level"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "SpellComponent": {
       "description": "ranges from 1 to 4",
       "type": "object",
@@ -15456,123 +12843,17 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "StackTrace": {
-      "type": "array",
-      "title": "StackTrace is stack of Frames from innermost (newest) to outermost (oldest).",
-      "items": {
-        "$ref": "#/definitions/Frame"
-      },
-      "x-go-package": "github.com/pkg/errors"
-    },
-    "StackTracer": {
-      "description": "StackTracer is an interface for stack trace error handling",
-      "type": "object",
-      "properties": {
-        "StackTrace": {
-          "$ref": "#/definitions/StackTrace"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Task": {
-      "description": "Task is an everquest entry, grouping the Activities entries",
-      "type": "object",
-      "properties": {
-        "cashreward": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Cashreward"
-        },
-        "description": {
-          "type": "string",
-          "x-go-name": "Description"
-        },
-        "duration": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Duration"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "maxlevel": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Maxlevel"
-        },
-        "minlevel": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Minlevel"
-        },
-        "repeatable": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Repeatable"
-        },
-        "reward": {
-          "type": "string",
-          "x-go-name": "Reward"
-        },
-        "rewardid": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Rewardid"
-        },
-        "rewardmethod": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Rewardmethod"
-        },
-        "startzone": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Startzone"
-        },
-        "title": {
-          "type": "string",
-          "x-go-name": "Title"
-        },
-        "xpreward": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Xpreward"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "Topic": {
-      "description": "Topic is the entries inside forum, grouping posts",
-      "type": "object",
-      "properties": {
-        "forumID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ForumID"
-        },
-        "icon": {
-          "type": "string",
-          "x-go-name": "Icon"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "title": {
-          "type": "string",
-          "x-go-name": "Title"
-        }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
     "User": {
       "description": "User represents the user for this application, and binds to accountID",
       "type": "object",
+      "required": [
+        "displayName",
+        "email",
+        "password"
+      ],
       "properties": {
         "ID": {
+          "description": "ID of user",
           "type": "integer",
           "format": "int64"
         },
@@ -15591,12 +12872,16 @@
           "x-go-name": "Characters"
         },
         "displayName": {
+          "description": "DisplayName what others see you as",
           "type": "string",
-          "x-go-name": "DisplayName"
+          "x-go-name": "DisplayName",
+          "example": "xackery"
         },
         "email": {
+          "description": "Email",
           "type": "string",
-          "x-go-name": "Email"
+          "x-go-name": "Email",
+          "example": "test@here.com"
         },
         "oauths": {
           "type": "array",
@@ -15606,25 +12891,76 @@
           "x-go-name": "Oauths"
         },
         "password": {
+          "description": "Password of user",
           "type": "string",
-          "x-go-name": "Password"
+          "x-go-name": "Password",
+          "example": "nothing"
         },
         "primaryAccount": {
           "$ref": "#/definitions/Account"
         },
         "primaryAccountID": {
+          "description": "PrimaryAccountID of user",
           "type": "integer",
           "format": "int64",
-          "x-go-name": "PrimaryAccountID"
+          "x-go-name": "PrimaryAccountID",
+          "example": 0
         },
         "primaryCharacter": {
           "$ref": "#/definitions/Character"
         },
         "primaryCharacterID": {
+          "description": "PrimaryCharacterID of user",
           "type": "integer",
           "format": "int64",
-          "x-go-name": "PrimaryCharacterID"
+          "x-go-name": "PrimaryCharacterID",
+          "example": 0
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "UserAccount": {
+      "description": "UserAccount represents the accounts linked to a user",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "account": {
+          "$ref": "#/definitions/Account"
+        },
+        "accountID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "AccountID"
+        },
+        "character": {
+          "$ref": "#/definitions/Character"
+        },
+        "characterID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CharacterID"
+        },
+        "createDate": {
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "CreateDate"
+        },
+        "userID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UserID"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "UserAccounts": {
+      "description": "UserAccounts is an array of account",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UserAccount"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -15650,14 +12986,6 @@
           "format": "int64",
           "x-go-name": "UserID"
         }
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "UserOauths": {
-      "description": "UserOauths is an array of UserOauth",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/UserOauth"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -16135,38 +13463,6 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/ZoneExpansion"
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "ZoneLevel": {
-      "description": "ZoneLevel is a cache table used to get levels a zone is available for",
-      "type": "object",
-      "properties": {
-        "levels": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Levels"
-        },
-        "mapAspect": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "MapAspect"
-        },
-        "mapXOffset": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "MapXOffset"
-        },
-        "mapYOffset": {
-          "type": "number",
-          "format": "double",
-          "x-go-name": "MapYOffset"
-        },
-        "zoneID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ZoneID"
-        }
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -16826,6 +14122,39 @@
         "spells": {}
       }
     },
+    "UserAccountResponse": {
+      "description": "UserAccountResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/UserAccount"
+      },
+      "headers": {
+        "user": {},
+        "userAccount": {}
+      }
+    },
+    "UserAccountsBySearchResponse": {
+      "description": "UserAccountsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/UserAccounts"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "user": {},
+        "userAccounts": {}
+      }
+    },
+    "UserAccountsResponse": {
+      "description": "UserAccountsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/UserAccounts"
+      },
+      "headers": {
+        "page": {},
+        "user": {},
+        "userAccounts": {}
+      }
+    },
     "UserGoogleCallbackResponse": {
       "description": "UserGoogleCallbackResponse is what endpoints respond with. Typically this is just a 302 redirect.",
       "headers": {
@@ -16840,6 +14169,28 @@
         "redirectURL": {
           "type": "string"
         }
+      }
+    },
+    "UserLinkResponse": {
+      "description": "UserLinkResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Character"
+      },
+      "headers": {
+        "account": {},
+        "character": {}
+      }
+    },
+    "UserLoginResponse": {
+      "description": "UserLoginResponse returns a token along with user details",
+      "schema": {
+        "$ref": "#/definitions/User"
+      },
+      "headers": {
+        "token": {
+          "type": "string"
+        },
+        "user": {}
       }
     },
     "UserResponse": {
