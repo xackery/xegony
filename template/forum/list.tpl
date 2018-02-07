@@ -82,7 +82,10 @@ $(document).ready(function() {
                     dataType: "json"
                 },
                 params: function(params) {
-                    return JSON.stringify(params);
+                    return JSON.stringify({
+                        ID: params.pk,
+                        "name": params.value,			            
+                    })
                 }
             });
         } else {

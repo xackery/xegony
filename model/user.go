@@ -1,7 +1,5 @@
 package model
 
-import "fmt"
-
 // Users is an array of account
 // swagger:model
 type Users []*User
@@ -70,18 +68,14 @@ func (u *User) IsAdmin() (err error) {
 //IsGuide returns an err if not guide
 func (u *User) IsGuide() (err error) {
 	var highestStatus int64
-	fmt.Println(u)
 	for _, account := range u.Accounts {
-		fmt.Println(account)
 		if account.Status > highestStatus {
 			highestStatus = account.Status
 		}
 	}
-	fmt.Println(u.PrimaryAccount)
 	if u.PrimaryAccount != nil && u.PrimaryAccount.Status > highestStatus {
 		highestStatus = u.PrimaryAccount.Status
 	}
-	fmt.Println("highestStatus for guide", highestStatus)
 	if highestStatus < 100 {
 		err = &ErrPermission{
 			Message: "Guide level access required",
