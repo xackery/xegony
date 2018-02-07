@@ -121,6 +121,71 @@ func ListNpcBySearch(page *model.Page, npc *model.Npc, user *model.User) (npcs [
 	return
 }
 
+//ListNpcByZone will request any npc matching the pattern of zone id
+func ListNpcByZone(page *model.Page, zone *model.Zone, user *model.User) (npcs []*model.Npc, err error) {
+
+	err = validateOrderByNpcField(page)
+	if err != nil {
+		return
+	}
+
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
+		return
+	}
+
+	err = prepareZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to preprezonenpc")
+		return
+	}
+
+	err = validateZone(zone, []string{"ID"}, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to validate zone")
+		return
+	}
+	reader, err := getReader("npc")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get npc reader")
+		return
+	}
+
+	npcs, err = reader.ListNpcByZone(page, zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list npc by search")
+		return
+	}
+
+	page.Total, err = reader.ListNpcByZoneTotalCount(zone)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get page total")
+		return
+	}
+
+	for _, npc := range npcs {
+		err = sanitizeNpc(npc, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to sanitize npc")
+			return
+		}
+	}
+
+	err = sanitizeZone(zone, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize search npc")
+		return
+	}
+
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
+	return
+}
+
 //CreateNpc will create an npc using provided information
 func CreateNpc(npc *model.Npc, user *model.User) (err error) {
 	err = user.IsGuide()
@@ -343,7 +408,7 @@ func validateNpc(npc *model.Npc, required []string, optional []string) (err erro
 
 func validateOrderByNpcField(page *model.Page) (err error) {
 	if len(page.OrderBy) == 0 {
-		page.OrderBy = "name"
+		page.OrderBy = "id"
 	}
 
 	validNames := []string{
@@ -392,6 +457,45 @@ func sanitizeNpc(npc *model.Npc, user *model.User) (err error) {
 		}
 	}
 
+	npc.Zone = &model.Zone{
+		ID: npc.ID / 1000,
+	}
+	err = GetZone(npc.Zone, user)
+	if err != nil {
+		err = errors.Wrapf(err, "failed to get zone for npc %d", npc.ID)
+		return
+	}
+
+	npc.Experience = CalculateNpcExperience(npc, user)
+
+	npc.CleanName = CleanName(npc.Name)
+
+	return
+}
+
+//CalculateNpcExperience will figure out experience for a provided npc
+func CalculateNpcExperience(npc *model.Npc, user *model.User) (exp int64) {
+
+	if npc.Zone == nil || npc.Zone.ID == 0 {
+		return
+	}
+	expMultiplier := GetRuleEntryValueFloat(npc.Zone.Ruleset, "Character:ExpMultiplier")
+	hotZoneBonus := GetRuleEntryValueFloat(npc.Zone.Ruleset, "Zone:HotZoneBonus")
+
+	xp := npc.Level * npc.Level * 75 * 35 / 10 //EXP_FORMULA
+
+	totalMod := float64(1.0)
+	zemMod := float64(1.0)
+
+	if expMultiplier >= 0 {
+		totalMod *= expMultiplier
+	}
+
+	if npc.Zone.HotZone > 0 && hotZoneBonus > 0 {
+		totalMod += hotZoneBonus
+	}
+
+	exp = int64(float64(xp) * totalMod * zemMod)
 	return
 }
 

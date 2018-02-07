@@ -150,6 +150,68 @@ func (s *Storage) ListNpcBySearchTotalCount(npc *model.Npc) (count int64, err er
 	return
 }
 
+//ListNpcByZone will grab data from storage
+func (s *Storage) ListNpcByZone(page *model.Page, zone *model.Zone) (npcs []*model.Npc, err error) {
+
+	field := ""
+
+	if zone.ID > 0 {
+		field += fmt.Sprintf(`id < %d AND id > %d OR`, (zone.ID*1000)+1000-1, (zone.ID*1000)-1)
+	}
+	if len(field) == 0 {
+		err = fmt.Errorf("No parameters to search by provided")
+		return
+	}
+	field = field[0 : len(field)-3]
+
+	query := fmt.Sprintf("SELECT %s FROM %s WHERE %s LIMIT %d OFFSET %d", npcFields, npcTable, field, page.Limit, page.Limit*page.Offset)
+	rows, err := s.db.NamedQuery(query, zone)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+
+	for rows.Next() {
+		npc := model.Npc{}
+		if err = rows.StructScan(&npc); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
+			return
+		}
+		npcs = append(npcs, &npc)
+	}
+	return
+}
+
+//ListNpcByZoneTotalCount will grab data from storage
+func (s *Storage) ListNpcByZoneTotalCount(zone *model.Zone) (count int64, err error) {
+	field := ""
+	if zone.ID > 0 {
+		field += fmt.Sprintf(`id < %d AND id > %d OR`, (zone.ID*1000)+1000-1, (zone.ID*1000)-1)
+	}
+
+	if len(field) == 0 {
+		err = fmt.Errorf("No parameters to search by provided")
+		return
+	}
+	field = field[0 : len(field)-3]
+
+	query := fmt.Sprintf("SELECT count(id) FROM %s WHERE %s", npcTable, field)
+
+	rows, err := s.db.NamedQuery(query, zone)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+
+	for rows.Next() {
+		if err = rows.Scan(&count); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
+			return
+		}
+	}
+	return
+}
+
 //EditNpc will grab data from storage
 func (s *Storage) EditNpc(npc *model.Npc) (err error) {
 

@@ -2,6 +2,8 @@ package cases
 
 import (
 	"fmt"
+	"regexp"
+	"strings"
 	"sync"
 
 	"github.com/pkg/errors"
@@ -279,4 +281,14 @@ func SetOauth(scope string, ow oauth.Wrapper) {
 	oauths[scope] = ow
 	oauthLock.Unlock()
 	return
+}
+
+//CleanName will parse strings to support entity in game syntax "clean name"
+func CleanName(name string) string {
+	var re = regexp.MustCompile(`[^0-9A-Za-z_]+`)
+	cleanName := strings.Replace(name, " ", "_", -1)
+	cleanName = strings.Replace(cleanName, "#", "", -1)
+	cleanName = strings.TrimSpace(re.ReplaceAllString(cleanName, ""))
+	cleanName = strings.Replace(cleanName, "_", " ", -1)
+	return cleanName
 }

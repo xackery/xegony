@@ -68,7 +68,7 @@ func getAccount(w http.ResponseWriter, r *http.Request, user *model.User, status
 		Account *model.Account
 	}
 
-	accountID, err := getIntVar(r, "accountID")
+	accountID := getIntVar(r, "accountID")
 	if err != nil {
 		err = errors.Wrap(err, "accountID argument is required")
 		return

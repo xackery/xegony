@@ -235,7 +235,7 @@ func GetZoneExpansion(zoneExpansion *model.ZoneExpansion, user *model.User) (err
 		return
 	}
 
-	reader, err := getReader("zoneExpansion")
+	reader, err := getReader("zoneExpansion-memory")
 	if err != nil {
 		err = errors.Wrap(err, "failed to get zoneExpansion reader")
 		return

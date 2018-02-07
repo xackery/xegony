@@ -11,6 +11,7 @@ type Zones []*Zone
 // Zone represents the zone table, Everquest is split into zones
 // swagger:model
 type Zone struct {
+	Expansion *ZoneExpansion `json:"expansion,omitempty"`
 	//Levels   int64   `json:"levels,omitempty"`
 	Modifier float64 `json:"modifier,omitempty"`
 
@@ -74,7 +75,7 @@ type Zone struct {
 	InstType          int64          `json:"instType,omitempty" db:"insttype"`                     //insttype` tinyint(1) unsigned zerofill NOT NULL DEFAULT '0',
 	ShutdownDelay     int64          `json:"shutdownDelay,omitempty" db:"shutdowndelay"`           //shutdowndelay` bigint(16) unsigned NOT NULL DEFAULT '5000',
 	PeqZone           int64          `json:"peqZone,omitempty" db:"peqzone"`                       //peqzone` tinyint(4) NOT NULL DEFAULT '1',
-	Expansion         int64          `json:"expansion,omitempty" db:"expansion"`                   //expansion` tinyint(3) NOT NULL DEFAULT '0',
+	ExpansionID       int64          `json:"expansionID,omitempty" db:"expansion"`                 //expansion` tinyint(3) NOT NULL DEFAULT '0',
 	SuspendBuffs      int64          `json:"suspendBuffs,omitempty" db:"suspendbuffs"`             //suspendbuffs` tinyint(1) unsigned NOT NULL DEFAULT '0',
 	RainChance1       int64          `json:"rainChance1,omitempty" db:"rain_chance1"`              //rain_chance1` int(4) NOT NULL DEFAULT '0',
 	RainChance2       int64          `json:"rainChance2,omitempty" db:"rain_chance2"`              //rain_chance2` int(4) NOT NULL DEFAULT '0',

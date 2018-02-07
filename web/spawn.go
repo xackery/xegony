@@ -68,7 +68,7 @@ func getSpawn(w http.ResponseWriter, r *http.Request, user *model.User, statusCo
 		Spawn *model.Spawn
 	}
 
-	spawnID, err := getIntVar(r, "spawnID")
+	spawnID := getIntVar(r, "spawnID")
 	if err != nil {
 		err = errors.Wrap(err, "spawnID argument is required")
 		return

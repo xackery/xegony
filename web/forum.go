@@ -66,7 +66,7 @@ func getForum(w http.ResponseWriter, r *http.Request, user *model.User, statusCo
 		Forum *model.Forum
 	}
 
-	forumID, err := getIntVar(r, "forumID")
+	forumID := getIntVar(r, "forumID")
 	if err != nil {
 		err = errors.Wrap(err, "forumID argument is required")
 		return

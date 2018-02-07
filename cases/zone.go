@@ -2,6 +2,7 @@ package cases
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -75,6 +76,7 @@ func LoadZoneFromDBToMemory() (err error) {
 func ListZone(page *model.Page, user *model.User) (zones []*model.Zone, err error) {
 	err = validateOrderByZoneField(page)
 	if err != nil {
+		err = errors.Wrap(err, "invalid sort field")
 		return
 	}
 	err = preparePage(page, user)
@@ -446,7 +448,7 @@ func validateZone(zone *model.Zone, required []string, optional []string) (err e
 
 func validateOrderByZoneField(page *model.Page) (err error) {
 	if len(page.OrderBy) == 0 {
-		page.OrderBy = "shortName"
+		page.OrderBy = "id"
 	}
 
 	validNames := []string{
@@ -485,6 +487,16 @@ func sanitizeZone(zone *model.Zone, user *model.User) (err error) {
 	zone.Modifier = zone.ZoneExpMultiplier + 1
 	if zone.HotZone == 1 && hotZoneModifier > 0 {
 		zone.Modifier *= hotZoneModifier
+	}
+	zone.Expansion = &model.ZoneExpansion{
+		ID: zone.ExpansionID,
+	}
+	err = GetZoneExpansion(zone.Expansion, user)
+	if err != nil {
+		log.Println("(warning) Unsupported zone expansion type:", zone.Expansion.ID)
+		err = nil
+		//err = errors.Wrap(err, "failed to get zone expansion")
+		//return
 	}
 	return
 }

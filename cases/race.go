@@ -492,6 +492,12 @@ func sanitizeRace(race *model.Race, user *model.User) (err error) {
 	if err != nil {
 		err = nil
 	}
+	if race.Icon == "" {
+		race.Icon = "xa-octopus"
+	}
+	if len(race.Icon) > 2 && race.Icon[2:3] == "-" {
+		race.Icon = fmt.Sprintf("%s %s", race.Icon[0:2], race.Icon)
+	}
 	return
 }
 

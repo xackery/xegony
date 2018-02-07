@@ -42,6 +42,18 @@ func (s *Storage) ListNpcBySearchTotalCount(npc *model.Npc) (count int64, err er
 	return
 }
 
+//ListNpcByZone will grab data from storage
+func (s *Storage) ListNpcByZone(page *model.Page, zone *model.Zone) (npcs []*model.Npc, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
+//ListNpcByZoneTotalCount will grab data from storage
+func (s *Storage) ListNpcByZoneTotalCount(zone *model.Zone) (count int64, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
 //EditNpc will grab data from storage
 func (s *Storage) EditNpc(npc *model.Npc) (err error) {
 	err = fmt.Errorf("Not implemented")

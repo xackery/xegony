@@ -74,6 +74,8 @@ type Reader interface {
 	ListNpcTotalCount() (count int64, err error)
 	ListNpcBySearch(page *model.Page, npc *model.Npc) (npcs []*model.Npc, err error)
 	ListNpcBySearchTotalCount(npc *model.Npc) (count int64, err error)
+	ListNpcByZone(page *model.Page, zone *model.Zone) (npcs []*model.Npc, err error)
+	ListNpcByZoneTotalCount(zone *model.Zone) (count int64, err error)
 
 	//OauthType
 	GetOauthType(oauthType *model.OauthType) (err error)

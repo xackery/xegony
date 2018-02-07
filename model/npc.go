@@ -11,11 +11,12 @@ type Npcs []*Npc
 //Npc represents Non player characters in everquest
 // swagger:model
 type Npc struct {
-	Class *Class `json:"class,omitempty"`
-	Race  *Race  `json:"race,omitempty"`
-	//CleanName            string            `json:"cleanName,omitempty"`
-	//Experience           int64             `json:"experience,omitempty"`
-	//SpecialAbilitiesList map[string]string `json:"specialAbilitiesList,omitempty"`
+	Class            *Class            `json:"class,omitempty"`
+	Race             *Race             `json:"race,omitempty"`
+	CleanName        string            `json:"cleanName,omitempty"`
+	Zone             *Zone             `json:"zone,omitempty"`
+	Experience       int64             `json:"experience,omitempty"`
+	SpecialAbilities map[string]string `json:"specialAbilitiesList,omitempty"`
 
 	ID                   int64          `json:"ID,omitempty" db:"id"`                                     //`id` int(11) NOT NULL AUTO_INCREMENT,
 	Name                 string         `json:"name,omitempty" db:"name"`                                 //`name` text NOT NULL,
@@ -41,11 +42,11 @@ type Npc struct {
 	NpcFactionID         int64          `json:"npcFactionID,omitempty" db:"npc_faction_id"`               //`npc_faction_id` int(11) NOT NULL DEFAULT '0',
 	AdventureTemplateID  int64          `json:"adventureTemplateID,omitempty" db:"adventure_template_id"` //`adventure_template_id` int(10) unsigned NOT NULL DEFAULT '0',
 	TrapTemplate         sql.NullInt64  `json:"trapTemplate,omitempty" db:"trap_template"`                //`trap_template` int(10) unsigned DEFAULT '0',
-	MinimumDamage        int64          `json:"minimumDamage,omitempty" db:"mindmg"`                      //`mindmg` int(10) unsigned NOT NULL DEFAULT '0',
+	MininumDamage        int64          `json:"minimumDamage,omitempty" db:"mindmg"`                      //`mindmg` int(10) unsigned NOT NULL DEFAULT '0',
 	MaximumDamage        int64          `json:"maximumDamage,omitempty" db:"maxdmg"`                      //`maxdmg` int(10) unsigned NOT NULL DEFAULT '0',
 	AttackCount          int64          `json:"attackCount,omitempty" db:"attack_count"`                  //`attack_count` smallint(6) NOT NULL DEFAULT '-1',
 	NpcSpecialAttacks    string         `json:"npcSpecialAttacks,omitempty" db:"npcspecialattks"`         //`npcspecialattks` varchar(36) NOT NULL DEFAULT '',
-	SpecialAbilities     sql.NullString `json:"specialAbilities,omitempty" db:"special_abilities"`        //`special_abilities` text,
+	SpecialAbilitiesRaw  sql.NullString `json:"specialAbilitiesRaw,omitempty" db:"special_abilities"`     //`special_abilities` text,
 	AggroRadius          int64          `json:"aggroRadius,omitempty" db:"aggroradius"`                   //`aggroradius` int(10) unsigned NOT NULL DEFAULT '0',
 	AssistRadius         int64          `json:"assistRadius,omitempty" db:"assistradius"`                 //`assistradius` int(10) unsigned NOT NULL DEFAULT '0',
 	Face                 int64          `json:"face,omitempty" db:"face"`                                 //`face` int(10) unsigned NOT NULL DEFAULT '1',

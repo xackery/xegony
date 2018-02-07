@@ -56,7 +56,7 @@ func (s *Storage) CreateZone(zone *model.Zone) (err error) {
 func (s *Storage) ListZone(page *model.Page) (zones []*model.Zone, err error) {
 
 	if len(page.OrderBy) < 1 {
-		page.OrderBy = "zoneidnumber"
+		page.OrderBy = "id"
 	}
 
 	orderField := page.OrderBy

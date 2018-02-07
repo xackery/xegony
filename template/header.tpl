@@ -45,7 +45,7 @@
 					<i class="xa xa-octopus"></i>
 				</a>
 				<ul class="dropdown-menu hdropdown">
-					<li class="{{if eq .Site.Page "npcbyzone"}}active{{end}}"><a href="/npc/byzone"> <span class="nav-label">NPC By Zone</span></a></li>
+					<li class="{{if eq .Site.Page "npc"}}active{{end}}"><a href="/npc/zone"> <span class="nav-label">NPC By Zone</span></a></li>
 					<li class="{{if eq .Site.Page "npcbyfaction"}}active{{end}}"><a href="/npc/byfaction"> <span class="nav-label">NPC By Faction</span></a></li>						
 					<li class="{{if eq .Site.Page "npclist"}}active{{end}}"><a href="/npc"> <span class="nav-label">NPC List</span></a></li>
 					<li class="{{if eq .Site.Page "npclist"}}active{{end}}"><a href="/merchant"> <span class="nav-label">Merchant List</span></a></li>

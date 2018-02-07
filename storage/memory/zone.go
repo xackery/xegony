@@ -70,6 +70,10 @@ func (s *Storage) ListZone(page *model.Page) (zones []*model.Zone, err error) {
 		sort.Slice(zones, func(i, j int) bool {
 			return zones[i].ShortName.String < zones[j].ShortName.String
 		})
+	case "id":
+		sort.Slice(zones, func(i, j int) bool {
+			return zones[i].ID < zones[j].ID
+		})
 	default:
 		err = fmt.Errorf("Unsupported sort name")
 		return

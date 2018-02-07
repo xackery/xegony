@@ -168,17 +168,8 @@ func writeData(w http.ResponseWriter, r *http.Request, tmp *template.Template, c
 
 }
 
-func getIntVar(r *http.Request, key string) (val int64, err error) {
-	vars := mux.Vars(r)
-	val, err = strconv.ParseInt(vars[key], 10, 64)
-	if err != nil {
-		err = &model.ErrInvalidArguments{}
-		return
-	}
-	return
-}
-
-func getIntParam(r *http.Request, key string) int64 {
+// getIntQuery parses query parameters based on key and returns as an int64
+func getIntQuery(r *http.Request, key string) int64 {
 	var val int64
 	vals := r.URL.Query()
 	keyTypes, ok := vals[key]
@@ -191,16 +182,8 @@ func getIntParam(r *http.Request, key string) int64 {
 	return 0
 }
 
-func getVar(r *http.Request, key string) string {
-	vars := mux.Vars(r)
-	return vars[key]
-}
-
-func getParam(r *http.Request, key string) string {
-	val := getVar(r, key)
-	if val != "" {
-		return val
-	}
+// getQuery parses query parameters based on key and returns as a string
+func getQuery(r *http.Request, key string) string {
 	vals := r.URL.Query()
 	keyTypes, ok := vals[key]
 	if ok {
@@ -209,4 +192,20 @@ func getParam(r *http.Request, key string) string {
 		}
 	}
 	return ""
+}
+
+// getIntVar parses a variable from the routing pattern and returns it as an int64
+func getIntVar(r *http.Request, key string) int64 {
+	vars := mux.Vars(r)
+	val, err := strconv.ParseInt(vars[key], 10, 64)
+	if err != nil {
+		return 0
+	}
+	return val
+}
+
+// getVar  returns with a variable inside the request based on a routing pattern assigned variable
+func getVar(r *http.Request, key string) string {
+	vars := mux.Vars(r)
+	return vars[key]
 }
