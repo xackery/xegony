@@ -25,7 +25,8 @@ func TestAccountEndpoints(t *testing.T) {
 			},
 			Accounts: []*model.Account{
 				{
-					ID: 1,
+					ID:     1,
+					Status: 200,
 				},
 			},
 		}).Done()

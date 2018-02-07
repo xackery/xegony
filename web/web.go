@@ -95,7 +95,7 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 		Message string
 		URL     string
 	}
-	site := newSite(r)
+	site := newSite(r, nil)
 	site.Page = fmt.Sprintf("%d", statusCode)
 	site.Title = "Error"
 
@@ -155,14 +155,17 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 func writeData(w http.ResponseWriter, r *http.Request, tmp *template.Template, content interface{}, statusCode int) {
 	var err error
 	w.WriteHeader(statusCode)
+
 	if tmp == nil {
 		logErr.Println("Failed to load template", content)
 		return
 	}
+
 	if err = tmp.Execute(w, content); err != nil {
 		logErr.Println("Failed to execute template:", err.Error())
 		return
 	}
+
 }
 
 func getIntVar(r *http.Request, key string) (val int64, err error) {

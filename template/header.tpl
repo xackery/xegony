@@ -103,7 +103,7 @@
 		
 		<div class="navbar-right">
 			<ul class="nav navbar-nav no-borders">
-				{{if .Site.User}}				
+				{{if gt .Site.User.ID 0}}				
 				<li class="dropdown">
 					<a class="dropdown-toggle" href="#" data-toggle="dropdown">
 						<i class="pe-7s-speaker"></i>
@@ -179,9 +179,9 @@
 	   
 				{{else}}
 				<li>
-					<a href="/login">
-						<i class="pe-7s-key"></i>
-					</a>
+					<a data-toggle="modal" data-target="#loginModal">
+						<i class="pe-7s-key" ></i>
+						</a>
 				</li>
 				{{end}}
 			</ul>
@@ -189,3 +189,83 @@
 		</div>
 	</nav>
 </div>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="color-line"></div>
+			<div class="modal-header text-center">
+				<h4 class="modal-title">Login</h4>
+				<small class="font-bold">Login to {{.Site.Name}}</small>
+			</div>
+			<div class="modal-body">
+
+				<div class="form-group">
+					<label class="control-label" for="email">Email</label>
+					<input type="text" placeholder="example@gmail.com" title="Please enter you email" required="" value="" name="email" id="email" class="form-control">
+					<span id="emailHelp" class="help-block small">Your unique email to {{.Site.Name}}</span>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="password">Password</label>
+					<input type="password" title="Please enter your password" placeholder="******" required="" value="" name="password" id="password" class="form-control">
+					<span id="passwordHelp" class="help-block small">Minimum 6 characters</span>
+				</div>	
+				
+				<button id="login" class="btn btn-success btn-block">Login</button>
+				<a id="register" class="btn btn-default btn-block">Register</a>
+			
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $isEditable = false
+    $.fn.editable.defaults.mode = 'inline';
+    
+    $("#login").click(function() {
+		data = JSON.stringify({
+			email: $("#email").val(),
+			password: $("#password").val(),
+		})
+		$.ajax({				
+			type : 'POST',
+			contentType: "application/json",
+			url  : '/api/user/login',
+			data : data,
+			dataType: "JSON",
+			beforeSend: function() { 
+				$("#loginError").fadeOut();
+			},
+			success: function(data){
+				console.log(data)
+				console.log(data.token)
+				document.cookie = "token="+data.token;
+				window.location = "/"
+			},
+			error: function(data){
+				var resp = data.responseJSON;
+
+				for (var key in resp.fields) {
+					$("#"+key+"Help").text(resp.fields[key]);
+				}
+				console.log(resp)
+				//$("#loginAlert").show()
+				//$("#loginAlert").text(resp.message);	        
+			}
+		});
+
+	});
+	$( "#register" ).click(function() {
+		data = JSON.stringify({
+			email: $("#email").val(),
+			password: $("#password").val(),
+		})
+		console.log("register");
+	});
+});
+</script>

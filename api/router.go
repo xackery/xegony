@@ -28,6 +28,7 @@ func ApplyRoutes(router *mux.Router) {
 	routes = append(routes, classRoutes()...)
 	routes = append(routes, configRoutes()...)
 	routes = append(routes, deityRoutes()...)
+	routes = append(routes, forumRoutes()...)
 	routes = append(routes, itemRoutes()...)
 	routes = append(routes, npcRoutes()...)
 	routes = append(routes, oauthTypeRoutes()...)

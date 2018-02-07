@@ -360,7 +360,7 @@ func sanitizeUser(focusUser *model.User, user *model.User) (err error) {
 		}
 		err = GetAccount(account, user)
 		if err != nil {
-			err = fmt.Errorf("Failed to get account")
+			err = errors.Wrap(err, "failed to get account")
 			return
 		}
 
@@ -369,9 +369,29 @@ func sanitizeUser(focusUser *model.User, user *model.User) (err error) {
 		}
 		err = GetCharacter(character, user)
 		if err != nil {
-			err = fmt.Errorf("Failed to get character")
+			err = errors.Wrap(err, "failed to get character")
 			return
 		}
+	}
+
+	page := &model.Page{
+		Limit: 100,
+	}
+	userAccounts, err := ListUserAccount(page, focusUser, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get listaccountbyuser")
+		return
+	}
+	for _, userAccount := range userAccounts {
+		account := &model.Account{
+			ID: userAccount.AccountID,
+		}
+		err = GetAccount(account, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get account")
+			return
+		}
+		user.Accounts = append(user.Accounts, account)
 	}
 
 	return

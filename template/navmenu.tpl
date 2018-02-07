@@ -3,11 +3,11 @@
 <li class="{{if eq .Site.Page "guide"}}active{{end}}"><a href="/guide"> <span class="nav-label"><i class="xa xa-trefoil-lily"></i> Guides</span></a></li>
 
 
-{{if .Site.User}}
+{{if gt .Site.User.ID 0}}
 <div class="profile-picture">
     
     <div class="stats-label text-color">
-     <a href="/dashboard">   <span class="font-extra-bold font-uppercase">{{.Site.User.Name}}</span></a>
+     <a href="/dashboard">   <span class="font-extra-bold font-uppercase">{{.Site.User.DisplayName}}</span></a>
         <div id="expLine" class="small-chart m-t-sm"></div>
         <div>
             <h4 class="font-extra-bold m-b-xs">

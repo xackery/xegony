@@ -1924,6 +1924,379 @@
         }
       }
     },
+    "/forum": {
+      "get": {
+        "description": "This will show all available forums by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "forum"
+        ],
+        "summary": "Lists forums",
+        "operationId": "listForum",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ForumsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an forum",
+        "tags": [
+          "forum"
+        ],
+        "summary": "Create an forum",
+        "operationId": "createForum",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Forum",
+            "description": "Forum details to create",
+            "name": "forum",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Forum"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ForumResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/forum/search": {
+      "get": {
+        "description": "This will show all available forums by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "forum"
+        ],
+        "summary": "Search forums by name",
+        "operationId": "listForumBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "heal",
+            "x-go-name": "Name",
+            "description": "Name is which forum to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ForumsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/forum/{ID}": {
+      "get": {
+        "description": "This will get an individual forum available forums by default.",
+        "tags": [
+          "forum"
+        ],
+        "summary": "Get an forum",
+        "operationId": "getForum",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ForumResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an forum",
+        "tags": [
+          "forum"
+        ],
+        "summary": "Edit an forum",
+        "operationId": "editForum",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Forum",
+            "description": "Forum details to edit",
+            "name": "forum",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Forum"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ForumResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an forum",
+        "tags": [
+          "forum"
+        ],
+        "summary": "Delete an forum",
+        "operationId": "deleteForum",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/item": {
       "get": {
         "description": "This will show all available items by default.",
@@ -4651,7 +5024,7 @@
           },
           {
             "type": "string",
-            "example": "entryid",
+            "example": "id",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -4748,7 +5121,7 @@
           },
           {
             "type": "string",
-            "example": "entryid",
+            "example": "id",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -11700,11 +12073,24 @@
           "type": "string",
           "x-go-name": "Name"
         },
-        "ownerId": {
+        "sort": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "OwnerID"
+          "x-go-name": "Sort"
+        },
+        "userID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UserID"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Forums": {
+      "description": "Forums is an array of forum",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Forum"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -14849,6 +15235,88 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "SpawnEvent": {
+      "description": "SpawnEvent represents the spawn_events table",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "action": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Action"
+        },
+        "argument": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Argument"
+        },
+        "conditionID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ConditionID"
+        },
+        "enabled": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Enabled"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "nextDay": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NextDay"
+        },
+        "nextHour": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NextHour"
+        },
+        "nextMinute": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NextMinute"
+        },
+        "nextMonth": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NextMonth"
+        },
+        "nextYear": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NextYear"
+        },
+        "period": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Period"
+        },
+        "strict": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Strict"
+        },
+        "zoneShortName": {
+          "type": "string",
+          "x-go-name": "ZoneShortName"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "SpawnEvents": {
+      "description": "SpawnEvents is an array of SpawnEvent",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SpawnEvent"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "SpawnNpc": {
       "description": "SpawnNpc represents the spawnentry table. This is a pivot",
       "type": "object",
@@ -17429,6 +17897,36 @@
       },
       "headers": {
         "deitys": {},
+        "page": {}
+      }
+    },
+    "ForumResponse": {
+      "description": "ForumResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Forum"
+      },
+      "headers": {
+        "forum": {}
+      }
+    },
+    "ForumsBySearchResponse": {
+      "description": "ForumsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Forums"
+      },
+      "headers": {
+        "forums": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "ForumsResponse": {
+      "description": "ForumsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Forums"
+      },
+      "headers": {
+        "forums": {},
         "page": {}
       }
     },

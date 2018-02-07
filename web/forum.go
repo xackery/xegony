@@ -35,7 +35,7 @@ func listForum(w http.ResponseWriter, r *http.Request, user *model.User, statusC
 		Forums []*model.Forum
 	}
 
-	site := newSite(r)
+	site := newSite(r, user)
 	page := &model.Page{}
 	forums, err := cases.ListForum(page, user)
 	if err != nil {
@@ -81,7 +81,7 @@ func getForum(w http.ResponseWriter, r *http.Request, user *model.User, statusCo
 		return
 	}
 
-	site := newSite(r)
+	site := newSite(r, user)
 	site.Page = "forum"
 	site.Title = "Forum"
 	site.Section = "forum"

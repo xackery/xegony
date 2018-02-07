@@ -29,7 +29,10 @@ func ApplyRoutes(router *mux.Router) {
 
 	routes = append(routes, indexRoutes()...)
 	routes = append(routes, forumRoutes()...)
-
+	type Content struct {
+		User    *model.User `json:"user"`
+		content interface{}
+	}
 	for i := range routes {
 		route := routes[i]
 		log.Println("path:", route.Pattern)

@@ -8,64 +8,89 @@
 <div class="content">
 
 
-
 <div class="row" >
 <div class="col-lg-12">
 
-    <div class="hpanel">
-        <div class="panel-body">
-            <div class="text-muted small pull-right text-right">            
-            </div>
-            <div class="form-inline">
-                Search: <input class="form-control" type="text">
-            </div>
-
-        </div>
-
-    </div>
-
-
     <div class="hpanel forum-box">
 
-    <div class="panel-heading">
-        <span class="f">Forum</span>
-        {{if .Site.User}} {{if .Site.User.IsAdmin}}
-            <span class="pull-right"><div class="btn-group">
-                <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" aria-expanded="false"><i class="fa fa-wrench"></i> <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/forum/create">Create Forum</a></li>
-                </ul>
-            </div></span>
-        {{end}}{{end}}
-    </div>
-
-    {{range $key, $value := .Forums}}
-    <div class="panel-body">
-        <div class="row">
-
-            <div class="col-md-10 forum-heading">
-                <a href="/forum/{{$value.ID}}">
-                    <h4>
-                        <i class="xa {{if $value.Icon}}{{$value.Icon}}{{else}}ra-coffee-mug{{end}}"></i> {{$value.Name}}
-                    </h4>
-                </a>
-                <a href="/forum/{{$value.ID}}"><div class="desc">{{$value.Description}}</div></a>
-            </div>
-            <div class="col-md-1 forum-info">
-                <span class="number"> 4780 </span>
-                <small>Views</small>
-            </div>
-            <div class="col-md-1 forum-info">
-                <span class="number"> 150 </span>
-                <small>Posts</small>
+        <div class="panel-heading hbuilt">
+            <div class="row">
+                <div class="col-md-4">
+                Forum
+                </div>
+                <div class="col-md-6">            
+                    <form action="panels.html">
+                        <div class="input-group">
+                            <input type="text" class="form-control input-xs" placeholder="Search something..." name="s">
+                            <span class="input-group-btn">
+                                <button class="btn btn-xs btn-default" type="submit">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                    
+                </div>
+                <div class="col-md-2 pull-right">
+                    <a id="add" class="btn btn-default btn-xs">Add</a>
+                    <a id="edit" class="btn btn-default btn-xs">Edit</a>
+                </div>
             </div>
         </div>
-    </div>
-    {{end}}
 
+        <div class="panel-body">
+            
+            {{range $key, $value := .Forums}}
+            <div class="row">
+                <div class="col-md-10 forum-heading">
+
+                    <div class="dataForum" data-forum-id="{{$value.ID}}">                        
+                        <a href="/forum/{{$value.ID}}">                            
+                                <h4><i class="{{$value.Icon}}"></i></h4> <h4 id="name" data-type="text" data-pk="{{$value.ID}}" data-url="/api/forum/{{$value.ID}}" data-title="Enter forum name">{{$value.Name}}</h4>                            
+                        </a>
+                        <a href="/forum/{{$value.ID}}"><div class="desc">{{$value.Description}}</div></a>
+                    </div>
+                </div>
+                <div class="col-md-1 forum-info">
+                    <span class="number"> 4780 </span>
+                    <small>Views</small>
+                </div>
+                <div class="col-md-1 forum-info">
+                    <span class="number"> 150 </span>
+                    <small>Posts</small>
+                </div>
+            </div>
+            {{end}}
+        </div>
     </div>
 </div>
 
 </div>
 </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    $isEditable = false
+    $.fn.editable.defaults.mode = 'inline';
+    
+    $( "#edit" ).click(function() {
+        if (!$isEditable) {   
+            $('#name').editable({
+                ajaxOptions: {
+                    type: "PUT",
+                    dataType: "json"
+                },
+                params: function(params) {
+                    return JSON.stringify(params);
+                }
+            });
+        } else {
+            $('#name').editable({
+                disabled: true
+            });
+        }
+    });
+    
+});
+</script>

@@ -30,7 +30,7 @@
 	<link rel="stylesheet" href="/vendor/metisMenu/dist/metisMenu.css" />
 	<link rel="stylesheet" href="/vendor/animate.css/animate.css" />
 	<link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.css" />
-
+	<link rel="stylesheet" href="/vendor/xeditable/bootstrap3-editable/css/bootstrap-editable.css">
 	<!-- App styles -->
 	<link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
 	<link rel="stylesheet" href="/fonts/pe-icon-7-stroke/css/helper.css" />
@@ -52,7 +52,8 @@
 	<script src="/vendor/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="/vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 	<script src="//cdn.jsdelivr.net/velocity/1.5/velocity.min.js"></script>
-	 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js"></script>
+	
 
 </head>
 <body class="fixed-navbar sidebar-scroll">
@@ -70,8 +71,10 @@
 <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/vendor/metisMenu/dist/metisMenu.min.js"></script>
 <script src="/vendor/iCheck/icheck.min.js"></script>
+<script src="/vendor/xeditable/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <!-- App scripts -->
 <script src="/scripts/homer.js"></script>
+
 
 <script>
 

@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	forumTable  = "forumgroup"
-	forumFields = "id, name, forum_limit, dist, max_x, min_x, max_y, min_y, delay, mindelay, deforum, deforum_timer"
-	forumBinds  = ":id, :name, :forum_limit, :dist, :max_x, :min_x, :max_y, :min_y, :delay, :mindelay, :deforum, :deforum_timer"
+	forumTable  = "forum"
+	forumFields = "id, name, user_id, description, icon"
+	forumBinds  = ":id, :name, :user_id, :description, :icon"
 )
 
 //GetForum will grab data from storage
@@ -45,7 +45,7 @@ func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 func (s *Storage) ListForum(page *model.Page) (forums []*model.Forum, err error) {
 
 	if len(page.OrderBy) < 1 {
-		page.OrderBy = "id"
+		page.OrderBy = "sort"
 	}
 
 	orderField := page.OrderBy
@@ -214,22 +214,18 @@ func (s *Storage) DeleteForum(forum *model.Forum) (err error) {
 //createTableForum will grab data from storage
 func (s *Storage) createTableForum() (err error) {
 	_, err = s.db.Exec(`
-    CREATE TABLE forumgroup (
-      id int(11) NOT NULL AUTO_INCREMENT,
-      name varchar(50) NOT NULL DEFAULT '',
-      forum_limit tinyint(4) NOT NULL DEFAULT '0',
-      dist float NOT NULL DEFAULT '0',
-      max_x float NOT NULL DEFAULT '0',
-      min_x float NOT NULL DEFAULT '0',
-      max_y float NOT NULL DEFAULT '0',
-      min_y float NOT NULL DEFAULT '0',
-      delay int(11) NOT NULL DEFAULT '45000',
-      mindelay int(11) NOT NULL DEFAULT '15000',
-      deforum tinyint(3) NOT NULL DEFAULT '0',
-      deforum_timer int(11) NOT NULL DEFAULT '100',
-      PRIMARY KEY (id),
-      UNIQUE KEY name (name)
-    ) ENGINE=InnoDB AUTO_INCREMENT=259666 DEFAULT CHARSET=latin1;`)
+		CREATE TABLE forum (
+			id int(11) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(32) NOT NULL DEFAULT '',
+			user_id int(11) unsigned NOT NULL,
+			description varchar(128) NOT NULL DEFAULT '',
+			last_modified timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			create_date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			icon varchar(32) NOT NULL DEFAULT '',
+			sort int(10) unsigned NOT NULL,
+			PRIMARY KEY (id)
+		  ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+		`)
 	if err != nil {
 		return
 	}

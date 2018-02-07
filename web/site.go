@@ -21,7 +21,7 @@ type site struct {
 	User   *model.User
 }
 
-func newSite(r *http.Request) (siteData site) {
+func newSite(r *http.Request, user *model.User) (siteData site) {
 	re := regexp.MustCompile("[^a-z]+")
 
 	rootTitle := strings.ToLower(r.URL.Path)
@@ -48,6 +48,7 @@ func newSite(r *http.Request) (siteData site) {
 		Author:      cases.GetConfigValue("webAuthor"),
 		Image:       cases.GetConfigValue("webImage"),
 		Description: cases.GetConfigValue("webDescription"),
+		User:        user,
 	}
 
 	return

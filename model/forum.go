@@ -9,7 +9,8 @@ type Forums []*Forum
 type Forum struct {
 	ID          int64  `json:"id,omitempty" db:"id"`
 	Name        string `json:"name,omitempty" db:"name"`
-	OwnerID     int64  `json:"ownerId" db:"owner_id"`
+	UserID      int64  `json:"userID" db:"user_id"`
+	Sort        int64  `json:"sort" db:"sort"`
 	Description string `json:"description" db:"description"`
 	Icon        string `json:"icon" db:"icon"`
 }

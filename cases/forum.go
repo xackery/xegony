@@ -368,9 +368,11 @@ func validateOrderByForumField(page *model.Page) (err error) {
 }
 
 func sanitizeForum(forum *model.Forum, user *model.User) (err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = nil
+	if len(forum.Icon) == 0 {
+		forum.Icon = "xa-coffee-mug"
+	}
+	if len(forum.Icon) > 2 && forum.Icon[2:3] == "-" {
+		forum.Icon = fmt.Sprintf("%s %s", forum.Icon[0:2], forum.Icon)
 	}
 
 	return

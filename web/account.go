@@ -35,7 +35,7 @@ func listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statu
 		Accounts []*model.Account
 	}
 
-	site := newSite(r)
+	site := newSite(r, user)
 	site.Page = "account"
 	site.Title = "Account"
 	site.Section = "account"
@@ -83,7 +83,7 @@ func getAccount(w http.ResponseWriter, r *http.Request, user *model.User, status
 		return
 	}
 
-	site := newSite(r)
+	site := newSite(r, user)
 	site.Page = "account"
 	site.Title = "Account"
 	site.Section = "account"

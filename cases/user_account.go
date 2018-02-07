@@ -302,11 +302,11 @@ func validateUserAccount(userAccount *model.UserAccount, required []string, opti
 
 func validateOrderByUserAccountField(page *model.Page) (err error) {
 	if len(page.OrderBy) == 0 {
-		page.OrderBy = "accountid"
+		page.OrderBy = "account_id"
 	}
 
 	validNames := []string{
-		"accountid",
+		"account_id",
 	}
 
 	possibleNames := ""

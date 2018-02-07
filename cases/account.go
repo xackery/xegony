@@ -362,7 +362,7 @@ func sanitizeAccount(account *model.Account, user *model.User) (err error) {
 	if err != nil {
 		account.Name = ""
 		//account.Sharedplat = ""
-		account.Status = 0
+		//account.Status = 0
 		account.Gmspeed = 0
 		//account.Revoked = 0
 		//account.Karma = 0

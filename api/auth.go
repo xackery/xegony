@@ -50,7 +50,7 @@ func GetAuthClaim(r *http.Request) (*model.AuthClaim, error) {
 	}
 
 	if token == "" {
-		cookie, err := r.Cookie("apiKey")
+		cookie, err := r.Cookie("token")
 		if err != nil {
 			if err == http.ErrNoCookie {
 				return auth, nil
@@ -58,16 +58,14 @@ func GetAuthClaim(r *http.Request) (*model.AuthClaim, error) {
 			return auth, err
 		}
 		token = cookie.String()
-		if len(token) > 7 { //strip out apiKey=
-			token = token[7:]
+		if len(token) > 6 { //strip out token=
+			token = token[6:]
 		}
 	}
 
 	if token == "" || token == "undefined" {
 		return auth, fmt.Errorf("No Token Provided")
 	}
-
-	//fmt.Println(token)
 
 	parsedToken, err := jwt.ParseWithClaims(token, &model.AuthClaim{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

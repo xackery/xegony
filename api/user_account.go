@@ -73,7 +73,7 @@ type UserAccountsRequest struct {
 	// in: query
 	Limit int64 `json:"limit"`
 	// OrderBy is which field to order a page by
-	// example: accountid
+	// example: account_id
 	// in: query
 	OrderBy string `json:"orderBy"`
 	// IsDescending will change sort order when true
@@ -110,7 +110,7 @@ type UserAccountsBySearchRequest struct {
 	// in: query
 	Limit int64 `json:"limit"`
 	// OrderBy is which field to order a page by
-	// example: accountid
+	// example: account_id
 	// in: query
 	OrderBy string `json:"orderBy"`
 	// IsDescending will change sort order when true

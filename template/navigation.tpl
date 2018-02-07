@@ -7,7 +7,7 @@
 	</div>
 </aside>
 
-{{if .Site.User}}
+{{if gt .Site.User.ID 0}}
 <script src="/vendor/sparkline/index.js"></script>
 <script type="text/javascript">
     $("#expLine").sparkline([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], {

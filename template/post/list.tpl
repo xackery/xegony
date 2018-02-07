@@ -47,7 +47,7 @@
 </div>
 
 
-{{if .Site.User}}
+{{if gt .Site.User.ID 0}}
 <div class="row" >
     <div class="col-lg-12">
     <div class="hpanel forum-box">
