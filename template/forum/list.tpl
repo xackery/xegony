@@ -42,13 +42,13 @@
         <table cellpadding="1" cellspacing="1" class="table table-condensed table-borderless">
             <col width="40px">
             <tbody>
-                <tr>
-                    <td rowspan="2"><a id="newIcon" data-type="select2" data-title="Select icon"> <h1><i class="xa xa-monster-skull"></i></h1></a></td>
-                    <td colspan="2"><a id="newName" data-type="text" data-title="Enter forum name"><h4>Name</h4></a></td>    
+                <tr class="newRow">
+                    <td rowspan="2"><a id="newIcon" class="newField" data-type="select2" data-title="Select icon"> <h1><i class="xa xa-monster-skull"></i></h1></a></td>
+                    <td colspan="2"><a id="newName" class="newField" data-type="text" data-title="Enter forum name"><h4>Name</h4></a></td>    
                     <td><span class="number"> 4780 </span><small>Views</small></td>
                 </tr>
-                <tr>
-                    <td colspan="2"><div id="newDescription" class="desc" data-type="text" data-title="Edit description">Description</div></td>
+                <tr class="newRow">
+                    <td colspan="2"><div id="newDescription" class="newField" class="desc" data-type="text" data-title="Edit description">Description</div></td>
                     <td><span class="number"> 150 </span><small>Posts</small></td>
                 </tr>    
             {{range $key, $value := .Forums}}                            
@@ -79,30 +79,72 @@ $(document).ready(function() {
 	$isEditMode = false;
     $isAddable = false;
     $.fn.editable.defaults.mode = 'inline';
-    
+
+    function ToggleEditMode() {
+        $.each([ ".editName", ".editDescription", ".editIcon" ], function( index, value ) {
+            $(value).editable('toggleDisabled');
+        });
+        $isEditMode = !$isEditMode;
+        if ($isEditMode) {
+            $(".editLink").attr("onclick", "");
+        } else {
+            $(".editLink").attr("onclick", "return false;");
+        }
+    }
+
+    $(".newRow").hide();
+    $('#newName').editable({
+        ajaxOptions: {
+            type: "PUT",
+            dataType: "json"
+        },
+        params: function(params) {
+            return JSON.stringify({
+                ID: params.pk,
+                "name": params.value,			            
+            })
+        }
+    });
     $("#add").click(function() {
         $isAddable = !$isAddable;
          if ($isAddable) {
-            console.log("Enabling add mode")            
-            $('#newName').editable({
-                ajaxOptions: {
-                    type: "PUT",
-                    dataType: "json"
-                },
-                params: function(params) {
-                    return JSON.stringify({
-                        ID: params.pk,
-                        "name": params.value,			            
-                    })
-                }
-            });
-
+             if (!$isEditMode) {
+                ToggleEditMode();
+             }
+             $(".newRow").show()
+            console.log("Enabling add mode")
         } else {
-            $('#newName').editable({
-                disabled: true
-            });
+             $(".newRow").hide()
         } 
     });
+
+    $.each([ ".newName", ".newDescription", ".newIcon" ], function( index, value ) {
+        var valField = value.substring(5).toLowerCase()
+        var source = "";
+        if (valField == "icon") {
+            source = [
+                {id: 'xa-monster-skull', text: 'skull'},
+                {id: 'xa-foo', text: 'foo'},
+            ]
+        }
+        $(value).editable({
+            source: source,
+            ajaxOptions: {
+                type: "POST",
+                dataType: "json"
+            },
+            params: function(params) {
+                var paramData = {
+                    ID: params.pk
+                }
+                paramData[valField] = params.value
+                return JSON.stringify(paramData)
+            }
+        });
+        $(value).editable('toggleDisabled');        
+    });
+
+
     
     $.each([ ".editName", ".editDescription", ".editIcon" ], function( index, value ) {
         var valField = value.substring(5).toLowerCase()
@@ -131,16 +173,7 @@ $(document).ready(function() {
     });
 
     $("#edit").click(function() {
-        $.each([ ".editName", ".editDescription", ".editIcon" ], function( index, value ) {
-            $(value).editable('toggleDisabled');
-        });
-        $isEditMode = !$isEditMode;
-        if ($isEditMode) {
-            $(".editLink").attr("onclick", "");
-        } else {
-            
-            $(".editLink").attr("onclick", "return false;");
-        }
+        ToggleEditMode();        
 
     });
     

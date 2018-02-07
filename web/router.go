@@ -29,6 +29,7 @@ func ApplyRoutes(router *mux.Router) {
 
 	routes = append(routes, indexRoutes()...)
 	routes = append(routes, forumRoutes()...)
+	routes = append(routes, spawnRoutes()...)
 	type Content struct {
 		User    *model.User `json:"user"`
 		content interface{}
@@ -49,7 +50,6 @@ func ApplyRoutes(router *mux.Router) {
 
 			tmp := &template.Template{}
 			statusCode := http.StatusOK
-			log.Println("route:", route.Name)
 			content, tmp, err := route.HandlerFunc(w, r, user, statusCode)
 			if err != nil {
 				writeError(w, r, err, statusCode)

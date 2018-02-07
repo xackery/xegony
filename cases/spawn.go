@@ -368,9 +368,8 @@ func validateOrderBySpawnField(page *model.Page) (err error) {
 }
 
 func sanitizeSpawn(spawn *model.Spawn, user *model.User) (err error) {
-	err = user.IsGuide()
-	if err != nil {
-		err = nil
+	if len(spawn.Name) == 0 {
+		spawn.Name = fmt.Sprintf("(%d)", spawn.ID)
 	}
 
 	return
