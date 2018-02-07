@@ -32,6 +32,11 @@ type Writer interface {
 	EditDeity(deity *model.Deity) (err error)
 	DeleteDeity(deity *model.Deity) (err error)
 
+	//Forum
+	CreateForum(forum *model.Forum) (err error)
+	EditForum(forum *model.Forum) (err error)
+	DeleteForum(forum *model.Forum) (err error)
+
 	//Item
 	CreateItem(item *model.Item) (err error)
 	EditItem(item *model.Item) (err error)

@@ -84,5 +84,35 @@ func loadConfigDefault() model.Configs {
 			Value:       "eqemu",
 			Description: "port used for database (default: eqemu)",
 		},
+		{
+			Category:    "Web",
+			Key:         "webCacheTemplate",
+			Value:       "0",
+			Description: "Should templates be cached? 0 for no, 1 for yes. Caching speeds up the load time of web pages, but if you edit templates, they won't show up on web (default: 0)",
+		},
+		{
+			Category:    "Web",
+			Key:         "webName",
+			Value:       "Xegony",
+			Description: "Name of the website. (default: Xegony)",
+		},
+		{
+			Category:    "Web",
+			Key:         "webAuthor",
+			Value:       "Xackery",
+			Description: "Default author of each web page. (default: Xackery)",
+		},
+		{
+			Category:    "Web",
+			Key:         "webImage",
+			Value:       "/images/logo.png",
+			Description: "Default image of each web page. (default: /images/logo.png)",
+		},
+		{
+			Category:    "Web",
+			Key:         "webDescription",
+			Value:       "Xegony is a project",
+			Description: "Default description of each web page. (default: Xegony is a project)",
+		},
 	}
 }

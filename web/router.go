@@ -22,138 +22,17 @@ type route struct {
 func ApplyRoutes(router *mux.Router) {
 	rootPath := cases.GetConfigValue("webSuffix")
 
-	var routes []*route
-	var newRoutes []*route
-
-	newRoutes = accountRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
+	if rootPath[len(rootPath)-1:] == "/" {
+		rootPath = rootPath[0 : len(rootPath)-1]
 	}
-	/*
-		newRoutes = activityRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = bazaarRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = characterRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = dashboardRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = fishingRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = forageRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = forumRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = hackerRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = indexRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = itemRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = loginRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootDropRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootDropEntryRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootTableRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = lootTableEntryRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = merchantRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = merchantEntryRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = npcRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = postRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = recipeRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = recipeEntryRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = ruleRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = spawnRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = spawnEntryRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = spawnNpcRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = spellRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = taskRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = topicRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = variableRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-		newRoutes = zoneRoutes()
-		for _, r := range newRoutes {
-			routes = append(routes, r)
-		}
-	*/
+	var routes []*route
+
+	routes = append(routes, indexRoutes()...)
+	routes = append(routes, forumRoutes()...)
+
 	for i := range routes {
 		route := routes[i]
-		//		log.Println("path:", route.Pattern)
+		log.Println("path:", route.Pattern)
 
 		router.HandleFunc(rootPath+route.Pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -167,6 +46,7 @@ func ApplyRoutes(router *mux.Router) {
 
 			tmp := &template.Template{}
 			statusCode := http.StatusOK
+			log.Println("route:", route.Name)
 			content, tmp, err := route.HandlerFunc(w, r, user, statusCode)
 			if err != nil {
 				writeError(w, r, err, statusCode)

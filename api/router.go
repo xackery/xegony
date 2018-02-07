@@ -21,13 +21,8 @@ func ApplyRoutes(router *mux.Router) {
 	rootPath := cases.GetConfigValue("apiSuffix")
 
 	var routes []*route
-	var newRoutes []*route
 
-	newRoutes = indexRoutes()
-	for _, r := range newRoutes {
-		routes = append(routes, r)
-	}
-
+	routes = append(routes, indexRoutes()...)
 	routes = append(routes, accountRoutes()...)
 	routes = append(routes, characterRoutes()...)
 	routes = append(routes, classRoutes()...)

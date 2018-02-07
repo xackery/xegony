@@ -50,20 +50,14 @@ func listAccount(w http.ResponseWriter, r *http.Request, user *model.User, statu
 		Accounts: accounts,
 	}
 
-	tmp = getTemplate("")
-	if tmp == nil {
-		tmp, err = loadTemplate(nil, "body", "account/list.tpl")
-		if err != nil {
-			return
-		}
-		tmp, err = loadStandardTemplate(tmp)
-		if err != nil {
-			return
-		}
-
-		setTemplate("account", tmp)
+	tmp, err = loadTemplate(nil, "body", "account/list.tpl")
+	if err != nil {
+		return
 	}
-
+	tmp, err = loadStandardTemplate(tmp)
+	if err != nil {
+		return
+	}
 	return
 }
 
@@ -99,18 +93,13 @@ func getAccount(w http.ResponseWriter, r *http.Request, user *model.User, status
 		Account: account,
 	}
 
-	tmp = getTemplate("")
-	if tmp == nil {
-		tmp, err = loadTemplate(nil, "body", "account/get.tpl")
-		if err != nil {
-			return
-		}
-		tmp, err = loadStandardTemplate(tmp)
-		if err != nil {
-			return
-		}
-
-		setTemplate("account", tmp)
+	tmp, err = loadTemplate(nil, "body", "account/get.tpl")
+	if err != nil {
+		return
+	}
+	tmp, err = loadStandardTemplate(tmp)
+	if err != nil {
+		return
 	}
 
 	return

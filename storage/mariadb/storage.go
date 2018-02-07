@@ -125,6 +125,10 @@ func (s *Storage) VerifyTables() (err error) {
 			Name: "Character",
 		},
 		{
+			Func: s.createTableForum,
+			Name: "Forum",
+		},
+		{
 			Func: s.createTableRule,
 			Name: "Rule",
 		},

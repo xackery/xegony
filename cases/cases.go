@@ -156,6 +156,7 @@ func InitializeAllDatabaseStorage(sr storage.Reader, sw storage.Writer, si stora
 	scopes := []string{
 		"account",
 		"character",
+		"forum",
 		"item",
 		"npc",
 		"rule",

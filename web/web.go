@@ -19,31 +19,9 @@ import (
 )
 
 var (
-	templates = make(map[string]*Template)
-	log       *alog.Logger
-	logErr    *alog.Logger
+	log    *alog.Logger
+	logErr *alog.Logger
 )
-
-type site struct {
-	Title       string //Title of site
-	Name        string
-	Page        string
-	Section     string
-	Description string //Description for oprop
-	Image       string
-	Author      string
-	User        *model.User
-}
-
-func newSite(r *http.Request) (data site) {
-	data = site{
-		Name:        "Xegony",
-		Title:       "Xegony",
-		Description: "Xegony",
-	}
-
-	return
-}
 
 func indexRoutes() (routes []*route) {
 	routes = []*route{
@@ -51,7 +29,7 @@ func indexRoutes() (routes []*route) {
 			"Index",
 			"GET",
 			"/",
-			index,
+			getIndex,
 		},
 	}
 	return
@@ -83,36 +61,8 @@ func Initialize(sr storage.Reader, sw storage.Writer, si storage.Initializer, co
 	return
 }
 
-func index(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
-
-	type Content struct {
-		Site site
-		Host string
-	}
-
-	site := newSite(r)
-	site.Page = "forum"
-	site.Title = "Xegony"
-
-	content = Content{
-		Site: site,
-	}
-
-	tmp = getTemplate("")
-	if tmp == nil {
-		tmp, err = loadTemplate(nil, "body", "index.tpl")
-		if err != nil {
-			return
-		}
-		tmp, err = loadStandardTemplate(tmp)
-		if err != nil {
-			return
-		}
-
-		setTemplate("index", tmp)
-	}
-
-	return
+func getIndex(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+	return listForum(w, r, user, statusCode)
 }
 
 func notFound(w http.ResponseWriter, r *http.Request) {
@@ -149,21 +99,11 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 	site.Page = fmt.Sprintf("%d", statusCode)
 	site.Title = "Error"
 
-	tmp := getTemplate("")
+	tmp, tErr := loadTemplate(nil, "404", "404.tpl")
+	if tErr != nil {
+		logErr.Println(tErr.Error())
+	}
 
-	//Figure out scope based on URL
-
-	logErr.Println(err.Error())
-	/*cErr := errorRepo.Create(&model.Error{
-		URL:     r.URL.String(),
-		Scope:   "unknown",
-		Message: err.Error(),
-	}, nil)
-	if cErr != nil {
-		log.Println("Failed to create error", cErr.Error())
-	}*/
-
-	var tErr error
 	switch statusCode {
 	case http.StatusUnauthorized:
 		if tmp == nil {
@@ -202,11 +142,13 @@ func writeError(w http.ResponseWriter, r *http.Request, err error, statusCode in
 
 	content := Content{
 		Site:    site,
-		Message: err.Error(),
+		Message: fmt.Sprintf("%s", errors.Cause(err).Error()),
 	}
+	logErr.Println(err.Error())
 	if r != nil {
 		content.URL = r.URL.String()
 	}
+
 	writeData(w, r, tmp, content, statusCode)
 }
 

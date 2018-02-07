@@ -54,6 +54,13 @@ type Reader interface {
 	ListDeityBySearch(page *model.Page, deity *model.Deity) (deitys []*model.Deity, err error)
 	ListDeityBySearchTotalCount(deity *model.Deity) (count int64, err error)
 
+	//Forum
+	GetForum(forum *model.Forum) (err error)
+	ListForum(page *model.Page) (forums []*model.Forum, err error)
+	ListForumTotalCount() (count int64, err error)
+	ListForumBySearch(page *model.Page, forum *model.Forum) (forums []*model.Forum, err error)
+	ListForumBySearchTotalCount(forum *model.Forum) (count int64, err error)
+
 	//Item
 	GetItem(item *model.Item) (err error)
 	ListItem(page *model.Page) (items []*model.Item, err error)

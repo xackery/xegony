@@ -3,19 +3,22 @@ package web
 import (
 	"html/template"
 	"io/ioutil"
+	"sync"
 	"time"
 
 	"github.com/dustin/go-humanize"
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/box"
+	"github.com/xackery/xegony/cases"
 )
 
-//Template wraps template objects
-type Template struct {
-	template *template.Template
-}
+var (
+	templateLock = sync.RWMutex{}
+	templates    = make(map[string]*template.Template)
+)
 
 func loadStandardTemplate(oldTemplate *template.Template) (tmp *template.Template, err error) {
+
 	tmp = oldTemplate
 	tmp, err = loadTemplate(tmp, "navmenu", "navmenu.tpl")
 	if err != nil {
@@ -36,23 +39,18 @@ func loadStandardTemplate(oldTemplate *template.Template) (tmp *template.Templat
 	return
 }
 
-func getTemplate(key string) (value *template.Template) {
-
-	if tmp, ok := templates[key]; ok {
-		value = tmp.template
-		return
-	}
-	return
-}
-
-func setTemplate(key string, value *template.Template) {
-	tmp := &Template{
-		template: value,
-	}
-	templates[key] = tmp
-}
-
 func loadTemplate(oldTemplate *template.Template, key string, path string) (tmp *template.Template, err error) {
+	templateLock.Lock()
+	defer templateLock.Unlock()
+
+	useCache := cases.GetConfigValue("webCacheTemplate")
+	var ok bool
+	if useCache == "1" {
+		tmp, ok = templates[key]
+		if ok {
+			return
+		}
+	}
 	var bData []byte
 
 	//First, we try to use local file
@@ -72,8 +70,17 @@ func loadTemplate(oldTemplate *template.Template, key string, path string) (tmp 
 
 	if oldTemplate == nil {
 		tmp, err = template.New(key).Funcs(funcMap).Parse(string(bData))
+		if err != nil {
+			return
+		}
 	} else {
 		tmp, err = oldTemplate.New(key).Funcs(funcMap).Parse(string(bData))
+		if err != nil {
+			return
+		}
+	}
+	if useCache == "1" {
+		templates[key] = tmp
 	}
 	return
 }
