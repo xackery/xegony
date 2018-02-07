@@ -45,6 +45,9 @@
 	<link rel="stylesheet" href="/vendor/summernote/dist/summernote-bs3.css" />
 	
 	<link rel="stylesheet" href="/vendor/datatables.net-bs/css/dataTables.bootstrap.min.css">
+	<link rel="stylesheet" href="/vendor/select2-3.5.2/select2.css">
+	<link rel="stylesheet" href="vendor/select2-bootstrap/select2-bootstrap.css">
+	
 
 	<script src="/vendor/jquery/dist/jquery.min.js"></script>
 	<script src="/vendor/jquery-ui/jquery-ui.min.js"></script>
@@ -53,6 +56,7 @@
 	<script src="/vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 	<script src="//cdn.jsdelivr.net/velocity/1.5/velocity.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js"></script>
+	<script src="vendor/select2-3.5.2/select2.min.js"></script>
 	
 
 </head>

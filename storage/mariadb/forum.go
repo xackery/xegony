@@ -166,6 +166,12 @@ func (s *Storage) EditForum(forum *model.Forum) (err error) {
 	if len(forum.Name) > 0 && prevForum.Name != forum.Name {
 		field += "name = :name, "
 	}
+	if len(forum.Description) > 0 && prevForum.Description != forum.Description {
+		field += "description = :description, "
+	}
+	if len(forum.Icon) > 0 && prevForum.Icon != forum.Icon {
+		field += "icon = :icon, "
+	}
 	if len(field) == 0 {
 		err = &model.ErrNoContent{}
 		return
@@ -188,6 +194,7 @@ func (s *Storage) EditForum(forum *model.Forum) (err error) {
 		err = errors.Wrapf(err, "query: %s", query)
 		return
 	}
+	fmt.Println(forum)
 	return
 }
 
