@@ -519,7 +519,6 @@ func getSchemaPropertyClass(field string) (prop model.Schema, err error) {
 	switch field {
 	case "ID":
 		prop.Type = "integer"
-		prop.Minimum = 1
 	case "name":
 		prop.Type = "string"
 		prop.MinLength = 3

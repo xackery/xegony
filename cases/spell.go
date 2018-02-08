@@ -384,6 +384,10 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 		}
 	}
 
+	if spell.Name.String == "" {
+		spell.Name.String = fmt.Sprintf("(%d)", spell.ID)
+	}
+
 	if spell.TargetTypeID > 0 {
 		spell.TargetType = &model.SpellTargetType{
 			ID: spell.TargetTypeID,
@@ -705,6 +709,221 @@ func sanitizeSpell(spell *model.Spell, user *model.User) (err error) {
 		err = GetDeityBySpell(spell, spell.Deity16, user)
 		if err != nil {
 			err = errors.Wrap(err, "failed on deity 16")
+			return
+		}
+	}
+
+	spell.Skill = &model.Skill{
+		ID: spell.SkillID,
+	}
+	err = GetSkill(spell.Skill, user)
+	if err != nil {
+		err = errors.Wrapf(err, "failed to get skill %d", spell.SkillID)
+		return
+	}
+
+	spell.Class1 = &model.Class{
+		ID: 1,
+	}
+	err = GetClass(spell.Class1, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 1")
+		return
+	}
+
+	spell.Class2 = &model.Class{
+		ID: 2,
+	}
+	err = GetClass(spell.Class2, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 2")
+		return
+	}
+	spell.Class3 = &model.Class{
+		ID: 3,
+	}
+	err = GetClass(spell.Class3, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 3")
+		return
+	}
+	spell.Class4 = &model.Class{
+		ID: 4,
+	}
+	err = GetClass(spell.Class4, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 4")
+		return
+	}
+	spell.Class5 = &model.Class{
+		ID: 5,
+	}
+	err = GetClass(spell.Class5, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 5")
+		return
+	}
+	spell.Class6 = &model.Class{
+		ID: 6,
+	}
+	err = GetClass(spell.Class6, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 6")
+		return
+	}
+	spell.Class7 = &model.Class{
+		ID: 7,
+	}
+	err = GetClass(spell.Class7, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 7")
+		return
+	}
+
+	spell.Class8 = &model.Class{
+		ID: 8,
+	}
+	err = GetClass(spell.Class8, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 8")
+		return
+	}
+	spell.Class9 = &model.Class{
+		ID: 9,
+	}
+	err = GetClass(spell.Class9, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 9")
+		return
+	}
+	spell.Class10 = &model.Class{
+		ID: 10,
+	}
+	err = GetClass(spell.Class10, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 10")
+		return
+	}
+	spell.Class11 = &model.Class{
+		ID: 11,
+	}
+	err = GetClass(spell.Class11, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 11")
+		return
+	}
+	spell.Class12 = &model.Class{
+		ID: 12,
+	}
+	err = GetClass(spell.Class12, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 12")
+		return
+	}
+	spell.Class13 = &model.Class{
+		ID: 13,
+	}
+	err = GetClass(spell.Class13, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 13")
+		return
+	}
+	spell.Class14 = &model.Class{
+		ID: 14,
+	}
+	err = GetClass(spell.Class14, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 14")
+		return
+	}
+	spell.Class15 = &model.Class{
+		ID: 15,
+	}
+	err = GetClass(spell.Class15, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 15")
+		return
+	}
+	spell.Class16 = &model.Class{
+		ID: 16,
+	}
+	err = GetClass(spell.Class16, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed on class 16")
+		return
+	}
+
+	if spell.LowestLevel > spell.ClassLevel1 {
+		spell.LowestLevel = spell.ClassLevel1
+		spell.LowestClass = spell.Class1
+	}
+	if spell.LowestLevel > spell.ClassLevel2 {
+		spell.LowestLevel = spell.ClassLevel2
+		spell.LowestClass = spell.Class2
+	}
+	if spell.LowestLevel > spell.ClassLevel3 {
+		spell.LowestLevel = spell.ClassLevel3
+		spell.LowestClass = spell.Class3
+	}
+	if spell.LowestLevel > spell.ClassLevel4 {
+		spell.LowestLevel = spell.ClassLevel4
+		spell.LowestClass = spell.Class4
+	}
+	if spell.LowestLevel > spell.ClassLevel5 {
+		spell.LowestLevel = spell.ClassLevel5
+		spell.LowestClass = spell.Class5
+	}
+	if spell.LowestLevel > spell.ClassLevel6 {
+		spell.LowestLevel = spell.ClassLevel6
+		spell.LowestClass = spell.Class6
+	}
+	if spell.LowestLevel > spell.ClassLevel7 {
+		spell.LowestLevel = spell.ClassLevel7
+		spell.LowestClass = spell.Class7
+	}
+	if spell.LowestLevel > spell.ClassLevel8 {
+		spell.LowestLevel = spell.ClassLevel8
+		spell.LowestClass = spell.Class8
+	}
+	if spell.LowestLevel > spell.ClassLevel9 {
+		spell.LowestLevel = spell.ClassLevel9
+		spell.LowestClass = spell.Class9
+	}
+	if spell.LowestLevel > spell.ClassLevel10 {
+		spell.LowestLevel = spell.ClassLevel10
+		spell.LowestClass = spell.Class10
+	}
+	if spell.LowestLevel > spell.ClassLevel11 {
+		spell.LowestLevel = spell.ClassLevel11
+		spell.LowestClass = spell.Class11
+	}
+	if spell.LowestLevel > spell.ClassLevel12 {
+		spell.LowestLevel = spell.ClassLevel12
+		spell.LowestClass = spell.Class12
+	}
+	if spell.LowestLevel > spell.ClassLevel13 {
+		spell.LowestLevel = spell.ClassLevel13
+		spell.LowestClass = spell.Class13
+	}
+	if spell.LowestLevel > spell.ClassLevel14 {
+		spell.LowestLevel = spell.ClassLevel14
+		spell.LowestClass = spell.Class14
+	}
+	if spell.LowestLevel > spell.ClassLevel15 {
+		spell.LowestLevel = spell.ClassLevel15
+		spell.LowestClass = spell.Class15
+	}
+	if spell.LowestLevel > spell.ClassLevel16 {
+		spell.LowestLevel = spell.ClassLevel16
+		spell.LowestClass = spell.Class16
+	}
+	if spell.LowestClass == nil {
+		spell.LowestClass = &model.Class{
+			ID: 0,
+		}
+		err = GetClass(spell.LowestClass, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get lowest class (0)")
 			return
 		}
 	}

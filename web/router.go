@@ -29,6 +29,7 @@ func ApplyRoutes(router *mux.Router) {
 
 	routes = append(routes, indexRoutes()...)
 	routes = append(routes, forumRoutes()...)
+	routes = append(routes, spellRoutes()...)
 	routes = append(routes, spawnRoutes()...)
 	routes = append(routes, npcRoutes()...)
 	type Content struct {

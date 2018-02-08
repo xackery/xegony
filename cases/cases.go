@@ -90,6 +90,12 @@ func InitializeAllMemoryStorage() (err error) {
 		return
 	}
 
+	err = LoadSkillFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load skill to memory")
+		return
+	}
+
 	err = LoadSpellAnimationFromFileToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load spellAnimation to memory")

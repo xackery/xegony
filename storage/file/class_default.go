@@ -7,6 +7,13 @@ import (
 func loadClassDefault() model.Classs {
 	return model.Classs{
 		{
+			ID:        0,
+			Bit:       0,
+			Name:      "Unknown",
+			ShortName: "UNK",
+			Icon:      "xa-shield",
+		},
+		{
 			ID:        1,
 			Bit:       1,
 			Name:      "Warrior",

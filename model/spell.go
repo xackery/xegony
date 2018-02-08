@@ -11,6 +11,8 @@ type Spells []*Spell
 //Spell represents items inside everquest
 // swagger:model
 type Spell struct {
+	LowestLevel         int64                 `json:"lowestLevel,omitempty"`
+	LowestClass         *Class                `json:"lowestClass,omitempty"`
 	Animation           *SpellAnimation       `json:"animation,omitempty"`
 	BuffDurationFormula *SpellDurationFormula `json:"buffDurationFormula,omitempty"`
 	CastingAnimation    *SpellAnimation       `json:"castingAnimation,omitempty"`
@@ -75,6 +77,22 @@ type Spell struct {
 	Deity14             *Deity                `json:"deity14,omitempty"`
 	Deity15             *Deity                `json:"deity15,omitempty"`
 	Deity16             *Deity                `json:"deity16,omitempty"`
+	Class1              *Class                `json:"class1,omitempty"`
+	Class2              *Class                `json:"class2,omitempty"`
+	Class3              *Class                `json:"class3,omitempty"`
+	Class4              *Class                `json:"class4,omitempty"`
+	Class5              *Class                `json:"class5,omitempty"`
+	Class6              *Class                `json:"class6,omitempty"`
+	Class7              *Class                `json:"class7,omitempty"`
+	Class8              *Class                `json:"class8,omitempty"`
+	Class9              *Class                `json:"class9,omitempty"`
+	Class10             *Class                `json:"class10,omitempty"`
+	Class11             *Class                `json:"class11,omitempty"`
+	Class12             *Class                `json:"class12,omitempty"`
+	Class13             *Class                `json:"class13,omitempty"`
+	Class14             *Class                `json:"class14,omitempty"`
+	Class15             *Class                `json:"class15,omitempty"`
+	Class16             *Class                `json:"class16,omitempty"`
 
 	ID                    int64          `json:"ID,omitempty" db:"id"`                                     //`id` int(11) NOT NULL DEFAULT '0',
 	Name                  sql.NullString `json:"name,omitempty" db:"name"`                                 //`name` varchar(64) DEFAULT NULL,
@@ -287,6 +305,39 @@ type Spell struct {
 	DeityID14 int64 `json:"deityID14,omitempty" db:"deities14"` //`deities14` int(11) NOT NULL DEFAULT '0',
 	DeityID15 int64 `json:"deityID15,omitempty" db:"deities15"` //`deities15` int(11) NOT NULL DEFAULT '0',
 	DeityID16 int64 `json:"deityID16,omitempty" db:"deities16"` //`deities16` int(11) NOT NULL DEFAULT '0',
+
+	ClassID1     int64 `json:"classID1,omitempty"`
+	ClassID2     int64 `json:"classID2,omitempty"`
+	ClassID3     int64 `json:"classID3,omitempty"`
+	ClassID4     int64 `json:"classID4,omitempty"`
+	ClassID5     int64 `json:"classID5,omitempty"`
+	ClassID6     int64 `json:"classID6,omitempty"`
+	ClassID7     int64 `json:"classID7,omitempty"`
+	ClassID8     int64 `json:"classID8,omitempty"`
+	ClassID9     int64 `json:"classID9,omitempty"`
+	ClassID10    int64 `json:"classID10,omitempty"`
+	ClassID11    int64 `json:"classID11,omitempty"`
+	ClassID12    int64 `json:"classID12,omitempty"`
+	ClassID13    int64 `json:"classID13,omitempty"`
+	ClassID14    int64 `json:"classID14,omitempty"`
+	ClassID15    int64 `json:"classID15,omitempty"`
+	ClassID16    int64 `json:"classID16,omitempty"`
+	ClassLevel1  int64 `json:"classLevel1,omitempty" db:"classes1"`   //`classes1` int(11) NOT NULL DEFAULT '255',
+	ClassLevel2  int64 `json:"classLevel2,omitempty" db:"classes2"`   //`classes2` int(11) NOT NULL DEFAULT '255',
+	ClassLevel3  int64 `json:"classLevel3,omitempty" db:"classes3"`   //`classes3` int(11) NOT NULL DEFAULT '255',
+	ClassLevel4  int64 `json:"classLevel4,omitempty" db:"classes4"`   //`classes4` int(11) NOT NULL DEFAULT '255',
+	ClassLevel5  int64 `json:"classLevel5,omitempty" db:"classes5"`   //`classes5` int(11) NOT NULL DEFAULT '255',
+	ClassLevel6  int64 `json:"classLevel6,omitempty" db:"classes6"`   //`classes6` int(11) NOT NULL DEFAULT '255',
+	ClassLevel7  int64 `json:"classLevel7,omitempty" db:"classes7"`   //`classes7` int(11) NOT NULL DEFAULT '255',
+	ClassLevel8  int64 `json:"classLevel8,omitempty" db:"classes8"`   //`classes8` int(11) NOT NULL DEFAULT '255',
+	ClassLevel9  int64 `json:"classLevel9,omitempty" db:"classes9"`   //`classes9` int(11) NOT NULL DEFAULT '255',
+	ClassLevel10 int64 `json:"classLevel10,omitempty" db:"classes10"` //`classes10` int(11) NOT NULL DEFAULT '255',
+	ClassLevel11 int64 `json:"classLevel11,omitempty" db:"classes11"` //`classes11` int(11) NOT NULL DEFAULT '255',
+	ClassLevel12 int64 `json:"classLevel12,omitempty" db:"classes12"` //`classes12` int(11) NOT NULL DEFAULT '255',
+	ClassLevel13 int64 `json:"classLevel13,omitempty" db:"classes13"` //`classes13` int(11) NOT NULL DEFAULT '255',
+	ClassLevel14 int64 `json:"classLevel14,omitempty" db:"classes14"` //`classes14` int(11) NOT NULL DEFAULT '255',
+	ClassLevel15 int64 `json:"classLevel15,omitempty" db:"classes15"` //`classes15` int(11) NOT NULL DEFAULT '255',
+	ClassLevel16 int64 `json:"classLevel16,omitempty" db:"classes16"` //`classes16` int(11) NOT NULL DEFAULT '255',
 
 }
 

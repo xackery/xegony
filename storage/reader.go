@@ -107,6 +107,13 @@ type Reader interface {
 	ListRuleEntryBySearch(page *model.Page, rule *model.Rule, ruleEntry *model.RuleEntry) (ruleEntrys []*model.RuleEntry, err error)
 	ListRuleEntryBySearchTotalCount(rule *model.Rule, ruleEntry *model.RuleEntry) (count int64, err error)
 
+	//Skill
+	GetSkill(skill *model.Skill) (err error)
+	ListSkill(page *model.Page) (skills []*model.Skill, err error)
+	ListSkillTotalCount() (count int64, err error)
+	ListSkillBySearch(page *model.Page, skill *model.Skill) (skills []*model.Skill, err error)
+	ListSkillBySearchTotalCount(skill *model.Skill) (count int64, err error)
+
 	//Spawn
 	GetSpawn(spawn *model.Spawn) (err error)
 	ListSpawn(page *model.Page) (spawns []*model.Spawn, err error)
