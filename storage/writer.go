@@ -157,4 +157,9 @@ type Writer interface {
 	CreateZoneExpansion(zoneExpansion *model.ZoneExpansion) (err error)
 	EditZoneExpansion(zoneExpansion *model.ZoneExpansion) (err error)
 	DeleteZoneExpansion(zoneExpansion *model.ZoneExpansion) (err error)
+
+	//ZoneImage
+	CreateZoneImage(zoneImage *model.ZoneImage) (err error)
+	EditZoneImage(zoneImage *model.ZoneImage) (err error)
+	DeleteZoneImage(zoneImage *model.ZoneImage) (err error)
 }

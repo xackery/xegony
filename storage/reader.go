@@ -234,4 +234,11 @@ type Reader interface {
 	ListZoneExpansionTotalCount() (count int64, err error)
 	ListZoneExpansionBySearch(page *model.Page, zoneExpansion *model.ZoneExpansion) (zoneExpansions []*model.ZoneExpansion, err error)
 	ListZoneExpansionBySearchTotalCount(zoneExpansion *model.ZoneExpansion) (count int64, err error)
+
+	//ZoneImage
+	GetZoneImage(zoneImage *model.ZoneImage) (err error)
+	ListZoneImage(page *model.Page) (zoneImages []*model.ZoneImage, err error)
+	ListZoneImageTotalCount() (count int64, err error)
+	ListZoneImageBySearch(page *model.Page, zoneImage *model.ZoneImage) (zoneImages []*model.ZoneImage, err error)
+	ListZoneImageBySearchTotalCount(zoneImage *model.ZoneImage) (count int64, err error)
 }

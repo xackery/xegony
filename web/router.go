@@ -38,7 +38,6 @@ func ApplyRoutes(router *mux.Router) {
 	}
 	for i := range routes {
 		route := routes[i]
-		log.Println("path:", route.Pattern)
 
 		router.HandleFunc(rootPath+route.Pattern, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 

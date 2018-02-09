@@ -73,7 +73,7 @@ func LoadZoneExpansionFromFileToMemory() (err error) {
 		}
 	}
 
-	fmt.Printf("%d zone expansions", len(zoneExpansions))
+	fmt.Printf("%d zone expansions, ", len(zoneExpansions))
 	return
 }
 

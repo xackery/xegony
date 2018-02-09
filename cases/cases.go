@@ -9,6 +9,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/oauth"
 	"github.com/xackery/xegony/storage"
+	"github.com/xackery/xegony/work"
 )
 
 var (
@@ -20,6 +21,8 @@ var (
 	initLock     = sync.RWMutex{}
 	oauths       = make(map[string]oauth.Wrapper)
 	oauthLock    = sync.RWMutex{}
+	workers      = make(map[string]work.Worker)
+	workLock     = sync.RWMutex{}
 )
 
 //Initialize a specific scope
@@ -48,6 +51,11 @@ func FlushStorage() (err error) {
 	if err != nil {
 		return
 	}
+	return
+}
+
+//InitializeAllWorkers will load all workers
+func InitializeAllWorkers() (err error) {
 	return
 }
 
@@ -153,6 +161,12 @@ func InitializeAllMemoryStorage() (err error) {
 	err = LoadZoneExpansionFromFileToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load zoneExpansion to memory")
+		return
+	}
+
+	err = LoadZoneImageFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zoneImage to memory")
 		return
 	}
 	return
@@ -286,6 +300,24 @@ func SetOauth(scope string, ow oauth.Wrapper) {
 	oauthLock.Lock()
 	oauths[scope] = ow
 	oauthLock.Unlock()
+	return
+}
+
+func getWorker(scope string) (ow work.Worker, err error) {
+	workLock.RLock()
+	ow, ok := workers[scope]
+	if !ok {
+		err = fmt.Errorf("Not initialized")
+	}
+	workLock.RUnlock()
+	return
+}
+
+// SetWorker sets an worker with scope
+func SetWorker(scope string, ow work.Worker) {
+	workLock.Lock()
+	workers[scope] = ow
+	workLock.Unlock()
 	return
 }
 

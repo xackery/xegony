@@ -27,7 +27,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/xackery/xegony/api"
-	"github.com/xackery/xegony/bot"
 	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/storage"
 	"github.com/xackery/xegony/storage/mariadb"
@@ -130,11 +129,6 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 		log.Fatal("Failed to initialize api:", err.Error())
 	}
 	api.ApplyRoutes(router)
-
-	if err = bot.Initialize(sr, sw, si, connection, w, wErr); err != nil {
-		log.Fatal("Failed to initialize bot:", err.Error())
-	}
-	bot.ApplyRoutes(router)
 
 	if err = web.Initialize(sr, sw, si, connection, w, wErr); err != nil {
 		log.Fatal("Failed to initialize web:", err.Error())
