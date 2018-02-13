@@ -406,6 +406,8 @@ func sanitizeItem(item *model.Item, user *model.User) (err error) {
 		err = errors.Wrap(err, "failed to get race from item.RaceID")
 		return
 	}
+	item.ClassList = getClassListByBit(item.ClassBit)
+	item.RaceList = getRaceListByBit(item.RaceBit)
 	return
 }
 

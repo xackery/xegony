@@ -21,6 +21,8 @@ type Item struct {
 	BardEffect   *Spell `json:"bardEffect,omitempty"`
 	WornEffect   *Spell `json:"wornEffect,omitempty"`
 	ScrollEffect *Spell `json:"scrollEffect,omitempty"`
+	ClassList    string `json:"classList,omitempty"`
+	RaceList     string `json:"raceList,omitempty"`
 	//Reference is used when listing from npc
 	/*Reference  string        `json:"reference,omitempty"`
 	SizeName   string        `json:"sizeName,omitempty"`

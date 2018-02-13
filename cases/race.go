@@ -563,3 +563,65 @@ func getSchemaPropertyRace(field string) (prop model.Schema, err error) {
 
 	return
 }
+
+func getRaceListByBit(bit int64) string {
+	races := ""
+	if bit == 65535 {
+		return "ALL"
+	}
+	if bit&1 == 1 {
+		races += "HUM "
+	}
+	if bit&2 == 2 {
+		races += "BAR "
+	}
+	if bit&4 == 4 {
+		races += "ERU "
+	}
+	if bit&8 == 8 {
+		races += "WEF "
+	}
+	if bit&16 == 16 {
+		races += "HEF "
+	}
+	if bit&32 == 32 {
+		races += "DEF "
+	}
+	if bit&64 == 64 {
+		races += "HLF "
+	}
+	if bit&128 == 128 {
+		races += "DWF "
+	}
+	if bit&256 == 256 {
+		races += "TRL "
+	}
+	if bit&512 == 512 {
+		races += "OGR "
+	}
+	if bit&1024 == 1024 {
+		races += "HLF "
+	}
+	if bit&2048 == 2048 {
+		races += "GNM "
+	}
+	if bit&4096 == 4096 {
+		races += "IKS "
+	}
+	if bit&8192 == 8192 {
+		races += "VAH "
+	}
+	if bit&16384 == 16384 {
+		races += "FRO "
+	}
+	if bit&32768 == 32768 {
+		races += "DRA "
+	}
+	if len(races) > 0 {
+		races = races[0 : len(races)-1]
+	}
+	if len(races) == 0 {
+		races = "NONE"
+	}
+	return races
+}

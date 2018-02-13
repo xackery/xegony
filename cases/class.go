@@ -549,3 +549,65 @@ func getSchemaPropertyClass(field string) (prop model.Schema, err error) {
 
 	return
 }
+
+func getClassListByBit(bit int64) string {
+	classes := ""
+	if bit == 65535 {
+		return "ALL"
+	}
+	if bit&1 == 1 {
+		classes += "WAR "
+	}
+	if bit&2 == 2 {
+		classes += "CLR "
+	}
+	if bit&4 == 4 {
+		classes += "PAL "
+	}
+	if bit&8 == 8 {
+		classes += "RNG "
+	}
+	if bit&16 == 16 {
+		classes += "SHM "
+	}
+	if bit&32 == 32 {
+		classes += "DRU "
+	}
+	if bit&64 == 64 {
+		classes += "MNK "
+	}
+	if bit&128 == 128 {
+		classes += "BRD "
+	}
+	if bit&256 == 256 {
+		classes += "ROG "
+	}
+	if bit&512 == 512 {
+		classes += "SHD "
+	}
+	if bit&1024 == 1024 {
+		classes += "NEC "
+	}
+	if bit&2048 == 2048 {
+		classes += "WIZ "
+	}
+	if bit&4096 == 4096 {
+		classes += "MAG "
+	}
+	if bit&8192 == 8192 {
+		classes += "ENC "
+	}
+	if bit&16384 == 16384 {
+		classes += "BST "
+	}
+	if bit&32768 == 32768 {
+		classes += "BER "
+	}
+	if len(classes) > 0 {
+		classes = classes[0 : len(classes)-1]
+	}
+	if len(classes) == 0 {
+		classes = "NONE"
+	}
+	return classes
+}

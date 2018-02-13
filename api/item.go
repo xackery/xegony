@@ -1,7 +1,9 @@
 package api
 
 import (
+	"bytes"
 	"database/sql"
+	"html/template"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -198,6 +200,23 @@ func itemRoutes() (routes []*route) {
 			"/item/{ID:[0-9]+}",
 			getItem,
 		},
+		// swagger:route GET /item/{ID}/tooltip item getItemTooltip
+		//
+		// Get an item tooltip
+		//
+		// This will get an individual item's tooltip
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: ItemResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"GetItemTooltip",
+			"GET",
+			"/item/{ID:[0-9]+}/tooltip",
+			getItemTooltip,
+		},
 		// swagger:route PUT /item/{ID} item editItem
 		//
 		// Edit an item
@@ -264,6 +283,54 @@ func getItem(w http.ResponseWriter, r *http.Request, user *model.User, statusCod
 		Item: item,
 	}
 	content = response
+	return
+}
+
+func getItemTooltip(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+	request := &ItemRequest{
+		ID: getIntVar(r, "ID"),
+	}
+	type ItemTooltip struct {
+		Name    string `json:"name"`
+		ID      int64  `json:"id"`
+		Content string `json:"content"`
+	}
+
+	item := &model.Item{
+		ID: request.ID,
+	}
+
+	err = cases.GetItem(item, user)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return
+		}
+		err = errors.Wrap(err, "Request error")
+		return
+	}
+	tmp, err := template.New("tooltip").Parse(tooltipTemplate)
+	if err != nil {
+		return
+	}
+	var tpl bytes.Buffer
+	type TemplateData struct {
+		Item *model.Item
+	}
+
+	templateData := &TemplateData{
+		Item: item,
+	}
+	err = tmp.Execute(&tpl, templateData)
+	if err != nil {
+		return
+	}
+
+	itemTooltip := &ItemTooltip{
+		Name:    item.Name,
+		ID:      item.ID,
+		Content: tpl.String(),
+	}
+	content = itemTooltip
 	return
 }
 
