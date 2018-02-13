@@ -90,9 +90,7 @@
 	</div>
 	{{end*/}}
 	{{if .Loot}}
-	Got Loot
 	{{if .Loot.Entrys}}	
-	Got Entry
 	<div class="col-lg-4">
 		<div class="hpanel forum-box">
 			<div class="panel-heading">
@@ -134,7 +132,7 @@
 				{{end}}
 			</div>
 			<div class="panel-footer">
-				{{len .Items}} items drop from {{.Npc.CleanName}}
+				{{.ItemPage.Total}} items drop from {{.Npc.CleanName}}
 			</div>
 		</div>
 

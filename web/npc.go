@@ -164,10 +164,11 @@ func listNpcByZone(w http.ResponseWriter, r *http.Request, user *model.User, sta
 func getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
-		Site  site
-		Npc   *model.Npc
-		Loot  *model.Loot
-		Items []*model.Item
+		Site     site
+		Npc      *model.Npc
+		Loot     *model.Loot
+		Items    []*model.Item
+		ItemPage *model.Page
 	}
 
 	npcID := getIntVar(r, "npcID")
@@ -194,15 +195,23 @@ func getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode
 		return
 	}
 
+	itemPage := &model.Page{}
+	for _, entry := range loot.Entrys {
+		for range entry.DropEntrys {
+			itemPage.Total++
+		}
+	}
+
 	site := newSite(r, user)
 	site.Page = "npc"
 	site.Title = "Npc"
 	site.Section = "npc"
 
 	content = Content{
-		Site: site,
-		Npc:  npc,
-		Loot: loot,
+		Site:     site,
+		Npc:      npc,
+		Loot:     loot,
+		ItemPage: itemPage,
 	}
 
 	//loot.Entries[0].DropEntrys[0].Item
