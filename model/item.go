@@ -40,7 +40,7 @@ type Item struct {
 	//Size
 
 	//normal items db
-	ID                      int64          `json:"id,omitempty" db:"id"`                                   //
+	ID                      int64          `json:"ID,omitempty" db:"id"`                                   //
 	Name                    string         `json:"name,omitempty" db:"name"`                               //
 	Agility                 int64          `json:"agility,omitempty" db:"aagi"`                            //
 	ArmorClass              int64          `json:"armorClass,omitempty" db:"ac"`                           //

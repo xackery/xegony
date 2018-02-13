@@ -371,6 +371,27 @@ func sanitizeLoot(loot *model.Loot, user *model.User) (err error) {
 	if len(loot.Name) == 0 {
 		loot.Name = fmt.Sprintf("(%d)", loot.ID)
 	}
+	page := &model.Page{
+		Limit: 10,
+	}
+	loot.Entrys, err = ListLootEntry(page, loot, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list loot entry")
+		return
+	}
+
+	for _, entry := range loot.Entrys {
+		entryPage := &model.Page{
+			Limit: 10,
+		}
+		lootDrop := &model.LootDrop{
+			ID: entry.LootDropID,
+		}
+		entry.DropEntrys, err = ListLootDropEntry(entryPage, lootDrop, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to list loot drop")
+		}
+	}
 
 	return
 }

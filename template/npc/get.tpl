@@ -27,8 +27,9 @@
 					{{.Npc.Race.Name}}</td></tr>
 					<tr><td>Level</td><td>{{.Npc.Level}}</td></tr>
 					<tr><td>HP</td><td>{{comma .Npc.Hitpoints}}</td></tr>
-					<tr><td>Damage</td><td>{{.Npc.MininumDamage}}-{{.Npc.MaximumDamage}}</td></tr>
+					<tr><td>Damage</td><td>{{.Npc.MininumDamage}}-{{.Npc.MaximumDamage}}</td></tr>					
 					<tr><td>Experience</td><td><span title="Experience is calculated based on zone experience modifiers and hotzone">{{comma .Npc.Experience}}</span></td></tr>
+					<tr><td>Loot ID</td><td>{{.Npc.LootID}}</td></tr>
 					{{range $field, $description := .Npc.SpecialAbilities}}                    
 						<tr><td>{{$field}}</td><td>{{$description}}</td>
 					{{end}}
@@ -88,41 +89,49 @@
 		</div>
 	</div>
 	{{end*/}}
-	{{if .Items}}
+	{{if .Loot}}
+	Got Loot
+	{{if .Loot.Entrys}}	
+	Got Entry
 	<div class="col-lg-4">
 		<div class="hpanel forum-box">
 			<div class="panel-heading">
 			   Items
 			</div>
 			<div class="panel-body">
-				
+							
+				{{range $entryKey, $entryValue := .Loot.Entrys}}
+				<div class="row">
+					<div class="col-md-6">
+					Multiplier: {{$entryValue.Multiplier}}<br>
+					</div>
+					<div class="col-md-6">
+					Probability: {{$entryValue.Probability}}%<br>
+					</div>
+				</div>
 				<div class="table-responsive">
 				<table cellpadding="1" cellspacing="1" class="table table-striped">
 
 						<thead>
 						<tr>
-							<th>Source</th>							
 							<th width="20px"><i class="xa xa-sword"></i></th>
-							<th>Name</th>
-							<th>Slot</th>
-							<th><i title="Category" class="xa xa-vest"></i></th>
-
+							<th>Name</th>	
+							<th>%</th>						
 						</tr>
 						</thead>
 						<tbody>
-						{{range $key, $value := .Items}}
+						{{range $key, $value := $entryValue.DropEntrys}}
 						<tr>
-							<td>{{$value.Reference}}</td>
-							<td><span class="item icon-{{$value.Icon}}-sm"></span></td>
-								<td><a item={{$value.ID}} href="/item/{{$value.ID}}">{{$value.Name}}</a></td>
-								<td><span title="{{$value.SlotList}}">{{$value.SlotsFirstName}}</span></td>
-								<td><i title="{{$value.ItemtypeName}}" class="xa {{$value.ItemtypeIcon}}"></i></td></td>
+							<td><span class="item icon-{{$value.Item.Icon}}-sm"></span></td>
+							<td><a item={{$value.Item.ID}} href="/item/{{$value.Item.ID}}">{{$value.Item.Name}}</a></td>								
+							<td><div data-tooltip="There is a {{$value.Chance}}% chance this item will drop">{{$value.Chance}}%</div></td>
 						</tr>
 						{{end}}                
 						</tbody>
 					
 				</table>
 				</div>
+				{{end}}
 			</div>
 			<div class="panel-footer">
 				{{len .Items}} items drop from {{.Npc.CleanName}}
@@ -130,7 +139,8 @@
 		</div>
 
 	</div>
-	{{end*/}}	
+	{{end}}
+	{{end}}	
 	</div>
 </div>
 </div>

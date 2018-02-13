@@ -34,7 +34,7 @@ type Npc struct {
 	Size                 float64        `json:"size,omitempty" db:"size"`                                 //`size` float NOT NULL DEFAULT '0',
 	HpRegenRate          int64          `json:"hpRegenRate,omitempty" db:"hp_regen_rate"`                 //`hp_regen_rate` int(11) unsigned NOT NULL DEFAULT '0',
 	ManaRegenRate        int64          `json:"manaRegenRate,omitempty" db:"mana_regen_rate"`             //`mana_regen_rate` int(11) unsigned NOT NULL DEFAULT '0',
-	LootTableID          int64          `json:"lootTableID,omitempty" db:"loottable_id"`                  //`loottable_id` int(11) unsigned NOT NULL DEFAULT '0',
+	LootID               int64          `json:"lootID,omitempty" db:"loottable_id"`                       //`loottable_id` int(11) unsigned NOT NULL DEFAULT '0',
 	MerchantID           int64          `json:"merchantID,omitempty" db:"merchant_id"`                    //`merchant_id` int(11) unsigned NOT NULL DEFAULT '0',
 	AltCurrencyID        int64          `json:"altCurrencyID,omitempty" db:"alt_currency_id"`             //`alt_currency_id` int(11) unsigned NOT NULL DEFAULT '0',
 	NpcSpellsID          int64          `json:"npcSpellsID,omitempty" db:"npc_spells_id"`                 //`npc_spells_id` int(11) unsigned NOT NULL DEFAULT '0',

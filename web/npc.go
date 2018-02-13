@@ -166,6 +166,7 @@ func getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode
 	type Content struct {
 		Site  site
 		Npc   *model.Npc
+		Loot  *model.Loot
 		Items []*model.Item
 	}
 
@@ -184,6 +185,15 @@ func getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode
 		return
 	}
 
+	loot := &model.Loot{
+		ID: npc.LootID,
+	}
+	err = cases.GetLoot(loot, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get loot")
+		return
+	}
+
 	site := newSite(r, user)
 	site.Page = "npc"
 	site.Title = "Npc"
@@ -192,7 +202,10 @@ func getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode
 	content = Content{
 		Site: site,
 		Npc:  npc,
+		Loot: loot,
 	}
+
+	//loot.Entries[0].DropEntrys[0].Item
 
 	tmp, err = loadTemplate(nil, "body", "npc/get.tpl")
 	if err != nil {
