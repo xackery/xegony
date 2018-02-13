@@ -30,6 +30,7 @@ func ApplyRoutes(router *mux.Router) {
 	routes = append(routes, deityRoutes()...)
 	routes = append(routes, forumRoutes()...)
 	routes = append(routes, itemRoutes()...)
+	routes = append(routes, lootRoutes()...)
 	routes = append(routes, npcRoutes()...)
 	routes = append(routes, oauthTypeRoutes()...)
 	routes = append(routes, raceRoutes()...)

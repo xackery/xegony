@@ -185,6 +185,7 @@ func InitializeAllDatabaseStorage(sr storage.Reader, sw storage.Writer, si stora
 		"character",
 		"forum",
 		"item",
+		"loot",
 		"npc",
 		"rule",
 		"ruleEntry",

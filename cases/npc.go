@@ -462,8 +462,7 @@ func sanitizeNpc(npc *model.Npc, user *model.User) (err error) {
 	}
 	err = GetZone(npc.Zone, user)
 	if err != nil {
-		err = errors.Wrapf(err, "failed to get zone for npc %d", npc.ID)
-		return
+		err = nil
 	}
 
 	npc.Experience = CalculateNpcExperience(npc, user)

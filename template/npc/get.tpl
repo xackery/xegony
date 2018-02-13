@@ -87,7 +87,7 @@
 			{{end}}
 		</div>
 	</div>
-	{{end}}
+	{{end*/}}
 	{{if .Items}}
 	<div class="col-lg-4">
 		<div class="hpanel forum-box">

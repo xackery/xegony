@@ -164,8 +164,9 @@ func listNpcByZone(w http.ResponseWriter, r *http.Request, user *model.User, sta
 func getNpc(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
 
 	type Content struct {
-		Site site
-		Npc  *model.Npc
+		Site  site
+		Npc   *model.Npc
+		Items []*model.Item
 	}
 
 	npcID := getIntVar(r, "npcID")
