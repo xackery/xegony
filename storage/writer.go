@@ -87,10 +87,20 @@ type Writer interface {
 	EditRuleEntry(rule *model.Rule, ruleEntry *model.RuleEntry) (err error)
 	DeleteRuleEntry(rule *model.Rule, ruleEntry *model.RuleEntry) (err error)
 
+	//Size
+	CreateSize(size *model.Size) (err error)
+	EditSize(size *model.Size) (err error)
+	DeleteSize(size *model.Size) (err error)
+
 	//Skill
 	CreateSkill(skill *model.Skill) (err error)
 	EditSkill(skill *model.Skill) (err error)
 	DeleteSkill(skill *model.Skill) (err error)
+
+	//Slot
+	CreateSlot(slot *model.Slot) (err error)
+	EditSlot(slot *model.Slot) (err error)
+	DeleteSlot(slot *model.Slot) (err error)
 
 	//Spawn
 	CreateSpawn(spawn *model.Spawn) (err error)

@@ -135,12 +135,28 @@ type Reader interface {
 	ListRuleEntryBySearch(page *model.Page, rule *model.Rule, ruleEntry *model.RuleEntry) (ruleEntrys []*model.RuleEntry, err error)
 	ListRuleEntryBySearchTotalCount(rule *model.Rule, ruleEntry *model.RuleEntry) (count int64, err error)
 
+	//Size
+	GetSize(size *model.Size) (err error)
+	ListSize(page *model.Page) (sizes []*model.Size, err error)
+	ListSizeTotalCount() (count int64, err error)
+	ListSizeBySearch(page *model.Page, size *model.Size) (sizes []*model.Size, err error)
+	ListSizeBySearchTotalCount(size *model.Size) (count int64, err error)
+
 	//Skill
 	GetSkill(skill *model.Skill) (err error)
 	ListSkill(page *model.Page) (skills []*model.Skill, err error)
 	ListSkillTotalCount() (count int64, err error)
 	ListSkillBySearch(page *model.Page, skill *model.Skill) (skills []*model.Skill, err error)
 	ListSkillBySearchTotalCount(skill *model.Skill) (count int64, err error)
+
+	//Slot
+	GetSlot(slot *model.Slot) (err error)
+	ListSlot(page *model.Page) (slots []*model.Slot, err error)
+	ListSlotTotalCount() (count int64, err error)
+	ListSlotByBit(page *model.Page, slot *model.Slot) (races []*model.Slot, err error)
+	ListSlotByBitTotalCount(slot *model.Slot) (count int64, err error)
+	ListSlotBySearch(page *model.Page, slot *model.Slot) (slots []*model.Slot, err error)
+	ListSlotBySearchTotalCount(slot *model.Slot) (count int64, err error)
 
 	//Spawn
 	GetSpawn(spawn *model.Spawn) (err error)

@@ -13,16 +13,19 @@ type Items []*Item
 // Item represents items inside everquest
 // swagger:model
 type Item struct {
-	Classs       Classs `json:"classs,omitempty"`
-	Races        Races  `json:"races,omitempty"`
-	ProcEffect   *Spell `json:"procEffect,omitempty"`
-	FocusEffect  *Spell `json:"focusEffect,omitempty"`
-	ClickEffect  *Spell `json:"clickEffect,omitempty"`
-	BardEffect   *Spell `json:"bardEffect,omitempty"`
-	WornEffect   *Spell `json:"wornEffect,omitempty"`
-	ScrollEffect *Spell `json:"scrollEffect,omitempty"`
-	ClassList    string `json:"classList,omitempty"`
-	RaceList     string `json:"raceList,omitempty"`
+	Classs           Classs `json:"classs,omitempty"`
+	Races            Races  `json:"races,omitempty"`
+	ProcEffect       *Spell `json:"procEffect,omitempty"`
+	FocusEffect      *Spell `json:"focusEffect,omitempty"`
+	ClickEffect      *Spell `json:"clickEffect,omitempty"`
+	BardEffect       *Spell `json:"bardEffect,omitempty"`
+	WornEffect       *Spell `json:"wornEffect,omitempty"`
+	ScrollEffect     *Spell `json:"scrollEffect,omitempty"`
+	ClassList        string `json:"classList,omitempty"`
+	RaceList         string `json:"raceList,omitempty"`
+	SlotList         string `json:"slotList,omitempty"`
+	Size             *Size  `json:"size,omitempty"`
+	RecommendedSkill *Skill `json:"recommendedSkill,omitempty"`
 	//Reference is used when listing from npc
 	/*Reference  string        `json:"reference,omitempty"`
 	SizeName   string        `json:"sizeName,omitempty"`
@@ -145,9 +148,9 @@ type Item struct {
 	ProcRate                int64          `json:"procRate,omitempty" db:"procrate"`                       //
 	RaceBit                 int64          `json:"raceBit,omitempty" db:"races"`                           //
 	Range                   int64          `json:"range,omitempty" db:"range"`                             //
-	RecLevel                int64          `json:"recLevel,omitempty" db:"reclevel"`                       //
-	RecSkill                int64          `json:"recSkill,omitempty" db:"recskill"`                       //
-	ReqLevel                int64          `json:"reqLevel,omitempty" db:"reqlevel"`                       //
+	RecommendedLevel        int64          `json:"recommendedLevel,omitempty" db:"reclevel"`               //
+	RecommendedSkillID      int64          `json:"recommendedSkillID,omitempty" db:"recskill"`             //
+	RequiredLevel           int64          `json:"requiredLevel,omitempty" db:"reqlevel"`                  //
 	SellRate                float64        `json:"sellRate,omitempty" db:"sellrate"`                       //
 	Shielding               int64          `json:"shielding,omitempty" db:"shielding"`                     //
 	SizeID                  int64          `json:"sizeID,omitempty" db:"size"`                             //

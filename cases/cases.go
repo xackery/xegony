@@ -109,6 +109,18 @@ func InitializeAllMemoryStorage() (err error) {
 		return
 	}
 
+	err = LoadSizeFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load size to memory")
+		return
+	}
+
+	err = LoadSlotFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load slot to memory")
+		return
+	}
+
 	err = LoadSpellAnimationFromFileToMemory()
 	if err != nil {
 		err = errors.Wrap(err, "failed to load spellAnimation to memory")

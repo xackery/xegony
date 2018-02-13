@@ -408,6 +408,25 @@ func sanitizeItem(item *model.Item, user *model.User) (err error) {
 	}
 	item.ClassList = getClassListByBit(item.ClassBit)
 	item.RaceList = getRaceListByBit(item.RaceBit)
+	item.SlotList = getSlotListByBit(item.SlotBit)
+	item.Size = &model.Size{
+		ID: item.SizeID,
+	}
+	err = GetSize(item.Size, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to get size from item.SizeID")
+		return
+	}
+	if item.RecommendedSkillID > 0 {
+		item.RecommendedSkill = &model.Skill{
+			ID: item.RecommendedSkillID,
+		}
+		err = GetSkill(item.RecommendedSkill, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to get recommendedskillid")
+			return
+		}
+	}
 	return
 }
 
