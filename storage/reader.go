@@ -75,6 +75,20 @@ type Reader interface {
 	ListLootBySearch(page *model.Page, loot *model.Loot) (loots []*model.Loot, err error)
 	ListLootBySearchTotalCount(loot *model.Loot) (count int64, err error)
 
+	//LootDrop
+	GetLootDrop(lootDrop *model.LootDrop) (err error)
+	ListLootDrop(page *model.Page) (lootDrops []*model.LootDrop, err error)
+	ListLootDropTotalCount() (count int64, err error)
+	ListLootDropBySearch(page *model.Page, lootDrop *model.LootDrop) (lootDrops []*model.LootDrop, err error)
+	ListLootDropBySearchTotalCount(lootDrop *model.LootDrop) (count int64, err error)
+
+	//LootDropEntry
+	GetLootDropEntry(lootDrop *model.LootDrop, lootDropEntry *model.LootDropEntry) (err error)
+	ListLootDropEntry(page *model.Page, lootDrop *model.LootDrop) (lootDropEntrys []*model.LootDropEntry, err error)
+	ListLootDropEntryTotalCount(lootDrop *model.LootDrop) (count int64, err error)
+	ListLootDropEntryBySearch(page *model.Page, lootDrop *model.LootDrop, lootDropEntry *model.LootDropEntry) (lootDropEntrys []*model.LootDropEntry, err error)
+	ListLootDropEntryBySearchTotalCount(lootDrop *model.LootDrop, lootDropEntry *model.LootDropEntry) (count int64, err error)
+
 	//LootEntry
 	GetLootEntry(loot *model.Loot, lootEntry *model.LootEntry) (err error)
 	ListLootEntry(page *model.Page, loot *model.Loot) (lootEntrys []*model.LootEntry, err error)

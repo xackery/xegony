@@ -47,6 +47,16 @@ type Writer interface {
 	EditLoot(loot *model.Loot) (err error)
 	DeleteLoot(loot *model.Loot) (err error)
 
+	//LootDrop
+	CreateLootDrop(lootDrop *model.LootDrop) (err error)
+	EditLootDrop(lootDrop *model.LootDrop) (err error)
+	DeleteLootDrop(lootDrop *model.LootDrop) (err error)
+
+	//LootDropEntry
+	CreateLootDropEntry(lootDrop *model.LootDrop, lootDropEntry *model.LootDropEntry) (err error)
+	EditLootDropEntry(lootDrop *model.LootDrop, lootDropEntry *model.LootDropEntry) (err error)
+	DeleteLootDropEntry(lootDrop *model.LootDrop, lootDropEntry *model.LootDropEntry) (err error)
+
 	//LootEntry
 	CreateLootEntry(loot *model.Loot, lootEntry *model.LootEntry) (err error)
 	EditLootEntry(loot *model.Loot, lootEntry *model.LootEntry) (err error)
