@@ -18,18 +18,11 @@ import (
 	"fmt"
 	alog "log"
 	"net/http"
-	"os"
-	"runtime"
-	"time"
 
-	"github.com/dustin/go-humanize"
 	"github.com/gorilla/mux"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/xackery/xegony/api"
 	"github.com/xackery/xegony/cases"
-	"github.com/xackery/xegony/storage"
-	"github.com/xackery/xegony/storage/mariadb"
 	"github.com/xackery/xegony/web"
 )
 
@@ -61,70 +54,12 @@ func runServer(cmd *cobra.Command, args []string) {
 }
 
 func startServer(cmd *cobra.Command, args []string) (err error) {
-	start := time.Now()
-	var sw storage.Writer
-	var sr storage.Reader
-	var si storage.Initializer
-	w := os.Stdout
-	wErr := os.Stderr
 
-	log = alog.New(w, "Main: ", 0)
-	logErr = alog.New(wErr, "MainErr: ", 0)
-
-	log.Printf("Loading data to memory...")
-	m := &runtime.MemStats{}
-	runtime.ReadMemStats(m)
-	var totalMemoryInUse uint64
-	totalMemoryInUse = m.Alloc
-
-	//We start with the config, since other endpoints utilize this information.
-	err = cases.LoadConfigFromFileToMemory()
+	sw, sr, si, w, wErr, err := initializeSystem()
 	if err != nil {
-		err = errors.Wrap(err, "failed to load config to memory")
 		return
 	}
-
-	//parse arguments now that we have config info
-	if dbtype == "mysql" {
-		var db *mariadb.Storage
-		db, err = mariadb.New(cases.GetConfigForMySQL(), nil, nil)
-		if err != nil {
-			log.Fatal("Failed to create mariadb:", err.Error())
-		}
-		sw = db
-		sr = db
-		si = db
-	} else {
-		log.Fatal("unsupported db type:", dbtype)
-	}
-
-	err = si.VerifyTables()
-	if err != nil {
-		log.Fatal("Failed to verify tables: ", err.Error())
-	}
-
-	err = cases.InitializeAllDatabaseStorage(sr, sw, si)
-	if err != nil {
-		err = errors.Wrap(err, "failed to initialize all")
-		return
-	}
-
-	err = cases.InitializeAllMemoryStorage()
-	if err != nil {
-		err = errors.Wrap(err, "failed to initialize memory story")
-		return
-	}
-
-	fmt.Printf("\n")
-	runtime.ReadMemStats(m)
-	if m.Alloc > totalMemoryInUse {
-		totalMemoryInUse = m.Alloc - totalMemoryInUse
-	} else {
-		totalMemoryInUse = 0
-	}
-
 	router := mux.NewRouter().StrictSlash(true)
-
 	if err = api.Initialize(sr, sw, si, connection, w, wErr); err != nil {
 		log.Fatal("Failed to initialize api:", err.Error())
 	}
@@ -136,8 +71,6 @@ func startServer(cmd *cobra.Command, args []string) (err error) {
 	web.ApplyRoutes(router)
 
 	log.Println("Listening on", cases.GetConfigForHTTP())
-
-	log.Printf("Started in %s. Using %s for data in memory, %s total\n", time.Since(start), humanize.Bytes(totalMemoryInUse), humanize.Bytes(m.TotalAlloc))
 	err = http.ListenAndServe(cases.GetConfigForHTTP(), router)
 	return
 }

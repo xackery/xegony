@@ -56,6 +56,11 @@ func FlushStorage() (err error) {
 
 //InitializeAllWorkers will load all workers
 func InitializeAllWorkers() (err error) {
+	err = loadZoneImageWorker()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load zone image worker")
+		return
+	}
 	return
 }
 

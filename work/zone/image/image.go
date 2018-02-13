@@ -15,7 +15,6 @@ import (
 
 	"github.com/llgcode/draw2d/draw2dimg"
 	"github.com/pkg/errors"
-	"github.com/xackery/xegony/cases"
 	"github.com/xackery/xegony/model"
 )
 
@@ -89,10 +88,16 @@ func (w *Worker) ListBot(page *model.Page) (bots []*model.Bot, err error) {
 	return
 }
 
-func (w *Worker) browseMaps(bot *model.Bot) {
-	var err error
+func (w *Worker) browseMaps(bot *model.Bot) (err error) {
+
 	files := []string{}
-	err = filepath.Walk(cases.GetConfigValue("zoneImageMapDir"), func(path string, info os.FileInfo, err error) error {
+	mapDir := bot.GetParameterValue("mapDir")
+	if len(mapDir) == 0 {
+		err = fmt.Errorf("Invalid mapDir parameter passed: empty")
+		return
+	}
+
+	err = filepath.Walk(mapDir, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil
 		}
@@ -118,7 +123,6 @@ func (w *Worker) browseMaps(bot *model.Bot) {
 }
 
 func (w *Worker) loadMap(path string, filename string) (err error) {
-	user := &model.User{}
 	if strings.Contains(filename, "_2.txt") {
 		return
 	}
@@ -263,13 +267,13 @@ func (w *Worker) loadMap(path string, filename string) (err error) {
 		return
 	}
 
-	zone := &model.Zone{}
-	zone.ShortName.String = filename
-	err = cases.GetZoneByShortName(zone, user)
+	//zone := &model.Zone{}
+	//zone.ShortName.String = filename
+	/*err = cases.GetZoneByShortName(zone, user)
 	if err != nil {
 		err = errors.Wrap(err, "failed to get zone by shorname")
 		return
-	}
+	}*/
 
 	//zoneImage := &model.ZoneImage{}
 	/*zoneLevel := &model.ZoneLevel{

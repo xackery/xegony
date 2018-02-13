@@ -16,11 +16,19 @@ package cmd
 
 import (
 	"fmt"
+	alog "log"
 	"os"
+	"runtime"
+	"time"
 
+	"github.com/dustin/go-humanize"
 	homedir "github.com/mitchellh/go-homedir"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/xackery/xegony/cases"
+	"github.com/xackery/xegony/storage"
+	"github.com/xackery/xegony/storage/mariadb"
 )
 
 var cfgFile string
@@ -48,7 +56,7 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("Exited.")
+	log.Println("Exited successfully")
 }
 
 func init() {
@@ -90,4 +98,74 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+func initializeSystem() (sw storage.Writer, sr storage.Reader, si storage.Initializer, w *os.File, wErr *os.File, err error) {
+	start := time.Now()
+	w = os.Stdout
+	wErr = os.Stderr
+
+	log = alog.New(w, "Main: ", 0)
+	logErr = alog.New(wErr, "MainErr: ", 0)
+
+	log.Printf("Loading data to memory...")
+	m := &runtime.MemStats{}
+	runtime.ReadMemStats(m)
+	var totalMemoryInUse uint64
+	totalMemoryInUse = m.Alloc
+
+	//We start with the config, since other endpoints utilize this information.
+	err = cases.LoadConfigFromFileToMemory()
+	if err != nil {
+		err = errors.Wrap(err, "failed to load config to memory")
+		return
+	}
+
+	//parse arguments now that we have config info
+	if dbtype == "mysql" {
+		var db *mariadb.Storage
+		db, err = mariadb.New(cases.GetConfigForMySQL(), nil, nil)
+		if err != nil {
+			log.Fatal("Failed to create mariadb:", err.Error())
+		}
+		sw = db
+		sr = db
+		si = db
+	} else {
+		log.Fatal("unsupported db type:", dbtype)
+	}
+
+	err = si.VerifyTables()
+	if err != nil {
+		log.Fatal("Failed to verify tables: ", err.Error())
+	}
+
+	err = cases.InitializeAllDatabaseStorage(sr, sw, si)
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize all")
+		return
+	}
+
+	err = cases.InitializeAllMemoryStorage()
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize memory story")
+		return
+	}
+
+	err = cases.InitializeAllWorkers()
+	if err != nil {
+		err = errors.Wrap(err, "failed to initialize workers")
+		return
+	}
+
+	fmt.Printf("\n")
+	runtime.ReadMemStats(m)
+	if m.Alloc > totalMemoryInUse {
+		totalMemoryInUse = m.Alloc - totalMemoryInUse
+	} else {
+		totalMemoryInUse = 0
+	}
+
+	log.Printf("Loaded in %s. Using %s for data in memory, %s total\n", time.Since(start), humanize.Bytes(totalMemoryInUse), humanize.Bytes(m.TotalAlloc))
+	return
 }

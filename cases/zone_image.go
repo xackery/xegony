@@ -7,6 +7,7 @@ import (
 	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/storage/file"
 	"github.com/xackery/xegony/storage/memory"
+	"github.com/xackery/xegony/work/zone/image"
 	"github.com/xeipuuv/gojsonschema"
 )
 
@@ -74,6 +75,17 @@ func LoadZoneImageFromFileToMemory() (err error) {
 	}
 
 	fmt.Printf("%d zoneImages, ", len(zoneImages))
+	return
+}
+
+func loadZoneImageWorker() (err error) {
+	worker := image.New()
+
+	if err != nil {
+		err = errors.Wrap(err, "failed to create new zoneimage worker")
+		return
+	}
+	SetWorker("zoneImage", worker)
 	return
 }
 
