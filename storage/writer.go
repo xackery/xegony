@@ -47,6 +47,11 @@ type Writer interface {
 	EditLoot(loot *model.Loot) (err error)
 	DeleteLoot(loot *model.Loot) (err error)
 
+	//LootEntry
+	CreateLootEntry(loot *model.Loot, lootEntry *model.LootEntry) (err error)
+	EditLootEntry(loot *model.Loot, lootEntry *model.LootEntry) (err error)
+	DeleteLootEntry(loot *model.Loot, lootEntry *model.LootEntry) (err error)
+
 	//Npc
 	CreateNpc(npc *model.Npc) (err error)
 	EditNpc(npc *model.Npc) (err error)

@@ -75,6 +75,13 @@ type Reader interface {
 	ListLootBySearch(page *model.Page, loot *model.Loot) (loots []*model.Loot, err error)
 	ListLootBySearchTotalCount(loot *model.Loot) (count int64, err error)
 
+	//LootEntry
+	GetLootEntry(loot *model.Loot, lootEntry *model.LootEntry) (err error)
+	ListLootEntry(page *model.Page, loot *model.Loot) (lootEntrys []*model.LootEntry, err error)
+	ListLootEntryTotalCount(loot *model.Loot) (count int64, err error)
+	ListLootEntryBySearch(page *model.Page, loot *model.Loot, lootEntry *model.LootEntry) (lootEntrys []*model.LootEntry, err error)
+	ListLootEntryBySearchTotalCount(loot *model.Loot, lootEntry *model.LootEntry) (count int64, err error)
+
 	//Npc
 	GetNpc(npc *model.Npc) (err error)
 	ListNpc(page *model.Page) (npcs []*model.Npc, err error)
