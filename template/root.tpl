@@ -47,6 +47,10 @@
 	<link rel="stylesheet" href="/vendor/datatables.net-bs/css/dataTables.bootstrap.min.css">
 	<link rel="stylesheet" href="/vendor/select2-3.5.2/select2.css">
 	<link rel="stylesheet" href="/vendor/select2-bootstrap/select2-bootstrap.css">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+   integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+   crossorigin=""/>
 	
 
 	<script src="/vendor/jquery/dist/jquery.min.js"></script>
@@ -57,6 +61,9 @@
 	<script src="//cdn.jsdelivr.net/velocity/1.5/velocity.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.ui.min.js"></script>
 	<script src="/vendor/select2-3.5.2/select2.min.js"></script>
+	 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+   integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+   crossorigin=""></script>
 	
 
 </head>
@@ -78,6 +85,7 @@
 <script src="/vendor/xeditable/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 <!-- App scripts -->
 <script src="/scripts/homer.js"></script>
+
 
 
 <script>

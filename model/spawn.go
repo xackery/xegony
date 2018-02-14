@@ -7,6 +7,9 @@ type Spawns []*Spawn
 // Spawn represents the spawn_group table
 // swagger:model
 type Spawn struct {
+	Entrys []*SpawnEntry `json:"entries,omitempty"`
+	Npcs   []*SpawnNpc   `json:"npcs,omitempty"`
+
 	ID           int64   `json:"ID,omitempty" db:"id"`
 	Name         string  `json:"name,omitempty" db:"name"`                  //`name` varchar(50) NOT NULL DEFAULT '',
 	SpawnLimit   int64   `json:"spawnLimit,omitempty" db:"spawn_limit"`     //`spawn_limit` tinyint(4) NOT NULL DEFAULT '0',

@@ -33,6 +33,7 @@ func ApplyRoutes(router *mux.Router) {
 	routes = append(routes, npcRoutes()...)
 	routes = append(routes, spellRoutes()...)
 	routes = append(routes, spawnRoutes()...)
+	routes = append(routes, zoneRoutes()...)
 
 	type Content struct {
 		User    *model.User `json:"user"`

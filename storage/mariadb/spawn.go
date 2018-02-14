@@ -18,7 +18,7 @@ func (s *Storage) GetSpawn(spawn *model.Spawn) (err error) {
 	query := fmt.Sprintf("SELECT %s FROM %s WHERE id = ?", spawnFields, spawnTable)
 	err = s.db.Get(spawn, query, spawn.ID)
 	if err != nil {
-		err = errors.Wrapf(err, "query: %s", query)
+		err = errors.Wrapf(err, "query: %s, param %d", query, spawn.ID)
 		return
 	}
 	return

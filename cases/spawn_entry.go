@@ -2,6 +2,7 @@ package cases
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/xackery/xegony/model"
@@ -331,8 +332,10 @@ func validateOrderBySpawnEntryField(page *model.Page) (err error) {
 func sanitizeSpawnEntry(spawnEntry *model.SpawnEntry, user *model.User) (err error) {
 	if len(spawnEntry.ZoneShortName.String) > 0 {
 		spawnEntry.Zone = &model.Zone{}
-		spawnEntry.Zone.ShortName.String = spawnEntry.ZoneShortName.String
+
+		spawnEntry.Zone.ShortName.String = strings.ToLower(spawnEntry.ZoneShortName.String)
 		spawnEntry.Zone.ShortName.Valid = true
+
 		err = GetZoneByShortName(spawnEntry.Zone, user)
 		if err != nil {
 			err = errors.Wrap(err, "failed to get zone by shortname")

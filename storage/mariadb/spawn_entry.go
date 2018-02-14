@@ -88,6 +88,9 @@ func (s *Storage) ListSpawnEntryBySearch(page *model.Page, spawn *model.Spawn, s
 	if spawnEntry.ID > 0 {
 		field += `id = :id OR`
 	}
+	if len(spawnEntry.ZoneShortName.String) > 0 {
+		field += "zone = :zone OR"
+	}
 
 	if len(field) == 0 {
 		err = fmt.Errorf("No parameters to search by provided")
@@ -119,6 +122,9 @@ func (s *Storage) ListSpawnEntryBySearchTotalCount(spawn *model.Spawn, spawnEntr
 	field := ""
 	if spawnEntry.ID > 0 {
 		field += `id = :id OR`
+	}
+	if len(spawnEntry.ZoneShortName.String) > 0 {
+		field += "zone = :zone OR"
 	}
 
 	if len(field) == 0 {

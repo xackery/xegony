@@ -320,7 +320,7 @@ func validateOrderBySpawnNpcField(page *model.Page) (err error) {
 		possibleNames = possibleNames[0 : len(possibleNames)-2]
 	}
 	err = &model.ErrValidation{
-		Message: "orderBy is invalid. Possible fields: " + possibleNames,
+		Message: "orderBy is invalid: " + page.OrderBy + ". Possible fields: " + possibleNames,
 		Reasons: map[string]string{
 			"orderBy": "field is not valid",
 		},

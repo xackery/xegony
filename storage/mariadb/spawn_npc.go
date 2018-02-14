@@ -39,7 +39,7 @@ func (s *Storage) CreateSpawnNpc(spawn *model.Spawn, spawnNpc *model.SpawnNpc) (
 func (s *Storage) ListSpawnNpc(page *model.Page, spawn *model.Spawn) (spawnNpcs []*model.SpawnNpc, err error) {
 
 	if len(page.OrderBy) < 1 {
-		page.OrderBy = "npcID"
+		page.OrderBy = "npcid"
 	}
 
 	orderField := page.OrderBy
