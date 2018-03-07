@@ -1,6 +1,6 @@
 default: all
 
-all: test vet lint
+all: test vet lint swagger
 run:
 	go run main.go server
 
