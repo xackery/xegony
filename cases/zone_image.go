@@ -301,6 +301,11 @@ func GetZoneImageBot(bot *model.Bot, user *model.User) (err error) {
 		err = errors.Wrap(err, "failed to get zoneImage worker")
 		return
 	}
+	err = prepareBot(bot, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare bot while edit zone image")
+		return
+	}
 
 	err = worker.GetBot(bot)
 	if err != nil {
@@ -373,8 +378,17 @@ func EditZoneImageBot(bot *model.Bot, user *model.User) (err error) {
 		err = errors.Wrap(err, "can't edit zoneImageBot by search without guide+")
 		return
 	}
+
+	err = prepareBot(bot, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare bot while edit zone image")
+		return
+	}
 	worker, err := getWorker("zoneImage")
 
+	if len(bot.Parameters["mapDir"]) == 0 {
+		bot.Parameters["mapDir"] = GetConfigValue("mapDir")
+	}
 	err = worker.EditBot(bot)
 	if err != nil {
 		err = errors.Wrap(err, "failed to edit zoneImageBot")

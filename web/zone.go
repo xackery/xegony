@@ -147,12 +147,17 @@ func getZoneEditor(w http.ResponseWriter, r *http.Request, user *model.User, sta
 		err = errors.Wrap(err, "failed to list spawnEntrys by zone")
 		return
 	}
+	var xOffset = float64(1243)
+	var yOffset = float64(5148)
+	var aspect = 0.035705784337062604
 
 	//get details of each spawn
 	for _, spawnEntry := range spawnEntrys {
 		spawn = &model.Spawn{
 			ID: spawnEntry.SpawnID,
 		}
+		spawnEntry.XScaled = float64(spawnEntry.X+xOffset) * aspect
+		spawnEntry.YScaled = float64(spawnEntry.Y+yOffset) * aspect
 		err = cases.GetSpawn(spawn, user)
 		if err != nil {
 			log.Println("Spawn", spawn.ID, "doesn't exist")

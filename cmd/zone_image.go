@@ -71,6 +71,16 @@ func startZoneImage(cmd *cobra.Command, args []string) (err error) {
 		return
 	}
 
+	for time.Since(start) < time.Duration(60*time.Minute) {
+		err = cases.GetZoneImageBot(bot, user)
+		if err != nil {
+			return
+		}
+		if bot.Status == 0 {
+			break
+		}
+		time.Sleep(5 * time.Second)
+	}
 	log.Printf("Completed in %s\n", time.Since(start))
 	return
 }

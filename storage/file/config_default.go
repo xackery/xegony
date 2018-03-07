@@ -15,7 +15,7 @@ func loadConfigDefault() model.Configs {
 		{
 			Category:    "API",
 			Key:         "httpHostname",
-			Value:       "127.0.0.1",
+			Value:       "",
 			Description: "Hostname for HTTP routing. Used for redirects. Supports DNS.",
 		},
 		{
@@ -25,16 +25,16 @@ func loadConfigDefault() model.Configs {
 			Description: "API Suffix is appended to all API endpoints (default: /api/)",
 		},
 		{
+			Category:    "BOT",
+			Key:         "mapDir",
+			Value:       "map/",
+			Description: "Directory map txt files are found. (default: map/)",
+		},
+		{
 			Category:    "WEB",
 			Key:         "webSuffix",
 			Value:       "/",
 			Description: "Web Suffix is appended to all WEB endpoints (default: /)",
-		},
-		{
-			Category:    "BOT",
-			Key:         "botSuffix",
-			Value:       "/bot",
-			Description: "Bot Suffix is appended to all bOT endpoints (default: /bot/)",
 		},
 		{
 			Category:    "Google",

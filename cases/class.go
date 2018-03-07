@@ -485,6 +485,12 @@ func sanitizeClass(class *model.Class, user *model.User) (err error) {
 	if err != nil {
 		err = nil
 	}
+	if class.Icon == "" {
+		class.Icon = "xa-shield"
+	}
+	if len(class.Icon) > 2 && class.Icon[2:3] == "-" {
+		class.Icon = fmt.Sprintf("%s %s", class.Icon[0:2], class.Icon)
+	}
 	return
 }
 

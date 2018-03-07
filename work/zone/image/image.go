@@ -71,6 +71,9 @@ func (w *Worker) EditBot(bot *model.Bot) (err error) {
 	defer zoneImageLock.Unlock()
 	for i := range zoneImageBots {
 		if zoneImageBots[i].ID == bot.ID {
+			if zoneImageBots[i].Status == 0 && bot.Status > 0 {
+				go w.startMapLoader(bot)
+			}
 			*zoneImageBots[i] = *bot
 			return
 		}
@@ -88,6 +91,15 @@ func (w *Worker) ListBot(page *model.Page) (bots []*model.Bot, err error) {
 	return
 }
 
+func (w *Worker) startMapLoader(bot *model.Bot) {
+	err := w.browseMaps(bot)
+	if err != nil {
+		fmt.Println("Critical error browsing maps", err.Error())
+	}
+	fmt.Println("Success!")
+	return
+}
+
 func (w *Worker) browseMaps(bot *model.Bot) (err error) {
 
 	files := []string{}
@@ -96,13 +108,13 @@ func (w *Worker) browseMaps(bot *model.Bot) (err error) {
 		err = fmt.Errorf("Invalid mapDir parameter passed: empty")
 		return
 	}
-
+	fmt.Println("walking maps")
 	err = filepath.Walk(mapDir, func(path string, info os.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil
 		}
 		if filepath.Ext(path) == ".txt" {
-			files = append(files, path)
+			files = append(files, info.Name())
 		}
 		return nil
 	})
@@ -110,6 +122,14 @@ func (w *Worker) browseMaps(bot *model.Bot) (err error) {
 		err = errors.Wrap(err, "failed to walk path")
 		fmt.Println(err)
 		return
+	}
+	fmt.Println("found", len(files), "files to load")
+	for _, file := range files {
+		err = w.loadMap(mapDir, file)
+		if err != nil {
+			err = errors.Wrap(err, "failed to load map")
+			return
+		}
 	}
 	/*
 
@@ -126,8 +146,9 @@ func (w *Worker) loadMap(path string, filename string) (err error) {
 	if strings.Contains(filename, "_2.txt") {
 		return
 	}
+	fmt.Println("loading map", filename)
 
-	bMap, err := ioutil.ReadFile(path)
+	bMap, err := ioutil.ReadFile(path + filename)
 	if err != nil {
 		err = errors.Wrap(err, "Failed to read file")
 		return
@@ -291,5 +312,6 @@ func (w *Worker) loadMap(path string, filename string) (err error) {
 	}
 	//ioutil.WriteFile("out.txt", []byte(outData), 0755)
 	*/
+	fmt.Println(xOffset, yOffset, filename, aspect)
 	return
 }

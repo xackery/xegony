@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"html/template"
 	"io/ioutil"
 	"sync"
@@ -66,6 +67,7 @@ func loadTemplate(oldTemplate *template.Template, key string, path string) (tmp 
 		"comma":       commaFormat,
 		"iszonelevel": isZoneLevel,
 		"time":        timeFormat,
+		"unescapeJS":  unescapeJS,
 	}
 
 	if oldTemplate == nil {
@@ -96,4 +98,8 @@ func timeFormat(v time.Time) string {
 
 func isZoneLevel(level int64, levels int64) bool {
 	return ((levels & level) == level)
+}
+
+func unescapeJS(v interface{}) template.JS {
+	return template.JS(fmt.Sprint(v))
 }
