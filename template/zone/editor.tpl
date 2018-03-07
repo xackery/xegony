@@ -29,13 +29,31 @@
 			</div>
 
 			<div class="panel-body">
-				<div class="col-md-4">
-					<table class="table table-striped">
+				<table class="table table-striped">
 					<tbody>
-					<tr><td>Name:</td><td>Orc</td></tr>
-					<tr><td>Name:</td><td>Orc</td></tr>
+					<tr><td>Spawn Name:</td><td id="infoName">Orc</td></tr>
+					<tr><td>ID:</td><td id="infoID"></td></tr>	
+					<tr><td>Limit:</td><td id="infoLimit"></td></tr>
+					<tr><td>Distance:</td><td id="infoDistance"></td></tr>
+					<tr><td>Minimum Delay:</td><td id="infoMinimumDelay"></td></tr>
+					<tr><td>Despawn:</td><td id="infoDespawn"></td></tr>
+					<tr><td>Despawn Timer:</td><td id="infoDespawnTimer"></td></tr>
 					</tbody>
 				</table>
+				<div class="table-responsive">
+                	<table cellpadding="1" cellspacing="1" class="table">
+						<thead>
+						<tr>
+							<th width="10px"><i title="Race" class="xa xa-bear"></i></th>
+							<th width="10px"><i title="Class" class="xa xa-all-for-one"></i></th>
+							<th width="10px"><i title="Level">Lvl</i></th>
+							<th>Name</th>
+							<th>Chance</th>                   
+						</tr>
+						</thead>
+						<tbody id="infoNpcs">						
+						</tobdy>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -68,16 +86,34 @@
 
 	var modelIcon = new LeafIcon({iconUrl: '/images/npc/icon/54.png'})		
 
-	function onMapClick(e) {
-		console.log("Orc click");
-		console.log(e);
-	}
-
-	L.marker([250, 250], {icon: modelIcon}).on('click', onMapClick).addTo(map);
-	
 	{{range $spawnKey, $spawnValue := .Spawns}}
 		{{range $key, $value := $spawnValue.Entrys}}
-			L.marker([{{$value.X}}, {{$value.Y}}], {icon: modelIcon}).on('click', onMapClick).addTo(map); //{{range $npcKey, $npcValue := $spawnValue.Npcs}}{{$npcValue.Npc.ID}} {{end}}
+			function onMapClick{{ unescapeJS $spawnValue.ID }}(e) {
+				$('#infoName').html('{{ unescapeJS $spawnValue.Name}}');
+				$('#infoID').html('{{ unescapeJS $spawnValue.ID}}');
+				$('#infoName').html('{{ unescapeJS $spawnValue.Name }}');
+				$('#infoID').html('{{ unescapeJS $spawnValue.ID }}');
+				$('#infoLimit').html('{{ unescapeJS $spawnValue.Limit }}');
+				$('#infoDistance').html('{{ unescapeJS $spawnValue.Distance }}');
+				$('#infoMinimumDelay').html('{{ unescapeJS $spawnValue.MinimumDelay }}');
+				$('#infoDespawn').html('{{ unescapeJS $spawnValue.Despawn }}');
+				$('#infoDespawnTimer').html('{{ unescapeJS $spawnValue.DespawnTimer }}');
+				$('#infoNpcs').html('{{ unescapeJS $spawnValue.Npcs }}');
+				var infoNpcs = ""
+				{{range $npcKey, $npcValue := $spawnValue.Npcs}}
+				infoNpcs += "<tr>\n";
+				infoNpcs += '<td><i class="{{ unescapeJS $npcValue.Npc.Race.Icon }}"></i></td>';
+				infoNpcs += '<td><i class="{{ unescapeJS $npcValue.Npc.Class.Icon }}"></i></td>';
+				infoNpcs += "<td>{{ unescapeJS $npcValue.Npc.Level }}</td>";
+				infoNpcs += "<td>{{ unescapeJS $npcValue.Npc.Name }}</td>";
+				infoNpcs += "<td>{{ unescapeJS $npcValue.Chance }}</td>";
+				$('#infoNpcs').html(infoNpcs);				
+				{{end}}
+			}
+			var marker = L.marker([{{$value.YScaled}},{{$value.XScaled}}], {icon: modelIcon, spawnID:{{$spawnValue.ID}}});
+			marker.bindPopup({{$spawnValue.Name}}+" "+{{$spawnValue.ID}});
+			marker.on('click', onMapClick{{ unescapeJS $spawnValue.ID}});
+			marker.addTo(map);
 		{{end}}
 	{{end}}
 </script>

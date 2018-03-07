@@ -2670,6 +2670,1677 @@
         }
       }
     },
+    "/item/{ID}/tooltip": {
+      "get": {
+        "description": "This will get an individual item's tooltip",
+        "tags": [
+          "item"
+        ],
+        "summary": "Get an item tooltip",
+        "operationId": "getItemTooltip",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ItemResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot": {
+      "get": {
+        "description": "This will show all available loots by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "loot"
+        ],
+        "summary": "Lists loots",
+        "operationId": "listLoot",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an loot",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Create an loot",
+        "operationId": "createLoot",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Loot",
+            "description": "Loot details to create",
+            "name": "loot",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Loot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/drop": {
+      "get": {
+        "description": "This will show all available lootDrops by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "lootDrop"
+        ],
+        "summary": "Lists lootDrops",
+        "operationId": "listLootDrop",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an lootDrop",
+        "tags": [
+          "lootDrop"
+        ],
+        "summary": "Create an lootDrop",
+        "operationId": "createLootDrop",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "LootDrop",
+            "description": "LootDrop details to create",
+            "name": "lootDrop",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LootDrop"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/drop/search": {
+      "get": {
+        "description": "This will show all available lootDrops by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "lootDrop"
+        ],
+        "summary": "Search lootDrops by name",
+        "operationId": "listLootDropBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "heal",
+            "x-go-name": "Name",
+            "description": "Name is which lootDrop to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/drop/{ID}": {
+      "get": {
+        "description": "This will get an individual lootDrop available lootDrops by default.",
+        "tags": [
+          "lootDrop"
+        ],
+        "summary": "Get an lootDrop",
+        "operationId": "getLootDrop",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an lootDrop",
+        "tags": [
+          "lootDrop"
+        ],
+        "summary": "Edit an lootDrop",
+        "operationId": "editLootDrop",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "LootDrop",
+            "description": "LootDrop details to edit",
+            "name": "lootDrop",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LootDrop"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an lootDrop",
+        "tags": [
+          "lootDrop"
+        ],
+        "summary": "Delete an lootDrop",
+        "operationId": "deleteLootDrop",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/drop/{lootID}/entry": {
+      "get": {
+        "description": "This will show all available lootDropEntrys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "loot"
+        ],
+        "summary": "Lists lootDropEntrys",
+        "operationId": "listLootDropEntry",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropEntrysResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/drop/{lootID}/entry/search": {
+      "get": {
+        "description": "This will show all available lootDropEntrys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "loot"
+        ],
+        "summary": "Search lootDropEntrys by entryid",
+        "operationId": "listLootDropEntryBySearch",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID is which lootDropEntry to get information about",
+            "name": "entryID",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropEntrysBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/drop/{lootID}/entry/{entryID}": {
+      "get": {
+        "description": "This will get an individual lootDropEntry available lootDropEntrys by default.",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Get an lootDropEntry",
+        "operationId": "getLootDropEntry",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID to get information about",
+            "name": "entryID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropEntryResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an lootDropEntry",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Edit an lootDropEntry",
+        "operationId": "editLootDropEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "LootID to get information about",
+            "name": "LootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID to get information about",
+            "name": "entryID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "LootDropEntry",
+            "description": "LootDropEntry details to edit",
+            "name": "lootDropEntry",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LootDropEntry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropEntryResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an lootDropEntry",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Create an lootDropEntry",
+        "operationId": "createLootDropEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "LootDropEntry",
+            "description": "LootDropEntry details to create",
+            "name": "lootDropEntry",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LootDropEntry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootDropEntryResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an lootDropEntry",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Delete an lootDropEntry",
+        "operationId": "deleteLootDropEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID to get information about",
+            "name": "entryID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/search": {
+      "get": {
+        "description": "This will show all available loots by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "loot"
+        ],
+        "summary": "Search loots by name",
+        "operationId": "listLootBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "heal",
+            "x-go-name": "Name",
+            "description": "Name is which loot to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/{ID}": {
+      "get": {
+        "description": "This will get an individual loot available loots by default.",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Get an loot",
+        "operationId": "getLoot",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an loot",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Edit an loot",
+        "operationId": "editLoot",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Loot",
+            "description": "Loot details to edit",
+            "name": "loot",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Loot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an loot",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Delete an loot",
+        "operationId": "deleteLoot",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 12,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/{lootID}/entry": {
+      "get": {
+        "description": "This will show all available lootEntrys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "loot"
+        ],
+        "summary": "Lists lootEntrys",
+        "operationId": "listLootEntry",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootEntrysResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/{lootID}/entry/search": {
+      "get": {
+        "description": "This will show all available lootEntrys by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "loot"
+        ],
+        "summary": "Search lootEntrys by entryid",
+        "operationId": "listLootEntryBySearch",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID is which lootEntry to get information about",
+            "name": "entryID",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootEntrysBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/loot/{lootID}/entry/{entryID}": {
+      "get": {
+        "description": "This will get an individual lootEntry available lootEntrys by default.",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Get an lootEntry",
+        "operationId": "getLootEntry",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID to get information about",
+            "name": "entryID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootEntryResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an lootEntry",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Edit an lootEntry",
+        "operationId": "editLootEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "LootID to get information about",
+            "name": "LootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID to get information about",
+            "name": "entryID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "LootEntry",
+            "description": "LootEntry details to edit",
+            "name": "lootEntry",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LootEntry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootEntryResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an lootEntry",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Create an lootEntry",
+        "operationId": "createLootEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "LootEntry",
+            "description": "LootEntry details to create",
+            "name": "lootEntry",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/LootEntry"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/LootEntryResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an lootEntry",
+        "tags": [
+          "loot"
+        ],
+        "summary": "Delete an lootEntry",
+        "operationId": "deleteLootEntry",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "x-go-name": "LootID",
+            "description": "LootID to get information about",
+            "name": "lootID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 55091,
+            "x-go-name": "EntryID",
+            "description": "EntryID to get information about",
+            "name": "entryID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/npc": {
       "get": {
         "description": "This will show all available npcs by default.",
@@ -4572,6 +6243,1125 @@
             "x-go-name": "Name",
             "description": "Name to get information about",
             "name": "name",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/size": {
+      "get": {
+        "description": "This will show all available sizes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "size"
+        ],
+        "summary": "Lists sizes",
+        "operationId": "listSize",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SizesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an size",
+        "tags": [
+          "size"
+        ],
+        "summary": "Create an size",
+        "operationId": "createSize",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Size",
+            "description": "Size details to create",
+            "name": "size",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SizeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/size/search": {
+      "get": {
+        "description": "This will show all available sizes by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "size"
+        ],
+        "summary": "Search sizes by name",
+        "operationId": "listSizeBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which size to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SizesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/size/{ID}": {
+      "get": {
+        "description": "This will get an individual size available sizes by default.",
+        "tags": [
+          "size"
+        ],
+        "summary": "Get an size",
+        "operationId": "getSize",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SizeResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an size",
+        "tags": [
+          "size"
+        ],
+        "summary": "Edit an size",
+        "operationId": "editSize",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Size",
+            "description": "Size details to edit",
+            "name": "size",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SizeResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an size",
+        "tags": [
+          "size"
+        ],
+        "summary": "Delete an size",
+        "operationId": "deleteSize",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/skill": {
+      "get": {
+        "description": "This will show all available skills by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "skill"
+        ],
+        "summary": "Lists skills",
+        "operationId": "listSkill",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SkillsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an skill",
+        "tags": [
+          "skill"
+        ],
+        "summary": "Create an skill",
+        "operationId": "createSkill",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Skill",
+            "description": "Skill details to create",
+            "name": "skill",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SkillResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/skill/search": {
+      "get": {
+        "description": "This will show all available skills by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "skill"
+        ],
+        "summary": "Search skills by name",
+        "operationId": "listSkillBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which skill to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SkillsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/skill/{ID}": {
+      "get": {
+        "description": "This will get an individual skill available skills by default.",
+        "tags": [
+          "skill"
+        ],
+        "summary": "Get an skill",
+        "operationId": "getSkill",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SkillResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an skill",
+        "tags": [
+          "skill"
+        ],
+        "summary": "Edit an skill",
+        "operationId": "editSkill",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Skill",
+            "description": "Skill details to edit",
+            "name": "skill",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Skill"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SkillResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an skill",
+        "tags": [
+          "skill"
+        ],
+        "summary": "Delete an skill",
+        "operationId": "deleteSkill",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/slot": {
+      "get": {
+        "description": "This will show all available slots by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "slot"
+        ],
+        "summary": "Lists slots",
+        "operationId": "listSlot",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SlotsResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an slot",
+        "tags": [
+          "slot"
+        ],
+        "summary": "Create an slot",
+        "operationId": "createSlot",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "Slot",
+            "description": "Slot details to create",
+            "name": "slot",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Slot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SlotResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/slot/search": {
+      "get": {
+        "description": "This will show all available slots by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "slot"
+        ],
+        "summary": "Search slots by name",
+        "operationId": "listSlotBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "x-go-name": "Name",
+            "description": "Name is which slot to get information about",
+            "name": "name",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "name",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SlotsBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/slot/{ID}": {
+      "get": {
+        "description": "This will get an individual slot available slots by default.",
+        "tags": [
+          "slot"
+        ],
+        "summary": "Get an slot",
+        "operationId": "getSlot",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SlotResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an slot",
+        "tags": [
+          "slot"
+        ],
+        "summary": "Edit an slot",
+        "operationId": "editSlot",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Slot",
+            "description": "Slot details to edit",
+            "name": "slot",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Slot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/SlotResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an slot",
+        "tags": [
+          "slot"
+        ],
+        "summary": "Delete an slot",
+        "operationId": "deleteSlot",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 1,
+            "description": "ID to get information about",
+            "name": "ID",
             "in": "path",
             "required": true
           }
@@ -9094,7 +11884,7 @@
           },
           {
             "type": "string",
-            "example": "accountid",
+            "example": "account_id",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -9191,7 +11981,7 @@
           },
           {
             "type": "string",
-            "example": "accountid",
+            "example": "account_id",
             "x-go-name": "OrderBy",
             "description": "OrderBy is which field to order a page by",
             "name": "orderBy",
@@ -10370,6 +13160,467 @@
         }
       }
     },
+    "/zone/image": {
+      "get": {
+        "description": "This will show all available zoneImages by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Lists zoneImages",
+        "operationId": "listZoneImage",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneImagesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "This will create an zoneImage",
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Create an zoneImage",
+        "operationId": "createZoneImage",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "ZoneImage",
+            "description": "ZoneImage details to create",
+            "name": "zoneImage",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ZoneImage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneImageResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zone/image/bot": {
+      "get": {
+        "description": "This will get the bot with the matching ID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Get zoneImage bot",
+        "operationId": "listZoneImageBot",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneImagesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit the bot with the matching ID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Edit zoneImage bot",
+        "operationId": "editZoneImageBot",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneImagesResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zone/image/search": {
+      "get": {
+        "description": "This will show all available zoneImages by default.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml",
+          "application/yaml"
+        ],
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Search zoneImages by id",
+        "operationId": "listZoneImageBySearch",
+        "parameters": [
+          {
+            "type": "string",
+            "example": "xackery",
+            "description": "ID is which zoneImage to get information about",
+            "name": "ID",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "Offset",
+            "description": "Offset is pagination, offset*limit",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 10,
+            "x-go-name": "Limit",
+            "description": "Limit to how many items per page",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "example": "id",
+            "x-go-name": "OrderBy",
+            "description": "OrderBy is which field to order a page by",
+            "name": "orderBy",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 0,
+            "x-go-name": "IsDescending",
+            "description": "IsDescending will change sort order when true",
+            "name": "isDescending",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneImagesBySearchResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
+    "/zone/image/{ID}": {
+      "get": {
+        "description": "This will get an individual zoneImage available zoneImages by default.",
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Get an zoneImage",
+        "operationId": "getZoneImage",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneImageResponse"
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "This will edit an zoneImage",
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Edit an zoneImage",
+        "operationId": "editZoneImage",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "x-go-name": "ZoneImage",
+            "description": "ZoneImage details to edit",
+            "name": "zoneImage",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ZoneImage"
+            }
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Bot",
+            "description": "Bot details to edit",
+            "name": "bot",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Bot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ZoneImageResponse"
+          },
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "This will delete an zoneImage",
+        "tags": [
+          "zoneImage"
+        ],
+        "summary": "Delete an zoneImage",
+        "operationId": "deleteZoneImage",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "example": 74887,
+            "description": "ID to get information about",
+            "name": "ID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ErrNoContent",
+            "schema": {
+              "$ref": "#/definitions/ErrNoContent"
+            }
+          },
+          "400": {
+            "description": "ErrValidation",
+            "schema": {
+              "$ref": "#/definitions/ErrValidation"
+            }
+          },
+          "401": {
+            "description": "ErrPermission",
+            "schema": {
+              "$ref": "#/definitions/ErrPermission"
+            }
+          },
+          "default": {
+            "description": "ErrInternal",
+            "schema": {
+              "$ref": "#/definitions/ErrInternal"
+            }
+          }
+        }
+      }
+    },
     "/zone/search": {
       "get": {
         "description": "This will show all available zones by default.",
@@ -11094,6 +14345,49 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Bot": {
+      "description": "Bot represents workers",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "Index of bot. Typically is auto incremented",
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastDuration": {
+          "$ref": "#/definitions/Duration"
+        },
+        "lastStart": {
+          "description": "LastStart is the time a bot started",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "LastStart"
+        },
+        "parameters": {
+          "description": "Parameters are arguments for the bot's job.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "Parameters"
+        },
+        "status": {
+          "description": "Status is the status of the bot. 0: idle, 1: working",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Status"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Bots": {
+      "description": "Bots is an array of Bot",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Bot"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "Character": {
       "description": "Character holds data about players inside Everquest, it primarily uses character_data table",
       "type": "object",
@@ -11800,6 +15094,12 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Duration": {
+      "description": "A Duration represents the elapsed time between two instants\nas an int64 nanosecond count. The representation limits the\nlargest representable duration to approximately 290 years.",
+      "type": "integer",
+      "format": "int64",
+      "x-go-package": "time"
+    },
     "EnvironmentType": {
       "description": "Used by spells.",
       "type": "object",
@@ -12056,6 +15356,10 @@
       "description": "Forum is the parent of topics, which groups posts together into sections",
       "type": "object",
       "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
         "description": {
           "type": "string",
           "x-go-name": "Description"
@@ -12063,11 +15367,6 @@
         "icon": {
           "type": "string",
           "x-go-name": "Icon"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
         },
         "name": {
           "type": "string",
@@ -12161,6 +15460,11 @@
       "description": "Item represents items inside everquest",
       "type": "object",
       "properties": {
+        "ID": {
+          "description": "normal items db",
+          "type": "integer",
+          "format": "int64"
+        },
         "IDFile": {
           "type": "string"
         },
@@ -12661,6 +15965,10 @@
           "format": "int64",
           "x-go-name": "ClassBit"
         },
+        "classList": {
+          "type": "string",
+          "x-go-name": "ClassList"
+        },
         "classs": {
           "$ref": "#/definitions/Classs"
         },
@@ -13052,12 +16360,6 @@
           "format": "int64",
           "x-go-name": "Icon"
         },
-        "id": {
-          "description": "normal items db",
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
         "intelligence": {
           "type": "integer",
           "format": "int64",
@@ -13281,6 +16583,10 @@
           "format": "int64",
           "x-go-name": "RaceBit"
         },
+        "raceList": {
+          "type": "string",
+          "x-go-name": "RaceList"
+        },
         "races": {
           "$ref": "#/definitions/Races"
         },
@@ -13288,16 +16594,6 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Range"
-        },
-        "recLevel": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "RecLevel"
-        },
-        "recSkill": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "RecSkill"
         },
         "recastDelay": {
           "type": "integer",
@@ -13309,15 +16605,28 @@
           "format": "int64",
           "x-go-name": "RecastType"
         },
+        "recommendedLevel": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RecommendedLevel"
+        },
+        "recommendedSkill": {
+          "$ref": "#/definitions/Skill"
+        },
+        "recommendedSkillID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "RecommendedSkillID"
+        },
         "regen": {
           "type": "integer",
           "format": "int64",
           "x-go-name": "Regen"
         },
-        "reqLevel": {
+        "requiredLevel": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "ReqLevel"
+          "x-go-name": "RequiredLevel"
         },
         "saveCorruption": {
           "type": "integer",
@@ -13406,6 +16715,9 @@
           "format": "int64",
           "x-go-name": "Shielding"
         },
+        "size": {
+          "$ref": "#/definitions/Size"
+        },
         "sizeID": {
           "type": "integer",
           "format": "int64",
@@ -13430,6 +16742,10 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "SlotBit"
+        },
+        "slotList": {
+          "type": "string",
+          "x-go-name": "SlotList"
         },
         "source": {
           "type": "string",
@@ -13619,20 +16935,62 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Loot": {
+      "description": "Loot is the parent of lootentry",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "avgcoin": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Avgcoin"
+        },
+        "done": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Done"
+        },
+        "entrys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LootEntry"
+          },
+          "x-go-name": "Entrys"
+        },
+        "maxcash": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Maxcash"
+        },
+        "mincash": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Mincash"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "LootDrop": {
       "description": "LootDrop is the parent of loot drop entries",
       "type": "object",
       "properties": {
-        "Entries": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "entries": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/LootDropEntry"
-          }
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
+          },
+          "x-go-name": "Entries"
         },
         "name": {
           "type": "string",
@@ -13660,6 +17018,9 @@
           "format": "int64",
           "x-go-name": "EquipItem"
         },
+        "item": {
+          "$ref": "#/definitions/Item"
+        },
         "itemCharges": {
           "type": "integer",
           "format": "int64",
@@ -13670,10 +17031,10 @@
           "format": "int64",
           "x-go-name": "ItemID"
         },
-        "lootdropId": {
+        "lootDropID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LootdropID"
+          "x-go-name": "LootDropID"
         },
         "maxlevel": {
           "type": "integer",
@@ -13693,77 +17054,52 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "LootTable": {
-      "description": "LootTable is the parent of loottableentry",
-      "type": "object",
-      "properties": {
-        "Entries": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LootTableEntry"
-          }
-        },
-        "Npcs": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Npc"
-          }
-        },
-        "avgcoin": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Avgcoin"
-        },
-        "done": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Done"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ID"
-        },
-        "maxcash": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Maxcash"
-        },
-        "mincash": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Mincash"
-        },
-        "name": {
-          "type": "string",
-          "x-go-name": "Name"
-        }
+    "LootDropEntrys": {
+      "description": "LootDropEntrys is an array of lootDropEntry",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LootDropEntry"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
-    "LootTableEntry": {
-      "description": "LootTableEntry group together loot drops for npc drops",
+    "LootDrops": {
+      "description": "LootDrops is an array of lootDrop",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LootDrop"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "LootEntry": {
+      "description": "LootEntry group together loot drops for npc drops",
       "type": "object",
       "properties": {
-        "droplimit": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Droplimit"
+        "dropEntrys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LootDropEntry"
+          },
+          "x-go-name": "DropEntrys"
         },
-        "lootdropId": {
+        "dropLimit": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LootdropID"
+          "x-go-name": "DropLimit"
         },
-        "loottableId": {
+        "lootDropID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LoottableID"
+          "x-go-name": "LootDropID"
         },
-        "mindrop": {
+        "lootID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Mindrop"
+          "x-go-name": "LootID"
+        },
+        "minDrop": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinDrop"
         },
         "multiplier": {
           "type": "integer",
@@ -13775,6 +17111,22 @@
           "format": "double",
           "x-go-name": "Probability"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "LootEntrys": {
+      "description": "LootEntrys is an array of lootEntry",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/LootEntry"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Loots": {
+      "description": "Loots is an array of loot",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Loot"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -14018,6 +17370,10 @@
           "format": "int64",
           "x-go-name": "ClassID"
         },
+        "cleanName": {
+          "type": "string",
+          "x-go-name": "CleanName"
+        },
         "coldResistance": {
           "type": "integer",
           "format": "int64",
@@ -14072,6 +17428,11 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Exclude"
+        },
+        "experience": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Experience"
         },
         "face": {
           "type": "integer",
@@ -14171,10 +17532,10 @@
           "format": "int64",
           "x-go-name": "Light"
         },
-        "lootTableID": {
+        "lootID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "LootTableID"
+          "x-go-name": "LootID"
         },
         "luclinBeard": {
           "type": "integer",
@@ -14239,7 +17600,7 @@
         "minimumDamage": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "MinimumDamage"
+          "x-go-name": "MininumDamage"
         },
         "name": {
           "type": "string",
@@ -14372,7 +17733,14 @@
           "format": "int64",
           "x-go-name": "SpawnLimit"
         },
-        "specialAbilities": {
+        "specialAbilitiesList": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-go-name": "SpecialAbilities"
+        },
+        "specialAbilitiesRaw": {
           "$ref": "#/definitions/NullString"
         },
         "spellScale": {
@@ -14437,6 +17805,9 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "Wisdom"
+        },
+        "zone": {
+          "$ref": "#/definitions/Zone"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -15019,6 +18390,33 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Size": {
+      "description": "Size represents sizes inside everquest",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "icon": {
+          "type": "string",
+          "x-go-name": "Icon"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Sizes": {
+      "description": "Sizes represents an array of size",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Size"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "Skill": {
       "description": "Skill represents skills inside everquest",
       "type": "object",
@@ -15026,6 +18424,10 @@
         "ID": {
           "type": "integer",
           "format": "int64"
+        },
+        "icon": {
+          "type": "string",
+          "x-go-name": "Icon"
         },
         "name": {
           "type": "string",
@@ -15039,6 +18441,14 @@
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
+    "Skills": {
+      "description": "Skills represents an array of skill",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Skill"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
     "Slot": {
       "description": "Slot represents item slots",
       "type": "object",
@@ -15047,10 +18457,14 @@
           "type": "integer",
           "format": "int64"
         },
-        "bitID": {
+        "bit": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "BitID"
+          "x-go-name": "Bit"
+        },
+        "icon": {
+          "type": "string",
+          "x-go-name": "Icon"
         },
         "name": {
           "type": "string",
@@ -15060,6 +18474,14 @@
           "type": "string",
           "x-go-name": "ShortName"
         }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "Slots": {
+      "description": "Slots represents an array of slot",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Slot"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -15086,10 +18508,22 @@
           "format": "int64",
           "x-go-name": "DespawnTimer"
         },
-        "dist": {
+        "distance": {
           "type": "number",
           "format": "double",
-          "x-go-name": "Dist"
+          "x-go-name": "Distance"
+        },
+        "entries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SpawnEntry"
+          },
+          "x-go-name": "Entrys"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Limit"
         },
         "maxX": {
           "type": "number",
@@ -15101,11 +18535,6 @@
           "format": "double",
           "x-go-name": "MaxY"
         },
-        "minDelay": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "MinDelay"
-        },
         "minX": {
           "type": "number",
           "format": "double",
@@ -15116,14 +18545,21 @@
           "format": "double",
           "x-go-name": "MinY"
         },
+        "minimumDelay": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "MinimumDelay"
+        },
         "name": {
           "type": "string",
           "x-go-name": "Name"
         },
-        "spawnLimit": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "SpawnLimit"
+        "npcs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SpawnNpc"
+          },
+          "x-go-name": "Npcs"
         }
       },
       "x-go-package": "github.com/xackery/xegony/model"
@@ -15539,6 +18975,214 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "CastingAnimationID"
+        },
+        "class1": {
+          "$ref": "#/definitions/Class"
+        },
+        "class10": {
+          "$ref": "#/definitions/Class"
+        },
+        "class11": {
+          "$ref": "#/definitions/Class"
+        },
+        "class12": {
+          "$ref": "#/definitions/Class"
+        },
+        "class13": {
+          "$ref": "#/definitions/Class"
+        },
+        "class14": {
+          "$ref": "#/definitions/Class"
+        },
+        "class15": {
+          "$ref": "#/definitions/Class"
+        },
+        "class16": {
+          "$ref": "#/definitions/Class"
+        },
+        "class2": {
+          "$ref": "#/definitions/Class"
+        },
+        "class3": {
+          "$ref": "#/definitions/Class"
+        },
+        "class4": {
+          "$ref": "#/definitions/Class"
+        },
+        "class5": {
+          "$ref": "#/definitions/Class"
+        },
+        "class6": {
+          "$ref": "#/definitions/Class"
+        },
+        "class7": {
+          "$ref": "#/definitions/Class"
+        },
+        "class8": {
+          "$ref": "#/definitions/Class"
+        },
+        "class9": {
+          "$ref": "#/definitions/Class"
+        },
+        "classID1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID1"
+        },
+        "classID10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID10"
+        },
+        "classID11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID11"
+        },
+        "classID12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID12"
+        },
+        "classID13": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID13"
+        },
+        "classID14": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID14"
+        },
+        "classID15": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID15"
+        },
+        "classID16": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID16"
+        },
+        "classID2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID2"
+        },
+        "classID3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID3"
+        },
+        "classID4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID4"
+        },
+        "classID5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID5"
+        },
+        "classID6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID6"
+        },
+        "classID7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID7"
+        },
+        "classID8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID8"
+        },
+        "classID9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassID9"
+        },
+        "classLevel1": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel1"
+        },
+        "classLevel10": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel10"
+        },
+        "classLevel11": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel11"
+        },
+        "classLevel12": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel12"
+        },
+        "classLevel13": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel13"
+        },
+        "classLevel14": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel14"
+        },
+        "classLevel15": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel15"
+        },
+        "classLevel16": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel16"
+        },
+        "classLevel2": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel2"
+        },
+        "classLevel3": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel3"
+        },
+        "classLevel4": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel4"
+        },
+        "classLevel5": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel5"
+        },
+        "classLevel6": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel6"
+        },
+        "classLevel7": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel7"
+        },
+        "classLevel8": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel8"
+        },
+        "classLevel9": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ClassLevel9"
         },
         "components": {
           "type": "array",
@@ -16202,6 +19846,14 @@
           "format": "int64",
           "x-go-name": "Limit9"
         },
+        "lowestClass": {
+          "$ref": "#/definitions/Class"
+        },
+        "lowestLevel": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "LowestLevel"
+        },
         "mana": {
           "type": "integer",
           "format": "int64",
@@ -16638,23 +20290,6 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/SpellAnimation"
-      },
-      "x-go-package": "github.com/xackery/xegony/model"
-    },
-    "SpellClass": {
-      "description": "SpellClass stores minimum levels of each class\nranges 1 to 60",
-      "type": "object",
-      "properties": {
-        "classID": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "ClassID"
-        },
-        "level": {
-          "type": "integer",
-          "format": "int64",
-          "x-go-name": "Level"
-        }
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -17298,9 +20933,12 @@
           "x-go-name": "CastOutdoor"
         },
         "expansion": {
+          "$ref": "#/definitions/ZoneExpansion"
+        },
+        "expansionID": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "Expansion"
+          "x-go-name": "ExpansionID"
         },
         "fileName": {
           "$ref": "#/definitions/NullString"
@@ -17679,9 +21317,9 @@
           "format": "int64",
           "x-go-name": "Bit"
         },
-        "longName": {
+        "name": {
           "type": "string",
-          "x-go-name": "LongName"
+          "x-go-name": "Name"
         },
         "shortName": {
           "type": "string",
@@ -17695,6 +21333,40 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/ZoneExpansion"
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "ZoneImage": {
+      "description": "ZoneImage is details about the zone map processed data",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "aspectRatio": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "AspectRatio"
+        },
+        "xOffset": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "XOffset"
+        },
+        "yOffset": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "YOffset"
+        }
+      },
+      "x-go-package": "github.com/xackery/xegony/model"
+    },
+    "ZoneImages": {
+      "description": "ZoneImages is an array of zone map",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ZoneImage"
       },
       "x-go-package": "github.com/xackery/xegony/model"
     },
@@ -17960,6 +21632,132 @@
         "page": {}
       }
     },
+    "LootDropEntryResponse": {
+      "description": "LootDropEntryResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/LootDropEntry"
+      },
+      "headers": {
+        "lootDrop": {},
+        "lootDropEntry": {}
+      }
+    },
+    "LootDropEntrysBySearchResponse": {
+      "description": "LootDropEntrysBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/LootDropEntrys"
+      },
+      "headers": {
+        "lootDrop": {},
+        "lootDropEntrys": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "LootDropEntrysResponse": {
+      "description": "LootDropEntrysResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/LootDropEntrys"
+      },
+      "headers": {
+        "lootDrop": {},
+        "lootDropEntrys": {},
+        "page": {}
+      }
+    },
+    "LootDropResponse": {
+      "description": "LootDropResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/LootDrop"
+      },
+      "headers": {
+        "lootDrop": {}
+      }
+    },
+    "LootDropsBySearchResponse": {
+      "description": "LootDropsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/LootDrops"
+      },
+      "headers": {
+        "lootDrops": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "LootDropsResponse": {
+      "description": "LootDropsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/LootDrops"
+      },
+      "headers": {
+        "lootDrops": {},
+        "page": {}
+      }
+    },
+    "LootEntryResponse": {
+      "description": "LootEntryResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/LootEntry"
+      },
+      "headers": {
+        "loot": {},
+        "lootEntry": {}
+      }
+    },
+    "LootEntrysBySearchResponse": {
+      "description": "LootEntrysBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/LootEntrys"
+      },
+      "headers": {
+        "loot": {},
+        "lootEntrys": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "LootEntrysResponse": {
+      "description": "LootEntrysResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/LootEntrys"
+      },
+      "headers": {
+        "loot": {},
+        "lootEntrys": {},
+        "page": {}
+      }
+    },
+    "LootResponse": {
+      "description": "LootResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Loot"
+      },
+      "headers": {
+        "loot": {}
+      }
+    },
+    "LootsBySearchResponse": {
+      "description": "LootsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Loots"
+      },
+      "headers": {
+        "loots": {},
+        "page": {},
+        "search": {}
+      }
+    },
+    "LootsResponse": {
+      "description": "LootsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Loots"
+      },
+      "headers": {
+        "loots": {},
+        "page": {}
+      }
+    },
     "NpcResponse": {
       "description": "NpcResponse is what endpoints respond with",
       "schema": {
@@ -18111,6 +21909,96 @@
       "headers": {
         "page": {},
         "rules": {}
+      }
+    },
+    "SizeResponse": {
+      "description": "SizeResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Size"
+      },
+      "headers": {
+        "size": {}
+      }
+    },
+    "SizesBySearchResponse": {
+      "description": "SizesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Sizes"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "sizes": {}
+      }
+    },
+    "SizesResponse": {
+      "description": "SizesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Sizes"
+      },
+      "headers": {
+        "page": {},
+        "sizes": {}
+      }
+    },
+    "SkillResponse": {
+      "description": "SkillResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Skill"
+      },
+      "headers": {
+        "skill": {}
+      }
+    },
+    "SkillsBySearchResponse": {
+      "description": "SkillsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Skills"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "skills": {}
+      }
+    },
+    "SkillsResponse": {
+      "description": "SkillsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Skills"
+      },
+      "headers": {
+        "page": {},
+        "skills": {}
+      }
+    },
+    "SlotResponse": {
+      "description": "SlotResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Slot"
+      },
+      "headers": {
+        "slot": {}
+      }
+    },
+    "SlotsBySearchResponse": {
+      "description": "SlotsBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Slots"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "slots": {}
+      }
+    },
+    "SlotsResponse": {
+      "description": "SlotsResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/Slots"
+      },
+      "headers": {
+        "page": {},
+        "slots": {}
       }
     },
     "SpawnEntryResponse": {
@@ -18608,6 +22496,54 @@
       "headers": {
         "page": {},
         "zoneExpansions": {}
+      }
+    },
+    "ZoneImageBotResponse": {
+      "description": "ZoneImageBotResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Bot"
+      },
+      "headers": {
+        "bot": {}
+      }
+    },
+    "ZoneImageBotsResponse": {
+      "description": "ZoneImageBotsResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/Bots"
+      },
+      "headers": {
+        "bots": {}
+      }
+    },
+    "ZoneImageResponse": {
+      "description": "ZoneImageResponse is what endpoints respond with",
+      "schema": {
+        "$ref": "#/definitions/ZoneImage"
+      },
+      "headers": {
+        "zoneImage": {}
+      }
+    },
+    "ZoneImagesBySearchResponse": {
+      "description": "ZoneImagesBySearchResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/ZoneImages"
+      },
+      "headers": {
+        "page": {},
+        "search": {},
+        "zoneImages": {}
+      }
+    },
+    "ZoneImagesResponse": {
+      "description": "ZoneImagesResponse is a general response to a request",
+      "schema": {
+        "$ref": "#/definitions/ZoneImages"
+      },
+      "headers": {
+        "page": {},
+        "zoneImages": {}
       }
     },
     "ZoneResponse": {
