@@ -50,7 +50,7 @@ func initializeServer(t *testing.T) {
 	isLoaded = true
 	var err error
 	w := os.Stdout
-	db, err := mariadb.New("root@tcp(127.0.0.1:3306)/eqemu?charset=utf8&parseTime=true", w, w)
+	db, err := mariadb.New("root@tcp(127.0.0.1:3306)/?charset=utf8&parseTime=true", w, w)
 	assert.NoError(t, err, "failed to create mariadb")
 
 	assert.Nil(t, err)
