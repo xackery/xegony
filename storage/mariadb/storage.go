@@ -41,70 +41,84 @@ func New(config string, w io.Writer, wErr io.Writer) (db *Storage, err error) {
 	return
 }
 
-//InsertTestData will grab data from storage
-func (s *Storage) InsertTestData() (err error) {
-	_, err = s.db.Exec(`INSERT INTO user (id, display_name, email, password)
-	   VALUES
-	   	(1, 'Test', 'test@test.com', '$2a$10$YV0PiWDMiuXL4e77.jv8leD3NpDCk.v41aXPn7Yyi7fBWwBa0XzzC');`)
+//CreateTestDatabase creates a new test database
+func (s *Storage) CreateTestDatabase() (err error) {
+	_, err = s.db.Exec(`DROP DATABASE eqemu_test;`)
 	if err != nil {
-		err = errors.Wrap(err, "failed to insert user data")
+		err = errors.Wrap(err, "failed to drop database")
 		return
 	}
 
-	_, err = s.db.Exec(`INSERT INTO account (id, name, status)
-	   VALUES
-	   	(1, 'Shin', 200);`)
+	_, err = s.db.Exec(`CREATE DATABASE eqemu_test;`)
 	if err != nil {
-		err = errors.Wrap(err, "failed to insert account data")
+		err = errors.Wrap(err, "failed to create database")
 		return
 	}
 	return
 }
 
-//DropTables will grab data from storage
-func (s *Storage) DropTables() (err error) {
-	_, err = s.db.Exec(`SET FOREIGN_KEY_CHECKS = 0`)
-	if err != nil {
-		return
+//InsertTestData will insert test data to database
+func (s *Storage) InsertTestData() (err error) {
+	type InsertFunc struct {
+		Func func() (err error)
+		Name string
 	}
-	_, err = s.db.Exec(`drop table if exists character_data`)
-	if err != nil {
-		return
+
+	inserts := []InsertFunc{
+		{
+			Func: s.insertTestAccount,
+			Name: "Account",
+		},
+		{
+			Func: s.insertTestCharacter,
+			Name: "Character",
+		},
+		{
+			Func: s.insertTestForum,
+			Name: "Forum",
+		},
+		{
+			Func: s.insertTestNpc,
+			Name: "Npc",
+		},
+		{
+			Func: s.insertTestRule,
+			Name: "Rule",
+		},
+		{
+			Func: s.insertTestRuleEntry,
+			Name: "RuleEntry",
+		},
+		{
+			Func: s.insertTestUser,
+			Name: "User",
+		},
+		{
+			Func: s.insertTestUserAccount,
+			Name: "UserAccount",
+		},
+		/*{
+			Func: s.insertTestUserLink,
+			Name: "UserLink",
+		},*/
+		{
+			Func: s.insertTestVariable,
+			Name: "Variable",
+		},
+		{
+			Func: s.insertTestZone,
+			Name: "Zone",
+		},
 	}
-	tables := []string{
-		"account",
-		"activities",
-		"base",
-		"bazaar",
-		"character_data",
-		"faction",
-		"forum",
-		"goal",
-		"item",
-		"lootdrop",
-		"lootdropentry",
-		"loottable",
-		"loottablentry",
-		"spells_new",
-		"npc",
-		"npcloot",
-		"post",
-		"tasks",
-		"topic",
-		"user",
-		"zone",
-	}
-	for _, table := range tables {
-		_, err = s.db.Exec(fmt.Sprintf(`DROP TABLE IF EXISTS %s`, table))
+
+	s.log.Println("inserting", len(inserts))
+	for _, insert := range inserts {
+		err = insert.Func()
 		if err != nil {
-			errors.Wrap(err, fmt.Sprintf("Failed to delete %s", table))
 			return
 		}
 	}
-	_, err = s.db.Exec(`SET FOREIGN_KEY_CHECKS = 1`)
-	if err != nil {
-		return
-	}
+	err = nil
 	return
 }
 
@@ -127,6 +141,10 @@ func (s *Storage) VerifyTables() (err error) {
 		{
 			Func: s.createTableForum,
 			Name: "Forum",
+		},
+		{
+			Func: s.createTableNpc,
+			Name: "Npc",
 		},
 		{
 			Func: s.createTableRule,

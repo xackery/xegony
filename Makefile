@@ -1,4 +1,4 @@
-default: all
+default: run
 
 all: test vet lint swagger
 run:
@@ -12,7 +12,11 @@ fmt:
 
 lint:
 	golint ./...
-
+services: ## Runs docker-compose up, starting database, nats, and web server
+	cd ..
+	-docker-compose down
+	-docker-compose up
+	docker-compose down
 vet:
 	go vet ./...
 

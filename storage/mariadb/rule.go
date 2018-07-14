@@ -191,6 +191,24 @@ func (s *Storage) EditRule(rule *model.Rule) (err error) {
 	return
 }
 
+func (s *Storage) insertTestRule() (err error) {
+
+	_, err = s.db.Exec(`INSERT INTO rule_sets (ruleset_id, name)
+VALUES
+	(3, 'merc_test'),
+	(1, 'default'),
+	(2, 'pop+'),
+	(10, 'EQEmu_Default'),
+	(4, 'GoD'),
+	(5, 'raidzone'),
+	(6, 'OOW');`)
+	if err != nil {
+		err = errors.Wrap(err, "failed to insert npc data")
+		return
+	}
+	return
+}
+
 //DeleteRule will grab data from storage
 func (s *Storage) DeleteRule(rule *model.Rule) (err error) {
 	query := fmt.Sprintf("DELETE FROM %s WHERE ruleset_id = ?", ruleTable)

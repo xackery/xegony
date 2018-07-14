@@ -510,6 +510,15 @@ func (s *Storage) DeleteCharacter(character *model.Character) (err error) {
 	return
 }
 
+func (s *Storage) insertTestCharacter() (err error) {
+	_, err = s.db.Exec("INSERT INTO `character_data` (`id`, `account_id`, `name`, `last_name`, `title`, `suffix`, `zone_id`, `zone_instance`, `y`, `x`, `z`, `heading`, `gender`, `race`, `class`, `level`, `deity`, `birthday`, `last_login`, `time_played`, `level2`, `anon`, `gm`, `face`, `hair_color`, `hair_style`, `beard`, `beard_color`, `eye_color_1`, `eye_color_2`, `drakkin_heritage`, `drakkin_tattoo`, `drakkin_details`, `ability_time_seconds`, `ability_number`, `ability_time_minutes`, `ability_time_hours`, `exp`, `aa_points_spent`, `aa_exp`, `aa_points`, `group_leadership_exp`, `raid_leadership_exp`, `group_leadership_points`, `raid_leadership_points`, `points`, `cur_hp`, `mana`, `endurance`, `intoxication`, `str`, `sta`, `cha`, `dex`, `int`, `agi`, `wis`, `zone_change_count`, `toxicity`, `hunger_level`, `thirst_level`, `ability_up`, `ldon_points_guk`, `ldon_points_mir`, `ldon_points_mmc`, `ldon_points_ruj`, `ldon_points_tak`, `ldon_points_available`, `tribute_time_remaining`, `career_tribute_points`, `tribute_points`, `tribute_active`, `pvp_status`, `pvp_kills`, `pvp_deaths`, `pvp_current_points`, `pvp_career_points`, `pvp_best_kill_streak`, `pvp_worst_death_streak`, `pvp_current_kill_streak`, `pvp2`, `pvp_type`, `show_helm`, `group_auto_consent`, `raid_auto_consent`, `guild_auto_consent`, `leadership_exp_on`, `RestTimer`, `air_remaining`, `autosplit_enabled`, `lfp`, `lfg`, `mailkey`, `xtargets`, `firstlogon`, `e_aa_effects`, `e_percent_to_aa`, `e_expended_aa_spent`, `aa_points_spent_old`, `aa_points_old`) VALUES(661801, 1, 'Shin', 'Noir', '', '', 22, 0, -1754.85, -229.977, 3.127, 66.75, 1, 6, 8, 1, 206, 1456023321, 1507604326, 859392, 69, 0, 1, 3, 14, 1, 255, 255, 3, 3, 0, 0, 0, 0, 0, 0, 0, 178, 0, 0, 0, 0, 0, 0, 0, 330, 3000031, 22, 21, 0, 85, 65, 60, 90, 99, 100, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4294967295, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, '', 5, 0, 0, 0, 0, 0, 0);")
+	if err != nil {
+		err = errors.Wrap(err, "failed to insert npc data")
+		return
+	}
+	return
+}
+
 //createTableCharacter will grab data from storage
 func (s *Storage) createTableCharacter() (err error) {
 	_, err = s.db.Exec(`

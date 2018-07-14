@@ -212,6 +212,40 @@ func (s *Storage) DeleteVariable(variable *model.Variable) (err error) {
 	return
 }
 
+func (s *Storage) insertTestVariable() (err error) {
+	_, err = s.db.Exec(`
+	INSERT INTO variables (varname, value, information, ts)
+	VALUES
+		('AAXPMod', '0.75', 'AA Experience multipler. Increase to increase exp rate', '2010-09-06 08:03:51'),
+		('ACfail', '15', 'the percentage of time AC fails to protect. 0 would mean there was always some level of protection, 100 would mean AC has no affect. When AC fails, it will be possible to get a max dmg hit.', '2010-09-06 08:03:51'),
+		('ACrandom', '20', '', '2010-09-06 08:03:51'),
+		('ACreduction', '3', '', '2010-09-06 08:03:51'),
+		('ailevel', '6', '', '2010-09-06 08:03:51'),
+		('curInstFlagNum', '2002', 'Determines what instance flag will be handed out next', '2010-09-06 08:03:51'),
+		('DBVersion', '070_pop', 'DB version info', '2010-09-06 08:03:51'),
+		('decaytime 1 54', '480', 'Corpse decay time for Level\'s 1 to 54', '2010-09-06 08:03:51'),
+		('decaytime 55 100', '1800', 'Corpse decay time for Level\'s 55 to 100', '2010-09-06 08:03:51'),
+		('dfltInstZflag', '1000', 'Used to determine if a zone is instanced, must be 1000 or greater', '2010-09-06 08:03:51'),
+		('disablecommandline', '0', 'Allow command lines to be run from world.exe | 0 - off | 1 - on |', '2010-09-06 08:03:51'),
+		('Expansions', '4', 'Accessible expansions for each player', '2016-02-04 15:14:07'),
+		('EXPMod', '0.75', 'Experience multipler. Increase to increase exp rate', '2010-09-06 08:03:51'),
+		('GroupEXPBonus', '0.60', 'Experience multipler. Increase to increase group exp rate', '2010-09-06 08:03:51'),
+		('GuildWars', '0', 'Enable Guild Wars Type Server | 0 - off | 1 - on |', '2010-09-06 08:03:51'),
+		('holdzones', '0', 'Restart Crashed Zone Servers | 0 - off | 1 - on |', '2010-09-06 08:03:51'),
+		('leavecorpses', '0', 'Players leave corpses | 0 - off | 1 - on |', '2010-09-06 08:03:51'),
+		('loglevel', '1111', 'Commands,Merchants,Trades,Loot', '2016-01-17 22:14:18'),
+		('Max_AAXP', '21626880', 'Max AA Experience', '2010-09-06 08:03:51'),
+		('MerchantsKeepItems', '1', 'Merchants keep items sold to them | 0 - off | 1 - on |', '2010-09-06 08:03:51'),
+		('MOTD', 'Last Patch: 2017-05-22', '', '2017-05-22 21:44:47'),
+		('hotfix_name', '', '', '2017-06-01 14:09:54');
+	`)
+	if err != nil {
+		err = errors.Wrap(err, "failed to insert user data")
+		return
+	}
+	return
+}
+
 //createTableVariable will grab data from storage
 func (s *Storage) createTableVariable() (err error) {
 	_, err = s.db.Exec(`

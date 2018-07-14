@@ -207,6 +207,14 @@ func (s *Storage) DeleteUserAccount(user *model.User, userAccount *model.UserAcc
 	}
 	return
 }
+func (s *Storage) insertTestUserAccount() (err error) {
+	_, err = s.db.Exec("INSERT INTO `user_account` (`id`, `user_id`, `account_id`, `character_id`, `create_date`) VALUES(1, 1, 1, 1, '2018-07-14 20:17:24');")
+	if err != nil {
+		err = errors.Wrap(err, "failed to insert user account data")
+		return
+	}
+	return
+}
 
 //createTableUserAccount will grab data from storage
 func (s *Storage) createTableUserAccount() (err error) {

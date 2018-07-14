@@ -24,6 +24,15 @@ func (s *Storage) GetForum(forum *model.Forum) (err error) {
 	return
 }
 
+func (s *Storage) insertTestForum() (err error) {
+	_, err = s.db.Exec("INSERT INTO `forum` (`id`, `name`, `user_id`, `description`, `last_modified`, `create_date`, `icon`, `sort`) VALUES (1, 'Test', 1, 'Testing Forum', '2018-07-14 20:13:06', '2018-07-14 20:13:06', '', 0);")
+	if err != nil {
+		err = errors.Wrap(err, "failed to insert npc data")
+		return
+	}
+	return
+}
+
 //CreateForum will grab data from storage
 func (s *Storage) CreateForum(forum *model.Forum) (err error) {
 	query := fmt.Sprintf("INSERT INTO %s(%s) VALUES (%s)", forumTable, forumFields, forumBinds)

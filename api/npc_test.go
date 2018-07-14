@@ -4,32 +4,32 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/xackery/xegony/model"
 	"gopkg.in/h2non/baloo.v3"
 )
 
-func TestAccountEndpoints(t *testing.T) {
+func TestNPCEndpoints(t *testing.T) {
 	initializeServer(t)
 
 	test := baloo.New("http://localhost:8081")
-	test.Get("/api/account").
-		SetHeader("foo", "bar").
+	test.Get("/api/npc").
 		Expect(t).
 		Status(http.StatusOK).
 		Type("json").
-		JSON(&AccountsResponse{
-			Page: &model.Page{
-				Limit:   1,
-				OrderBy: "id",
-				Total:   1,
+		JSON("{\"npcs\":[{\"ID\":1008,\"aggroRadius\":55,\"agility\":156,\"ammoIDFile\":\"IT10\",\"armorClass\":311,\"attackCount\":-1,\"attackDelay\":32,\"attackSpeed\":-10,\"bodyTypeID\":1,\"charisma\":156,\"class\":{\"ID\":41,\"bit\":0,\"icon\":\"xa xa-shield\",\"name\":\"Shopkeeper\",\"shortName\":\"\"},\"classID\":41,\"cleanName\":\"Topala Xenem\",\"coldResistance\":18,\"corruptionResistance\":28,\"dexterity\":156,\"diseaseResistance\":18,\"exclude\":1,\"experience\":345515,\"findable\":1,\"fireResistance\":18,\"gender\":1,\"healScale\":100,\"helmTexture\":1,\"hitpoints\":5875,\"hpRegenRate\":12,\"intelligence\":156,\"lastName\":{\"String\":\"Bard Songs\",\"Valid\":true},\"level\":45,\"luclinBeard\":255,\"magicResistance\":18,\"manaRegenRate\":12,\"maximumDamage\":139,\"merchantID\":1008,\"minimumDamage\":36,\"name\":\"Topala_Xenem\",\"npcFactionID\":144,\"physicalResistance\":10,\"poisonResistance\":18,\"primaryMeleeTypeID\":28,\"race\":{\"ID\":71,\"female\":\"QCF\",\"icon\":\"xa xa-octopus\",\"male\":\"QCM\",\"name\":\"Human\"},\"raceID\":71,\"rangedTypeID\":7,\"runspeed\":1.325,\"scaleRate\":100,\"secondaryMeleeTypeID\":28,\"seeInvisibleUndead\":1,\"showName\":1,\"size\":6,\"specialAbilitiesRaw\":{\"String\":\"\",\"Valid\":true},\"spellScale\":100,\"stamina\":156,\"strength\":156,\"texture\":1,\"trackable\":1,\"trapTemplate\":{\"Int64\":0,\"Valid\":true},\"wisdom\":156,\"zone\":{\"ID\":1,\"MaxClip\":1600,\"MinClip\":50,\"canBind\":2,\"canCombat\":1,\"canLevitate\":1,\"castOutdoor\":1,\"expansion\":{\"ID\":50,\"name\":\"Unknown\",\"shortName\":\"UNK\"},\"expansionID\":50,\"fileName\":{\"String\":\"\",\"Valid\":true},\"fogBlue\":128,\"fogBlue2\":128,\"fogBlue3\":128,\"fogBlue4\":128,\"fogDensity\":0.33,\"fogMaxClip\":1600,\"fogMaxClip1\":2000,\"fogMaxClip2\":600,\"fogMaxClip3\":600,\"fogMaxClip4\":600,\"fogMinClip\":10,\"fogMinClip1\":450,\"fogMinClip2\":10,\"fogMinClip3\":10,\"fogMinClip4\":10,\"fogRed\":64,\"fogRed2\":64,\"fogRed3\":64,\"fogRed4\":64,\"gravity\":0.4,\"longName\":\"The Abysmal Sea\",\"mapFileName\":{\"String\":\"\",\"Valid\":false},\"minStatus\":250,\"modifier\":2,\"note\":{\"String\":\"\",\"Valid\":true},\"peqZone\":1,\"ruleset\":1,\"safeY\":-199,\"safeZ\":140,\"shortName\":{\"String\":\"abysmal\",\"Valid\":true},\"shutdownDelay\":5000,\"timeType\":2,\"type\":5,\"underworld\":-1000,\"walkSpeed\":0.4,\"zoneExpMultiplier\":1,\"zoneIDNumber\":279}}],\"page\":{\"isDescending\":0,\"limit\":1,\"offset\":0,\"orderBy\":\"id\",\"total\":1}}").
+		Done()
+	/*&NpcsResponse{
+		Npcs: []*model.Npc{
+			{
+				ID:          1008,
+				AggroRadius: 55,
 			},
-			Accounts: []*model.Account{
-				{
-					ID:     1,
-					Status: 200,
-				},
-			},
-		}).Done()
+		},
+		Page: &model.Page{
+			Limit:   1,
+			OrderBy: "id",
+			Total:   1,
+		},
+	}*/
 
 	/*test.Post("/api/account").
 	Expect(t).
