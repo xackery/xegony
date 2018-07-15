@@ -50,7 +50,10 @@ func (s *Storage) ListRace(page *model.Page) (races []*model.Race, err error) {
 	races = make([]*model.Race, len(racesDatabase))
 
 	races = racesDatabase
-
+	if int(page.Limit) < len(races) {
+		//s.log.Println("lowering limit to ", page.Limit)
+		races = races[0:page.Limit]
+	}
 	switch page.OrderBy {
 	case "name":
 		sort.Slice(races, func(i, j int) bool {

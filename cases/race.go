@@ -458,7 +458,7 @@ func validateRace(race *model.Race, required []string, optional []string) (err e
 
 func validateOrderByRaceField(page *model.Page) (err error) {
 	if len(page.OrderBy) == 0 {
-		page.OrderBy = "id"
+		page.OrderBy = "name"
 	}
 
 	validNames := []string{
