@@ -115,6 +115,48 @@ func ListCharacterBySearch(page *model.Page, character *model.Character, user *m
 	return
 }
 
+//ListCharacterByOnline will request any character currently seen online
+func ListCharacterByOnline(page *model.Page, user *model.User) (characters []*model.Character, err error) {
+
+	err = validateOrderByCharacterField(page)
+	if err != nil {
+		return
+	}
+
+	err = preparePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to prepare page")
+		return
+	}
+
+	reader, err := getReader("character")
+	if err != nil {
+		err = errors.Wrap(err, "failed to get character reader")
+		return
+	}
+
+	characters, err = reader.ListCharacterByOnline(page)
+	if err != nil {
+		err = errors.Wrap(err, "failed to list character by search")
+		return
+	}
+
+	for _, character := range characters {
+		err = sanitizeCharacter(character, user)
+		if err != nil {
+			err = errors.Wrap(err, "failed to sanitize character")
+			return
+		}
+	}
+
+	err = sanitizePage(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "failed to sanitize page")
+		return
+	}
+	return
+}
+
 //CreateCharacter will create an character using provided information
 func CreateCharacter(character *model.Character, user *model.User) (err error) {
 	err = user.IsGuide()

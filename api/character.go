@@ -79,6 +79,34 @@ type CharactersResponse struct {
 	Characters model.Characters `json:"characters,omitempty"`
 }
 
+// CharactersByOnlineRequest is a list of parameters used for character
+// swagger:parameters listCharacterByOnline
+type CharactersByOnlineRequest struct {
+	// Offset is pagination, offset*limit
+	// example: 0
+	// in: query
+	Offset int64 `json:"offset"`
+	// Limit to how many items per page
+	// example: 10
+	// in: query
+	Limit int64 `json:"limit"`
+	// OrderBy is which field to order a page by
+	// example: id
+	// in: query
+	OrderBy string `json:"orderBy"`
+	// IsDescending will change sort order when true
+	// example: 0
+	// in: query
+	IsDescending int64 `json:"isDescending"`
+}
+
+// CharactersByOnlineResponse is a general response to a request
+// swagger:response
+type CharactersByOnlineResponse struct {
+	Page       *model.Page      `json:"page,omitempty"`
+	Characters model.Characters `json:"characters,omitempty"`
+}
+
 // CharactersBySearchRequest is a list of parameters used for character
 // swagger:parameters listCharacterBySearch
 type CharactersBySearchRequest struct {
@@ -140,6 +168,32 @@ func characterRoutes() (routes []*route) {
 			"GET",
 			"/character",
 			listCharacter,
+		},
+		// swagger:route GET /character character listCharacter
+		//
+		// Lists characters
+		//
+		// This will show all available characters by default.
+		//
+		//     Consumes:
+		//     - application/json
+		//
+		//     Produces:
+		//     - application/json
+		//     - application/xml
+		//     - application/yaml
+		//
+		//
+		//     Responses:
+		//       default: ErrInternal
+		//       200: CharactersResponse
+		//       400: ErrValidation
+		//		 401: ErrPermission
+		{
+			"ListCharacterByOnline",
+			"GET",
+			"/character/byonline",
+			listCharacterByOnline,
 		},
 		// swagger:route GET /character/search character listCharacterBySearch
 		//
@@ -395,6 +449,28 @@ func listCharacter(w http.ResponseWriter, r *http.Request, user *model.User, sta
 		IsDescending: getIntQuery(r, "isDescending"),
 	}
 	characters, err := cases.ListCharacter(page, user)
+	if err != nil {
+		err = errors.Wrap(err, "Request error")
+		return
+	}
+
+	response := &CharactersResponse{
+		Page:       page,
+		Characters: characters,
+	}
+	content = response
+	return
+}
+
+func listCharacterByOnline(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, err error) {
+
+	page := &model.Page{
+		Offset:       getIntQuery(r, "offset"),
+		Limit:        getIntQuery(r, "limit"),
+		OrderBy:      getQuery(r, "orderBy"),
+		IsDescending: getIntQuery(r, "isDescending"),
+	}
+	characters, err := cases.ListCharacterByOnline(page, user)
 	if err != nil {
 		err = errors.Wrap(err, "Request error")
 		return

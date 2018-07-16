@@ -85,6 +85,50 @@ func (s *Storage) ListCharacterTotalCount() (count int64, err error) {
 	return
 }
 
+//ListCharacterByOnline will grab data from storage
+func (s *Storage) ListCharacterByOnline(page *model.Page) (characters []*model.Character, err error) {
+
+	if len(page.OrderBy) < 1 {
+		page.OrderBy = "id"
+	}
+
+	orderField := page.OrderBy
+	if page.IsDescending > 0 {
+		orderField += " DESC"
+	} else {
+		orderField += " ASC"
+	}
+
+	query := fmt.Sprintf("SELECT id, %s FROM %s WHERE last_login >= UNIX_TIMESTAMP(NOW())-600 ORDER BY %s LIMIT %d OFFSET %d", characterFields, characterTable, orderField, page.Limit, page.Limit*page.Offset)
+
+	rows, err := s.db.Queryx(query)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+
+	for rows.Next() {
+		character := model.Character{}
+		if err = rows.StructScan(&character); err != nil {
+			err = errors.Wrapf(err, "query: %s", query)
+			return
+		}
+		characters = append(characters, &character)
+	}
+	return
+}
+
+//ListCharacterByOnlineTotalCount will grab data from storage
+func (s *Storage) ListCharacterByOnlineTotalCount() (count int64, err error) {
+	query := fmt.Sprintf("SELECT count(id) FROM %s WHERE last_login >= UNIX_TIMESTAMP(NOW())-600", characterTable)
+	err = s.db.Get(&count, query)
+	if err != nil {
+		err = errors.Wrapf(err, "query: %s", query)
+		return
+	}
+	return
+}
+
 //ListCharacterBySearch will grab data from storage
 func (s *Storage) ListCharacterBySearch(page *model.Page, character *model.Character) (characters []*model.Character, err error) {
 

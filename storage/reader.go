@@ -25,6 +25,8 @@ type Reader interface {
 	GetCharacter(character *model.Character) (err error)
 	ListCharacter(page *model.Page) (characters []*model.Character, err error)
 	ListCharacterTotalCount() (count int64, err error)
+	ListCharacterByOnline(page *model.Page) (characters []*model.Character, err error)
+	ListCharacterByOnlineTotalCount() (count int64, err error)
 	ListCharacterBySearch(page *model.Page, character *model.Character) (characters []*model.Character, err error)
 	ListCharacterBySearchTotalCount(character *model.Character) (count int64, err error)
 

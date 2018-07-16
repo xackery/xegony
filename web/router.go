@@ -27,6 +27,7 @@ func ApplyRoutes(router *mux.Router) {
 	}
 	var routes []*route
 
+	routes = append(routes, characterRoutes()...)
 	routes = append(routes, forumRoutes()...)
 	routes = append(routes, indexRoutes()...)
 	routes = append(routes, itemRoutes()...)

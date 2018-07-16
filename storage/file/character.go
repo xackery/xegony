@@ -30,6 +30,18 @@ func (s *Storage) ListCharacterTotalCount() (count int64, err error) {
 	return
 }
 
+//ListCharacter will grab data from storage
+func (s *Storage) ListCharacterByOnline(page *model.Page) (characters []*model.Character, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
+//ListCharacterByOnlineTotalCount will grab data from storage
+func (s *Storage) ListCharacterByOnlineTotalCount() (count int64, err error) {
+	err = fmt.Errorf("Not implemented")
+	return
+}
+
 //ListCharacterBySearch will grab data from storage
 func (s *Storage) ListCharacterBySearch(page *model.Page, character *model.Character) (characters []*model.Character, err error) {
 	err = fmt.Errorf("Not implemented")

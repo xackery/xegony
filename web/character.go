@@ -35,6 +35,12 @@ func characterRoutes() (routes []*route) {
 			"/character/{characterID:[0-9]+}",
 			getCharacter,
 		},
+		{
+			"ListCharacterByOnline",
+			"GET",
+			"/character/byonline",
+			listCharacterByOnline,
+		},
 	}
 	return
 }
@@ -63,6 +69,41 @@ func listCharacter(w http.ResponseWriter, r *http.Request, user *model.User, sta
 	}
 
 	tmp, err = loadTemplate(nil, "body", "character/list.tpl")
+	if err != nil {
+		return
+	}
+	tmp, err = loadStandardTemplate(tmp)
+	if err != nil {
+		return
+	}
+
+	return
+}
+
+func listCharacterByOnline(w http.ResponseWriter, r *http.Request, user *model.User, statusCode int) (content interface{}, tmp *template.Template, err error) {
+
+	type Content struct {
+		Site       site
+		Page       *model.Page
+		Characters []*model.Character
+	}
+
+	site := newSite(r, user)
+	page := &model.Page{
+		Limit: 10,
+	}
+	characters, err := cases.ListCharacterByOnline(page, user)
+	if err != nil {
+		return
+	}
+
+	content = Content{
+		Site:       site,
+		Characters: characters,
+		Page:       page,
+	}
+
+	tmp, err = loadTemplate(nil, "body", "character/list_by_online.tpl")
 	if err != nil {
 		return
 	}
