@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "pb/user.proto";
+
+package pb;
+
+message Site {
+	string title = 1;
+	string name = 2;
+	string page = 3;
+	string section = 4;
+	string description = 5;
+	string image = 6;
+	string author = 7;
+	User user = 8;
+}
+

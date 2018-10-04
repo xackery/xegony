@@ -1,0 +1,189 @@
+{
+  "info": {
+    "name": "Xegony API",
+    "description": "generic description goes here",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Xegony",
+      "item": [
+        {
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/v1/npc",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "v1",
+                "npc"
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/v1/npc/search/:name",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "v1",
+                "npc",
+                "search",
+                ":name"
+              ],
+              "variable": [
+                {
+                  "id": "name"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/v1/npc/:id",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "v1",
+                "npc",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "id": "id"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/v1/npc/:id",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "v1",
+                "npc",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "id": "id"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/v1/npc/:id",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "v1",
+                "npc",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "id": "id"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        },
+        {
+          "request": {
+            "url": {
+              "raw": "http://{{url}}/v1/npc/:id",
+              "protocol": "http",
+              "auth": null,
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "v1",
+                "npc",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "id": "id"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authorization}}"
+              }
+            ],
+            "body": {}
+          }
+        }
+      ]
+    }
+  ]
+}

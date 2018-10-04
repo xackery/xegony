@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package pb;
+
+message Class {
+	int64 id = 1;
+	string name = 2;
+	string icon = 3;
+	int64 bit = 4;
+	string short_name = 5;
+}

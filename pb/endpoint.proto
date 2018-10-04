@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package pb;
+
+
+message Endpoint {
+	string name = 1;
+	string host = 2;
+	string password = 3;
+	int64 port = 4;
+}

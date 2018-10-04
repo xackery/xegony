@@ -1,0 +1,22 @@
+{
+	"name": "xegony",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"build": "webpack --config webpack.dev.config.js --mode development",
+		"watch": "webpack --config webpack.dev.config.js --mode development --watch"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/jquery": "^3.3.11",
+		"jquery": "^3.3.1",
+		"ts-loader": "^5.2.1",
+		"types": "^0.1.1",
+		"typescript": "^3.1.1",
+		"webpack": "^4.20.2",
+		"webpack-cli": "^3.1.2",
+		"webpack-dev": "^1.1.1",
+		"webpack-dev-server": "^3.1.9"
+	}
+}

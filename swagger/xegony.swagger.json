@@ -1,0 +1,768 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Xegony API",
+    "description": "generic description goes here",
+    "version": "0.1.0",
+    "contact": {
+      "name": "support",
+      "url": "https://github.com/xackery/xegony"
+    }
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/npc": {
+      "post": {
+        "operationId": "NpcCreate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbNpcCreateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbNpcCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Xegony"
+        ]
+      }
+    },
+    "/v1/npc/search/{name}": {
+      "get": {
+        "operationId": "NpcSearch",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbNpcSearchResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Xegony"
+        ]
+      }
+    },
+    "/v1/npc/{id}": {
+      "get": {
+        "operationId": "NpcRead",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbNpcReadResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Xegony"
+        ]
+      },
+      "delete": {
+        "operationId": "NpcDelete",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbNpcDeleteResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Xegony"
+        ]
+      },
+      "put": {
+        "operationId": "NpcUpdate",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbNpcUpdateResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbNpcUpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Xegony"
+        ]
+      },
+      "patch": {
+        "operationId": "NpcPatch",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/pbNpcPatchResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/pbNpcPatchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Xegony"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "pbClass": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "bit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "short_name": {
+          "type": "string"
+        }
+      }
+    },
+    "pbNpc": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "LastName": {
+          "type": "string"
+        },
+        "Level": {
+          "type": "string",
+          "format": "int64"
+        },
+        "RaceID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ClassID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "BodyTypeID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Hitpoints": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Mana": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Gender": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Texture": {
+          "type": "string",
+          "format": "int64"
+        },
+        "HelmTexture": {
+          "type": "string",
+          "format": "int64"
+        },
+        "HerosForgeModel": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Size": {
+          "type": "number",
+          "format": "float"
+        },
+        "HpRegenRate": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ManaRegenRate": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LootID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "MerchantID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "AltCurrencyID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "NpcSpellsID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "NpcSpellsEffectsID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "NpcFactionID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "AdventureTemplateID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "TrapTemplate": {
+          "type": "string",
+          "format": "int64"
+        },
+        "MininumDamage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "MaximumDamage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "AttackCount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "NpcSpecialAttacks": {
+          "type": "string"
+        },
+        "SpecialAbilitiesRaw": {
+          "type": "string"
+        },
+        "AggroRadius": {
+          "type": "string",
+          "format": "int64"
+        },
+        "AssistRadius": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Face": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LuclinHairStyle": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LuclinHairColor": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LuclinEyeColor": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LuclinEyeColor2": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LuclinBeardColor": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LuclinBeard": {
+          "type": "string",
+          "format": "int64"
+        },
+        "DrakkinHeritage": {
+          "type": "string",
+          "format": "int64"
+        },
+        "DrakkinTattoo": {
+          "type": "string",
+          "format": "int64"
+        },
+        "DrakkinDetails": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ArmorTintID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ArmorTintRed": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ArmorTintGreen": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ArmorTintBlue": {
+          "type": "string",
+          "format": "int64"
+        },
+        "DMeleeTexture1": {
+          "type": "string",
+          "format": "int64"
+        },
+        "DMeleeTexture2": {
+          "type": "string",
+          "format": "int64"
+        },
+        "AmmoIDFile": {
+          "type": "string"
+        },
+        "PrimaryMeleeTypeID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SecondaryMeleeTypeID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "RangedTypeID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Runspeed": {
+          "type": "number",
+          "format": "float"
+        },
+        "MagicResistance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ColdResistance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "DiseaseResistance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "FireResistance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "PoisonResistance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "CorruptionResistance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "PhysicalResistance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SeeInvisible": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SeeInvisibleUndead": {
+          "type": "string",
+          "format": "int64"
+        },
+        "QuestGlobal": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ArmorClass": {
+          "type": "string",
+          "format": "int64"
+        },
+        "NpcAggro": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SpawnLimit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "AttackSpeed": {
+          "type": "number",
+          "format": "float"
+        },
+        "AttackDelay": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Findable": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Strength": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Stamina": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Dexterity": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Agility": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Intelligence": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Wisdom": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Charisma": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SeeHide": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SeeImprovedHide": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Trackable": {
+          "type": "string",
+          "format": "int64"
+        },
+        "IsBot": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Exclude": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Attack": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Accuracy": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Avoidance": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SlowMitigation": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Version": {
+          "type": "string",
+          "format": "int64"
+        },
+        "MaxLevel": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ScaleRate": {
+          "type": "string",
+          "format": "int64"
+        },
+        "PrivateCorpse": {
+          "type": "string",
+          "format": "int64"
+        },
+        "UniqueSpawnByName": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Underwater": {
+          "type": "string",
+          "format": "int64"
+        },
+        "IsQuest": {
+          "type": "string",
+          "format": "int64"
+        },
+        "EmoteID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "SpellScale": {
+          "type": "number",
+          "format": "float"
+        },
+        "HealScale": {
+          "type": "number",
+          "format": "float"
+        },
+        "NoTargetHotkey": {
+          "type": "string",
+          "format": "int64"
+        },
+        "RaidTarget": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ArmTexture": {
+          "type": "string",
+          "format": "int64"
+        },
+        "BracerTexture": {
+          "type": "string",
+          "format": "int64"
+        },
+        "HandTexture": {
+          "type": "string",
+          "format": "int64"
+        },
+        "LegTexture": {
+          "type": "string",
+          "format": "int64"
+        },
+        "FeetTexture": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Light": {
+          "type": "string",
+          "format": "int64"
+        },
+        "WalkSpeed": {
+          "type": "string",
+          "format": "int64"
+        },
+        "PeqID": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Unique": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Fixed": {
+          "type": "string",
+          "format": "int64"
+        },
+        "IgnoreDespawn": {
+          "type": "string",
+          "format": "int64"
+        },
+        "ShowName": {
+          "type": "string",
+          "format": "int64"
+        },
+        "Untargetable": {
+          "type": "string",
+          "format": "int64"
+        },
+        "race": {
+          "$ref": "#/definitions/pbRace",
+          "title": "New, non-field mapped identified elements"
+        },
+        "class": {
+          "$ref": "#/definitions/pbClass"
+        },
+        "clean_name": {
+          "type": "string"
+        }
+      }
+    },
+    "pbNpcCreateRequest": {
+      "type": "object",
+      "properties": {
+        "npc": {
+          "$ref": "#/definitions/pbNpc"
+        }
+      }
+    },
+    "pbNpcCreateResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "pbNpcDeleteResponse": {
+      "type": "object"
+    },
+    "pbNpcPatchRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "pbNpcPatchResponse": {
+      "type": "object"
+    },
+    "pbNpcReadResponse": {
+      "type": "object",
+      "properties": {
+        "npc": {
+          "$ref": "#/definitions/pbNpc"
+        }
+      }
+    },
+    "pbNpcSearchResponse": {
+      "type": "object",
+      "properties": {
+        "Npcs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/pbNpc"
+          }
+        }
+      }
+    },
+    "pbNpcUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "npc": {
+          "$ref": "#/definitions/pbNpc"
+        }
+      }
+    },
+    "pbNpcUpdateResponse": {
+      "type": "object"
+    },
+    "pbRace": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "bit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "male": {
+          "type": "string"
+        },
+        "female": {
+          "type": "string"
+        },
+        "neutral": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

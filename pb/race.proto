@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package pb;
+
+message Race {
+	int64 id = 1;
+	string name = 2;
+	string icon = 3;
+	int64 bit = 4;
+	string male = 5;
+	string female = 6;
+	string neutral = 7;
+}

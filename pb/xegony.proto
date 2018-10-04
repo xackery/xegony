@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "pb/npc.proto";
+
+package pb;
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Xegony API";
+		version: "0.1.0";
+		description: "generic description goes here";
+		contact: {
+			name: "support";
+			url: "https://github.com/xackery/xegony";
+		};
+	};
+};
+
+service Xegony {
+
+	rpc NpcSearch(NpcSearchRequest) returns (NpcSearchResponse) {
+		option (google.api.http) = {
+			get: "/v1/npc/search/{name}"
+		};
+	}
+	rpc NpcCreate(NpcCreateRequest) returns (NpcCreateResponse) {
+		option (google.api.http) = {
+			post: "/v1/npc"
+			body: "*"
+		};
+	}
+	rpc NpcRead(NpcReadRequest) returns (NpcReadResponse) {
+		option (google.api.http) = {
+			get: "/v1/npc/{id}"
+		};
+	}
+	rpc NpcUpdate(NpcUpdateRequest) returns (NpcUpdateResponse) {
+		option (google.api.http) = {
+			put: "/v1/npc/{id}"
+			body: "*"
+		};
+	}
+	rpc NpcDelete(NpcDeleteRequest) returns (NpcDeleteResponse) {
+		option (google.api.http) = {
+			delete: "/v1/npc/{id}"
+		};
+	}
+	rpc NpcPatch(NpcPatchRequest) returns (NpcPatchResponse) {
+		option (google.api.http) = {
+			patch: "/v1/npc/{id}"
+			body: "*"
+		};
+	}
+}

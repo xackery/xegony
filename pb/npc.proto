@@ -1,0 +1,175 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+//import "google/api/timestamp.proto";
+import "pb/race.proto";
+import "pb/class.proto";
+
+package pb;
+
+message Npc {
+	int64 ID = 1;
+	string Name = 2;
+	string LastName = 3;
+	int64 Level = 4;
+	int64 RaceID = 5;
+	int64 ClassID = 6;
+	int64 BodyTypeID = 7;
+	int64 Hitpoints = 8;
+	int64 Mana = 9;
+	int64 Gender = 10;
+	int64 Texture = 11;
+	int64 HelmTexture = 12;
+	int64 HerosForgeModel = 13;
+	float Size = 14;
+	int64 HpRegenRate = 15;
+	int64 ManaRegenRate = 16;
+	int64 LootID = 17;
+	int64 MerchantID = 18;
+	int64 AltCurrencyID = 19;
+	int64 NpcSpellsID = 20;
+	int64 NpcSpellsEffectsID = 21;
+	int64 NpcFactionID = 22;
+	int64 AdventureTemplateID = 23;
+	int64 TrapTemplate = 24;
+	int64 MininumDamage = 25;
+	int64 MaximumDamage = 26;
+	int64 AttackCount = 27;
+	string NpcSpecialAttacks = 28;
+	string SpecialAbilitiesRaw = 29;
+	int64 AggroRadius = 30;
+	int64 AssistRadius = 31;
+	int64 Face = 32;
+	int64 LuclinHairStyle = 33;
+	int64 LuclinHairColor = 34;
+	int64 LuclinEyeColor = 35;
+	int64 LuclinEyeColor2 = 36;
+	int64 LuclinBeardColor = 37;
+	int64 LuclinBeard = 38;
+	int64 DrakkinHeritage = 39;
+	int64 DrakkinTattoo = 40;
+	int64 DrakkinDetails = 41;
+	int64 ArmorTintID = 42;
+	int64 ArmorTintRed = 43;
+	int64 ArmorTintGreen = 44;
+	int64 ArmorTintBlue = 45;
+	int64 DMeleeTexture1 = 46;
+	int64 DMeleeTexture2 = 47;
+	string AmmoIDFile = 48;
+	int64 PrimaryMeleeTypeID = 49;
+	int64 SecondaryMeleeTypeID = 50;
+	int64 RangedTypeID = 51;
+	float Runspeed = 52;
+	int64 MagicResistance = 53;
+	int64 ColdResistance = 54;
+	int64 DiseaseResistance = 55;
+	int64 FireResistance = 56;
+	int64 PoisonResistance = 57;
+	int64 CorruptionResistance = 58;
+	int64 PhysicalResistance = 59;
+	int64 SeeInvisible = 60;
+	int64 SeeInvisibleUndead = 61;
+	int64 QuestGlobal = 62;
+	int64 ArmorClass = 63;
+	int64 NpcAggro = 64;
+	int64 SpawnLimit = 65;
+	float AttackSpeed = 66;
+	int64 AttackDelay = 67;
+	int64 Findable = 68;
+	int64 Strength = 69;
+	int64 Stamina = 70;
+	int64 Dexterity = 71;
+	int64 Agility = 72;
+	int64 Intelligence = 73;
+	int64 Wisdom = 74;
+	int64 Charisma = 75;
+	int64 SeeHide = 76;
+	int64 SeeImprovedHide = 77;
+	int64 Trackable = 78;
+	int64 IsBot = 79;
+	int64 Exclude = 80;
+	int64 Attack = 81;
+	int64 Accuracy = 82;
+	int64 Avoidance = 83;
+	int64 SlowMitigation = 84;
+	int64 Version = 85;
+	int64 MaxLevel = 86;
+	int64 ScaleRate = 87;
+	int64 PrivateCorpse = 88;
+	int64 UniqueSpawnByName = 89;
+	int64 Underwater = 90;
+	int64 IsQuest = 91;
+	int64 EmoteID = 92;
+	float SpellScale = 93;
+	float HealScale = 94;
+	int64 NoTargetHotkey = 95;
+	int64 RaidTarget = 96;
+	int64 ArmTexture = 97;
+	int64 BracerTexture = 98;
+	int64 HandTexture = 99;
+	int64 LegTexture = 100;
+	int64 FeetTexture = 101;
+	int64 Light = 102;
+	int64 WalkSpeed = 103;
+	int64 PeqID = 104;
+	int64 Unique = 105;
+	int64 Fixed = 106;
+	int64 IgnoreDespawn = 107;
+	int64 ShowName = 108;
+	int64 Untargetable = 109;
+	//New, non-field mapped identified elements
+	Race race = 110;
+	Class class = 111;
+	string clean_name = 112;
+}
+
+message NpcSearchRequest {
+	string name = 1;
+	int64 limit = 2;
+	int64 offset = 3;
+}
+
+message NpcSearchResponse {
+	repeated Npc Npcs = 1;
+}
+
+message NpcCreateRequest {
+	Npc npc = 1;
+}
+
+message NpcCreateResponse {
+	int64 id = 1;
+}
+
+message NpcReadRequest {
+	int64 id = 1;
+}
+
+message NpcReadResponse {
+	Npc npc = 1;
+}
+
+message NpcUpdateRequest {
+	int64 id = 1;
+	Npc npc = 2;
+
+}
+
+message NpcUpdateResponse {
+}
+
+message NpcDeleteRequest {
+	int64 id = 1;
+}
+
+message NpcDeleteResponse {
+}
+
+message NpcPatchRequest {
+	int64 id = 1;
+	string key = 2;
+	string value = 3;
+}
+
+message NpcPatchResponse {
+}
