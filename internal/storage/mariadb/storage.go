@@ -3,6 +3,7 @@ package mariadb
 import (
 	"fmt"
 
+	//required for sqlx
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"

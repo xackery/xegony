@@ -26,13 +26,16 @@ func (s *Server) npcMux(w http.ResponseWriter, r *http.Request) {
 	if len(path) > 0 && string(path[len(path)-1]) != "/" {
 		path += "/"
 	}
+	if len(path) == 0 {
+		path = "/"
+	}
 
 	logger = logger.With().Str("path", path).Logger()
 	switch path {
 	case "/search/":
 		logger = logger.With().Str("method", "npcSearch").Logger()
 		err = s.npcSearch(ctx, w, r)
-	case "":
+	case "/":
 		logger = logger.With().Str("method", "npcSearch").Logger()
 		err = s.npcSearch(ctx, w, r)
 	default:

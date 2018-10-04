@@ -7,7 +7,12 @@ import (
 // NewSite returns a default site
 func NewSite() (s *pb.Site) {
 	s = &pb.Site{
-		User: NewUser(),
+		User:        NewUser(),
+		Title:       "Xegony",
+		Section:     "Section",
+		Page:        "Page",
+		PageSummary: "Page Summary Here",
 	}
+
 	return
 }

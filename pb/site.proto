@@ -8,10 +8,12 @@ message Site {
 	string title = 1;
 	string name = 2;
 	string page = 3;
-	string section = 4;
-	string description = 5;
-	string image = 6;
-	string author = 7;
-	User user = 8;
+	//page is listed above, summary gives details
+	string page_summary = 4;
+	string section = 5;
+	string description = 6;
+	string image = 7;
+	string author = 8;
+	User user = 9;
 }
 

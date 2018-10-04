@@ -71,7 +71,7 @@ func (s *Server) onTemplateRequest(req *templateRequest) (resp *template.Templat
 	case "GET":
 		resp, ok = s.templates[req.Path]
 		if ok {
-			return
+			//return
 		}
 		resp, err = s.onLoadTemplate(nil, "body", req.Path)
 		resp, err = s.onLoadDefaultTemplates(resp)
@@ -85,7 +85,7 @@ func (s *Server) onTemplateRequest(req *templateRequest) (resp *template.Templat
 
 func (s *Server) onLoadDefaultTemplates(req *template.Template) (resp *template.Template, err error) {
 	resp = req
-	names := map[int]string{0: "footer", 1: "sidebar", 2: "header", 3: "root"}
+	names := map[int]string{0: "sidebar", 1: "header", 2: "root"}
 	for i := 0; i < len(names); i++ {
 		resp, err = s.onLoadTemplate(resp, names[i], names[i]+".tpl")
 		if err != nil {

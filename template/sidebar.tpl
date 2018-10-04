@@ -9,28 +9,14 @@
                                     <span class="l l3"></span>
                                     <span class="l l4"></span>
                                     <span class="l l5"></span>
-                                </div> Modular Admin
+                                </div> {{.Site.Title}}
                             </div>
                         </div>
                         <nav class="menu">
                             <ul class="sidebar-menu metismenu" id="sidebar-menu">
-                                <li>
-                                    <a href="index.html">
-                                        <i class="fa fa-home"></i> Dashboard </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="fa fa-th-large"></i> Items Manager <i class="fa arrow"></i>
-                                    </a>
-                                    <ul class="sidebar-nav">
-                                        <li>
-                                            <a href="items-list.html"> Items List </a>
-                                        </li>
-                                        <li>
-                                            <a href="item-editor.html"> Item Editor </a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <li><a href="/"><i class="fa fa-home"></i> Dashboard </a></li>
+								<li><a href="/npc/"><i class="fa fa-th-large"></i> Bestiary </a></li>
+                                {{/*
                                 <li>
                                     <a href="">
                                         <i class="fa fa-area-chart"></i> Charts <i class="fa arrow"></i>
@@ -157,6 +143,7 @@
                                         </li>
                                     </ul>
                                 </li>
+
                                 <li>
                                     <a href="screenful.html">
                                         <i class="fa fa-bar-chart"></i> Agile Metrics <span class="label label-screenful">by Screenful</span>
@@ -166,6 +153,7 @@
                                     <a href="https://github.com/modularcode/modular-admin-html">
                                         <i class="fa fa-github-alt"></i> Theme Docs </a>
                                 </li>
+								*/}}
                             </ul>
                         </nav>
                     </div>

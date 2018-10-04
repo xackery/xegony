@@ -16,7 +16,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="header-block header-block-buttons">
+                    {{/*<div class="header-block header-block-buttons">
                         <a href="https://github.com/modularcode/modular-admin-html" class="btn btn-sm header-btn">
                             <i class="fa fa-github-alt"></i>
                             <span>View on GitHub</span>
@@ -30,6 +30,7 @@
                             <span>Download .zip</span>
                         </a>
                     </div>
+					*/}}
                     <div class="header-block header-block-nav">
                         <ul class="nav-profile">
                             <li class="notifications new">
@@ -41,7 +42,7 @@
                                 </a>
                                 <div class="dropdown-menu notifications-dropdown-menu">
                                     <ul class="notifications-container">
-                                        <li>
+                                        {{/*<li>
                                             <a href="" class="notification-item">
                                                 <div class="img-col">
                                                     <div class="img" style="background-image: url('assets/faces/3.jpg')"></div>
@@ -74,7 +75,7 @@
                                                     </p>
                                                 </div>
                                             </a>
-                                        </li>
+                                        </li>*/}}
                                     </ul>
                                     <footer>
                                         <ul>
@@ -87,9 +88,8 @@
                             </li>
                             <li class="profile dropdown">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <div class="img" style="background-image: url('https://avatars3.githubusercontent.com/u/3959008?v=3&s=40')">
-                                    </div>
-                                    <span class="name"> John Doe </span>
+                                    <div class="img" style="background-image: url('https://avatars3.githubusercontent.com/u/3959008?v=3&s=40')"></div>
+                                    <span class="name"> Shin </span>
                                 </a>
                                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
                                     <a class="dropdown-item" href="#">
