@@ -85,8 +85,7 @@ func (s *Server) onTemplateRequest(req *templateRequest) (resp *template.Templat
 
 func (s *Server) onLoadDefaultTemplates(req *template.Template) (resp *template.Template, err error) {
 	resp = req
-	names := map[int]string{0: "navbar", 1: "sidebar", 2: "footer", 3: "root"}
-	//names := map[int]string{0: "root", 1: "footer"}
+	names := map[int]string{0: "footer", 1: "sidebar", 2: "header", 3: "root"}
 	for i := 0; i < len(names); i++ {
 		resp, err = s.onLoadTemplate(resp, names[i], names[i]+".tpl")
 		if err != nil {
@@ -101,7 +100,7 @@ func (s *Server) onLoadDefaultTemplates(req *template.Template) (resp *template.
 func (s *Server) onLoadTemplate(root *template.Template, name string, path string) (resp *template.Template, err error) {
 
 	var data []byte
-	data, err = ioutil.ReadFile("web/template/" + path)
+	data, err = ioutil.ReadFile("template/" + path)
 	if err != nil {
 		err = errors.Wrap(err, "failed to read template")
 		//TODO: data, err = box.ReadFile("template/" + path)

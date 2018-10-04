@@ -60,8 +60,6 @@ func (s *Server) Listen(host string) (err error) {
 	ctx := context.Background()
 	ctx, s.cancelGrpc = context.WithCancel(ctx)
 
-	runtime.OtherErrorHandler = otherErrorHandler
-
 	r := mux.NewRouter()
 
 	//handler := http.NewServeMux()
@@ -70,6 +68,7 @@ func (s *Server) Listen(host string) (err error) {
 		//OrigName:    true,
 		EnumsAsInts: true,
 	}))
+	r.NotFoundHandler = http.HandlerFunc(otherErrorHandler)
 	r.PathPrefix("/v1/").Handler(contextWrap(muxGRPC))
 	r.PathPrefix("/npc").HandlerFunc(s.npcMux).Name("npc")
 	opts := []grpc.DialOption{grpc.WithInsecure()}
@@ -115,11 +114,13 @@ func contextWrap(h http.Handler) http.Handler {
 	})
 }
 
-func otherErrorHandler(w http.ResponseWriter, r *http.Request, _ string, _ int) {
+func otherErrorHandler(w http.ResponseWriter, r *http.Request) {
+	logger := model.NewLogger()
 	var err error
-	path := "web/www/" + r.URL.Path[1:]
+	path := "www/" + r.URL.Path[1:]
 
 	if _, err = os.Stat(path); err == nil {
+		//logger.Debug().Str("path", path).Msg("serving file")
 		http.ServeFile(w, r, path)
 		return
 	}
@@ -128,9 +129,10 @@ func otherErrorHandler(w http.ResponseWriter, r *http.Request, _ string, _ int) 
 	if bData, err = box.ReadFile(path); err == nil {
 		reader := bytes.NewReader(bData)
 		http.ServeContent(w, r, path, time.Now(), reader)
+		//logger.Debug().Str("path", path).Msg("serving box file")
 		return
 	}
-
+	logger.Debug().Str("path", path).Msg("404")
 	http.Error(w, fmt.Sprintf("404 - Not Found: %s", r.URL), http.StatusNotFound)
 	return
 }
