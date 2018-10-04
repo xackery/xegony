@@ -1,22 +1,3 @@
-/template/swag-web
-/xa/css
-/xa/node_modules/
-/font/
-/api/config/
-/config/
-debug
-#Map related rendered documents
-/map/
-/www/images/maps/
-
-/docker/*
-cover.txt
-
-#git repo
-swagger-codegen/
-
-go/tmp/
-
 # Binaries for programs and plugins
 *.exe
 *.dll
