@@ -6,7 +6,7 @@ var webpack = require('webpack');
 module.exports = {
   entry: './src/main.ts',
   output: {
-    path: path.resolve(__dirname, '../www/js/'),
+    path: path.resolve(__dirname, '../../www/js/'),
     filename: 'main.js',
   },
   module: {
@@ -15,8 +15,8 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: path.resolve(__dirname, '../www'),
-    publicPath: '../www/',
+    contentBase: path.resolve(__dirname, '../../www'),
+    publicPath: '../../www/',
     host: '127.0.0.1',
     port: 8080,
     open: true

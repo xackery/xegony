@@ -20,7 +20,7 @@ func (s *Storage) NpcSearch(ctx context.Context, req *pb.NpcSearchRequest) (resp
 	}
 
 	if len(whereMap) < 1 {
-		err = fmt.Errorf("must provide condition")
+		where += "id > 0 AND"
 		return
 	}
 

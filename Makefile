@@ -44,10 +44,36 @@ swagger-build: proto ## Generate swagger definitions
 swagger: swagger-build ## Generate swagger distribution and definitions
 	@rm -rf swagger/build/*
 	@docker run -v "$(shell pwd)/swagger/":/usr/src --entrypoint='' swaggerapi/swagger-codegen-cli  sh -c "java -jar /opt/swagger-codegen-cli/swagger-codegen-cli.jar generate -i /usr/src/xegony.swagger.json -l typescript-jquery -o /usr/src/build/jquery"
-	@rm -rf ts/src/pb/*
-	@cp -R swagger/build/jquery/* ts/src/pb/
+	@rm -rf web/ts/src/pb/*
+	@cp -R swagger/build/jquery/* web/ts/src/pb/
 	@rm -rf swagger/build/jquery
-ts-install:
-	@cd ts && npm install
+web-install:
+	@#ts is using stable (v10)
+	@cd web/ts && npm install
+	@#theme is using v8
+	@cd web/theme && npm install
+	@cd web/font && npm install
+	@npm install -g grunt
+	@gem install sass
 ts-build:
-	@cd ts && npm run build
+	@#$(shell nvm use stable)
+	@cd web/ts && npm run build
+web-clean:
+	rm -rf www/css/*
+	rm -rf www/fonts/*
+	rm -rf www/js/*
+	rm -rf web/theme/dist/*
+web-build: web-clean theme-build font-build ts-build
+theme-build:
+	@#$(shell nvm use v8.0.0)
+	@cd web/theme && npm run build
+	@mkdir -p www/fonts www/css www/js
+	@cp web/theme/dist/js/* www/js/
+	@cp web/theme/dist/css/* www/css/
+	@cp web/theme/dist/fonts/* www/fonts/
+font-build:
+	@#$(shell nvm use v8.0.0)
+	@cd web/theme && npm run build
+	@cp web/font/css/* www/css/
+	@cp web/font/fonts/xegonyawesome-* www/fonts/
+	@rm www/fonts/*.svg

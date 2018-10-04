@@ -32,6 +32,9 @@ func (s *Server) npcMux(w http.ResponseWriter, r *http.Request) {
 	case "/search/":
 		logger = logger.With().Str("method", "npcSearch").Logger()
 		err = s.npcSearch(ctx, w, r)
+	case "":
+		logger = logger.With().Str("method", "npcSearch").Logger()
+		err = s.npcSearch(ctx, w, r)
 	default:
 		switch r.Method {
 		case "GET":
