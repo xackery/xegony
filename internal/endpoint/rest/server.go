@@ -27,37 +27,44 @@ type ctxKey struct{}
 
 // Server wraps the rest endpoints using endpointer
 type Server struct {
-	grpcHost     string
-	host         string
-	cancelGrpc   context.CancelFunc
-	svr          *http.Server
-	manager      *manager.Manager
-	queryChan    chan *model.QueryRequest
-	templateChan chan *templateRequest
-	templates    map[string]*template.Template
+	grpcHost    string
+	host        string
+	cancelGrpc  context.CancelFunc
+	svr         *http.Server
+	manager     *manager.Manager
+	queryChan   chan *model.QueryRequest
+	templates   map[string]*template.Template
+	isConnected bool
+	endpoint    *pb.Endpoint
 }
 
 // New creates a new Rest instance
 func New(grpcHost string, manager *manager.Manager) (s *Server, err error) {
 	s = &Server{
-		grpcHost:     grpcHost,
-		manager:      manager,
-		queryChan:    make(chan *model.QueryRequest),
-		templateChan: make(chan *templateRequest),
-		templates:    make(map[string]*template.Template),
+		grpcHost:  grpcHost,
+		manager:   manager,
+		queryChan: make(chan *model.QueryRequest),
+		templates: make(map[string]*template.Template),
 	}
 	go s.pump()
 	return
 }
 
 // Listen lisetns for new connection details
-func (s *Server) Listen(host string) (err error) {
+func (s *Server) Listen(ctx context.Context, host string) (err error) {
+	_, err = s.runQuery(ctx, "Listen", host)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func (s *Server) onListen(ctx context.Context, host string) (err error) {
 	if s.svr != nil {
-		s.Close()
+		s.onClose(ctx)
 		s.svr = nil
 	}
 	s.host = host
-	ctx := context.Background()
 	ctx, s.cancelGrpc = context.WithCancel(ctx)
 
 	r := mux.NewRouter()
@@ -87,11 +94,17 @@ func (s *Server) Listen(host string) (err error) {
 		err = s.svr.ListenAndServe()
 		log.Error().Err(err).Msg("rest listen crash")
 	}()
+	s.isConnected = true
 	return
 }
 
 // Close closes the rest server
-func (s *Server) Close() (err error) {
+func (s *Server) Close(ctx context.Context) (err error) {
+	_, err = s.runQuery(ctx, "Close", nil)
+	return
+}
+
+func (s *Server) onClose(ctx context.Context) (err error) {
 	if s.cancelGrpc != nil {
 		s.cancelGrpc()
 	}
@@ -101,6 +114,7 @@ func (s *Server) Close() (err error) {
 			return
 		}
 	}
+	s.isConnected = false
 	return
 }
 
@@ -138,12 +152,29 @@ func otherErrorHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // SetEndpoint sets an endpoint
-func (s *Server) SetEndpoint(endpoint *pb.Endpoint) (err error) {
+func (s *Server) SetEndpoint(ctx context.Context, endpoint *pb.Endpoint) (err error) {
+	_, err = s.runQuery(ctx, "SetEndpoint", endpoint)
+	return
+}
+
+func (s *Server) onSetEndpoint(ctx context.Context, endpoint *pb.Endpoint) (err error) {
+	s.endpoint = endpoint
 	return
 }
 
 // GetEndpoint returns an endpoint
-func (s *Server) GetEndpoint() (endpoint *pb.Endpoint, err error) {
+func (s *Server) GetEndpoint(ctx context.Context) (endpoint *pb.Endpoint, err error) {
+	resp, err := s.runQuery(ctx, "SetEndpoint", endpoint)
+	endpoint, ok := resp.(*pb.Endpoint)
+	if !ok {
+		err = fmt.Errorf("invalid endpoint response")
+		return
+	}
+	return
+}
+
+func (s *Server) onGetEndpoint(ctx context.Context) (endpoint *pb.Endpoint, err error) {
+	endpoint = s.endpoint
 	return
 }
 

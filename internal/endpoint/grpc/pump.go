@@ -1,4 +1,4 @@
-package rest
+package grpc
 
 import (
 	"context"
@@ -21,7 +21,7 @@ func (s *Server) runQuery(ctx context.Context, method string, req interface{}) (
 	}
 
 	select {
-	case <-queryReq.Ctx.Done():
+	case <-ctx.Done():
 		err = fmt.Errorf("context cancelled")
 	case <-time.After(3 * time.Second):
 		err = fmt.Errorf("timeout waiting for response")
@@ -52,13 +52,6 @@ func (s *Server) pump() {
 		case queryReq = <-s.queryChan:
 			ctx = queryReq.Ctx
 			switch queryReq.Method {
-			case "TemplateRead":
-				req, ok := queryReq.Req.(string)
-				if !ok {
-					err = fmt.Errorf("invalid request type")
-				} else {
-					resp, err = s.onTemplateRead(req)
-				}
 			case "SetEndpoint":
 				req, ok := queryReq.Req.(*pb.Endpoint)
 				if !ok {

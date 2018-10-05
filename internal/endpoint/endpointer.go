@@ -1,13 +1,15 @@
 package endpoint
 
 import (
+	"context"
+
 	"github.com/xackery/xegony/pb"
 )
 
 // Endpointer wraps endpoints
 type Endpointer interface {
-	Listen(host string) (err error)
-	SetEndpoint(endpoint *pb.Endpoint) (err error)
-	GetEndpoint() (endpoint *pb.Endpoint, err error)
-	Close() (err error)
+	Listen(ctx context.Context, host string) (err error)
+	SetEndpoint(ctx context.Context, endpoint *pb.Endpoint) (err error)
+	GetEndpoint(ctx context.Context) (endpoint *pb.Endpoint, err error)
+	Close(ctx context.Context) (err error)
 }

@@ -1,3 +1,3 @@
 # Theme
 
-* Uses ModularAdmin @ https://github.com/modularcode/modular-admin-html
+* Uses ModularAdmin @ [https://github.com/modularcode/modular-admin-html](here)

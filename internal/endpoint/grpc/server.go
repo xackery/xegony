@@ -4,39 +4,47 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"sync"
-	"time"
 
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 	"github.com/xackery/xegony/internal/manager"
+	"github.com/xackery/xegony/model"
 	"github.com/xackery/xegony/pb"
 	"google.golang.org/grpc"
 )
 
 // Server wraps the grpc server
 type Server struct {
-	svr        *grpc.Server
-	lis        net.Listener
-	manager    *manager.Manager
-	ctx        context.Context
-	cancel     context.CancelFunc
-	serverLock sync.RWMutex
-	endpoint   *pb.Endpoint
+	svr       *grpc.Server
+	lis       net.Listener
+	manager   *manager.Manager
+	ctx       context.Context
+	cancel    context.CancelFunc
+	endpoint  *pb.Endpoint
+	queryChan chan *model.QueryRequest
 }
 
 // New creates a new grpc server
 func New(m *manager.Manager) (s *Server, err error) {
 	s = &Server{
-		manager: m,
+		manager:   m,
+		queryChan: make(chan *model.QueryRequest),
 	}
 	return
 }
 
 // Listen will listen on a specified host
-func (s *Server) Listen(host string) (err error) {
+func (s *Server) Listen(ctx context.Context, host string) (err error) {
+	_, err = s.runQuery(ctx, "Listen", host)
+	return
+}
+
+func (s *Server) onListen(ctx context.Context, host string) (err error) {
 	if s.lis != nil {
-		s.Close()
+		err = s.onClose(ctx)
+		if err != nil {
+			return
+		}
 	}
 	s.lis, err = net.Listen("tcp", host)
 	if err != nil {
@@ -55,29 +63,22 @@ func (s *Server) Listen(host string) (err error) {
 }
 
 // SetEndpoint sets an endpoint with provided details
-func (s *Server) SetEndpoint(endpoint *pb.Endpoint) (err error) {
-	errChan := make(chan error)
-	go func() {
-		s.serverLock.Lock()
-		defer s.serverLock.Unlock()
-		_, ok := (<-errChan)
-		if !ok {
-			return
-		}
-		s.endpoint = endpoint
-		errChan <- nil
-	}()
-	select {
-	case err = <-errChan:
-	case <-time.After(1 * time.Second):
-		close(errChan)
-		err = fmt.Errorf("failed to set endpoint")
-	}
+func (s *Server) SetEndpoint(ctx context.Context, endpoint *pb.Endpoint) (err error) {
+	_, err = s.runQuery(ctx, "SetEndpoint", endpoint)
+	return
+}
+func (s *Server) onSetEndpoint(ctx context.Context, endpoint *pb.Endpoint) (err error) {
+	s.endpoint = endpoint
 	return
 }
 
 // Close exits the endpoint
-func (s *Server) Close() (err error) {
+func (s *Server) Close(ctx context.Context) (err error) {
+	_, err = s.runQuery(ctx, "Close", nil)
+	return
+}
+
+func (s *Server) onClose(ctx context.Context) (err error) {
 	if s.cancel != nil {
 		s.cancel()
 	}
@@ -91,7 +92,16 @@ func (s *Server) Close() (err error) {
 }
 
 // GetEndpoint returns an endpoint
-func (s *Server) GetEndpoint() (endpoint *pb.Endpoint, err error) {
+func (s *Server) GetEndpoint(ctx context.Context) (endpoint *pb.Endpoint, err error) {
+	resp, err := s.runQuery(ctx, "GetEndpoint", nil)
+	endpoint, ok := resp.(*pb.Endpoint)
+	if !ok {
+		err = fmt.Errorf("failed to parse response")
+	}
+	return
+}
+
+func (s *Server) onGetEndpoint(ctx context.Context) (endpoint *pb.Endpoint, err error) {
 	endpoint = s.endpoint
 	return
 }

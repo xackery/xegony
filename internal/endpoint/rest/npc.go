@@ -34,15 +34,15 @@ func (s *Server) npcMux(w http.ResponseWriter, r *http.Request) {
 	switch path {
 	case "/search/":
 		logger = logger.With().Str("method", "npcSearch").Logger()
-		err = s.npcSearch(ctx, w, r)
+		err = s.eventNpcSearch(ctx, w, r)
 	case "/":
 		logger = logger.With().Str("method", "npcSearch").Logger()
-		err = s.npcSearch(ctx, w, r)
+		err = s.eventNpcSearch(ctx, w, r)
 	default:
 		switch r.Method {
 		case "GET":
 			logger = logger.With().Str("method", "npcRead").Logger()
-			err = s.npcRead(ctx, w, r)
+			err = s.eventNpcRead(ctx, w, r)
 		default:
 			logger.Error().Msg("invalid route")
 			http.Error(w, "invalid route", 404)
@@ -57,7 +57,7 @@ func (s *Server) npcMux(w http.ResponseWriter, r *http.Request) {
 	logger.Debug().Msgf("%s", path)
 }
 
-func (s *Server) npcSearch(ctx context.Context, w http.ResponseWriter, r *http.Request) (err error) {
+func (s *Server) eventNpcSearch(ctx context.Context, w http.ResponseWriter, r *http.Request) (err error) {
 	type content struct {
 		Site *pb.Site
 		Page *pb.Page
@@ -77,7 +77,7 @@ func (s *Server) npcSearch(ctx context.Context, w http.ResponseWriter, r *http.R
 		return
 	}
 
-	t, err := s.getTemplate(&templateRequest{Ctx: ctx, Path: "/npc/search.tpl"})
+	t, err := s.TemplateRead(ctx, "/npc/search.tpl")
 	if err != nil {
 		err = errors.Wrap(err, "failed to get template")
 		return
@@ -95,7 +95,7 @@ func (s *Server) npcSearch(ctx context.Context, w http.ResponseWriter, r *http.R
 	return
 }
 
-func (s *Server) npcRead(ctx context.Context, w http.ResponseWriter, r *http.Request) (err error) {
+func (s *Server) eventNpcRead(ctx context.Context, w http.ResponseWriter, r *http.Request) (err error) {
 	type content struct {
 		Site *pb.Site
 		Page *pb.Page
@@ -115,7 +115,7 @@ func (s *Server) npcRead(ctx context.Context, w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	t, err := s.getTemplate(&templateRequest{Ctx: ctx, Path: "/npc/read.tpl"})
+	t, err := s.TemplateRead(ctx, "/npc/read.tpl")
 	if err != nil {
 		err = errors.Wrap(err, "failed to get template")
 		return

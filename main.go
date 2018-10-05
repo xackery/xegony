@@ -6,6 +6,7 @@
 package main
 
 import (
+	"context"
 	"os"
 	"os/signal"
 
@@ -24,8 +25,8 @@ func (p *program) Start(s service.Service) error {
 	return nil
 }
 func (p *program) run() {
-
-	c, err := client.New()
+	ctx, cancel := context.WithCancel(context.Background())
+	c, err := client.New(ctx)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to start new client")
 	}
@@ -34,13 +35,15 @@ func (p *program) run() {
 	go func() {
 		for sig := range closeChan {
 			log.Info().Msgf("got close signal %s", sig.String())
-			errors := c.Close()
+			errors := c.Close(ctx)
 			if len(errors) > 0 {
 				for _, err = range errors {
 					log.Error().Err(err).Msg("error closing client")
 				}
+				cancel()
 				os.Exit(1)
 			}
+			cancel()
 			os.Exit(0)
 		}
 	}()

@@ -25,64 +25,45 @@ type templateResponse struct {
 	Error error
 }
 
-// gets a template
-func (s *Server) getTemplate(req *templateRequest) (resp *template.Template, err error) {
-	if req == nil {
-		err = fmt.Errorf("invalid template request (nil)")
+// TemplateRead reads a provided template
+func (s *Server) TemplateRead(ctx context.Context, path string) (resp *template.Template, err error) {
+	respMsg, err := s.runQuery(ctx, "TemplateRead", path)
+	if err != nil {
 		return
 	}
-	if req.Ctx == nil {
-		req.Ctx = context.Background()
-	}
-	if req.Method == "" {
-		req.Method = "GET"
-	}
-	respChan := make(chan *templateResponse)
-	req.RespChan = respChan
-	select {
-	case <-time.After(3 * time.Second):
-	case <-req.Ctx.Done():
-	case s.templateChan <- req:
-		select {
-		case <-time.After(3 * time.Second):
-		case <-req.Ctx.Done():
-		case respT := <-respChan:
-			if respT.Error != nil {
-				err = errors.Wrap(respT.Error, "failed to load template")
-				return
-			}
-			resp = respT.Resp
-		}
+	resp, ok := respMsg.(*template.Template)
+	if !ok {
+		err = fmt.Errorf("failed to convert response to template")
+		return
 	}
 	return
 }
 
 // do not call onTemplateRequest. use getTemplate instead. (used by pump)
-func (s *Server) onTemplateRequest(req *templateRequest) (resp *template.Template, err error) {
-	if req.Ctx == nil {
-		req.Ctx = context.Background()
-	}
-	if len(req.Path) < 3 {
-		err = fmt.Errorf("template path too short: %s", req.Path)
+func (s *Server) onTemplateRead(path string) (resp *template.Template, err error) {
+	if len(path) < 3 {
+		err = fmt.Errorf("template path too short: %s", path)
 		return
 	}
-	var ok bool
-	switch req.Method {
-	case "GET":
-		resp, ok = s.templates[req.Path]
-		if ok {
-			//return
-		}
-		resp, err = s.onLoadTemplate(nil, "body", req.Path)
-		resp, err = s.onLoadDefaultTemplates(resp)
-		s.templates[req.Path] = resp
-	default:
-		err = fmt.Errorf("invalid request method %s", req.Method)
+	resp, ok := s.templates[path]
+	if ok {
+		//return
+	}
+	resp, err = s.onLoadTemplate(nil, "body", path)
+	if err != nil {
+		err = errors.Wrapf(err, "failed to load template %s", path)
 		return
 	}
+	resp, err = s.onLoadDefaultTemplates(resp)
+	if err != nil {
+		err = errors.Wrap(err, "failed to load default templates")
+		return
+	}
+	s.templates[path] = resp
 	return
 }
 
+// called exclusively by onTemplateRead
 func (s *Server) onLoadDefaultTemplates(req *template.Template) (resp *template.Template, err error) {
 	resp = req
 	names := map[int]string{0: "sidebar", 1: "header", 2: "root"}
