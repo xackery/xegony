@@ -1,4 +1,7 @@
 
+# used by pprof
+file.pdf
+
 # Binaries for programs and plugins
 *.exe
 *.dll

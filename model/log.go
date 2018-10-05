@@ -7,6 +7,6 @@ import (
 
 // NewLogger returns a default logger
 func NewLogger() (logger zerolog.Logger) {
-	logger = log.With().Caller().Logger()
+	logger = log.With().Logger()
 	return
 }

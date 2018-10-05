@@ -8,12 +8,14 @@ THIS_PATH=$(shell pwd)
 test: ## Run short tests
 	@go test -short ./...
 xegony: ## Starts xegony
-	@go run main.go
+	@go run main.go -cpuprofile cpu.prof -memprofile mem.prof
 proto-clean: ## Cleans up the proto directory
 	@echo "pb cleanup"
 	@rm -rf pb/*.pb.go
 	-@rm -rf swagger/proto/*
 	@mkdir -p swagger/proto
+pprof:
+	go tool pprof --pdf main $(path) > file.pdf
 .PHONY: proto
 proto: proto-clean ## Generate protobuf files
 	@echo "protobuf > pb"

@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/dustin/go-humanize"
+	"github.com/gohugoio/hugo/tpl/math"
 	"github.com/pkg/errors"
 )
 
@@ -88,11 +89,16 @@ func (s *Server) onLoadTemplate(root *template.Template, name string, path strin
 		return
 	}
 
+	ns := math.New()
+
 	funcMap := template.FuncMap{
 		"comma":       commaFormat,
 		"iszonelevel": isZoneLevel,
 		"time":        timeFormat,
 		"unescapeJS":  unescapeJS,
+		"add":         ns.Add,
+		"sub":         ns.Sub,
+		"div":         ns.Div,
 	}
 	if root != nil {
 		fmt.Println("loading", name)

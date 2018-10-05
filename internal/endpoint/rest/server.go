@@ -77,7 +77,7 @@ func (s *Server) onListen(ctx context.Context, host string) (err error) {
 	}))
 	r.NotFoundHandler = http.HandlerFunc(otherErrorHandler)
 	r.PathPrefix("/v1/").Handler(contextWrap(muxGRPC))
-	r.PathPrefix("/npc").HandlerFunc(s.npcMux).Name("npc")
+	r.PathPrefix("/npc/").HandlerFunc(s.npcMux).Name("npc")
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	err = pb.RegisterXegonyHandlerFromEndpoint(ctx, muxGRPC, s.grpcHost, opts)

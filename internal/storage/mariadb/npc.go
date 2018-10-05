@@ -24,22 +24,34 @@ func (s *Storage) NpcSearch(ctx context.Context, req *pb.NpcSearchRequest) (resp
 		return
 	}
 
-	npc := &model.Npc{}
 	where = where[0 : len(where)-4] //remove ' AND'
-	query := fmt.Sprintf("SELECT %s FROM npc_types WHERE %s LIMIT %d OFFSET %d", npc.Fields(), where, req.Limit, req.Offset)
-	nstmt, err := s.db.PrepareNamedContext(ctx, query)
+
+	query := fmt.Sprintf("SELECT count(id) FROM npc_types WHERE %s", where)
+	rows, err := s.db.NamedQueryContext(ctx, query, whereMap)
 	if err != nil {
-		err = errors.Wrap(err, "failed to prepare statement")
+		err = errors.Wrap(err, "failed to get total")
 		return
 	}
-
-	npcs := []*model.Npc{}
-	err = nstmt.SelectContext(ctx, &npcs, whereMap)
+	for rows.Next() {
+		err = rows.Scan(&resp.Total)
+		if err != nil {
+			err = errors.Wrap(err, "failed to scan total")
+			return
+		}
+	}
+	npc := &model.Npc{}
+	query = fmt.Sprintf("SELECT %s FROM npc_types WHERE %s ORDER BY %s LIMIT %d OFFSET %d", npc.Fields(), where, req.OrderBy, req.Limit, req.Offset)
+	rows, err = s.db.NamedQueryContext(ctx, query, whereMap)
 	if err != nil {
 		err = errors.Wrap(err, "failed to select")
 		return
 	}
-	for _, npc := range npcs {
+	for rows.Next() {
+		err = rows.StructScan(npc)
+		if err != nil {
+			err = errors.Wrap(err, "failed to scan npc")
+			return
+		}
 		resp.Npcs = append(resp.Npcs, npc.ToProto())
 	}
 	return

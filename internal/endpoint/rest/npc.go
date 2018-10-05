@@ -15,7 +15,7 @@ func (s *Server) npcMux(w http.ResponseWriter, r *http.Request) {
 	ctx := context.Background()
 	logger := model.NewLogger()
 	path := r.RequestURI
-
+	logger = logger.With().Str("rawPath", path).Logger()
 	path = path[4:]
 	pathURL, err := url.Parse(path)
 	if err != nil {
@@ -30,7 +30,7 @@ func (s *Server) npcMux(w http.ResponseWriter, r *http.Request) {
 		path = "/"
 	}
 
-	logger = logger.With().Str("path", path).Logger()
+	logger = logger.With().Str("parsedPath", path).Logger()
 	switch path {
 	case "/search/":
 		logger = logger.With().Str("method", "npcSearch").Logger()
@@ -58,15 +58,17 @@ func (s *Server) npcMux(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) eventNpcSearch(ctx context.Context, w http.ResponseWriter, r *http.Request) (err error) {
-	type content struct {
+	type Content struct {
 		Site *pb.Site
-		Page *pb.Page
 		Resp *pb.NpcSearchResponse
+		Path string
 	}
-	c := &content{
+	c := Content{
 		Site: model.NewSite(),
-		Page: model.NewPage(),
+		Path: model.MakePath(r),
 	}
+	c.Site.Page = "Bestiary"
+	c.Site.PageSummary = "Results"
 
 	req := &pb.NpcSearchRequest{
 		Name: getQuery(r, "name", ""),
@@ -76,6 +78,8 @@ func (s *Server) eventNpcSearch(ctx context.Context, w http.ResponseWriter, r *h
 		err = errors.Wrap(err, "failed to call method")
 		return
 	}
+	logger := model.NewLogger()
+	logger.Debug().Interface("resp", c.Resp.Npcs).Msg("")
 
 	t, err := s.TemplateRead(ctx, "/npc/search.tpl")
 	if err != nil {
@@ -98,12 +102,10 @@ func (s *Server) eventNpcSearch(ctx context.Context, w http.ResponseWriter, r *h
 func (s *Server) eventNpcRead(ctx context.Context, w http.ResponseWriter, r *http.Request) (err error) {
 	type content struct {
 		Site *pb.Site
-		Page *pb.Page
 		Resp *pb.NpcReadResponse
 	}
 	c := &content{
 		Site: model.NewSite(),
-		Page: model.NewPage(),
 	}
 
 	req := &pb.NpcReadRequest{

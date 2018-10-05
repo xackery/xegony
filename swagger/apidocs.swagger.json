@@ -77,6 +77,19 @@
             "required": false,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order_desc",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
           }
         ],
         "tags": [
@@ -718,6 +731,25 @@
           "items": {
             "$ref": "#/definitions/pbNpc"
           }
+        },
+        "limit": {
+          "type": "string",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "string",
+          "format": "int64"
+        },
+        "total": {
+          "type": "string",
+          "format": "int64"
+        },
+        "order_by": {
+          "type": "string"
+        },
+        "order_desc": {
+          "type": "boolean",
+          "format": "boolean"
         }
       }
     },

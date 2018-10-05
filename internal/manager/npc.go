@@ -9,11 +9,20 @@ import (
 
 // NpcSearch implements a SCRUD endpoint
 func (m *Manager) NpcSearch(ctx context.Context, req *pb.NpcSearchRequest) (resp *pb.NpcSearchResponse, err error) {
-	if req.Limit < 1 {
-		req.Limit = 1
+	if req.Limit < 10 {
+		req.Limit = 10
 	}
-	if req.Limit > 1000 {
-		req.Limit = 1000
+	if req.Limit > 100 {
+		req.Limit = 100
+	}
+	if req.Offset < 0 {
+		req.Offset = 0
+	}
+	switch req.OrderBy {
+	case "name":
+	case "id":
+	default:
+		req.OrderBy = "name"
 	}
 	resp, err = m.db.NpcSearch(ctx, req)
 	return

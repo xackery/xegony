@@ -25,7 +25,7 @@
 
         <link rel="stylesheet" href="/css/vendor.css">
 
-        <script> var themeSettings =  (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) : {};
+        {{/*<script> var themeSettings =  (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) : {};
 			var themeName = themeSettings.themeName || '';
 
 			if (themeName) {
@@ -34,22 +34,20 @@
 			else {
 				document.write('<link rel="stylesheet" id="theme-style" href="/css/app.css">');
 			}
-		</script>
+		</script>*/}}
+        <link rel="stylesheet" id="theme-style" href="/css/app.css">
     </head>
-	{{template "header"}}
-	{{template "sidebar"}}
-	{{template "body"}}
+	{{template "header".}}
+	{{template "sidebar".}}
+	{{template "body".}}
   				<footer class="footer">
                     <div class="footer-block buttons">
-                        <iframe class="footer-github-btn" src="https://ghbtns.com/github-btn.html?user=modularcode&repo=modular-admin-html&type=star&count=true" frameborder="0" scrolling="0" width="140px" height="20px"></iframe>
+                        <iframe class="footer-github-btn" src="https://ghbtns.com/github-btn.html?user=xackery&repo=xegony&type=star&count=true" frameborder="0" scrolling="0" width="140px" height="20px"></iframe>
                     </div>
                     <div class="footer-block author">
                         <ul>
-                            <li> created by <a href="https://github.com/modularcode">ModularCode</a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/modularcode/modular-admin-html#get-in-touch">get in touch</a>
-                            </li>
+                            <li><a href="https://github.com/xackery/xegony/release">v0.0.2</a></li>
+                            <li><a target="_blank" href="https://github.com/xackery/xegony/issues/new?title=Help&body=version%200.0.2">report issue</a></li>
                         </ul>
                     </div>
                 </footer>
@@ -128,7 +126,7 @@
                 <div class="color-secondary"></div>
             </div>
         </div>
-        <script src="js/vendor.js"></script>
-        <script src="js/app.js"></script>
+        <script src="/js/vendor.js"></script>
+        {{/*<script src="/js/app.js"></script>*/}}
     </body>
 </html>

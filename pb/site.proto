@@ -16,4 +16,3 @@ message Site {
 	string author = 8;
 	User user = 9;
 }
-
