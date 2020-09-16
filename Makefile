@@ -79,3 +79,9 @@ font-build:
 	@cp web/font/css/* www/css/
 	@cp web/font/fonts/xegonyawesome-* www/fonts/
 	@rm www/fonts/*.svg
+.PHONY: npm-install
+npm-install:
+	@(docker run --rm -v ${PWD}:/src -it xackery/webbuild:10.19.0 bash -c 'cd web/ts && npm install')
+.PHONY: npm-audit-fix
+npm-audit-fix:
+	@(docker run --rm -v ${PWD}:/src -it xackery/webbuild:10.19.0 bash -c 'cd web/ts && npm audit fix')
